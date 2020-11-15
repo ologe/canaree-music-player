@@ -86,7 +86,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }.launchIn(this)
 
         presenter.observeLyrics()
-            .subscribe(viewLifecycleOwner) { (lyrics, type) ->
+            .onEach { (lyrics, type) ->
                 emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 text.text = lyrics
 
@@ -96,7 +96,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                         scrollView.scrollTo(0, scrollTo)
                     }
                 }
-            }
+            }.launchIn(this)
 
         requireActivity().mediaProvider.playbackState
             .filter { it.isPlayOrPause }
@@ -105,11 +105,10 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         view.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { accent ->
+            .onEach { accent ->
                 subHeader.animateTextColor(accent)
                 edit.animateBackgroundColor(accent)
-            }
+            }.launchIn(this)
     }
 
     override fun onStart() {

@@ -2,14 +2,16 @@ package dev.olog.presentation.playlist.chooser
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class PlaylistChooserActivity : BaseActivity() {
@@ -23,14 +25,14 @@ class PlaylistChooserActivity : BaseActivity() {
         setContentView(R.layout.activity_playlist_chooser)
 
         viewModel.observeData()
-            .subscribe(this) { list ->
+            .onEach { list ->
                 if (list.isEmpty()){
                     toast("No playlist found")
                     finish()
                 } else {
                     adapter.updateDataSet(list)
                 }
-            }
+            }.launchIn(lifecycleScope)
 
         list.adapter = adapter
         list.layoutManager = GridLayoutManager(this, 2)

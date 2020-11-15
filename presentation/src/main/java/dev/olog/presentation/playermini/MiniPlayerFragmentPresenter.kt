@@ -1,7 +1,6 @@
 package dev.olog.presentation.playermini
 
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -18,11 +17,9 @@ class MiniPlayerFragmentPresenter @Inject constructor(
 
     val skipToNextVisibility = musicPrefsUseCase
         .observeSkipToNextVisibility()
-        .asLiveData()
 
     val skipToPreviousVisibility = musicPrefsUseCase
         .observeSkipToPreviousVisibility()
-        .asLiveData()
 
     fun getMetadata() = musicPrefsUseCase.getLastMetadata()
 

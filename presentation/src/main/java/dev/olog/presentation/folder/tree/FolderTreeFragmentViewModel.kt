@@ -6,8 +6,6 @@ import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,12 +16,9 @@ import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.io.File
 
 class FolderTreeFragmentViewModel @ViewModelInject constructor(
@@ -39,27 +34,24 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
 
     private val currentDirectory = MutableStateFlow(appPreferencesUseCase.getDefaultMusicFolder())
 
-    private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
+    private val isCurrentFolderDefaultFolder = MutableStateFlow(false)
 
-    private val currentDirectoryChildrenLiveData = MutableLiveData<List<DisplayableFile>>()
+    private val currentDirectoryChildrenPublisher = MutableStateFlow<List<DisplayableFile>>(emptyList())
 
     init {
-        viewModelScope.launch {
-            currentDirectory
-                .flatMapLatest { file ->
-                    gateway.observeFolderChildren(file)
-                        .map { addHeaders(file, it) }
-                }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    currentDirectoryChildrenLiveData.value = it
-                }
-        }
-        viewModelScope.launch {
-            currentDirectory.combine(appPreferencesUseCase.observeDefaultMusicFolder())
-            { current, default -> current.path == default.path }
-                .collect { isCurrentFolderDefaultFolder.value = it }
-        }
+        currentDirectory
+            .flatMapLatest { file ->
+                gateway.observeFolderChildren(file)
+                    .map { addHeaders(file, it) }
+            }
+            .flowOn(Dispatchers.Default)
+            .onEach { currentDirectoryChildrenPublisher.value = it }
+            .launchIn(viewModelScope)
+
+        currentDirectory.combine(appPreferencesUseCase.observeDefaultMusicFolder())
+        { current, default -> current.path == default.path }
+            .onEach { isCurrentFolderDefaultFolder.value = it }
+            .launchIn(viewModelScope)
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
@@ -81,9 +73,9 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
         return backDisplayableItem + folders + tracks
     }
 
-    fun observeChildren(): LiveData<List<DisplayableFile>> = currentDirectoryChildrenLiveData
-    fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asLiveData()
-    fun observeCurrentFolderIsDefaultFolder(): LiveData<Boolean> = isCurrentFolderDefaultFolder.distinctUntilChanged()
+    fun observeChildren(): Flow<List<DisplayableFile>> = currentDirectoryChildrenPublisher
+    fun observeCurrentDirectoryFileName(): Flow<File> = currentDirectory
+    fun observeCurrentFolderIsDefaultFolder(): Flow<Boolean> = isCurrentFolderDefaultFolder
 
     fun popFolder(): Boolean {
         val current = currentDirectory.value

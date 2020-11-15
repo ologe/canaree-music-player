@@ -13,10 +13,11 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,14 +54,16 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
         setupDragListener(list, ItemTouchHelper.LEFT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData()
+            .onEach(adapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeTitle()
-            .subscribe(viewLifecycleOwner) { itemTitle ->
+            .onEach { itemTitle ->
                 val headersArray = resources.getStringArray(R.array.recently_added_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
                 this.header.text = header
-            }
+            }.launchIn(this)
     }
 
     override fun onResume() {

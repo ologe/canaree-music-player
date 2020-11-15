@@ -4,18 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 
 inline fun <T : Any?> SavedStateHandle.argument(
     key: String,
-    default: () -> T = { error("invalid argument=$key") },
     crossinline initializer: (T) -> T = { it },
 ): T {
-    return argument<T, T>(key, default, initializer)
+    return argument<T, T>(key, initializer)
 }
 
 @JvmName("argument2")
 inline fun <T : Any?, R : Any?> SavedStateHandle.argument(
     key: String,
-    default: () -> T = { error("invalid argument=$key") },
     crossinline initializer: (T) -> R,
 ): R {
-    val argument = get<T>(key) ?: default()
+    val argument = get<T>(key)!!
     return initializer(argument)
 }

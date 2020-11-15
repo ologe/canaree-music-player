@@ -13,10 +13,11 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,21 +54,21 @@ class FolderTreeFragment : BaseFragment(),
         fastScroller.showBubble(false)
 
         viewModel.observeCurrentDirectoryFileName()
-            .subscribe(viewLifecycleOwner) {
-                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
-            }
+            .onEach { bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false) }
+            .launchIn(this)
 
         viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .onEach(adapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeCurrentFolderIsDefaultFolder()
-            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
+            .onEach { isDefaultFolder ->
                 if (isDefaultFolder){
                     fab.hide()
                 } else {
                     fab.show()
                 }
-            }
+            }.launchIn(this)
     }
 
     override fun onResume() {

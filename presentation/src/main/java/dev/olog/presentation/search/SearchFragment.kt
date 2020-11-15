@@ -23,14 +23,13 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
-import dev.olog.shared.android.extensions.launch
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -109,33 +108,37 @@ class SearchFragment : BaseFragment(),
         setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner) {
+            .onEach {
                 adapter.updateDataSet(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
-            }
+            }.launchIn(this)
 
         viewModel.observeAlbumsData()
-            .subscribe(viewLifecycleOwner, albumAdapter::updateDataSet)
+            .onEach(albumAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeArtistsData()
-            .subscribe(viewLifecycleOwner, artistAdapter::updateDataSet)
+            .onEach(artistAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observePlaylistsData()
-            .subscribe(viewLifecycleOwner, playlistAdapter::updateDataSet)
+            .onEach(playlistAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeFoldersData()
-            .subscribe(viewLifecycleOwner, folderAdapter::updateDataSet)
+            .onEach(folderAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeGenresData()
-            .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
+            .onEach(genreAdapter::updateDataSet)
+            .launchIn(this)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .collect { viewModel.updateQuery(it) }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .onEach { viewModel.updateQuery(it) }
+            .launchIn(this)
     }
 
 

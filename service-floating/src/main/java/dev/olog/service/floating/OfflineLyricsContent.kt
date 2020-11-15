@@ -12,7 +12,6 @@ import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
@@ -71,7 +70,7 @@ class OfflineLyricsContent(
             }.launchIn(service.lifecycleScope)
 
         presenter.observeLyrics()
-            .subscribe(service) { (lyrics, type) ->
+            .onEach { (lyrics, type) ->
                 content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 content.text.text = lyrics
 
@@ -86,7 +85,7 @@ class OfflineLyricsContent(
                     val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
                     content.scrollView.smoothScrollTo(0, scrollTo)
                 }
-            }
+            }.launchIn(service.lifecycleScope)
     }
 
     override fun onShown() {

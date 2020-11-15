@@ -3,8 +3,6 @@ package dev.olog.presentation.playlist.chooser
 import android.content.Context
 import android.content.res.Resources
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -15,27 +13,24 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
 class PlaylistChooserActivityViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
-    private val playlistGateway: PlaylistGateway
+    playlistGateway: PlaylistGateway
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val data = MutableStateFlow<List<DisplayableItem>>(emptyList())
 
     init {
-        viewModelScope.launch {
-            playlistGateway.observeAll()
-                .mapListItem { it.toDisplayableItem(context.resources) }
-                .flowOn(Dispatchers.IO)
-                .collect { data.value = it }
-        }
+        playlistGateway.observeAll()
+            .mapListItem { it.toDisplayableItem(context.resources) }
+            .flowOn(Dispatchers.IO)
+            .onEach { data.value = it }
+            .launchIn(viewModelScope)
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeData(): Flow<List<DisplayableItem>> = data
 
     private fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem {
         return DisplayableAlbum(

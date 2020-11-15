@@ -2,7 +2,9 @@ package dev.olog.presentation.recentlyadded
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
@@ -14,9 +16,7 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment.Companion.ARGUM
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
 internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle,
@@ -25,34 +25,33 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, initializer = MediaId::fromString)
+    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val liveData = MutableLiveData<List<DisplayableItem>>()
-    private val titleLiveData = MutableLiveData<String>()
+    private val dataPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val titlePublisher = MutableStateFlow("")
 
     init {
-        viewModelScope.launch {
-            useCase(mediaId)
-                .mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
-                .flowOn(Dispatchers.IO)
-                .collect { liveData.value = it }
-        }
-        viewModelScope.launch {
-            getItemTitleUseCase(mediaId)
-                .flowOn(Dispatchers.IO)
-                .collect { titleLiveData.value = it }
-        }
+        useCase(mediaId)
+            .mapListItem { it.toRecentDetailDisplayableItem() }
+            .flowOn(Dispatchers.IO)
+            .onEach { dataPublisher.value = it }
+            .launchIn(viewModelScope)
+
+        getItemTitleUseCase(mediaId)
+            .flowOn(Dispatchers.IO)
+            .onEach { titlePublisher.value = it }
+            .launchIn(viewModelScope)
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = liveData
-    fun observeTitle(): LiveData<String> = titleLiveData
+    fun observeData(): Flow<List<DisplayableItem>> = dataPublisher
+    fun observeTitle(): Flow<String> = titlePublisher
 
-    private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
+    private fun Song.toRecentDetailDisplayableItem(): DisplayableItem {
         return DisplayableTrack(
             type = R.layout.item_recently_added,
-            mediaId = MediaId.playableItem(parentId, id),
+            mediaId = MediaId.playableItem(mediaId, id),
             title = title,
             artist = artist,
             album = album,

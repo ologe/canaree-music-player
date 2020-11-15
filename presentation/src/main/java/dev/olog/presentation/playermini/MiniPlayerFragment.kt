@@ -78,14 +78,12 @@ class MiniPlayerFragment : BaseFragment(){
             .launchIn(this)
 
         presenter.skipToNextVisibility
-                .subscribe(viewLifecycleOwner) {
-                    next.updateVisibility(it)
-                }
+            .onEach(next::updateVisibility)
+            .launchIn(this)
 
         presenter.skipToPreviousVisibility
-                .subscribe(viewLifecycleOwner) {
-                    previous.updateVisibility(it)
-                }
+            .onEach(previous::updateVisibility)
+            .launchIn(this)
     }
 
     override fun onResume() {

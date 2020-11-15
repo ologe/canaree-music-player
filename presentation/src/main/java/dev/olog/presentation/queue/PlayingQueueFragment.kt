@@ -17,7 +17,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.launch
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
@@ -62,10 +62,11 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
         setupDragListener(list, ItemTouchHelper.RIGHT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            adapter.updateDataSet(it)
-            emptyStateText.toggleVisibility(it.isEmpty(), true)
-        }
+        viewModel.observeData()
+            .onEach {
+                adapter.updateDataSet(it)
+                emptyStateText.toggleVisibility(it.isEmpty(), true)
+            }.launchIn(this)
 
         launch {
             adapter.observeData(false)

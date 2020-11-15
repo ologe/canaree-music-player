@@ -15,6 +15,7 @@ import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class EditTrackFragment : BaseEditItemFragment() {
@@ -35,11 +36,6 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.requestData(mediaId)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         launch {
             title.afterTextChange()
@@ -49,21 +45,22 @@ class EditTrackFragment : BaseEditItemFragment() {
 
         loadImage(mediaId)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            title.setText(it.title)
-            artist.setText(it.artist)
-            albumArtist.setText(it.albumArtist)
-            album.setText(it.album)
-            year.setText(it.year)
-            genre.setText(it.genre)
-            disc.setText(it.disc)
-            trackNumber.setText(it.track)
-            bitrate.text = it.bitrate
-            format.text = it.format
-            sampling.text = it.sampling
-            podcast.isChecked = it.isPodcast
-            hideLoader()
-        }
+        viewModel.observeData()
+            .onEach {
+                title.setText(it.title)
+                artist.setText(it.artist)
+                albumArtist.setText(it.albumArtist)
+                album.setText(it.album)
+                year.setText(it.year)
+                genre.setText(it.genre)
+                disc.setText(it.disc)
+                trackNumber.setText(it.track)
+                bitrate.text = it.bitrate
+                format.text = it.format
+                sampling.text = it.sampling
+                podcast.isChecked = it.isPodcast
+                hideLoader()
+            }.launchIn(this)
     }
 
     override fun onResume() {

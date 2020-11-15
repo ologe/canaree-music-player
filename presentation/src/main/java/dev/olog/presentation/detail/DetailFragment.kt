@@ -25,9 +25,10 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -110,42 +111,41 @@ class DetailFragment : BaseFragment(),
         fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
+            .onEach(mostPlayedAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
+            .onEach(recentlyAddedAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
+            .onEach(relatedArtistAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeSiblings()
-            .subscribe(viewLifecycleOwner) {
-                albumsAdapter.updateDataSet(it)
-            }
+            .onEach(albumsAdapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeSongs()
-            .subscribe(viewLifecycleOwner) { list ->
+            .onEach { list ->
                 if (list.isEmpty()) {
                     requireActivity().onBackPressed()
                 } else {
                     adapter.updateDataSet(list)
                     restoreUpperWidgetsTranslation()
                 }
-            }
+            }.launchIn(this)
 
-        viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
-            require(item is DisplayableHeader)
-            headerText.text = item.title
-        }
+        viewModel.observeItem()
+            .filterIsInstance<DisplayableHeader>()
+            .onEach { headerText.text = it.title }
+            .launchIn(this)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isEmpty() || it.length >= 2 }
+            .onEach(viewModel::updateFilter)
+            .launchIn(this)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

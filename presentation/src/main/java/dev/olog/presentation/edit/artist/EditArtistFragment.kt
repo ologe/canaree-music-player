@@ -15,6 +15,7 @@ import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class EditArtistFragment : BaseEditItemFragment() {
@@ -35,11 +36,6 @@ class EditArtistFragment : BaseEditItemFragment() {
 
     private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.requestData(mediaId)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         launch {
             artist.afterTextChange()
@@ -49,15 +45,16 @@ class EditArtistFragment : BaseEditItemFragment() {
 
         loadImage(mediaId)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            artist.setText(it.title)
-            albumArtist.setText(it.albumArtist)
-            val text = resources.getQuantityString(
-                R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
-            )
-            albumsUpdated.text = text
-            podcast.isChecked = it.isPodcast
-        }
+        viewModel.observeData()
+            .onEach {
+                artist.setText(it.title)
+                albumArtist.setText(it.albumArtist)
+                val text = resources.getQuantityString(
+                    R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
+                )
+                albumsUpdated.text = text
+                podcast.isChecked = it.isPodcast
+            }.launchIn(this)
     }
 
     override fun onResume() {

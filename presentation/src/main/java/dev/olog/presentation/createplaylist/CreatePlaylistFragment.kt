@@ -19,9 +19,9 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
@@ -51,7 +51,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
-            .subscribe(viewLifecycleOwner) { size ->
+            .onEach { size ->
                 val text = when (size) {
                     0 -> getString(R.string.popup_new_playlist)
                     else -> resources.getQuantityString(
@@ -62,31 +62,27 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 }
                 header.text = text
                 fab.toggleVisibility(size > 0, false)
-            }
+            }.launchIn(this)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner) {
+            .onEach {
                 adapter.updateDataSet(it)
                 sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
-            }
+            }.launchIn(this)
 
-        launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
+        adapter.observeData(false)
+            .filter { it.isNotEmpty() }
+            .onEach { emptyStateText.toggleVisibility(it.isEmpty(), true) }
+            .launchIn(this)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
-            editText.afterTextChange()
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .debounce(250)
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounce(250)
+            .onEach(viewModel::updateFilter)
+            .launchIn(this)
     }
 
     override fun onResume() {

@@ -9,10 +9,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,14 +44,15 @@ class RelatedArtistFragment : BaseFragment() {
         list.setHasFixedSize(true)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .onEach(adapter::updateDataSet)
+            .launchIn(this)
 
         viewModel.observeTitle()
-            .subscribe(viewLifecycleOwner) { itemTitle ->
+            .onEach { itemTitle ->
                 val headersArray = resources.getStringArray(R.array.related_artists_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
                 this.header.text = header
-            }
+            }.launchIn(this)
     }
 
     override fun onResume() {

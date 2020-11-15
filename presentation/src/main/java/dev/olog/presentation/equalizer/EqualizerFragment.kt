@@ -13,12 +13,13 @@ import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
 import dev.olog.shared.android.extensions.launch
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
@@ -51,7 +52,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         buildBands()
 
         presenter.observePreset()
-            .subscribe(viewLifecycleOwner) { preset ->
+            .onEach { preset ->
                 delete.toggleVisibility(preset.isCustom, true)
 
                 presetSpinner.text = preset.name
@@ -67,7 +68,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
                     layout.seekbar.alpha = DEFAULT_BAR_ALPHA
                     layout.frequency.text = band.displayableFrequency
                 }
-            }
+            }.launchIn(this)
     }
 
     private fun animateBar(bar: BoxedVertical, gain: Float) = launch {

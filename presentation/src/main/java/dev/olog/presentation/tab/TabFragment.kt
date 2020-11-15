@@ -33,8 +33,8 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -138,55 +138,57 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
-            viewModel.observeData(category)
-                .subscribe(viewLifecycleOwner) { list ->
-                    handleEmptyStateVisibility(list.isEmpty())
-                    adapter.updateDataSet(list)
-                    sidebar.onDataChanged(list)
-                }
-        }
+        viewModel.observeData(category)
+            .onEach { list ->
+                handleEmptyStateVisibility(list.isEmpty())
+                adapter.updateDataSet(list)
+                sidebar.onDataChanged(list)
+            }.launchIn(this)
 
-        launch {
-            viewModel.observeSpanCount(category)
-                .drop(1) // drop initial value, already used
-                .collect {
-                    if (list != null && list.isLaidOut) {
-                        TransitionManager.beginDelayedTransition(list)
-                        (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
-                        adapter.notifyDataSetChanged()
-                    }
+        viewModel.observeSpanCount(category)
+            .drop(1) // drop initial value, already used
+            .onEach {
+                if (list != null && list.isLaidOut) {
+                    TransitionManager.beginDelayedTransition(list)
+                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
+                    adapter.notifyDataSetChanged()
                 }
-        }
+            }.launchIn(this)
 
-        launch {
-            when (category) {
-                TabCategory.ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                else -> {/*making lint happy*/
-                }
+        when (category) {
+            TabCategory.ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
+                    .onEach(lastAlbumsAdapter::updateDataSet)
+                    .launchIn(this)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
+                    .onEach(newAlbumsAdapter::updateDataSet)
+                    .launchIn(this)
+            }
+            TabCategory.ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
+                    .onEach(lastArtistsAdapter::updateDataSet)
+                    .launchIn(this)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
+                    .onEach(newArtistsAdapter::updateDataSet)
+                    .launchIn(this)
+            }
+            TabCategory.PODCASTS_ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
+                    .onEach(lastAlbumsAdapter::updateDataSet)
+                    .launchIn(this)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
+                    .onEach(newAlbumsAdapter::updateDataSet)
+                    .launchIn(this)
+            }
+            TabCategory.PODCASTS_ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
+                    .onEach(lastArtistsAdapter::updateDataSet)
+                    .launchIn(this)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
+                    .onEach(newArtistsAdapter::updateDataSet)
+                    .launchIn(this)
+            }
+            else -> {/*making lint happy*/
             }
         }
 

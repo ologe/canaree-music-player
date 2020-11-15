@@ -1,8 +1,6 @@
 package dev.olog.presentation.equalizer
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.EqualizerPreset
@@ -12,8 +10,7 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,14 +22,13 @@ internal class EqualizerFragmentViewModel @ViewModelInject constructor(
     private val equalizerGateway: EqualizerGateway
 ) : ViewModel() {
 
-    private val currentPresetLiveData = MutableLiveData<EqualizerPreset>()
+    private val currentPresetPublisher = MutableStateFlow<EqualizerPreset?>(null)
 
     init {
-        viewModelScope.launch {
-            equalizer.observeCurrentPreset()
-                .flowOn(Dispatchers.IO)
-                .collect { currentPresetLiveData.value = it }
-        }
+        equalizer.observeCurrentPreset()
+            .flowOn(Dispatchers.IO)
+            .onEach { currentPresetPublisher.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun getBandLimit() = equalizer.getBandLimit()
@@ -43,7 +39,7 @@ internal class EqualizerFragmentViewModel @ViewModelInject constructor(
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
 
-    fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
+    fun observePreset(): Flow<EqualizerPreset> = currentPresetPublisher.filterNotNull()
 
     fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()
 
@@ -71,7 +67,7 @@ internal class EqualizerFragmentViewModel @ViewModelInject constructor(
     }
 
     fun deleteCurrentPreset() = viewModelScope.launch(Dispatchers.IO) {
-        val currentPreset = currentPresetLiveData.value!!
+        val currentPreset = currentPresetPublisher.value!!
         equalizerPrefsUseCase.setCurrentPresetId(0)
         equalizerGateway.deletePreset(currentPreset)
     }

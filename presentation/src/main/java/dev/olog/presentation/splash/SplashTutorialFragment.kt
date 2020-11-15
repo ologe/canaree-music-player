@@ -17,9 +17,9 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
+import kotlinx.coroutines.flow.onEach
 
 class SplashTutorialFragment : Fragment(),
     SwipeableView.SwipeListener {
@@ -33,13 +33,11 @@ class SplashTutorialFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
+        viewPager = requireParentFragment().requireView().findViewById(R.id.viewPager)
 
         swipeableView.isTouching()
-            .asLiveData()
-            .subscribe(this) {
-                viewPager.isSwipeEnabled = !it
-            }
+            .onEach { viewPager.isSwipeEnabled = !it }
+            .launchIn(this)
 
         loadPhoneImage(view)
         loadImage(progressive)

@@ -1,8 +1,6 @@
 package dev.olog.presentation.queue
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.PlayingQueueSong
@@ -13,7 +11,6 @@ import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -26,56 +23,53 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
 
-    private val data = MutableLiveData<List<DisplayableQueueSong>>()
-
-    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
+    private val dataPublisher = MutableStateFlow<List<DisplayableQueueSong>>(emptyList())
+    private val queuePublisher = MutableStateFlow<List<PlayingQueueSong>>(emptyList())
 
     init {
-        viewModelScope.launch {
-            playingQueueGateway.observeAll().distinctUntilChanged()
-                .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.offer(it) }
-        }
+        playingQueueGateway.observeAll()
+            .distinctUntilChanged()
+            .flowOn(Dispatchers.Default)
+            .onEach { queuePublisher.value = it }
+            .launchIn(viewModelScope)
 
-        viewModelScope.launch {
-            queueLiveData.asFlow()
-                .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
-                { queue, idInPlaylist ->
-                    val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
-                    queue.mapIndexed { index, item ->
-                        item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
-                    }
-                }
-                .assertBackground()
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    data.value = it
-                }
+        queuePublisher.combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
+        { queue, idInPlaylist ->
+            val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+            queue.mapIndexed { index, item ->
+                item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
+            }
         }
+            .assertBackground()
+            .flowOn(Dispatchers.Default)
+            .onEach { dataPublisher.value = it }
+            .launchIn(viewModelScope)
     }
 
-    fun observeData(): LiveData<List<DisplayableQueueSong>> = data
+    fun observeData(): Flow<List<DisplayableQueueSong>> = dataPublisher
 
-    fun recalculatePositionsAfterRemove(position: Int) =
+    fun recalculatePositionsAfterRemove(position: Int) {
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.toMutableList()
+            val currentList = queuePublisher.value.toMutableList()
             currentList.removeAt(position)
 
-            queueLiveData.offer(currentList)
+            queuePublisher.value = currentList
         }
+    }
 
     /**
      * @param moves contains all the movements in the list
      */
-    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
+    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) {
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value
+            val currentList = queuePublisher.value
             for ((from, to) in moves) {
                 currentList.swap(from, to)
             }
 
-            queueLiveData.offer(currentList)
+            queuePublisher.value = currentList
         }
+    }
 
     private fun PlayingQueueSong.toDisplayableItem(
         currentPosition: Int,

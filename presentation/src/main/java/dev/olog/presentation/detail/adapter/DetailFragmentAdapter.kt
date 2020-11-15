@@ -2,8 +2,8 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +23,6 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
@@ -39,6 +35,9 @@ import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -137,16 +136,16 @@ internal class DetailFragmentAdapter(
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
                 adapter.observeData(false)
-                    .asLiveData()
-                    .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
+                    .onEach { updateNestedSpanCount(layoutManager, it.size) }
+                    .launchIn(holder.coroutineScope)
             }
             R.layout.item_detail_header_all_song -> {
                 val sortText = holder.itemView.sort
                 val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
-                    .asLiveData()
-                    .subscribe(holder, view.sortImage::update)
+                    .onEach(view.sortImage::update)
+                    .launchIn(holder.coroutineScope)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
                     TutorialTapTarget.sortBy(sortText, sortImage)
@@ -154,8 +153,9 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
-                    .map { it?.asHtml() }
-                    .observe(holder, Observer { view.biography.text = it })
+                    .map { it.parseAsHtml() }
+                    .onEach { view.biography.text = it }
+                    .launchIn(holder.coroutineScope)
             }
         }
     }

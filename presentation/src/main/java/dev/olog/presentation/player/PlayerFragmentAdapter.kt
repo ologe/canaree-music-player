@@ -28,9 +28,7 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.findActivity
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.swap
@@ -114,19 +112,19 @@ internal class PlayerFragmentAdapter(
             val view = holder.itemView
             view.imageSwitcher?.let {
                 it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .onEach(presenter::updateProcessorColors)
+                    .launchIn(holder.coroutineScope)
                 it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .onEach(presenter::updatePaletteColors)
+                    .launchIn(holder.coroutineScope)
             }
             view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
                 it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .onEach(presenter::updateProcessorColors)
+                    .launchIn(holder.coroutineScope)
                 it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .onEach(presenter::updatePaletteColors)
+                    .launchIn(holder.coroutineScope)
             }
 
             bindPlayerControls(holder, view)
@@ -249,15 +247,16 @@ internal class PlayerFragmentAdapter(
         })
 
         viewModel.onFavoriteStateChanged
-            .subscribe(holder, view.favorite::onNextState)
+            .onEach(view.favorite::onNextState)
+            .launchIn(holder.coroutineScope)
 
         viewModel.skipToNextVisibility
-            .asLiveData()
-            .subscribe(holder, view.next::updateVisibility)
+            .onEach(view.next::updateVisibility)
+            .launchIn(holder.coroutineScope)
 
         viewModel.skipToPreviousVisibility
-            .asLiveData()
-            .subscribe(holder, view.previous::updateVisibility)
+            .onEach(view.previous::updateVisibility)
+            .launchIn(holder.coroutineScope)
 
         presenter.observePlayerControlsVisibility()
             .filter { !playerAppearanceAmbient.isFullscreen()
@@ -265,12 +264,11 @@ internal class PlayerFragmentAdapter(
                     && !playerAppearanceAmbient.isSpotify()
                     && !playerAppearanceAmbient.isBigImage()
             }
-            .asLiveData()
-            .subscribe(holder) { visible ->
+            .onEach { visible ->
                 view.findViewById<View>(R.id.playerControls)
                     ?.findViewById<View>(R.id.player)
                     ?.toggleVisibility(visible, true)
-            }
+            }.launchIn(holder.coroutineScope)
 
 
         mediaProvider.playbackState

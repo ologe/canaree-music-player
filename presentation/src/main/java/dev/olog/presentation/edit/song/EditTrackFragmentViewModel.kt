@@ -1,9 +1,9 @@
 package dev.olog.presentation.edit.song
 
 import android.content.Context
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -11,8 +11,12 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
@@ -21,10 +25,12 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 
 class EditTrackFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     @ApplicationContext private val context: Context,
     private val presenter: EditTrackFragmentPresenter
-
 ) : ViewModel() {
+
+    private val mediaId = state.argument(EditTrackFragment.ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
@@ -32,20 +38,24 @@ class EditTrackFragmentViewModel @ViewModelInject constructor(
 
     private var fetchJob by autoDisposeJob()
 
-    private val songLiveData = MutableLiveData<Song>()
-    private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
+    private val songPublisher = MutableStateFlow<Song?>(null)
+    private val displayablePublisher = MutableStateFlow<DisplayableSong?>(null)
 
-    fun requestData(mediaId: MediaId) = viewModelScope.launch {
-        val song = withContext(Dispatchers.IO) {
-            presenter.getSong(mediaId)
+    init {
+        TagOptionSingleton.getInstance().isAndroid = true
+
+        viewModelScope.launch {
+            val song = withContext(Dispatchers.IO) {
+                presenter.getSong(mediaId)
+            }
+            songPublisher.value = song
+            displayablePublisher.value = song.toDisplayableSong()
         }
-        songLiveData.value = song
-        displayableSongLiveData.value = song.toDisplayableSong()
     }
 
-    fun observeData(): LiveData<DisplayableSong> = displayableSongLiveData
+    fun observeData(): Flow<DisplayableSong> = displayablePublisher.filterNotNull()
 
-    fun getOriginalSong(): Song = songLiveData.value!!
+    fun getOriginalSong(): Song = songPublisher.value!!
 
     fun fetchSongInfo(mediaId: MediaId): Boolean {
         if (!NetworkUtils.isConnected(context)) {
@@ -56,15 +66,15 @@ class EditTrackFragmentViewModel @ViewModelInject constructor(
                 val lastFmTrack = withContext(Dispatchers.IO) {
                     presenter.fetchData(mediaId.resolveId)
                 }
-                var currentSong = displayableSongLiveData.value!!
+                var currentSong = displayablePublisher.value!!
                 currentSong = currentSong.copy(
                     title = lastFmTrack?.title ?: currentSong.track,
                     artist = lastFmTrack?.artist ?: currentSong.artist,
                     album = lastFmTrack?.album ?: currentSong.album
                 )
-                displayableSongLiveData.postValue(currentSong)
+                displayablePublisher.value = currentSong
             } catch (ex: Throwable){
-                displayableSongLiveData.postValue(displayableSongLiveData.value)
+                displayablePublisher.value = displayablePublisher.value
             }
         }
         return true

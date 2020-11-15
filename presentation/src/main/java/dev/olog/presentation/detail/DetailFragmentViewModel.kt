@@ -2,7 +2,9 @@ package dev.olog.presentation.detail
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -24,7 +26,7 @@ import kotlinx.coroutines.withContext
 
 internal class DetailFragmentViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle,
-    private val dataProvider: DetailDataProvider,
+    dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
@@ -40,7 +42,7 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
         const val RELATED_ARTISTS_TO_SEE = 10
     }
 
-    val parentMediaId = state.argument(ARGUMENTS_MEDIA_ID, initializer = MediaId::fromString)
+    val parentMediaId = state.argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
@@ -52,55 +54,54 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
 
     fun getFilter(): String = filterPublisher.value
 
-    private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val itemPublisher = MutableStateFlow<DisplayableItem?>(null)
+    private val mostPlayedPublisher = MutableStateFlow<List<DisplayableTrack>>(emptyList())
+    private val relatedArtistsPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val siblingsPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val recentlyAddedPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val songPublisher = MutableStateFlow<List<DisplayableItem>?>(null)
 
-    private val biographyLiveData = MutableLiveData<String?>()
+    private val biographyPublisher = MutableStateFlow<String?>(null)
 
     init {
         // header
-        viewModelScope.launch {
-            dataProvider.observeHeader(parentMediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { itemLiveData.value = it[0] }
-        }
+        dataProvider.observeHeader(parentMediaId)
+            .flowOn(Dispatchers.Default)
+            .onEach { itemPublisher.value = it.first() }
+            .launchIn(viewModelScope)
+
         // most played
-        viewModelScope.launch {
-            dataProvider.observeMostPlayed(parentMediaId)
-                .mapListItem { it as DisplayableTrack }
-                .flowOn(Dispatchers.Default)
-                .collect { mostPlayedLiveData.value = it }
-        }
+        dataProvider.observeMostPlayed(parentMediaId)
+            .mapListItem { it as DisplayableTrack }
+            .flowOn(Dispatchers.Default)
+            .onEach { mostPlayedPublisher.value = it }
+            .launchIn(viewModelScope)
+
         // related artists
-        viewModelScope.launch {
-            dataProvider.observeRelatedArtists(parentMediaId)
-                .map { it.take(RELATED_ARTISTS_TO_SEE) }
-                .flowOn(Dispatchers.Default)
-                .collect { relatedArtistsLiveData.value = it }
-        }
+        dataProvider.observeRelatedArtists(parentMediaId)
+            .map { it.take(RELATED_ARTISTS_TO_SEE) }
+            .flowOn(Dispatchers.Default)
+            .onEach { relatedArtistsPublisher.value = it }
+            .launchIn(viewModelScope)
+
         // siblings
-        viewModelScope.launch {
-            dataProvider.observeSiblings(parentMediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { siblingsLiveData.value = it }
-        }
+        dataProvider.observeSiblings(parentMediaId)
+            .flowOn(Dispatchers.Default)
+            .onEach { siblingsPublisher.value = it }
+            .launchIn(viewModelScope)
+
         // recent
-        viewModelScope.launch {
-            dataProvider.observeRecentlyAdded(parentMediaId)
-                .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-                .flowOn(Dispatchers.Default)
-                .collect { recentlyAddedLiveData.value = it }
-        }
+        dataProvider.observeRecentlyAdded(parentMediaId)
+            .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
+            .flowOn(Dispatchers.Default)
+            .onEach { recentlyAddedPublisher.value = it }
+            .launchIn(viewModelScope)
+
         // songs
-        viewModelScope.launch {
-            dataProvider.observe(parentMediaId, filterPublisher)
-                .flowOn(Dispatchers.Default)
-                .collect { songLiveData.value = it }
-        }
+        dataProvider.observe(parentMediaId, filterPublisher)
+            .flowOn(Dispatchers.Default)
+            .onEach { songPublisher.value = it }
+            .launchIn(viewModelScope)
 
         // biography
         viewModelScope.launch(Dispatchers.IO) {
@@ -111,23 +112,21 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
                     else -> null
                 }
                 withContext(Dispatchers.Main) {
-                    biographyLiveData.value = biography
+                    biographyPublisher.value = biography
                 }
-            } catch (ex: NullPointerException) {
-                ex.printStackTrace()
-            } catch (ex: IndexOutOfBoundsException) {
+            } catch (ex: Throwable) {
                 ex.printStackTrace()
             }
         }
     }
 
-    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
-    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
-    fun observeBiography(): LiveData<String?> = biographyLiveData
+    fun observeItem(): Flow<DisplayableItem> = itemPublisher.filterNotNull()
+    fun observeMostPlayed(): Flow<List<DisplayableTrack>> = mostPlayedPublisher
+    fun observeRecentlyAdded(): Flow<List<DisplayableItem>> = recentlyAddedPublisher
+    fun observeRelatedArtists(): Flow<List<DisplayableItem>> = relatedArtistsPublisher
+    fun observeSiblings(): Flow<List<DisplayableItem>> = siblingsPublisher
+    fun observeSongs(): Flow<List<DisplayableItem>> = songPublisher.filterNotNull()
+    fun observeBiography(): Flow<String> = biographyPublisher.filterNotNull()
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)

@@ -9,8 +9,6 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
@@ -57,8 +55,8 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private var transformLyricsJob by autoDisposeJob()
     private var syncJob by autoDisposeJob()
 
-    private var originalLyrics = MutableLiveData<CharSequence>()
-    private val observedLyrics = MutableLiveData<Pair<CharSequence, Lyrics>>()
+    private val originalLyrics = MutableStateFlow<CharSequence>("")
+    private val observedLyrics = MutableStateFlow<Pair<CharSequence, Lyrics>?>(null)
 
     private var currentStartMillis = -1
     private var currentSpeed = 1f
@@ -117,7 +115,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         tick = 0
     }
 
-    fun observeLyrics(): LiveData<Pair<CharSequence, Lyrics>> = observedLyrics
+    fun observeLyrics(): Flow<Pair<CharSequence, Lyrics>> = observedLyrics.filterNotNull()
 
     private suspend fun onNextLyrics(lyrics: String) {
         withContext(Dispatchers.Main) {

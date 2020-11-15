@@ -5,7 +5,9 @@ import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -33,10 +35,10 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val playlistType = state.argument<PlaylistType>(ARGUMENT_PLAYLIST_TYPE)
-    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val data = MutableStateFlow<List<DisplayableItem>>(emptyList())
 
     private val selectedIds = LongSparseArray<Long>()
-    private val selectionCountLiveData = MutableLiveData<Int>()
+    private val selectionCountPublisher = MutableStateFlow(0)
     private val showOnlyFiltered = MutableStateFlow(false)
 
     private val filterPublisher = MutableStateFlow("")
@@ -69,7 +71,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         filterPublisher.value = filter
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeData(): Flow<List<DisplayableItem>> = data
 
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
@@ -80,7 +82,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
     fun toggleItem(mediaId: MediaId) {
         val id = mediaId.resolveId
         selectedIds.toggle(id, id)
-        selectionCountLiveData.postValue(selectedIds.size())
+        selectionCountPublisher.value = selectedIds.size()
     }
 
     fun toggleShowOnlyFiltered() {
@@ -92,7 +94,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         return selectedIds[id] != null
     }
 
-    fun observeSelectedCount(): LiveData<Int> = selectionCountLiveData
+    fun observeSelectedCount(): Flow<Int> = selectionCountPublisher
 
     suspend fun savePlaylist(playlistTitle: String): Boolean {
         if (selectedIds.isEmpty()) {
