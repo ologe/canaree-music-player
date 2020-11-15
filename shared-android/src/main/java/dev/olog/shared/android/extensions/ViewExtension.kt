@@ -22,10 +22,10 @@ inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }
 
-inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
+fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     forEach {
         if (it is ViewGroup) {
-            it.forEach(action)
+            it.forEachRecursively(action)
         } else {
             action(it)
         }
