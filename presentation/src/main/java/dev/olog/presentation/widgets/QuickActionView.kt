@@ -31,6 +31,7 @@ class QuickActionView (
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (isInEditMode) {
+            setImageResource(R.drawable.vd_play)
             return
         }
         setOnClickListener(this)
