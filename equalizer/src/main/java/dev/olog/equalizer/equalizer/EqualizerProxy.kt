@@ -28,7 +28,7 @@ internal class EqualizerProxy @Inject constructor(
         return cache[callerHash]!!
     }
 
-    override fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int) {
+    override suspend fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int) {
         retrieveImpl(callerHash).onAudioSessionIdChanged(audioSessionId)
     }
 

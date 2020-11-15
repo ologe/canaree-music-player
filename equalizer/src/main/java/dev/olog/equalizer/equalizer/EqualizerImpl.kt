@@ -6,9 +6,6 @@ import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
@@ -16,8 +13,7 @@ internal class EqualizerImpl @Inject constructor(
     prefs: EqualizerPreferencesGateway
 
 ) : AbsEqualizer(gateway, prefs),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizerInternal {
 
     companion object {
         private const val BANDS = 5
@@ -36,20 +32,18 @@ internal class EqualizerImpl @Inject constructor(
         }
     }
 
-    override fun onAudioSessionIdChanged(audioSessionId: Int) {
+    override suspend fun onAudioSessionIdChanged(audioSessionId: Int) {
         if (!isImplementedByDevice){
             return
         }
-        launch {
-            release()
-            try {
-                equalizer = NormalizedEqualizer(0, audioSessionId).apply {
-                    enabled = prefs.isEqualizerEnabled()
-                }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
 
+        release()
+        try {
+            equalizer = NormalizedEqualizer(0, audioSessionId).apply {
+                enabled = prefs.isEqualizerEnabled()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 

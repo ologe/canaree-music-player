@@ -46,7 +46,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         }
     }
 
-    private fun onAudioSessionIdInternal(audioSessionId: Int) {
+    private suspend fun onAudioSessionIdInternal(audioSessionId: Int) {
         Log.v(TAG, "on audio session id changed =$audioSessionId")
 
         equalizer.onAudioSessionIdChanged(hash, audioSessionId)

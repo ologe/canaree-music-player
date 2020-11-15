@@ -8,7 +8,8 @@ import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -16,8 +17,7 @@ internal class EqualizerImpl28 @Inject constructor(
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 ) : AbsEqualizer(gateway, prefs),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizerInternal {
 
     companion object {
         private const val CHANNELS = 2
@@ -64,16 +64,14 @@ internal class EqualizerImpl28 @Inject constructor(
         }
     }
 
-    override fun onAudioSessionIdChanged(audioSessionId: Int) {
+    override suspend fun onAudioSessionIdChanged(audioSessionId: Int) {
         if (!isImplementedByDevice){
             return
         }
 
-        launch {
-            release()
-            dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
-                enabled = prefs.isEqualizerEnabled()
-            }
+        release()
+        dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
+            enabled = prefs.isEqualizerEnabled()
         }
     }
 
