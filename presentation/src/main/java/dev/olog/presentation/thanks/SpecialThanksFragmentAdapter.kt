@@ -3,26 +3,28 @@ package dev.olog.presentation.thanks
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.image.provider.GlideApp
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.model.SpecialThanksModel
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
+import kotlinx.android.synthetic.main.item_special_thanks.*
 
 class SpecialThanksFragmentAdapter(
 
 ) : ObservableAdapter<SpecialThanksModel>(DiffUtilSpecialThansModel) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.itemView.apply {
-            GlideApp.with(context)
-                .load(ContextCompat.getDrawable(context, item.image))
-                .into(image)
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: SpecialThanksModel,
+        position: Int
+    ) = holder.bindView {
+        GlideApp.with(context)
+            .load(ContextCompat.getDrawable(context, item.image))
+            .into(image)
 
-            title.text = item.title
-        }
+        title.text = item.title
     }
 
 }

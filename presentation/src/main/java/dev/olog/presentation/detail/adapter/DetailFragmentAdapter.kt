@@ -2,12 +2,14 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import android.text.Spanned
 import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -25,15 +27,15 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swapped
-import kotlinx.android.synthetic.main.item_detail_biography.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.title
-import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
-import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_song.view.explicit
-import kotlinx.android.synthetic.main.item_detail_song.view.firstText
-import kotlinx.android.synthetic.main.item_detail_song.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import kotlinx.android.synthetic.main.item_detail_biography.*
+import kotlinx.android.synthetic.main.item_detail_header.*
+import kotlinx.android.synthetic.main.item_detail_header.title
+import kotlinx.android.synthetic.main.item_detail_header_albums.*
+import kotlinx.android.synthetic.main.item_detail_header_all_song.*
+import kotlinx.android.synthetic.main.item_detail_song.explicit
+import kotlinx.android.synthetic.main.item_detail_song.firstText
+import kotlinx.android.synthetic.main.item_detail_song.secondText
+import kotlinx.android.synthetic.main.item_detail_song_most_played.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -51,7 +53,7 @@ internal class DetailFragmentAdapter(
     private val headersIndex: Int
         get() = currentList.indexOfFirst { it is DisplayableTrack }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         when (viewType) {
 
             R.layout.item_detail_list_most_played,
@@ -122,10 +124,8 @@ internal class DetailFragmentAdapter(
         }
     }
 
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
+    override fun onViewAttachedToWindow(holder: LayoutContainerViewHolder) {
         super.onViewAttachedToWindow(holder)
-
-        val view = holder.itemView
 
         when (holder.itemViewType) {
             R.layout.item_detail_list_recently_added,
@@ -138,24 +138,39 @@ internal class DetailFragmentAdapter(
                     .launchIn(holder.coroutineScope)
             }
             R.layout.item_detail_header_all_song -> {
-                val sortText = holder.itemView.sort
-                val sortImage = holder.itemView.sortImage
-
                 viewModel.observeSorting()
-                    .onEach(view.sortImage::update)
+                    .onEach { holder.bindSorting(it) }
                     .launchIn(holder.coroutineScope)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
-                    TutorialTapTarget.sortBy(sortText, sortImage)
+                    holder.bindTutorial()
                 }
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
                     .map { it.parseAsHtml() }
-                    .onEach { view.biography.text = it }
+                    .onEach { holder.bindBiography(it) }
                     .launchIn(holder.coroutineScope)
             }
         }
+    }
+
+    private fun LayoutContainerViewHolder.bindBiography(
+        biographyText: Spanned
+    ) = bindView {
+        biography.text = biographyText
+    }
+
+    private fun LayoutContainerViewHolder.bindSorting(
+        sort: SortEntity,
+    ) = bindView {
+        sortImage.update(sort)
+    }
+
+    private fun LayoutContainerViewHolder.bindTutorial(
+
+    ) = bindView {
+        TutorialTapTarget.sortBy(sort, sortImage)
     }
 
     private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int) {
@@ -167,22 +182,24 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
+        holder: LayoutContainerViewHolder,
         position: Int,
         payloads: MutableList<Any>
-    ) {
+    ) = holder.bindView {
         if (payloads.isNotEmpty()){
             val payload = payloads[0] as List<String>
-            holder.itemView.apply {
-                title.text = payload[0]
-                subtitle.text = payload[1]
-            }
-            return
+            title.text = payload[0]
+            subtitle.text = payload[1]
+            return@bindView
         }
         super.onBindViewHolder(holder, position, payloads)
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) {
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
@@ -191,49 +208,53 @@ internal class DetailFragmentAdapter(
         }.exhaustive
     }
 
-    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            holder.imageView?.let {
-                BindingsAdapter.loadSongImage(it, item.mediaId)
-            }
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit.onItemChanged(item.title)
+    private fun bindTrack(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableTrack
+    ) = holder.bindView {
+
+        if (imageView != null) {
+            BindingsAdapter.loadSongImage(imageView, item.mediaId)
         }
-        when (holder.itemViewType){
+        firstText.text = item.title
+        secondText?.text = item.subtitle
+        explicit.onItemChanged(item.title)
+
+        when (itemViewType){
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_track_and_image -> {
                 val trackNumber = if (item.idInPlaylist < 1){
                     "-"
-                } else item.idInPlaylist.toString()
-                holder.itemView.index.text = trackNumber
+                } else {
+                    item.idInPlaylist.toString()
+                }
+                index.text = trackNumber
             }
         }
     }
 
-    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        when (holder.itemViewType){
+    private fun bindHeader(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableHeader
+    ) = holder.bindView {
+        when (itemViewType){
             R.layout.item_detail_image -> {
-                BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
-                holder.itemView.title.text = item.title
-                holder.itemView.subtitle.text = item.subtitle
+                BindingsAdapter.loadBigAlbumImage(imageView!!, mediaId)
+                title.text = item.title
+                subtitle.text = item.subtitle
             }
             R.layout.item_detail_song_footer,
             R.layout.item_detail_header,
             R.layout.item_detail_header_albums,
             R.layout.item_detail_header_recently_added,
             R.layout.item_detail_image -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    subtitle?.text = item.subtitle
-                    seeMore?.toggleVisibility(item.visible, true)
-                }
+                title.text = item.title
+                subtitle?.text = item.subtitle
+                seeMore?.toggleVisibility(item.visible, true)
             }
             R.layout.item_detail_header_all_song -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    sort.text = item.subtitle
-                }
+                title.text = item.title
+                sort.text = item.subtitle
             }
         }
     }

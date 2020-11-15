@@ -14,7 +14,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swapped
-import kotlinx.android.synthetic.main.item_playing_queue.view.*
+import kotlinx.android.synthetic.main.item_playing_queue.*
 
 class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
@@ -27,7 +27,7 @@ class PlayingQueueFragmentAdapter(
 
     private val moves = mutableListOf<Pair<Int, Int>>()
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.skipToQueueItem(item.idInPlaylist)
         }
@@ -39,18 +39,20 @@ class PlayingQueueFragmentAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            index.text = item.relativePosition
-            BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableQueueSong,
+        position: Int
+    ) = holder.bindView {
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        index.text = item.relativePosition
+        BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+        explicit.onItemChanged(item.title)
 
-            val textColor = calculateTextColor(context, item.relativePosition)
-            index.setTextColor(textColor)
-        }
+        val textColor = calculateTextColor(context, item.relativePosition)
+        index.setTextColor(textColor)
     }
 
     private fun calculateTextColor(context: Context, positionInList: String): Int {
@@ -60,22 +62,19 @@ class PlayingQueueFragmentAdapter(
 
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
+        holder: LayoutContainerViewHolder,
         position: Int,
         payloads: MutableList<Any>
-    ) {
+    ) = holder.bindView {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0] as List<Any>
             for (currentPayload in payload) {
                 when (currentPayload) {
-                    is Boolean -> BindingsAdapter.setBoldIfTrue(holder.itemView.firstText, currentPayload)
+                    is Boolean -> BindingsAdapter.setBoldIfTrue(firstText, currentPayload)
                     is String -> {
                         val item = getItem(position)
-                        val textColor = calculateTextColor(
-                            holder.itemView.context,
-                            item.relativePosition
-                        )
-                        holder.itemView.index.updateText(currentPayload, textColor)
+                        val textColor = calculateTextColor(context, item.relativePosition)
+                        index.updateText(currentPayload, textColor)
                     }
                 }
             }

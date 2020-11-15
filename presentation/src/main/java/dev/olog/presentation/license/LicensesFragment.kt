@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_about.*
-import kotlinx.android.synthetic.main.fragment_licenses.view.*
+import kotlinx.android.synthetic.main.fragment_licenses.*
 
 class LicensesFragment : Fragment() {
 
@@ -28,8 +27,8 @@ class LicensesFragment : Fragment() {
         val presenter = LicensesFragmentPresenter(requireContext())
         val adapter = LicensesFragmentAdapter()
 
-        view.list.adapter = adapter
-        view.list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.adapter = adapter
+        list.layoutManager = OverScrollLinearLayoutManager(list)
 
         adapter.submitList(presenter.data)
     }

@@ -10,7 +10,7 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_recently_added.view.*
+import kotlinx.android.synthetic.main.item_recently_added.*
 
 class RecentlyAddedFragmentAdapter(
     private val navigator: Navigator,
@@ -19,7 +19,7 @@ class RecentlyAddedFragmentAdapter(
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
     TouchableAdapter {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
@@ -33,15 +33,17 @@ class RecentlyAddedFragmentAdapter(
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         require(item is DisplayableTrack)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
-        }
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+        explicit.onItemChanged(item.title)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

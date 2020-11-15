@@ -6,28 +6,29 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class SimpleAdapter<T>(
     protected val dataSet: MutableList<T>
-) : RecyclerView.Adapter<DataBoundViewHolder>() {
+) : RecyclerView.Adapter<LayoutContainerViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LayoutContainerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = inflater.inflate(viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(binding)
+        val viewHolder = LayoutContainerViewHolder(binding)
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
     }
 
     fun getData(): List<T> = dataSet.toList()
 
-    protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
+    protected abstract fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int)
 
     override fun getItemCount(): Int = dataSet.size
 
-    override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = dataSet[position]
-        bind(holder, item, position)
+
+        holder.bind(item, position)
     }
 
-    protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
+    protected abstract fun LayoutContainerViewHolder.bind(item: T, position: Int)
 
     fun getItem(position: Int): T = dataSet[position]
 

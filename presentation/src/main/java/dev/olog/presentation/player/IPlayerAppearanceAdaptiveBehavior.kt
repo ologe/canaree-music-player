@@ -4,20 +4,20 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
 import dev.olog.shared.android.extensions.colorBackground
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
-import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.title
-import kotlinx.android.synthetic.main.player_layout_spotify.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.android.synthetic.main.player_controls_default.*
+import kotlinx.android.synthetic.main.player_layout_default.*
+import kotlinx.android.synthetic.main.player_layout_default.artist
+import kotlinx.android.synthetic.main.player_layout_default.seekBar
+import kotlinx.android.synthetic.main.player_layout_default.title
+import kotlinx.android.synthetic.main.player_layout_spotify.*
+import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -35,12 +35,15 @@ internal interface IPlayerAppearanceAdaptiveBehavior {
             }
     }
 
-    operator fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter)
+    operator fun invoke(viewHolder: LayoutContainerViewHolder, presenter: PlayerFragmentPresenter)
 }
 
 internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
+    override fun invoke(
+        viewHolder: LayoutContainerViewHolder,
+        presenter: PlayerFragmentPresenter
+    ) = viewHolder.bindView {
         val view = viewHolder.itemView
 
         presenter.observePaletteColors()
@@ -54,11 +57,11 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
                     GradientDrawable.Orientation.TOP_BOTTOM,
                     intArrayOf(first, second, third)
                 )
-                view.playerRoot.background = gradient
+                playerRoot.background = gradient
 
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-            }.launchIn(viewHolder.coroutineScope)
+                shuffle.updateSelectedColor(accent)
+                repeat.updateSelectedColor(accent)
+            }.launchIn(coroutineScope)
     }
 
     private fun makeFirstColor(context: Context, color: Int): Int {
@@ -78,90 +81,98 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
 
 internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        viewHolder: LayoutContainerViewHolder,
+        presenter: PlayerFragmentPresenter
+    ) = viewHolder.bindView {
 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
+                artist.apply { animateTextColor(accent) }
+                shuffle.updateSelectedColor(accent)
+                repeat.updateSelectedColor(accent)
+                seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-            }.launchIn(viewHolder.coroutineScope)
+            }.launchIn(coroutineScope)
     }
 }
 
 internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        viewHolder: LayoutContainerViewHolder,
+        presenter: PlayerFragmentPresenter
+    ) = viewHolder.bindView {
 
         presenter.observeProcessorColors()
             .onEach { colors ->
-                view.title.apply {
+                title.apply {
                     animateTextColor(colors.primaryText)
                     animateBackgroundColor(colors.background)
                 }
-                view.artist.apply {
+                artist.apply {
                     animateTextColor(colors.secondaryText)
                     animateBackgroundColor(colors.background)
                 }
-            }.launchIn(viewHolder.coroutineScope)
+            }.launchIn(coroutineScope)
 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.seekBar.apply {
+                seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-            }.launchIn(viewHolder.coroutineScope)
+                shuffle.updateSelectedColor(accent)
+                repeat.updateSelectedColor(accent)
+            }.launchIn(coroutineScope)
     }
 }
 
 internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        viewHolder: LayoutContainerViewHolder,
+        presenter: PlayerFragmentPresenter
+    ) = viewHolder.bindView {
 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.seekBar.apply {
+                seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.artist.animateTextColor(accent)
-                view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-            }.launchIn(viewHolder.coroutineScope)
+                artist.animateTextColor(accent)
+                playPause.backgroundTintList = ColorStateList.valueOf(accent)
+                shuffle.updateSelectedColor(accent)
+                repeat.updateSelectedColor(accent)
+            }.launchIn(coroutineScope)
     }
 }
 
 internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        viewHolder: LayoutContainerViewHolder,
+        presenter: PlayerFragmentPresenter
+    ) = viewHolder.bindView {
 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
+                artist.apply { animateTextColor(accent) }
+                shuffle.updateSelectedColor(accent)
+                repeat.updateSelectedColor(accent)
+                seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.more.imageTintList = ColorStateList.valueOf(accent)
-                view.lyrics.imageTintList = ColorStateList.valueOf(accent)
-            }.launchIn(viewHolder.coroutineScope)
+                more.imageTintList = ColorStateList.valueOf(accent)
+                lyrics.imageTintList = ColorStateList.valueOf(accent)
+            }.launchIn(coroutineScope)
     }
 }

@@ -9,7 +9,6 @@ import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_special_thanks.*
-import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 
 class SpecialThanksFragment : Fragment() {
 
@@ -32,9 +31,9 @@ class SpecialThanksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val layoutManager = OverScrollLinearLayoutManager(list)
         val adapter = SpecialThanksFragmentAdapter()
-        view.list.adapter = adapter
-        view.list.layoutManager = layoutManager
-        view.list.setHasFixedSize(true)
+        list.adapter = adapter
+        list.layoutManager = layoutManager
+        list.setHasFixedSize(true)
 
         adapter.submitList(presenter.data)
     }

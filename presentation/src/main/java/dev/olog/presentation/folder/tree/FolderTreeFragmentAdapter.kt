@@ -3,13 +3,13 @@ package dev.olog.presentation.folder.tree
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_detail_related_artist.*
 
 class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
@@ -17,7 +17,7 @@ class FolderTreeFragmentAdapter(
     private val navigator: Navigator
 ) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_folder_tree_directory,
             R.layout.item_folder_tree_track -> {
@@ -48,17 +48,17 @@ class FolderTreeFragmentAdapter(
 
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
-        holder.itemView.apply {
-            firstText.text = item.title
-        }
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableFile,
+        position: Int
+    ) = holder.bindView {
+
+        firstText.text = item.title
+
         when (holder.itemViewType){
-            R.layout.item_folder_tree_directory -> {
-                BindingsAdapter.loadDirImage(holder.imageView!!, item)
-            }
-            R.layout.item_folder_tree_track -> {
-                BindingsAdapter.loadFile(holder.imageView!!, item)
-            }
+            R.layout.item_folder_tree_directory -> BindingsAdapter.loadDirImage(imageView!!, item)
+            R.layout.item_folder_tree_track -> BindingsAdapter.loadFile(imageView!!, item)
         }
     }
 }

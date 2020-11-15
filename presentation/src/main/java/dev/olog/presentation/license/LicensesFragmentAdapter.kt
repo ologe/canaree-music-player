@@ -2,30 +2,32 @@ package dev.olog.presentation.license
 
 import android.text.method.LinkMovementMethod
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.LicenseModel
-import kotlinx.android.synthetic.main.item_license.view.*
+import kotlinx.android.synthetic.main.item_license.*
 
 class LicensesFragmentAdapter(
+
 ) : ObservableAdapter<LicenseModel>(DiffCallbackLicenseModel) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { _, _, _ ->
-            val maxLines = if (viewHolder.itemView.license.maxLines > 10) 10 else Int.MAX_VALUE
-            viewHolder.itemView.license.maxLines = maxLines
+            val maxLines = if (viewHolder.license.maxLines > 10) 10 else Int.MAX_VALUE
+            viewHolder.license.maxLines = maxLines
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: LicenseModel, position: Int) {
-        holder.itemView.apply {
-            name.text = item.name
-            url.text = item.url
-            url.movementMethod = LinkMovementMethod.getInstance()
-            license.text = item.license
-
-        }
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: LicenseModel,
+        position: Int
+    ) = holder.bindView {
+        name.text = item.name
+        url.text = item.url
+        url.movementMethod = LinkMovementMethod.getInstance()
+        license.text = item.license
     }
 
 }

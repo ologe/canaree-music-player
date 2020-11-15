@@ -5,19 +5,19 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_tab_album.view.*
+import kotlinx.android.synthetic.main.item_tab_album.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             askConfirmation(item)
         }
@@ -37,13 +37,15 @@ class PlaylistChooserActivityAdapter(
             .show()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         require(item is DisplayableAlbum)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
     }
 }

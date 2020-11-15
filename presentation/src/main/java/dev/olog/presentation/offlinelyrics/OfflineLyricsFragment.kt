@@ -23,7 +23,6 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
-import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -64,7 +63,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (presenter.showAddLyricsIfNeverShown()) {
-            TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
+            TutorialTapTarget.addLyrics(search, edit, sync)
         }
 
         requireActivity().mediaProvider.metadata
@@ -103,7 +102,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .onEach { seekBar.onStateChanged(it) }
             .launchIn(this)
 
-        view.image.observePaletteColors()
+        image.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 subHeader.animateTextColor(accent)

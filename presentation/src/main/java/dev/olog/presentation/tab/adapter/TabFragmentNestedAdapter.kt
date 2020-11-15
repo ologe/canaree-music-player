@@ -5,13 +5,13 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_tab_album_last_played.view.*
+import kotlinx.android.synthetic.main.item_tab_album_last_played.*
 
 internal class TabFragmentNestedAdapter(
     private val navigator: Navigator
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
         }
@@ -21,15 +21,17 @@ internal class TabFragmentNestedAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         require(item is DisplayableAlbum)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction.setId(item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        quickAction.setId(item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
     }
 
 }

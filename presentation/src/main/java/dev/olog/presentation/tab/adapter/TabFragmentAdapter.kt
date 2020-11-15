@@ -12,12 +12,12 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.setGone
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_album.view.*
-import kotlinx.android.synthetic.main.item_tab_album.view.firstText
-import kotlinx.android.synthetic.main.item_tab_album.view.secondText
-import kotlinx.android.synthetic.main.item_tab_header.view.*
-import kotlinx.android.synthetic.main.item_tab_podcast.view.*
-import kotlinx.android.synthetic.main.item_tab_song.view.*
+import kotlinx.android.synthetic.main.item_tab_album.*
+import kotlinx.android.synthetic.main.item_tab_album.firstText
+import kotlinx.android.synthetic.main.item_tab_album.secondText
+import kotlinx.android.synthetic.main.item_tab_header.*
+import kotlinx.android.synthetic.main.item_tab_podcast.*
+import kotlinx.android.synthetic.main.item_tab_song.*
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -27,7 +27,7 @@ internal class TabFragmentAdapter(
 
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
@@ -75,41 +75,41 @@ internal class TabFragmentAdapter(
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         when (item){
-            is DisplayableTrack -> bindTrack(holder, item)
-            is DisplayableAlbum -> bindAlbum(holder, item)
-            is DisplayableHeader -> bindHeader(holder, item)
+            is DisplayableTrack -> bindTrack(item)
+            is DisplayableAlbum -> bindAlbum(item)
+            is DisplayableHeader -> bindHeader(item)
             is DisplayableNestedListPlaceholder -> {}
         }.exhaustive
     }
 
-    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            duration?.let {
-                val durationString = item.idInPlaylist.toString() + "m"
-                it.text = durationString
-            }
-            explicit?.onItemChanged(item.title)
+    private fun LayoutContainerViewHolder.bindTrack(item: DisplayableTrack){
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+        duration?.let {
+            val durationString = item.idInPlaylist.toString() + "m"
+            it.text = durationString
         }
+        explicit?.onItemChanged(item.title)
     }
 
-    private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction?.setId(item.mediaId)
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit?.setGone()
-        }
+    private fun LayoutContainerViewHolder.bindAlbum(item: DisplayableAlbum){
+        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        quickAction?.setId(item.mediaId)
+        firstText.text = item.title
+        secondText?.text = item.subtitle
+        explicit?.setGone()
     }
 
-    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        if (holder.itemViewType == R.layout.item_tab_header){
-            holder.itemView.title.text = item.title
+    private fun LayoutContainerViewHolder.bindHeader(item: DisplayableHeader){
+        if (itemViewType == R.layout.item_tab_header){
+            title.text = item.title
         }
     }
 

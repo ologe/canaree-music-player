@@ -6,8 +6,9 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.shared.android.coroutine.viewScope
-import kotlinx.android.synthetic.main.item_detail_song.view.*
+import kotlinx.android.synthetic.main.item_detail_song.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -92,10 +93,11 @@ class TouchHelperAdapterCallback(
                     animationsController.initializeSwipe(viewHolder, dX)
                 }
 
+                require(viewHolder is LayoutContainerViewHolder)
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.content,
+                    viewHolder.content,
                     dX,
                     dY,
                     actionState,

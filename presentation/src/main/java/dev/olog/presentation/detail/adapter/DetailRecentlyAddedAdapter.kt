@@ -7,17 +7,14 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_recent.view.*
+import kotlinx.android.synthetic.main.item_detail_song_recent.*
 
 class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
-
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playRecentlyAdded(item.mediaId)
         }
@@ -31,15 +28,17 @@ class DetailRecentlyAddedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         require(item is DisplayableTrack)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
-        }
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+        explicit.onItemChanged(item.title)
     }
 
 }

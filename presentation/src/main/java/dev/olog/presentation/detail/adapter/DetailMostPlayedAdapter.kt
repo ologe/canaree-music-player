@@ -7,14 +7,14 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import kotlinx.android.synthetic.main.item_detail_song_most_played.*
 
 class DetailMostPlayedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 ) : ObservableAdapter<DisplayableTrack>(DiffCallbackMostPlayed) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playMostPlayed(item.mediaId)
         }
@@ -29,24 +29,26 @@ class DetailMostPlayedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            index.text = (item.idInPlaylist + 1).toString()
-            explicit.onItemChanged(item.title)
-        }
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableTrack,
+        position: Int
+    ) = holder.bindView {
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+        index.text = (item.idInPlaylist + 1).toString()
+        explicit.onItemChanged(item.title)
     }
 
     override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
+        holder: LayoutContainerViewHolder,
         position: Int,
         payloads: MutableList<Any>
-    ) {
+    ) = holder.bindView {
         if (payloads.isNotEmpty()) {
             val positionInList = (payloads[0] as Int + 1).toString()
-            holder.itemView.index.text = positionInList
+            index.text = positionInList
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }

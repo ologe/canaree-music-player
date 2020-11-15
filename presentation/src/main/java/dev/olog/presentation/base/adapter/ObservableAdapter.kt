@@ -10,30 +10,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class ObservableAdapter<T : BaseModel>(
     itemCallback: DiffUtil.ItemCallback<T>
-) : ListAdapter<T, DataBoundViewHolder>(itemCallback){
+) : ListAdapter<T, LayoutContainerViewHolder>(itemCallback){
 
     private val flow = MutableStateFlow(currentList)
 
     fun observeData(): Flow<List<T>> = flow
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LayoutContainerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(view)
+        val viewHolder = LayoutContainerViewHolder(view)
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
     }
 
-    protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
+    protected abstract fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int)
 
     override fun getItemViewType(position: Int): Int = getItem(position).type
 
-    override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = getItem(position)
         bind(holder, item, position)
     }
 
-    protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
+    protected abstract fun bind(holder: LayoutContainerViewHolder, item: T, position: Int)
 
     fun lastIndex(): Int = currentList.lastIndex
     fun indexOf(predicate: (T) -> Boolean): Int = currentList.indexOfFirst(predicate)

@@ -13,10 +13,8 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
-import kotlinx.android.synthetic.main.item_search_album.view.firstText
-import kotlinx.android.synthetic.main.item_search_album.view.secondText
-import kotlinx.android.synthetic.main.item_search_header.view.*
-import kotlinx.android.synthetic.main.item_search_recent.view.*
+import kotlinx.android.synthetic.main.item_search_header.*
+import kotlinx.android.synthetic.main.item_search_recent.*
 
 class SearchFragmentAdapter(
     private val setupNestedList: SetupNestedList,
@@ -27,7 +25,7 @@ class SearchFragmentAdapter(
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
     TouchableAdapter {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_search_list_albums,
             R.layout.item_search_list_artists,
@@ -82,42 +80,40 @@ class SearchFragmentAdapter(
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+    override fun bind(
+        holder: LayoutContainerViewHolder,
+        item: DisplayableItem,
+        position: Int
+    ) = holder.bindView {
         when (item){
-            is DisplayableTrack -> bindTrack(holder, item)
-            is DisplayableHeader -> bindHeader(holder, item)
-            is DisplayableAlbum -> bindAlbum(holder, item)
+            is DisplayableTrack -> bindTrack(item)
+            is DisplayableHeader -> bindHeader(item)
+            is DisplayableAlbum -> bindAlbum(item)
         }
     }
 
-    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            if (item.album.isBlank()){
-                secondText.text = item.artist
-            } else {
-                secondText.text = item.subtitle
-            }
-
-            explicit.onItemChanged(item.title)
-        }
-    }
-
-    private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
+    private fun LayoutContainerViewHolder.bindTrack(item: DisplayableTrack) {
+        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        if (item.album.isBlank()){
+            secondText.text = item.artist
+        } else {
             secondText.text = item.subtitle
         }
+
+        explicit.onItemChanged(item.title)
     }
 
-    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        if (holder.itemViewType == R.layout.item_search_header){
-            holder.itemView.apply {
-                title.text = item.title
-                subtitle.text = item.subtitle
-            }
+    private fun LayoutContainerViewHolder.bindAlbum(item: DisplayableAlbum){
+        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        firstText.text = item.title
+        secondText.text = item.subtitle
+    }
+
+    private fun LayoutContainerViewHolder.bindHeader(item: DisplayableHeader){
+        if (itemViewType == R.layout.item_search_header){
+            title.text = item.title
+            subtitle.text = item.subtitle
         }
     }
 
