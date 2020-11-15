@@ -13,7 +13,6 @@ import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,8 +37,6 @@ class BlurredBackground(
         adjustViewBounds = true
     }
 
-    private val isDarkMode by lazyFast { context.isDarkMode() }
-
     fun loadImage(mediaId: MediaId, drawable: Drawable?) {
         if (drawable == null){
             return
@@ -58,7 +55,7 @@ class BlurredBackground(
 
         assertBackgroundThread()
 
-        val size = if (isDarkMode) DARK_MODE_SIZE else LIGHT_MODE_SIZE
+        val size = if (context.isDarkMode) DARK_MODE_SIZE else LIGHT_MODE_SIZE
 
         val bitmap = if (drawable is LayerDrawable){
             CoverUtils.onlyGradient(context, mediaId).toBitmap(size, size)

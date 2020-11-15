@@ -67,7 +67,7 @@ object CoverUtils {
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
         val position = mediaId.resolveId.toInt()
-        if (!context.isDarkMode()) {
+        if (!context.isDarkMode) {
             // use custom color for light theme
             val pos = (position) % COLORS.size
             gradient.colors = COLORS[abs(pos)]
@@ -82,7 +82,7 @@ object CoverUtils {
         val drawable = ContextCompat.getDrawable(context, drawableRes)!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
 
-        if (!context.isDarkMode()) {
+        if (!context.isDarkMode) {
             // use custom color for light theme
             val pos = (position) % COLORS.size
             gradient.colors = COLORS[abs(pos)]

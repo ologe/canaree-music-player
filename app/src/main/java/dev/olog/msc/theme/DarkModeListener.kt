@@ -10,26 +10,25 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isQ
 import javax.inject.Inject
 
+// TODO check if dark is still needed to call recreate
 internal class DarkModeListener @Inject constructor(
-    @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<Int>(context, prefs, context.getString(R.string.prefs_dark_mode_key)),
-    ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
+    @ApplicationContext private val context: Context,
+    private val prefs: SharedPreferences
+) : BaseThemeUpdater(
+    key = context.getString(R.string.prefs_dark_mode_key)
+), ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
     init {
-        AppCompatDelegate.setDefaultNightMode(getValue())
+        prefs.registerOnSharedPreferenceChangeListener(this)
+        AppCompatDelegate.setDefaultNightMode(fetchValue())
     }
 
     override fun onPrefsChanged() {
-        val darkMode = getValue()
-        AppCompatDelegate.setDefaultNightMode(darkMode)
+        AppCompatDelegate.setDefaultNightMode(fetchValue())
     }
 
-    override fun getValue(): Int {
-        val value = prefs.getString(
-            key,
-            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system)
-        )
+    private fun fetchValue(): Int {
+        val value = prefs.getString(key, context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system))
 
         return when (value) {
             context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> {
@@ -41,7 +40,7 @@ internal class DarkModeListener @Inject constructor(
             }
             context.getString(R.string.prefs_dark_mode_2_entry_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
             context.getString(R.string.prefs_dark_mode_2_entry_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> throw IllegalStateException("invalid theme=$value")
+            else -> error("invalid theme=$value")
         }
     }
 }

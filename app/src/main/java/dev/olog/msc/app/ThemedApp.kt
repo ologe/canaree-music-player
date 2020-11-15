@@ -2,15 +2,11 @@ package dev.olog.msc.app
 
 import android.app.Application
 import dev.olog.msc.theme.*
-import dev.olog.shared.android.theme.*
-import kotlinx.coroutines.channels.ReceiveChannel
+import dev.olog.shared.android.theme.AppTheme
+import dev.olog.shared.android.theme.ThemeAmbient
 import javax.inject.Inject
 
-abstract class ThemedApp : Application(),
-    HasPlayerAppearance,
-    HasImmersive,
-    HasImageShape,
-    HasQuickAction {
+abstract class ThemedApp : Application(), ThemeAmbient {
 
     @Suppress("unused")
     @Inject
@@ -28,27 +24,12 @@ abstract class ThemedApp : Application(),
     @Inject
     internal lateinit var quickActionListener: QuickActionListener
 
-    override fun playerAppearance(): PlayerAppearance {
-        return playerAppearanceListener.playerAppearance
-    }
+    override val appTheme: AppTheme
+        get() = AppTheme(
+            imageShapeAmbient = imageShapeListener,
+            immersiveAmbient = immersiveModeListener,
+            playerAppearanceAmbient = playerAppearanceListener,
+            quickActionAmbient = quickActionListener,
+        )
 
-    override fun isImmersive(): Boolean {
-        return immersiveModeListener.isImmersive
-    }
-
-    override fun getImageShape(): ImageShape {
-        return imageShapeListener.imageShape()
-    }
-
-    override fun observeImageShape(): ReceiveChannel<ImageShape> {
-        return imageShapeListener.imageShapePublisher.openSubscription()
-    }
-
-    override fun getQuickAction(): QuickAction {
-        return quickActionListener.quickAction()
-    }
-
-    override fun observeQuickAction(): ReceiveChannel<QuickAction> {
-        return quickActionListener.quickActionPublisher.openSubscription()
-    }
 }

@@ -119,8 +119,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
             MaterialDialog(requireContext())
                 .colorChooser(
-                    colors = ColorPalette.getAccentColors(requireContext().isDarkMode()),
-                    subColors = ColorPalette.getAccentColorsSub(requireContext().isDarkMode()),
+                    colors = ColorPalette.getAccentColors(requireContext().isDarkMode),
+                    subColors = ColorPalette.getAccentColorsSub(requireContext().isDarkMode),
                     initialSelection = prefs.getInt(key, defaultColor),
                     selection = this
                 ).show()
@@ -194,7 +194,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun invoke(dialog: MaterialDialog, color: Int) {
-        val realColor = ColorPalette.getRealAccentSubColor(requireContext().isDarkMode(), color)
+        val realColor = ColorPalette.getRealAccentSubColor(requireContext().isDarkMode, color)
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val key = getString(R.string.prefs_color_accent_key)
         prefs.edit {

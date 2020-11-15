@@ -3,7 +3,7 @@ package dev.olog.presentation.player
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -27,8 +27,8 @@ internal class PlayerFragmentPresenter @Inject constructor(
 
         return processorPublisher.asFlow()
             .map {
-                val hasPlayerAppearance = context.hasPlayerAppearance()
-                if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
+                val playerAppearanceAmbient = context.playerAppearanceAmbient
+                if (presentationPrefs.isAdaptiveColorEnabled() || playerAppearanceAmbient.isFlat()) {
                     it
                 } else {
                     InvalidProcessColors
@@ -44,8 +44,8 @@ internal class PlayerFragmentPresenter @Inject constructor(
         return palettePublisher
             .asFlow()
             .map {
-                val hasPlayerAppearance = context.hasPlayerAppearance()
-                if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
+                val playerAppearanceAmbient = context.playerAppearanceAmbient
+                if (presentationPrefs.isAdaptiveColorEnabled() || playerAppearanceAmbient.isFlat() || playerAppearanceAmbient.isSpotify()) {
                     it
                 } else {
                     InvalidPaletteColors

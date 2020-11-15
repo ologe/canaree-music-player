@@ -21,7 +21,7 @@ import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
@@ -49,8 +49,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val hasPlayerAppearance = requireContext().hasPlayerAppearance()
-
+        val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
         val adapter = PlayerFragmentAdapter(
             lifecycle = viewLifecycleOwner.lifecycle,
             mediaProvider = activity as MediaProvider,
@@ -58,7 +57,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             viewModel = viewModel,
             presenter = presenter,
             dragListener = this,
-            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(playerAppearanceAmbient.value)
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -74,7 +73,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         mediaProvider.observeQueue()
             .mapListItem { it.toDisplayableItem() }
             .map { queue ->
-                if (!hasPlayerAppearance.isMini()) {
+                if (!playerAppearanceAmbient.isMini()) {
                     val copy = queue.toMutableList()
                     if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
                         copy.add(viewModel.footerLoadMore)
@@ -107,8 +106,8 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     }
 
     override fun provideLayoutId(): Int {
-        val appearance = requireContext().hasPlayerAppearance()
-        return when (appearance.playerAppearance()) {
+        val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
+        return when (playerAppearanceAmbient.value) {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini

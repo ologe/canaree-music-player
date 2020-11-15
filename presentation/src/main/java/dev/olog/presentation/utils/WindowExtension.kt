@@ -4,7 +4,7 @@ import android.view.View
 import android.view.Window
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.android.theme.immersiveAmbient
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.android.utils.isOreo
 
@@ -13,13 +13,13 @@ fun Window.setLightStatusBar() {
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
-    if (context.isImmersiveMode()) {
+    if (context.immersiveAmbient.isEnabled) {
         flags = flags or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 
-    val isDarkMode = context.isDarkMode()
+    val isDarkMode = context.isDarkMode
     if (isDarkMode) {
         navigationBarColor = context.colorSurface()
     }
@@ -40,13 +40,13 @@ fun Window.removeLightStatusBar() {
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
-    if (context.isImmersiveMode()) {
+    if (context.immersiveAmbient.isEnabled) {
         flags = flags or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 
-    val isDarkMode = context.isDarkMode()
+    val isDarkMode = context.isDarkMode
     if (isDarkMode) {
         navigationBarColor = context.colorSurface()
     }

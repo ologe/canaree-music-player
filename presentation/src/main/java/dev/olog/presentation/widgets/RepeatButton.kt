@@ -11,31 +11,23 @@ import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
-import java.lang.IllegalStateException
 
 class RepeatButton(
     context: Context,
     attrs: AttributeSet
-
 ) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private var enabledColor: Int
     private var repeatMode = PlayerRepeatMode.NOT_SET
-
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
-    private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
         setImageResource(R.drawable.vd_repeat)
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
-            val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+            val defaultColor = getDefaultColor(context)
             setColorFilter(defaultColor)
         }
     }
@@ -61,7 +53,7 @@ class RepeatButton(
     }
 
     private fun repeatNone() {
-        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+        val defaultColor = getDefaultColor(context)
         animateAvd(defaultColor, R.drawable.repeat_hide_one, R.drawable.repeat_show)
     }
 

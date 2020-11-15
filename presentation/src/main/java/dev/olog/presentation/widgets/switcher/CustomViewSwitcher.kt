@@ -24,9 +24,8 @@ import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(
@@ -51,7 +50,6 @@ class CustomViewSwitcher(
             context
         )
     }
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
 
     private enum class Direction {
         NONE,
@@ -66,7 +64,8 @@ class CustomViewSwitcher(
             return@observable
         }
 
-        val useExactPosition = playerAppearance.isBigImage() || playerAppearance.isFullscreen()
+        val playerAppearanceAmbient = context.playerAppearanceAmbient
+        val useExactPosition = playerAppearanceAmbient.isBigImage() || playerAppearanceAmbient.isFullscreen()
 
         val inAnim = when (new) {
             Direction.RIGHT -> {

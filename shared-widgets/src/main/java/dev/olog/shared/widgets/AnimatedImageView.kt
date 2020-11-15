@@ -6,9 +6,6 @@ import android.view.ViewPropertyAnimator
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.lazyFast
 
 class AnimatedImageView(
     context: Context,
@@ -16,12 +13,8 @@ class AnimatedImageView(
 
 ) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
-
     private val avd: AnimatedVectorDrawableCompat
     private val animator: ViewPropertyAnimator = animate()
-
-    private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
         val a = context.theme.obtainStyledAttributes(
@@ -35,7 +28,7 @@ class AnimatedImageView(
     }
 
     fun setDefaultColor() {
-        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+        val defaultColor = getDefaultColor(context)
         setColorFilter(defaultColor)
     }
 

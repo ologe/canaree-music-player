@@ -7,25 +7,36 @@ import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StatusBarView
-import dev.olog.shared.mutableLazy
+import dev.olog.shared.ConflatedSharedFlow
+import dev.olog.shared.android.theme.ImmersiveAmbient
+import dev.olog.shared.value
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(
-    @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(R.string.prefs_immersive_key)),
-    ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
+    @ApplicationContext private val context: Context,
+    private val prefs: SharedPreferences
+) : BaseThemeUpdater(
+    key = context.getString(R.string.prefs_immersive_key)
+), ActivityLifecycleCallbacks by CurrentActivityObserver(context),
+    ImmersiveAmbient {
 
-    var isImmersive by mutableLazy { getValue() }
-        private set
+    private val _publisher = ConflatedSharedFlow(fetchValue())
+
+    init {
+        prefs.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override val isEnabled: Boolean
+        get() = _publisher.value
 
     override fun onPrefsChanged() {
+        _publisher.tryEmit(fetchValue())
+
         StatusBarView.viewHeight = -1
-        isImmersive = getValue()
         currentActivity?.recreate()
     }
 
-    override fun getValue(): Boolean {
+    private fun fetchValue(): Boolean {
         return prefs.getBoolean(key, false)
     }
 

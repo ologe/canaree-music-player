@@ -9,8 +9,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
 import kotlinx.android.synthetic.main.player_controls_default.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.more
 import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
 import kotlinx.android.synthetic.main.player_layout_default.view.title
 import kotlinx.android.synthetic.main.player_layout_spotify.view.*
@@ -58,13 +58,13 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
     }
 
     private fun makeFirstColor(context: Context, color: Int): Int {
-        if (context.isDarkMode()){
+        if (context.isDarkMode){
             return ColorUtil.shiftColor(color, .4f)
         }
         return ColorUtils.setAlphaComponent(ColorUtil.shiftColor(color, 2f), 100)
     }
     private fun makeSecondColor(context: Context, color: Int): Int {
-        if (context.isDarkMode()){
+        if (context.isDarkMode){
             return ColorUtil.shiftColor(color, .13f)
         }
         return ColorUtils.setAlphaComponent(ColorUtil.shiftColor(color, 2f), 25)

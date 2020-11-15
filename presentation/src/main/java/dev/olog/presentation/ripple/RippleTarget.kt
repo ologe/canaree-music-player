@@ -10,7 +10,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.shared.android.utils.isMarshmallow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,10 +30,8 @@ class RippleTarget(
 
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
-        if (view is ForegroundImageView) {
-            job = view.viewScope.launch(Dispatchers.Default) {
-                generateRipple(drawable)
-            }
+        job = view.viewScope.launch(Dispatchers.Default) {
+            generateRipple(drawable)
         }
     }
 
@@ -58,11 +56,13 @@ class RippleTarget(
         }
 
     private suspend fun onGenerated(palette: Palette?) = withContext(Dispatchers.Main) {
-        if (view is ForegroundImageView) {
-
+        if (isMarshmallow()) {
             view.foreground = RippleUtils.create(
-                palette, darkAlpha,
-                lightAlpha, fallbackColor, true
+                palette,
+                darkAlpha,
+                lightAlpha,
+                fallbackColor,
+                true
             )
         }
         if (view is ParallaxImageView) {

@@ -243,7 +243,7 @@ class DetailFragment : BaseFragment(),
     }
 
     private fun setLightStatusBar() {
-        if (requireContext().isDarkMode()) {
+        if (requireContext().isDarkMode) {
             return
         }
         val color = requireContext().colorControlNormal()

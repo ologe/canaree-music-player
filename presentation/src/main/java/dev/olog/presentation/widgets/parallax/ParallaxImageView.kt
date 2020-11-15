@@ -6,19 +6,18 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.math.MathUtils.clamp
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.ForegroundImageView
 import kotlin.math.abs
 
 private const val DEFAULT_PARALLAX = .7f
 private const val MAX_ALPHA = 40 //.3f
 
 class ParallaxImageView(
-        context: Context,
-        attrs: AttributeSet? = null
-
-) : ForegroundImageView(context, attrs) {
+    context: Context,
+    attrs: AttributeSet
+) : AppCompatImageView(context, attrs) {
 
     private var scrimColor = Color.LTGRAY
     private val paint = Paint()

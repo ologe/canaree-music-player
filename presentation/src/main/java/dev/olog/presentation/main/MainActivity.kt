@@ -27,8 +27,8 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.android.theme.immersiveAmbient
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -55,14 +55,14 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (isImmersiveMode()){
+        if (immersiveAmbient.isEnabled) {
             // workaround, on some device on immersive mode bottom navigation disappears
             rootView.fitsSystemWindows = true
             slidingPanel.fitsSystemWindows = true
             bottomWrapper.fitsSystemWindows = true
         }
 
-        if (hasPlayerAppearance().isMini()){
+        if (playerAppearanceAmbient.isMini()){
             // TODO made a resource value
             slidingPanelFade.parallax = 0
             slidingPanel.setHeight(dip(300))

@@ -24,10 +24,6 @@ class AdaptiveColorImageViewPresenter(
     private val context: Context
 ) {
 
-    private val isDarkMode by lazy(LazyThreadSafetyMode.NONE) {
-        context.isDarkMode()
-    }
-
     private val defaultProcessorColors = ValidProcessorColors(
         context.colorBackground(),
         context.textColorPrimary(),
@@ -84,7 +80,7 @@ class AdaptiveColorImageViewPresenter(
     }
 
     private fun desaturate(color: Int): Int {
-        if (!isDarkMode){
+        if (!context.isDarkMode){
             return color
         }
 

@@ -16,7 +16,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.collect
@@ -56,8 +56,8 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
     )
 
     fun playerControls(): DisplayableItem {
-        val hasPlayerAppearance = context.hasPlayerAppearance()
-        val id = when (hasPlayerAppearance.playerAppearance()) {
+        val playerAppearanceAmbient = context.playerAppearanceAmbient
+        val id = when (playerAppearanceAmbient.value) {
             PlayerAppearance.DEFAULT -> R.layout.player_layout_default
             PlayerAppearance.FLAT -> R.layout.player_layout_flat
             PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify

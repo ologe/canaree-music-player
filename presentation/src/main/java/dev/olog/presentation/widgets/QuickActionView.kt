@@ -4,56 +4,49 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity
-import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
-import dev.olog.shared.lazyFast
-import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
+import dev.olog.shared.android.theme.quickActionAmbient
+import dev.olog.shared.exhaustive
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class QuickActionView (
-        context: Context,
-        attrs: AttributeSet
-
+    context: Context,
+    attrs: AttributeSet
 ) : AppCompatImageView(context, attrs),
     View.OnClickListener{
 
-    private var currentMediaId by Delegates.notNull<MediaId>()
-
-    private var job by autoDisposeJob()
-
-    private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
+    private lateinit var currentMediaId: MediaId
 
     init {
-        setImage()
         setBackgroundResource(R.drawable.background_quick_action)
     }
 
-    private fun setImage() {
-        val quickAction = hasQuickAction.getQuickAction()
-        toggleVisibility(quickAction != QuickAction.NONE, true)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (isInEditMode) {
+            return
+        }
+        setOnClickListener(this)
+        context.quickActionAmbient.flow
+            .onEach(this::setImage)
+            .launchIn(viewScope)
+    }
+
+    private fun setImage(quickAction: QuickAction) {
+        isVisible = quickAction != QuickAction.NONE
 
         when (quickAction) {
             QuickAction.NONE -> setImageDrawable(null)
             QuickAction.PLAY -> setImageResource(R.drawable.vd_play)
             QuickAction.SHUFFLE -> setImageResource(R.drawable.vd_shuffle)
-        }
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        setOnClickListener(this)
-        job = viewScope.launch {
-            for (type in hasQuickAction.observeQuickAction()) {
-                setImage()
-            }
-        }
+        }.exhaustive
     }
 
     override fun onDetachedFromWindow() {
@@ -67,7 +60,8 @@ class QuickActionView (
 
     override fun onClick(v: View?) {
         val mediaProvider = findActivity() as MediaProvider
-        when (hasQuickAction.getQuickAction()) {
+        val ambient = context.quickActionAmbient
+        when (ambient.value) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {

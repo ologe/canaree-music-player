@@ -3,6 +3,7 @@
 package dev.olog.shared.android.extensions
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.util.TypedValue
 import android.widget.Toast
@@ -78,9 +79,8 @@ inline fun Context.colorPrimaryId(): Int {
     return themeAttributeToResId(com.google.android.material.R.attr.colorPrimary)
 }
 
-inline fun Context.isDarkMode(): Boolean {
-    return resources.getBoolean(R.bool.is_dark_mode)
-}
+inline val Context.isDarkMode: Boolean
+    get() = configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
 inline fun Context.colorSwipeBackground(): Int {
     return themeAttributeToColor(R.attr.colorSwipeBackground)

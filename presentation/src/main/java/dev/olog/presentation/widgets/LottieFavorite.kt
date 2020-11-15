@@ -9,8 +9,8 @@ import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
 
 class LottieFavorite(
     context: Context,
@@ -25,9 +25,9 @@ class LottieFavorite(
 
     init {
         if (!isInEditMode){
-            val isDarkMode = context.isDarkMode()
-            val playerAppearance = context.hasPlayerAppearance()
-            var useWhiteIcon = playerAppearance.isFullscreen()
+            val isDarkMode = context.isDarkMode
+            val playerAppearanceAmbient = context.playerAppearanceAmbient
+            var useWhiteIcon = playerAppearanceAmbient.isFullscreen()
 
             useWhiteIcon = useWhiteIcon || isDarkMode
 

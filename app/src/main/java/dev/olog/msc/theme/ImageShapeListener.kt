@@ -4,31 +4,43 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
+import dev.olog.shared.ConflatedSharedFlow
 import dev.olog.shared.android.theme.ImageShape
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import dev.olog.shared.android.theme.ImageShapeAmbient
+import dev.olog.shared.value
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
-    @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(R.string.prefs_icon_shape_key)) {
+    @ApplicationContext private val context: Context,
+    private val prefs: SharedPreferences
+) : BaseThemeUpdater(
+    key = context.getString(R.string.prefs_icon_shape_key)
+), ImageShapeAmbient {
 
-    val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
-    fun imageShape() = imageShapePublisher.value
+    private val _publisher = ConflatedSharedFlow(fetchValue())
 
-    override fun onPrefsChanged() {
-        val imageShape = getValue()
-        imageShapePublisher.offer(imageShape)
+    init {
+        prefs.registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun getValue(): ImageShape {
+    override val value: ImageShape
+        get() = _publisher.value
+    override val flow: Flow<ImageShape>
+        get() = _publisher
+
+    override fun onPrefsChanged() {
+        _publisher.tryEmit(fetchValue())
+    }
+
+    private fun fetchValue(): ImageShape {
         val value = prefs.getString(key, context.getString(R.string.prefs_icon_shape_rounded))
 
         return when (value) {
             context.getString(R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
             context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
             context.getString(R.string.prefs_icon_shape_cut_corner) -> ImageShape.CUT_CORNER
-            else -> throw IllegalArgumentException("image shape not valid=$value")
+            else -> error("image shape not valid=$value")
         }
     }
 

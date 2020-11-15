@@ -17,6 +17,7 @@ class StatusBarView(
 ) : View(context, attrs) {
 
     companion object {
+        // TODO remove this
         // workaround: caching value because when changing page in bottom navigation view
         // setOnApplyWindowInsetsListener is not called
         var viewHeight = -1

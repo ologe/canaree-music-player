@@ -1,7 +1,9 @@
 package dev.olog.shared
 
+import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 
@@ -14,4 +16,11 @@ fun flowInterval(duration: Duration): Flow<Int> {
             emit(++tick)
         }
     }
+}
+
+@Suppress("FunctionName")
+fun<T> ConflatedSharedFlow(initialValue: T): MutableSharedFlow<T> {
+    val flow =  MutableSharedFlow<T>(replay = 1, onBufferOverflow = DROP_OLDEST)
+    flow.tryEmit(initialValue)
+    return flow
 }
