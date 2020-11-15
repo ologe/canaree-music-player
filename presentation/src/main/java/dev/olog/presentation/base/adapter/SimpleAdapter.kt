@@ -29,7 +29,7 @@ abstract class SimpleAdapter<T>(
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
-    fun getItem(position: Int): T? = dataSet[position]
+    fun getItem(position: Int): T = dataSet[position]
 
     fun updateDataSet(data: List<T>) {
         this.dataSet.clear()
