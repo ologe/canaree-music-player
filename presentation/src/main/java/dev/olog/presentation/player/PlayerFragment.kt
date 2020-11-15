@@ -48,7 +48,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
         val adapter = PlayerFragmentAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             mediaProvider = requireActivity().mediaProvider,
             navigator = navigator,
             viewModel = viewModel,
@@ -83,7 +82,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             }
             .assertBackground()
             .flowOn(Dispatchers.Default)
-            .onEach(adapter::updateDataSet)
+            .onEach(adapter::submitList)
             .launchIn(this)
     }
 

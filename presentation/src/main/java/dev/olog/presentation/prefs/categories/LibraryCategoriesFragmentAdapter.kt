@@ -51,7 +51,6 @@ class LibraryCategoriesFragmentAdapter (
             delay(200)
             dataSet.forEachIndexed { index, item -> item.order = index }
         }
-
         dataSet.swap(from, to)
         notifyItemMoved(from, to)
     }

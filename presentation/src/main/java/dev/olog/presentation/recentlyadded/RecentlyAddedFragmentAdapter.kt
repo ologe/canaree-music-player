@@ -1,6 +1,5 @@
 package dev.olog.presentation.recentlyadded
 
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -14,15 +13,11 @@ import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
-
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -54,7 +49,7 @@ class RecentlyAddedFragmentAdapter(
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
+        val item = getItem(viewHolder.adapterPosition)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 

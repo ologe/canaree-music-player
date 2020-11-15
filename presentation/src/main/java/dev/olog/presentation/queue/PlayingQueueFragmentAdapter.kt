@@ -1,7 +1,6 @@
 package dev.olog.presentation.queue
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
@@ -14,20 +13,17 @@ import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.swap
+import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
 
-) : ObservableAdapter<DisplayableQueueSong>(
-    lifecycle,
-    DiffCallbackPlayingQueue
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue),
+    TouchableAdapter {
 
     private val moves = mutableListOf<Pair<Int, Int>>()
 
@@ -74,7 +70,7 @@ class PlayingQueueFragmentAdapter(
                 when (currentPayload) {
                     is Boolean -> BindingsAdapter.setBoldIfTrue(holder.itemView.firstText, currentPayload)
                     is String -> {
-                        val item = getItem(position)!!
+                        val item = getItem(position)
                         val textColor = calculateTextColor(
                             holder.itemView.context,
                             item.relativePosition
@@ -95,9 +91,9 @@ class PlayingQueueFragmentAdapter(
 
     override fun onMoved(from: Int, to: Int) {
         mediaProvider.swap(from, to)
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
         moves.add(from to to)
+
+        submitList(currentList.swapped(from, to))
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
@@ -106,9 +102,11 @@ class PlayingQueueFragmentAdapter(
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
         viewModel.recalculatePositionsAfterRemove(position)
+
+        val newList = currentList.toMutableList()
+        newList.removeAt(position)
+        submitList(newList)
     }
 
     override fun onClearView() {

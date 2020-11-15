@@ -40,7 +40,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
 
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(viewLifecycleOwner.lifecycle, viewModel)
+        CreatePlaylistFragmentAdapter(viewModel)
     }
 
     private var toast: Toast? = null
@@ -66,15 +66,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         viewModel.observeData()
             .onEach {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
                 sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
+                emptyStateText.toggleVisibility(it.isEmpty(), true)
             }.launchIn(this)
-
-        adapter.observeData(false)
-            .filter { it.isNotEmpty() }
-            .onEach { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-            .launchIn(this)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 

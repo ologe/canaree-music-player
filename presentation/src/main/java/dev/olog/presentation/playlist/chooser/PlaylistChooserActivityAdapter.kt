@@ -15,11 +15,7 @@ import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity
-
-) : ObservableAdapter<DisplayableItem>(
-    activity.lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

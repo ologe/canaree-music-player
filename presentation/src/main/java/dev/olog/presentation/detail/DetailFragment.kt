@@ -58,27 +58,26 @@ class DetailFragment : BaseFragment(),
     private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity().mediaProvider)
+        DetailMostPlayedAdapter(navigator, requireActivity().mediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity().mediaProvider)
+        DetailRecentlyAddedAdapter(navigator, requireActivity().mediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(viewLifecycleOwner.lifecycle, navigator)
+        DetailRelatedArtistsAdapter(navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(viewLifecycleOwner.lifecycle, navigator)
+        DetailSiblingsAdapter(navigator)
     }
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            mediaId,
-            this,
-            navigator,
-            requireActivity().mediaProvider,
-            viewModel,
-            this
+            mediaId = mediaId,
+            setupNestedList = this,
+            navigator = navigator,
+            mediaProvider = requireActivity().mediaProvider,
+            viewModel = viewModel,
+            dragListener = this
         )
     }
 
@@ -111,19 +110,19 @@ class DetailFragment : BaseFragment(),
         fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
-            .onEach(mostPlayedAdapter::updateDataSet)
+            .onEach(mostPlayedAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeRecentlyAdded()
-            .onEach(recentlyAddedAdapter::updateDataSet)
+            .onEach(recentlyAddedAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeRelatedArtists()
-            .onEach(relatedArtistAdapter::updateDataSet)
+            .onEach(relatedArtistAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeSiblings()
-            .onEach(albumsAdapter::updateDataSet)
+            .onEach(albumsAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeSongs()
@@ -131,7 +130,7 @@ class DetailFragment : BaseFragment(),
                 if (list.isEmpty()) {
                     requireActivity().onBackPressed()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                     restoreUpperWidgetsTranslation()
                 }
             }.launchIn(this)

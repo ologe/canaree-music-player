@@ -49,7 +49,6 @@ class SearchFragment : BaseFragment(),
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             setupNestedList = this,
             mediaProvider = requireActivity().mediaProvider,
             navigator = navigator,
@@ -58,28 +57,24 @@ class SearchFragment : BaseFragment(),
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             viewModel = viewModel
         )
     }
     private val artistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             viewModel = viewModel
         )
     }
     private val genreAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             viewModel = viewModel
         )
     }
     private val playlistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             viewModel = viewModel
         )
@@ -87,7 +82,6 @@ class SearchFragment : BaseFragment(),
 
     private val folderAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             viewModel = viewModel
         )
@@ -109,29 +103,29 @@ class SearchFragment : BaseFragment(),
 
         viewModel.observeData()
             .onEach {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
             }.launchIn(this)
 
         viewModel.observeAlbumsData()
-            .onEach(albumAdapter::updateDataSet)
+            .onEach(albumAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeArtistsData()
-            .onEach(artistAdapter::updateDataSet)
+            .onEach(artistAdapter::submitList)
             .launchIn(this)
 
         viewModel.observePlaylistsData()
-            .onEach(playlistAdapter::updateDataSet)
+            .onEach(playlistAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeFoldersData()
-            .onEach(folderAdapter::updateDataSet)
+            .onEach(folderAdapter::submitList)
             .launchIn(this)
 
         viewModel.observeGenresData()
-            .onEach(genreAdapter::updateDataSet)
+            .onEach(genreAdapter::submitList)
             .launchIn(this)
 
         editText.afterTextChange()

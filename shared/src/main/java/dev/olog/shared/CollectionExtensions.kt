@@ -4,11 +4,21 @@ package dev.olog.shared
 
 import java.util.*
 
-fun <T> List<T>.swap(i: Int, j: Int): List<T> {
+fun <T> List<T>.swapped(i: Int, j: Int): List<T> {
+    if (isInBounds(i) && isInBounds(j)){
+        val copy = toMutableList()
+        Collections.swap(copy, i, j)
+        return copy
+    }
+    error("invalid swap from $i to $j, list has $size items")
+}
+
+fun <T> MutableList<T>.swap(i: Int, j: Int) {
     if (isInBounds(i) && isInBounds(j)){
         Collections.swap(this, i, j)
+    } else {
+        error("invalid swap from $i to $j, list has $size items")
     }
-    return this
 }
 
 fun <T> List<T>.isInBounds(index: Int): Boolean {

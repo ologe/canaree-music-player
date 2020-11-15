@@ -1,6 +1,5 @@
 package dev.olog.presentation.tab.adapter
 
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
@@ -21,16 +20,12 @@ import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.android.synthetic.main.item_tab_song.view.*
 
 internal class TabFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: TabFragmentViewModel,
     private val setupNestedList: SetupNestedList
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

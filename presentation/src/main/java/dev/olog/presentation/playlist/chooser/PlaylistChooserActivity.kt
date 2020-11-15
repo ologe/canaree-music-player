@@ -30,7 +30,7 @@ class PlaylistChooserActivity : BaseActivity() {
                     toast("No playlist found")
                     finish()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                 }
             }.launchIn(lifecycleScope)
 

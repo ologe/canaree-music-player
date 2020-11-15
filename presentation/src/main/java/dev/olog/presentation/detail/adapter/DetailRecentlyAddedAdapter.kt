@@ -1,6 +1,5 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -13,13 +12,10 @@ import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.*
 
 class DetailRecentlyAddedAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

@@ -79,13 +79,12 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
         withContext(Dispatchers.IO) {
-            var trackList = playlistDao.getPlaylistTracksImpl(playlistId)
+            val trackList = playlistDao.getPlaylistTracksImpl(playlistId).toMutableList()
             for ((from, to) in moveList) {
                 trackList.swap(from, to)
             }
-            trackList =
-                trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
-            playlistDao.updateTrackList(trackList)
+            val result = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+            playlistDao.updateTrackList(result)
         }
 
     override suspend fun removeDuplicated(playlistId: Long) {

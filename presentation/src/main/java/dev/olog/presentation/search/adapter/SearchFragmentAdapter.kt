@@ -1,6 +1,5 @@
 package dev.olog.presentation.search.adapter
 
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -20,16 +19,13 @@ import kotlinx.android.synthetic.main.item_search_header.view.*
 import kotlinx.android.synthetic.main.item_search_recent.view.*
 
 class SearchFragmentAdapter(
-    lifecycle: Lifecycle,
     private val setupNestedList: SetupNestedList,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -132,7 +128,7 @@ class SearchFragmentAdapter(
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
-        val item = getItem(position)!!
+        val item = getItem(position)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 

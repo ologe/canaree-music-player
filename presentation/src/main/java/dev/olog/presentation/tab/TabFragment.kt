@@ -56,28 +56,16 @@ class TabFragment : BaseFragment(), SetupNestedList {
     lateinit var navigator: Navigator
 
     private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
-            navigator = navigator
-        )
+        TabFragmentNestedAdapter(navigator)
     }
     private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
-            navigator = navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
     private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
-            navigator = navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
     private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
-            navigator = navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
 
     // TODO check if is needed to keep vm on activity
@@ -87,7 +75,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     private val adapter by lazyFast {
         TabFragmentAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             mediaProvider = requireActivity().mediaProvider,
             viewModel = viewModel,
@@ -141,7 +128,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         viewModel.observeData(category)
             .onEach { list ->
                 handleEmptyStateVisibility(list.isEmpty())
-                adapter.updateDataSet(list)
+                adapter.submitList(list)
                 sidebar.onDataChanged(list)
             }.launchIn(this)
 
@@ -158,34 +145,34 @@ class TabFragment : BaseFragment(), SetupNestedList {
         when (category) {
             TabCategory.ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                    .onEach(lastAlbumsAdapter::updateDataSet)
+                    .onEach(lastAlbumsAdapter::submitList)
                     .launchIn(this)
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                    .onEach(newAlbumsAdapter::updateDataSet)
+                    .onEach(newAlbumsAdapter::submitList)
                     .launchIn(this)
             }
             TabCategory.ARTISTS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                    .onEach(lastArtistsAdapter::updateDataSet)
+                    .onEach(lastArtistsAdapter::submitList)
                     .launchIn(this)
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                    .onEach(newArtistsAdapter::updateDataSet)
+                    .onEach(newArtistsAdapter::submitList)
                     .launchIn(this)
             }
             TabCategory.PODCASTS_ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                    .onEach(lastAlbumsAdapter::updateDataSet)
+                    .onEach(lastAlbumsAdapter::submitList)
                     .launchIn(this)
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                    .onEach(newAlbumsAdapter::updateDataSet)
+                    .onEach(newAlbumsAdapter::submitList)
                     .launchIn(this)
             }
             TabCategory.PODCASTS_ARTISTS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                    .onEach(lastArtistsAdapter::updateDataSet)
+                    .onEach(lastArtistsAdapter::submitList)
                     .launchIn(this)
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                    .onEach(newArtistsAdapter::updateDataSet)
+                    .onEach(newArtistsAdapter::submitList)
                     .launchIn(this)
             }
             else -> {/*making lint happy*/

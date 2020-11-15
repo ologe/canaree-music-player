@@ -3,7 +3,6 @@ package dev.olog.presentation.detail.adapter
 
 import android.annotation.SuppressLint
 import androidx.core.text.parseAsHtml
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
-import dev.olog.shared.swap
+import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
@@ -40,18 +39,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 internal class DetailFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaId: MediaId,
     private val setupNestedList: SetupNestedList,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle, DiffCallbackDetailDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDetailDisplayableItem),
+    TouchableAdapter {
 
-    private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
+    private val headersIndex: Int
+        get() = currentList.indexOfFirst { it is DisplayableTrack }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -135,7 +133,7 @@ internal class DetailFragmentAdapter(
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
-                adapter.observeData(false)
+                adapter.observeData()
                     .onEach { updateNestedSpanCount(layoutManager, it.size) }
                     .launchIn(holder.coroutineScope)
             }
@@ -263,19 +261,21 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onMoved(from: Int, to: Int) {
-        val realFrom = from - headers
-        val realTo = to - headers
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
+        val realFrom = from - headersIndex
+        val realTo = to - headersIndex
         viewModel.addMove(realFrom, realTo)
+
+        submitList(currentList.swapped(from, to))
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
-        viewModel.removeFromPlaylist(item!!)
+
+        val newList = currentList.toMutableList()
+        newList.removeAt(position)
+        submitList(newList)
+        viewModel.removeFromPlaylist(item)
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
@@ -283,7 +283,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
+        val item = getItem(viewHolder.adapterPosition)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 

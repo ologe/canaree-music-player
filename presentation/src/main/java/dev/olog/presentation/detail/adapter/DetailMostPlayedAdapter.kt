@@ -1,6 +1,5 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -11,14 +10,9 @@ import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 class DetailMostPlayedAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
-
-) : ObservableAdapter<DisplayableTrack>(
-    lifecycle,
-    DiffCallbackMostPlayed
-) {
+) : ObservableAdapter<DisplayableTrack>(DiffCallbackMostPlayed) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

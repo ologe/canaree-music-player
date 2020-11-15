@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
@@ -31,7 +30,7 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.playerAppearanceAmbient
-import dev.olog.shared.swap
+import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
@@ -40,7 +39,6 @@ import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.coroutines.flow.*
 
 internal class PlayerFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
@@ -48,10 +46,8 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -376,8 +372,8 @@ internal class PlayerFragmentAdapter(
         val realFrom = from - 1
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
+
+        submitList(currentList.swapped(from, to))
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
@@ -386,8 +382,9 @@ internal class PlayerFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        dataSet.removeAt(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
+        val newList = currentList.toMutableList()
+        newList.removeAt(viewHolder.adapterPosition)
+        submitList(newList)
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

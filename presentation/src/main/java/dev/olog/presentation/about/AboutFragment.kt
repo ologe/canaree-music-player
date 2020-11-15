@@ -27,7 +27,7 @@ class AboutFragment : BaseFragment() {
     private val viewModel by viewModels<AboutFragmentPresenter>()
 
     private val adapter by lazyFast {
-        AboutFragmentAdapter(viewLifecycleOwner.lifecycle, navigator)
+        AboutFragmentAdapter(navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class AboutFragment : BaseFragment() {
         list.adapter = adapter
 
         viewModel.data
-            .onEach(adapter::updateDataSet)
+            .onEach(adapter::submitList)
             .launchIn(this)
     }
 

@@ -44,7 +44,6 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             mediaProvider = requireActivity().mediaProvider,
             navigator = navigator,
             dragListener = this,
@@ -64,12 +63,12 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
         viewModel.observeData()
             .onEach {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
             }.launchIn(this)
 
         launch {
-            adapter.observeData(false)
+            adapter.observeData()
                 .take(1)
                 .map {
                     val idInPlaylist = viewModel.getLastIdInPlaylist()

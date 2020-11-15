@@ -39,10 +39,9 @@ class FolderTreeFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            viewModel,
-            requireActivity().mediaProvider,
-            navigator
+            viewModel = viewModel,
+            mediaProvider = requireActivity().mediaProvider,
+            navigator = navigator
         )
         fab.shrink()
 
@@ -58,7 +57,7 @@ class FolderTreeFragment : BaseFragment(),
             .launchIn(this)
 
         viewModel.observeChildren()
-            .onEach(adapter::updateDataSet)
+            .onEach(adapter::submitList)
             .launchIn(this)
 
         viewModel.observeCurrentFolderIsDefaultFolder()

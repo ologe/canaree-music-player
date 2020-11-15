@@ -38,7 +38,6 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
             mediaProvider = requireActivity().mediaProvider,
             dragListener = this
@@ -55,7 +54,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
-            .onEach(adapter::updateDataSet)
+            .onEach(adapter::submitList)
             .launchIn(this)
 
         viewModel.observeTitle()

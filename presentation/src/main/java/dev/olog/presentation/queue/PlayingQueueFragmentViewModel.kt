@@ -62,7 +62,7 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
      */
     fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) {
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queuePublisher.value
+            val currentList = queuePublisher.value.toMutableList()
             for ((from, to) in moves) {
                 currentList.swap(from, to)
             }

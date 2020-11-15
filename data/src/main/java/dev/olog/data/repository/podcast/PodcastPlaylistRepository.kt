@@ -23,7 +23,11 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
@@ -198,14 +202,16 @@ internal class PodcastPlaylistRepository @Inject constructor(
             }
     }
 
-    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
-        kotlinx.coroutines.withContext(Dispatchers.IO) {
-            var trackList = podcastPlaylistDao.getPlaylistTracksImpl(playlistId)
-            for ((from, to) in moveList) {
-                trackList.swap(from, to)
-            }
-            trackList = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
-            podcastPlaylistDao.updateTrackList(trackList)
+    override suspend fun moveItem(
+        playlistId: Long,
+        moveList: List<Pair<Int, Int>>
+    ) = withContext(Dispatchers.IO) {
+        val trackList = podcastPlaylistDao.getPlaylistTracksImpl(playlistId).toMutableList()
+        for ((from, to) in moveList) {
+            trackList.swap(from, to)
         }
+        val result = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+        podcastPlaylistDao.updateTrackList(result)
+    }
 
 }
