@@ -7,6 +7,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.*
@@ -66,8 +67,8 @@ internal class TouchHelperAnimationController {
             val backgroundColor = it.context.colorSwipeBackground()
             it.setBackgroundColor(backgroundColor)
         }
-        delete?.toggleVisibility(dx > 0, false)
-        playNext?.toggleVisibility(dx < 0, false)
+        delete?.isInvisible = dx <= 0
+        playNext?.isInvisible = dx >= 0
     }
 
     fun drawCircularReveal(

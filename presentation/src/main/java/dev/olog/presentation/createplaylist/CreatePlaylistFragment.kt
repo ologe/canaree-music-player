@@ -3,6 +3,7 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +63,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     )
                 }
                 header.text = text
-                fab.toggleVisibility(size > 0, false)
+                fab.isInvisible = size <= 0
             }.launchIn(this)
 
         viewModel.observeData()
