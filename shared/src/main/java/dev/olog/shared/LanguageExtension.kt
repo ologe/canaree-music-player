@@ -7,11 +7,6 @@ inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThre
     operation()
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun throwNotHandled(message: String): Nothing {
-    throw IllegalStateException("state not handled $message")
-}
-
 /**
  * Helper to force a when statement to assert all options are matched in a when statement.
  *

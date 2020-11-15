@@ -6,15 +6,14 @@ import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import dagger.hilt.android.scopes.ServiceScoped
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 @ServiceScoped
@@ -118,7 +117,7 @@ internal class MusicServicePlaybackState @Inject constructor(
             SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
             SkipType.NONE,
             SkipType.RESTART,
-            SkipType.TRACK_ENDED -> throwNotHandled("skip type=$skipType")
+            SkipType.TRACK_ENDED -> error("skip type=$skipType")
         }
 
         builder.setState(state, 0, 1f)
