@@ -4,6 +4,7 @@ package dev.olog.presentation.detail.adapter
 import android.annotation.SuppressLint
 import android.text.Spanned
 import androidx.core.text.parseAsHtml
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,6 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_detail_biography.*
@@ -250,7 +250,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_image -> {
                 title.text = item.title
                 subtitle?.text = item.subtitle
-                seeMore?.toggleVisibility(item.visible, true)
+                seeMore?.isVisible = item.visible
             }
             R.layout.item_detail_header_all_song -> {
                 title.text = item.title

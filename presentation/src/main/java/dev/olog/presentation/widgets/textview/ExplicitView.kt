@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.textColorPrimary
-import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,12 +24,12 @@ class ExplicitView(
     }
 
     fun onItemChanged(title: String) {
-        toggleVisibility(visible = false, gone = true)
+        isVisible = false
 
         job = viewScope.launch(Dispatchers.Default) {
             val show = title.contains("explicit", ignoreCase = true)
             withContext(Dispatchers.Main) {
-                toggleVisibility(visible = show, gone = true)
+                isVisible = show
             }
         }
     }

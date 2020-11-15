@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -83,7 +84,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
-        emptyStateText.toggleVisibility(isEmpty, true)
+        emptyStateText.isVisible = isEmpty
         if (isEmpty) {
             if (isPodcastFragment()) {
                 val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
@@ -120,10 +121,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
         sidebar.scrollableLayoutId = scrollableLayoutId
 
-        fab.toggleVisibility(
-            category == TabCategory.PLAYLISTS ||
-                    category == TabCategory.PODCASTS_PLAYLIST, true
-        )
+        fab.isVisible = category in listOf(TabCategory.PLAYLISTS, TabCategory.PODCASTS_PLAYLIST)
 
         viewModel.observeData(category)
             .onEach { list ->

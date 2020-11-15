@@ -3,6 +3,7 @@ package dev.olog.presentation.search
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,6 @@ import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
 import dev.olog.shared.android.extensions.launchIn
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
@@ -104,7 +104,7 @@ class SearchFragment : BaseFragment(),
         viewModel.observeData()
             .onEach {
                 adapter.submitList(it)
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                emptyStateText.isVisible = it.isEmpty()
                 restoreUpperWidgetsTranslation()
             }.launchIn(this)
 

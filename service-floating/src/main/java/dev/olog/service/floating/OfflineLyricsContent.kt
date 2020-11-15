@@ -3,6 +3,7 @@ package dev.olog.service.floating
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
@@ -12,7 +13,6 @@ import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
@@ -71,7 +71,7 @@ class OfflineLyricsContent(
 
         presenter.observeLyrics()
             .onEach { (lyrics, type) ->
-                content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                content.emptyState.isVisible = lyrics.isEmpty()
                 content.text.text = lyrics
 
                 content.text.doOnPreDraw {

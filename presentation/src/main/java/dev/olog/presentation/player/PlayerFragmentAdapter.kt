@@ -2,6 +2,7 @@ package dev.olog.presentation.player
 
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,6 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.findActivity
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_mini_queue.*
@@ -268,7 +268,7 @@ internal class PlayerFragmentAdapter(
                     && !playerAppearanceAmbient.isBigImage()
             }
             .onEach { visible ->
-                playerControls?.player?.toggleVisibility(visible, true)
+                playerControls?.player?.isVisible = visible
             }.launchIn(coroutineScope)
 
 
@@ -305,8 +305,7 @@ internal class PlayerFragmentAdapter(
         duration.text = readableDuration
         seekBar.max = metadata.duration.toInt()
 
-        val isPodcast = metadata.isPodcast
-        playerControls.podcast_controls.toggleVisibility(isPodcast, true)
+        playerControls.podcast_controls.isVisible = metadata.isPodcast
     }
 
     private fun LayoutContainerViewHolder.updateImage(metadata: PlayerMetadata) {

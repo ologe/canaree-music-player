@@ -199,7 +199,7 @@ class DetailFragment : BaseFragment(),
             navigator.toDialog(viewModel.parentMediaId, more)
         }
         filter.setOnClickListener {
-            searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
+            searchWrapper.isVisible = !searchWrapper.isVisible
         }
     }
 

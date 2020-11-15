@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
@@ -75,7 +76,7 @@ class LibraryFragment : BaseFragment() {
         viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count)
         viewPager.offscreenPageLimit = 5
 
-        pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
+        pagerEmptyState.isVisible = pagerAdapter.isEmpty()
 
         val selectedView: TextView = if (!isPodcast) tracks else podcasts
         val unselectedView: TextView = if (!isPodcast) podcasts else tracks

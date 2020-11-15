@@ -2,6 +2,7 @@ package dev.olog.presentation.queue
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,6 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.launchIn
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +64,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         viewModel.observeData()
             .onEach {
                 adapter.submitList(it)
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                emptyStateText.isVisible = it.isEmpty()
             }.launchIn(this)
 
         launch {

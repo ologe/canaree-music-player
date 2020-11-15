@@ -3,6 +3,7 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +70,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 adapter.submitList(it)
                 sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                emptyStateText.isVisible = it.isEmpty()
             }.launchIn(this)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist

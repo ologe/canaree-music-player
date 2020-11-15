@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
@@ -86,7 +87,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         presenter.observeLyrics()
             .onEach { (lyrics, type) ->
-                emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                emptyState.isVisible = lyrics.isEmpty()
                 text.text = lyrics
 
                 text.doOnPreDraw {
