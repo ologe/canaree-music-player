@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -45,9 +45,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
 
-    private val mediaProvider by lazy { activity as MediaProvider }
-
-    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(requireContext()) { mediaProvider.playPause() } }
+    private val scrollViewTouchListener by lazyFast {
+        NoScrollTouchListener(requireContext()) { requireActivity().mediaProvider.playPause() }
+    }
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
@@ -65,7 +65,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
         }
 
-        mediaProvider.observeMetadata()
+        requireActivity().mediaProvider.observeMetadata()
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
@@ -77,7 +77,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }
 
 
-        mediaProvider.observePlaybackState()
+        requireActivity().mediaProvider.observePlaybackState()
             .subscribe(viewLifecycleOwner) {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
@@ -96,7 +96,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 }
             }
 
-        mediaProvider.observePlaybackState()
+        requireActivity().mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
             .subscribe(viewLifecycleOwner) { seekBar.onStateChanged(it) }
 
@@ -132,8 +132,12 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
         requireActivity().window.removeLightStatusBar()
 
-        fakeNext.setOnClickListener { mediaProvider.skipToNext() }
-        fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
+        fakeNext.setOnClickListener {
+            requireActivity().mediaProvider.skipToNext()
+        }
+        fakePrev.setOnClickListener {
+            requireActivity().mediaProvider.skipToPrevious()
+        }
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
@@ -152,7 +156,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
 
         seekBar.setListener(onStopTouch = {
-            mediaProvider.seekTo(seekBar.progress.toLong())
+            requireActivity().mediaProvider.seekTo(seekBar.progress.toLong())
             presenter.resetTick()
         }, onStartTouch = {
         }, onProgressChanged = {

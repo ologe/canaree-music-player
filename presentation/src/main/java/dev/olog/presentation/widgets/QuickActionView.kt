@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity
@@ -59,7 +59,7 @@ class QuickActionView (
     }
 
     override fun onClick(v: View?) {
-        val mediaProvider = findActivity() as MediaProvider
+        val mediaProvider = findActivity().mediaProvider
         val ambient = context.quickActionAmbient
         when (ambient.value) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)

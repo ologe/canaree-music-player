@@ -6,19 +6,17 @@ import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.model.PlayerState
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -32,8 +30,6 @@ class MiniPlayerFragment : BaseFragment(){
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
@@ -42,7 +38,7 @@ class MiniPlayerFragment : BaseFragment(){
         title.text = lastMetadata.title
         artist.text = lastMetadata.subtitle
 
-        media.observeMetadata()
+        requireActivity().mediaProvider.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.title
                     presenter.startShowingLeftTime(it.isPodcast, it.duration)
@@ -52,7 +48,7 @@ class MiniPlayerFragment : BaseFragment(){
                     updateProgressBarMax(it.duration)
                 }
 
-        media.observePlaybackState()
+        requireActivity().mediaProvider.observePlaybackState()
                 .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
@@ -64,7 +60,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .collect { artist.text = it }
         }
 
-        media.observePlaybackState()
+        requireActivity().mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
@@ -76,7 +72,7 @@ class MiniPlayerFragment : BaseFragment(){
                 }
             }
 
-        media.observePlaybackState()
+        requireActivity().mediaProvider.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
             .subscribe(viewLifecycleOwner, this::animateSkipTo)
@@ -97,9 +93,15 @@ class MiniPlayerFragment : BaseFragment(){
         getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
         requireView().setOnClickListener { getSlidingPanel()?.expand() }
         requireView().toggleVisibility(!getSlidingPanel().isExpanded(), true)
-        next.setOnClickListener { media.skipToNext() }
-        playPause.setOnClickListener { media.playPause() }
-        previous.setOnClickListener { media.skipToPrevious() }
+        next.setOnClickListener {
+            requireActivity().mediaProvider.skipToNext()
+        }
+        playPause.setOnClickListener {
+            requireActivity().mediaProvider.playPause()
+        }
+        previous.setOnClickListener {
+            requireActivity().mediaProvider.skipToPrevious()
+        }
     }
 
     override fun onPause() {

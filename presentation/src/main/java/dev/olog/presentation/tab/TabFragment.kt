@@ -15,7 +15,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -89,7 +89,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         TabFragmentAdapter(
             lifecycle = viewLifecycleOwner.lifecycle,
             navigator = navigator,
-            mediaProvider = requireActivity() as MediaProvider,
+            mediaProvider = requireActivity().mediaProvider,
             viewModel = viewModel,
             setupNestedList = this
         )

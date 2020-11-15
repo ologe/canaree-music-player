@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -57,10 +57,10 @@ class DetailFragment : BaseFragment(),
     private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity() as MediaProvider)
+        DetailMostPlayedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity().mediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity() as MediaProvider)
+        DetailRecentlyAddedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity().mediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(viewLifecycleOwner.lifecycle, navigator)
@@ -75,7 +75,7 @@ class DetailFragment : BaseFragment(),
             mediaId,
             this,
             navigator,
-            requireActivity() as MediaProvider,
+            requireActivity().mediaProvider,
             viewModel,
             this
         )

@@ -8,25 +8,20 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class ArtistPopupListener @Inject constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val navigator: Navigator,
-    private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
-
-    private val activityRef = WeakReference(activity)
-
 
     private lateinit var artist: Artist
     private var song: Song? = null
@@ -46,8 +41,6 @@ class ArtistPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), artist.songs, artist.name)
@@ -84,11 +77,11 @@ class ArtistPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        mediaProvider.playFromMediaId(getMediaId(), null, null)
+        activity.mediaProvider.playFromMediaId(getMediaId(), null, null)
     }
 
     private fun playShuffle() {
-        mediaProvider.shuffle(getMediaId(), null)
+        activity.mediaProvider.shuffle(getMediaId(), null)
     }
 
     private fun playLater() {

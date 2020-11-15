@@ -14,7 +14,6 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
-import kotlinx.android.synthetic.main.item_search_album.view.cover
 import kotlinx.android.synthetic.main.item_search_album.view.firstText
 import kotlinx.android.synthetic.main.item_search_album.view.secondText
 import kotlinx.android.synthetic.main.item_search_header.view.*
