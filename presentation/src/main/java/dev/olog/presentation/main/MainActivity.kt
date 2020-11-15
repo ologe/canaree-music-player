@@ -184,6 +184,10 @@ class MainActivity : MusicGlueActivity(),
         val categoriesFragment =
             supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
 
+        if (!categoriesFragment.isVisible || categoriesFragment.view == null) {
+            return false
+        }
+
         if (categoriesFragment.isCurrentFragmentFolderTree()){
             val folderTree = categoriesFragment.childFragmentManager.fragments
                 .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
