@@ -39,13 +39,20 @@ internal class QueueManager @Inject constructor(
 
 ) : IQueue {
 
+    private fun findPosition(queue: List<MediaEntity>, predicate: (MediaEntity) -> Boolean): Int {
+        if (queue.isEmpty()) {
+            return 0
+        }
+        return queue.indexOfFirst(predicate).coerceIn(0, queue.lastIndex)
+    }
+
     override fun prepare(): PlayerMediaEntity? {
         assertMainThread()
 
         val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
 
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
-        val currentPosition = playingQueue.indexOfFirst { it.idInPlaylist == lastPlayedId }.coerceIn(0, playingQueue.lastIndex)
+        val currentPosition = findPosition(playingQueue) { it.idInPlaylist == lastPlayedId }
 
         val result = playingQueue.getOrNull(currentPosition) ?: return null
 
