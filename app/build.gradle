@@ -81,6 +81,8 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
+    implementation project(':libraries:lib-network')
+
     implementation lib_core.coroutines
 
     // google architecture components

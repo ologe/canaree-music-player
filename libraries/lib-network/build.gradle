@@ -1,6 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'dagger.hilt.android.plugin'
+
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':shared')
 
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
+    implementation lib_x.core
+
+    implementation lib_network.ok_http
+    implementation lib_network.ok_http_interceptor
+    implementation lib_network.retrofit
+    implementation lib_network.gson
 }
