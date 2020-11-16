@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import me.saket.cascade.CascadePopupMenu
 
 @AndroidEntryPoint
 internal class EqualizerFragment : BaseBottomSheetFragment() {
@@ -143,7 +144,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
             val presets = withContext(Dispatchers.IO) {
                 presenter.getPresets()
             }
-            val popup = PopupMenu(requireContext(), presetSpinner)
+            val popup = CascadePopupMenu(requireContext(), presetSpinner)
             popup.inflate(R.menu.empty)
             for (preset in presets) {
                 popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)

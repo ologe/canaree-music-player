@@ -18,7 +18,6 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="popupMenuStyle">@style/MaterialPopupMenu</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorBackgroundTransparent">@color/colorBackgroundTransparent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -194,11 +193,6 @@
 
     <style name="ChipTextAppearance" parent="TextAppearance.AppCompat.Body2">
         <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="MaterialPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:popupBackground">@drawable/popup_menu_background</item>
-        <item name="overlapAnchor">true</item>
     </style>
 
 </resources>

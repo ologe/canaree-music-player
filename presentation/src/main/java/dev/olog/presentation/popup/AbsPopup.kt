@@ -4,17 +4,15 @@ import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
-import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.entity.track.Playlist
 import dev.olog.presentation.R
+import me.saket.cascade.CascadePopupMenu
 
 abstract class AbsPopup(
-        view: View
-
-) : PopupMenu(view.context, view) {
+    view: View
+) : CascadePopupMenu(view.context, view) {
 
     companion object {
         const val NEW_PLAYLIST_ID = Int.MIN_VALUE

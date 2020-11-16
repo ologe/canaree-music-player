@@ -65,6 +65,7 @@ dependencies {
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view
+    implementation lib_ui.cascade_popup
 
     implementation lib_ui.dialogs_core
     implementation lib_ui.dialogs_color

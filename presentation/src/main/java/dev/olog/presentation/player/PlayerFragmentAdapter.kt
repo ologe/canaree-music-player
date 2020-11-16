@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.player_toolbar_default.lyrics
 import kotlinx.android.synthetic.main.player_toolbar_default.playbackSpeed
 import kotlinx.android.synthetic.main.player_toolbar_default.volume
 import kotlinx.coroutines.flow.*
+import me.saket.cascade.CascadePopupMenu
 
 internal class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
@@ -314,7 +315,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun openPlaybackSpeedPopup(view: View) {
-        val popup = PopupMenu(view.context, view)
+        val popup = CascadePopupMenu(view.context, view)
         popup.inflate(R.menu.dialog_playback_speed)
         popup.menu.getItem(viewModel.getPlaybackSpeed()).isChecked = true
         popup.setOnMenuItemClickListener {

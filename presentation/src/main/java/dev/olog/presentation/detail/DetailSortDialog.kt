@@ -1,20 +1,19 @@
 package dev.olog.presentation.detail
 
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
-import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
 import dev.olog.presentation.R
+import me.saket.cascade.CascadePopupMenu
 
 class DetailSortDialog {
 
     fun show(view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
         val context = view.context
-        val popup = PopupMenu(context, view)
+        val popup = CascadePopupMenu(context, view)
         popup.inflate(getLayout(mediaId))
 
         setChecked(popup.menu, sortType)

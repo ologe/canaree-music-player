@@ -30,6 +30,7 @@ ext {
     blur_kit = '1.0.0'
     color_desaturation = '1.0.2'
     tap_target_view = '2.0.0'
+    cascade_popup = '1.1.0'
 
 //    data
     room = '2.2.5'
@@ -59,13 +60,13 @@ ext {
     ]
 
     lib_core = [
-        hilt                    : "com.google.dagger:hilt-android:$dagger_hilt",
-        hilt_processor          : "com.google.dagger:hilt-android-compiler:$dagger_hilt",
-        hilt_vm                 : "androidx.hilt:hilt-lifecycle-viewmodel:$dagger_hilt_vm",
-        hilt_vm_processor       : "androidx.hilt:hilt-compiler:$dagger_hilt_vm",
-        coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
-        coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-        coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
+        hilt              : "com.google.dagger:hilt-android:$dagger_hilt",
+        hilt_processor    : "com.google.dagger:hilt-android-compiler:$dagger_hilt",
+        hilt_vm           : "androidx.hilt:hilt-lifecycle-viewmodel:$dagger_hilt_vm",
+        hilt_vm_processor : "androidx.hilt:hilt-compiler:$dagger_hilt_vm",
+        coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+        coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+        coroutines_test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
     ]
 
     lib_x = [
@@ -100,7 +101,8 @@ ext {
         dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
         dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
         color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",
-        tap_target_view         : "com.github.ologe:taptargetview:$tap_target_view"
+        tap_target_view         : "com.github.ologe:taptargetview:$tap_target_view",
+        cascade_popup           : "me.saket.cascade:cascade:$cascade_popup",
     ]
 
     lib_data = [

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.PopupMenu
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -20,6 +19,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
 import dev.olog.shared.android.extensions.findActivity
+import me.saket.cascade.CascadePopupMenu
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
@@ -40,7 +40,7 @@ internal class MainPopupDialog @Inject constructor(
      *                 valid category when form tab
      */
     fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
-        val popup = PopupMenu(anchor.context, anchor)
+        val popup = CascadePopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
             MediaIdCategory.ALBUMS -> R.menu.main_albums
             MediaIdCategory.SONGS -> R.menu.main_songs
