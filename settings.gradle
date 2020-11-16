@@ -1,4 +1,31 @@
-include ':app', ':domain', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
+include ':app'
+
+include ':domain'
+include ':presentation'
+include ':data'
+include ':app-shortcuts'
+
+// services
+include ':service-music'
+include ':service-floating'
+
+//libs
+include ':equalizer'
+include ':analytics'
+include ':offline-lyrics'
+include ':media'
+include ':jaudiotagger'
+include ':image-provider'
+
+// shared
+include ':prefs-keys'
+include ':intents'
+include ':shared'
+include ':shared-android'
+include ':shared-widgets'
+
+// test
+include ':test-shared'
 
 // TODO restore
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
