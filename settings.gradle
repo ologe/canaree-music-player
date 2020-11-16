@@ -10,6 +10,7 @@ include ':service-music'
 include ':service-floating'
 
 //libs
+include ':libraries:lib-network'
 include ':equalizer'
 include ':analytics'
 include ':offline-lyrics'
