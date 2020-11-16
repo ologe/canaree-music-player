@@ -2,7 +2,6 @@ package dev.olog.service.music.queue
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dev.olog.service.music.model.MediaEntity
@@ -21,7 +20,6 @@ internal class MediaSessionQueue @Inject constructor(
 ) {
 
     companion object {
-        private val TAG = "SM:${MediaSessionQueue::class.java.simpleName}"
         private const val DELAY = 1000L
     }
 
@@ -40,7 +38,6 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     private suspend fun publish(list: List<MediaEntity>) {
-        Log.v(TAG, "publish")
         val queue = list.map { it.toQueueItem() }
 
         withContext(Dispatchers.Main) {
@@ -49,12 +46,10 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     fun onNext(list: List<MediaEntity>) {
-        Log.v(TAG, "on next delayed")
         delayedChannel.offer(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
-        Log.v(TAG, "on next immediate")
         immediateChannel.offer(list)
     }
 

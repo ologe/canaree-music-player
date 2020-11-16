@@ -1,7 +1,6 @@
 package dev.olog.data.repository.lastfm
 
 import android.provider.MediaStore
-import android.util.Log
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
@@ -13,19 +12,19 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.api.deezer.DeezerArtistResponse
+import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
-import dev.olog.shared.TextUtils
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.networkCall
 import dev.olog.data.utils.safeNetworkCall
-import javax.inject.Inject
+import dev.olog.shared.TextUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import javax.inject.Inject
 
 // TODO refactor
 internal class ImageRetrieverRepository @Inject constructor(
@@ -40,27 +39,19 @@ internal class ImageRetrieverRepository @Inject constructor(
 
 ) : ImageRetrieverGateway {
 
-    companion object {
-        private val TAG = "D:${ImageRetrieverRepository::class.java.simpleName}"
-    }
-
     // track
     override suspend fun mustFetchTrack(trackId: Id): Boolean {
         assertBackgroundThread()
         val mustFetch = localTrack.mustFetch(trackId)
-        Log.v(TAG, "must fetch track id=$trackId -> $mustFetch")
         return mustFetch
     }
 
     override suspend fun getTrack(trackId: Id): LastFmTrack? = coroutineScope {
-        Log.v(TAG, "get track id=$trackId")
         assertBackgroundThread()
         val cached = localTrack.getCached(trackId)
         if (cached != null) {
-            Log.v(TAG, "found in cache id=$trackId")
             return@coroutineScope cached
         }
-        Log.v(TAG, "fetch id=$trackId")
 
         val song = songGateway.getByParam(trackId) ?: return@coroutineScope null
 
@@ -161,25 +152,20 @@ internal class ImageRetrieverRepository @Inject constructor(
     override suspend fun mustFetchAlbum(albumId: Id): Boolean {
         assertBackgroundThread()
         val mustFetch = localAlbum.mustFetch(albumId)
-        Log.v(TAG, "must fetch album id=$albumId -> $mustFetch")
         return mustFetch
     }
 
     override suspend fun getAlbum(albumId: Id): LastFmAlbum? = coroutineScope {
-        Log.v(TAG, "get album id=$albumId")
         assertBackgroundThread()
         val album = albumGateway.getByParam(albumId) ?: return@coroutineScope null
         if (album.hasSameNameAsFolder) {
-            Log.v(TAG, "id=$albumId has same name as folder, skip")
             return@coroutineScope null
         }
 
         val cached = localAlbum.getCached(albumId)
         if (cached != null) {
-            Log.v(TAG, "found in cache id=$album")
             return@coroutineScope cached
         }
-        Log.v(TAG, "fetch id=$albumId")
 
         val calls = listOf(
             async { fetchAlbumLastFm(album) },
@@ -264,19 +250,15 @@ internal class ImageRetrieverRepository @Inject constructor(
     override suspend fun mustFetchArtist(artistId: Id): Boolean {
         assertBackgroundThread()
         val mustFetch = localArtist.mustFetch(artistId)
-        Log.v(TAG, "must fetch artist id=$artistId -> $mustFetch")
         return mustFetch
     }
 
     override suspend fun getArtist(artistId: Id): LastFmArtist? = coroutineScope {
-        Log.v(TAG, "get artist id=$artistId")
         assertBackgroundThread()
         val cached = localArtist.getCached(artistId)
         if (cached != null) {
-            Log.v(TAG, "found in cache id=$artistId")
             return@coroutineScope cached
         }
-        Log.v(TAG, "fetch id=$artistId")
 
         val artist = artistGateway.getByParam(artistId) ?: return@coroutineScope null
 

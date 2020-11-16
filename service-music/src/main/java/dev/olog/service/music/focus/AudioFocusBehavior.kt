@@ -2,7 +2,6 @@ package dev.olog.service.music.focus
 
 import android.app.Service
 import android.media.AudioManager
-import android.util.Log
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
@@ -22,10 +21,6 @@ internal class AudioFocusBehavior @Inject constructor(
 
 ) : AudioManager.OnAudioFocusChangeListener {
 
-    companion object {
-        private val TAG = "SM:${AudioFocusBehavior::class.java.simpleName}"
-    }
-
     private val audioManager = service.systemService<AudioManager>()
 
     private val focusRequest by lazyFast { buildFocusRequest() }
@@ -42,13 +37,10 @@ internal class AudioFocusBehavior @Inject constructor(
             else -> throw IllegalStateException("audio focus response not handle with code $focus")
         }
 
-        return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED).also {
-            Log.v(TAG, "request focus, granted=$it")
-        }
+        return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
     }
 
     fun abandonFocus() {
-        Log.v(TAG, "release focus")
         assertMainThread()
 
         currentFocus = FocusState.NONE
@@ -80,7 +72,6 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     private fun onAudioFocusChangeInternal(focus: AudioFocusType){
-        Log.v(TAG, "on focus=$focus")
         when (focus) {
             AudioFocusType.GAIN -> {
                 player.get().setVolume(this.volume.normal())
@@ -102,9 +93,7 @@ internal class AudioFocusBehavior @Inject constructor(
             AudioFocusType.LOSS_TRANSIENT_CAN_DUCK -> {
                 player.get().setVolume(this.volume.ducked())
             }
-            else -> {
-                Log.w(TAG, "not handled $focus")
-            }
+            else -> {}
         }
     }
 

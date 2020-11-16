@@ -1,13 +1,12 @@
 package dev.olog.shared.widgets.playpause
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import dev.olog.shared.widgets.R
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
+import dev.olog.shared.widgets.R
 
 interface IPlayPauseBehavior {
 
@@ -17,10 +16,6 @@ interface IPlayPauseBehavior {
 
 class PlayPauseBehaviorImpl(private val button: ImageButton):
     IPlayPauseBehavior {
-
-    companion object {
-        private val TAG = "P:${PlayPauseBehaviorImpl::class.java.simpleName}"
-    }
 
     private val context = button.context
 
@@ -35,7 +30,6 @@ class PlayPauseBehaviorImpl(private val button: ImageButton):
 
     override fun animationPlay(animate: Boolean) {
         val notSameDrawable = button.drawable !== pauseIcon
-        Log.v(TAG, "animation pause $animate, same drawable=${!notSameDrawable}")
 
         if (animate && notSameDrawable){
             setAvd(playAnimation)
@@ -46,7 +40,6 @@ class PlayPauseBehaviorImpl(private val button: ImageButton):
 
     override fun animationPause(animate: Boolean) {
         val notSameDrawable = button.drawable !== playIcon
-        Log.v(TAG, "animation pause $animate, same drawable=${!notSameDrawable}")
 
         if (animate && notSameDrawable){
             setAvd(pauseAnimation)

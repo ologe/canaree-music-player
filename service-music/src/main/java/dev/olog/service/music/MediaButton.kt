@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
@@ -18,7 +17,6 @@ internal class MediaButton @Inject internal constructor(
 ) {
 
     companion object {
-        private val TAG = "SM:${MediaButton::class.java.simpleName}"
         internal const val DELAY = 300L
         internal const val MAX_ALLOWED_CLICKS = 3
     }
@@ -28,7 +26,6 @@ internal class MediaButton @Inject internal constructor(
     private var job by autoDisposeJob()
 
     fun onHeatSetHookClick() {
-        Log.v(TAG, "onHeatSetHookClick")
         clicks++
 
         if (clicks <= MAX_ALLOWED_CLICKS) {
@@ -41,8 +38,6 @@ internal class MediaButton @Inject internal constructor(
     }
 
     private fun dispatchEvent(clicks: Int) {
-        Log.v(TAG, "dispatchEvent clicks=$clicks")
-
         when (clicks) {
             0 -> {
             }

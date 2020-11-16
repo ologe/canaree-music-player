@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
@@ -43,10 +42,6 @@ internal class CurrentSong @Inject constructor(
 
 ) : IPlayerLifecycle.Listener {
 
-    companion object {
-        private val TAG = "SM:${CurrentSong::class.java.simpleName}"
-    }
-
     private var isFavoriteJob by autoDisposeJob()
 
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
@@ -62,20 +57,15 @@ internal class CurrentSong @Inject constructor(
     }
 
     private suspend fun insertSong(entity: MediaEntity) {
-        Log.v(TAG, "on new item ${entity.title}")
         if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
-            Log.v(TAG, "insert last played artist ${entity.title}")
             insertLastPlayedArtistUseCase(entity.mediaId)
         } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
-            Log.v(TAG, "insert last played album ${entity.title}")
             insertLastPlayedAlbumUseCase(entity.mediaId)
         }
 
-        Log.v(TAG, "insert most played ${entity.title}")
         MediaId.playableItem(entity.mediaId, entity.id)
         insertMostPlayedUseCase(entity.mediaId)
 
-        Log.v(TAG, "insert to history ${entity.title}")
         insertHistorySongUseCase(
             InsertHistorySongUseCase.Input(
                 entity.id,
@@ -96,8 +86,6 @@ internal class CurrentSong @Inject constructor(
     }
 
     private fun updateFavorite(mediaEntity: MediaEntity) {
-        Log.v(TAG, "updateFavorite ${mediaEntity.title}")
-
         isFavoriteJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
             val isFavorite =
@@ -109,7 +97,6 @@ internal class CurrentSong @Inject constructor(
     }
 
     private fun saveLastMetadata(entity: MediaEntity) {
-        Log.v(TAG, "saveLastMetadata ${entity.title}")
         lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             musicPreferencesUseCase.setLastMetadata(
                 LastMetadata(

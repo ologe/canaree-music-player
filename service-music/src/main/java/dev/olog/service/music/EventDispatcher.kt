@@ -2,7 +2,6 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.media.AudioManager
-import android.util.Log
 import android.view.KeyEvent
 import dev.olog.shared.android.extensions.systemService
 import javax.inject.Inject
@@ -10,10 +9,6 @@ import javax.inject.Inject
 internal class EventDispatcher @Inject constructor(
     service: Service
 ) {
-
-    companion object {
-        private val TAG = "SM:${EventDispatcher::class.java.simpleName}"
-    }
 
     private val audioManager = service.systemService<AudioManager>()
 
@@ -28,8 +23,6 @@ internal class EventDispatcher @Inject constructor(
     }
 
     fun dispatchEvent(event: Event) {
-        Log.v(TAG, "dispatchEvent $event")
-
         val keycode = when (event) {
             Event.PLAY_PAUSE -> KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
             Event.PLAY -> KeyEvent.KEYCODE_MEDIA_PLAY

@@ -3,7 +3,6 @@ package dev.olog.service.music.notification
 import android.app.Notification
 import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -16,8 +15,8 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.utils.isOreo
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -35,7 +34,6 @@ internal class MusicNotificationManager @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     companion object {
-        private val TAG = "SM:${MusicNotificationManager::class.java.simpleName}"
         private const val METADATA_PUBLISH_DELAY = 350L
         private const val STATE_PUBLISH_DELAY = 100L
         private const val FAVORITE_PUBLISH_DELAY = 100L
@@ -83,8 +81,6 @@ internal class MusicNotificationManager @Inject constructor(
     }
 
     private suspend fun consumeEvent(event: Event){
-        Log.v(TAG, "on next event $event")
-
         publishJob = null
         when (event){
             is Event.Metadata -> {
@@ -108,7 +104,6 @@ internal class MusicNotificationManager @Inject constructor(
     private suspend fun publishNotification(state: MusicNotificationState, delay: Long) {
         require(currentState !== state) // to avoid concurrency problems a copy is passed
 
-        Log.v(TAG, "publish notification request with delay ${delay}ms, state=$state")
         if (!isForeground && isOreo()) {
             // oreo needs to post notification immediately after calling startForegroundService
             issueNotification(state)
@@ -122,7 +117,6 @@ internal class MusicNotificationManager @Inject constructor(
     }
 
     private suspend fun issueNotification(state: MusicNotificationState) {
-        Log.v(TAG, "issue notification")
         val notification = notificationImpl.update(state)
         if (state.isPlaying) {
             startForeground(notification)
@@ -137,26 +131,21 @@ internal class MusicNotificationManager @Inject constructor(
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
-        Log.v(TAG, "on next metadata=${metadata.title}")
         publisher.offer(Event.Metadata(metadata))
     }
 
     private fun onNextState(playbackState: PlaybackStateCompat) {
-        Log.v(TAG, "on next state")
         publisher.offer(Event.State(playbackState))
     }
 
     private fun onNextFavorite(isFavorite: Boolean) {
-        Log.v(TAG, "on next favorite $isFavorite")
         publisher.offer(Event.Favorite(isFavorite))
     }
 
     private fun stopForeground() {
         if (!isForeground) {
-            Log.w(TAG, "stop foreground request not not in foreground")
             return
         }
-        Log.v(TAG, "stop foreground")
 
         service.stopForeground(true)
         notificationImpl.cancel()
@@ -166,10 +155,8 @@ internal class MusicNotificationManager @Inject constructor(
 
     private fun pauseForeground() {
         if (!isForeground) {
-            Log.w(TAG, "pause foreground request not not in foreground")
             return
         }
-        Log.v(TAG, "pause foreground")
 
         // state paused
         service.stopForeground(false)
@@ -179,10 +166,8 @@ internal class MusicNotificationManager @Inject constructor(
 
     private fun startForeground(notification: Notification) {
         if (isForeground) {
-            Log.w(TAG, "start foreground request but already in foreground")
             return
         }
-        Log.v(TAG, "start foreground")
 
         service.startForeground(INotification.NOTIFICATION_ID, notification)
 
