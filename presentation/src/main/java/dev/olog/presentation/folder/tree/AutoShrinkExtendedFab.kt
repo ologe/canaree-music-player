@@ -3,7 +3,7 @@ package dev.olog.presentation.folder.tree
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

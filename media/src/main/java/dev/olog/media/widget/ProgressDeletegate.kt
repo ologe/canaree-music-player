@@ -2,7 +2,7 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.FlowInterval
 import kotlinx.coroutines.Dispatchers

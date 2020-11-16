@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.audio.AudioListener
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject

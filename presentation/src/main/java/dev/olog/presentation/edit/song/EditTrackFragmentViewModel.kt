@@ -10,7 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers

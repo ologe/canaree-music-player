@@ -2,12 +2,18 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation lib_core.coroutines
+
+    testImplementation lib_test.junit
+    testImplementation lib_core.coroutines_test
 }
 
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs += [
-                "-Xuse-experimental=kotlin.time.ExperimentalTime"
+            "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=kotlin.time.ExperimentalTime",
+            "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
         ]
     }
 }

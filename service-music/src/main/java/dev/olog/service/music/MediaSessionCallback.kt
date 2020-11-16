@@ -21,7 +21,7 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.Dispatchers

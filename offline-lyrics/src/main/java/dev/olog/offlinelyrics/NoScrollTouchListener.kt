@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

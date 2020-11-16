@@ -1,4 +1,4 @@
-package dev.olog.shared.android.coroutine
+package dev.olog.shared
 
 import kotlinx.coroutines.Job
 import kotlin.properties.ReadWriteProperty

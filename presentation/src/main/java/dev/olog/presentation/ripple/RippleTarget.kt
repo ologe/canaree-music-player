@@ -8,7 +8,7 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.utils.isMarshmallow
 import kotlinx.coroutines.Dispatchers

@@ -18,7 +18,7 @@ import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers

@@ -16,7 +16,7 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

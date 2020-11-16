@@ -9,7 +9,7 @@ import android.widget.Button
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
