@@ -2,7 +2,7 @@ package dev.olog.presentation.popup.playlist
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(
     private val activity: FragmentActivity,
+    private val appShortcuts: AppShortcuts,
     private val navigator: Navigator,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
@@ -62,10 +63,7 @@ class PlaylistPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
-                getMediaId(),
-                playlist.title
-            )
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title)
             R.id.removeDuplicates -> removeDuplicates()
         }
 

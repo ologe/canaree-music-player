@@ -3,7 +3,7 @@ package dev.olog.msc.app
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.analytics.TrackerFacade
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
@@ -13,7 +13,8 @@ import javax.inject.Inject
 @HiltAndroidApp
 class App : ThemedApp() {
 
-    private lateinit var appShortcuts: AppShortcuts
+    @Inject
+    lateinit var appShortcuts: AppShortcuts
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -32,7 +33,7 @@ class App : ThemedApp() {
     }
 
     private fun initializeComponents() {
-        appShortcuts = AppShortcuts.instance(this)
+        appShortcuts.initialize()
 
         BlurKit.init(this)
     }

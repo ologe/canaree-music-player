@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
@@ -13,10 +15,11 @@ import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class AppShortcutsImp(
-    private val context: Context
-) {
+internal class AppShortcutsImpl @Inject constructor(
+    @ApplicationContext private val context: Context
+): AppShortcuts {
 
     private var job by autoDisposeJob()
 
@@ -29,7 +32,7 @@ class AppShortcutsImp(
         )
     }
 
-    fun addDetailShortcut(mediaId: MediaId, title: String) {
+    override fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
             job = GlobalScope.launch {
