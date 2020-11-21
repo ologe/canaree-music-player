@@ -1,4 +1,4 @@
-package dev.olog.equalizer
+package dev.olog.lib.equalizer
 
 import android.os.Build
 import dagger.Binds
@@ -7,15 +7,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.equalizer.bassboost.BassBoostImpl
-import dev.olog.equalizer.bassboost.BassBoostProxy
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.bassboost.IBassBoostInternal
-import dev.olog.equalizer.equalizer.*
-import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.equalizer.virtualizer.IVirtualizerInternal
-import dev.olog.equalizer.virtualizer.VirtualizerImpl
-import dev.olog.equalizer.virtualizer.VirtualizerProxy
+import dev.olog.lib.equalizer.bassboost.BassBoostImpl
+import dev.olog.lib.equalizer.bassboost.BassBoostProxy
+import dev.olog.lib.equalizer.bassboost.IBassBoost
+import dev.olog.lib.equalizer.bassboost.IBassBoostInternal
+import dev.olog.lib.equalizer.equalizer.*
+import dev.olog.lib.equalizer.virtualizer.IVirtualizer
+import dev.olog.lib.equalizer.virtualizer.IVirtualizerInternal
+import dev.olog.lib.equalizer.virtualizer.VirtualizerImpl
+import dev.olog.lib.equalizer.virtualizer.VirtualizerProxy
 import javax.inject.Singleton
 
 @Module

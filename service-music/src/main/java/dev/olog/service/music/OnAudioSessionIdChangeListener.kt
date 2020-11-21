@@ -3,9 +3,9 @@ package dev.olog.service.music
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.audio.AudioListener
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.lib.equalizer.bassboost.IBassBoost
+import dev.olog.lib.equalizer.equalizer.IEqualizer
+import dev.olog.lib.equalizer.virtualizer.IVirtualizer
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

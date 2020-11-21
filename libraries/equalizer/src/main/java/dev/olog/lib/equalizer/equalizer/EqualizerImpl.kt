@@ -1,11 +1,11 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.equalizer.audioeffect.NormalizedEqualizer
+import dev.olog.lib.equalizer.audioeffect.NormalizedEqualizer
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(

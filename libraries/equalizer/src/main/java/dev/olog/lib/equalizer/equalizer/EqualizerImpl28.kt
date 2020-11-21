@@ -1,4 +1,4 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.DynamicsProcessing

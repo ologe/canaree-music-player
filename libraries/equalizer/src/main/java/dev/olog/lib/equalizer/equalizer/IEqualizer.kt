@@ -1,13 +1,23 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import kotlinx.coroutines.flow.Flow
 
-internal interface IEqualizerInternal {
+/**
+ * - presets are created manually, there are different on pre android P and after
+ * - band level has to be saved from -15 to 15 decibel
+ *
+ * - on pre android P is using Equalizer.java
+ *  - 5 bands
+ * - on anroid P is using DynamicsProcessing.java
+ *  -10 bands
+ */
+interface IEqualizer {
 
-    suspend fun onAudioSessionIdChanged(audioSessionId: Int)
-    fun onDestroy()
+    suspend fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int)
+    fun onDestroy(callerHash: Int)
+
     fun setEnabled(enabled: Boolean)
 
     fun getPresets(): List<EqualizerPreset>
