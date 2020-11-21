@@ -16,6 +16,7 @@ import dev.olog.data.BuildConfig
 
 inline fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
+// TODO delete
 fun assertBackgroundThread() {
     if (/*!isTestMode &&*/ BuildConfig.DEBUG && isMainThread()) {
         throw AssertionError("not on worker thread, current=${Thread.currentThread()}")

@@ -1,4 +1,4 @@
-package dev.olog.data.api.lastfm.entity
+package dev.olog.data.remote.lastfm.dto
 
 import com.google.gson.annotations.SerializedName
 

@@ -10,6 +10,29 @@ if (localPropertiesFile.exists()) {
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
-dependencies {
+android {
 
+    defaultConfig {
+        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
+        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
+    }
+
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':shared')
+    implementation project(':shared-android')
+    implementation project(':libraries:network')
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
+    implementation lib_network.gson
+    implementation lib_network.retrofit
+    implementation lib_network.retrofit_gson
+    implementation lib_network.ok_http
+    implementation lib_network.ok_http_interceptor
+
+    implementation lib_utils.fuzzy
 }

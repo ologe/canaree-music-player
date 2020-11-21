@@ -1,25 +1,28 @@
-package dev.olog.data.repository.lastfm.remote
+package dev.olog.data.remote
 
 import androidx.annotation.VisibleForTesting
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
-import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.lastfm.LastFmService
-import dev.olog.data.mapper.LastFmNulls
+import dev.olog.data.remote.deezer.DeezerService
+import dev.olog.data.remote.lastfm.LastFmService
 import dev.olog.lib.network.model.getOrNull
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
-internal class ImageRetrieverRemoteAlbum @Inject constructor(
+interface ImageRetrieverRemoteAlbum {
+
+    suspend fun fetch(album: Album): LastFmAlbum
+
+}
+
+internal class ImageRetrieverRemoteAlbumImpl @Inject constructor(
     private val lastFmService: LastFmService,
     private val deezerService: DeezerService,
-) {
+) : ImageRetrieverRemoteAlbum {
 
-    suspend fun fetch(
-        album: Album
-    ): LastFmAlbum = coroutineScope {
+    override suspend fun fetch(album: Album): LastFmAlbum = coroutineScope {
         val calls = listOf(
             async { fetchLastFmAlbumImage(album) },
             async { fetchDeezerAlbumImage(album) }

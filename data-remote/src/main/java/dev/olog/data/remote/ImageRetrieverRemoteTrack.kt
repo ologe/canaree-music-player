@@ -1,11 +1,10 @@
-package dev.olog.data.repository.lastfm.remote
+package dev.olog.data.remote
 
 import androidx.annotation.VisibleForTesting
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
-import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.lastfm.LastFmService
-import dev.olog.data.mapper.LastFmNulls
+import dev.olog.data.remote.deezer.DeezerService
+import dev.olog.data.remote.lastfm.LastFmService
 import dev.olog.lib.network.QueryNormalizer
 import dev.olog.lib.network.model.getOrNull
 import kotlinx.coroutines.async
@@ -13,14 +12,18 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
-internal class ImageRetrieverRemoteTrack @Inject constructor(
+interface ImageRetrieverRemoteTrack {
+
+    suspend fun fetch(song: Song): LastFmTrack
+
+}
+
+internal class ImageRetrieverRemoteTrackImpl @Inject constructor(
     private val lastFmService: LastFmService,
     private val deezerService: DeezerService,
-) {
+) : ImageRetrieverRemoteTrack {
 
-    suspend fun fetch(
-        song: Song
-    ): LastFmTrack = coroutineScope {
+    override suspend fun fetch(song: Song): LastFmTrack = coroutineScope {
 
         val trackTitle = QueryNormalizer.normalize(song.title)
 

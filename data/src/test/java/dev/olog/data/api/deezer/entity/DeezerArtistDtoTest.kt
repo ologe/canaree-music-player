@@ -1,5 +1,6 @@
 package dev.olog.data.api.deezer.entity
 
+import dev.olog.data.remote.deezer.dto.DeezerArtistDto
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

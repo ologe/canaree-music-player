@@ -1,12 +1,12 @@
-package dev.olog.data
+package dev.olog.data.remote
 
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.lastfm.LastFmService
+import dev.olog.data.remote.deezer.DeezerService
+import dev.olog.data.remote.lastfm.LastFmService
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Retrofit

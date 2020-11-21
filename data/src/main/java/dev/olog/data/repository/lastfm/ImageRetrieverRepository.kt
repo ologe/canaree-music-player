@@ -11,9 +11,9 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.local.last.fm.ImageRetrieverLocalAlbum
 import dev.olog.data.local.last.fm.ImageRetrieverLocalArtist
 import dev.olog.data.local.last.fm.ImageRetrieverLocalTrack
-import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteAlbum
-import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteArtist
-import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteTrack
+import dev.olog.data.remote.ImageRetrieverRemoteAlbum
+import dev.olog.data.remote.ImageRetrieverRemoteArtist
+import dev.olog.data.remote.ImageRetrieverRemoteTrack
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 

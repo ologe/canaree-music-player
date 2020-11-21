@@ -1,4 +1,4 @@
-package dev.olog.data.api.deezer.entity
+package dev.olog.data.remote.deezer.dto
 
 import com.google.gson.annotations.SerializedName
 

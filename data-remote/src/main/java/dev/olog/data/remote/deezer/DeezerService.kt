@@ -1,8 +1,8 @@
-package dev.olog.data.api.deezer
+package dev.olog.data.remote.deezer
 
-import dev.olog.data.api.deezer.entity.DeezerAlbumSearchResultDto
-import dev.olog.data.api.deezer.entity.DeezerArtistSearchResultDto
-import dev.olog.data.api.deezer.entity.DeezerTrackSearchResultDto
+import dev.olog.data.remote.deezer.dto.DeezerAlbumSearchResultDto
+import dev.olog.data.remote.deezer.dto.DeezerArtistSearchResultDto
+import dev.olog.data.remote.deezer.dto.DeezerTrackSearchResultDto
 import dev.olog.lib.network.model.IoResult
 import retrofit2.http.GET
 import retrofit2.http.Query

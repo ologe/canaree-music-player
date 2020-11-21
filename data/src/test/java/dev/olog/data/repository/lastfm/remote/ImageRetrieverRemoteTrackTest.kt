@@ -1,16 +1,16 @@
 package dev.olog.data.repository.lastfm.remote
 
-import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.EMPTY
 import dev.olog.core.entity.track.Song
-import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.deezer.entity.DeezerAlbumDto
-import dev.olog.data.api.deezer.entity.DeezerTrackDto
-import dev.olog.data.api.deezer.entity.DeezerTrackSearchResultDto
-import dev.olog.data.api.lastfm.LastFmService
-import dev.olog.data.mapper.LastFmNulls
+import dev.olog.data.remote.deezer.DeezerService
+import dev.olog.data.remote.deezer.dto.DeezerAlbumDto
+import dev.olog.data.remote.deezer.dto.DeezerTrackDto
+import dev.olog.data.remote.deezer.dto.DeezerTrackSearchResultDto
+import dev.olog.data.remote.lastfm.LastFmService
+import dev.olog.data.remote.LastFmNulls
 import dev.olog.data.mapper.toDomain
+import dev.olog.data.remote.ImageRetrieverRemoteTrack
 import dev.olog.lib.network.model.IoResult
 import dev.olog.lib.network.model.just
 import dev.olog.test.shared.MainCoroutineRule

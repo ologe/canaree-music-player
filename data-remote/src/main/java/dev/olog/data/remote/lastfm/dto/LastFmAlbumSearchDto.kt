@@ -1,7 +1,6 @@
-package dev.olog.data.api.lastfm.album
+package dev.olog.data.remote.lastfm.dto
 
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.data.api.lastfm.entity.LastFmImageDto
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
 internal data class LastFmAlbumSearchDto(

@@ -1,9 +1,7 @@
-package dev.olog.data.api.lastfm.album
+package dev.olog.data.remote.lastfm.dto
 
 import com.google.gson.annotations.SerializedName
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.data.api.lastfm.entity.LastFmImageDto
-import dev.olog.data.api.lastfm.entity.LastFmWikiDto
 
 internal data class LastFmAlbumInfoDto(
     val album: LastFmAlbumInfoResultDto?

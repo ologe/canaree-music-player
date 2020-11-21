@@ -1,8 +1,6 @@
-package dev.olog.data.api.lastfm.artist
+package dev.olog.data.remote.lastfm.dto
 
 import dev.olog.core.entity.LastFmArtist
-import dev.olog.data.api.lastfm.entity.LastFmBioDto
-import dev.olog.data.api.lastfm.entity.LastFmImageDto
 
 internal data class LastFmArtistInfoDto(
     val artist: LastFmArtistInfoResultDto?

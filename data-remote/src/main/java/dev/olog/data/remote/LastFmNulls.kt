@@ -1,4 +1,4 @@
-package dev.olog.data.mapper
+package dev.olog.data.remote
 
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist

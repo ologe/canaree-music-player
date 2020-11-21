@@ -1,8 +1,11 @@
 package dev.olog.data.api.lastfm.artist
 
 import dev.olog.core.entity.LastFmArtist
-import dev.olog.data.api.lastfm.entity.LastFmBioDto
-import dev.olog.data.api.lastfm.entity.LastFmImageDto
+import dev.olog.data.remote.lastfm.dto.LastFmBioDto
+import dev.olog.data.remote.lastfm.dto.LastFmImageDto
+import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoDto
+import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoResultDto
+import dev.olog.data.remote.lastfm.dto.toDomain
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 

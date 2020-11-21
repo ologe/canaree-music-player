@@ -1,17 +1,16 @@
-package dev.olog.data.api.lastfm
+package dev.olog.data.remote.lastfm
 
 import androidx.annotation.IntRange
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Album
-import dev.olog.data.BuildConfig
-import dev.olog.data.api.lastfm.album.LastFmAlbumInfoDto
-import dev.olog.data.api.lastfm.album.LastFmAlbumSearchDto
-import dev.olog.data.api.lastfm.album.toDomain
-import dev.olog.data.api.lastfm.artist.LastFmArtistInfoDto
-import dev.olog.data.api.lastfm.track.LastFmTrackInfoDto
-import dev.olog.data.api.lastfm.track.LastFmTrackSearchDto
-import dev.olog.data.api.lastfm.track.toDomain
+import dev.olog.data.remote.BuildConfig
+import dev.olog.data.remote.lastfm.dto.LastFmAlbumInfoDto
+import dev.olog.data.remote.lastfm.dto.LastFmAlbumSearchDto
+import dev.olog.data.remote.lastfm.dto.toDomain
+import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoDto
+import dev.olog.data.remote.lastfm.dto.LastFmTrackInfoDto
+import dev.olog.data.remote.lastfm.dto.LastFmTrackSearchDto
 import dev.olog.lib.network.model.IoResult
 import dev.olog.lib.network.model.getOrNull
 import retrofit2.http.GET
@@ -104,7 +103,7 @@ internal interface LastFmService {
         val result = searchTrackInternal(title).getOrNull()?.toDomain(id)
 
         if (result != null && result.title.isNotBlank() && result.artist.isNotBlank()) {
-            return getTrackInfoInternal(result.title, result.artist)?.getOrNull()?.toDomain(id)
+            return getTrackInfoInternal(result.title, result.artist).getOrNull()?.toDomain(id)
         }
         return null
     }

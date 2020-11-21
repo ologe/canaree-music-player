@@ -1,6 +1,6 @@
-package dev.olog.data.api.lastfm.entity
+package dev.olog.data.remote.lastfm.dto
 
-internal data class LastFmBioDto(
+internal data class LastFmWikiDto(
     val content: String?,
     val published: String?,
     val summary: String?
@@ -8,8 +8,8 @@ internal data class LastFmBioDto(
 
     companion object {
 
-        val EMPTY: LastFmBioDto
-            get() = LastFmBioDto(
+        val EMPTY: LastFmWikiDto
+            get() = LastFmWikiDto(
                 content = null,
                 published = null,
                 summary = null
