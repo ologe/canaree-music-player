@@ -7,7 +7,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.shared.TextUtils
 import javax.inject.Inject

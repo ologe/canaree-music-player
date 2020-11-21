@@ -9,7 +9,7 @@ import androidx.core.graphics.drawable.IconCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction

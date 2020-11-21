@@ -2,7 +2,7 @@ package dev.olog.presentation.thanks
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.image.provider.GlideApp
+import dev.olog.lib.image.provider.GlideApp
 import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.model.SpecialThanksModel

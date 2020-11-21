@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import dev.olog.core.MediaId
-import dev.olog.media.mediaProvider
+import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity

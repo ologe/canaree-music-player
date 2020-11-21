@@ -52,7 +52,7 @@
             android:layout_marginTop="@dimen/status_bar"/>
 
         <!-- seekbar -->
-        <dev.olog.media.widget.CustomSeekBar
+        <dev.olog.lib.media.widget.CustomSeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

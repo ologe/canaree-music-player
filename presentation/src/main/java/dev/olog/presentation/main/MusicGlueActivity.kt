@@ -13,11 +13,11 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.media.MediaExposer
-import dev.olog.media.MediaProvider
-import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.model.*
-import dev.olog.media.playPause
+import dev.olog.lib.media.MediaExposer
+import dev.olog.lib.media.MediaProvider
+import dev.olog.lib.media.connection.OnConnectionChanged
+import dev.olog.lib.media.model.*
+import dev.olog.lib.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow

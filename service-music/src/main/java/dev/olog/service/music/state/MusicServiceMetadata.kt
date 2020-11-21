@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.provider.GlideUtils
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants

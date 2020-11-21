@@ -6,8 +6,8 @@ import androidx.core.math.MathUtils
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.mediaProvider
-import dev.olog.media.model.PlayerState
+import dev.olog.lib.media.mediaProvider
+import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.slidingPanel

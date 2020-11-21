@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
+import dev.olog.lib.image.provider.CoverUtils
+import dev.olog.lib.image.provider.GlideApp
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast

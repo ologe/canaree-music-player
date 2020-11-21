@@ -15,10 +15,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
-import dev.olog.media.model.PlayerMetadata
+import dev.olog.lib.image.provider.CoverUtils
+import dev.olog.lib.image.provider.GlideApp
+import dev.olog.lib.image.provider.GlideUtils
+import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground

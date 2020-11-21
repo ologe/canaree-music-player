@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.palette.ImageProcessor

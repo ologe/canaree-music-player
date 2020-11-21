@@ -7,9 +7,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
-import dev.olog.image.provider.OnImageLoadingError
-import dev.olog.image.provider.getCachedBitmap
-import dev.olog.offlinelyrics.*
+import dev.olog.lib.image.provider.OnImageLoadingError
+import dev.olog.lib.image.provider.getCachedBitmap
+import dev.olog.lib.offline.lyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor

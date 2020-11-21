@@ -1,16 +1,15 @@
 package dev.olog.presentation.player
 
 import android.view.View
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
+import dev.olog.lib.media.MediaProvider
+import dev.olog.lib.media.model.PlayerMetadata
+import dev.olog.lib.media.model.PlayerPlaybackState
+import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortEntity
-import dev.olog.media.MediaProvider
+import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

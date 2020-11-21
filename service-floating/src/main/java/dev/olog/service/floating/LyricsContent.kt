@@ -2,7 +2,7 @@ package dev.olog.service.floating
 
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import dev.olog.media.model.PlayerState
+import dev.olog.lib.media.model.PlayerState
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 import kotlinx.coroutines.flow.*

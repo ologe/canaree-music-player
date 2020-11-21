@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
+import dev.olog.lib.image.provider.CoverUtils
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.isDarkMode

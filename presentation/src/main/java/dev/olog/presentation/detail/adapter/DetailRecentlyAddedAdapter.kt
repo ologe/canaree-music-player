@@ -1,6 +1,6 @@
 package dev.olog.presentation.detail.adapter
 
-import dev.olog.media.MediaProvider
+import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

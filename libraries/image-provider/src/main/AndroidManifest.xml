@@ -1,2 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.olog.image.provider" />
+    package="dev.olog.lib.image.provider" />

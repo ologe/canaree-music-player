@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 

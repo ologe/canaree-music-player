@@ -13,7 +13,7 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.service.music.R
