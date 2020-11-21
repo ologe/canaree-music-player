@@ -3,8 +3,12 @@ include ':app'
 
 include ':domain'
 include ':presentation'
-include ':data'
 include ':app-shortcuts'
+
+// data
+include ':data'
+include ':data-remote'
+include ':data-local'
 
 // services
 include ':service-music'
