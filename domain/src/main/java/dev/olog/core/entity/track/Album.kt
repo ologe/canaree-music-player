@@ -14,6 +14,13 @@ data class Album(
     val isPodcast: Boolean
 ) {
 
+    companion object
+
+    val hasUnknownTitle: Boolean
+        get() = this.title == "<unknown>"
+
+    val hasUnknownArtist: Boolean
+        get() = this.artist == "<unknown>"
 
     fun getMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS

@@ -32,7 +32,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
             artistId = album.artistId,
             albumArtist = album.albumArtist,
             title = album.title,
-            artist = if (album.artist == AppConstants.UNKNOWN) "" else album.artist,
+            artist = if (album.hasUnknownArtist) "" else album.artist,
             hasSameNameAsFolder = album.hasSameNameAsFolder,
             songs = album.songs,
             isPodcast = album.isPodcast

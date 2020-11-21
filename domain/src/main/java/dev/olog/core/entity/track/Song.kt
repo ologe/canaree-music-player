@@ -22,6 +22,10 @@ data class Song(
 
 ) {
 
+    companion object
+
+    val hasUnknownArtist: Boolean
+        get() = this.artist == "<unknown>"
 
     val discNumber: Int
         get() {

@@ -24,7 +24,7 @@ class EditTrackFragmentPresenter @Inject constructor(
             songGateway.getByParam(mediaId.leaf!!)!!
         }
         return song.copy(
-            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
+            artist = if (song.hasUnknownArtist) "" else song.artist,
             album = if (song.album == AppConstants.UNKNOWN) "" else song.album
         )
     }
