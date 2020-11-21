@@ -38,7 +38,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':prefs-keys')
-    implementation project(':libraries:lib-network')
+    implementation project(':libraries:network')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android

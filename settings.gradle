@@ -11,7 +11,7 @@ include ':service-music'
 include ':service-floating'
 
 //libs
-include ':libraries:lib-network'
+include ':libraries:network'
 include ':libraries:equalizer'
 include ':analytics'
 include ':libraries:offline-lyrics'
