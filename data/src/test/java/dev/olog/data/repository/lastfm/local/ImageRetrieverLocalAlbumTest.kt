@@ -2,9 +2,10 @@ package dev.olog.data.repository.lastfm.local
 
 import dev.olog.core.entity.EMPTY
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.data.db.dao.LastFmDao
-import dev.olog.data.db.entities.EMPTY
-import dev.olog.data.db.entities.LastFmAlbumEntity
+import dev.olog.data.local.last.fm.LastFmDao
+import dev.olog.data.local.last.fm.EMPTY
+import dev.olog.data.local.last.fm.ImageRetrieverLocalAlbum
+import dev.olog.data.local.last.fm.LastFmAlbumEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
 import dev.olog.test.shared.MainCoroutineRule

@@ -7,7 +7,6 @@ import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.api.lastfm.artist.toDomain
 import dev.olog.data.mapper.LastFmNulls
-import dev.olog.data.mapper.toDomain
 import dev.olog.lib.network.model.getOrNull
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -57,7 +56,7 @@ internal class ImageRetrieverRemoteArtist @Inject constructor(
         deezerPicture: String?
     ): LastFmArtist {
         if (lastFmArtist == null || deezerPicture == null) {
-            return LastFmNulls.createNullArtist(artist.id).toDomain()
+            return LastFmNulls.createNullArtist(artist.id)
         }
 
         return LastFmArtist(

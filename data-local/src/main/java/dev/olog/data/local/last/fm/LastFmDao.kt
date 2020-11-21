@@ -1,0 +1,59 @@
+package dev.olog.data.local.last.fm
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+
+@Dao
+internal abstract class LastFmDao {
+
+    companion object {
+        private const val CACHE_TIME = "1 month"
+    }
+
+    // track
+
+    @Query("""
+        SELECT * FROM last_fm_track_v2
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+    """)
+    abstract suspend fun getTrack(id: Long): LastFmTrackEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+     abstract suspend fun insertTrack(entity: LastFmTrackEntity)
+
+    @Query("DELETE FROM last_fm_track_v2 WHERE id = :trackId")
+     abstract suspend fun deleteTrack(trackId: Long)
+
+    // album
+
+    @Query("""
+        SELECT * FROM last_fm_album_v2
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+    """)
+     abstract suspend fun getAlbum(id: Long): LastFmAlbumEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+     abstract suspend fun insertAlbum(entity: LastFmAlbumEntity)
+
+    @Query("DELETE FROM last_fm_album_v2 WHERE id = :albumId")
+     abstract suspend fun deleteAlbum(albumId: Long)
+
+    // artist
+
+    @Query("""
+        SELECT * FROM last_fm_artist_v2
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+    """)
+     abstract suspend fun getArtist(id: Long): LastFmArtistEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+     abstract suspend fun insertArtist(entity: LastFmArtistEntity)
+
+    @Query("DELETE FROM last_fm_artist_v2 WHERE id = :artistId")
+     abstract suspend fun deleteArtist(artistId: Long)
+}

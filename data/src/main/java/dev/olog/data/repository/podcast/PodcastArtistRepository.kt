@@ -12,7 +12,7 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.LastPlayedPodcastArtistDao
+import dev.olog.data.local.recently.played.RecentlyPlayedPodcastArtistDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
@@ -28,7 +28,7 @@ internal class PodcastArtistRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val lastPlayedDao: LastPlayedPodcastArtistDao,
+    private val lastPlayedDao: RecentlyPlayedPodcastArtistDao,
     schedulers: Schedulers
 ) : BaseRepository<Artist, Id>(context, schedulers), PodcastArtistGateway {
 

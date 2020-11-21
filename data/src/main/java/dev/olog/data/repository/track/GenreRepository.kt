@@ -14,8 +14,8 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.GenreMostPlayedDao
-import dev.olog.data.db.entities.GenreMostPlayedEntity
+import dev.olog.data.local.most.played.GenreMostPlayedDao
+import dev.olog.data.local.most.played.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.mapper.toPlaylistSong

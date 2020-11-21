@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Album
 import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
-import dev.olog.data.mapper.toDomain
 import dev.olog.lib.network.model.getOrNull
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -38,7 +37,7 @@ internal class ImageRetrieverRemoteAlbum @Inject constructor(
         val albumId = album.id
 
         if (album.hasUnknownTitle) {
-            return LastFmNulls.createNullAlbum(albumId).toDomain()
+            return LastFmNulls.createNullAlbum(albumId)
         }
 
         var result: LastFmAlbum? = null
@@ -48,7 +47,7 @@ internal class ImageRetrieverRemoteAlbum @Inject constructor(
 
         return result
             ?: lastFmService.searchAlbum(album)
-            ?: LastFmNulls.createNullAlbum(albumId).toDomain()
+            ?: LastFmNulls.createNullAlbum(albumId)
     }
 
     @VisibleForTesting

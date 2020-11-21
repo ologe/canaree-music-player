@@ -4,13 +4,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.FolderNavigatorGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.data.repository.*
+import dev.olog.data.repository.FolderNavigatorRepository
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
@@ -22,7 +23,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 internal abstract class DataModule {
-
 
     // tracks
 
@@ -73,26 +73,7 @@ internal abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideFavoriteRepository(repository: FavoriteRepository): FavoriteGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
-
-    @Binds
-    @Singleton
     internal abstract fun provideFolderNavigator(repository: FolderNavigatorRepository): FolderNavigatorGateway
 
-    @Binds
-    @Singleton
-    internal abstract fun provideEqualzierRepository(repository: EqualizerRepository): EqualizerGateway
 
 }

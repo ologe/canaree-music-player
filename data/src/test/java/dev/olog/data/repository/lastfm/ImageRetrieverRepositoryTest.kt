@@ -11,9 +11,9 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.repository.lastfm.local.ImageRetrieverLocalAlbum
-import dev.olog.data.repository.lastfm.local.ImageRetrieverLocalArtist
-import dev.olog.data.repository.lastfm.local.ImageRetrieverLocalTrack
+import dev.olog.data.local.last.fm.ImageRetrieverLocalAlbum
+import dev.olog.data.local.last.fm.ImageRetrieverLocalArtist
+import dev.olog.data.local.last.fm.ImageRetrieverLocalTrack
 import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteAlbum
 import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteArtist
 import dev.olog.data.repository.lastfm.remote.ImageRetrieverRemoteTrack

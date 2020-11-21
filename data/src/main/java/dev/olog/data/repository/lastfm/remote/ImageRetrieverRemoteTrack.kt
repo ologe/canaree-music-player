@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
-import dev.olog.data.mapper.toDomain
 import dev.olog.lib.network.QueryNormalizer
 import dev.olog.lib.network.model.getOrNull
 import kotlinx.coroutines.async
@@ -57,7 +56,7 @@ internal class ImageRetrieverRemoteTrack @Inject constructor(
         }
         return result
             ?: lastFmService.searchTrack(trackId, trackTitle, trackArtist)
-            ?: LastFmNulls.createNullTrack(trackId).toDomain()
+            ?: LastFmNulls.createNullTrack(trackId)
     }
 
     @VisibleForTesting
