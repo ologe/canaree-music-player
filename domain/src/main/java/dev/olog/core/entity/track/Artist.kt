@@ -11,7 +11,7 @@ data class Artist(
     val isPodcast: Boolean
 ) {
 
-
+    companion object
 
     fun getMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
@@ -28,3 +28,12 @@ data class Artist(
         )
     }
 }
+
+val Artist.Companion.EMPTY: Artist
+    get() = Artist(
+        id = 0,
+        name = "",
+        albumArtist = "",
+        songs = 0,
+        isPodcast = false
+    )

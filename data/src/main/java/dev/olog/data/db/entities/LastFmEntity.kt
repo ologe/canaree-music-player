@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "last_fm_track_v2",
     indices = [(Index("id"))]
 )
-data class LastFmTrackEntity(
+internal data class LastFmTrackEntity(
     @PrimaryKey val id: Long,
     val title: String,
     val artist: String,
@@ -19,13 +19,17 @@ data class LastFmTrackEntity(
     val mbid: String,
     val artistMbid: String,
     val albumMbid: String
-)
+) {
+
+    companion object
+
+}
 
 @Entity(
     tableName = "last_fm_album_v2",
     indices = [(Index("id"))]
 )
-data class LastFmAlbumEntity(
+internal data class LastFmAlbumEntity(
     @PrimaryKey
     val id: Long,
     val title: String,
@@ -35,13 +39,17 @@ data class LastFmAlbumEntity(
     // new from v17
     val mbid: String,
     val wiki: String
-)
+) {
+
+    companion object
+
+}
 
 @Entity(
     tableName = "last_fm_artist_v2",
     indices = [(Index("id"))]
 )
-data class LastFmArtistEntity(
+internal data class LastFmArtistEntity(
     @PrimaryKey
     val id: Long,
     val image: String,
@@ -49,4 +57,41 @@ data class LastFmArtistEntity(
     // new from v17
     val mbid: String,
     val wiki: String
-)
+) {
+
+    companion object
+
+}
+
+internal val LastFmTrackEntity.Companion.EMPTY: LastFmTrackEntity
+    get() = LastFmTrackEntity(
+        id = 0,
+        title = "",
+        artist = "",
+        album = "",
+        image = "",
+        added = "",
+        mbid = "",
+        artistMbid = "",
+        albumMbid = ""
+    )
+
+internal val LastFmAlbumEntity.Companion.EMPTY: LastFmAlbumEntity
+    get() = LastFmAlbumEntity(
+        id = 0,
+        title = "",
+        artist = "",
+        image = "",
+        added = "",
+        mbid = "",
+        wiki = ""
+    )
+
+internal val LastFmArtistEntity.Companion.EMPTY: LastFmArtistEntity
+    get() = LastFmArtistEntity(
+        id = 0,
+        image = "",
+        added = "",
+        mbid = "",
+        wiki = ""
+    )

@@ -18,7 +18,7 @@ private fun millisToFormattedDate(value: Long): String {
 
 }
 
-fun LastFmTrackEntity.toDomain(): LastFmTrack {
+internal fun LastFmTrackEntity.toDomain(): LastFmTrack {
     return LastFmTrack(
         this.id,
         this.title,
@@ -31,7 +31,7 @@ fun LastFmTrackEntity.toDomain(): LastFmTrack {
     )
 }
 
-fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
+internal fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
     return LastFmAlbum(
         this.id,
         this.title,
@@ -44,7 +44,7 @@ fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
 
 
 
-fun LastFmTrack.toModel(): LastFmTrackEntity {
+internal fun LastFmTrack.toModel(): LastFmTrackEntity {
     return LastFmTrackEntity(
         this.id,
         this.title,
@@ -60,7 +60,7 @@ fun LastFmTrack.toModel(): LastFmTrackEntity {
 
 
 
-fun LastFmAlbum.toModel(): LastFmAlbumEntity {
+internal fun LastFmAlbum.toModel(): LastFmAlbumEntity {
     return LastFmAlbumEntity(
         this.id,
         this.title,
@@ -72,7 +72,7 @@ fun LastFmAlbum.toModel(): LastFmAlbumEntity {
     )
 }
 
-fun LastFmArtistEntity.toDomain(): LastFmArtist {
+internal fun LastFmArtistEntity.toDomain(): LastFmArtist {
     return LastFmArtist(
         this.id,
         this.image,
@@ -81,7 +81,7 @@ fun LastFmArtistEntity.toDomain(): LastFmArtist {
     )
 }
 
-fun LastFmArtist.toModel() : LastFmArtistEntity{
+internal fun LastFmArtist.toModel() : LastFmArtistEntity{
     return LastFmArtistEntity(
         this.id,
         this.image,
@@ -93,7 +93,7 @@ fun LastFmArtist.toModel() : LastFmArtistEntity{
 
 object LastFmNulls {
 
-    fun createNullTrack(trackId: Long): LastFmTrackEntity {
+    internal fun createNullTrack(trackId: Long): LastFmTrackEntity {
         return LastFmTrackEntity(
             trackId,
             "",
@@ -107,7 +107,7 @@ object LastFmNulls {
         )
     }
 
-    fun createNullArtist(artistId: Long): LastFmArtistEntity {
+    internal fun createNullArtist(artistId: Long): LastFmArtistEntity {
         return LastFmArtistEntity(
             artistId,
             "",
@@ -117,7 +117,7 @@ object LastFmNulls {
         )
     }
 
-    fun createNullAlbum(albumId: Long): LastFmAlbumEntity {
+    internal fun createNullAlbum(albumId: Long): LastFmAlbumEntity {
         return LastFmAlbumEntity(
             albumId,
             "",

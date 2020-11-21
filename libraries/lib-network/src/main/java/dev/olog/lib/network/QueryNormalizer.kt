@@ -45,6 +45,7 @@ object QueryNormalizer {
 
     private val MULTIPLE_SPACES_REGEX = "\\s{2,}".toRegex()
 
+    // TODO test that <unknown> remains the same
     @JvmStatic
     fun normalize(original: String): String{
         return original

@@ -82,3 +82,21 @@ data class Song(
     }
 
 }
+
+val Song.Companion.EMPTY: Song
+    get() = Song(
+        id = 0,
+        artistId = 0,
+        albumId = 0,
+        title = "",
+        artist = "",
+        albumArtist = "",
+        album = "",
+        duration = 0,
+        dateAdded = 0,
+        dateModified = 0,
+        path = "",
+        trackColumn = 0,
+        idInPlaylist = 0,
+        isPodcast = false
+    )

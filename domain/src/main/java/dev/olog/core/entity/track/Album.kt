@@ -46,3 +46,15 @@ data class Album(
     }
 
 }
+
+val Album.Companion.EMPTY: Album
+    get() = Album(
+        id = 0,
+        artistId = 0,
+        title = "",
+        artist = "",
+        albumArtist = "",
+        songs = 0,
+        hasSameNameAsFolder = false,
+        isPodcast = false
+    )

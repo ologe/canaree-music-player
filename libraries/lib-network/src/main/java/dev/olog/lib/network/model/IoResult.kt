@@ -11,4 +11,8 @@ sealed class IoResult<out T> {
         val message: String,
     ) : IoResult<Nothing>()
 
+    companion object
+
 }
+
+fun <T> IoResult.Companion.just(data: T): IoResult.Success<T> = IoResult.Success(data)
