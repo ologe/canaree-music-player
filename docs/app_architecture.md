@@ -36,9 +36,9 @@
 - Self explanatory
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/service-floating/build.gradle)
 
-#### `:image-provider`
+#### `:libraries:image-provider`
 - Handles all image loading (from local storage and network) and caching
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/image-provider/build.gradle)
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/libraries/image-provider/build.gradle)
 
 #### `:data`
 - Repositories implementation
@@ -47,25 +47,25 @@
 
 ## Libs
 
-#### `:media`
+#### `:libraries:media`
 - Provides a reactive API to connect to `:service-music`
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/media/build.gradle)
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/libraries/media/build.gradle)
 
-#### `:equalizer`
+#### `:libraries:equalizer`
 - Equalizer, BassBoos and Virtualizer implementation for different API level
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/equalizer/build.gradle)
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/libraries/equalizer/build.gradle)
 
 #### `:feature_stylize`
 - Removed
 
-#### `:offline-lyrics`
+#### `:libraries:offline-lyrics`
 - Provides an API to read offline lyrics, saved on device on from track metadata
 - Supports `.lrc` file format for synced lyrics
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/offline-lyrics/build.gradle) 
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/libraries/offline-lyrics/build.gradle)
 
-#### `:jaudiotagger`
+#### `:libraries:jaudiotagger`
 - Allows to read and update tracks metadata
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/jaudiotagger/build.gradle) 
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/libraries/jaudiotagger/build.gradle)
 
 ## Utils
 

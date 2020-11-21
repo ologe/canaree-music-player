@@ -12,12 +12,12 @@ include ':service-floating'
 
 //libs
 include ':libraries:lib-network'
-include ':equalizer'
+include ':libraries:equalizer'
 include ':analytics'
-include ':offline-lyrics'
-include ':media'
-include ':jaudiotagger'
-include ':image-provider'
+include ':libraries:offline-lyrics'
+include ':libraries:media'
+include ':libraries:jaudiotagger'
+include ':libraries:image-provider'
 
 // shared
 include ':prefs-keys'

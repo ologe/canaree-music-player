@@ -5,7 +5,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':domain')
-    implementation project(':image-provider')
+    implementation project(':libraries:image-provider')
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':shared-android')

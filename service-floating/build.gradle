@@ -7,13 +7,13 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':domain')
-    implementation project(':image-provider')
+    implementation project(':libraries:image-provider')
     implementation project(':shared-android')
     implementation project(':shared')
     implementation project(':shared-widgets')
     implementation project(':prefs-keys')
-    implementation project(':media')
-    implementation project(':offline-lyrics')
+    implementation project(':libraries:media')
+    implementation project(':libraries:offline-lyrics')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
