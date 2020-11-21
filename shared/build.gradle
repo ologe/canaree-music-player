@@ -3,8 +3,7 @@ apply plugin: 'kotlin'
 dependencies {
     implementation lib_core.coroutines
 
-    testImplementation lib_test.junit
-    testImplementation lib_core.coroutines_test
+    implementation lib_test.junit
 }
 
 compileKotlin {

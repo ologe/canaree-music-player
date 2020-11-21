@@ -52,6 +52,12 @@ ext {
 //    firebase
     firebase = '26.1.0'
 
+    // test
+    junit = '4.13.1'
+    junit_5 = '5.7.0'
+    mockk = '1.10.0'
+    assertj = '3.18.1'
+
     lib_firebase = [
         bom        : "com.google.firebase:firebase-bom:$firebase",
         analytics  : "com.google.firebase:firebase-analytics-ktx",
@@ -132,9 +138,14 @@ ext {
     ]
 
     lib_test = [
-        junit         : "junit:junit:4.13",
-        mockito       : "org.mockito:mockito-android:3.5.10",
-        mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+        junit          : "junit:junit:$junit",
+        junit_5        : "org.junit.jupiter:junit-jupiter-api:$junit_5",
+        junit_5_runtime: "org.junit.jupiter:junit-jupiter-engine:$junit_5",
+        junit_5_vintage: "org.junit.vintage:junit-vintage-engine:$junit_5",
+        assertj        : "org.assertj:assertj-core:$assertj",
+        mockk          : "io.mockk:mockk:$mockk",
+        mockito        : "org.mockito:mockito-android:3.5.10",
+        mockito_kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
     ]
 
 }

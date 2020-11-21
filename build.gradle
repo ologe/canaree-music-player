@@ -8,6 +8,7 @@ buildscript {
         google_services = '4.3.4'
         crashlytics = '2.4.1'
         firebase_perf_plugin = '1.3.4'
+        junit_5_enabler = '1.6.2.0'
     }
 
 
@@ -26,6 +27,7 @@ buildscript {
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
         classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt"
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:$junit_5_enabler"
     }
 
 

@@ -1,5 +1,6 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
 
@@ -45,7 +46,12 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+        }
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
 }
 
@@ -56,14 +62,16 @@ dependencies {
     testImplementation project(':test-shared')
     androidTestImplementation project(':test-shared')
 
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation "org.mockito:mockito-core:2.23.4"
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    implementation lib_test.assertj
 
-    // Core library
     testImplementation lib_test.junit
-    testImplementation lib_test.mockito
-    testImplementation lib_test.mockito_kotlin
+    testImplementation lib_test.junit_5
+    testRuntimeOnly lib_test.junit_5_runtime
+    testRuntimeOnly lib_test.junit_5_vintage // compatibility with junit4 rules and watchers
+
+    testImplementation lib_test.mockk
+    testImplementation lib_test.mockito // TODO migrate to mockK
+    testImplementation lib_test.mockito_kotlin // TODO migrate to mockK
 
 }
 
