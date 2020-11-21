@@ -1,9 +1,8 @@
-package dev.olog.data.prefs
+package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.data.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class BlacklistPreferenceImpl @Inject constructor(

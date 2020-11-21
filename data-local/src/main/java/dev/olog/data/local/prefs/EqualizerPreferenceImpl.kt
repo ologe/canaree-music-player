@@ -1,9 +1,8 @@
-package dev.olog.data.prefs
+package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -62,7 +61,6 @@ class EqualizerPreferenceImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setEqualizerEnabled(false)
     }
 }

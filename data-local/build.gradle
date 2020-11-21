@@ -11,5 +11,13 @@ if (localPropertiesFile.exists()) {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':domain')
+    implementation project(':shared-android')
+    implementation project(':prefs-keys')
 
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
+    implementation lib_x.core
+    implementation lib_x.preference
 }

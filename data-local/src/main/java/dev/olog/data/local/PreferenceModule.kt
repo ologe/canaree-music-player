@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,8 +10,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.*
-import dev.olog.data.prefs.*
-import dev.olog.data.prefs.sort.AppSortingImpl
+import dev.olog.data.local.prefs.*
+import dev.olog.data.local.prefs.AppSortingImpl
 import javax.inject.Singleton
 
 @Module

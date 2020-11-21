@@ -1,4 +1,4 @@
-package dev.olog.data.prefs.sort
+package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -10,7 +10,6 @@ import dev.olog.core.prefs.SortDetail
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
 internal class DetailSortingHelper @Inject constructor(

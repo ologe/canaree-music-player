@@ -1,4 +1,4 @@
-package dev.olog.data.prefs
+package dev.olog.data.local.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,8 +6,7 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.data.R
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.local.R
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -106,7 +105,6 @@ class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setMidnightMode(false)
         setCrossFade(0)
         setGapless(false)

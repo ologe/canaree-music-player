@@ -1,4 +1,4 @@
-package dev.olog.data.prefs.sort
+package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

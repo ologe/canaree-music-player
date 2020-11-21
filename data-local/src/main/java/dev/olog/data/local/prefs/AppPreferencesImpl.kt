@@ -1,4 +1,4 @@
-package dev.olog.data.prefs
+package dev.olog.data.local.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,8 +7,7 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.data.R
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.local.R
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -54,7 +53,6 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         // LIBRARY -> folder tree
         @Suppress("DEPRECATION")
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
@@ -81,7 +79,6 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun canAutoCreateImages(): Boolean {
-        assertBackgroundThread()
         return preferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
     }
 
