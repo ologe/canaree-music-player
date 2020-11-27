@@ -86,9 +86,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 
     private suspend fun prepare() = withContext(NonCancellable) {
         val track = queueManager.prepare()
-        if (track != null) {
-            player.prepare(track)
-        }
+        prepareTrack(track)
     }
 
     private suspend fun playFromMediaId(mediaId: MediaId, filter: String?) {
@@ -250,9 +248,20 @@ internal class MediaSessionEventDispatcher @Inject constructor(
         queueManager.updatePodcastPosition(bookmark)
     }
 
+    private suspend fun prepareTrack(entity: PlayerMediaEntity?) {
+        if (entity == null) {
+            // TODO post empty state?? also handle notification and metadata?
+            // TODO post null current track
+            return
+        }
+        player.prepare(entity)
+        _current.value = MetadataEntity(entity.mediaEntity, SkipType.NONE)
+    }
+
     private suspend fun postTrack(entity: PlayerMediaEntity?) {
         if (entity == null) {
             // TODO post empty
+            // TODO post null current track
             return
         }
         player.play(entity)
@@ -262,6 +271,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     private suspend fun postPreviousTrack(entity: PlayerMediaEntity?) {
         if (entity == null) {
             // TODO post empty ??
+            // TODO post null current track
             return
         }
         val isPodcast = entity.mediaEntity.isPodcast
@@ -276,17 +286,18 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     }
 
     private suspend fun postNextTrack(entity: PlayerMediaEntity?, ended: Boolean) {
-        if (entity != null) {
-            val skipType = if (ended) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
-            player.playNext(entity, skipType)
-            _current.value = MetadataEntity(entity.mediaEntity, skipType)
+        if (entity == null) {
+            // restart current and pause
+            val current = queueManager.getPlayingSong() ?: return
+            player.play(current)
+            player.pause(true)
+            player.seekTo(0L)
             return
         }
-        // restart current and pause
-        val current = queueManager.getPlayingSong() ?: return
-        player.play(current)
-        player.pause(true)
-        player.seekTo(0L)
+
+        val skipType = if (ended) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
+        player.playNext(entity, skipType)
+        _current.value = MetadataEntity(entity.mediaEntity, skipType)
     }
 
 }
