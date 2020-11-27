@@ -50,7 +50,7 @@ internal class QueueImpl @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         persist(playingQueue)
         playingQueue.getOrNull(currentSongPosition)?.let {
-            musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
+            musicPreferencesUseCase.lastProgressive = it.progressive
         }
     }
 
@@ -72,7 +72,7 @@ internal class QueueImpl @Inject constructor(
         if (persist) {
             persist(songList)
             songList.getOrNull(index)?.let {
-                musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
+                musicPreferencesUseCase.lastProgressive = it.progressive
             }
         }
     }
@@ -95,7 +95,7 @@ internal class QueueImpl @Inject constructor(
                 UpdatePlayingQueueUseCaseRequest(
                     it.mediaId,
                     it.id,
-                    it.idInPlaylist
+                    it.progressive
                 )
             }
             yield()
@@ -142,13 +142,13 @@ internal class QueueImpl @Inject constructor(
             return null
         }
 
-        val positionInQueue = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
+        val positionInQueue = playingQueue.indexOfFirst { it.progressive == idInPlaylist }
         if (positionInQueue == -1){
             return null
         }
         publishMiniQueue(playingQueue, positionInQueue, true)
         updateCurrentSongPosition(positionInQueue)
-        musicPreferencesUseCase.setLastIdInPlaylist(playingQueue[positionInQueue].idInPlaylist)
+        musicPreferencesUseCase.lastProgressive = playingQueue[positionInQueue].progressive
         return playingQueue[currentSongPosition]
     }
 
@@ -173,7 +173,7 @@ internal class QueueImpl @Inject constructor(
             val media = playingQueue[newPosition]
             publishMiniQueue(playingQueue.toList(), newPosition, false)
             updateCurrentSongPosition(newPosition)
-            musicPreferencesUseCase.setLastIdInPlaylist(playingQueue[newPosition].idInPlaylist)
+            musicPreferencesUseCase.lastProgressive = playingQueue[newPosition].progressive
             return media
         }
         return null
@@ -208,7 +208,7 @@ internal class QueueImpl @Inject constructor(
             val media = playingQueue[newPosition]
             publishMiniQueue(playingQueue.toList(), newPosition, false)
             updateCurrentSongPosition(newPosition)
-            musicPreferencesUseCase.setLastIdInPlaylist(playingQueue[newPosition].idInPlaylist)
+            musicPreferencesUseCase.lastProgressive = playingQueue[newPosition].progressive
             return media
         }
         return null
@@ -238,8 +238,7 @@ internal class QueueImpl @Inject constructor(
         val queue = enhancedShuffle.shuffle(playingQueue)
         updatePlayingQueue(queue)
 
-        val songPosition =
-            playingQueue.indexOfFirst { it.idInPlaylist == currentPlaying.idInPlaylist }
+        val songPosition = playingQueue.indexOfFirst { it.progressive == currentPlaying.progressive }
         if (songPosition != 0) {
             playingQueue.swap(0, songPosition)
         }
@@ -258,10 +257,9 @@ internal class QueueImpl @Inject constructor(
 
         val currentPlaying = playingQueue.getOrNull(currentSongPosition) ?: return
 
-        playingQueue.sortBy { it.idInPlaylist }
+        playingQueue.sortBy { it.progressive }
 
-        val newPosition =
-            playingQueue.indexOfFirst { it.idInPlaylist == currentPlaying.idInPlaylist }
+        val newPosition = playingQueue.indexOfFirst { it.progressive == currentPlaying.progressive }
         updateCurrentSongPosition(newPosition)
         publishMiniQueue(playingQueue.toList(), newPosition, true)
         // todo check if current song is first/last ecc and update ui
@@ -309,7 +307,7 @@ internal class QueueImpl @Inject constructor(
 
         playingQueue.swap(from, to)
 
-        val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentPlaying.idInPlaylist }
+        val newPosition = playingQueue.indexOfFirst { it.progressive == currentPlaying.progressive }
 
         updateCurrentSongPosition(newPosition)
         // todo check if current song is first/last ecc and update ui
@@ -387,7 +385,7 @@ internal class QueueImpl @Inject constructor(
 
         val queue = playingQueue.toList() // work on a copy
 
-        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+        var maxIdInPlaylist = queue.maxBy { it.progressive }?.progressive ?: 0
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
@@ -420,7 +418,7 @@ internal class QueueImpl @Inject constructor(
         val before = queue.take(currentSongPosition + 1)
         val after = queue.drop(currentSongPosition + 1)
 
-        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+        var maxIdInPlaylist = queue.maxBy { it.progressive }?.progressive ?: 0
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
