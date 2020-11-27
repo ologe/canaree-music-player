@@ -13,9 +13,9 @@ abstract class PodcastPositionDao {
         FROM podcast_position
         WHERE id = :podcastId
     """)
-    abstract fun getPosition(podcastId: Long): Long?
+    abstract suspend fun getPosition(podcastId: Long): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun setPosition(entity: PodcastPositionEntity)
+    abstract suspend fun setPosition(entity: PodcastPositionEntity)
 
 }
