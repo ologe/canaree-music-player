@@ -25,7 +25,6 @@ internal object RepositoryHelperModule {
                 Migration16to17(),
                 Migration17to18(),
             )
-            .allowMainThreadQueries()
             .build()
     }
 }
