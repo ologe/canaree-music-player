@@ -5,6 +5,7 @@ import android.media.AudioManager
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
+import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.internal.MediaSessionEvent
@@ -17,8 +18,8 @@ import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
     service: Service,
-    private val eventDispatcher: MediaSessionEventDispatcher,
-    private val player: IPlayer,
+    private val eventDispatcher: Lazy<MediaSessionEventDispatcher>,
+    private val player: Lazy<IPlayer>,
     private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {
@@ -84,9 +85,9 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     private fun dispatchGain() {
-        player.setVolume(volume.normal())
+        player.get().setVolume(volume.normal())
         if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
-            eventDispatcher.nextEvent(MediaSessionEvent.Resume)
+            eventDispatcher.get().nextEvent(MediaSessionEvent.Resume)
         }
         currentFocus = FocusState.GAIN
     }
@@ -94,19 +95,19 @@ internal class AudioFocusBehavior @Inject constructor(
     private fun dispatchLoss() {
         currentFocus = FocusState.NONE
         val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = true)
-        eventDispatcher.nextEvent(event)
+        eventDispatcher.get().nextEvent(event)
     }
 
     private fun dispatchLossTransient() {
-        if (player.isPlaying()) {
+        if (player.get().isPlaying()) {
             currentFocus = FocusState.PLAY_WHEN_READY
         }
         val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = currentFocus != FocusState.PLAY_WHEN_READY)
-        eventDispatcher.nextEvent(event)
+        eventDispatcher.get().nextEvent(event)
     }
 
     private fun dispatchLossTransientCanDuck() {
-        player.setVolume(volume.ducked())
+        player.get().setVolume(volume.ducked())
     }
 
 }
