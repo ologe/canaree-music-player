@@ -17,6 +17,7 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
+import dev.olog.shared.ConflatedSharedFlow
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
@@ -35,8 +36,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 ) {
 
     private val _current = MutableStateFlow<MetadataEntity?>(null)
-    // TODO handle multiple events of the same type
-    private val events = MutableStateFlow<MediaSessionEvent?>(null)
+    private val events = ConflatedSharedFlow<MediaSessionEvent?>(null)
 
     val currentEntity: Flow<MetadataEntity>
         get() = _current.filterNotNull()
@@ -49,7 +49,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     }
 
     fun nextEvent(event: MediaSessionEvent) {
-        events.value = event
+        events.tryEmit(event)
     }
 
     private suspend fun handleEvent(event: MediaSessionEvent) = when (event) {
