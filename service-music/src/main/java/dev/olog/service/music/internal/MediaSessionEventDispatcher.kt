@@ -10,7 +10,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
-import dev.olog.service.music.model.MediaEntity
+import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
@@ -34,10 +34,11 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     private val shuffleMode: MusicServiceShuffleMode,
 ) {
 
-    private val _current = MutableStateFlow<MediaEntity?>(null)
+    private val _current = MutableStateFlow<MetadataEntity?>(null)
+    // TODO handle multiple events of the same type
     private val events = MutableStateFlow<MediaSessionEvent?>(null)
 
-    val current: Flow<MediaEntity>
+    val currentEntity: Flow<MetadataEntity>
         get() = _current.filterNotNull()
 
     init {
@@ -255,7 +256,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
             return
         }
         player.play(entity)
-        _current.value = entity.mediaEntity
+        _current.value = MetadataEntity(entity.mediaEntity, SkipType.NONE)
     }
 
     private suspend fun postPreviousTrack(entity: PlayerMediaEntity?) {
@@ -271,14 +272,14 @@ internal class MediaSessionEventDispatcher @Inject constructor(
             SkipType.SKIP_PREVIOUS
         }
         player.playNext(entity, skipType)
-        _current.value = entity.mediaEntity
+        _current.value = MetadataEntity(entity.mediaEntity, skipType)
     }
 
     private suspend fun postNextTrack(entity: PlayerMediaEntity?, ended: Boolean) {
         if (entity != null) {
             val skipType = if (ended) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
             player.playNext(entity, skipType)
-            _current.value = entity.mediaEntity
+            _current.value = MetadataEntity(entity.mediaEntity, skipType)
             return
         }
         // restart current and pause
