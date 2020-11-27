@@ -61,7 +61,7 @@ internal class PlayerImpl @Inject constructor(
         releaseFocus()
     }
 
-    override fun prepare(playerModel: PlayerMediaEntity) {
+    override suspend fun prepare(playerModel: PlayerMediaEntity) {
         playerDelegate.prepare(playerModel, playerModel.bookmark)
 
         playerState.prepare(playerModel.bookmark)
@@ -72,7 +72,7 @@ internal class PlayerImpl @Inject constructor(
         listeners.forEach { it.onPrepare(MetadataEntity(playerModel.mediaEntity, SkipType.NONE)) }
     }
 
-    override fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
+    override suspend fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
         when (skipType){
             SkipType.NONE -> throw IllegalArgumentException("skip type must not be NONE")
             SkipType.RESTART,
@@ -84,7 +84,7 @@ internal class PlayerImpl @Inject constructor(
         playInternal(playerModel, skipType)
     }
 
-    override fun play(playerModel: PlayerMediaEntity) {
+    override suspend fun play(playerModel: PlayerMediaEntity) {
         playInternal(playerModel, SkipType.NONE)
     }
 
@@ -110,7 +110,7 @@ internal class PlayerImpl @Inject constructor(
         serviceLifecycle.start()
     }
 
-    override fun resume() {
+    override suspend fun resume() {
         if (!requestFocus()) return
 
         playerDelegate.resume()
@@ -123,7 +123,7 @@ internal class PlayerImpl @Inject constructor(
         noisy.register()
     }
 
-    override fun pause(stopService: Boolean, releaseFocus: Boolean) {
+    override suspend fun pause(stopService: Boolean, releaseFocus: Boolean) {
         playerDelegate.pause()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark(), currentSpeed)
         listeners.forEach {
@@ -140,7 +140,7 @@ internal class PlayerImpl @Inject constructor(
         }
     }
 
-    override fun seekTo(millis: Long) {
+    override suspend fun seekTo(millis: Long) {
         playerDelegate.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
         val playbackState = playerState.update(state, millis, currentSpeed)
@@ -156,22 +156,22 @@ internal class PlayerImpl @Inject constructor(
         }
     }
 
-    override fun forwardTenSeconds() {
+    override suspend fun forwardTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(10)
         seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
-    override fun replayTenSeconds() {
+    override suspend fun replayTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(10)
         seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
-    override fun forwardThirtySeconds() {
+    override suspend fun forwardThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(30)
         seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
-    override fun replayThirtySeconds() {
+    override suspend fun replayThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(30)
         seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
@@ -180,7 +180,7 @@ internal class PlayerImpl @Inject constructor(
 
     override fun getBookmark(): Long = playerDelegate.getBookmark()
 
-    override fun stopService() {
+    override suspend fun stopService() {
         serviceLifecycle.stop()
     }
 

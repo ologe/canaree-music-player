@@ -5,123 +5,51 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
 import android.view.KeyEvent
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.interfaces.IQueue
-import dev.olog.service.music.model.PlayerMediaEntity
-import dev.olog.service.music.model.SkipType
-import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
-import dev.olog.service.music.state.MusicServicePlaybackState
-import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dev.olog.service.music.internal.MediaSessionEvent
+import dev.olog.service.music.internal.MediaSessionEventDispatcher
 import javax.inject.Inject
 
 @ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
-    private val lifecycleOwner: LifecycleOwner,
-    private val queue: IQueue,
+    private val eventDispatcher: MediaSessionEventDispatcher,
     private val player: IPlayer,
-    private val repeatMode: MusicServiceRepeatMode,
-    private val shuffleMode: MusicServiceShuffleMode,
     private val mediaButton: MediaButton,
-    private val playerState: MusicServicePlaybackState,
-    private val favoriteGateway: FavoriteGateway
 ) : MediaSessionCompat.Callback() {
 
-    private var retrieveDataJob by autoDisposeJob()
-
     override fun onPrepare() {
-        onPrepareInternal(forced = true)
-    }
-
-    private fun onPrepareInternal(forced: Boolean){
-        assertMainThread()
-
-        if (queue.isEmpty() || forced){
-            val track = queue.prepare()
-            if (track != null){
-                player.prepare(track)
-            }
-        }
-    }
-
-    private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
-        retrieveDataJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            assertBackgroundThread()
-            val entity = retrieve()
-            if (entity != null) {
-                withContext(Dispatchers.Main) {
-                    player.play(entity)
-                }
-            } else {
-                onEmptyQueue()
-            }
-        }
-    }
-
-    private fun onEmptyQueue() {
-        onStop()
+        eventDispatcher.nextEvent(MediaSessionEvent.Prepare)
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
-        onPrepareInternal(false)
+        val mediaId = MediaId.fromString(stringMediaId)
+        val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
 
-        retrieveAndPlay {
-            updatePodcastPosition()
-
-            when (val mediaId = MediaId.fromString(stringMediaId)) {
-                MediaId.shuffleId() -> {
-                    // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
-                    queue.handlePlayShuffle(mediaId, null)
-                }
-                else -> {
-                    val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
-                    queue.handlePlayFromMediaId(mediaId, filter)
-                }
-            }
-        }
+        val event = MediaSessionEvent.PlayFromMediaId(mediaId, filter)
+        eventDispatcher.nextEvent(event)
     }
 
     override fun onPlay() {
-        onPrepareInternal(false)
-        player.resume()
-    }
-
-    override fun onPlayFromSearch(query: String, extras: Bundle) {
-        onPrepareInternal(false)
-
-        retrieveAndPlay {
-            updatePodcastPosition()
-            queue.handlePlayFromGoogleSearch(query, extras)
-        }
-    }
-
-    override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
-        onPrepareInternal(false)
-
-        retrieveAndPlay {
-            updatePodcastPosition()
-            queue.handlePlayFromUri(uri)
-        }
+        eventDispatcher.nextEvent(MediaSessionEvent.Resume)
     }
 
     override fun onPause() {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            updatePodcastPosition()
-            player.pause(true)
-        }
+        eventDispatcher.nextEvent(MediaSessionEvent.Pause(true))
+    }
+
+    override fun onPlayFromSearch(query: String, extras: Bundle) {
+        val event = MediaSessionEvent.PlayFromSearch(query, extras)
+        eventDispatcher.nextEvent(event)
+    }
+
+    override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
+        val event = MediaSessionEvent.PlayFromUri(uri)
+        eventDispatcher.nextEvent(event)
     }
 
     override fun onStop() {
@@ -132,62 +60,31 @@ internal class MediaSessionCallback @Inject constructor(
         onSkipToNext(false)
     }
 
-    override fun onSkipToPrevious() {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-
-            updatePodcastPosition()
-            queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-
-                val skipType = if (!metadata.mediaEntity.isPodcast && player.getBookmark() > SKIP_TO_PREVIOUS_THRESHOLD)
-                        SkipType.RESTART else SkipType.SKIP_PREVIOUS
-                player.playNext(metadata, skipType)
-            }
-        }
-    }
-
     private fun onTrackEnded() {
         onSkipToNext(true)
     }
 
+    override fun onSkipToPrevious() {
+        eventDispatcher.nextEvent(MediaSessionEvent.SkipToPrevious)
+    }
+
+
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
-    private fun onSkipToNext(trackEnded: Boolean) = lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-        updatePodcastPosition()
-        val metadata = queue.handleSkipToNext(trackEnded)
-        if (metadata != null) {
-            val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
-            player.playNext(metadata, skipType)
-        } else {
-            val currentSong = queue.getPlayingSong()
-            if (currentSong != null) {
-                player.play(currentSong)
-                player.pause(true)
-                player.seekTo(0L)
-            } else {
-                onEmptyQueue()
-            }
-        }
+    private fun onSkipToNext(trackEnded: Boolean)  {
+        val event = MediaSessionEvent.SkipToNext(trackEnded)
+        eventDispatcher.nextEvent(event)
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-
-            updatePodcastPosition()
-            val mediaEntity = queue.handleSkipToQueueItem(id)
-            if (mediaEntity != null) {
-                player.play(mediaEntity)
-            } else {
-                onEmptyQueue()
-            }
-        }
+        val event = MediaSessionEvent.SkipToItem(id)
+        eventDispatcher.nextEvent(event)
     }
 
     override fun onSeekTo(pos: Long) {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            updatePodcastPosition()
-            player.seekTo(pos)
-        }
+        val event = MediaSessionEvent.SeekTo(pos)
+        eventDispatcher.nextEvent(event)
     }
 
     override fun onSetRating(rating: RatingCompat?) {
@@ -195,117 +92,107 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) { favoriteGateway.toggleFavorite() }
+        eventDispatcher.nextEvent(MediaSessionEvent.ToggleFavorite)
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
-        onPrepareInternal(false)
 
         val musicAction = MusicServiceCustomAction.values().find { it.name == action }
             ?: return // other apps can request custom action
 
-        when (musicAction) {
+        val event = when (musicAction) {
             MusicServiceCustomAction.SHUFFLE -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
                 val filter = extras.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
-                retrieveAndPlay {
-                    updatePodcastPosition()
-                    queue.handlePlayShuffle(MediaId.fromString(mediaId), filter)
-                }
+
+                MediaSessionEvent.PlayShuffle(
+                    MediaId.fromString(mediaId),
+                    filter
+                )
             }
             MusicServiceCustomAction.SWAP -> {
                 requireNotNull(extras)
                 val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
                 val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
-                queue.handleSwap(from, to)
+                MediaSessionEvent.Swap(from, to)
             }
             MusicServiceCustomAction.SWAP_RELATIVE -> {
                 requireNotNull(extras)
                 val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
                 val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
-                queue.handleSwapRelative(from, to)
+                MediaSessionEvent.SwapRelative(from, to)
             }
             MusicServiceCustomAction.REMOVE -> {
                 requireNotNull(extras)
                 val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                queue.handleRemove(position)
+                MediaSessionEvent.Remove(position)
             }
             MusicServiceCustomAction.REMOVE_RELATIVE -> {
                 requireNotNull(extras)
                 val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                queue.handleRemoveRelative(position)
+                MediaSessionEvent.RemoveRelative(position)
             }
             MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                retrieveAndPlay {
-                    updatePodcastPosition()
-                    queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId))
-                }
+                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
             }
             MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                retrieveAndPlay {
-                    updatePodcastPosition()
-                    queue.handlePlayMostPlayed(MediaId.fromString(mediaId))
-                }
+                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
             }
-            MusicServiceCustomAction.FORWARD_10 -> player.forwardTenSeconds()
-            MusicServiceCustomAction.FORWARD_30 -> player.forwardThirtySeconds()
-            MusicServiceCustomAction.REPLAY_10 -> player.replayTenSeconds()
-            MusicServiceCustomAction.REPLAY_30 -> player.replayThirtySeconds()
-            MusicServiceCustomAction.TOGGLE_FAVORITE -> onSetRating(null)
+            MusicServiceCustomAction.FORWARD_10 -> MediaSessionEvent.Forward10Seconds
+            MusicServiceCustomAction.FORWARD_30 -> MediaSessionEvent.Forward30Seconds
+            MusicServiceCustomAction.REPLAY_10 -> MediaSessionEvent.Replay10Seconds
+            MusicServiceCustomAction.REPLAY_30 -> MediaSessionEvent.Replay30Seconds
+            MusicServiceCustomAction.TOGGLE_FAVORITE -> {
+                onSetRating(null)
+                null
+            }
             MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
-                lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                    requireNotNull(extras)
-                    val mediaIds =
-                        extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+                requireNotNull(extras)
+                val mediaIds =
+                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
-                    val position = queue.playLater(mediaIds.toList(), isPodcast)
-                    playerState.toggleSkipToActions(position)
-                }
+                MediaSessionEvent.AddToPlayLater(
+                    mediaIds.toList(),
+                    isPodcast
+                )
             }
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
-                lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                    requireNotNull(extras)
-                    val mediaIds =
-                        extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+                requireNotNull(extras)
+                val mediaIds =
+                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
-                    val position = queue.playNext(mediaIds.toList(), isPodcast)
-                    playerState.toggleSkipToActions(position)
-                }
+                MediaSessionEvent.AddToPlayNext(
+                    mediaIds.toList(),
+                    isPodcast
+                )
             }
             MusicServiceCustomAction.MOVE_RELATIVE -> {
                 requireNotNull(extras)
                 val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION)
-                queue.handleMoveRelative(position)
+                MediaSessionEvent.MoveRelative(position)
             }
+        }
+        if (event != null) {
+            eventDispatcher.nextEvent(event)
         }
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-        this.repeatMode.update()
-        playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
-        queue.onRepeatModeChanged()
+        eventDispatcher.nextEvent(MediaSessionEvent.RepeatModeChanged)
     }
 
     override fun onSetShuffleMode(unused: Int) {
-        val newShuffleMode = this.shuffleMode.update()
-        if (newShuffleMode) {
-            queue.shuffle()
-        } else {
-            queue.sort()
-        }
-        playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
+        eventDispatcher.nextEvent(MediaSessionEvent.ShuffleModeChanged)
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
-        onPrepareInternal(false)
-
         val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)!!
         if (event.action == KeyEvent.ACTION_DOWN) {
 
@@ -313,12 +200,20 @@ internal class MediaSessionCallback @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> handlePlayPause()
                 KeyEvent.KEYCODE_MEDIA_NEXT -> onSkipToNext()
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
-                KeyEvent.KEYCODE_MEDIA_STOP -> player.stopService()
-                KeyEvent.KEYCODE_MEDIA_PAUSE -> player.pause(false)
+                KeyEvent.KEYCODE_MEDIA_STOP -> {
+                    val sessionEvent = MediaSessionEvent.Pause(true)
+                    eventDispatcher.nextEvent(sessionEvent)
+                }
+                KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                    val sessionEvent = MediaSessionEvent.Pause(false)
+                    eventDispatcher.nextEvent(sessionEvent)
+                }
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
                 KeyEvent.KEYCODE_HEADSETHOOK -> mediaButton.onHeatSetHookClick()
-                else -> throw IllegalArgumentException("not handled")
+                else -> {
+                    Log.e("MediaSessionCallback", "not handled ${event.action}")
+                }
             }
         }
 
@@ -329,18 +224,14 @@ internal class MediaSessionCallback @Inject constructor(
      * this function DO NOT KILL service on pause
      */
     fun handlePlayPause() {
-        if (player.isPlaying()) {
-            player.pause(false)
+        val event = if (player.isPlaying()) {
+            MediaSessionEvent.Pause(false)
         } else {
-            onPlay()
+            MediaSessionEvent.Resume
         }
+        eventDispatcher.nextEvent(event)
     }
 
-    private suspend fun updatePodcastPosition() {
-        val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
-        withContext(Dispatchers.IO){
-            queue.updatePodcastPosition(bookmark)
-        }
-    }
+
 
 }

@@ -60,7 +60,7 @@ internal class QueueImpl @Inject constructor(
      * @param persist when true a new queue must be selected, queue and index will be persisted
      *  to storage
      */
-    fun updateState(
+    suspend fun updateState(
         songList: List<MediaEntity>,
         index: Int,
         updateImmediate: Boolean,
@@ -111,32 +111,27 @@ internal class QueueImpl @Inject constructor(
         return playingQueue.getOrNull(currentSongPosition)
     }
 
-    private fun publishMiniQueue(
+    private suspend fun publishMiniQueue(
         list: List<MediaEntity>,
         currentPosition: Int,
         immediate: Boolean
-    ) {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            assertBackgroundThread()
+    ) = withContext(Dispatchers.Default) {
+        val safePosition = ensurePosition(list, currentPosition)
+        val miniQueue = list.asSequence()
+            .drop(safePosition + 1)
+            .take(PlayingQueueGateway.MINI_QUEUE_SIZE)
+            .toMutableList()
+            .handleQueueOnRepeatMode()
 
-            val safePosition = ensurePosition(list, currentPosition)
-            val miniQueue = list.asSequence()
-                .drop(safePosition + 1)
-                .take(PlayingQueueGateway.MINI_QUEUE_SIZE)
-                .toMutableList()
-                .handleQueueOnRepeatMode()
-
-            if (immediate) {
-                queueMediaSession.onNextImmediate(miniQueue)
-            } else {
-                queueMediaSession.onNext(miniQueue)
-            }
+        if (immediate) {
+            queueMediaSession.onNextImmediate(miniQueue)
+        } else {
+            queueMediaSession.onNext(miniQueue)
         }
     }
 
     @CheckResult
-    fun getSongById(idInPlaylist: Int): MediaEntity? {
-        assertMainThread()
+    suspend fun getSongById(idInPlaylist: Int): MediaEntity? {
 
         if (isEmpty()){
             return null
@@ -153,8 +148,7 @@ internal class QueueImpl @Inject constructor(
     }
 
     @CheckResult
-    fun getNextSong(trackEnded: Boolean): MediaEntity? {
-        assertMainThread()
+    suspend fun getNextSong(trackEnded: Boolean): MediaEntity? {
 
         if (isEmpty()){
             return null
@@ -180,9 +174,7 @@ internal class QueueImpl @Inject constructor(
     }
 
     @CheckResult
-    fun getPreviousSong(playerBookmark: Long): MediaEntity? {
-        assertMainThread()
-
+    suspend fun getPreviousSong(playerBookmark: Long): MediaEntity? {
         if (isEmpty()){
             return null
         }
@@ -226,9 +218,7 @@ internal class QueueImpl @Inject constructor(
         return position in 0..list.lastIndex
     }
 
-    fun shuffle() {
-        assertMainThread()
-
+    suspend fun shuffle() {
         if (isEmpty()){
             return
         }
@@ -248,9 +238,7 @@ internal class QueueImpl @Inject constructor(
         // todo check if current song is first/last ecc and update ui
     }
 
-    fun sort() {
-        assertMainThread()
-
+    suspend fun sort() {
         if (isEmpty()){
             return
         }
@@ -265,8 +253,7 @@ internal class QueueImpl @Inject constructor(
         // todo check if current song is first/last ecc and update ui
     }
 
-    fun onRepeatModeChanged() {
-        assertMainThread()
+    suspend fun onRepeatModeChanged() {
         if (isEmpty()){
             return
         }
@@ -292,9 +279,7 @@ internal class QueueImpl @Inject constructor(
         return copy
     }
 
-    fun handleSwap(from: Int, to: Int) {
-        assertMainThread()
-
+    suspend fun handleSwap(from: Int, to: Int) {
         if (isEmpty()){
             return
         }
@@ -314,16 +299,14 @@ internal class QueueImpl @Inject constructor(
         publishMiniQueue(playingQueue, newPosition, false)
     }
 
-    fun handleSwapRelative(from: Int, to: Int) {
+    suspend fun handleSwapRelative(from: Int, to: Int) {
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }
 
     /**
      * moves the item so it can be played after current song
      */
-    fun handleMoveRelative(position: Int) {
-        assertMainThread()
-
+    suspend fun handleMoveRelative(position: Int) {
         if (isEmpty()){
             return
         }
@@ -337,9 +320,7 @@ internal class QueueImpl @Inject constructor(
         publishMiniQueue(playingQueue, currentSongPosition, true)
     }
 
-    fun handleRemove(position: Int) {
-        assertMainThread()
-
+    suspend fun handleRemove(position: Int) {
         if (isEmpty()){
             return
         }
@@ -355,7 +336,7 @@ internal class QueueImpl @Inject constructor(
         publishMiniQueue(playingQueue.toList(), currentSongPosition, false)
     }
 
-    fun handleRemoveRelative(position: Int) {
+    suspend fun handleRemoveRelative(position: Int) {
         handleRemove(position + currentSongPosition + 1)
     }
 
@@ -372,12 +353,11 @@ internal class QueueImpl @Inject constructor(
         }
     }
 
-    fun currentPositionInQueue(): PositionInQueue {
+    suspend fun currentPositionInQueue(): PositionInQueue {
         return computePositionInQueue(playingQueue, currentSongPosition)
     }
 
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
-        assertBackgroundThread()
 
         if (isEmpty()){
             return
@@ -407,7 +387,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
-        assertBackgroundThread()
 
         if (isEmpty()){
             return

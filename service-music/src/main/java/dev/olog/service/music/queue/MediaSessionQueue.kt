@@ -60,7 +60,7 @@ internal class MediaSessionQueue @Inject constructor(
             .setSubtitle(this.artist)
             .build()
 
-        return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())
+        return MediaSessionCompat.QueueItem(description, this.progressive.toLong())
     }
 
 }

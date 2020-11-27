@@ -6,12 +6,13 @@ import dev.olog.core.MediaId
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.PositionInQueue
 
+// TODO made get queue cancellable
 internal interface IQueue {
 
-    fun getCurrentPositionInQueue(): PositionInQueue
+    suspend fun getCurrentPositionInQueue(): PositionInQueue
 
-    fun prepare(): PlayerMediaEntity?
-    fun isEmpty(): Boolean
+    suspend fun prepare(): PlayerMediaEntity?
+    suspend fun isEmpty(): Boolean
 
     suspend fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
     suspend fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
@@ -26,22 +27,22 @@ internal interface IQueue {
 
     suspend fun getPlayingSong(): PlayerMediaEntity?
 
-    fun handleSwap(from: Int, to: Int)
-    fun handleSwapRelative(from: Int, to: Int)
+    suspend fun handleSwap(from: Int, to: Int)
+    suspend fun handleSwapRelative(from: Int, to: Int)
 
-    fun handleRemove(position: Int)
-    fun handleRemoveRelative(position: Int)
-    fun handleMoveRelative(position: Int)
+    suspend fun handleRemove(position: Int)
+    suspend fun handleRemoveRelative(position: Int)
+    suspend fun handleMoveRelative(position: Int)
 
-    fun sort()
-    fun shuffle()
+    suspend fun sort()
+    suspend fun shuffle()
 
-    fun onRepeatModeChanged()
+    suspend fun onRepeatModeChanged()
 
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean): PositionInQueue
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean): PositionInQueue
 //    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
 
-    fun updatePodcastPosition(position: Long)
+    suspend fun updatePodcastPosition(position: Long)
 
 }

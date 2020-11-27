@@ -5,9 +5,10 @@ import android.media.AudioManager
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
-import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.internal.MediaSessionEvent
+import dev.olog.service.music.internal.MediaSessionEventDispatcher
 import dev.olog.service.music.model.FocusState
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertMainThread
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
     service: Service,
-    private val player: Lazy<IPlayer>, // keep it lazy to avoid circular dependency
+    private val eventDispatcher: MediaSessionEventDispatcher,
+    private val player: IPlayer,
     private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {
@@ -34,7 +36,7 @@ internal class AudioFocusBehavior @Inject constructor(
             AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> FocusState.GAIN
             AudioManager.AUDIOFOCUS_REQUEST_DELAYED -> FocusState.DELAYED
             AudioManager.AUDIOFOCUS_REQUEST_FAILED -> FocusState.NONE
-            else -> throw IllegalStateException("audio focus response not handle with code $focus")
+            else -> error("audio focus response not handle with code $focus")
         }
 
         return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
@@ -71,30 +73,40 @@ internal class AudioFocusBehavior @Inject constructor(
         onAudioFocusChangeInternal(AudioFocusType.get(focusChange))
     }
 
-    private fun onAudioFocusChangeInternal(focus: AudioFocusType){
+    private fun onAudioFocusChangeInternal(focus: AudioFocusType) {
         when (focus) {
-            AudioFocusType.GAIN -> {
-                player.get().setVolume(this.volume.normal())
-                if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
-                    player.get().resume()
-                }
-                currentFocus = FocusState.GAIN
-            }
-            AudioFocusType.LOSS -> {
-                currentFocus = FocusState.NONE
-                player.get().pause(false, releaseFocus = true)
-            }
-            AudioFocusType.LOSS_TRANSIENT -> {
-                if (player.get().isPlaying()) {
-                    currentFocus = FocusState.PLAY_WHEN_READY
-                }
-                player.get().pause(false, currentFocus != FocusState.PLAY_WHEN_READY)
-            }
-            AudioFocusType.LOSS_TRANSIENT_CAN_DUCK -> {
-                player.get().setVolume(this.volume.ducked())
-            }
+            AudioFocusType.GAIN -> dispatchGain()
+            AudioFocusType.LOSS -> dispatchLoss()
+            AudioFocusType.LOSS_TRANSIENT -> dispatchLossTransient()
+            AudioFocusType.LOSS_TRANSIENT_CAN_DUCK -> dispatchLossTransientCanDuck()
             else -> {}
         }
+    }
+
+    private fun dispatchGain() {
+        player.setVolume(volume.normal())
+        if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
+            eventDispatcher.nextEvent(MediaSessionEvent.Resume)
+        }
+        currentFocus = FocusState.GAIN
+    }
+
+    private fun dispatchLoss() {
+        currentFocus = FocusState.NONE
+        val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = true)
+        eventDispatcher.nextEvent(event)
+    }
+
+    private fun dispatchLossTransient() {
+        if (player.isPlaying()) {
+            currentFocus = FocusState.PLAY_WHEN_READY
+        }
+        val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = currentFocus != FocusState.PLAY_WHEN_READY)
+        eventDispatcher.nextEvent(event)
+    }
+
+    private fun dispatchLossTransientCanDuck() {
+        player.setVolume(volume.ducked())
     }
 
 }

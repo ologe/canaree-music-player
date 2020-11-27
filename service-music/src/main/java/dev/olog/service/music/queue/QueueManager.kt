@@ -17,8 +17,6 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -39,43 +37,35 @@ internal class QueueManager @Inject constructor(
 
 ) : IQueue {
 
-    private fun findPosition(queue: List<MediaEntity>, predicate: (MediaEntity) -> Boolean): Int {
-        if (queue.isEmpty()) {
-            return 0
-        }
-        return queue.indexOfFirst(predicate).coerceIn(0, queue.lastIndex)
-    }
-
-    override fun prepare(): PlayerMediaEntity? {
-        assertMainThread()
+    override suspend fun prepare(): PlayerMediaEntity? {
 
         val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
 
-        val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
-        val currentPosition = findPosition(playingQueue) { it.idInPlaylist == lastPlayedId }
+        val position = if (playingQueue.isEmpty()) {
+            0
+        } else {
+            musicPreferencesUseCase.lastProgressive.coerceIn(0, playingQueue.lastIndex)
+        }
 
-        val result = playingQueue.getOrNull(currentPosition) ?: return null
+        val result = playingQueue.getOrNull(position) ?: return null
 
         queueImpl.updateState(
-            playingQueue, currentPosition,
-            updateImmediate = true, persist = false
+            playingQueue,
+            position,
+            updateImmediate = true,
+            persist = false
         )
-
-
-
         return result.toPlayerMediaEntity(
-            queueImpl.computePositionInQueue(playingQueue, currentPosition),
+            queueImpl.computePositionInQueue(playingQueue, position),
             getLastSessionBookmark(result)
         )
     }
 
-    override fun isEmpty(): Boolean {
+    override suspend fun isEmpty(): Boolean {
         return queueImpl.isEmpty()
     }
 
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getSongListByParamUseCase(mediaId).asSequence()
@@ -102,8 +92,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getRecentlyAddedUseCase(mediaId).first()
@@ -127,8 +115,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getMostPlayedSongsUseCase(mediaId).first()
@@ -152,8 +138,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         var songList = getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
@@ -178,8 +162,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val song = songGateway.getByUri(uri) ?: return null
         val mediaEntity = song.toMediaEntity(0, song.getMediaId())
         val songList = listOf(mediaEntity)
@@ -269,8 +251,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity? {
-        assertMainThread()
-
         val mediaEntity = queueImpl.getSongById(idInPlaylist.toInt()) ?: return null
         return mediaEntity.toPlayerMediaEntity(
             queueImpl.currentPositionInQueue(),
@@ -304,7 +284,7 @@ internal class QueueManager @Inject constructor(
     }
 
 
-    private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long  {
+    private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Long  {
         if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
             return bookmark.coerceIn(0L, mediaEntity.duration)
@@ -326,39 +306,39 @@ internal class QueueManager @Inject constructor(
         }
     }
 
-    override fun handleSwap(from: Int, to: Int) {
+    override suspend fun handleSwap(from: Int, to: Int) {
         queueImpl.handleSwap(from, to)
     }
 
-    override fun handleSwapRelative(from: Int, to: Int) {
+    override suspend fun handleSwapRelative(from: Int, to: Int) {
         queueImpl.handleSwapRelative(from, to)
     }
 
-    override fun handleMoveRelative(position: Int) {
+    override suspend fun handleMoveRelative(position: Int) {
         queueImpl.handleMoveRelative(position)
     }
 
-    override fun handleRemove(position: Int) {
+    override suspend fun handleRemove(position: Int) {
         queueImpl.handleRemove(position)
     }
 
-    override fun handleRemoveRelative(position: Int) {
+    override suspend fun handleRemoveRelative(position: Int) {
         queueImpl.handleRemoveRelative(position)
     }
 
-    override fun sort() {
+    override suspend fun sort() {
         queueImpl.sort()
     }
 
-    override fun shuffle() {
+    override suspend fun shuffle() {
         queueImpl.shuffle()
     }
 
-    override fun getCurrentPositionInQueue(): PositionInQueue {
+    override suspend fun getCurrentPositionInQueue(): PositionInQueue {
         return queueImpl.currentPositionInQueue()
     }
 
-    override fun onRepeatModeChanged() {
+    override suspend fun onRepeatModeChanged() {
         queueImpl.onRepeatModeChanged()
     }
 
@@ -388,7 +368,7 @@ internal class QueueManager @Inject constructor(
         }
     }
 
-    override fun updatePodcastPosition(position: Long) {
+    override suspend fun updatePodcastPosition(position: Long) {
         val mediaEntity = queueImpl.getCurrentSong()
         if (mediaEntity?.isPodcast == true) {
             podcastPosition.set(mediaEntity.id, position)
