@@ -70,10 +70,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         launch {
             adapter.observeData()
                 .take(1)
-                .map {
-                    val idInPlaylist = viewModel.getLastIdInPlaylist()
-                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
-                }
+                .map { viewModel.lastProgressive }
                 .filter { it != RecyclerView.NO_POSITION } // filter only valid position
                 .flowOn(Dispatchers.Default)
                 .collect { position ->

@@ -20,7 +20,8 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
+    val lastProgressive: Int
+        get() =  musicPreferencesUseCase.lastProgressive
 
     private val dataPublisher = MutableStateFlow<List<DisplayableQueueSong>>(emptyList())
     private val queuePublisher = MutableStateFlow<List<PlayingQueueSong>>(emptyList())
@@ -32,11 +33,15 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
             .onEach { queuePublisher.value = it }
             .launchIn(viewModelScope)
 
-        queuePublisher.combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
-        { queue, idInPlaylist ->
-            val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+        queuePublisher.combine(musicPreferencesUseCase.observeLastProgressive().distinctUntilChanged())
+        { queue, progressive ->
+            val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == progressive }
             queue.mapIndexed { index, item ->
-                item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
+                item.toDisplayableItem(
+                    currentPosition = index,
+                    currentPlayingIndex = currentPlayingIndex,
+                    currentPlayingIdInPlaylist = progressive
+                )
             }
         }
             .flowOn(Dispatchers.Default)
