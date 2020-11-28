@@ -10,7 +10,6 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
-import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
@@ -19,7 +18,10 @@ import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.ConflatedSharedFlow
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -35,11 +37,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     private val shuffleMode: MusicServiceShuffleMode,
 ) {
 
-    private val _current = MutableStateFlow<MetadataEntity?>(null)
     private val events = ConflatedSharedFlow<MediaSessionEvent?>(null)
-
-    val currentEntity: Flow<MetadataEntity>
-        get() = _current.filterNotNull()
 
     init {
         events.filterNotNull()
@@ -255,7 +253,6 @@ internal class MediaSessionEventDispatcher @Inject constructor(
             return
         }
         player.prepare(entity)
-        _current.value = MetadataEntity(entity.mediaEntity, SkipType.NONE)
     }
 
     private suspend fun postTrack(entity: PlayerMediaEntity?) {
@@ -265,7 +262,6 @@ internal class MediaSessionEventDispatcher @Inject constructor(
             return
         }
         player.play(entity)
-        _current.value = MetadataEntity(entity.mediaEntity, SkipType.NONE)
     }
 
     private suspend fun postPreviousTrack(entity: PlayerMediaEntity?) {
@@ -282,7 +278,6 @@ internal class MediaSessionEventDispatcher @Inject constructor(
             SkipType.SKIP_PREVIOUS
         }
         player.playNext(entity, skipType)
-        _current.value = MetadataEntity(entity.mediaEntity, skipType)
     }
 
     private suspend fun postNextTrack(entity: PlayerMediaEntity?, ended: Boolean) {
@@ -297,7 +292,6 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 
         val skipType = if (ended) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
         player.playNext(entity, skipType)
-        _current.value = MetadataEntity(entity.mediaEntity, skipType)
     }
 
 }

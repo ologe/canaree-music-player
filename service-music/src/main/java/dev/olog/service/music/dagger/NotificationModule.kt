@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.service.music.interfaces.INotification
+import dev.olog.service.music.notification.INotification
 import dev.olog.service.music.notification.NotificationImpl21
 import dev.olog.service.music.notification.NotificationImpl24
 import dev.olog.service.music.notification.NotificationImpl26

@@ -8,7 +8,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -18,7 +17,7 @@ internal class NotificationImpl26 @Inject constructor(
 
 ) : NotificationImpl24(service, mediaSession) {
 
-    override fun extendInitialization() {
+    override fun extendInitialization(builder: NotificationCompat.Builder) {
         builder.setColorized(true)
 
         val nowPlayingChannelExists = notificationManager.getNotificationChannel(INotification.CHANNEL_ID) != null
@@ -29,7 +28,6 @@ internal class NotificationImpl26 @Inject constructor(
     }
 
     private fun createChannel(){
-        // create notification channel
         val name = service.getString(R.string.music_channel_id_notification)
         val description = service.getString(R.string.music_channel_id_notification_description)
 

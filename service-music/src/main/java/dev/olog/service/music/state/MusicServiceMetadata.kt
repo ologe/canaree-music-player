@@ -10,20 +10,20 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.lib.image.provider.GlideUtils
-import dev.olog.lib.image.provider.getCachedBitmap
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
-import dev.olog.service.music.interfaces.IPlayerLifecycle
+import dev.olog.lib.image.provider.GlideUtils
+import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.player.InternalPlayerState
 import dev.olog.service.music.utils.putBoolean
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -31,59 +31,67 @@ import javax.inject.Inject
 @ServiceScoped
 internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val lifecycleOwner: LifecycleOwner,
+    private val schedulers: Schedulers,
+    lifecycleOwner: LifecycleOwner,
     private val mediaSession: MediaSessionCompat,
-    playerLifecycle: IPlayerLifecycle,
-    musicPrefs: MusicPreferencesGateway
-
-) : IPlayerLifecycle.Listener {
+    musicPrefs: MusicPreferencesGateway,
+    internalPlayerState: InternalPlayerState,
+) {
 
     private val builder = MediaMetadataCompat.Builder()
 
-    private var showLockScreenArtwork = false
+    private var imageJob by autoDisposeJob()
 
     init {
-        playerLifecycle.addListener(this)
+        val metadataFlow = internalPlayerState.state
+            .distinctUntilChanged { old, new -> new.isSameMetadata(old) }
 
-        musicPrefs.observeShowLockscreenArtwork()
-            .onEach { showLockScreenArtwork = it }
+        metadataFlow.combine(musicPrefs.observeShowLockscreenArtwork())
+        { entity, showArtwork -> entity to showArtwork }
+            .mapLatest(::onItemChanged)
+            .flowOn(schedulers.cpu)
             .launchIn(lifecycleOwner.lifecycleScope)
     }
 
-    override fun onPrepare(metadata: MetadataEntity) {
-        onMetadataChanged(metadata)
-    }
+    private fun onItemChanged(pair: Pair<InternalPlayerState.Data, Boolean>) {
+        val (metadata, showLockScreenArtwork) = pair
 
-    override fun onMetadataChanged(metadata: MetadataEntity) {
-        update(metadata)
+        update(metadata, showLockScreenArtwork)
         notifyWidgets(metadata.entity)
     }
 
-    private fun update(metadata: MetadataEntity) {
-        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+    private fun update(metadata: InternalPlayerState.Data, showLockScreenArtwork: Boolean) {
+        val entity = metadata.entity
 
-            val entity = metadata.entity
+        val skipNext = metadata.skipType == SkipType.SKIP_NEXT
+        val skipPrevious = metadata.skipType == SkipType.SKIP_PREVIOUS
 
-            builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-                .putString(MusicConstants.PATH, entity.path)
-                .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
-                .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)
-                .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
+            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
+            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
+            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
+            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
+            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
+            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
+            .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
+            .putString(MusicConstants.PATH, entity.path)
+            .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
+            .putBoolean(MusicConstants.SKIP_NEXT, skipNext)
+            .putBoolean(MusicConstants.SKIP_PREVIOUS, skipPrevious)
+            .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null)
 
+        mediaSession.setMetadata(builder.build())
+
+        if (showLockScreenArtwork) {
+            postImageAsync(metadata.entity)
+        }
+    }
+
+    private fun postImageAsync(entity: MediaEntity) {
+        imageJob = GlobalScope.launch(schedulers.io) {
+            val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
+            builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
             yield()
-
-            if (showLockScreenArtwork) {
-                val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
-                yield()
-                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
-            }
             mediaSession.setMetadata(builder.build())
         }
     }

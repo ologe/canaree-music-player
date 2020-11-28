@@ -1,14 +1,16 @@
 package dev.olog.service.music.notification
 
 import android.app.Service
+import android.graphics.Typeface
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
+import android.text.style.StyleSpan
 import androidx.annotation.RequiresApi
+import androidx.core.text.buildSpannedString
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
-import dev.olog.service.music.interfaces.INotification
 import dev.olog.shared.TextUtils
 import javax.inject.Inject
 
@@ -36,7 +38,7 @@ internal open class NotificationImpl24 @Inject constructor(
 
     override suspend fun updateMetadataImpl(
         id: Long,
-        title: SpannableString,
+        title: String,
         artist: String,
         album: String,
         isPodcast: Boolean
@@ -44,11 +46,15 @@ internal open class NotificationImpl24 @Inject constructor(
         builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)
         builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
 
+        val spannableTitle = buildSpannedString {
+            append(title, StyleSpan(Typeface.BOLD), 0) // TODO check flag
+        }
+
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
         val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
         val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
-            .setContentTitle(title)
+            .setContentTitle(spannableTitle)
             .setContentText(artist)
     }
 

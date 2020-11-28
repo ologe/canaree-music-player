@@ -8,7 +8,6 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*
-import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
@@ -27,9 +26,10 @@ internal class PlayerImpl @Inject constructor(
     private val audioFocus : AudioFocusBehavior,
     private val playerDelegate: IPlayerDelegate<PlayerMediaEntity>,
     musicPrefsUseCase: MusicPreferencesGateway,
-    private val playerVolume: IMaxAllowedPlayerVolume
+    private val playerVolume: IMaxAllowedPlayerVolume,
+    private val internalPlayerState: InternalPlayerState,
 
-) : IPlayer,
+    ) : IPlayer,
     DefaultLifecycleObserver,
     IPlayerLifecycle {
 
@@ -69,7 +69,11 @@ internal class PlayerImpl @Inject constructor(
         playerState.updatePlaybackSpeed(currentSpeed)
         playerState.toggleSkipToActions(playerModel.positionInQueue)
 
-        listeners.forEach { it.onPrepare(MetadataEntity(playerModel.mediaEntity, SkipType.NONE)) }
+        internalPlayerState.prepare(
+            entity = playerModel.mediaEntity,
+            positionInQueue = playerModel.positionInQueue,
+            bookmark = getBookmark(),
+        )
     }
 
     override suspend fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
@@ -91,8 +95,6 @@ internal class PlayerImpl @Inject constructor(
     private fun playInternal(playerModel: PlayerMediaEntity, skipType: SkipType){
         val hasFocus = requestFocus()
 
-        val entity = playerModel.mediaEntity
-
         playerDelegate.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(
@@ -101,13 +103,20 @@ internal class PlayerImpl @Inject constructor(
 
         listeners.forEach {
             it.onStateChanged(state)
-            it.onMetadataChanged(MetadataEntity(entity, skipType))
         }
 
         playerState.toggleSkipToActions(playerModel.positionInQueue)
         noisy.register()
 
         serviceLifecycle.start()
+
+        internalPlayerState.play(
+            entity = playerModel.mediaEntity,
+            positionInQueue = playerModel.positionInQueue,
+            bookmark = getBookmark(),
+            isPlaying = isPlaying(),
+            skipType = skipType,
+        )
     }
 
     override suspend fun resume() {
@@ -121,6 +130,11 @@ internal class PlayerImpl @Inject constructor(
 
         serviceLifecycle.start()
         noisy.register()
+
+        internalPlayerState.resume(
+            isPlaying = isPlaying(),
+            bookmark = getBookmark()
+        )
     }
 
     override suspend fun pause(stopService: Boolean, releaseFocus: Boolean) {
@@ -138,6 +152,10 @@ internal class PlayerImpl @Inject constructor(
         if (stopService) {
             serviceLifecycle.stop()
         }
+
+        internalPlayerState.pause(
+            bookmark = getBookmark()
+        )
     }
 
     override suspend fun seekTo(millis: Long) {
@@ -154,6 +172,11 @@ internal class PlayerImpl @Inject constructor(
         } else {
             serviceLifecycle.stop()
         }
+
+        internalPlayerState.resume(
+            isPlaying = isPlaying(),
+            bookmark = getBookmark()
+        )
     }
 
     override suspend fun forwardTenSeconds() {

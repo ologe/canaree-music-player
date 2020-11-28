@@ -3,6 +3,7 @@ package dev.olog.service.music.interfaces
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.service.music.model.MetadataEntity
 
+@Deprecated("")
 internal interface IPlayerLifecycle {
 
     fun addListener(listener: Listener)
