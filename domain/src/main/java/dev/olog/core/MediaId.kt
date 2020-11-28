@@ -13,14 +13,29 @@ enum class MediaIdCategory {
     PODCASTS_ALBUMS,
     PODCASTS_ARTISTS,
 
-    HEADER,
-    PLAYING_QUEUE
+    HEADER, // TODO remove
+    PLAYING_QUEUE // TODO remove
+}
+
+enum class MediaIdModifier {
+    MOST_PLAYED,
+    RECENTLY_ADDED;
+
+    companion object {
+
+        fun find(value: String): MediaIdModifier? {
+            return values().find { it.name == value }
+        }
+
+    }
+
 }
 
 data class MediaId(
     val category: MediaIdCategory,
     val categoryValue: String,
-    val leaf: Long? = null
+    val leaf: Long?,
+    val modifier: MediaIdModifier?
 ) {
 
     val source : Int
@@ -30,36 +45,68 @@ data class MediaId(
         // songs/|10
         // albums/10|20
         // TODO convert categoryValue to long
-        private val MEDIA_ID_REGEX = "(\\w+)\\/(\\w*)\\|(\\d+)".toRegex()
+        private val MEDIA_ID_REGEX = "(\\w+)\\/(\\w*)\\|(\\d+)(\\\\(\\w+))?".toRegex()
 
         fun headerId(value: String): MediaId {
-            return MediaId(MediaIdCategory.HEADER, value)
+            return MediaId(
+                category = MediaIdCategory.HEADER,
+                categoryValue = value,
+                leaf = null,
+                modifier = null,
+            )
         }
 
-        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
+        val playingQueueId: MediaId
+            get() = MediaId(
+                category = MediaIdCategory.PLAYING_QUEUE,
+                categoryValue = "",
+                leaf = null,
+                modifier = null,
+            )
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
-            return MediaId(category, categoryValue)
+            return MediaId(
+                category = category,
+                categoryValue = categoryValue,
+                leaf = null,
+                modifier = null,
+            )
         }
 
         fun songId(id: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "", id)
+            return MediaId(
+                category = MediaIdCategory.SONGS,
+                categoryValue = "",
+                leaf = id,
+                modifier = null
+            )
         }
 
         fun playableItem(parentId: MediaId, songId: Long): MediaId {
-            return MediaId(parentId.category, parentId.categoryValue, songId)
+            return MediaId(
+                category = parentId.category,
+                categoryValue = parentId.categoryValue,
+                leaf = songId,
+                modifier = null
+            )
         }
 
         fun shuffleId(): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "shuffle")
+            return MediaId(
+                category = MediaIdCategory.SONGS,
+                categoryValue = "shuffle",
+                leaf = null,
+                modifier = null,
+            )
         }
 
         fun fromString(mediaId: String): MediaId {
             val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
             return MediaId(
-                MediaIdCategory.valueOf(groups[1]),
-                groups[2],
-                groups[3].toLong()
+                category = MediaIdCategory.valueOf(groups[1]),
+                categoryValue = groups[2],
+                leaf = groups[3].toLong(),
+                modifier = MediaIdModifier.find(groups[5])
             )
         }
     }
@@ -67,6 +114,7 @@ data class MediaId(
     val isLeaf: Boolean
         get() = leaf != null
 
+    // TODO test
     override fun toString(): String {
         return buildString {
             append(category.toString())
@@ -75,6 +123,10 @@ data class MediaId(
             if (leaf != null) {
                 append("|")
                 append(leaf)
+            }
+            if (modifier != null) {
+                append("\\")
+                append(modifier)
             }
         }
     }
