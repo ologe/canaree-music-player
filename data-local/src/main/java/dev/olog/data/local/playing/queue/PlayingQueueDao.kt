@@ -24,7 +24,7 @@ internal abstract class PlayingQueueDao {
         ORDER BY progressive
     """
     )
-    abstract fun getAllImpl(): List<PlayingQueueEntity>
+    abstract suspend fun getAllImpl(): List<PlayingQueueEntity>
 
     @Query(
         """
@@ -35,10 +35,10 @@ internal abstract class PlayingQueueDao {
     abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
-    abstract fun deleteAllImpl()
+    abstract suspend fun deleteAllImpl()
 
     @Insert
-    abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
+    abstract suspend fun insertAllImpl(list: List<PlayingQueueEntity>)
 
     private fun makePlayingQueue(
         playingQueue: List<PlayingQueueEntity>,
@@ -60,16 +60,19 @@ internal abstract class PlayingQueueDao {
 
             val song = fakeSongList[0] // only one song
             val playingQueueSong = song.toPlayingQueueSong(
-                playingQueueEntity.idInPlaylist,
-                playingQueueEntity.category,
-                playingQueueEntity.categoryValue
+                idInPlaylist = playingQueueEntity.idInPlaylist,
+                category = playingQueueEntity.category,
+                categoryValue = playingQueueEntity.categoryValue
             )
             result.add(playingQueueSong)
         }
         return result
     }
 
-    fun getAllAsSongs(songList: List<Song>, podcastList: List<Song>): List<PlayingQueueSong> {
+    suspend fun getAllAsSongs(
+        songList: List<Song>,
+        podcastList: List<Song>
+    ): List<PlayingQueueSong> {
         val queueEntityList = getAllImpl()
         return makePlayingQueue(queueEntityList, songList, podcastList)
     }
@@ -85,7 +88,7 @@ internal abstract class PlayingQueueDao {
     }
 
     @Transaction
-    open fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
+    open suspend fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
         assertBackgroundThread()
 
         deleteAllImpl()

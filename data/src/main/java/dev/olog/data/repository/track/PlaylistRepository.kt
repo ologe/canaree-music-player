@@ -78,8 +78,7 @@ internal class PlaylistRepository @Inject constructor(
             .map { it?.toDomain() }
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
+    override suspend fun getTrackListByParam(param: Id): List<Song> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }

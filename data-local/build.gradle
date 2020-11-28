@@ -38,4 +38,6 @@ dependencies {
     kapt lib_data.room_processor
 
     implementation lib_network.gson
+
+    implementation lib_debug.timber
 }

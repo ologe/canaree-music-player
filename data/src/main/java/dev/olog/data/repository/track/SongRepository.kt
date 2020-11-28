@@ -18,10 +18,12 @@ import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
+import dev.olog.shared.android.extensions.toAndroidUri
 import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
+import java.net.URI
 import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
@@ -89,9 +91,9 @@ internal class SongRepository @Inject constructor(
         }
     }
 
-    override fun getByUri(uri: Uri): Song? {
+    override fun getByUri(uri: URI): Song? {
         try {
-            val id = getByUriInternal(uri) ?: return null
+            val id = getByUriInternal(uri.toAndroidUri()) ?: return null
             return getByParam(id)
         } catch (ex: Exception){
             ex.printStackTrace()

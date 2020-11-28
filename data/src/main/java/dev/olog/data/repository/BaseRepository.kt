@@ -51,7 +51,7 @@ internal abstract class BaseRepository<T, Param>(
 
     protected fun <R> observeByParamInternal(
         contentUri: ContentUri,
-        action: () -> R
+        action: suspend () -> R
     ): Flow<R> {
 
         val flow = MutableStateFlow<R?>(null)

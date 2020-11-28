@@ -6,8 +6,8 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class PlayingQueueRepository @Inject constructor(
@@ -17,18 +17,19 @@ internal class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
-    override fun getAll(): List<PlayingQueueSong> {
+    override suspend fun getAll(): List<PlayingQueueSong> {
         try {
-//            assertBackgroundThread()
-            val playingQueue =
-                playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
+            val playingQueue = playingQueueDao.getAllAsSongs(
+                songList = songGateway.getAll(),
+                podcastList = podcastGateway.getAll()
+            )
             if (playingQueue.isNotEmpty()) {
                 return playingQueue
             }
             return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
         } catch (ex: SecurityException) {
             // sometimes this method is called without having storage permission
-            ex.printStackTrace()
+            Timber.e(ex)
             return emptyList()
         }
     }
@@ -37,8 +38,7 @@ internal class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.observeAllAsSongs(songGateway, podcastGateway)
     }
 
-    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
-        assertBackgroundThread()
+    override suspend fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
         playingQueueDao.insert(list)
     }
 

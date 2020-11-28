@@ -69,8 +69,7 @@ internal class AlbumRepository @Inject constructor(
 
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
+    override suspend fun getTrackListByParam(param: Id): List<Song> {
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }

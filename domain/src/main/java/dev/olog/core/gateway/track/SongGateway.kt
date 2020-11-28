@@ -1,9 +1,9 @@
 package dev.olog.core.gateway.track
 
-import android.net.Uri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.gateway.base.Id
+import java.net.URI
 
 interface SongGateway :
     BaseGateway<Song, Id> {
@@ -11,7 +11,7 @@ interface SongGateway :
     suspend fun deleteSingle(id: Id)
     suspend fun deleteGroup(ids: List<Song>)
 
-    fun getByUri(uri: Uri): Song?
+    fun getByUri(uri: URI): Song?
 
     fun getByAlbumId(albumId: Id): Song?
 
