@@ -1,4 +1,4 @@
-package dev.olog.service.music.internal
+package dev.olog.service.music.event.queue
 
 import android.net.Uri
 import android.os.Bundle

@@ -11,8 +11,8 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.internal.MediaSessionEvent
-import dev.olog.service.music.internal.MediaSessionEventHandler
+import dev.olog.service.music.event.queue.MediaSessionEvent
+import dev.olog.service.music.event.queue.MediaSessionEventHandler
 import javax.inject.Inject
 
 @ServiceScoped

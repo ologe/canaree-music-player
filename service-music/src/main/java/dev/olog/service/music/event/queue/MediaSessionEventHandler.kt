@@ -1,4 +1,4 @@
-package dev.olog.service.music.internal
+package dev.olog.service.music.event.queue
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +8,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.service.music.event.queue.MediaSessionEvent
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.PlayerMediaEntity

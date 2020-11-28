@@ -8,8 +8,8 @@ import androidx.media.AudioManagerCompat
 import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.internal.MediaSessionEvent
-import dev.olog.service.music.internal.MediaSessionEventHandler
+import dev.olog.service.music.event.queue.MediaSessionEvent
+import dev.olog.service.music.event.queue.MediaSessionEventHandler
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.lazyFast
