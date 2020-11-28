@@ -5,14 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import android.view.KeyEvent
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.MediaId
-import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.event.queue.MediaSessionEvent
 import dev.olog.service.music.event.queue.MediaSessionEventHandler
+import dev.olog.shared.android.extensions.toJavaUri
+import dev.olog.shared.android.toMap
+import timber.log.Timber
 import javax.inject.Inject
 
 @ServiceScoped
@@ -22,174 +22,252 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     private val mediaButton: MediaButton,
 ) : MediaSessionCompat.Callback() {
 
-    override fun onPrepare() {
-        eventHandler.nextEvent(MediaSessionEvent.Prepare)
+    init {
+        onPrepare()
     }
 
-    override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
-        val mediaId = MediaId.fromString(stringMediaId)
-        val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
+    // region prepare
 
-        val event = MediaSessionEvent.PlayFromMediaId(mediaId, filter)
+    override fun onPrepare() {
+        Timber.v("onPrepare")
+        eventHandler.nextEvent(MediaSessionEvent.Prepare.LastQueue)
+    }
+
+    override fun onPrepareFromMediaId(mediaId: String, extras: Bundle?) {
+        Timber.v("onPrepareFromMediaId mediaId=$mediaId, extras=$extras")
+
+        val event = MediaSessionEvent.Prepare.FromMediaId(
+            mediaId = mediaId,
+            extras = extras.toMap()
+        )
         eventHandler.nextEvent(event)
     }
 
-    override fun onPlay() {
-        eventHandler.nextEvent(MediaSessionEvent.Resume)
+    override fun onPrepareFromSearch(query: String?, extras: Bundle?) {
+        Timber.v("onPrepareFromSearch query=$query, extras=$extras")
+        val event = MediaSessionEvent.Prepare.FromSearch(
+            query = query,
+            extras = extras.toMap()
+        )
+        eventHandler.nextEvent(event)
     }
 
-    override fun onPause() {
-        eventHandler.nextEvent(MediaSessionEvent.Pause(true))
+    override fun onPrepareFromUri(uri: Uri, extras: Bundle?) {
+        Timber.v("onPrepareFromUri, uri=$uri, extras=$extras")
+        val event = MediaSessionEvent.Prepare.FromUri(
+            uri = uri.toJavaUri(),
+            extras = extras.toMap()
+        )
+        eventHandler.nextEvent(event)
     }
 
-    override fun onPlayFromSearch(query: String, extras: Bundle) {
-        val event = MediaSessionEvent.PlayFromSearch(query, extras)
+    // endregion
+
+    // region play from
+
+    override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
+        Timber.v("onPlayFromMediaId mediaId=$mediaId, extras=$extras")
+        val event = MediaSessionEvent.Play.FromMediaId(
+            mediaId = mediaId,
+            extras = extras.toMap()
+        )
+        eventHandler.nextEvent(event)
+    }
+
+    override fun onPlayFromSearch(query: String?, extras: Bundle) {
+        Timber.v("onPlayFromSearch query=$query, extras=$extras")
+        val event = MediaSessionEvent.Play.FromSearch(
+            query = query,
+            extras = extras.toMap()
+        )
         eventHandler.nextEvent(event)
     }
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
-        val event = MediaSessionEvent.PlayFromUri(uri)
+        Timber.v("onPlayFromUri uri=$uri, extras=$extras")
+        val event = MediaSessionEvent.Play.FromUri(
+            uri = uri.toJavaUri(),
+            extras = extras.toMap()
+        )
+        eventHandler.nextEvent(event)
+    }
+
+    // endregion
+
+    // region player actions
+
+    override fun onPlay() {
+        Timber.v("onPlay")
+        eventHandler.nextEvent(MediaSessionEvent.PlayerAction.Resume)
+    }
+
+    override fun onPause() {
+        Timber.v("onPause")
+        val event = MediaSessionEvent.PlayerAction.Pause(
+            stopService = true // TODO stop?
+        )
         eventHandler.nextEvent(event)
     }
 
     override fun onStop() {
+        Timber.v("onStop")
         onPause()
     }
 
     override fun onSkipToNext() {
-        onSkipToNext(false)
+        Timber.v("onSkipToNext")
+        onSkipToNext(trackEnded = false)
     }
 
     private fun onTrackEnded() {
-        onSkipToNext(true)
+        onSkipToNext(trackEnded = true)
     }
-
-    override fun onSkipToPrevious() {
-        eventHandler.nextEvent(MediaSessionEvent.SkipToPrevious)
-    }
-
 
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
     private fun onSkipToNext(trackEnded: Boolean)  {
-        val event = MediaSessionEvent.SkipToNext(trackEnded)
+        val event = MediaSessionEvent.PlayerAction.SkipToNext(
+            ended = trackEnded
+        )
         eventHandler.nextEvent(event)
     }
 
+    override fun onSkipToPrevious() {
+        Timber.v("onSkipToPrevious")
+        eventHandler.nextEvent(MediaSessionEvent.PlayerAction.SkipToPrevious)
+    }
+
     override fun onSkipToQueueItem(id: Long) {
-        val event = MediaSessionEvent.SkipToItem(id)
+        Timber.v("onSkipToQueueItem id=$id")
+        val event = MediaSessionEvent.PlayerAction.SkipToItem(
+            id = id
+        )
         eventHandler.nextEvent(event)
     }
 
     override fun onSeekTo(pos: Long) {
-        val event = MediaSessionEvent.SeekTo(pos)
+        Timber.v("onSeekTo pos=$pos")
+        val event = MediaSessionEvent.PlayerAction.SeekTo(
+            millis = pos
+        )
         eventHandler.nextEvent(event)
     }
+
+    override fun onFastForward() {
+        Timber.v("onFastForward")
+    }
+
+    override fun onRewind() {
+        Timber.v("onRewind")
+    }
+
+    // endregion
 
     override fun onSetRating(rating: RatingCompat?) {
         onSetRating(rating, null)
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        eventHandler.nextEvent(MediaSessionEvent.ToggleFavorite)
+//        eventHandler.nextEvent(MediaSessionEvent.ToggleFavorite) TODO
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
 
-        val musicAction = MusicServiceCustomAction.values().find { it.name == action }
-            ?: return // other apps can request custom action
-
-        val event = when (musicAction) {
-            MusicServiceCustomAction.SHUFFLE -> {
-                requireNotNull(extras)
-                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                val filter = extras.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
-
-                MediaSessionEvent.PlayShuffle(
-                    MediaId.fromString(mediaId),
-                    filter
-                )
-            }
-            MusicServiceCustomAction.SWAP -> {
-                requireNotNull(extras)
-                val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
-                val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
-                MediaSessionEvent.Swap(from, to)
-            }
-            MusicServiceCustomAction.SWAP_RELATIVE -> {
-                requireNotNull(extras)
-                val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
-                val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
-                MediaSessionEvent.SwapRelative(from, to)
-            }
-            MusicServiceCustomAction.REMOVE -> {
-                requireNotNull(extras)
-                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                MediaSessionEvent.Remove(position)
-            }
-            MusicServiceCustomAction.REMOVE_RELATIVE -> {
-                requireNotNull(extras)
-                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                MediaSessionEvent.RemoveRelative(position)
-            }
-            MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
-                requireNotNull(extras)
-                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
-            }
-            MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
-                requireNotNull(extras)
-                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
-            }
-            MusicServiceCustomAction.FORWARD_10 -> MediaSessionEvent.Forward10Seconds
-            MusicServiceCustomAction.FORWARD_30 -> MediaSessionEvent.Forward30Seconds
-            MusicServiceCustomAction.REPLAY_10 -> MediaSessionEvent.Replay10Seconds
-            MusicServiceCustomAction.REPLAY_30 -> MediaSessionEvent.Replay30Seconds
-            MusicServiceCustomAction.TOGGLE_FAVORITE -> {
-                onSetRating(null)
-                null
-            }
-            MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
-                requireNotNull(extras)
-                val mediaIds =
-                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
-
-                MediaSessionEvent.AddToPlayLater(
-                    mediaIds.toList(),
-                    isPodcast
-                )
-            }
-            MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
-                requireNotNull(extras)
-                val mediaIds =
-                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
-
-                MediaSessionEvent.AddToPlayNext(
-                    mediaIds.toList(),
-                    isPodcast
-                )
-            }
-            MusicServiceCustomAction.MOVE_RELATIVE -> {
-                requireNotNull(extras)
-                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION)
-                MediaSessionEvent.MoveRelative(position)
-            }
-        }
-        if (event != null) {
-            eventHandler.nextEvent(event)
-        }
+//        TODO
+//        val musicAction = MusicServiceCustomAction.values().find { it.name == action }
+//            ?: return // other apps can request custom action
+//
+//        val event = when (musicAction) {
+//            MusicServiceCustomAction.SHUFFLE -> {
+//                requireNotNull(extras)
+//                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
+//                val filter = extras.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
+//
+//                MediaSessionEvent.PlayShuffle(
+//                    MediaId.fromString(mediaId),
+//                    filter
+//                )
+//            }
+//            MusicServiceCustomAction.SWAP -> {
+//                requireNotNull(extras)
+//                val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
+//                val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
+//                MediaSessionEvent.Swap(from, to)
+//            }
+//            MusicServiceCustomAction.SWAP_RELATIVE -> {
+//                requireNotNull(extras)
+//                val from = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_FROM, 0)
+//                val to = extras.getInt(MusicServiceCustomAction.ARGUMENT_SWAP_TO, 0)
+//                MediaSessionEvent.SwapRelative(from, to)
+//            }
+//            MusicServiceCustomAction.REMOVE -> {
+//                requireNotNull(extras)
+//                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
+//                MediaSessionEvent.Remove(position)
+//            }
+//            MusicServiceCustomAction.REMOVE_RELATIVE -> {
+//                requireNotNull(extras)
+//                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
+//                MediaSessionEvent.RemoveRelative(position)
+//            }
+//            MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
+//                requireNotNull(extras)
+//                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
+//                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
+//            }
+//            MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
+//                requireNotNull(extras)
+//                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
+//                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
+//            }
+//            MusicServiceCustomAction.FORWARD_10 -> MediaSessionEvent.Forward10Seconds
+//            MusicServiceCustomAction.FORWARD_30 -> MediaSessionEvent.Forward30Seconds
+//            MusicServiceCustomAction.REPLAY_10 -> MediaSessionEvent.Replay10Seconds
+//            MusicServiceCustomAction.REPLAY_30 -> MediaSessionEvent.Replay30Seconds
+//            MusicServiceCustomAction.TOGGLE_FAVORITE -> {
+//                onSetRating(null)
+//                null
+//            }
+//            MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
+//                requireNotNull(extras)
+//                val mediaIds =
+//                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+//                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+//
+//                MediaSessionEvent.AddToPlayLater(
+//                    mediaIds.toList(),
+//                    isPodcast
+//                )
+//            }
+//            MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
+//                requireNotNull(extras)
+//                val mediaIds =
+//                    extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+//                val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+//
+//                MediaSessionEvent.AddToPlayNext(
+//                    mediaIds.toList(),
+//                    isPodcast
+//                )
+//            }
+//            MusicServiceCustomAction.MOVE_RELATIVE -> {
+//                requireNotNull(extras)
+//                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION)
+//                MediaSessionEvent.MoveRelative(position)
+//            }
+//        }
+//        if (event != null) {
+//            eventHandler.nextEvent(event)
+//        }
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-        eventHandler.nextEvent(MediaSessionEvent.RepeatModeChanged)
+//        eventHandler.nextEvent(MediaSessionEvent.RepeatModeChanged) TODO
     }
 
     override fun onSetShuffleMode(unused: Int) {
-        eventHandler.nextEvent(MediaSessionEvent.ShuffleModeChanged)
+//        eventHandler.nextEvent(MediaSessionEvent.ShuffleModeChanged) TODO
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
@@ -201,19 +279,17 @@ internal class MediaSessionEventDispatcher @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_NEXT -> onSkipToNext()
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
                 KeyEvent.KEYCODE_MEDIA_STOP -> {
-                    val sessionEvent = MediaSessionEvent.Pause(true)
+                    val sessionEvent = MediaSessionEvent.PlayerAction.Pause(stopService = true)
                     eventHandler.nextEvent(sessionEvent)
                 }
                 KeyEvent.KEYCODE_MEDIA_PAUSE -> {
-                    val sessionEvent = MediaSessionEvent.Pause(false)
+                    val sessionEvent = MediaSessionEvent.PlayerAction.Pause(stopService = false)
                     eventHandler.nextEvent(sessionEvent)
                 }
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
                 KeyEvent.KEYCODE_HEADSETHOOK -> mediaButton.onHeatSetHookClick()
-                else -> {
-                    Log.e("MediaSessionCallback", "not handled ${event.action}")
-                }
+                else -> Timber.e("not handled ${event.action}")
             }
         }
 
@@ -225,9 +301,9 @@ internal class MediaSessionEventDispatcher @Inject constructor(
      */
     fun handlePlayPause() {
         val event = if (player.isPlaying()) {
-            MediaSessionEvent.Pause(false)
+            MediaSessionEvent.PlayerAction.Pause(stopService = false)
         } else {
-            MediaSessionEvent.Resume
+            MediaSessionEvent.PlayerAction.Resume
         }
         eventHandler.nextEvent(event)
     }

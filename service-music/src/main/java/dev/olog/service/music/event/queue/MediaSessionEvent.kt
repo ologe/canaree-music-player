@@ -1,97 +1,158 @@
 package dev.olog.service.music.event.queue
 
-import android.net.Uri
-import android.os.Bundle
-import dev.olog.core.MediaId
+import dev.olog.shared.android.BundleDictionary
+import java.net.URI
 
 // TODO show track not found when needed, toast? snackbar?
 internal sealed class MediaSessionEvent {
 
-    object Prepare : MediaSessionEvent()
+    sealed class Prepare : MediaSessionEvent() {
 
-    data class PlayFromMediaId(
-        val mediaId: MediaId,
-        val filter: String?
-    ) : MediaSessionEvent()
+        object LastQueue : Prepare()
 
-    data class PlayFromSearch(
-        val query: String,
-        val extras: Bundle
-    ) : MediaSessionEvent()
+        data class FromMediaId(
+            val mediaId: String,
+            val extras: BundleDictionary,
+        ) : Prepare()
 
-    data class PlayFromUri(
-        val uri: Uri,
-    ) : MediaSessionEvent()
+        data class FromSearch(
+            val query: String?,
+            val extras: BundleDictionary,
+        ) : Prepare()
 
-    data class PlayShuffle(
-        val mediaId: MediaId,
-        val filter: String?
-    ) : MediaSessionEvent()
+        data class FromUri(
+            val uri: URI,
+            val extras: BundleDictionary,
+        ) : Prepare()
 
-    data class PlayRecentlyAdded(
-        val mediaId: MediaId
-    ) : MediaSessionEvent()
+    }
 
-    data class PlayMostPlayed(
-        val mediaId: MediaId
-    ) : MediaSessionEvent()
+    sealed class Play : MediaSessionEvent() {
 
-    data class Swap(
-        val from: Int,
-        val to: Int
-    ) : MediaSessionEvent()
+        data class FromMediaId(
+            val mediaId: String,
+            val extras: BundleDictionary,
+        ) : Play()
 
-    data class SwapRelative(
-        val from: Int,
-        val to: Int
-    ) : MediaSessionEvent()
+        data class FromSearch(
+            val query: String?,
+            val extras: BundleDictionary,
+        ) : Play()
 
-    data class Remove(
-        val position: Int
-    ) : MediaSessionEvent()
+        data class FromUri(
+            val uri: URI,
+            val extras: BundleDictionary,
+        ) : Play()
 
-    data class RemoveRelative(
-        val position: Int
-    ) : MediaSessionEvent()
+//        data class Shuffle(
+//            val mediaId: MediaId,
+//            val filter: String?
+//        ) : MediaSessionEvent()
+//
+//        data class RecentlyAdded(
+//            val mediaId: MediaId
+//        ) : MediaSessionEvent()
+//
+//        data class MostPlayed(
+//            val mediaId: MediaId
+//        ) : MediaSessionEvent()
 
-    data class MoveRelative(
-        val position: Int
-    ) : MediaSessionEvent()
+        @Suppress("RemoveRedundantQualifierName")
+        fun isQueueAlreadyPrepared(prepare: Prepare?): Boolean {
+            prepare ?: return false
 
-    data class AddToPlayLater(
-        val ids: List<Long>,
-        val isPodcast: Boolean,
-    ) : MediaSessionEvent()
+            return when (this) {
+                is FromMediaId -> prepare is Prepare.FromMediaId &&
+                    this.mediaId == prepare.mediaId &&
+                    this.extras == prepare.extras
+                is FromSearch -> prepare is Prepare.FromSearch &&
+                    this.query == prepare.query &&
+                    this.extras == prepare.extras
+                is FromUri -> prepare is Prepare.FromUri &&
+                    this.uri == prepare.uri &&
+                    this.extras == prepare.extras
+            }
+        }
 
-    data class AddToPlayNext(
-        val ids: List<Long>,
-        val isPodcast: Boolean,
-    ) : MediaSessionEvent()
+        fun getPrepareQueueEvent(): Prepare = when (this) {
+            is FromMediaId -> Prepare.FromMediaId(mediaId = this.mediaId, extras = this.extras)
+            is FromSearch -> Prepare.FromSearch(query = this.query, extras = this.extras)
+            is FromUri -> Prepare.FromUri(uri = this.uri, extras = this.extras)
+        }
 
-    object Resume : MediaSessionEvent()
+    }
 
-    data class Pause(
-        val stopService: Boolean,
-        val releaseFocus: Boolean = true,
-    ) : MediaSessionEvent()
+    sealed class Queue : MediaSessionEvent() {
 
-    data class SeekTo(
-        val millis: Long
-    ) : MediaSessionEvent()
+        data class Swap(
+            val from: Int,
+            val to: Int
+        ) : Queue()
 
-    object SkipToPrevious : MediaSessionEvent()
-    data class SkipToNext(val ended: Boolean) : MediaSessionEvent()
-    data class SkipToItem(val id: Long) : MediaSessionEvent()
+        data class SwapRelative(
+            val from: Int,
+            val to: Int
+        ) : Queue()
 
-    object Forward10Seconds : MediaSessionEvent()
-    object Forward30Seconds : MediaSessionEvent()
+        data class Remove(
+            val position: Int
+        ) : Queue()
 
-    object Replay10Seconds : MediaSessionEvent()
-    object Replay30Seconds : MediaSessionEvent()
+        data class RemoveRelative(
+            val position: Int
+        ) : Queue()
 
-    object ToggleFavorite : MediaSessionEvent()
+        data class MoveRelative(
+            val position: Int
+        ) : Queue()
 
-    object RepeatModeChanged : MediaSessionEvent()
-    object ShuffleModeChanged : MediaSessionEvent()
+        data class AddToPlayLater(
+            val ids: List<Long>,
+            val isPodcast: Boolean,
+        ) : Queue()
+
+        data class AddToPlayNext(
+            val ids: List<Long>,
+            val isPodcast: Boolean,
+        ) : Queue()
+
+    }
+
+    sealed class PlayerAction : MediaSessionEvent() {
+
+        object Resume : PlayerAction()
+
+        data class Pause(
+            val stopService: Boolean,
+            val releaseFocus: Boolean = true,
+        ) : PlayerAction()
+
+        data class SeekTo(
+            val millis: Long,
+        ) : PlayerAction()
+
+        object SkipToPrevious : PlayerAction()
+
+        data class SkipToNext(
+            val ended: Boolean,
+        ) : PlayerAction()
+
+        data class SkipToItem(
+            val id: Long,
+        ) : PlayerAction()
+
+        object Forward10Seconds : PlayerAction()
+        object Forward30Seconds : PlayerAction()
+
+        object Replay10Seconds : PlayerAction()
+        object Replay30Seconds : PlayerAction()
+
+    }
+
+    // TODO
+//    object ToggleFavorite : MediaSessionEvent()
+//
+//    object RepeatModeChanged : MediaSessionEvent()
+//    object ShuffleModeChanged : MediaSessionEvent()
 
 }
