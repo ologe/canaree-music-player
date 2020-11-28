@@ -10,7 +10,6 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.internal.MediaSessionEvent
 import dev.olog.service.music.internal.MediaSessionEventDispatcher
-import dev.olog.service.music.model.FocusState
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.lazyFast
