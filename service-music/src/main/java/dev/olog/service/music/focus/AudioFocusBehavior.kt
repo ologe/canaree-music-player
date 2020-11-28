@@ -9,7 +9,7 @@ import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.internal.MediaSessionEvent
-import dev.olog.service.music.internal.MediaSessionEventDispatcher
+import dev.olog.service.music.internal.MediaSessionEventHandler
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.lazyFast
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
     service: Service,
-    private val eventDispatcher: Lazy<MediaSessionEventDispatcher>,
+    private val eventDispatcher: Lazy<MediaSessionEventHandler>,
     private val player: Lazy<IPlayer>,
     private val volume: IMaxAllowedPlayerVolume
 

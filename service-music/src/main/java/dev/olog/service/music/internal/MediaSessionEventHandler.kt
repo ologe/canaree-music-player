@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MediaSessionEventDispatcher @Inject constructor(
+internal class MediaSessionEventHandler @Inject constructor(
     schedulers: Schedulers,
     lifecycleOwner: LifecycleOwner,
     private val queueManager: IQueue,

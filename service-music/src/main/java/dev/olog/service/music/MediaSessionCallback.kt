@@ -12,12 +12,12 @@ import dev.olog.core.MediaId
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.internal.MediaSessionEvent
-import dev.olog.service.music.internal.MediaSessionEventDispatcher
+import dev.olog.service.music.internal.MediaSessionEventHandler
 import javax.inject.Inject
 
 @ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
-    private val eventDispatcher: MediaSessionEventDispatcher,
+    private val eventDispatcher: MediaSessionEventHandler,
     private val player: IPlayer,
     private val mediaButton: MediaButton,
 ) : MediaSessionCompat.Callback() {
