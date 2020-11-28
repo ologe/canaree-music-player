@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.queue.QueueNew
 import dev.olog.shared.ConflatedSharedFlow
 import dev.olog.shared.exhaustive
 import kotlinx.coroutines.NonCancellable
@@ -21,6 +22,7 @@ internal class MediaSessionEventHandler @Inject constructor(
     lifecycleOwner: LifecycleOwner,
     private val player: IPlayer,
     private val dataRetriever: DataRetriever,
+    private val queue: QueueNew,
 ) {
 
     private val events = ConflatedSharedFlow<MediaSessionEvent?>(null)
@@ -55,7 +57,7 @@ internal class MediaSessionEventHandler @Inject constructor(
 
         lastPreparation = event
 
-//        val track = queue.updateQueue(items)
+        val track = queue.updateQueue(items)
 //        player.prepare(track)
     }
 
