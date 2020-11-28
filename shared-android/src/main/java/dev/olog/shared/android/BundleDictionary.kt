@@ -18,6 +18,7 @@ class BundleDictionary(
 
 }
 
+// TODO rename toBundleDictionary
 fun Bundle?.toMap(): BundleDictionary {
     this ?: return BundleDictionary(emptyMap())
 
