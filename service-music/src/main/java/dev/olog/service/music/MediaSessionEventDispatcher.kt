@@ -16,14 +16,14 @@ import dev.olog.service.music.event.queue.MediaSessionEventHandler
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MediaSessionCallback @Inject constructor(
-    private val eventDispatcher: MediaSessionEventHandler,
+internal class MediaSessionEventDispatcher @Inject constructor(
+    private val eventHandler: MediaSessionEventHandler,
     private val player: IPlayer,
     private val mediaButton: MediaButton,
 ) : MediaSessionCompat.Callback() {
 
     override fun onPrepare() {
-        eventDispatcher.nextEvent(MediaSessionEvent.Prepare)
+        eventHandler.nextEvent(MediaSessionEvent.Prepare)
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
@@ -31,25 +31,25 @@ internal class MediaSessionCallback @Inject constructor(
         val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
 
         val event = MediaSessionEvent.PlayFromMediaId(mediaId, filter)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onPlay() {
-        eventDispatcher.nextEvent(MediaSessionEvent.Resume)
+        eventHandler.nextEvent(MediaSessionEvent.Resume)
     }
 
     override fun onPause() {
-        eventDispatcher.nextEvent(MediaSessionEvent.Pause(true))
+        eventHandler.nextEvent(MediaSessionEvent.Pause(true))
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         val event = MediaSessionEvent.PlayFromSearch(query, extras)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
         val event = MediaSessionEvent.PlayFromUri(uri)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onStop() {
@@ -65,7 +65,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        eventDispatcher.nextEvent(MediaSessionEvent.SkipToPrevious)
+        eventHandler.nextEvent(MediaSessionEvent.SkipToPrevious)
     }
 
 
@@ -74,17 +74,17 @@ internal class MediaSessionCallback @Inject constructor(
      */
     private fun onSkipToNext(trackEnded: Boolean)  {
         val event = MediaSessionEvent.SkipToNext(trackEnded)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onSkipToQueueItem(id: Long) {
         val event = MediaSessionEvent.SkipToItem(id)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onSeekTo(pos: Long) {
         val event = MediaSessionEvent.SeekTo(pos)
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
     override fun onSetRating(rating: RatingCompat?) {
@@ -92,7 +92,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        eventDispatcher.nextEvent(MediaSessionEvent.ToggleFavorite)
+        eventHandler.nextEvent(MediaSessionEvent.ToggleFavorite)
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
@@ -180,16 +180,16 @@ internal class MediaSessionCallback @Inject constructor(
             }
         }
         if (event != null) {
-            eventDispatcher.nextEvent(event)
+            eventHandler.nextEvent(event)
         }
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-        eventDispatcher.nextEvent(MediaSessionEvent.RepeatModeChanged)
+        eventHandler.nextEvent(MediaSessionEvent.RepeatModeChanged)
     }
 
     override fun onSetShuffleMode(unused: Int) {
-        eventDispatcher.nextEvent(MediaSessionEvent.ShuffleModeChanged)
+        eventHandler.nextEvent(MediaSessionEvent.ShuffleModeChanged)
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
@@ -202,11 +202,11 @@ internal class MediaSessionCallback @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
                 KeyEvent.KEYCODE_MEDIA_STOP -> {
                     val sessionEvent = MediaSessionEvent.Pause(true)
-                    eventDispatcher.nextEvent(sessionEvent)
+                    eventHandler.nextEvent(sessionEvent)
                 }
                 KeyEvent.KEYCODE_MEDIA_PAUSE -> {
                     val sessionEvent = MediaSessionEvent.Pause(false)
-                    eventDispatcher.nextEvent(sessionEvent)
+                    eventHandler.nextEvent(sessionEvent)
                 }
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
@@ -229,7 +229,7 @@ internal class MediaSessionCallback @Inject constructor(
         } else {
             MediaSessionEvent.Resume
         }
-        eventDispatcher.nextEvent(event)
+        eventHandler.nextEvent(event)
     }
 
 

@@ -42,7 +42,7 @@ class MusicService : BaseMusicService() {
     @Inject
     internal lateinit var mediaSession: MediaSessionCompat
     @Inject
-    internal lateinit var callback: MediaSessionCallback
+    internal lateinit var callback: MediaSessionEventDispatcher
 
     @Inject
     internal lateinit var currentSong: CurrentSong
