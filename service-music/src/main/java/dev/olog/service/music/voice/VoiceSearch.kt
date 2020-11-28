@@ -6,6 +6,7 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
 
+// TODO refactor
 internal object VoiceSearch {
 
     fun noFilter(songList: List<Song>): List<MediaEntity> {

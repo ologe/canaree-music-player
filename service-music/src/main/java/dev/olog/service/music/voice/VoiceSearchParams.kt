@@ -15,9 +15,9 @@
  */
 package dev.olog.service.music.voice
 
-import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import dev.olog.shared.android.BundleDictionary
 
 /**
  * For more information about voice search parameters,
@@ -29,7 +29,8 @@ import android.text.TextUtils
  * @param extras the extras parameter from a voice search
  */
 internal class VoiceSearchParams(
-        val query: String, extras: Bundle?
+    val query: String,
+    extras: BundleDictionary?
 
 ) {
     var isAny: Boolean = false
@@ -54,13 +55,13 @@ internal class VoiceSearchParams(
             } else {
                 val genreKey = MediaStore.EXTRA_MEDIA_GENRE
 
-                val mediaFocus = extras.getString(MediaStore.EXTRA_MEDIA_FOCUS) ?: ""
+                val mediaFocus = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_FOCUS) ?: ""
 
                 when (mediaFocus){
                     MediaStore.Audio.Genres.ENTRY_CONTENT_TYPE -> {
                         // for a Genre focused search, only genre is set:
                         isGenreFocus = true
-                        genre = extras.getString(genreKey) ?: "null"
+                        genre = extras.getTyped<String>(genreKey) ?: "null"
                         if (TextUtils.isEmpty(genre)) {
                             // Because of a bug on the platform, genre is only sent as a query, not as
                             // the semantic-aware extras. This check makes it future-proof when the
@@ -71,23 +72,23 @@ internal class VoiceSearchParams(
                     MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE -> {
                         // for an Artist focused search, both artist and genre are set:
                         isArtistFocus = true
-                        genre = extras.getString(genreKey) ?: "null"
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
+                        genre = extras.getTyped<String>(genreKey) ?: "null"
+                        artist = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     MediaStore.Audio.Albums.ENTRY_CONTENT_TYPE -> {
                         // for an Album focused search, album, artist and genre are set:
                         isAlbumFocus = true
-                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
-                        genre = extras.getString(genreKey) ?: "null"
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
+                        album = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
+                        genre = extras.getTyped<String>(genreKey) ?: "null"
+                        artist = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     MediaStore.Audio.Media.ENTRY_CONTENT_TYPE -> {
                         // for a Song focused search, title, album, artist and genre are set:
                         isSongFocus = true
-                        song = extras.getString(MediaStore.EXTRA_MEDIA_TITLE) ?: "null"
-                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
-                        genre = extras.getString(genreKey) ?: "null"
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
+                        song = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_TITLE) ?: "null"
+                        album = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
+                        genre = extras.getTyped<String>(genreKey) ?: "null"
+                        artist = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     else -> isUnstructured = true
                 }
