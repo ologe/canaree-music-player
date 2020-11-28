@@ -5,7 +5,7 @@ import android.os.Bundle
 import dev.olog.core.MediaId
 
 // TODO show track not found when needed, toast? snackbar?
-sealed class MediaSessionEvent {
+internal sealed class MediaSessionEvent {
 
     object Prepare : MediaSessionEvent()
 
