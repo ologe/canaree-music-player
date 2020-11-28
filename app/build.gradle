@@ -124,4 +124,6 @@ dependencies {
     implementation lib_firebase.analytics
     implementation lib_firebase.crashlytics
     implementation lib_firebase.perf
+
+    implementation lib_debug.timber
 }

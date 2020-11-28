@@ -48,6 +48,7 @@ ext {
 
 //    debug
     leak_canary = '2.5'
+    timber = '4.7.1'
 
 //    firebase
     firebase = '26.1.0'
@@ -135,6 +136,7 @@ ext {
 
     lib_debug = [
         leak_canary: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
+        timber     : "com.jakewharton.timber:timber:$timber"
     ]
 
     lib_test = [

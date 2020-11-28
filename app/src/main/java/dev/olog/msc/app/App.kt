@@ -8,6 +8,7 @@ import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import io.alterac.blurkit.BlurKit
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -24,6 +25,8 @@ class App : ThemedApp() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
+
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
