@@ -17,17 +17,20 @@ enum class MediaIdCategory {
     PLAYING_QUEUE
 }
 
-class MediaId private constructor(
+data class MediaId(
     val category: MediaIdCategory,
     val categoryValue: String,
     val leaf: Long? = null
 ) {
 
-    val source : Int = category.ordinal
+    val source : Int
+        get() = category.ordinal
 
     companion object {
-        private const val CATEGORY_SEPARATOR = '/'
-        private const val LEAF_SEPARATOR = '|'
+        // songs/|10
+        // albums/10|20
+        // TODO convert categoryValue to long
+        private val MEDIA_ID_REGEX = "(\\w+)\\/(\\w*)\\|(\\d+)".toRegex()
 
         fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
@@ -52,60 +55,31 @@ class MediaId private constructor(
         }
 
         fun fromString(mediaId: String): MediaId {
-            val categoryFinish = mediaId.indexOf(CATEGORY_SEPARATOR)
-            val categoryValueFinish = mediaId.indexOf(LEAF_SEPARATOR)
-
-            val category = mediaId.substring(0, categoryFinish)
-            val categoryValue = if (categoryValueFinish == -1){
-                mediaId.substring(categoryFinish + 1)
-            } else {
-                mediaId.substring(categoryFinish + 1, categoryValueFinish)
-            }
-
-            val leaf = if (categoryValueFinish == -1){
-                null
-            } else {
-                mediaId.substring(categoryValueFinish + 1).toLong()
-            }
-
+            val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
             return MediaId(
-                MediaIdCategory.valueOf(category),
-                categoryValue,
-                leaf
+                MediaIdCategory.valueOf(groups[1]),
+                groups[2],
+                groups[3].toLong()
             )
         }
     }
 
-    val isLeaf = leaf != null
+    val isLeaf: Boolean
+        get() = leaf != null
 
     override fun toString(): String {
-        var string = category.toString() + CATEGORY_SEPARATOR + categoryValue
-        if (leaf != null){
-            string += LEAF_SEPARATOR + leaf.toString()
+        return buildString {
+            append(category.toString())
+            append("/")
+            append(categoryValue)
+            if (leaf != null) {
+                append("|")
+                append(leaf)
+            }
         }
-        return string
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MediaId
-
-        if (category != other.category) return false
-        if (categoryValue != other.categoryValue) return false
-        if (leaf != other.leaf) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = category.name.hashCode()
-        result = 31 * result + categoryValue.hashCode()
-        result = 31 * result + (leaf?.hashCode() ?: 0)
-        return result
-    }
-
+    // TODO delete
     val resolveId: Long
         get() {
             return when {
@@ -115,6 +89,7 @@ class MediaId private constructor(
             }
         }
 
+    // TODO delete
     val categoryId: Long
         get() {
             return when {
@@ -123,6 +98,7 @@ class MediaId private constructor(
             }
         }
 
+    // TODO delete
     val resolveSource : Int
         get() {
             if (isLeaf && isPodcast){
@@ -134,21 +110,36 @@ class MediaId private constructor(
             return source
         }
 
-    val isHeader: Boolean = category == MediaIdCategory.HEADER
-    val isFolder : Boolean = category == MediaIdCategory.FOLDERS
-    val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
-    val isAll: Boolean = category == MediaIdCategory.SONGS
-    val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
-    val isArtist : Boolean = category == MediaIdCategory.ARTISTS
-    val isGenre : Boolean = category == MediaIdCategory.GENRES
-    val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
-    val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
-    val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
-    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
-    val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
+    // TODO delete
+    val isHeader: Boolean
+        get() = category == MediaIdCategory.HEADER
+    val isFolder : Boolean
+        get() = category == MediaIdCategory.FOLDERS
+    val isPlaylist: Boolean
+        get() = category == MediaIdCategory.PLAYLISTS
+    val isAll: Boolean
+        get() = category == MediaIdCategory.SONGS
+    val isAlbum : Boolean
+        get() = category == MediaIdCategory.ALBUMS
+    val isArtist : Boolean
+        get() = category == MediaIdCategory.ARTISTS
+    val isGenre : Boolean
+        get() = category == MediaIdCategory.GENRES
+    val isPodcast : Boolean
+        get() = category == MediaIdCategory.PODCASTS
+    val isPodcastPlaylist : Boolean
+        get() = category == MediaIdCategory.PODCASTS_PLAYLIST
+    val isPodcastAlbum : Boolean
+        get() = category == MediaIdCategory.PODCASTS_ALBUMS
+    val isPodcastArtist : Boolean
+        get() = category == MediaIdCategory.PODCASTS_ARTISTS
+    val isAnyPodcast : Boolean
+        get() = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
 
-    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
+    val isPlayingQueue: Boolean
+        get() = category == MediaIdCategory.PLAYING_QUEUE
 
+    // TODO delete
     fun assertPlaylist(){
         require(isPlaylist || isPodcastPlaylist) {
             "not a playlist, category=${this.category}"
