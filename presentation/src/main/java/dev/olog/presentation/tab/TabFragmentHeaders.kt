@@ -3,6 +3,7 @@ package dev.olog.presentation.tab
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdModifier
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
@@ -27,8 +28,11 @@ class TabFragmentHeaders @Inject constructor(
     )
 
     val shuffleHeader = DisplayableHeader(
-        R.layout.item_tab_shuffle,
-        MediaId.headerId("tab shuffle"), ""
+        type = R.layout.item_tab_shuffle,
+        mediaId = MediaId.headerId("tab shuffle").copy(
+            modifier = MediaIdModifier.SHUFFLE
+        ),
+        title = ""
     )
 
     val allAlbumsHeader = listOf(

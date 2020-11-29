@@ -16,7 +16,7 @@ class DetailMostPlayedAdapter(
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playMostPlayed(item.mediaId)
+            mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->

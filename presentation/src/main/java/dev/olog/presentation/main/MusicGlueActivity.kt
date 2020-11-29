@@ -133,30 +133,6 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
-    override fun playMostPlayed(mediaId: MediaId) {
-        trackerFacade.trackServiceEvent("playMostPlayed", mediaId)
-
-        val bundle = bundleOf(
-            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
-        )
-        transportControls()?.sendCustomAction(
-            MusicServiceCustomAction.PLAY_MOST_PLAYED.name,
-            bundle
-        )
-    }
-
-    override fun playRecentlyAdded(mediaId: MediaId) {
-        trackerFacade.trackServiceEvent("playRecentlyAdded", mediaId)
-
-        val bundle = bundleOf(
-            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
-        )
-        transportControls()?.sendCustomAction(
-            MusicServiceCustomAction.PLAY_RECENTLY_ADDED.name,
-            bundle
-        )
-    }
-
     override fun skipToQueueItem(idInPlaylist: Int) {
         trackerFacade.trackServiceEvent("skipToQueueItem", idInPlaylist)
 

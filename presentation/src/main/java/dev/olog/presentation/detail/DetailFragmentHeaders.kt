@@ -3,6 +3,7 @@ package dev.olog.presentation.detail
 import android.content.Context
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaIdModifier
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
@@ -90,7 +91,9 @@ class DetailFragmentHeaders @Inject constructor(
 
     val shuffle: DisplayableItem = DisplayableHeader(
         type = R.layout.item_detail_shuffle,
-        mediaId = MediaId.headerId("detail shuffle"),
+        mediaId = MediaId.headerId("detail shuffle").copy(
+            modifier = MediaIdModifier.SHUFFLE
+        ),
         title = ""
     )
 

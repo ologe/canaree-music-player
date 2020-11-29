@@ -2,8 +2,6 @@ package dev.olog.intents
 
 enum class MusicServiceCustomAction {
     SHUFFLE,
-    PLAY_RECENTLY_ADDED,
-    PLAY_MOST_PLAYED,
 
     SWAP,
     SWAP_RELATIVE, // position relative to current item
@@ -25,7 +23,6 @@ enum class MusicServiceCustomAction {
 
     companion object {
 
-        val ARGUMENT_MEDIA_ID = "${MusicServiceCustomAction::class.java}.mediaid"
         val ARGUMENT_FILTER = "${MusicServiceCustomAction::class.java}.filter"
         val ARGUMENT_SWAP_FROM = "${MusicServiceCustomAction::class.java}.swap.from"
         val ARGUMENT_SWAP_TO = "${MusicServiceCustomAction::class.java}.swap.to"

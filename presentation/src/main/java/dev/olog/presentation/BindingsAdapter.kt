@@ -28,7 +28,7 @@ object BindingsAdapter {
     }
 
     fun loadDirImage(view: ImageView, item: DisplayableFile) {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "invalid path")
         loadImageImpl(
             view,
             mediaId,

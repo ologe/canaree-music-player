@@ -2,6 +2,7 @@ package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdModifier
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
@@ -56,9 +57,13 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
     position: Int
 ): DisplayableTrack {
 
+    val mediaId = MediaId.playableItem(parentId, id).copy(
+        modifier = MediaIdModifier.MOST_PLAYED
+    )
+
     return DisplayableTrack(
         type = R.layout.item_detail_song_most_played,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = mediaId,
         title = this.title,
         artist = this.artist,
         album = this.album,
@@ -68,9 +73,13 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
 }
 
 internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
+    val mediaId = MediaId.playableItem(parentId, id).copy(
+        modifier = MediaIdModifier.RECENTLY_ADDED,
+    )
+
     return DisplayableTrack(
         type = R.layout.item_detail_song_recent,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = mediaId,
         title = this.title,
         artist = this.artist,
         album = this.album,

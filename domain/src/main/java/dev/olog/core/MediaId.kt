@@ -39,14 +39,24 @@ data class MediaId(
     val modifier: MediaIdModifier?
 ) {
 
+    init {
+        // TODO check all instance creation
+        require(categoryValue.isNotBlank()) {
+            "categoryValue is blank=${toString()}"
+        }
+    }
+
     val source : Int
         get() = category.ordinal
 
     companion object {
-        // songs/|10
-        // albums/10|20
+        // nn -> non non null
+        // [*] -> optional modifier:
+        //      \shuffle
+        //      \most_played
+        // ^nn_category/nn_category_value|nullable_leaf[*]$
         // TODO convert categoryValue to long
-        private val MEDIA_ID_REGEX = "(\\w+)\\/(\\w*)\\|(\\d+)(\\\\(\\w+))?".toRegex()
+        private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
 
         fun headerId(value: String): MediaId {
             return MediaId(
@@ -60,7 +70,7 @@ data class MediaId(
         val playingQueueId: MediaId
             get() = MediaId(
                 category = MediaIdCategory.PLAYING_QUEUE,
-                categoryValue = "",
+                categoryValue = "all",
                 leaf = null,
                 modifier = null,
             )
@@ -77,7 +87,7 @@ data class MediaId(
         fun songId(id: Long): MediaId {
             return MediaId(
                 category = MediaIdCategory.SONGS,
-                categoryValue = "",
+                categoryValue = "all",
                 leaf = id,
                 modifier = null
             )
@@ -95,9 +105,9 @@ data class MediaId(
         fun shuffleId(): MediaId {
             return MediaId(
                 category = MediaIdCategory.SONGS,
-                categoryValue = "shuffle",
+                categoryValue = "all",
                 leaf = null,
-                modifier = null,
+                modifier = MediaIdModifier.SHUFFLE,
             )
         }
 
@@ -106,7 +116,7 @@ data class MediaId(
             return MediaId(
                 category = MediaIdCategory.valueOf(groups[1]),
                 categoryValue = groups[2],
-                leaf = groups[3].toLong(),
+                leaf = groups[3].toLongOrNull(),
                 modifier = MediaIdModifier.find(groups[5])
             )
         }
@@ -121,8 +131,8 @@ data class MediaId(
             append(category.toString())
             append("/")
             append(categoryValue)
+            append("|")
             if (leaf != null) {
-                append("|")
                 append(leaf)
             }
             if (modifier != null) {

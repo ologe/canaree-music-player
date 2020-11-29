@@ -17,9 +17,11 @@ interface MediaProvider {
     val shuffle: Flow<PlayerShuffleMode>
     val queue: Flow<List<PlayerItem>>
 
-    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
-    fun playMostPlayed(mediaId: MediaId)
-    fun playRecentlyAdded(mediaId: MediaId)
+    fun playFromMediaId(
+        mediaId: MediaId,
+        filter: String?,
+        sort: SortEntity?
+    )
 
     fun skipToQueueItem(idInPlaylist: Int)
     fun shuffle(mediaId: MediaId, filter: String?)

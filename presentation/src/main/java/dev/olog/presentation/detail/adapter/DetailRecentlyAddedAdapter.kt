@@ -16,7 +16,7 @@ class DetailRecentlyAddedAdapter(
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playRecentlyAdded(item.mediaId)
+            mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId, viewHolder.itemView)
