@@ -1,6 +1,7 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.provider.MediaStore
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -8,11 +9,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.takeWhile
 
 @AndroidEntryPoint
 class BlacklistFragment : ListDialog() {
@@ -25,7 +24,7 @@ class BlacklistFragment : ListDialog() {
         }
     }
 
-    @Inject lateinit var presenter: BlacklistFragmentPresenter
+    private val viewModel by viewModels<BlacklistFragmentViewModel>()
 
     private lateinit var adapter: BlacklistFragmentAdapter
 
@@ -38,14 +37,14 @@ class BlacklistFragment : ListDialog() {
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val data = withContext(Dispatchers.Default) {
-                presenter.data
+        // TODo check if works
+        viewModel.data.takeWhile { it.isNotEmpty() }
+            .take(1)
+            .onEach { data ->
+                adapter = BlacklistFragmentAdapter(data)
+                list.adapter = adapter
+                list.layoutManager = GridLayoutManager(context, 3)
             }
-            adapter = BlacklistFragmentAdapter(data)
-            list.adapter = adapter
-            list.layoutManager = GridLayoutManager(context, 3)
-        }
     }
 
     override fun positiveAction() {
@@ -53,7 +52,7 @@ class BlacklistFragment : ListDialog() {
         if (allIsBlacklisted){
             showErrorMessage()
         } else {
-            presenter.saveBlacklisted(adapter.getData())
+            viewModel.saveBlacklisted(adapter.getData())
             notifyMediaStore()
             dismiss()
         }

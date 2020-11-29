@@ -1,24 +1,38 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.lazyFast
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 
-class BlacklistFragmentPresenter @Inject constructor(
+internal class BlacklistFragmentViewModel @ViewModelInject constructor(
     folderGateway: FolderGateway,
     private val appPreferencesUseCase: BlacklistPreferences
-) {
+): ViewModel() {
 
-    val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
-        folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+    private val _data = MutableStateFlow<List<BlacklistModel>>(emptyList())
+    val data: Flow<List<BlacklistModel>>
+        get() = _data
+
+    init {
+        viewModelScope.launch {
+            val blacklisted = appPreferencesUseCase.getBlackList()
+                .map { it.toLowerCase(Locale.getDefault()) }
+            val result = folderGateway.getAllBlacklistedIncluded()
+                .map { it.toDisplayableItem(blacklisted) }
+
+            _data.value = result
+        }
     }
 
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
