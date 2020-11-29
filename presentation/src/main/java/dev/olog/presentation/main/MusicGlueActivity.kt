@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdModifier
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
@@ -165,11 +166,13 @@ abstract class MusicGlueActivity : BaseActivity(),
     override fun shuffle(mediaId: MediaId, filter: String?) {
         trackerFacade.trackServiceEvent("shuffle", mediaId, filter)
 
-        transportControls()?.sendCustomAction(
-            MusicServiceCustomAction.SHUFFLE.name, bundleOf(
-                MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString(),
-                MusicServiceCustomAction.ARGUMENT_FILTER to filter
-            )
+        val bundle = bundleOf(
+            MusicServiceCustomAction.ARGUMENT_FILTER to filter
+        )
+
+        transportControls()?.playFromMediaId(
+            mediaId.copy(modifier = MediaIdModifier.SHUFFLE).toString(),
+            bundle
         )
     }
 

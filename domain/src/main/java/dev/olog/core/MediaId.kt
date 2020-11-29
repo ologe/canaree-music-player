@@ -19,7 +19,8 @@ enum class MediaIdCategory {
 
 enum class MediaIdModifier {
     MOST_PLAYED,
-    RECENTLY_ADDED;
+    RECENTLY_ADDED,
+    SHUFFLE;
 
     companion object {
 
