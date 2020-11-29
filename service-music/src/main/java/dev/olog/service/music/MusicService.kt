@@ -78,7 +78,6 @@ class MusicService : BaseMusicService() {
         mediaSession.setSessionActivity(buildSessionActivityPendingIntent())
         mediaSession.setRatingType(RatingCompat.RATING_HEART)
         mediaSession.setCallback(callback)
-        callback.onPrepare() // prepare queue
 
         mediaSession.isActive = true
     }
