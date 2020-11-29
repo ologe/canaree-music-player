@@ -5,25 +5,25 @@ import dev.olog.service.music.model.SkipType
 
 internal interface IPlayer : IPlayerLifecycle {
 
-    suspend fun prepare(playerModel: PlayerMediaEntity)
-    suspend fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
-    suspend fun play(playerModel: PlayerMediaEntity)
+    fun prepare(playerModel: PlayerMediaEntity)
+    fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
+    fun play(playerModel: PlayerMediaEntity)
 
-    suspend fun seekTo(millis: Long)
+    fun seekTo(millis: Long)
 
-    suspend fun resume()
-    suspend fun pause(stopService: Boolean, releaseFocus: Boolean = true)
+    fun resume()
+    fun pause(stopService: Boolean, releaseFocus: Boolean = true)
 
     fun isPlaying(): Boolean
     fun getBookmark(): Long
 
-    suspend fun forwardTenSeconds()
-    suspend fun replayTenSeconds()
+    fun forwardTenSeconds()
+    fun replayTenSeconds()
 
-    suspend fun forwardThirtySeconds()
-    suspend fun replayThirtySeconds()
+    fun forwardThirtySeconds()
+    fun replayThirtySeconds()
 
-    suspend fun stopService()
+    fun stopService()
 
     fun setVolume(volume: Float)
 }
