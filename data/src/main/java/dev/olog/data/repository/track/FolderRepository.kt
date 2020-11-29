@@ -78,16 +78,16 @@ internal class FolderRepository @Inject constructor(
 
     override fun getByParam(param: Path): Folder? {
         assertBackgroundThread()
-        return publisher.value.find { it.path == param }
+        return getAll().find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
         assertBackgroundThread()
-        return publisher.value.find { it.path.hashCode() == hashCode }
+        return getAll().find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return publisher
+        return observeAll()
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
     }

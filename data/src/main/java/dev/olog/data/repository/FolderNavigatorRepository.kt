@@ -38,7 +38,7 @@ internal class FolderNavigatorRepository @Inject constructor(
             .flowOn(schedulers.io)
     }
 
-    private fun queryFileChildren(file: File): List<FileType> {
+    private suspend fun queryFileChildren(file: File): List<FileType> {
         val blacklisted = blacklistGateway.getBlackList()
         val children = file.listFiles()
             ?.asSequence()

@@ -22,7 +22,7 @@ internal abstract class BaseRepository<T, Param>(
 
     protected val contentResolver: ContentResolver = context.contentResolver
 
-    protected val publisher = ConflatedSharedFlow<List<T>>(emptyList())
+    private val publisher = ConflatedSharedFlow<List<T>?>(null)
 
     protected fun firstQuery() {
         GlobalScope.launch(schedulers.io) {
@@ -44,10 +44,10 @@ internal abstract class BaseRepository<T, Param>(
     }
 
     override fun getAll(): List<T> {
-        return publisher.value
+        return publisher.value ?: queryAll()
     }
 
-    override fun observeAll(): Flow<List<T>> = publisher
+    override fun observeAll(): Flow<List<T>> = publisher.filterNotNull()
 
     protected fun <R> observeByParamInternal(
         contentUri: ContentUri,

@@ -68,11 +68,11 @@ internal class GenreRepository @Inject constructor(
 
     override fun getByParam(param: Id): Genre? {
         assertBackgroundThread()
-        return publisher.value.find { it.id == param }
+        return getAll().find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return publisher.map { it.find { it.id == param } }
+        return observeAll().map { it.find { it.id == param } }
             .distinctUntilChanged()
     }
 

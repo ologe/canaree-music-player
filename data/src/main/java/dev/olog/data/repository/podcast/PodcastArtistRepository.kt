@@ -60,11 +60,11 @@ internal class PodcastArtistRepository @Inject constructor(
 
     override fun getByParam(param: Id): Artist? {
         assertBackgroundThread()
-        return publisher.value.find { it.id == param }
+        return getAll().find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return publisher
+        return observeAll()
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
     }

@@ -106,6 +106,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return publisher.value.find { it.albumId == albumId }
+        return getAll().find { it.albumId == albumId }
     }
 }
