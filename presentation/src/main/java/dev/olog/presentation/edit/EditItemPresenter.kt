@@ -48,7 +48,7 @@ class EditItemPresenter @Inject constructor(
         )
     }
 
-    fun updateAlbum(info: UpdateAlbumInfo) {
+    suspend fun updateAlbum(info: UpdateAlbumInfo) {
         val albumArtist = if (info.albumArtist.isBlank()) info.artist else info.albumArtist
         return updateMultipleTracksUseCase(
             UpdateMultipleTracksUseCase.Data(
@@ -66,7 +66,7 @@ class EditItemPresenter @Inject constructor(
     }
 
 
-    fun updateArtist(info: UpdateArtistInfo) {
+    suspend fun updateArtist(info: UpdateArtistInfo) {
         val albumArtist = if (info.albumArtist.isBlank()) info.name else info.albumArtist
         return updateMultipleTracksUseCase(
             UpdateMultipleTracksUseCase.Data(

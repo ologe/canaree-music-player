@@ -16,7 +16,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
 
 ) {
 
-    operator fun invoke(param: Data) {
+    suspend operator fun invoke(param: Data) {
         try {
             val songList = getSongListByParamUseCase(param.mediaId)
             for (song in songList) {
