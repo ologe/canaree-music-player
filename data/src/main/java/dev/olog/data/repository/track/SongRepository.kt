@@ -2,6 +2,7 @@ package dev.olog.data.repository.track
 
 import android.content.ContentUris
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore.Audio
 import android.util.Log
@@ -20,8 +21,10 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
 import dev.olog.shared.android.extensions.toAndroidUri
 import dev.olog.shared.value
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.URI
 import javax.inject.Inject
@@ -34,8 +37,11 @@ internal class SongRepository @Inject constructor(
 ) : BaseRepository<Song, Id>(context, schedulers), SongGateway {
 
     private val queries = TrackQueries(
-        contentResolver, blacklistPrefs,
-        sortPrefs, false
+        schedulers = schedulers,
+        contentResolver = contentResolver,
+        blacklistPrefs = blacklistPrefs,
+        sortPrefs = sortPrefs,
+        isPodcast = false
     )
 
     init {
@@ -46,16 +52,14 @@ internal class SongRepository @Inject constructor(
         return ContentUri(Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
 
-    override fun queryAll(): List<Song> {
-//        assertBackgroundThread()
+    override suspend fun queryAll(): List<Song> {
         val cursor = queries.getAll()
-        return contentResolver.queryAll(cursor) { it.toSong() }
+        return contentResolver.queryAll(cursor, Cursor::toSong)
     }
 
-    override fun getByParam(param: Id): Song? {
-        assertBackgroundThread()
+    override suspend fun getByParam(param: Id): Song? {
         val cursor = queries.getByParam(param)
-        return contentResolver.queryOne(cursor) { it.toSong() }
+        return contentResolver.queryOne(cursor, Cursor::toSong)
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {
@@ -65,18 +69,17 @@ internal class SongRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override suspend fun deleteSingle(id: Id) {
-        return deleteInternal(id)
+    override suspend fun deleteSingle(id: Id) = withContext(NonCancellable) {
+        deleteInternal(id)
     }
 
-    override suspend fun deleteGroup(ids: List<Song>) {
+    override suspend fun deleteGroup(ids: List<Song>) = withContext(NonCancellable) {
         for (id in ids) {
             deleteInternal(id.id)
         }
     }
 
-    private fun deleteInternal(id: Id) {
-        assertBackgroundThread()
+    private suspend fun deleteInternal(id: Id) {
         val path = getByParam(id)!!.path
         val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
         val deleted = contentResolver.delete(uri, null, null)
@@ -91,9 +94,9 @@ internal class SongRepository @Inject constructor(
         }
     }
 
-    override fun getByUri(uri: URI): Song? {
+    override suspend fun getByUri(uri: URI): Song? {
         try {
-            val id = getByUriInternal(uri.toAndroidUri()) ?: return null
+            val id = getByUriInternal(uri.toAndroidUri())
             return getByParam(id)
         } catch (ex: Exception){
             ex.printStackTrace()
@@ -101,7 +104,7 @@ internal class SongRepository @Inject constructor(
         }
     }
 
-    private fun getByUriInternal(uri: Uri): Long? {
+    private fun getByUriInternal(uri: Uri): Long {
         // https://developer.android.com/training/secure-file-sharing/retrieve-info
         // content uri has only two field [_id, _display_name]
         val fileQuery = """
@@ -125,7 +128,8 @@ internal class SongRepository @Inject constructor(
         return id
     }
 
-    override fun getByAlbumId(albumId: Id): Song? {
-        return getAll().find { it.albumId == albumId }
+    override suspend fun getByAlbumId(albumId: Id): Song? {
+        return publisher.value?.find { it.albumId == albumId }
+            ?: contentResolver.queryOne(queries.getByAlbumId(albumId), Cursor::toSong)
     }
 }

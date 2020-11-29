@@ -9,16 +9,19 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 internal class TrackQueries(
+    private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
     sortPrefs: SortPreferences,
     isPodcast: Boolean
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 
-    fun getAll(): Cursor {
+    suspend fun getAll(): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -38,10 +41,10 @@ internal class TrackQueries(
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
-    fun getByParam(id: Id): Cursor {
+    suspend fun getByParam(id: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -61,7 +64,30 @@ internal class TrackQueries(
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query, arrayOf("$id") + params)
+        contentResolver.querySql(query, arrayOf("$id") + params)
+    }
+
+    suspend fun getByAlbumId(albumId: Id): Cursor = withContext(schedulers.io) {
+        val (blacklist, params) = notBlacklisted()
+
+        val query = """
+            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
+                $TITLE,
+                $ARTIST,
+                $ALBUM,
+                ${Columns.ALBUM_ARTIST},
+                $DURATION,
+                $DATA, $YEAR,
+                $TRACK,
+                $DATE_ADDED,
+                $DATE_MODIFIED,
+                $IS_PODCAST
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE $ALBUM_ID = ? AND ${defaultSelection(blacklist)}
+            ORDER BY ${sortOrder()}
+        """
+
+        contentResolver.querySql(query, arrayOf("$albumId") + params)
     }
 
     private fun defaultSelection(notBlacklisted: String): String {

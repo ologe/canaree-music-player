@@ -8,15 +8,18 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 internal class GenreQueries(
+    private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
     sortPrefs: SortPreferences
 ) : BaseQueries(blacklistPrefs, sortPrefs, false) {
 
-    fun getAll(): Cursor {
+    suspend fun getAll(): Cursor = withContext(schedulers.io) {
 
         val query = """
             SELECT $_ID, $NAME
@@ -24,10 +27,22 @@ internal class GenreQueries(
             ORDER BY $DEFAULT_SORT_ORDER
         """
 
-        return contentResolver.querySql(query)
+        contentResolver.querySql(query)
     }
 
-    fun countGenreSize(genreId: Id): Cursor {
+    suspend fun getByParam(id: Id): Cursor = withContext(schedulers.io) {
+
+        val query = """
+            SELECT $_ID, $NAME
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE $_ID = ?
+            ORDER BY $DEFAULT_SORT_ORDER
+        """
+
+        contentResolver.querySql(query, arrayOf("$id"))
+    }
+
+    suspend fun countGenreSize(genreId: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -35,27 +50,23 @@ internal class GenreQueries(
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection(blacklist)}
         """
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
-    fun getRelatedArtists(genreId: Id): Cursor {
+    suspend fun getRelatedArtists(genreId: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
-             SELECT
-                ${Members.ARTIST_ID},
-                ${Members.ARTIST},
-                ${Columns.ALBUM_ARTIST},
-                ${Members.IS_PODCAST}
+             SELECT ${Members.ARTIST_ID}, ${Members.ARTIST}, ${Columns.ALBUM_ARTIST}, ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection(blacklist)}
             ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
         """
 
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
-    fun getRecentlyAdded(genreId: Id): Cursor {
+    suspend fun getRecentlyAdded(genreId: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -67,10 +78,10 @@ internal class GenreQueries(
             WHERE ${defaultSelection(blacklist)} ${isRecentlyAdded()}
             ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
-    fun getSongList(genreId: Id): Cursor {
+    suspend fun getSongList(genreId: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -82,7 +93,7 @@ internal class GenreQueries(
             WHERE ${defaultSelection(blacklist)}
             ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
     private fun defaultSelection(notBlacklisted: String): String {

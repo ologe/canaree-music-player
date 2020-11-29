@@ -26,7 +26,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
             }.flowOn(Dispatchers.IO)
     }
 
-    private fun mapLyrics(id: Long, lyrics: String): String {
+    private suspend fun mapLyrics(id: Long, lyrics: String): String {
         val song = songGateway.getByParam(id) ?: return lyrics
         try {
             return getLyricsFromMetadata(song)

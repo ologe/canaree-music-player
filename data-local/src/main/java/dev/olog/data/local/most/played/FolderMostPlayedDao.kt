@@ -22,15 +22,18 @@ abstract class FolderMostPlayedDao {
         LIMIT 10
     """
     )
-    abstract fun query(folderPath: String): Flow<List<SongMostTimesPlayedEntity>>
+    abstract fun observeAllImpl(folderPath: String): Flow<List<SongMostTimesPlayedEntity>>
 
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)
 
-    fun getAll(folderPath: String, songGateway2: SongGateway): Flow<List<Song>> {
-        return this.query(folderPath)
+    fun observeAll(
+        folderPath: String,
+        songGateway: SongGateway
+    ): Flow<List<Song>> {
+        return this.observeAllImpl(folderPath)
             .map { mostPlayed ->
-                val songList = songGateway2.getAll()
+                val songList = songGateway.getAll()
                 mostPlayed.sortedByDescending { it.timesPlayed }
                     .mapNotNull { item -> songList.find { it.id == item.songId } }
             }

@@ -8,10 +8,7 @@ import dev.olog.data.local.history.HistoryDao
 import dev.olog.data.local.playlist.PlaylistDao
 import dev.olog.data.local.playlist.PlaylistEntity
 import dev.olog.data.local.playlist.PlaylistTrackEntity
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.swap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
@@ -23,16 +20,12 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
 
     override suspend fun createPlaylist(playlistName: String): Long {
-        assertBackgroundThread()
-
         return playlistDao.createPlaylist(
             PlaylistEntity(name = playlistName, size = 0)
         )
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
-        assertBackgroundThread()
-
         var maxIdInPlaylist = (playlistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PlaylistTrackEntity(
@@ -56,8 +49,6 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
-        assertBackgroundThread()
-
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             removeFromAutoPlaylist(playlistId, idInPlaylist)
         } else {
@@ -77,22 +68,22 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return playlistDao.renamePlaylist(playlistId, newTitle)
     }
 
-    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
-        withContext(Dispatchers.IO) {
-            val trackList = playlistDao.getPlaylistTracksImpl(playlistId).toMutableList()
-            for ((from, to) in moveList) {
-                trackList.swap(from, to)
-            }
-            val result = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
-            playlistDao.updateTrackList(result)
+    override suspend fun moveItem(
+        playlistId: Long,
+        moveList: List<Pair<Int, Int>>
+    ) {
+        val trackList = playlistDao.getPlaylistTracksImpl(playlistId).toMutableList()
+        for ((from, to) in moveList) {
+            trackList.swap(from, to)
         }
+        val result = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+        playlistDao.updateTrackList(result)
+    }
 
     override suspend fun removeDuplicated(playlistId: Long) {
         val notDuplicate = playlistDao.getPlaylistTracksImpl(playlistId)
-            .asSequence()
             .groupBy { it.trackId }
             .map { it.value[0] }
-            .toList()
         playlistDao.deletePlaylistTracks(playlistId)
         playlistDao.insertTracks(notDuplicate)
     }

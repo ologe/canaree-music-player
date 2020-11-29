@@ -18,8 +18,8 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.data.utils.queryOne
 import dev.olog.shared.value
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -32,7 +32,13 @@ internal class ArtistRepository @Inject constructor(
     schedulers: Schedulers
 ) : BaseRepository<Artist, Id>(context, schedulers), ArtistGateway {
 
-    private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
+    private val queries = ArtistQueries(
+        schedulers = schedulers,
+        contentResolver = contentResolver,
+        blacklistPrefs = blacklistPrefs,
+        sortPrefs = sortPrefs,
+        isPodcast = false
+    )
 
     init {
         firstQuery()
@@ -42,9 +48,8 @@ internal class ArtistRepository @Inject constructor(
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
 
-    private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
-        return contentResolver.queryAll(cursor) { it.toArtist() }
+    private suspend fun extractArtists(cursor: Cursor): List<Artist> {
+        return contentResolver.queryAll(cursor, Cursor::toArtist)
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
@@ -52,25 +57,25 @@ internal class ArtistRepository @Inject constructor(
             }
     }
 
-    override fun queryAll(): List<Artist> {
-        assertBackgroundThread()
+    override suspend fun queryAll(): List<Artist> {
         val cursor = queries.getAll()
         return extractArtists(cursor)
     }
 
-    override fun getByParam(param: Id): Artist? {
-        assertBackgroundThread()
-        return getAll().find { it.id == param }
+    override suspend fun getByParam(param: Id): Artist? {
+        return publisher.value?.find { it.id == param }
+            ?: contentResolver.queryOne(queries.getByParam(param), Cursor::toArtist)
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return observeAll().map { list -> list.find { it.id == param } }
+        return observeAll()
+            .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
     }
 
     override suspend fun getTrackListByParam(param: Id): List<Song> {
         val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toSong() }
+        return contentResolver.queryAll(cursor, Cursor::toSong)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -79,7 +84,7 @@ internal class ArtistRepository @Inject constructor(
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
-        return observeAll().combine(lastPlayedDao.getAll()) { all, lastPlayed ->
+        return observeAll().combine(lastPlayedDao.observeAll()) { all, lastPlayed ->
             if (all.size < HasLastPlayed.MIN_ITEMS) {
                 listOf() // too few album to show recents
             } else {
@@ -92,7 +97,6 @@ internal class ArtistRepository @Inject constructor(
     }
 
     override suspend fun addLastPlayed(id: Id) {
-        assertBackgroundThread()
         lastPlayedDao.insertOne(id)
     }
 

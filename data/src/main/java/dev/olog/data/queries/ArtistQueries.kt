@@ -10,33 +10,45 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 internal class ArtistQueries(
+    private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
     sortPrefs: SortPreferences,
     isPodcast: Boolean
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 
-    fun getAll(): Cursor {
+    suspend fun getAll(): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $IS_PODCAST
+            SELECT $ARTIST_ID, $ARTIST, ${Columns.ALBUM_ARTIST}, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection(blacklist)}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
-    fun getSongList(id: Long): Cursor {
+    suspend fun getByParam(id: Id): Cursor = withContext(schedulers.io) {
+        val (blacklist, params) = notBlacklisted()
+
+        val query = """
+             SELECT $ARTIST_ID, $ARTIST, ${Columns.ALBUM_ARTIST}, $IS_PODCAST
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE $ARTIST_ID = ? AND ${defaultSelection(blacklist)}
+            ORDER BY ${sortOrder()}
+        """
+
+        contentResolver.querySql(query, arrayOf("$id") + params)
+    }
+
+    suspend fun getSongList(id: Id): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -48,25 +60,20 @@ internal class ArtistQueries(
             WHERE $ARTIST_ID = ? AND ${defaultSongSelection(blacklist)}
             ORDER BY ${songListSortOrder(MediaIdCategory.ARTISTS, DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, arrayOf("$id") + params)
+        contentResolver.querySql(query, arrayOf("$id") + params)
     }
 
-    fun getRecentlyAdded(): Cursor {
+    suspend fun getRecentlyAdded(): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $DATA,
-                $IS_PODCAST
+            SELECT $ARTIST_ID, $ARTIST, ${Columns.ALBUM_ARTIST}, $DATA, $IS_PODCAST
             FROM ${EXTERNAL_CONTENT_URI}
             WHERE ${defaultSelection(blacklist)} ${isRecentlyAdded()}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query, params)
+        contentResolver.querySql(query, params)
     }
 
     private fun defaultSelection(notBlacklisted: String): String {

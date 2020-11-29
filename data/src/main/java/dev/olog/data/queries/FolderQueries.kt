@@ -8,15 +8,18 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.base.Path
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 internal class FolderQueries(
+    private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
     sortPrefs: SortPreferences
 ) : BaseQueries(blacklistPrefs, sortPrefs, false) {
 
-    fun getAll(includeBlackListed: Boolean): Cursor {
+    suspend fun getAll(includeBlackListed: Boolean): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -25,12 +28,13 @@ internal class FolderQueries(
             WHERE ${defaultSelection(includeBlackListed, blacklist)}
         """
         if (includeBlackListed){
-            return contentResolver.querySql(query)
+            contentResolver.querySql(query)
+        } else {
+            contentResolver.querySql(query, params)
         }
-        return contentResolver.querySql(query, params)
     }
 
-    fun getSongList(folderPath: String): Cursor {
+    suspend fun getSongList(folderPath: Path): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -42,10 +46,10 @@ internal class FolderQueries(
             WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ?
             ORDER BY ${songListSortOrder(MediaIdCategory.FOLDERS, DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, params + arrayOf(folderPath))
+        contentResolver.querySql(query, params + arrayOf(folderPath))
     }
 
-    fun getRecentlyAdded(folderPath: String): Cursor {
+    suspend fun getRecentlyAdded(folderPath: Path): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -57,24 +61,20 @@ internal class FolderQueries(
             WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ? ${isRecentlyAdded()}
             ORDER BY lower($TITLE) COLLATE UNICODE ASC
         """
-        return contentResolver.querySql(query, params + arrayOf(folderPath))
+        contentResolver.querySql(query, params + arrayOf(folderPath))
     }
 
-    fun getRelatedArtists(path: Path): Cursor {
+    suspend fun getRelatedArtists(path: Path): Cursor = withContext(schedulers.io) {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $IS_PODCAST
+            SELECT $ARTIST_ID, $ARTIST, ${Columns.ALBUM_ARTIST}, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ?
             ORDER BY lower($ARTIST) COLLATE UNICODE ASC
         """
 
-        return contentResolver.querySql(query, params + arrayOf(path))
+        contentResolver.querySql(query, params + arrayOf(path))
     }
 
     private fun defaultSelection(includeBlackListed: Boolean, notBlacklisted: String): String {

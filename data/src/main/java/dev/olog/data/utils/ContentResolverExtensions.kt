@@ -2,38 +2,52 @@ package dev.olog.data.utils
 
 import android.content.ContentResolver
 import android.database.Cursor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
+
+// TODO inject schedulers??
 
 @Suppress("unused")
-internal inline fun <T> ContentResolver.queryAll(
+internal suspend inline fun <T> ContentResolver.queryAll(
     cursor: Cursor,
-    mapper: (Cursor) -> T
-): List<T> {
-    val result = mutableListOf<T>()
-    while (cursor.moveToNext()) {
-        result.add(mapper(cursor))
-    }
-    cursor.close()
+    crossinline mapper: (Cursor) -> T
+): List<T> = withContext(Dispatchers.IO) {
 
-    return result
+    cursor.use {
+        buildList {
+            while (it.moveToNext()) {
+                yield()
+                add(mapper(it))
+            }
+        }
+    }
 }
 
 @Suppress("unused")
-internal inline fun <T> ContentResolver.queryOne(
+internal suspend inline fun <T> ContentResolver.queryOne(
     cursor: Cursor,
-    mapper: (Cursor) -> T
-): T? {
-    var item: T? = null
-    if (cursor.moveToFirst()) {
-        item = mapper(cursor)
-    }
-    cursor.close()
+    crossinline mapper: (Cursor) -> T
+): T? = withContext(Dispatchers.IO) {
 
-    return item
+    cursor.use {
+        if (it.moveToFirst()) {
+            yield()
+            mapper(it)
+        } else {
+            yield()
+            null
+        }
+    }
 }
 
 @Suppress("unused")
-internal fun ContentResolver.queryCountRow(cursor: Cursor): Int {
-    val count = cursor.count
-    cursor.close()
-    return count
+internal suspend fun ContentResolver.queryCountRow(
+    cursor: Cursor
+): Int = withContext(Dispatchers.IO) {
+
+    cursor.use {
+        yield()
+        cursor.count
+    }
 }

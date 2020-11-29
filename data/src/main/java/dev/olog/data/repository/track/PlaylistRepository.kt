@@ -26,9 +26,10 @@ import dev.olog.data.local.most.played.PlaylistMostPlayedEntity
 import dev.olog.data.local.playlist.PlaylistTrackEntity
 import dev.olog.data.local.playlist.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -44,22 +45,20 @@ internal class PlaylistRepository @Inject constructor(
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
 
-    override fun getAll(): List<Playlist> {
+    override suspend fun getAll(): List<Playlist> {
         populatePlaylistTables()
-        assertBackgroundThread()
         val result = playlistDao.getAllPlaylists()
-        return result.map { it.toDomain() }
+        return result.map(PlaylistEntity::toDomain)
     }
 
     override fun observeAll(): Flow<List<Playlist>> {
         return playlistDao.observeAllPlaylists()
             .onStart { populatePlaylistTables() }
             .distinctUntilChanged()
-            .mapListItem { it.toDomain() }
+            .mapListItem(PlaylistEntity::toDomain)
     }
 
-    override fun getByParam(param: Id): Playlist? {
-        assertBackgroundThread()
+    override suspend fun getByParam(param: Id): Playlist? {
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
         } else {
@@ -73,8 +72,6 @@ internal class PlaylistRepository @Inject constructor(
         }
 
         return playlistDao.observePlaylistById(param)
-            .map { it }
-            .distinctUntilChanged()
             .map { it?.toDomain() }
     }
 
@@ -94,7 +91,7 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
-    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<Song> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.getAll().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
@@ -121,22 +118,26 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     private fun createAutoPlaylist(id: Long, title: String): Playlist {
-        return Playlist(id, title, 0, false)
+        return Playlist(
+            id = id,
+            title = title,
+            size = 0,
+            isPodcast = false
+        )
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
-        return mostPlayedDao.getAll(folderPath, songGateway)
+        return mostPlayedDao.observeAll(folderPath, songGateway)
             .distinctUntilChanged()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
-        assertBackgroundThread()
         mostPlayedDao.insertOne(
             PlaylistMostPlayedEntity(
-                0,
-                mediaId.leaf!!,
-                mediaId.categoryId
+                id = 0,
+                songId = mediaId.leaf!!,
+                playlistId = mediaId.categoryId
             )
         )
     }
@@ -157,15 +158,15 @@ internal class PlaylistRepository @Inject constructor(
             }
     }
 
-    private fun populatePlaylistTables() {
+    private suspend fun populatePlaylistTables() = withContext(NonCancellable) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val key = "populated_with_legacy_playlist"
         val populated = prefs.getBoolean(key, false)
         if (populated){
-            return
+            return@withContext
         }
         if (playlistDao.getAllPlaylists().isNotEmpty()){
-            return
+            return@withContext
         }
 
         val savedPlaylistSql = """
@@ -193,7 +194,7 @@ internal class PlaylistRepository @Inject constructor(
         }
     }
 
-    private fun populatePlaylistWithTracks(playlistId: Long) {
+    private suspend fun populatePlaylistWithTracks(playlistId: Long) = withContext(NonCancellable) {
         val savedPlaylistSql = """
                 SELECT ${Members._ID}, ${Members.AUDIO_ID}
                 FROM ${Members.getContentUri("external", playlistId)}

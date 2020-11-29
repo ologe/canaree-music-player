@@ -21,7 +21,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 
 ) {
 
-    fun getAlbum(mediaId: MediaId): Album {
+    suspend fun getAlbum(mediaId: MediaId): Album {
         val album = if (mediaId.isPodcastAlbum) {
             podcastAlbumGateway.getByParam(mediaId.categoryId)!!
         } else {

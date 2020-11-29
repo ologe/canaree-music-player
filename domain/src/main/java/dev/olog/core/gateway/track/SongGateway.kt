@@ -11,8 +11,8 @@ interface SongGateway :
     suspend fun deleteSingle(id: Id)
     suspend fun deleteGroup(ids: List<Song>)
 
-    fun getByUri(uri: URI): Song?
+    suspend fun getByUri(uri: URI): Song?
 
-    fun getByAlbumId(albumId: Id): Song?
+    suspend fun getByAlbumId(albumId: Id): Song?
 
 }

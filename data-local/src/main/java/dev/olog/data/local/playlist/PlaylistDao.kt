@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.Update
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,7 +18,7 @@ abstract class PlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylists(): List<PlaylistEntity>
+    abstract suspend fun getAllPlaylists(): List<PlaylistEntity>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -36,7 +35,7 @@ abstract class PlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun getPlaylistById(id: Long): PlaylistEntity?
+    abstract suspend fun getPlaylistById(id: Long): PlaylistEntity?
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -54,10 +53,12 @@ abstract class PlaylistDao {
         WHERE playlistId = :playlistId
         ORDER BY idInPlaylist
     """)
-    abstract fun getPlaylistTracksImpl(playlistId: Long): List<PlaylistTrackEntity>
+    abstract suspend fun getPlaylistTracksImpl(playlistId: Long): List<PlaylistTrackEntity>
 
-    fun getPlaylistTracks(playlistId: Long, songGateway: SongGateway): List<Song> {
-        assertBackgroundThread()
+    suspend fun getPlaylistTracks(
+        playlistId: Long,
+        songGateway: SongGateway
+    ): List<Song> {
         val trackList = getPlaylistTracksImpl(playlistId)
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
@@ -74,7 +75,10 @@ abstract class PlaylistDao {
     """)
     abstract fun observePlaylistTracksImpl(playlistId: Long): Flow<List<PlaylistTrackEntity>>
 
-    fun observePlaylistTracks(playlistId: Long, songGateway: SongGateway): Flow<List<Song>> {
+    fun observePlaylistTracks(
+        playlistId: Long,
+        songGateway: SongGateway
+    ): Flow<List<Song>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
                 val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
@@ -93,7 +97,7 @@ abstract class PlaylistDao {
     abstract suspend fun getPlaylistMaxId(playlistId: Long): Int?
 
     @Insert
-    abstract fun createPlaylist(playlist: PlaylistEntity): Long
+    abstract suspend fun createPlaylist(playlist: PlaylistEntity): Long
 
     @Query("""
         UPDATE playlist SET name = :name WHERE id = :id
@@ -104,7 +108,7 @@ abstract class PlaylistDao {
     abstract suspend fun deletePlaylist(id: Long)
 
     @Insert
-    abstract fun insertTracks(tracks: List<PlaylistTrackEntity>)
+    abstract suspend fun insertTracks(tracks: List<PlaylistTrackEntity>)
 
     @Query("""
         DELETE FROM playlist_tracks

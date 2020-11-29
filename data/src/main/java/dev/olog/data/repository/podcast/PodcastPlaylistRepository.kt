@@ -18,7 +18,6 @@ import dev.olog.data.local.playlist.PodcastPlaylistDao
 import dev.olog.data.local.playlist.PodcastPlaylistEntity
 import dev.olog.data.local.playlist.PodcastPlaylistTrackEntity
 import dev.olog.data.local.playlist.toDomain
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
@@ -40,20 +39,18 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
 
-    override fun getAll(): List<Playlist> {
-        assertBackgroundThread()
+    override suspend fun getAll(): List<Playlist> {
         val result = podcastPlaylistDao.getAllPlaylists()
-        return result.map { it.toDomain() }
+        return result.map(PodcastPlaylistEntity::toDomain)
     }
 
     override fun observeAll(): Flow<List<Playlist>> {
         return podcastPlaylistDao.observeAllPlaylists()
             .distinctUntilChanged()
-            .mapListItem { it.toDomain() }
+            .mapListItem(PodcastPlaylistEntity::toDomain)
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
         return listOf(
             createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
             createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
@@ -65,8 +62,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return Playlist(id, title, 0, true)
     }
 
-    override fun getByParam(param: Id): Playlist? {
-        assertBackgroundThread()
+    override suspend fun getByParam(param: Id): Playlist? {
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
         } else {
@@ -99,7 +95,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
 
-    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<Song> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()
@@ -124,7 +120,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun createPlaylist(playlistName: String): Long {
-        assertBackgroundThread()
         return podcastPlaylistDao.createPlaylist(PodcastPlaylistEntity(name = playlistName, size = 0))
     }
 
@@ -145,8 +140,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
-        assertBackgroundThread()
-
         var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PodcastPlaylistTrackEntity(

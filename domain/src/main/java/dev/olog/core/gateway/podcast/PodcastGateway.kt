@@ -13,5 +13,5 @@ interface PodcastGateway :
     suspend fun getCurrentPosition(podcastId: Long, duration: Long): Long
     suspend fun saveCurrentPosition(podcastId: Long, position: Long)
 
-    fun getByAlbumId(albumId: Id): Song?
+    suspend fun getByAlbumId(albumId: Id): Song?
 }

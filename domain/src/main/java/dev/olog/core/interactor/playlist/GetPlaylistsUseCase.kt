@@ -12,7 +12,7 @@ class GetPlaylistsUseCase @Inject internal constructor(
 
 ) {
 
-    fun execute(type: PlaylistType): List<Playlist> {
+    suspend fun execute(type: PlaylistType): List<Playlist> {
         if (type == PlaylistType.PODCAST) {
             return podcastPlaylistgateway.getAll()
         }

@@ -13,12 +13,4 @@ data class Genre(
         return MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString())
     }
 
-    fun withSongs(songs: Int): Genre {
-        return Genre(
-            id = id,
-            name = name,
-            size = songs
-        )
-    }
-
 }

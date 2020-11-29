@@ -1,6 +1,5 @@
 package dev.olog.presentation.popup
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,6 +8,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.parseAsHtml
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
@@ -16,27 +16,23 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.lazyFast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 abstract class AbsPopupListener(
-    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
+    private val getPlaylistUseCase: GetPlaylistsUseCase,
     private val addToPlaylistUseCase: AddToPlaylistUseCase,
     private val podcastPlaylist: Boolean
 
 ) : PopupMenu.OnMenuItemClickListener {
 
-    val playlists by lazyFast {
-        getPlaylistBlockingUseCase.execute(
-            if (podcastPlaylist) PlaylistType.PODCAST
-            else PlaylistType.TRACK
-        )
-    }
+    val playlists: List<Playlist>
+        get() = runBlocking {
+            // TODO check
+            getPlaylistUseCase.execute(
+                if (podcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
+            )
+        }
 
-    @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(
         context: Context,
         itemId: Int,

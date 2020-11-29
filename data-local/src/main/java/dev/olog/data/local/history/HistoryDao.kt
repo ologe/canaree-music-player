@@ -7,7 +7,6 @@ import androidx.room.Query
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,14 +22,14 @@ abstract class HistoryDao {
         ORDER BY dateAdded
         DESC LIMIT $HISTORY_LIMIT
     """)
-    internal abstract fun getAllTracksImpl(): List<HistoryEntity>
+    internal abstract suspend fun getAllTracksImpl(): List<HistoryEntity>
 
     @Query("""
         SELECT * FROM podcast_song_history
         ORDER BY dateAdded
         DESC LIMIT $HISTORY_LIMIT
     """)
-    internal abstract fun getAllPodcastsImpl(): List<PodcastHistoryEntity>
+    internal abstract suspend fun getAllPodcastsImpl(): List<PodcastHistoryEntity>
 
     @Query("""
         SELECT * FROM song_history
@@ -64,8 +63,7 @@ abstract class HistoryDao {
     """)
     abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
-    fun getTracks(songGateway: SongGateway): List<Song> {
-        assertBackgroundThread()
+    suspend fun getTracks(songGateway: SongGateway): List<Song> {
         val historyList = getAllTracksImpl()
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->
@@ -73,8 +71,7 @@ abstract class HistoryDao {
         }
     }
 
-    fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
-        assertBackgroundThread()
+    suspend fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
         val historyList = getAllPodcastsImpl()
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->

@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 abstract class FavoriteDao {
 
     @Query("SELECT songId FROM favorite_songs")
-    abstract fun getAllTracksImpl(): List<Long>
+    abstract suspend fun getAllTracksImpl(): List<Long>
 
     @Query("SELECT podcastId FROM favorite_podcast_songs")
-    abstract fun getAllPodcastsImpl(): List<Long>
+    abstract suspend fun getAllPodcastsImpl(): List<Long>
 
     @Query("SELECT songId FROM favorite_songs")
     abstract fun observeAllTracksImpl(): Flow<List<Long>>
@@ -20,10 +20,10 @@ abstract class FavoriteDao {
     abstract fun observeAllPodcastsImpl(): Flow<List<Long>>
 
     @Query("DELETE FROM favorite_songs")
-    abstract fun deleteTracks()
+    abstract suspend fun deleteTracks()
 
     @Query("DELETE FROM favorite_podcast_songs")
-    abstract fun deleteAllPodcasts()
+    abstract suspend fun deleteAllPodcasts()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertOneImpl(item: FavoriteEntity)

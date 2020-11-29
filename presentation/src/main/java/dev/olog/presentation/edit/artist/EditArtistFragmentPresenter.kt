@@ -16,7 +16,7 @@ class EditArtistFragmentPresenter @Inject constructor(
 
 ) {
 
-    fun getArtist(mediaId: MediaId): Artist {
+    suspend fun getArtist(mediaId: MediaId): Artist {
         val artist = if (mediaId.isPodcastArtist) {
             podcastArtistGateway.getByParam(mediaId.categoryId)!!
         } else {

@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.Update
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,7 +18,7 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylists(): List<PodcastPlaylistEntity>
+    abstract suspend fun getAllPlaylists(): List<PodcastPlaylistEntity>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -36,7 +35,7 @@ abstract class PodcastPlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun getPlaylistById(id: Long): PodcastPlaylistEntity?
+    abstract suspend fun getPlaylistById(id: Long): PodcastPlaylistEntity?
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -54,10 +53,12 @@ abstract class PodcastPlaylistDao {
         WHERE playlistId = :playlistId
         ORDER BY idInPlaylist
     """)
-    abstract fun getPlaylistTracksImpl(playlistId: Long): List<PodcastPlaylistTrackEntity>
+    abstract suspend fun getPlaylistTracksImpl(playlistId: Long): List<PodcastPlaylistTrackEntity>
 
-    fun getPlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): List<Song> {
-        assertBackgroundThread()
+    suspend fun getPlaylistTracks(
+        playlistId: Long,
+        podcastGateway: PodcastGateway
+    ): List<Song> {
         val trackList = getPlaylistTracksImpl(playlistId)
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
@@ -74,7 +75,10 @@ abstract class PodcastPlaylistDao {
     """)
     abstract fun observePlaylistTracksImpl(playlistId: Long): Flow<List<PodcastPlaylistTrackEntity>>
 
-    fun observePlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePlaylistTracks(
+        playlistId: Long,
+        podcastGateway: PodcastGateway
+    ): Flow<List<Song>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
                 val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }

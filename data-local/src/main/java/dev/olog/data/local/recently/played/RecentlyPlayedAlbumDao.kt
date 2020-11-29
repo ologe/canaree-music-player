@@ -16,7 +16,7 @@ abstract class RecentlyPlayedAlbumDao {
         LIMIT 10
     """
     )
-    abstract fun getAll(): Flow<List<RecentlyPlayedAlbumEntity>>
+    abstract fun observeAll(): Flow<List<RecentlyPlayedAlbumEntity>>
 
     @Insert
     internal abstract suspend fun insertImpl(entity: RecentlyPlayedAlbumEntity)

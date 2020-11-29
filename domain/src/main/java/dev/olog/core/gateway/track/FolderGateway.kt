@@ -11,11 +11,11 @@ interface FolderGateway :
     HasRelatedArtists<Path>,
     HasRecentlyAddedSongs<Path> {
 
-    fun getAllBlacklistedIncluded(): List<Folder>
+    suspend fun getAllBlacklistedIncluded(): List<Folder>
 
     /**
      * Hashcode = path.tohashCode()
      */
-    fun getByHashCode(hashCode: Int): Folder?
+    suspend fun getByHashCode(hashCode: Int): Folder?
 
 }

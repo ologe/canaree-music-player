@@ -22,9 +22,9 @@ import dev.olog.data.mapper.toPlaylistSong
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.data.utils.queryOne
 import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -35,12 +35,17 @@ internal class GenreRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway,
+    private val songGateway: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
     schedulers: Schedulers
 ) : BaseRepository<Genre, Id>(context, schedulers), GenreGateway {
 
-    private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
+    private val queries = GenreQueries(
+        schedulers = schedulers,
+        contentResolver = contentResolver,
+        blacklistPrefs = blacklistPrefs,
+        sortPrefs = sortPrefs
+    )
 
     init {
         firstQuery()
@@ -50,35 +55,35 @@ internal class GenreRepository @Inject constructor(
         return ContentUri(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, true)
     }
 
-    override fun queryAll(): List<Genre> {
-        assertBackgroundThread()
+    override suspend fun queryAll(): List<Genre> {
         val cursor = queries.getAll()
-        val genres = contentResolver.queryAll(cursor) { it.toGenre() }
-        return genres.mapNotNull { genre ->
-            // get the size for every genre
-            val sizeQueryCursor = queries.countGenreSize(genre.id)
-            val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            if (sizeQuery == 0){
-                null
-            } else {
-                genre.withSongs(sizeQuery)
-            }
-        }
+        val genres = contentResolver.queryAll(cursor, Cursor::toGenre)
+        return genres.mapNotNull { it.withSize() }
     }
 
-    override fun getByParam(param: Id): Genre? {
-        assertBackgroundThread()
-        return getAll().find { it.id == param }
+    private suspend fun Genre.withSize(): Genre? {
+        // get the size for every genre
+        val sizeQueryCursor = queries.countGenreSize(this.id)
+        val size = contentResolver.queryCountRow(sizeQueryCursor)
+            .takeIf { it > 0 } ?: return null
+
+        return this.copy(size = size)
+    }
+
+    override suspend fun getByParam(param: Id): Genre? {
+        return publisher.value?.find { it.id == param }
+            ?: contentResolver.queryOne(queries.getByParam(param), Cursor::toGenre)?.withSize()
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return observeAll().map { it.find { it.id == param } }
+        return observeAll()
+            .map { it.find { it.id == param } }
             .distinctUntilChanged()
     }
 
     override suspend fun getTrackListByParam(param: Id): List<Song> {
         val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toPlaylistSong() }
+        return contentResolver.queryAll(cursor, Cursor::toPlaylistSong)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -94,17 +99,16 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        return mostPlayedDao.getAll(mediaId.categoryId, songGateway2)
+        return mostPlayedDao.observeAll(mediaId.categoryId, songGateway)
             .distinctUntilChanged()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
-        assertBackgroundThread()
         mostPlayedDao.insertOne(
             GenreMostPlayedEntity(
-                0,
-                mediaId.leaf!!,
-                mediaId.categoryId
+                id = 0,
+                songId = mediaId.leaf!!,
+                genreId = mediaId.categoryId
             )
         )
     }
@@ -119,13 +123,12 @@ internal class GenreRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
             val cursor = queries.getRecentlyAdded(path)
-            contentResolver.queryAll(cursor) { it.toPlaylistSong() }
+            contentResolver.queryAll(cursor, Cursor::toPlaylistSong)
         }
     }
 
-    private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
-        return contentResolver.queryAll(cursor) { it.toArtist() }
+    private suspend fun extractArtists(cursor: Cursor): List<Artist> {
+        return contentResolver.queryAll(cursor, Cursor::toArtist)
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]

@@ -8,7 +8,6 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -31,15 +30,13 @@ internal class FavoriteRepository @Inject constructor(
         favoriteStatePublisher.value = state
     }
 
-    override fun getTracks(): List<Song> {
-        assertBackgroundThread()
+    override suspend fun getTracks(): List<Song> {
         val historyList = favoriteDao.getAllTracksImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
     }
 
-    override fun getPodcasts(): List<Song> {
-        assertBackgroundThread()
+    override suspend fun getPodcasts(): List<Song> {
         val historyList = favoriteDao.getAllPodcastsImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
@@ -110,8 +107,6 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun toggleFavorite() {
-        assertBackgroundThread()
-
         val value = favoriteStatePublisher.value
         val id = value.songId
         val state = value.enum
