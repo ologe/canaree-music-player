@@ -50,7 +50,7 @@ internal object VoiceSearch {
             .toList()
     }
 
-    fun filterByGenre(genreGateway: GenreGateway, query: String): List<MediaEntity> {
+    suspend fun filterByGenre(genreGateway: GenreGateway, query: String): List<MediaEntity> {
         val genre = genreGateway.getAll().find { it.name == query } ?: return emptyList()
         val parentMediaId = genre.getMediaId()
 
