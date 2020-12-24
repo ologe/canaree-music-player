@@ -7,24 +7,23 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
     private val favoriteDao: FavoriteDao,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway,
-    private val prefsGateway: MusicPreferencesGateway
 ) : FavoriteGateway {
 
     private val favoriteStatePublisher = MutableStateFlow(FavoriteStateEntity.INVALID)
 
-    override fun observeToggleFavorite(): Flow<FavoriteEnum> = flowOf(FavoriteEnum.NOT_FAVORITE)
-
-//    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher TODO restore
-//        .filter { it != FavoriteStateEntity.INVALID }
-//        .map { it.enum }
+    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
+        .filter { it != FavoriteStateEntity.INVALID }
+        .map { it.enum }
 
     override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
         favoriteStatePublisher.value = state
