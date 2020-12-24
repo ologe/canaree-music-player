@@ -1,5 +1,6 @@
 package dev.olog.service.music.notification
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.graphics.Typeface
 import android.os.Build
@@ -36,6 +37,7 @@ internal open class NotificationImpl24 @Inject constructor(
         builder.setSubText(TextUtils.formatMillis(bookmark, true))
     }
 
+    @SuppressLint("RestrictedApi")
     override suspend fun updateMetadataImpl(
         id: Long,
         title: String,
@@ -51,7 +53,7 @@ internal open class NotificationImpl24 @Inject constructor(
         }
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
+        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, "all"), id)
         val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
             .setContentTitle(spannableTitle)

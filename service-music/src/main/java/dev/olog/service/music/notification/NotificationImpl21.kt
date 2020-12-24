@@ -19,19 +19,16 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.service.music.R
-import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.player.InternalPlayerState
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.extensions.systemService
-import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
     private val mediaSession: MediaSessionCompat
 ) : INotification {
-
-    private val isPlayingFlow = MutableStateFlow(false)
 
     protected val notificationManager = service.systemService<NotificationManager>()
 
@@ -60,13 +57,34 @@ internal open class NotificationImpl21 @Inject constructor(
     protected open fun startChronometer(bookmark: Long) {}
     protected open fun stopChronometer(bookmark: Long) {}
 
+    override suspend fun update(data: InternalPlayerState.Data, isFavorite: Boolean) {
+        val entity = data.entity
+        val state = data.state!!
+
+        updateMetadataImpl(
+            id = entity.id,
+            title = entity.title,
+            artist = entity.artist,
+            album = entity.album,
+            isPodcast = entity.isPodcast
+        )
+        updateFavoriteImpl(isFavorite)
+
+        updateStateImpl(
+            isPlaying = state.isPlaying,
+            bookmark = state.bookmark // TODO state?.bookmark - duration??
+        )
+
+        post(builder.build(), state.isPlaying)
+    }
+
     private fun post(
         notification: Notification,
-        isPlaying: Boolean? = null,
+        isPlaying: Boolean,
     ) {
-        println("post notification, isPlaying=$isPlaying")
+        Timber.i("post notification, isPlaying=$isPlaying")
         notificationManager.notify(INotification.NOTIFICATION_ID, notification)
-        if (isPlaying ?: isPlayingFlow.value) {
+        if (isPlaying) {
             service.startForeground(INotification.NOTIFICATION_ID, notification)
         } else {
             service.stopForeground(false)
@@ -78,52 +96,6 @@ internal open class NotificationImpl21 @Inject constructor(
         service.stopForeground(true)
     }
 
-    override suspend fun prepare(
-        data: InternalPlayerState.Data,
-        isFavorite: Boolean
-    ) {
-        val entity = data.entity
-        updateMetadataImpl(
-            id = entity.id,
-            title = entity.title,
-            artist = entity.artist,
-            album = entity.album,
-            isPodcast = entity.isPodcast
-        )
-        updateStateImpl(data.isPlaying, data.bookmark)
-        updateFavoriteImpl(isFavorite)
-
-        post(builder.build(), data.isPlaying)
-    }
-
-    override suspend fun updateMetadata(entity: MediaEntity) {
-        updateMetadataImpl(
-            id = entity.id,
-            title = entity.title,
-            artist = entity.artist,
-            album = entity.album,
-            isPodcast = entity.isPodcast
-        )
-
-        post(builder.build())
-    }
-
-    override suspend fun updateState(
-        isPlaying: Boolean,
-        bookmark: Long,
-        duration: Long
-    ) {
-        updateStateImpl(isPlaying = isPlaying, bookmark = bookmark - duration)
-        post(builder.build(), isPlaying)
-    }
-
-    override suspend fun updateFavorite(
-        isFavorite: Boolean,
-    ) {
-        updateFavoriteImpl(isFavorite)
-        post(builder.build())
-    }
-
     @SuppressLint("RestrictedApi")
     private fun updateFavoriteImpl(isFavorite: Boolean) {
         builder.mActions[0] = NotificationActions.favorite(service, isFavorite)
@@ -131,8 +103,6 @@ internal open class NotificationImpl21 @Inject constructor(
 
     @SuppressLint("RestrictedApi")
     private fun updateStateImpl(isPlaying: Boolean, bookmark: Long) {
-        this.isPlayingFlow.value = isPlaying
-
         builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
@@ -160,12 +130,14 @@ internal open class NotificationImpl21 @Inject constructor(
         builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
+        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, "all"), id)
         val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
             .setContentTitle(spannableTitle)
             .setContentText(artist)
             .setSubText(album)
+
+        // TODO post image async
     }
 
     private fun buildContentIntent(): PendingIntent {

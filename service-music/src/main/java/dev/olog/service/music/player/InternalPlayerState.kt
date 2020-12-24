@@ -4,11 +4,10 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 // TODO rename
@@ -21,18 +20,16 @@ internal class InternalPlayerState @Inject constructor(
     val state: Flow<Data>
         get() = _state.filterNotNull()
 
-    suspend fun prepare(
+    fun prepare(
         entity: MediaEntity,
         positionInQueue: PositionInQueue,
         bookmark: Long,
-    ) = withContext(NonCancellable) {
+    ) {
+        Timber.i("prepare ${entity.id}, position=$positionInQueue, bookmark=$bookmark")
         _state.value = Data(
-            prepare = true,
             entity = entity,
-            positionInQueue = positionInQueue,
-            isPlaying = false,
-            bookmark = bookmark,
             skipType = SkipType.NONE,
+            state = null,
         )
     }
 
@@ -43,75 +40,65 @@ internal class InternalPlayerState @Inject constructor(
         isPlaying: Boolean,
         bookmark: Long
     ) {
+        Timber.i("play ${entity.id}, position=$positionInQueue, skip=$skipType, isPlaying=$isPlaying, bookmark=$bookmark")
         _state.value = Data(
-            prepare = false,
             entity = entity,
-            positionInQueue = positionInQueue,
-            isPlaying = isPlaying,
-            bookmark = bookmark,
             skipType = skipType,
+            state = Data.State(
+                positionInQueue = positionInQueue,
+                isPlaying = isPlaying,
+                bookmark = bookmark,
+            ),
         )
     }
 
     fun resume(
-        isPlaying: Boolean,
         bookmark: Long,
     ) {
-        val currentState = _state.value!!
+        Timber.i("resume bookmark=$bookmark")
+        val currentState = _state.value!! // TODO can assert??
         _state.value = Data(
-            prepare = false,
-            isPlaying = isPlaying,
-            bookmark = bookmark,
+
             // keep the same
             entity = currentState.entity,
-            positionInQueue = currentState.positionInQueue,
             skipType = currentState.skipType,
+            state = Data.State(
+                isPlaying = true,
+                bookmark = bookmark,
+                positionInQueue = currentState.state?.positionInQueue ?: PositionInQueue.IN_MIDDLE,
+            ),
         )
     }
 
     fun pause(
         bookmark: Long
     ) {
-        val currentState = _state.value!!
+        Timber.i("pause bookmark=$bookmark")
+        val currentState = _state.value!! // TODO can assert??
         _state.value = Data(
-            prepare = false,
-            isPlaying = false,
-            bookmark = bookmark,
             // keep the same
             entity = currentState.entity,
-            positionInQueue = currentState.positionInQueue,
             skipType = currentState.skipType,
+            state = Data.State(
+                isPlaying = false,
+                bookmark = bookmark,
+                positionInQueue = currentState.state?.positionInQueue ?: PositionInQueue.IN_MIDDLE,
+            ),
         )
     }
 
     internal data class Data(
-        val prepare: Boolean,
         val entity: MediaEntity,
-        val positionInQueue: PositionInQueue,
-        val isPlaying: Boolean,
-        val bookmark: Long,
+        val state: State?,
         val skipType: SkipType,
     ) {
-        
-        fun isSameMetadata(other: Data): Boolean {
-            return entity == other.entity && 
-                positionInQueue == other.positionInQueue
-        }
 
-        fun isDifferentMetadata(other: Data): Boolean {
-            return !isSameMetadata(other)
-        } 
-        
-        fun isSameState(other: Data): Boolean {
-            return prepare == other.prepare && 
-                isPlaying == other.isPlaying &&
-                bookmark == other.bookmark && 
-                skipType == other.skipType
-        }
+        data class State(
+            val isPlaying: Boolean,
+            val bookmark: Long,
+            val positionInQueue: PositionInQueue,
+        )
 
-        fun isDifferentState(other: Data): Boolean {
-            return !isSameState(other)
-        }
     }
 
 }

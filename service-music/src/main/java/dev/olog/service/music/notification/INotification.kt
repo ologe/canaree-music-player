@@ -1,6 +1,5 @@
 package dev.olog.service.music.notification
 
-import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.player.InternalPlayerState
 
 internal interface INotification {
@@ -11,17 +10,7 @@ internal interface INotification {
         const val IMAGE_SIZE = 200
     }
 
-    suspend fun prepare(data: InternalPlayerState.Data, isFavorite: Boolean)
-
-    suspend fun updateMetadata(entity: MediaEntity)
-
-    suspend fun updateState(
-        isPlaying: Boolean,
-        bookmark: Long,
-        duration: Long
-    )
-
-    suspend fun updateFavorite(isFavorite: Boolean)
+    suspend fun update(data: InternalPlayerState.Data, isFavorite: Boolean)
 
     fun cancel()
 
