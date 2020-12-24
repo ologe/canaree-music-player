@@ -86,14 +86,17 @@ internal class AudioFocusBehavior @Inject constructor(
     private fun dispatchGain() {
         player.get().setVolume(volume.normal())
         if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
-            eventDispatcher.get().nextEvent(MediaSessionEvent.Resume)
+            eventDispatcher.get().nextEvent(MediaSessionEvent.PlayerAction.Resume)
         }
         currentFocus = FocusState.GAIN
     }
 
     private fun dispatchLoss() {
         currentFocus = FocusState.NONE
-        val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = true)
+        val event = MediaSessionEvent.PlayerAction.Pause(
+            stopService = false,
+            releaseFocus = true
+        )
         eventDispatcher.get().nextEvent(event)
     }
 
@@ -101,7 +104,10 @@ internal class AudioFocusBehavior @Inject constructor(
         if (player.get().isPlaying()) {
             currentFocus = FocusState.PLAY_WHEN_READY
         }
-        val event = MediaSessionEvent.Pause(stopService = false, releaseFocus = currentFocus != FocusState.PLAY_WHEN_READY)
+        val event = MediaSessionEvent.PlayerAction.Pause(
+            stopService = false,
+            releaseFocus = currentFocus != FocusState.PLAY_WHEN_READY
+        )
         eventDispatcher.get().nextEvent(event)
     }
 
