@@ -11,6 +11,7 @@ import dev.olog.lib.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
+import dev.olog.shared.exhaustive
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
 
@@ -20,7 +21,7 @@ class RepeatButton(
 ) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private var enabledColor: Int
-    private var repeatMode = PlayerRepeatMode.NOT_SET
+    private var repeatMode: PlayerRepeatMode? = null
 
     init {
         setImageResource(R.drawable.vd_repeat)
@@ -36,11 +37,10 @@ class RepeatButton(
         if (this.repeatMode != state) {
             this.repeatMode = state
             when (state) {
-                PlayerRepeatMode.NOT_SET -> throw IllegalStateException("value not valid $state")
                 PlayerRepeatMode.NONE -> repeatNone()
                 PlayerRepeatMode.ONE -> repeatOne()
                 PlayerRepeatMode.ALL -> repeatAll()
-            }
+            }.exhaustive
         }
     }
 

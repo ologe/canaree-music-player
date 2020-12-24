@@ -44,7 +44,8 @@ internal class MusicServiceMetadata @Inject constructor(
 
     init {
         val metadataFlow = internalPlayerState.state
-            .distinctUntilChanged { old, new -> new.isSameMetadata(old) }
+            .filterNotNull()
+            .distinctUntilChangedBy { it.entity }
 
         metadataFlow.combine(musicPrefs.observeShowLockscreenArtwork())
         { entity, showArtwork -> entity to showArtwork }

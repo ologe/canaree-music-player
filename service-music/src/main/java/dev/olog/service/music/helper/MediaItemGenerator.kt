@@ -1,19 +1,15 @@
 package dev.olog.service.music.helper
 
-import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class MediaItemGenerator @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val songGateway: SongGateway,
@@ -24,8 +20,7 @@ internal class MediaItemGenerator @Inject constructor(
 ) {
 
 
-    fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
-        assertBackgroundThread()
+    suspend fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.PLAYLISTS -> playlistGateway.getAll().map { it.toMediaItem() }

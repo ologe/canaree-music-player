@@ -66,7 +66,6 @@ internal class PlayerImpl @Inject constructor(
         playerState.prepare(playerModel.bookmark)
         playerDelegate.setPlaybackSpeed(currentSpeed)
         playerState.updatePlaybackSpeed(currentSpeed)
-        playerState.toggleSkipToActions(playerModel.positionInQueue)
 
         internalPlayerState.prepare(
             entity = playerModel.mediaEntity,
@@ -104,7 +103,6 @@ internal class PlayerImpl @Inject constructor(
             it.onStateChanged(state)
         }
 
-        playerState.toggleSkipToActions(playerModel.positionInQueue)
         noisy.register()
 
         serviceLifecycle.start()
@@ -131,7 +129,6 @@ internal class PlayerImpl @Inject constructor(
         noisy.register()
 
         internalPlayerState.resume(
-            isPlaying = isPlaying(),
             bookmark = getBookmark()
         )
     }
@@ -172,8 +169,8 @@ internal class PlayerImpl @Inject constructor(
             serviceLifecycle.stop()
         }
 
+        // TODO
         internalPlayerState.resume(
-            isPlaying = isPlaying(),
             bookmark = getBookmark()
         )
     }

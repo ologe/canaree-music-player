@@ -1,5 +1,7 @@
 package dev.olog.service.music.event.queue
 
+import dev.olog.core.MediaId
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.BundleDictionary
 import java.net.URI
 
@@ -11,7 +13,7 @@ internal sealed class MediaSessionEvent {
         object LastQueue : Prepare()
 
         data class FromMediaId(
-            val mediaId: String,
+            val mediaId: MediaId,
             val extras: BundleDictionary,
         ) : Prepare()
 
@@ -30,7 +32,7 @@ internal sealed class MediaSessionEvent {
     sealed class Play : MediaSessionEvent() {
 
         data class FromMediaId(
-            val mediaId: String,
+            val mediaId: MediaId,
             val extras: BundleDictionary,
         ) : Play()
 
@@ -43,19 +45,6 @@ internal sealed class MediaSessionEvent {
             val uri: URI,
             val extras: BundleDictionary,
         ) : Play()
-
-//        data class Shuffle(
-//            val mediaId: MediaId,
-//            val filter: String?
-//        ) : MediaSessionEvent()
-//
-//        data class RecentlyAdded(
-//            val mediaId: MediaId
-//        ) : MediaSessionEvent()
-//
-//        data class MostPlayed(
-//            val mediaId: MediaId
-//        ) : MediaSessionEvent()
 
         @Suppress("RemoveRedundantQualifierName")
         fun isQueueAlreadyPrepared(prepare: Prepare?): Boolean {
@@ -79,42 +68,6 @@ internal sealed class MediaSessionEvent {
             is FromSearch -> Prepare.FromSearch(query = this.query, extras = this.extras)
             is FromUri -> Prepare.FromUri(uri = this.uri, extras = this.extras)
         }
-
-    }
-
-    sealed class Queue : MediaSessionEvent() {
-
-        data class Swap(
-            val from: Int,
-            val to: Int
-        ) : Queue()
-
-        data class SwapRelative(
-            val from: Int,
-            val to: Int
-        ) : Queue()
-
-        data class Remove(
-            val position: Int
-        ) : Queue()
-
-        data class RemoveRelative(
-            val position: Int
-        ) : Queue()
-
-        data class MoveRelative(
-            val position: Int
-        ) : Queue()
-
-        data class AddToPlayLater(
-            val ids: List<Long>,
-            val isPodcast: Boolean,
-        ) : Queue()
-
-        data class AddToPlayNext(
-            val ids: List<Long>,
-            val isPodcast: Boolean,
-        ) : Queue()
 
     }
 
@@ -149,10 +102,14 @@ internal sealed class MediaSessionEvent {
 
     }
 
-    // TODO
-//    object ToggleFavorite : MediaSessionEvent()
-//
-//    object RepeatModeChanged : MediaSessionEvent()
-//    object ShuffleModeChanged : MediaSessionEvent()
+    object ToggleFavorite : MediaSessionEvent()
+
+    object RepeatModeChanged : MediaSessionEvent()
+    object ShuffleModeChanged : MediaSessionEvent()
+
+    data class CustomAction(
+        val action: MusicServiceCustomAction,
+        val extras: BundleDictionary,
+    ): MediaSessionEvent()
 
 }

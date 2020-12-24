@@ -3,7 +3,6 @@ package dev.olog.lib.media.model
 import android.support.v4.media.session.PlaybackStateCompat
 
 enum class PlayerShuffleMode {
-    NOT_SET,
     DISABLED,
     ENABLED;
 
@@ -19,4 +18,16 @@ enum class PlayerShuffleMode {
             else -> DISABLED
         }
     }
+
+    fun cycled() = when (this) {
+        DISABLED -> ENABLED
+        ENABLED -> DISABLED
+    }
+
+    @PlaybackStateCompat.ShuffleMode
+    fun toPlatform(): Int = when (this) {
+        DISABLED -> PlaybackStateCompat.SHUFFLE_MODE_NONE
+        ENABLED -> PlaybackStateCompat.SHUFFLE_MODE_ALL
+    }
+
 }

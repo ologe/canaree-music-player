@@ -1,11 +1,13 @@
 package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat.*
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.lib.media.model.PlayerShuffleMode
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @ServiceScoped
 internal class MusicServiceShuffleMode @Inject constructor(
@@ -13,34 +15,26 @@ internal class MusicServiceShuffleMode @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway
 ) {
 
-    private var state by Delegates.observable(SHUFFLE_MODE_INVALID) { _, _, new ->
-        musicPreferencesUseCase.setShuffleMode(new)
-        mediaSession.setShuffleMode(new)
+    private val _state = MutableStateFlow(
+        PlayerShuffleMode.of(musicPreferencesUseCase.getShuffleMode())
+    )
+    val state: Flow<PlayerShuffleMode>
+        get() = _state.filterNotNull()
+
+    private val value: PlayerShuffleMode
+        get() = _state.value
+
+    fun isEnabled(): Boolean = value == PlayerShuffleMode.ENABLED
+
+    fun setEnabled(value: PlayerShuffleMode) {
+        val platformValue = value.toPlatform()
+        _state.value = value
+        musicPreferencesUseCase.setShuffleMode(platformValue)
+        mediaSession.setShuffleMode(platformValue)
     }
 
-    init {
-        this.state = musicPreferencesUseCase.getShuffleMode()
-    }
-
-    fun isEnabled(): Boolean = state != SHUFFLE_MODE_NONE
-
-    fun setEnabled(enabled: Boolean) {
-        this.state = if (enabled) SHUFFLE_MODE_ALL else SHUFFLE_MODE_NONE
-    }
-
-    /**
-     * @return true if new shuffle state is enabled
-     */
-    fun update(): Boolean {
-        val oldState = state
-
-        this.state = if (oldState == SHUFFLE_MODE_NONE) {
-            SHUFFLE_MODE_ALL
-        } else {
-            SHUFFLE_MODE_NONE
-        }
-
-        return this.state != SHUFFLE_MODE_NONE
+    fun toggle() {
+        setEnabled(_state.value.cycled())
     }
 
 }

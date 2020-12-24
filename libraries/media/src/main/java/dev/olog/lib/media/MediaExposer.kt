@@ -51,8 +51,8 @@ class MediaExposer(
 
     private val metadataPublisher = MutableStateFlow<PlayerMetadata?>(null)
     private val statePublisher = MutableStateFlow<PlayerPlaybackState?>(null)
-    private val repeatModePublisher = MutableStateFlow(PlayerRepeatMode.NOT_SET)
-    private val shuffleModePublisher = MutableStateFlow(PlayerShuffleMode.NOT_SET)
+    private val repeatModePublisher = MutableStateFlow<PlayerRepeatMode?>(null)
+    private val shuffleModePublisher = MutableStateFlow<PlayerShuffleMode?>(null)
     private val queuePublisher = MutableStateFlow<List<PlayerItem>>(listOf())
 
     fun connect() {
@@ -138,10 +138,10 @@ class MediaExposer(
         get() = statePublisher.filterNotNull()
 
     val repeat: Flow<PlayerRepeatMode>
-        get() = repeatModePublisher
+        get() = repeatModePublisher.filterNotNull()
 
     val shuffle: Flow<PlayerShuffleMode>
-        get() = shuffleModePublisher
+        get() = shuffleModePublisher.filterNotNull()
 
     val queue: Flow<List<PlayerItem>>
         get() = queuePublisher

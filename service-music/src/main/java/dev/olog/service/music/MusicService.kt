@@ -116,7 +116,7 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handleToggleFavorite() {
-        callback.onCustomAction(MusicServiceCustomAction.TOGGLE_FAVORITE.name, null)
+        callback.onSetRating(null)
     }
 
     override fun handleSleepTimerEnd(intent: Intent) {

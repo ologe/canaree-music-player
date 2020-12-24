@@ -3,7 +3,6 @@ package dev.olog.lib.media.model
 import android.support.v4.media.session.PlaybackStateCompat
 
 enum class PlayerRepeatMode {
-    NOT_SET,
     NONE,
     ONE,
     ALL;
@@ -20,5 +19,20 @@ enum class PlayerRepeatMode {
             // kotlin compiler wants an else branch
             else -> NONE
         }
+
     }
+
+    fun cycled() = when (this) {
+        NONE -> ALL
+        ALL -> ONE
+        ONE -> NONE
+    }
+
+    @PlaybackStateCompat.RepeatMode
+    fun toPlatform(): Int = when (this) {
+        NONE -> PlaybackStateCompat.REPEAT_MODE_NONE
+        ONE -> PlaybackStateCompat.REPEAT_MODE_ONE
+        ALL -> PlaybackStateCompat.REPEAT_MODE_ALL
+    }
+
 }

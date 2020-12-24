@@ -10,6 +10,7 @@ import dev.olog.lib.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
+import dev.olog.shared.exhaustive
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
 
@@ -19,7 +20,7 @@ class ShuffleButton(
 ) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private var enabledColor: Int
-    private var shuffleMode = PlayerShuffleMode.NOT_SET
+    private var shuffleMode: PlayerShuffleMode? = null
 
     init {
         setImageResource(R.drawable.vd_shuffle)
@@ -35,10 +36,9 @@ class ShuffleButton(
         if (this.shuffleMode != state) {
             this.shuffleMode = state
             when (state) {
-                PlayerShuffleMode.NOT_SET -> throw IllegalStateException("value not valid $state")
                 PlayerShuffleMode.DISABLED -> disable()
                 PlayerShuffleMode.ENABLED -> enable()
-            }
+            }.exhaustive
         }
     }
 

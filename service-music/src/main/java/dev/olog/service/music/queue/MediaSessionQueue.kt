@@ -5,37 +5,18 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dev.olog.service.music.model.MediaEntity
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
-    lifecycleOwner: LifecycleOwner,
+    private val lifecycleOwner: LifecycleOwner,
     private val mediaSession: MediaSessionCompat
 ) {
 
-    companion object {
-        private const val DELAY = 1000L
-    }
-
-    private val delayedChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
-    private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
-
-    init {
-        delayedChannel.asFlow()
-            .debounce(DELAY)
-            .onEach(this::publish)
-            .launchIn(lifecycleOwner.lifecycleScope)
-
-        immediateChannel.asFlow()
-            .onEach(this::publish)
-            .launchIn(lifecycleOwner.lifecycleScope)
-    }
+    private var publishJob by autoDisposeJob()
 
     private suspend fun publish(list: List<MediaEntity>) {
         val queue = list.map { it.toQueueItem() }
@@ -46,11 +27,9 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     fun onNext(list: List<MediaEntity>) {
-        delayedChannel.offer(list)
-    }
-
-    fun onNextImmediate(list: List<MediaEntity>) {
-        immediateChannel.offer(list)
+        publishJob = lifecycleOwner.lifecycleScope.launch {
+            publish(list)
+        }
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

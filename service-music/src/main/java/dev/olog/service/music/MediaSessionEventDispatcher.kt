@@ -7,6 +7,8 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.MediaId
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.event.queue.MediaSessionEvent
 import dev.olog.service.music.event.queue.MediaSessionEventHandler
@@ -19,7 +21,7 @@ import javax.inject.Inject
 internal class MediaSessionEventDispatcher @Inject constructor(
     private val eventHandler: MediaSessionEventHandler,
     private val player: IPlayer,
-    private val mediaButton: MediaButton,
+    private val mediaButtonHandler: MediaButton,
 ) : MediaSessionCompat.Callback() {
 
     init {
@@ -37,7 +39,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
         Timber.v("onPrepareFromMediaId mediaId=$mediaId, extras=$extras")
 
         val event = MediaSessionEvent.Prepare.FromMediaId(
-            mediaId = mediaId,
+            mediaId = MediaId.fromString(mediaId), // TODO exit if is not valid
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)
@@ -68,7 +70,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
         Timber.v("onPlayFromMediaId mediaId=$mediaId, extras=$extras")
         val event = MediaSessionEvent.Play.FromMediaId(
-            mediaId = mediaId,
+            mediaId = MediaId.fromString(mediaId), // TODO exit if is not valid
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)
@@ -116,19 +118,15 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 
     override fun onSkipToNext() {
         Timber.v("onSkipToNext")
-        onSkipToNext(trackEnded = false)
+        val event = MediaSessionEvent.PlayerAction.SkipToNext(
+            ended = false
+        )
+        eventHandler.nextEvent(event)
     }
 
     private fun onTrackEnded() {
-        onSkipToNext(trackEnded = true)
-    }
-
-    /**
-     * Try to skip to next song, if can't, restart current and pause
-     */
-    private fun onSkipToNext(trackEnded: Boolean)  {
         val event = MediaSessionEvent.PlayerAction.SkipToNext(
-            ended = trackEnded
+            ended = true
         )
         eventHandler.nextEvent(event)
     }
@@ -169,11 +167,13 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-//        eventHandler.nextEvent(MediaSessionEvent.ToggleFavorite) TODO
+        eventHandler.nextEvent(MediaSessionEvent.ToggleFavorite)
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
+        val customAction = MusicServiceCustomAction.values().find { it.name == action } ?: return
 
+        eventHandler.nextEvent(MediaSessionEvent.CustomAction(customAction, extras.toMap()))
 //        TODO
 //        val musicAction = MusicServiceCustomAction.values().find { it.name == action }
 //            ?: return // other apps can request custom action
@@ -210,16 +210,6 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 //                requireNotNull(extras)
 //                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
 //                MediaSessionEvent.RemoveRelative(position)
-//            }
-//            MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
-//                requireNotNull(extras)
-//                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-//                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
-//            }
-//            MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
-//                requireNotNull(extras)
-//                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-//                MediaSessionEvent.PlayRecentlyAdded(MediaId.fromString(mediaId))
 //            }
 //            MusicServiceCustomAction.FORWARD_10 -> MediaSessionEvent.Forward10Seconds
 //            MusicServiceCustomAction.FORWARD_30 -> MediaSessionEvent.Forward30Seconds
@@ -263,11 +253,11 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-//        eventHandler.nextEvent(MediaSessionEvent.RepeatModeChanged) TODO
+        eventHandler.nextEvent(MediaSessionEvent.RepeatModeChanged)
     }
 
     override fun onSetShuffleMode(unused: Int) {
-//        eventHandler.nextEvent(MediaSessionEvent.ShuffleModeChanged) TODO
+        eventHandler.nextEvent(MediaSessionEvent.ShuffleModeChanged)
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
@@ -287,8 +277,9 @@ internal class MediaSessionEventDispatcher @Inject constructor(
                     eventHandler.nextEvent(sessionEvent)
                 }
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
+                // TODO ugly keycode
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
-                KeyEvent.KEYCODE_HEADSETHOOK -> mediaButton.onHeatSetHookClick()
+                KeyEvent.KEYCODE_HEADSETHOOK -> mediaButtonHandler.onHeatSetHookClick()
                 else -> Timber.e("not handled ${event.action}")
             }
         }
