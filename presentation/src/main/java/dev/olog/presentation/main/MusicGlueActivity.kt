@@ -17,6 +17,7 @@ import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.lib.media.MediaExposer
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.connection.OnConnectionChanged
+import dev.olog.lib.media.customAction
 import dev.olog.lib.media.model.*
 import dev.olog.lib.media.playPause
 import dev.olog.presentation.base.BaseActivity
@@ -179,18 +180,21 @@ abstract class MusicGlueActivity : BaseActivity(),
     override fun toggleShuffleMode() {
         trackerFacade.trackServiceEvent("toggleShuffleMode")
 
+        // actual value is cycled internally
         transportControls()?.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_INVALID)
     }
 
     override fun toggleRepeatMode() {
         trackerFacade.trackServiceEvent("toggleRepeatMode")
 
+        // actual value is cycled internally
         transportControls()?.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_INVALID)
     }
 
     override fun togglePlayerFavorite() {
         trackerFacade.trackServiceEvent("togglePlayerFavorite")
 
+        // actual value is cycled internally
         transportControls()?.setRating(RatingCompat.newHeartRating(false))
     }
 
@@ -201,7 +205,7 @@ abstract class MusicGlueActivity : BaseActivity(),
             MusicServiceCustomAction.ARGUMENT_SWAP_FROM to from,
             MusicServiceCustomAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.SWAP.name, bundle)
+        transportControls()?.customAction(MusicServiceCustomAction.SWAP, bundle)
     }
 
     override fun swapRelative(from: Int, to: Int) {
@@ -211,7 +215,7 @@ abstract class MusicGlueActivity : BaseActivity(),
             MusicServiceCustomAction.ARGUMENT_SWAP_FROM to from,
             MusicServiceCustomAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.SWAP_RELATIVE.name, bundle)
+        transportControls()?.customAction(MusicServiceCustomAction.SWAP_RELATIVE, bundle)
     }
 
     override fun remove(position: Int) {
@@ -220,7 +224,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.REMOVE.name, bundle)
+        transportControls()?.customAction(MusicServiceCustomAction.REMOVE, bundle)
     }
 
     override fun removeRelative(position: Int) {
@@ -229,7 +233,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.REMOVE_RELATIVE.name, bundle)
+        transportControls()?.customAction(MusicServiceCustomAction.REMOVE_RELATIVE, bundle)
     }
 
     override fun moveRelative(position: Int) {
@@ -238,14 +242,14 @@ abstract class MusicGlueActivity : BaseActivity(),
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.MOVE_RELATIVE.name, bundle)
+        transportControls()?.customAction(MusicServiceCustomAction.MOVE_RELATIVE, bundle)
     }
 
     override fun addToPlayNext(mediaId: MediaId) {
         trackerFacade.trackServiceEvent("addToPlayNext", mediaId)
 
-        transportControls()?.sendCustomAction(
-            MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,
+        transportControls()?.customAction(
+            MusicServiceCustomAction.ADD_TO_PLAY_NEXT,
             bundleOf(
                 MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.leaf!!),
                 MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast
@@ -257,24 +261,24 @@ abstract class MusicGlueActivity : BaseActivity(),
     override fun replayTenSeconds() {
         trackerFacade.trackServiceEvent("replayTenSeconds")
 
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.REPLAY_10.name, null)
+        transportControls()?.customAction(MusicServiceCustomAction.REPLAY_10)
     }
 
     override fun forwardTenSeconds() {
         trackerFacade.trackServiceEvent("forwardTenSeconds")
 
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.FORWARD_10.name, null)
+        transportControls()?.customAction(MusicServiceCustomAction.FORWARD_10)
     }
 
     override fun replayThirtySeconds() {
         trackerFacade.trackServiceEvent("replayThirtySeconds")
 
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.REPLAY_30.name, null)
+        transportControls()?.customAction(MusicServiceCustomAction.REPLAY_30)
     }
 
     override fun forwardThirtySeconds() {
         trackerFacade.trackServiceEvent("forwardThirtySeconds")
 
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.FORWARD_30.name, null)
+        transportControls()?.customAction(MusicServiceCustomAction.FORWARD_30)
     }
 }

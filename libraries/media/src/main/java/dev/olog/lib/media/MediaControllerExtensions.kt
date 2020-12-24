@@ -1,7 +1,9 @@
 package dev.olog.lib.media
 
+import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.intents.MusicServiceCustomAction
 
 fun MediaControllerCompat.skipToNext() {
     transportControls?.skipToNext()
@@ -23,16 +25,9 @@ fun MediaControllerCompat.playPause() {
     }
 }
 
-fun MediaControllerCompat.seekTo(pos: Long) {
-    transportControls?.seekTo(pos)
-}
-
-fun MediaControllerCompat.toggleShuffleMode(){
-    // state in cycled internally
-    transportControls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_INVALID)
-}
-
-fun MediaControllerCompat.toggleRepeatMode(){
-    // state in cycled internally
-    transportControls.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_INVALID)
+fun MediaControllerCompat.TransportControls.customAction(
+    action: MusicServiceCustomAction,
+    extras: Bundle? = null
+) {
+    sendCustomAction(action.name, extras)
 }
