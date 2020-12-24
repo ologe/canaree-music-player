@@ -58,6 +58,7 @@ ext {
     junit_5 = '5.7.0'
     mockk = '1.10.0'
     assertj = '3.18.1'
+    robolectric = '4.4'
 
     lib_firebase = [
         bom        : "com.google.firebase:firebase-bom:$firebase",
@@ -148,6 +149,7 @@ ext {
         mockk          : "io.mockk:mockk:$mockk",
         mockito        : "org.mockito:mockito-android:3.5.10",
         mockito_kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+        robolectric    : "org.robolectric:robolectric:$robolectric"
     ]
 
 }
