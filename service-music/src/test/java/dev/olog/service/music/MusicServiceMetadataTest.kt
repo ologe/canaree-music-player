@@ -5,7 +5,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.shared.MusicServiceData
@@ -21,10 +20,9 @@ class MusicServiceMetadataTest {
 
     private val context = mock<Context>()
     private val mediaSession = mock<MediaSessionCompat>()
-    private val playerLifecycle = mock<IPlayerLifecycle>()
 
     private val musicServiceMetadata = MusicServiceMetadata(
-        context, mediaSession, playerLifecycle, mock()
+        context, mediaSession, mock()
     )
 
     @Test

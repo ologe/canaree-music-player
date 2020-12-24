@@ -11,46 +11,41 @@ import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.BuildConfig
-import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.autoDisposeJob
+import dev.olog.service.music.player.InternalPlayerState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
-import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 @ServiceScoped
 internal class LastFmScrobbling @Inject constructor(
-    private val lifecycleOwner: LifecycleOwner,
+    lifecycleOwner: LifecycleOwner,
     observeLastFmUserCredentials: ObserveLastFmUserCredentials,
-    playerLifecycle: IPlayerLifecycle,
-
-) : IPlayerLifecycle.Listener {
+    playerState: InternalPlayerState,
+) {
 
     companion object {
-        private val SCROBBLE_DELAY = 10.milliseconds
+        private val SCROBBLE_DELAY = 10.seconds
     }
 
     private var session: Session? = null
     private var userCredentials: UserCredentials? = null
 
-    private var scrobbleJob by autoDisposeJob()
-
     init {
-        playerLifecycle.addListener(this)
-
         Caller.getInstance().userAgent = "dev.olog.msc"
         Caller.getInstance().logger.level = Level.OFF
+
+        playerState.state
+            .map { it.entity }
+            .distinctUntilChanged()
+            .mapLatest(this::scrobble)
+            .launchIn(lifecycleOwner.lifecycleScope)
 
         observeLastFmUserCredentials()
             .filter { it.username.isNotBlank() }
@@ -73,21 +68,15 @@ internal class LastFmScrobbling @Inject constructor(
         }
     }
 
-    override fun onMetadataChanged(metadata: MetadataEntity) {
-        scrobble(metadata.entity)
-    }
-
-    private fun scrobble(entity: MediaEntity){
+    private suspend fun scrobble(entity: MediaEntity){
         if (session == null || userCredentials == null){
             return
         }
 
-        scrobbleJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            delay(SCROBBLE_DELAY)
-            val scrobbleData = entity.toScrollData()
-            Track.scrobble(scrobbleData, session)
-            Track.updateNowPlaying(scrobbleData, session)
-        }
+        delay(SCROBBLE_DELAY)
+        val scrobbleData = entity.toScrollData()
+        Track.scrobble(scrobbleData, session)
+        Track.updateNowPlaying(scrobbleData, session)
     }
 
 }

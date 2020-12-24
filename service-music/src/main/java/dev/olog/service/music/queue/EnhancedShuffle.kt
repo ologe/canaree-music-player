@@ -1,18 +1,24 @@
 package dev.olog.service.music.queue
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.MetadataEntity
+import dev.olog.service.music.player.InternalPlayerState
 import dev.olog.shared.removeFirst
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import kotlin.math.min
 
 @ServiceScoped
 internal class EnhancedShuffle @Inject constructor(
-    playerLifecycle: IPlayerLifecycle
+    lifecycleOwner: LifecycleOwner,
+    playerState: InternalPlayerState,
 
-) : IPlayerLifecycle.Listener {
+) {
 
     /**
      * lastListened[listening_now, ,.., listened_long_ago]
@@ -20,13 +26,16 @@ internal class EnhancedShuffle @Inject constructor(
     private var lastListened = mutableListOf<Long>()
 
     init {
-        playerLifecycle.addListener(this)
+        playerState.state
+            .map { it.entity }
+            .distinctUntilChanged()
+            .mapLatest(this::onTrackChanged)
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
-    override fun onMetadataChanged(metadata: MetadataEntity) {
-        val mediaEntity = metadata.entity
-        lastListened.removeFirst { it == mediaEntity.id }
-        lastListened.add(0, mediaEntity.id)
+    private fun onTrackChanged(entity: MediaEntity) {
+        lastListened.removeFirst { it == entity.id }
+        lastListened.add(0, entity.id)
     }
 
     /*

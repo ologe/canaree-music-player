@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 class UpdateFavoriteStateUseCase @Inject constructor(
     private val favoriteGateway: FavoriteGateway
-
 ) {
 
     suspend operator fun invoke(param: FavoriteStateEntity) {

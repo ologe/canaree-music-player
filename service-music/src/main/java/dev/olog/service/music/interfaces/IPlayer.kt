@@ -3,7 +3,7 @@ package dev.olog.service.music.interfaces
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 
-internal interface IPlayer : IPlayerLifecycle {
+internal interface IPlayer {
 
     fun prepare(playerModel: PlayerMediaEntity)
     fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)

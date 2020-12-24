@@ -31,6 +31,7 @@ interface MusicPreferencesGateway {
     /**
      * in millis
      */
+    @Deprecated("use duration api")
     fun observeCrossFade(): Flow<Int>
     fun observeGapless(): Flow<Boolean>
 

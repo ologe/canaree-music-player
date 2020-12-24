@@ -7,7 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.focus.AudioFocusBehavior
-import dev.olog.service.music.interfaces.*
+import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IPlayerDelegate
+import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
@@ -29,12 +32,9 @@ internal class PlayerImpl @Inject constructor(
     private val playerVolume: IMaxAllowedPlayerVolume,
     private val internalPlayerState: InternalPlayerState,
 ) : IPlayer,
-    DefaultLifecycleObserver,
-    IPlayerLifecycle {
+    DefaultLifecycleObserver {
 
-    private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
-
-    private var currentSpeed = 1f
+    private var currentSpeed = musicPrefsUseCase.getPlaybackSpeed()
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
@@ -56,7 +56,6 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        listeners.clear()
         releaseFocus()
     }
 
@@ -95,13 +94,11 @@ internal class PlayerImpl @Inject constructor(
 
         playerDelegate.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
-        val state = playerState.update(
-            if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
-            playerModel.bookmark, currentSpeed)
-
-        listeners.forEach {
-            it.onStateChanged(state)
-        }
+        playerState.update(
+            state = if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
+            bookmark = playerModel.bookmark,
+            speed = currentSpeed
+        )
 
         noisy.register()
 
@@ -120,10 +117,11 @@ internal class PlayerImpl @Inject constructor(
         if (!requestFocus()) return
 
         playerDelegate.resume()
-        val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark(), currentSpeed)
-        listeners.forEach {
-            it.onStateChanged(playbackState)
-        }
+        playerState.update(
+            state = PlaybackStateCompat.STATE_PLAYING,
+            bookmark = getBookmark(),
+            speed = currentSpeed
+        )
 
         serviceLifecycle.start()
         noisy.register()
@@ -135,10 +133,11 @@ internal class PlayerImpl @Inject constructor(
 
     override fun pause(stopService: Boolean, releaseFocus: Boolean) {
         playerDelegate.pause()
-        val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark(), currentSpeed)
-        listeners.forEach {
-            it.onStateChanged(playbackState)
-        }
+        playerState.update(
+            state = PlaybackStateCompat.STATE_PAUSED,
+            bookmark = getBookmark(),
+            speed = currentSpeed
+        )
         noisy.unregister()
 
         if (releaseFocus){
@@ -157,11 +156,11 @@ internal class PlayerImpl @Inject constructor(
     override fun seekTo(millis: Long) {
         playerDelegate.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
-        val playbackState = playerState.update(state, millis, currentSpeed)
-        listeners.forEach {
-            it.onStateChanged(playbackState)
-            it.onSeek(millis)
-        }
+        playerState.update(
+            state = state,
+            bookmark = millis,
+            speed = currentSpeed
+        )
 
         if (isPlaying()) {
             serviceLifecycle.start()
@@ -209,14 +208,6 @@ internal class PlayerImpl @Inject constructor(
 
     private fun releaseFocus() {
         audioFocus.abandonFocus()
-    }
-
-    override fun addListener(listener: IPlayerLifecycle.Listener) {
-        listeners.add(listener)
-    }
-
-    override fun removeListener(listener: IPlayerLifecycle.Listener) {
-        listeners.remove(listener)
     }
 
     override fun setVolume(volume: Float) {
