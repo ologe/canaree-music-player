@@ -35,7 +35,7 @@ internal object NotificationActions {
         val icon = if (isPlaying) R.drawable.vd_pause_big else R.drawable.vd_play_big
         return NotificationCompat.Action.Builder(
             icon,
-            "Toggle favorite",
+            "Play/Pause",
             buildMediaPendingIntent(context, PlaybackStateCompat.ACTION_PLAY_PAUSE)
         ).build()
     }
