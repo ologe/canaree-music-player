@@ -23,13 +23,13 @@ enum class MusicServiceCustomAction {
 
     companion object {
 
-        val ARGUMENT_FILTER = "${MusicServiceCustomAction::class.java}.filter"
-        val ARGUMENT_SWAP_FROM = "${MusicServiceCustomAction::class.java}.swap.from"
-        val ARGUMENT_SWAP_TO = "${MusicServiceCustomAction::class.java}.swap.to"
-        val ARGUMENT_POSITION = "${MusicServiceCustomAction::class.java}.position"
+        const val ARGUMENT_FILTER = "filter"
+        const val ARGUMENT_SWAP_FROM = "swap.from"
+        const val ARGUMENT_SWAP_TO = "swap.to"
+        const val ARGUMENT_POSITION = "position"
 
-        val ARGUMENT_MEDIA_ID_LIST = "${MusicServiceCustomAction::class.java}.mediaid.list"
-        val ARGUMENT_IS_PODCAST = "${MusicServiceCustomAction::class.java}.podcast"
+        const val ARGUMENT_MEDIA_ID_LIST = "mediaid.list"
+        const val ARGUMENT_IS_PODCAST = "podcast"
     }
 
 }
