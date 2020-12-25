@@ -71,9 +71,12 @@ internal class MediaSessionEventHandler @Inject constructor(
         // TODO handle empty
         val track = queue.updateQueue(event, items) ?: return@withContext
 
-        // non cancellable is mandatory for app shortcuts
+        // non cancellable is mandatory
         withContext(NonCancellable + schedulers.main) {
-            player.prepare(track) // TODO fix prepare
+            player.prepare(
+                playerModel = track,
+                forcePause = event is MediaSessionEvent.Prepare.LastQueue
+            )
         }
     }
 
@@ -87,9 +90,8 @@ internal class MediaSessionEventHandler @Inject constructor(
         lastPreparedEvent = null
 
         // TODO handle empty
-        val track = queue.current(event) ?: return
         withContext(schedulers.main) {
-            player.play(track)
+            player.resume()
         }
     }
 
@@ -120,7 +122,8 @@ internal class MediaSessionEventHandler @Inject constructor(
     private suspend fun handleSkipNext(trackEnded: Boolean) {
         val track = queue.getNextTrack(trackEnded) ?: return
         withContext(schedulers.main) {
-            player.play(track)
+            player.prepare(playerModel = track, forcePause = false)
+            player.resume()
         }
     }
 
@@ -128,7 +131,8 @@ internal class MediaSessionEventHandler @Inject constructor(
         val bookmark = withContext(schedulers.main) { player.getBookmark() }
         val track = queue.getPreviousTrack(bookmark) ?: return
         withContext(schedulers.main) {
-            player.play(track)
+            player.prepare(playerModel = track, forcePause = false)
+            player.resume()
         }
     }
 

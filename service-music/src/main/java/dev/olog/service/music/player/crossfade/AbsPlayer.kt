@@ -22,13 +22,13 @@ import dev.olog.shared.android.extensions.toast
 /**
  * This class handles playback
  */
-internal abstract class AbsPlayer<T>(
+internal abstract class AbsPlayer(
     private val context: Context,
     lifecycle: Lifecycle,
-    private val mediaSourceFactory: ISourceFactory<T>,
+    private val mediaSourceFactory: ISourceFactory<CrossFadePlayer.Model>,
     volume: IMaxAllowedPlayerVolume
 
-) : IPlayerDelegate<T>,
+) : IPlayerDelegate<CrossFadePlayer.Model>,
     ExoPlayerListenerWrapper,
     DefaultLifecycleObserver {
 
@@ -55,21 +55,11 @@ internal abstract class AbsPlayer<T>(
     }
 
     @CallSuper
-    override fun prepare(mediaEntity: T, bookmark: Long) {
-        val mediaSource = mediaSourceFactory.get(mediaEntity)
-        player.prepare(mediaSource)
+    override fun prepare(model: CrossFadePlayer.Model, isTrackEnded: Boolean) {
+        val mediaSource = mediaSourceFactory.get(model)
+        player.setMediaSource(mediaSource, model.bookmark)
+        player.prepare()
         player.playWhenReady = false
-        player.seekTo(bookmark)
-    }
-
-    @CallSuper
-    override fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean) {
-        val mediaSource = mediaSourceFactory.get(mediaEntity)
-        player.prepare(mediaSource, true, true)
-        if (mediaEntity is CrossFadePlayer.Model){
-            player.seekTo(mediaEntity.playerMediaEntity.bookmark)
-        }
-        player.playWhenReady = hasFocus
     }
 
     @CallSuper

@@ -43,7 +43,7 @@ internal class Queue @Inject constructor(
 ) {
 
     companion object {
-        private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
+        const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
     }
 
     private val _queueState: MutableStateFlow<QueueState> = MutableStateFlow(QueueState.NotSet)
@@ -131,10 +131,6 @@ internal class Queue @Inject constructor(
         return current(event)
     }
 
-    suspend fun current(event: MediaSessionEvent.Play): PlayerMediaEntity? {
-        return current(event.getPrepareQueueEvent())
-    }
-
     private suspend fun current(
         event: MediaSessionEvent.Prepare
     ): PlayerMediaEntity? = queueState.whenIsSet {
@@ -148,7 +144,8 @@ internal class Queue @Inject constructor(
 
         return@whenIsSet entity.toPlayerMediaEntity(
             positionInQueue = computePositionInQueue(),
-            bookmark = bookmark
+            bookmark = bookmark,
+            skipType = SkipType.NONE,
         )
     }
 
@@ -261,12 +258,14 @@ internal class Queue @Inject constructor(
     suspend fun getNextTrack(
         trackEnded: Boolean
     ): PlayerMediaEntity? = queueState.whenIsSet {
+        val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
 
         if (repeatMode.isRepeatOne() && trackEnded) {
             // restart
             return@whenIsSet entity.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
-                bookmark = getPodcastBookmarkOrZero(entity)
+                bookmark = getPodcastBookmarkOrZero(entity),
+                skipType = skipType,
             )
         }
         var newPosition = queue.indexOf(entity) + 1
@@ -278,7 +277,8 @@ internal class Queue @Inject constructor(
             val newEntity = newState?.entity
             return@whenIsSet newEntity?.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
-                bookmark = getPodcastBookmarkOrZero(newEntity)
+                bookmark = getPodcastBookmarkOrZero(newEntity),
+                skipType = skipType,
             )
         }
         return@whenIsSet null
@@ -287,14 +287,14 @@ internal class Queue @Inject constructor(
     suspend fun getPreviousTrack(
         bookmark: Long
     ): PlayerMediaEntity? = queueState.whenIsSet {
-
         val isPodcast = entity.isPodcast
 
         if (!isPodcast && bookmark > SKIP_TO_PREVIOUS_THRESHOLD) {
             // restart
             return@whenIsSet entity.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
-                bookmark = bookmark
+                bookmark = bookmark,
+                skipType = SkipType.RESTART,
             )
         }
 
@@ -304,7 +304,8 @@ internal class Queue @Inject constructor(
             // restart song from beginning if is first
             return@whenIsSet entity.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
-                bookmark = bookmark
+                bookmark = bookmark,
+                skipType = SkipType.RESTART,
             )
         }
 
@@ -317,7 +318,8 @@ internal class Queue @Inject constructor(
             val newEntity = newState?.entity
             return@whenIsSet newEntity?.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
-                bookmark = bookmark
+                bookmark = bookmark,
+                skipType = SkipType.SKIP_PREVIOUS,
             )
         }
         return@whenIsSet null

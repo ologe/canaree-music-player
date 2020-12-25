@@ -63,10 +63,15 @@ internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     )
 }
 
-internal fun MediaEntity.toPlayerMediaEntity(positionInQueue: PositionInQueue, bookmark: Long) : PlayerMediaEntity {
+internal fun MediaEntity.toPlayerMediaEntity(
+    positionInQueue: PositionInQueue,
+    bookmark: Long,
+    skipType: SkipType,
+) : PlayerMediaEntity {
     return PlayerMediaEntity(
         mediaEntity = this,
         positionInQueue = positionInQueue,
-        bookmark = bookmark
+        bookmark = bookmark,
+        skipType = skipType,
     )
 }

@@ -1,6 +1,5 @@
 package dev.olog.service.music.player
 
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -31,13 +30,14 @@ internal class PlayerImpl @Inject constructor(
     musicPrefsUseCase: MusicPreferencesGateway,
     private val playerVolume: IMaxAllowedPlayerVolume,
     private val internalPlayerState: InternalPlayerState,
-) : IPlayer,
-    DefaultLifecycleObserver {
-
-    private var currentSpeed = musicPrefsUseCase.getPlaybackSpeed()
+) : IPlayer {
 
     init {
-        lifecycleOwner.lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                releaseFocus()
+            }
+        })
 
         // TODO combine with max allowed volume changes
         musicPrefsUseCase.observeVolume()
@@ -49,67 +49,29 @@ internal class PlayerImpl @Inject constructor(
 
         musicPrefsUseCase.observePlaybackSpeed()
             .onEach {
-                currentSpeed = it
-                playerDelegate.setPlaybackSpeed(it)
+                playerDelegate.playbackSpeed = it
                 playerState.updatePlaybackSpeed(it)
             }.launchIn(lifecycleOwner.lifecycleScope)
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        releaseFocus()
-    }
+    override fun prepare(playerModel: PlayerMediaEntity, forcePause: Boolean) {
+        val isPlaying = if (forcePause) false else playerDelegate.isPlaying()
 
-    override fun prepare(playerModel: PlayerMediaEntity) {
-        playerDelegate.prepare(playerModel, playerModel.bookmark)
+        val isTrackEnded = playerModel.skipType == SkipType.TRACK_ENDED
+        playerDelegate.prepare(playerModel, isTrackEnded)
 
-        playerState.prepare(playerModel.bookmark)
-        playerDelegate.setPlaybackSpeed(currentSpeed)
-        playerState.updatePlaybackSpeed(currentSpeed)
+        playerState.update(
+            isPlaying = isPlaying,
+            bookmark = playerModel.bookmark,
+            speed = playerDelegate.playbackSpeed
+        )
 
         internalPlayerState.prepare(
             entity = playerModel.mediaEntity,
             positionInQueue = playerModel.positionInQueue,
             bookmark = getBookmark(),
-        )
-    }
-
-    override fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
-        when (skipType){
-            SkipType.NONE -> throw IllegalArgumentException("skip type must not be NONE")
-            SkipType.RESTART,
-            SkipType.SKIP_PREVIOUS -> playerState.skipTo(SkipType.SKIP_PREVIOUS)
-            SkipType.SKIP_NEXT,
-            SkipType.TRACK_ENDED -> playerState.skipTo(SkipType.SKIP_NEXT)
-        }
-
-        playInternal(playerModel, skipType)
-    }
-
-    override fun play(playerModel: PlayerMediaEntity) {
-        playInternal(playerModel, SkipType.NONE)
-    }
-
-    private fun playInternal(playerModel: PlayerMediaEntity, skipType: SkipType){
-        val hasFocus = requestFocus()
-
-        playerDelegate.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
-
-        playerState.update(
-            state = if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
-            bookmark = playerModel.bookmark,
-            speed = currentSpeed
-        )
-
-        noisy.register()
-
-        serviceLifecycle.start()
-
-        internalPlayerState.play(
-            entity = playerModel.mediaEntity,
-            positionInQueue = playerModel.positionInQueue,
-            bookmark = getBookmark(),
-            isPlaying = isPlaying(),
-            skipType = skipType,
+            skipType = playerModel.skipType,
+            isPlaying = isPlaying
         )
     }
 
@@ -118,9 +80,9 @@ internal class PlayerImpl @Inject constructor(
 
         playerDelegate.resume()
         playerState.update(
-            state = PlaybackStateCompat.STATE_PLAYING,
+            isPlaying = true,
             bookmark = getBookmark(),
-            speed = currentSpeed
+            speed = playerDelegate.playbackSpeed
         )
 
         serviceLifecycle.start()
@@ -134,9 +96,9 @@ internal class PlayerImpl @Inject constructor(
     override fun pause(stopService: Boolean, releaseFocus: Boolean) {
         playerDelegate.pause()
         playerState.update(
-            state = PlaybackStateCompat.STATE_PAUSED,
+            isPlaying = false,
             bookmark = getBookmark(),
-            speed = currentSpeed
+            speed = playerDelegate.playbackSpeed
         )
         noisy.unregister()
 
@@ -155,23 +117,19 @@ internal class PlayerImpl @Inject constructor(
 
     override fun seekTo(millis: Long) {
         playerDelegate.seekTo(millis)
-        val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
         playerState.update(
-            state = state,
+            isPlaying = isPlaying(),
             bookmark = millis,
-            speed = currentSpeed
+            speed = playerDelegate.playbackSpeed
         )
 
         if (isPlaying()) {
             serviceLifecycle.start()
+            internalPlayerState.resume(bookmark = getBookmark())
         } else {
+            internalPlayerState.pause(bookmark = getBookmark())
             serviceLifecycle.stop()
         }
-
-        // TODO
-        internalPlayerState.resume(
-            bookmark = getBookmark()
-        )
     }
 
     override fun forwardTenSeconds() {

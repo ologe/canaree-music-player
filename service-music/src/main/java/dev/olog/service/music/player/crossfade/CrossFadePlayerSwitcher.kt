@@ -22,26 +22,23 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
 
     private var current = CurrentPlayer.PLAYER_NOT_SET
 
-    override fun prepare(mediaEntity: PlayerMediaEntity, bookmark: Long){
+    override fun prepare(model: PlayerMediaEntity, isTrackEnded: Boolean){
         assertMainThread()
 
         val player = getNextPlayer()
-        player?.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
-    }
+        player?.prepare(model.toSimpleCrossFadeModel(), isTrackEnded)
 
-    override fun setPlaybackSpeed(speed: Float) {
-        getCurrentPlayer()?.setPlaybackSpeed(speed)
-        getSecondaryPlayer()?.setPlaybackSpeed(speed)
-    }
-
-    override fun play(mediaEntity: PlayerMediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
-        assertMainThread()
-        val player = getNextPlayer()
-        player?.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
         if (!isTrackEnded){
             getSecondaryPlayer()?.stop()
         }
     }
+
+    override var playbackSpeed: Float
+        get() = getCurrentPlayer()?.playbackSpeed ?: 0f
+        set(value) {
+            getCurrentPlayer()?.playbackSpeed = value
+            getSecondaryPlayer()?.playbackSpeed = value
+        }
 
     override fun resume() {
         getCurrentPlayer()?.resume()

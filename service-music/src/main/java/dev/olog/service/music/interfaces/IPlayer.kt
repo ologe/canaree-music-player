@@ -5,9 +5,7 @@ import dev.olog.service.music.model.SkipType
 
 internal interface IPlayer {
 
-    fun prepare(playerModel: PlayerMediaEntity)
-    fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
-    fun play(playerModel: PlayerMediaEntity)
+    fun prepare(playerModel: PlayerMediaEntity, forcePause: Boolean)
 
     fun seekTo(millis: Long)
 

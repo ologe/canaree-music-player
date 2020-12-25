@@ -2,9 +2,7 @@ package dev.olog.service.music.interfaces
 
 internal interface IPlayerDelegate<T> {
 
-    fun prepare(mediaEntity: T, bookmark: Long)
-
-    fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean)
+    fun prepare(model: T, isTrackEnded: Boolean)
 
     fun seekTo(where: Long)
 
@@ -18,6 +16,6 @@ internal interface IPlayerDelegate<T> {
 
     fun setVolume(volume: Float)
 
-    fun setPlaybackSpeed(speed: Float)
+    var playbackSpeed: Float
 
 }

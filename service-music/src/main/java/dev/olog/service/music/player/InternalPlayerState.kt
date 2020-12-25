@@ -24,23 +24,10 @@ internal class InternalPlayerState @Inject constructor(
         entity: MediaEntity,
         positionInQueue: PositionInQueue,
         bookmark: Long,
-    ) {
-        Timber.i("prepare ${entity.id}, position=$positionInQueue, bookmark=$bookmark")
-        _state.value = Data(
-            entity = entity,
-            skipType = SkipType.NONE,
-            state = null,
-        )
-    }
-
-    fun play(
-        entity: MediaEntity,
-        positionInQueue: PositionInQueue,
         skipType: SkipType,
         isPlaying: Boolean,
-        bookmark: Long
     ) {
-        Timber.i("play ${entity.id}, position=$positionInQueue, skip=$skipType, isPlaying=$isPlaying, bookmark=$bookmark")
+        Timber.i("prepare ${entity.id}, position=$positionInQueue, bookmark=$bookmark")
         _state.value = Data(
             entity = entity,
             skipType = skipType,

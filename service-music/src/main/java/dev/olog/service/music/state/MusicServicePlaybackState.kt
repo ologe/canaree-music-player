@@ -11,7 +11,6 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
-import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
 
@@ -32,44 +31,33 @@ internal class MusicServicePlaybackState @Inject constructor(
         setActions(getActions())
     }
 
-    fun prepare(bookmark: Long) {
-        mediaSession.setPlaybackState(builder.build())
-
-        notifyWidgetsOfStateChanged(false, bookmark)
-    }
-
     /**
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
-    fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
-        val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
+    fun update(
+        isPlaying: Boolean,
+        bookmark: Long,
+        speed: Float
+    ) {
+       val state = if (isPlaying) {
+           PlaybackStateCompat.STATE_PLAYING
+       } else {
+           PlaybackStateCompat.STATE_PAUSED
+       }
 
         builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
 
         musicPreferencesUseCase.setBookmark(bookmark)
 
-        val playbackState = builder.build()
-
         notifyWidgetsOfStateChanged(isPlaying, bookmark)
 
-        mediaSession.setPlaybackState(playbackState)
-
-        return playbackState
+        mediaSession.setPlaybackState(builder.build())
     }
 
     fun updatePlaybackSpeed(speed: Float) {
-        val currentState = mediaSession.controller?.playbackState
-        if (currentState == null) {
-            builder.setState(
-                PlaybackStateCompat.STATE_PAUSED,
-                musicPreferencesUseCase.getBookmark(),
-                0f
-            )
-        } else {
-            val stateSpeed =
-                if (currentState.state == PlaybackStateCompat.STATE_PLAYING) speed else 0f
-            builder.setState(currentState.state, currentState.position, stateSpeed)
-        }
+        val currentState = mediaSession.controller?.playbackState ?: return
+        val stateSpeed = if (currentState.state == PlaybackStateCompat.STATE_PLAYING) speed else 0f
+        builder.setState(currentState.state, currentState.position, stateSpeed)
         mediaSession.setPlaybackState(builder.build())
     }
 
@@ -97,20 +85,6 @@ internal class MusicServicePlaybackState @Inject constructor(
             }
         }
 
-    }
-
-    fun skipTo(skipType: SkipType) {
-        val state = when (skipType){
-            SkipType.SKIP_NEXT -> PlaybackStateCompat.STATE_SKIPPING_TO_NEXT
-            SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
-            SkipType.NONE,
-            SkipType.RESTART,
-            SkipType.TRACK_ENDED -> error("skip type=$skipType")
-        }
-
-        builder.setState(state, 0, 1f)
-
-        mediaSession.setPlaybackState(builder.build())
     }
 
     private fun getActions(): Long {
