@@ -94,7 +94,7 @@ internal class Queue @Inject constructor(
             QueueState.Empty
         } else {
             QueueState.Set(
-                position = position,
+                position = if (position in 0..items.lastIndex) position else 0,
                 queue = items
             )
         }
@@ -135,19 +135,18 @@ internal class Queue @Inject constructor(
         return current(event.getPrepareQueueEvent())
     }
 
-    private suspend fun current(event: MediaSessionEvent.Prepare): PlayerMediaEntity? {
-        val state = queueState as? QueueState.Set ?: return null
-
-        val item = state.queue.getOrNull(state.position) ?: return null
+    private suspend fun current(
+        event: MediaSessionEvent.Prepare
+    ): PlayerMediaEntity? = queueState.whenIsSet {
 
         val bookmark = when (event) {
-            is MediaSessionEvent.Prepare.LastQueue -> getLastSessionBookmark(item)
-            is MediaSessionEvent.Prepare.FromMediaId -> getPodcastBookmarkOrZero(item)
-            is MediaSessionEvent.Prepare.FromSearch -> getPodcastBookmarkOrZero(item)
-            is MediaSessionEvent.Prepare.FromUri -> getPodcastBookmarkOrZero(item)
+            is MediaSessionEvent.Prepare.LastQueue -> getLastSessionBookmark(entity)
+            is MediaSessionEvent.Prepare.FromMediaId -> getPodcastBookmarkOrZero(entity)
+            is MediaSessionEvent.Prepare.FromSearch -> getPodcastBookmarkOrZero(entity)
+            is MediaSessionEvent.Prepare.FromUri -> getPodcastBookmarkOrZero(entity)
         }
 
-        return state.queue.getOrNull(state.position)?.toPlayerMediaEntity(
+        return@whenIsSet entity.toPlayerMediaEntity(
             positionInQueue = computePositionInQueue(),
             bookmark = bookmark
         )
@@ -224,7 +223,7 @@ internal class Queue @Inject constructor(
     }
 
     private fun List<MediaEntity>.getCurrentSongIndexWhenPlayingNewQueue(songId: Long?): Int {
-        if (shuffleMode.isEnabled() || songId == null /* || this.isEmpty() ??*/) {
+        if (shuffleMode.isEnabled() || songId == null) {
             return 0
         } else {
             return this.indexOfFirst { it.id == songId }.coerceIn(0, this.lastIndex)
