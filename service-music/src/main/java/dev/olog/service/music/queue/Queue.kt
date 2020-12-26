@@ -22,6 +22,7 @@ import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.indexOfFirstOrNull
+import dev.olog.shared.swap
 import dev.olog.shared.swapped
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -249,10 +250,13 @@ internal class Queue @Inject constructor(
 
     private suspend fun shuffle() = queueState.whenIsSet {
 
-        val newQueue = enhancedShuffle(queue)
+        val newQueue = enhancedShuffle(queue).toMutableList()
         val newPosition = newQueue.indexOfFirst { it.progressive == entity.progressive }
+        if (newPosition != 0) {
+            newQueue.swap(newPosition, 0)
+        }
 
-        updateQueue(newQueue, newPosition)
+        updateQueue(newQueue, 0)
     }
 
     suspend fun getNextTrack(
