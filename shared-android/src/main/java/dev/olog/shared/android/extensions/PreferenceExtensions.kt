@@ -1,14 +1,11 @@
 package dev.olog.shared.android.extensions
 
 import android.content.SharedPreferences
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
-import kotlin.coroutines.CoroutineContext
 
-inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dispatcher: CoroutineContext = Dispatchers.Default): Flow<T> {
+inline fun <reified T> SharedPreferences.observeKey(key: String, default: T): Flow<T> {
     val flow = MutableStateFlow(getItem(key, default))
 
     val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
@@ -20,7 +17,6 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dis
 
     return flow
         .onCompletion { unregisterOnSharedPreferenceChangeListener(listener) }
-        .flowOn(dispatcher)
 }
 
 inline fun <reified T> SharedPreferences.getItem(key: String, default: T): T {
