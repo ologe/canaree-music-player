@@ -19,11 +19,16 @@ internal class MusicServiceRepeatMode @Inject constructor(
     private val _state = MutableStateFlow(
         PlayerRepeatMode.of(musicPreferencesUseCase.getRepeatMode())
     )
+
     val state: Flow<PlayerRepeatMode>
         get() = _state.filterNotNull()
 
     private val value: PlayerRepeatMode
         get() = _state.value
+
+    init {
+        mediaSession.setRepeatMode(_state.value.toPlatform())
+    }
 
     fun isRepeatOne(): Boolean = value == PlayerRepeatMode.ONE
 

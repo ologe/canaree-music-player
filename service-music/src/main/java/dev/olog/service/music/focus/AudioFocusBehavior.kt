@@ -6,20 +6,21 @@ import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
 import dagger.Lazy
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.service.music.interfaces.IPlayer
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.event.queue.MediaSessionEvent
 import dev.olog.service.music.event.queue.MediaSessionEventHandler
+import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.exhaustive
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+@ServiceScoped
 internal class AudioFocusBehavior @Inject constructor(
     service: Service,
     private val eventDispatcher: Lazy<MediaSessionEventHandler>,
     private val player: Lazy<IPlayer>,
-    private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {
 
@@ -31,15 +32,10 @@ internal class AudioFocusBehavior @Inject constructor(
     fun requestFocus(): Boolean {
         assertMainThread()
 
-        val focus = requestFocusInternal()
-        currentFocus = when (focus) {
-            AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> FocusState.GAIN
-            AudioManager.AUDIOFOCUS_REQUEST_DELAYED -> FocusState.DELAYED
-            AudioManager.AUDIOFOCUS_REQUEST_FAILED -> FocusState.NONE
-            else -> error("audio focus response not handle with code $focus")
-        }
+        val focus = AudioManagerCompat.requestAudioFocus(audioManager, focusRequest)
+        currentFocus = FocusState.fromPlatform(focus)
 
-        return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+        return currentFocus == FocusState.GAIN
     }
 
     fun abandonFocus() {
@@ -49,15 +45,11 @@ internal class AudioFocusBehavior @Inject constructor(
         AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
     }
 
-    private fun requestFocusInternal(): Int {
-        return AudioManagerCompat.requestAudioFocus(audioManager, focusRequest)
-    }
-
     private fun buildFocusRequest(): AudioFocusRequestCompat {
         return AudioFocusRequestCompat.Builder(AudioManagerCompat.AUDIOFOCUS_GAIN)
             .setOnAudioFocusChangeListener(this)
-            .setWillPauseWhenDucked(false) // not pause but providing my implementation
-//            .setAcceptsDelayedFocusGain(true) TODO
+//          from docs: When you need to pause playback rather than duck the volume, call setWillPauseWhenDucked(true)
+            .setWillPauseWhenDucked(false)
             .setAudioAttributes(
                 AudioAttributesCompat.Builder()
                     .setContentType(AudioAttributesCompat.CONTENT_TYPE_MUSIC)
@@ -70,21 +62,24 @@ internal class AudioFocusBehavior @Inject constructor(
 
     override fun onAudioFocusChange(focusChange: Int) {
         assertMainThread()
-        onAudioFocusChangeInternal(AudioFocusType.get(focusChange))
-    }
+        val focus = AudioFocusType.fromPlatform(focusChange)
 
-    private fun onAudioFocusChangeInternal(focus: AudioFocusType) {
         when (focus) {
+            AudioFocusType.NONE -> {}
             AudioFocusType.GAIN -> dispatchGain()
+            AudioFocusType.GAIN_TRANSIENT -> {}
+            AudioFocusType.GAIN_TRANSIENT_EXCLUSIVE -> {}
+            AudioFocusType.GAIN_TRANSIENT_MAY_DUCK -> {}
             AudioFocusType.LOSS -> dispatchLoss()
             AudioFocusType.LOSS_TRANSIENT -> dispatchLossTransient()
             AudioFocusType.LOSS_TRANSIENT_CAN_DUCK -> dispatchLossTransientCanDuck()
-            else -> {}
-        }
+
+        }.exhaustive
     }
 
     private fun dispatchGain() {
-        player.get().setVolume(volume.normal())
+        player.get().setDucking(false)
+
         if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
             eventDispatcher.get().nextEvent(MediaSessionEvent.PlayerAction.Resume)
         }
@@ -112,7 +107,7 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     private fun dispatchLossTransientCanDuck() {
-        player.get().setVolume(volume.ducked())
+        player.get().setDucking(true)
     }
 
 }
@@ -120,17 +115,17 @@ internal class AudioFocusBehavior @Inject constructor(
 private enum class AudioFocusType {
     NONE,
 
-    GAIN,
-    GAIN_TRANSIENT,
-    GAIN_TRANSIENT_EXCLUSIVE,
-    GAIN_TRANSIENT_MAY_DUCK,
+    GAIN, // can play indefinitely
+    GAIN_TRANSIENT, // can play for a short amount of time (notification)
+    GAIN_TRANSIENT_EXCLUSIVE, // can't play anything
+    GAIN_TRANSIENT_MAY_DUCK, // lower volume
 
-    LOSS,
+    LOSS, // can not play
     LOSS_TRANSIENT,
-    LOSS_TRANSIENT_CAN_DUCK;
+    LOSS_TRANSIENT_CAN_DUCK; // lower volume
 
     companion object {
-        fun get(focus: Int): AudioFocusType {
+        fun fromPlatform(focus: Int): AudioFocusType {
             return when (focus) {
                 AudioManager.AUDIOFOCUS_NONE -> NONE
                 AudioManager.AUDIOFOCUS_GAIN -> GAIN

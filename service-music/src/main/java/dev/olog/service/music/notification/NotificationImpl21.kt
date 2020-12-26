@@ -24,6 +24,7 @@ import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.extensions.systemService
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.time.Duration
 
 internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
@@ -54,12 +55,12 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     protected open fun extendInitialization(builder: NotificationCompat.Builder) {}
-    protected open fun startChronometer(bookmark: Long) {}
-    protected open fun stopChronometer(bookmark: Long) {}
+    protected open fun startChronometer(bookmark: Duration) {}
+    protected open fun stopChronometer(bookmark: Duration) {}
 
     override suspend fun update(data: InternalPlayerState.Data, isFavorite: Boolean) {
         val entity = data.entity
-        val state = data.state!!
+        val state = data.state
 
         updateMetadataImpl(
             id = entity.id,
@@ -102,7 +103,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     @SuppressLint("RestrictedApi")
-    private fun updateStateImpl(isPlaying: Boolean, bookmark: Long) {
+    private fun updateStateImpl(isPlaying: Boolean, bookmark: Duration) {
         builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)

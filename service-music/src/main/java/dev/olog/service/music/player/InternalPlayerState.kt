@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.time.Duration
 
 // TODO rename
 @ServiceScoped
@@ -23,7 +24,7 @@ internal class InternalPlayerState @Inject constructor(
     fun prepare(
         entity: MediaEntity,
         positionInQueue: PositionInQueue,
-        bookmark: Long,
+        bookmark: Duration,
         skipType: SkipType,
         isPlaying: Boolean,
     ) {
@@ -39,9 +40,7 @@ internal class InternalPlayerState @Inject constructor(
         )
     }
 
-    fun resume(
-        bookmark: Long,
-    ) {
+    fun resume(bookmark: Duration, ) {
         Timber.i("resume bookmark=$bookmark")
         val currentState = _state.value!! // TODO can assert??
         _state.value = Data(
@@ -52,14 +51,12 @@ internal class InternalPlayerState @Inject constructor(
             state = Data.State(
                 isPlaying = true,
                 bookmark = bookmark,
-                positionInQueue = currentState.state?.positionInQueue ?: PositionInQueue.IN_MIDDLE,
+                positionInQueue = currentState.state.positionInQueue,
             ),
         )
     }
 
-    fun pause(
-        bookmark: Long
-    ) {
+    fun pause(bookmark: Duration) {
         Timber.i("pause bookmark=$bookmark")
         val currentState = _state.value!! // TODO can assert??
         _state.value = Data(
@@ -69,20 +66,20 @@ internal class InternalPlayerState @Inject constructor(
             state = Data.State(
                 isPlaying = false,
                 bookmark = bookmark,
-                positionInQueue = currentState.state?.positionInQueue ?: PositionInQueue.IN_MIDDLE,
+                positionInQueue = currentState.state.positionInQueue,
             ),
         )
     }
 
     internal data class Data(
         val entity: MediaEntity,
-        val state: State?,
+        val state: State,
         val skipType: SkipType,
     ) {
 
         data class State(
             val isPlaying: Boolean,
-            val bookmark: Long,
+            val bookmark: Duration,
             val positionInQueue: PositionInQueue,
         )
 

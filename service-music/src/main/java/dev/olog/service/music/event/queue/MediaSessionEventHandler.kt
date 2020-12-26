@@ -108,6 +108,13 @@ internal class MediaSessionEventHandler @Inject constructor(
                 stopService = event.stopService,
                 releaseFocus = event.releaseFocus
             )
+            is MediaSessionEvent.PlayerAction.PlayPause -> {
+                if (player.isPlaying()) {
+                    player.pause(false)
+                } else {
+                    player.resume()
+                }
+            }
             is MediaSessionEvent.PlayerAction.SeekTo -> player.seekTo(event.millis)
             is MediaSessionEvent.PlayerAction.SkipToPrevious -> handleSkipPrevious()
             is MediaSessionEvent.PlayerAction.SkipToNext -> handleSkipNext(event.ended)

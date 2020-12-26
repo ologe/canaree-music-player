@@ -1,7 +1,7 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
-import androidx.core.math.MathUtils
+import androidx.annotation.CallSuper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.PlaybackParameters
@@ -12,16 +12,15 @@ import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PlayerMediaEntity
-import dev.olog.service.music.model.PositionInQueue
+import dev.olog.service.music.player.PlayerVolume
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.FlowInterval
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.time.Duration
 import kotlin.time.milliseconds
 import kotlin.time.seconds
 
@@ -30,57 +29,55 @@ import kotlin.time.seconds
  */
 internal class CrossFadePlayer @Inject internal constructor(
     @ApplicationContext context: Context,
-    private val lifecycleOwner: LifecycleOwner,
+    lifecycleOwner: LifecycleOwner,
     mediaSourceFactory: ClippedSourceFactory,
-    musicPreferencesUseCase: MusicPreferencesGateway,
+    private val musicPrefs: MusicPreferencesGateway,
     private val eventDispatcher: EventDispatcher,
-    private val volume: IMaxAllowedPlayerVolume,
+    private val volume: PlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-) : AbsPlayer(context, lifecycleOwner.lifecycle, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper {
+) : AbsPlayer(
+    lifecycleOwner = lifecycleOwner,
+    context = context,
+    mediaSourceFactory = mediaSourceFactory,
+    volume = volume
+), ExoPlayerListenerWrapper {
 
     companion object {
-        private const val MIN_CROSSFADE_FOR_GAPLESS = 1500
-        private const val MAX_CROSSFADE_FOR_GAPLESS = 2000
+        private val MIN_CROSSFADE_FOR_GAPLESS = 1500.milliseconds
+        private val MAX_CROSSFADE_FOR_GAPLESS = 2000.milliseconds
     }
 
     private var isCurrentSongPodcast = false
 
-    private var fadeJob by autoDisposeJob()
+    private val isGapless: Boolean
+        get() = musicPrefs.isGapless
 
-    private var gapless = false
-    private var crossFadeTime = 0
+    private val crossFadeTime: Duration
+        get() {
+            val crossfade = musicPrefs.crossfade
+            if (isGapless){
+                // force song preloading
+                return crossfade.coerceAtLeast(MIN_CROSSFADE_FOR_GAPLESS)
+            } else {
+                return crossfade
+            }
+        }
 
     init {
         player.addListener(this)
-        player.setPlaybackParameters(PlaybackParameters(1f, 1f))
+        player.setPlaybackParameters(PlaybackParameters(musicPrefs.getPlaybackSpeed(), 1f))
+
         player.addAudioListener(onAudioSessionIdChangeListener)
 
         FlowInterval(1.seconds)
-            .filter { crossFadeTime > 0 } // crossFade enabled
-            .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
+            .filter { crossFadeTime.isPositive() } // crossFade enabled
+            .filter { getDuration().isPositive() && getBookmark().isPositive() } // duration and bookmark strictly positive
             .filter { getDuration() > getBookmark() }
             .map { getDuration() - getBookmark() <= crossFadeTime }
             .distinctUntilChanged()
             .filter { it }
             .onEach { fadeOut(getDuration() - getBookmark()) }
-            .launchIn(lifecycleOwner.lifecycleScope)
-
-        musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
-        { crossfade, gapless ->
-            if (gapless){
-                // force song preloading
-                crossfade.coerceIn(MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
-            } else {
-                crossfade
-            }
-
-        }.onEach { crossFadeTime = it }
-            .launchIn(lifecycleOwner.lifecycleScope)
-
-        musicPreferencesUseCase.observeGapless()
-            .onEach { gapless = it }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
 
@@ -88,7 +85,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         super.onDestroy(owner)
         player.removeListener(this)
         player.removeAudioListener(onAudioSessionIdChangeListener)
-        cancelFade()
     }
 
 
@@ -100,56 +96,36 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     override fun prepare(model: Model, isTrackEnded: Boolean) {
         isCurrentSongPodcast = model.mediaEntity.isPodcast
-        cancelFade()
 
         val updatedModel = model.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
         super.prepare(updatedModel, isTrackEnded)
 
-//        debug("prepare, fade in ${isTrackEnded && crossFadeTime > 0}")
-        if (isTrackEnded && crossFadeTime > 0 && !isCurrentSongPodcast) {
+        if (isTrackEnded && crossFadeTime.isPositive() && !isCurrentSongPodcast) {
             fadeIn()
         } else {
-            restoreDefaultVolume()
+            volume.restoreDefaultVolume()
         }
     }
 
-    override fun resume() {
-//        debug("resume")
-        cancelFade()
-        restoreDefaultVolume()
-        super.resume()
-    }
-
-    override fun pause() {
-//        debug("pause")
-        cancelFade()
-        super.pause()
-    }
-
-    override fun seekTo(where: Long) {
-//        debug("seekTo")
-        cancelFade()
-        restoreDefaultVolume()
+    override fun seekTo(where: Duration) {
+        volume.stopFadeAndRestoreVolume()
         super.seekTo(where)
     }
 
-    override fun setVolume(volume: Float) {
-        cancelFade()
-        super.setVolume(volume)
+    override fun pause() {
+        super.pause()
+        volume.stopFadeAndRestoreVolume()
     }
 
     fun stop() {
-//        debug("stop")
         player.stop()
-        cancelFade()
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-//        debug("new state $playbackState")
         when (playbackState) {
             Player.STATE_ENDED -> {
                 stop()
-                if (crossFadeTime == 0) {
+                if (crossFadeTime.toLongMilliseconds() == 0L) {
                     requestNextSong()
                 }
             }
@@ -157,61 +133,49 @@ internal class CrossFadePlayer @Inject internal constructor(
     }
 
     private fun fadeIn() {
-//        debug("fading in")
-        cancelFade()
         val (min, max, interval, delta) = CrossFadeInternals(
-            gapless = gapless,
+            gapless = isGapless,
             crossfade = crossFadeTime,
             duration = crossFadeTime,
-            maxVolumeAllowed = volume.getMaxAllowedVolume()
+            maxVolumeAllowed = volume.maxAllowedVolume()
         )
-        player.volume = min
 
-        fadeJob = FlowInterval(interval.milliseconds)
-            .takeWhile { player.volume < max }
-            .onEach {
-                val current = MathUtils.clamp(player.volume + delta, min, max)
-                player.volume = current
-            }.launchIn(lifecycleOwner.lifecycleScope)
+        if (isCurrentSongPodcast) {
+            setVolume(max)
+            return
+        }
+        volume.fadeIn(interval, min, max, delta)
     }
 
-    private fun fadeOut(time: Long) {
+    private fun fadeOut(time: Duration) {
         val state = player.playbackState
         if (state == Player.STATE_IDLE || state == Player.STATE_ENDED) {
             return
         }
 
-//        debug("fading out, was already fading?=$isFadingOut")
-        fadeJob = null
         requestNextSong()
 
         val (min, max, interval, delta) = CrossFadeInternals(
-            gapless = gapless,
+            gapless = isGapless,
             crossfade = crossFadeTime,
-            duration = time.toInt(),
-            maxVolumeAllowed = volume.getMaxAllowedVolume()
+            duration = time,
+            maxVolumeAllowed = volume.maxAllowedVolume()
         )
-        player.volume = max
-
         if (isCurrentSongPodcast) {
+            setVolume(max)
             return
         }
-
-        fadeJob = FlowInterval(interval.milliseconds)
-            .takeWhile { player.volume > min }
-            .onEach {
-                val current = MathUtils.clamp(player.volume - delta, min, max)
-                player.volume = current
-            }.launchIn(lifecycleOwner.lifecycleScope)
+        volume.fadeOut(interval, min, max, delta)
 
     }
 
-    private fun cancelFade() {
-        fadeJob = null
+    @CallSuper
+    override fun setVolume(volume: Float) {
+        this.volume.updateVolume(volume)
     }
 
-    private fun restoreDefaultVolume() {
-        player.volume = volume.getMaxAllowedVolume()
+    override fun setDucking(enabled: Boolean) {
+        volume.setIsDucking(enabled)
     }
 
     private fun requestNextSong() {
@@ -221,25 +185,25 @@ internal class CrossFadePlayer @Inject internal constructor(
     data class Model(
         private val playerMediaEntity: PlayerMediaEntity,
         private val trackEnded: Boolean,
-        private val crossFadeTime: Int
+        private val crossFadeTime: Duration
     ) {
 
         val mediaEntity: MediaEntity
             get() = playerMediaEntity.mediaEntity
-        val bookmark: Long
+        val bookmark: Duration
             get() = playerMediaEntity.bookmark
 
         val isFlac: Boolean = mediaEntity.path.endsWith(".flac")
-        val duration: Long = mediaEntity.duration
-        val isCrossFadeOn: Boolean = crossFadeTime > 0
+        val duration: Duration = mediaEntity.duration
+        val isCrossFadeOn: Boolean = crossFadeTime.isPositive()
         val isTrackEnded: Boolean = trackEnded && isCrossFadeOn
-        val isGoodIdeaToClip = crossFadeTime >= 5000
+        val isGoodIdeaToClip = crossFadeTime >= 5000.milliseconds
     }
 
     private class CrossFadeInternals(
         private val gapless: Boolean,
-        private val crossfade: Int,
-        private val duration: Int,
+        private val crossfade: Duration,
+        duration: Duration,
         private val maxVolumeAllowed: Float
     ) {
 
@@ -251,8 +215,8 @@ internal class CrossFadePlayer @Inject internal constructor(
                 return 0f
             }
         val max: Float = maxVolumeAllowed
-        val interval: Long = 200L
-        private val times: Long = duration / interval
+        val interval: Duration = 200.milliseconds
+        private val times: Int = (duration / interval).toInt()
         val delta: Float = abs(max - min) / times
 
         operator fun component1() = min

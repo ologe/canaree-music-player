@@ -25,6 +25,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
@@ -92,17 +95,21 @@ internal class PodcastRepository @Inject constructor(
         }
     }
 
-    override suspend fun getCurrentPosition(podcastId: Long, duration: Long): Long {
-        val position = podcastPositionDao.getPosition(podcastId) ?: 0L
-        if (position > duration - 1000 * 5) {
+    override suspend fun getCurrentPosition(podcastId: Long, duration: Duration): Duration {
+        val position = podcastPositionDao.getPosition(podcastId)?.milliseconds ?: 0.milliseconds
+        if (position > duration - 5.seconds) {
             // if last 5 sec, restart
-            return 0L
+            return 0.milliseconds
         }
         return position
     }
 
-    override suspend fun saveCurrentPosition(podcastId: Long, position: Long) {
-        podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
+    override suspend fun saveCurrentPosition(podcastId: Long, position: Duration) {
+        val entity = PodcastPositionEntity(
+            id = podcastId,
+            position = position.toLongMilliseconds()
+        )
+        podcastPositionDao.setPosition(entity)
     }
 
     override suspend fun getByAlbumId(albumId: Id): Song? {

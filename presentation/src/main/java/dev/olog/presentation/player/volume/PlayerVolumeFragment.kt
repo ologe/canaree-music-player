@@ -47,7 +47,7 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         volumeSlider.max = 100
-        volumeSlider.progress = musicPrefs.getVolume()
+        volumeSlider.progress = musicPrefs.volume
 
         if (yPosition > -1){
             card.translationY = yPosition
@@ -70,7 +70,7 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
 
     override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {
         if (fromUser) {
-            musicPrefs.setVolume(progress)
+            musicPrefs.volume = progress
         }
     }
 

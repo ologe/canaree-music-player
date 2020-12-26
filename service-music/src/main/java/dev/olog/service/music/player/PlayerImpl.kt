@@ -6,19 +6,18 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.focus.AudioFocusBehavior
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 internal class PlayerImpl @Inject constructor(
     lifecycleOwner: LifecycleOwner,
@@ -28,7 +27,6 @@ internal class PlayerImpl @Inject constructor(
     private val audioFocus : AudioFocusBehavior,
     private val playerDelegate: IPlayerDelegate<PlayerMediaEntity>,
     musicPrefsUseCase: MusicPreferencesGateway,
-    private val playerVolume: IMaxAllowedPlayerVolume,
     private val internalPlayerState: InternalPlayerState,
 ) : IPlayer {
 
@@ -38,14 +36,6 @@ internal class PlayerImpl @Inject constructor(
                 releaseFocus()
             }
         })
-
-        // TODO combine with max allowed volume changes
-        musicPrefsUseCase.observeVolume()
-            .flowOn(Dispatchers.Default)
-            .onEach { volume ->
-                val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
-                playerDelegate.setVolume(newVolume)
-            }.launchIn(lifecycleOwner.lifecycleScope)
 
         musicPrefsUseCase.observePlaybackSpeed()
             .onEach {
@@ -115,7 +105,7 @@ internal class PlayerImpl @Inject constructor(
         )
     }
 
-    override fun seekTo(millis: Long) {
+    override fun seekTo(millis: Duration) {
         playerDelegate.seekTo(millis)
         playerState.update(
             isPlaying = isPlaying(),
@@ -133,28 +123,28 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun forwardTenSeconds() {
-        val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(10)
-        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() + 10.seconds
+        seekTo(newBookmark.coerceAtMost(playerDelegate.getDuration()))
     }
 
     override fun replayTenSeconds() {
-        val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(10)
-        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() - 10.seconds
+        seekTo(newBookmark.coerceAtLeast(0.milliseconds))
     }
 
     override fun forwardThirtySeconds() {
-        val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(30)
-        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() + 30.seconds
+        seekTo(newBookmark.coerceAtMost(playerDelegate.getDuration()))
     }
 
     override fun replayThirtySeconds() {
-        val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(30)
-        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() - 30.seconds
+        seekTo(newBookmark.coerceAtLeast(0.milliseconds))
     }
 
     override fun isPlaying(): Boolean = playerDelegate.isPlaying()
 
-    override fun getBookmark(): Long = playerDelegate.getBookmark()
+    override fun getBookmark(): Duration = playerDelegate.getBookmark()
 
     override fun stopService() {
         serviceLifecycle.stop()
@@ -170,5 +160,9 @@ internal class PlayerImpl @Inject constructor(
 
     override fun setVolume(volume: Float) {
         playerDelegate.setVolume(volume)
+    }
+
+    override fun setDucking(enabled: Boolean) {
+        playerDelegate.setDucking(enabled)
     }
 }

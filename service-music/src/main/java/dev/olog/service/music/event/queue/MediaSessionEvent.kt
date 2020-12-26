@@ -4,6 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.BundleDictionary
 import java.net.URI
+import kotlin.time.Duration
 
 // TODO show track not found when needed, toast? snackbar?
 internal sealed class MediaSessionEvent {
@@ -73,6 +74,8 @@ internal sealed class MediaSessionEvent {
 
     sealed class PlayerAction : MediaSessionEvent() {
 
+        object PlayPause : PlayerAction()
+
         object Resume : PlayerAction()
 
         data class Pause(
@@ -81,7 +84,7 @@ internal sealed class MediaSessionEvent {
         ) : PlayerAction()
 
         data class SeekTo(
-            val millis: Long,
+            val millis: Duration,
         ) : PlayerAction()
 
         object SkipToPrevious : PlayerAction()

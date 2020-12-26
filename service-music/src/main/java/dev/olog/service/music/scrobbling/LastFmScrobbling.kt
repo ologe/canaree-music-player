@@ -21,6 +21,7 @@ import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
+import kotlin.time.milliseconds
 import kotlin.time.seconds
 
 @ServiceScoped
@@ -94,8 +95,8 @@ private fun MediaEntity.toScrollData(): ScrobbleData {
     return ScrobbleData(
         this.artist,
         this.title,
-        (System.currentTimeMillis() / 1000).toInt(),
-        this.duration.toInt(),
+        System.currentTimeMillis().milliseconds.inSeconds.toInt(),
+        this.duration.inSeconds.toInt(),
         this.album,
         null,
         musicBrainzId,

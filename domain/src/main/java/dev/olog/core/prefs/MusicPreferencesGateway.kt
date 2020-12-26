@@ -2,11 +2,11 @@ package dev.olog.core.prefs
 
 import dev.olog.core.entity.LastMetadata
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration
 
 interface MusicPreferencesGateway {
 
-    fun getBookmark(): Long
-    fun setBookmark(bookmark: Long)
+    var bookmark: Duration
 
     fun getRepeatMode(): Int
     fun setRepeatMode(repeatMode: Int)
@@ -28,12 +28,8 @@ interface MusicPreferencesGateway {
 
     fun setDefault()
 
-    /**
-     * in millis
-     */
-    @Deprecated("use duration api")
-    fun observeCrossFade(): Flow<Int>
-    fun observeGapless(): Flow<Boolean>
+    var crossfade: Duration
+    var isGapless: Boolean
 
     fun observePlaybackSpeed(): Flow<Float>
     fun setPlaybackSpeed(speed: Float)
@@ -45,8 +41,7 @@ interface MusicPreferencesGateway {
     /**
      * volume from 0 to 100
      */
-    fun setVolume(volume: Int)
-    fun getVolume(): Int
+    var volume: Int
     fun observeVolume(): Flow<Int>
 
     fun observeShowLockscreenArtwork(): Flow<Boolean>

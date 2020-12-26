@@ -24,6 +24,10 @@ internal class MusicServiceShuffleMode @Inject constructor(
     private val value: PlayerShuffleMode
         get() = _state.value
 
+    init {
+        mediaSession.setShuffleMode(_state.value.toPlatform())
+    }
+
     fun isEnabled(): Boolean = value == PlayerShuffleMode.ENABLED
 
     fun setEnabled(value: PlayerShuffleMode) {

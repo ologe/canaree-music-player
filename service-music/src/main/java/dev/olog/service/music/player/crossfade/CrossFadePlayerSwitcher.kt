@@ -4,6 +4,8 @@ import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.shared.android.utils.assertMainThread
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
 private enum class CurrentPlayer {
     PLAYER_NOT_SET,
@@ -49,18 +51,23 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
         getSecondaryPlayer()?.stop()
     }
 
-    override fun seekTo(where: Long) {
+    override fun seekTo(where: Duration) {
         getCurrentPlayer()?.seekTo(where)
         getSecondaryPlayer()?.stop()
     }
 
     override fun isPlaying(): Boolean = getCurrentPlayer()?.isPlaying() ?: false
-    override fun getBookmark(): Long = getCurrentPlayer()?.getBookmark() ?: 0L
-    override fun getDuration(): Long = getCurrentPlayer()?.getDuration() ?: 0L
+    override fun getBookmark(): Duration = getCurrentPlayer()?.getBookmark() ?: 0.milliseconds
+    override fun getDuration(): Duration = getCurrentPlayer()?.getDuration() ?: 0.milliseconds
 
     override fun setVolume(volume: Float) {
         getCurrentPlayer()?.setVolume(volume)
         getSecondaryPlayer()?.setVolume(volume)
+    }
+
+    override fun setDucking(enabled: Boolean) {
+        getCurrentPlayer()?.setDucking(enabled)
+        getSecondaryPlayer()?.setDucking(enabled)
     }
 
     private fun getNextPlayer(): CrossFadePlayer? {
@@ -96,7 +103,7 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
     }
 
     private fun PlayerMediaEntity.toSimpleCrossFadeModel(): CrossFadePlayer.Model {
-        return CrossFadePlayer.Model(this, false, -1)
+        return CrossFadePlayer.Model(this, false, 0.milliseconds)
     }
 
 }

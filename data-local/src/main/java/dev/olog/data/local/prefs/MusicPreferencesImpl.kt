@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 private const val TAG = "MusicPreferences"
 
@@ -39,13 +42,13 @@ class MusicPreferencesImpl @Inject constructor(
 
 ): MusicPreferencesGateway {
 
-    override fun getBookmark(): Long {
-        return preferences.getLong(BOOKMARK, 0)
-    }
-
-    override fun setBookmark(bookmark: Long) {
-        preferences.edit { putLong(BOOKMARK, bookmark) }
-    }
+    override var bookmark: Duration
+        get() = preferences.getLong(BOOKMARK, 0).milliseconds
+        set(value) {
+            preferences.edit {
+                putLong(BOOKMARK, value.toLongMilliseconds())
+            }
+        }
 
     override fun getRepeatMode(): Int {
         return preferences.getInt(REPEAT_MODE, 0)
@@ -106,8 +109,8 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun setDefault() {
         setMidnightMode(false)
-        setCrossFade(0)
-        setGapless(false)
+        crossfade = 0.milliseconds
+        isGapless = false
     }
 
     private fun setMidnightMode(enable: Boolean){
@@ -116,24 +119,20 @@ class MusicPreferencesImpl @Inject constructor(
         }
     }
 
-    private fun setCrossFade(value: Int){
-        val key = context.getString(R.string.prefs_cross_fade_key)
-        preferences.edit { putInt(key, value) }
-    }
-
-    override fun observeCrossFade(): Flow<Int> {
-        return preferences.observeKey(context.getString(R.string.prefs_cross_fade_key), 0)
-                .map { it * 1000 }
-    }
-
-    override fun observeGapless(): Flow<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_gapless_key), false)
-    }
-
-    private fun setGapless(enabled: Boolean){
-        val key = context.getString(R.string.prefs_gapless_key)
-        preferences.edit { putBoolean(key, enabled) }
-    }
+    override var crossfade: Duration
+        get() = preferences.getInt(context.getString(R.string.prefs_cross_fade_key), 0).seconds
+        set(value) {
+            preferences.edit {
+                putInt(context.getString(R.string.prefs_cross_fade_key), value.inSeconds.toInt())
+            }
+        }
+    override var isGapless: Boolean
+        get() = preferences.getBoolean(context.getString(R.string.prefs_gapless_key), false)
+        set(value) {
+            preferences.edit {
+                putBoolean(context.getString(R.string.prefs_gapless_key), value)
+            }
+        }
 
     override fun observePlaybackSpeed(): Flow<Float> {
         return preferences.observeKey(PLAYBACK_SPEED, 1f)
@@ -159,15 +158,13 @@ class MusicPreferencesImpl @Inject constructor(
         return preferences.observeKey(LAST_PROGRESSIVE, 0)
     }
 
-    override fun setVolume(volume: Int) {
-        preferences.edit {
-            putInt(MUSIC_VOLUME, volume)
+    override var volume: Int
+        get() = preferences.getInt(MUSIC_VOLUME, 100).coerceIn(0, 100)
+        set(value) {
+            preferences.edit {
+                putInt(MUSIC_VOLUME, value.coerceIn(0, 100))
+            }
         }
-    }
-
-    override fun getVolume(): Int {
-        return preferences.getInt(MUSIC_VOLUME, 100)
-    }
 
     override fun observeVolume(): Flow<Int> {
         return preferences.observeKey(MUSIC_VOLUME, 100)

@@ -13,6 +13,7 @@ import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
+import kotlin.time.Duration
 
 @ServiceScoped
 internal class MusicServicePlaybackState @Inject constructor(
@@ -25,7 +26,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     private val builder = PlaybackStateCompat.Builder().apply {
         setState(
             PlaybackStateCompat.STATE_PAUSED,
-            musicPreferencesUseCase.getBookmark(),
+            musicPreferencesUseCase.bookmark.toLongMilliseconds(),
             0f
         )
         setActions(getActions())
@@ -36,7 +37,7 @@ internal class MusicServicePlaybackState @Inject constructor(
      */
     fun update(
         isPlaying: Boolean,
-        bookmark: Long,
+        bookmark: Duration,
         speed: Float
     ) {
        val state = if (isPlaying) {
@@ -45,9 +46,9 @@ internal class MusicServicePlaybackState @Inject constructor(
            PlaybackStateCompat.STATE_PAUSED
        }
 
-        builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
+        builder.setState(state, bookmark.toLongMilliseconds(), (if (isPlaying) speed else 0f))
 
-        musicPreferencesUseCase.setBookmark(bookmark)
+        musicPreferencesUseCase.bookmark = bookmark
 
         notifyWidgetsOfStateChanged(isPlaying, bookmark)
 
@@ -103,14 +104,14 @@ internal class MusicServicePlaybackState @Inject constructor(
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
     }
 
-    private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
+    private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Duration) {
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
                 action = WidgetConstants.STATE_CHANGED
                 putExtra(WidgetConstants.ARGUMENT_IS_PLAYING, isPlaying)
-                putExtra(WidgetConstants.ARGUMENT_BOOKMARK, bookmark)
+                putExtra(WidgetConstants.ARGUMENT_BOOKMARK, bookmark.toLongMilliseconds())
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             }
 

@@ -26,6 +26,9 @@ import dev.olog.shared.swap
 import dev.olog.shared.swapped
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 @ServiceScoped
 internal class Queue @Inject constructor(
@@ -33,7 +36,7 @@ internal class Queue @Inject constructor(
     schedulers: Schedulers,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val queueMediaSession: MediaSessionQueue,
-    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val musicPrefs: MusicPreferencesGateway,
     private val repeatMode: MusicServiceRepeatMode,
     private val shuffleMode: MusicServiceShuffleMode,
     private val podcastPosition: PodcastPositionUseCase,
@@ -44,7 +47,7 @@ internal class Queue @Inject constructor(
 ) {
 
     companion object {
-        const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
+        val SKIP_TO_PREVIOUS_THRESHOLD = 10.seconds
     }
 
     private val _queueState: MutableStateFlow<QueueState> = MutableStateFlow(QueueState.NotSet)
@@ -71,7 +74,7 @@ internal class Queue @Inject constructor(
 
         queueFlow.map { it.position }
             .distinctUntilChanged()
-            .mapLatest { musicPreferencesUseCase.lastProgressive = it }
+            .mapLatest { musicPrefs.lastProgressive = it }
             .flowOn(schedulers.cpu)
             .launchIn(lifecycleOwner.lifecycleScope)
 
@@ -118,7 +121,7 @@ internal class Queue @Inject constructor(
         this.shuffleMode.setEnabled(shuffleMode)
 
         val current = when (event) {
-            is MediaSessionEvent.Prepare.LastQueue -> musicPreferencesUseCase.lastProgressive
+            is MediaSessionEvent.Prepare.LastQueue -> musicPrefs.lastProgressive
             is MediaSessionEvent.Prepare.FromMediaId -> {
                 val songId = event.mediaId.leaf
                 items.getCurrentSongIndexWhenPlayingNewQueue(songId)
@@ -150,24 +153,24 @@ internal class Queue @Inject constructor(
         )
     }
 
-    private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Long  {
+    private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Duration  {
         if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            return bookmark.coerceIn(0L, mediaEntity.duration)
+            return bookmark.coerceIn(0.milliseconds, mediaEntity.duration)
         } else {
-            val bookmark = musicPreferencesUseCase.getBookmark()
-            return bookmark.coerceIn(0L, mediaEntity.duration)
+            val bookmark = musicPrefs.bookmark
+            return bookmark.coerceIn(0.milliseconds, mediaEntity.duration)
         }
     }
 
     private suspend fun getPodcastBookmarkOrZero(
         mediaEntity: MediaEntity
-    ): Long {
+    ): Duration {
         return if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            bookmark.coerceIn(0L, mediaEntity.duration)
+            bookmark.coerceIn(0.milliseconds, mediaEntity.duration)
         } else {
-            0L
+            0.milliseconds
         }
     }
 
@@ -289,7 +292,7 @@ internal class Queue @Inject constructor(
     }
 
     suspend fun getPreviousTrack(
-        bookmark: Long
+        bookmark: Duration
     ): PlayerMediaEntity? = queueState.whenIsSet {
         val isPodcast = entity.isPodcast
 
@@ -412,7 +415,7 @@ internal class Queue @Inject constructor(
         }
     }
 
-    suspend fun updatePodcastPosition(bookmark: Long) = queueState.whenIsSet {
+    suspend fun updatePodcastPosition(bookmark: Duration) = queueState.whenIsSet {
         if (entity.isPodcast) {
             podcastPosition.set(entity.id, bookmark)
         }

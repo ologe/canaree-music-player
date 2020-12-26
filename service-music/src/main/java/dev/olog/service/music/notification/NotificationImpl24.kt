@@ -5,7 +5,6 @@ import android.app.Service
 import android.graphics.Typeface
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
-import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.annotation.RequiresApi
 import androidx.core.text.buildSpannedString
@@ -14,6 +13,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.shared.TextUtils
 import javax.inject.Inject
+import kotlin.time.Duration
 
 @RequiresApi(Build.VERSION_CODES.N)
 internal open class NotificationImpl24 @Inject constructor(
@@ -22,19 +22,19 @@ internal open class NotificationImpl24 @Inject constructor(
 
 ) : NotificationImpl21(service, mediaSession) {
 
-    override fun startChronometer(bookmark: Long) {
-        builder.setWhen(System.currentTimeMillis() - bookmark)
+    override fun startChronometer(bookmark: Duration) {
+        builder.setWhen(System.currentTimeMillis() - bookmark.toLongMilliseconds())
             .setShowWhen(true)
             .setUsesChronometer(true)
         builder.setSubText(null)
     }
 
-    override fun stopChronometer(bookmark: Long) {
+    override fun stopChronometer(bookmark: Duration) {
         builder.setWhen(0)
             .setShowWhen(false)
             .setUsesChronometer(false)
 
-        builder.setSubText(TextUtils.formatMillis(bookmark, true))
+        builder.setSubText(TextUtils.formatMillis(bookmark.toLongMilliseconds(), true))
     }
 
     @SuppressLint("RestrictedApi")

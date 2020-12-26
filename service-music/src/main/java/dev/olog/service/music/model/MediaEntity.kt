@@ -3,6 +3,8 @@ package dev.olog.service.music.model
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
 internal data class MediaEntity(
     val progressive: Int,
@@ -14,7 +16,7 @@ internal data class MediaEntity(
     val artist: String,
     val albumArtist: String,
     val album: String,
-    val duration: Long,
+    val duration: Duration,
     val dateAdded: Long,
     val path: String,
     val discNumber: Int,
@@ -34,7 +36,7 @@ internal data class MediaEntity(
                 artist = "",
                 album = "",
                 albumArtist = "",
-                duration = 0,
+                duration = 0.milliseconds,
                 dateAdded = 0,
                 path = "",
                 discNumber = 0,
@@ -56,7 +58,7 @@ internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntit
         artist = this.artist,
         albumArtist = this.albumArtist,
         album = this.album,
-        duration = this.duration,
+        duration = this.duration.milliseconds,
         dateAdded = this.dateAdded,
         path = this.path,
         discNumber = this.discNumber,
@@ -77,7 +79,7 @@ internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
         artist = song.artist,
         albumArtist = song.albumArtist,
         album = song.album,
-        duration = song.duration,
+        duration = song.duration.milliseconds,
         dateAdded = song.dateAdded,
         path = song.path,
         discNumber = song.discNumber,
@@ -88,7 +90,7 @@ internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
 
 internal fun MediaEntity.toPlayerMediaEntity(
     positionInQueue: PositionInQueue,
-    bookmark: Long,
+    bookmark: Duration,
     skipType: SkipType,
 ) : PlayerMediaEntity {
     return PlayerMediaEntity(

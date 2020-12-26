@@ -1,32 +1,34 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
+import dev.olog.service.music.player.PlayerVolume
 import dev.olog.shared.android.extensions.toast
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
 /**
  * This class handles playback
  */
 internal abstract class AbsPlayer(
+    lifecycleOwner: LifecycleOwner,
     private val context: Context,
-    lifecycle: Lifecycle,
     private val mediaSourceFactory: ISourceFactory<CrossFadePlayer.Model>,
-    volume: IMaxAllowedPlayerVolume
+    volume: PlayerVolume
 
 ) : IPlayerDelegate<CrossFadePlayer.Model>,
     ExoPlayerListenerWrapper,
@@ -40,13 +42,11 @@ internal abstract class AbsPlayer(
     protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
 
-        volume.listener = object : IMaxAllowedPlayerVolume.Listener {
-            override fun onMaxAllowedVolumeChanged(volume: Float) {
-                player.volume = volume
-            }
-        }
+        volume.volume
+            .onEach(player::setVolume)
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
     @CallSuper
@@ -57,7 +57,7 @@ internal abstract class AbsPlayer(
     @CallSuper
     override fun prepare(model: CrossFadePlayer.Model, isTrackEnded: Boolean) {
         val mediaSource = mediaSourceFactory.get(model)
-        player.setMediaSource(mediaSource, model.bookmark)
+        player.setMediaSource(mediaSource, model.bookmark.toLongMilliseconds())
         player.prepare()
         player.playWhenReady = false
     }
@@ -73,9 +73,9 @@ internal abstract class AbsPlayer(
     }
 
     @CallSuper
-    override fun seekTo(where: Long) {
-        val safeSeek = where.coerceIn(0L, getDuration())
-        player.seekTo(safeSeek)
+    override fun seekTo(where: Duration) {
+        val safeSeek = where.coerceIn(0.milliseconds, getDuration())
+        player.seekTo(safeSeek.toLongMilliseconds())
     }
 
     @CallSuper
@@ -84,33 +84,26 @@ internal abstract class AbsPlayer(
     }
 
     @CallSuper
-    override fun getBookmark(): Long {
-        return player.currentPosition
+    override fun getBookmark(): Duration {
+        return player.currentPosition.milliseconds
     }
 
     @CallSuper
-    override fun getDuration(): Long {
-        return player.duration
-    }
-
-    @CallSuper
-    override fun setVolume(volume: Float) {
-        player.volume = volume
+    override fun getDuration(): Duration {
+        return player.duration.milliseconds
     }
 
     @CallSuper
     override fun onPlayerError(error: ExoPlaybackException) {
         val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: $error"
+            ExoPlaybackException.TYPE_SOURCE -> error.sourceException
+            ExoPlaybackException.TYPE_RENDERER -> error.rendererException
+            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException
+            else -> null
         }
         error.printStackTrace()
+        what?.printStackTrace()
 
-        if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError $what")
-        }
         context.applicationContext.toast(R.string.music_player_error)
     }
 

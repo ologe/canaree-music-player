@@ -1,20 +1,17 @@
 package dev.olog.service.music.player
 
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.interfaces.IDuckVolume
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import dev.olog.service.music.interfaces.VolumeMaxValues
+import dev.olog.shared.FlowInterval
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.flow.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.min
+import kotlin.time.Duration
+import kotlin.time.minutes
 
 private const val VOLUME_DUCK = .2f
 private const val VOLUME_LOWERED_DUCK = 0.1f
@@ -22,83 +19,125 @@ private const val VOLUME_LOWERED_DUCK = 0.1f
 private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
-@ServiceScoped
 internal class PlayerVolume @Inject constructor(
-    lifecycleOwner: LifecycleOwner,
-    musicPreferencesUseCase: MusicPreferencesGateway
+    private val lifecycleOwner: LifecycleOwner,
+    private val musicPrefs: MusicPreferencesGateway,
+    private val calendar: Calendar,
+) {
 
-) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver {
+    private var updateVolumeJob by autoDisposeJob()
 
-    override var listener: IMaxAllowedPlayerVolume.Listener? = null
+    fun updateVolume(to: Float) {
+        if (updateVolumeJob?.isActive == true) {
+            return
+        }
+        _volume.value = min(to, maxAllowedVolume())
+    }
 
-    private var volume: IDuckVolume = Volume()
-    private var isDucking = false
+    private val _volume = MutableStateFlow(musicPrefs.volume.toFloat() / 100)
+    private val _isDucking = MutableStateFlow(false)
+
+    val volume: Flow<Float>
+        get() = _volume
+
+    private var volumeManager: VolumeMaxValues? = null
 
     init {
-        lifecycleOwner.lifecycle.addObserver(this)
+        val maxVolume = musicPrefs.observeVolume().map { it.toFloat() / 100 }
 
-        // observe to preferences
-        musicPreferencesUseCase.isMidnightMode()
-            .onEach { lowerAtNight ->
-                volume = if (!lowerAtNight) {
-                    provideVolumeManager(false)
-                } else {
-                    provideVolumeManager(isNight())
-                }
-
-                listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-            }.launchIn(lifecycleOwner.lifecycleScope)
-
-        // observe at interval of 15 mins to detect if is day or night when
-        // settigs is on
-        musicPreferencesUseCase.isMidnightMode()
-            .filter { it }
-            .map { delay(TimeUnit.MINUTES.toMillis(15)); it; }
-            .map { isNight() }
-            .onEach { isNight ->
-                volume = provideVolumeManager(isNight)
-                listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-            }.launchIn(lifecycleOwner.lifecycleScope)
+        // adjust max volume based on current time of day, check every 15 minutes
+        musicPrefs.isMidnightMode()
+            .combine(FlowInterval(15.minutes)) { isMidnightModeEnabled, _ -> getVolumeManager(isMidnightModeEnabled, isNight()) }
+            .onEach { volumeManager = it }
+            .combine(maxVolume) { manager, volume -> onVolumePreferencesChanged(manager, volume) }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
+    private fun onVolumePreferencesChanged(volumeValues: VolumeMaxValues, volume: Float) {
+        val isDucking = _isDucking.value
+        val maxVolume = volumeValues.maxVolume(isDucking)
+
+        val newVolume = (volume * maxVolume).coerceAtMost(maxVolume)
+        updateVolume(newVolume)
+    }
+
+    // from 10PM to 6AM
+    // TODO test
     private fun isNight(): Boolean {
-        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        return hour in 0..6
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        return hour in 22..23 || hour in 0..6
     }
 
-    override fun getMaxAllowedVolume(): Float {
-        return if (isDucking) volume.duck else volume.normal
-    }
+    private fun getVolumeManager(isMidnightModeEnabled: Boolean, isNight: Boolean): VolumeMaxValues {
+        if (!isMidnightModeEnabled) {
+            return Volume
+        }
 
-    private fun provideVolumeManager(isNight: Boolean): IDuckVolume {
-        return if (isNight) {
-            NightVolume()
+        if (isNight) {
+            return NightVolume
         } else {
-            Volume()
+            return Volume
         }
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        listener = null
+    fun setIsDucking(enabled: Boolean) {
+        _isDucking.value = enabled
+
+        if (enabled) {
+            _volume.value = min(_volume.value, volumeManager?.duck ?: 1f)
+        } else {
+            _volume.value = min(_volume.value, volumeManager?.normal ?: 1f)
+        }
     }
 
-    override fun normal(): Float {
-        isDucking = false
-        return volume.normal
+    // increase
+    fun fadeIn(interval: Duration, min: Float, max: Float, delta: Float) {
+        _volume.value = min
+
+        updateVolumeJob = FlowInterval(interval)
+            .takeWhile { _volume.value < max }
+            .onEach {
+                val newVolume = (_volume.value + delta).coerceIn(min, max)
+                _volume.value = newVolume
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
-    override fun ducked(): Float {
-        isDucking = true
-        return volume.duck
+    // decrease
+    fun fadeOut(interval: Duration, min: Float, max: Float, delta: Float) {
+
+        updateVolumeJob = FlowInterval(interval)
+            .takeWhile { _volume.value > min }
+            .onEach {
+                val newVolume = (_volume.value - delta).coerceIn(min, max)
+                _volume.value = newVolume
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
+
+    fun stopFadeAndRestoreVolume() {
+        updateVolumeJob = null
+        restoreDefaultVolume()
+    }
+
+    fun maxAllowedVolume(): Float {
+        val isDucking = _isDucking.value
+        return (volumeManager?.maxVolume(isDucking) ?: 1f) * // max allowed volume
+            (musicPrefs.volume.toFloat() / 100) // max settings volume
+    }
+
+    fun restoreDefaultVolume() {
+        _volume.value = maxAllowedVolume()
+    }
+
 }
 
-private class Volume : IDuckVolume {
+private object Volume : VolumeMaxValues {
     override val normal: Float = VOLUME_NORMAL
     override val duck: Float = VOLUME_DUCK
 }
 
-private class NightVolume : IDuckVolume {
+private object NightVolume : VolumeMaxValues {
     override val normal: Float = VOLUME_LOWERED_NORMAL
     override val duck: Float = VOLUME_LOWERED_DUCK
 }

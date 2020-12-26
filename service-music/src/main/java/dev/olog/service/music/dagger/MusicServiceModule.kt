@@ -12,13 +12,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.MusicService
-import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.PlayerImpl
-import dev.olog.service.music.player.PlayerVolume
 import dev.olog.service.music.player.crossfade.CrossFadePlayerSwitcher
 
 @Module
@@ -32,10 +30,6 @@ abstract class MusicServiceModule {
     @Binds
     @ServiceScoped
     internal abstract fun providePlayer(player: PlayerImpl): IPlayer
-
-    @Binds
-    @ServiceScoped
-    internal abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
 
     @Binds
     @ServiceScoped

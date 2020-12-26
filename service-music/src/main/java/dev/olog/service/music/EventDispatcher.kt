@@ -30,7 +30,7 @@ internal class EventDispatcher @Inject constructor(
             Event.STOP -> KeyEvent.KEYCODE_MEDIA_STOP
             Event.SKIP_NEXT -> KeyEvent.KEYCODE_MEDIA_NEXT
             Event.SKIP_PREVIOUS -> KeyEvent.KEYCODE_MEDIA_PREVIOUS
-            Event.TRACK_ENDED -> KeyEvent.KEYCODE_MEDIA_FAST_FORWARD // TODO bad
+            Event.TRACK_ENDED -> KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
         }
         audioManager.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keycode))
         audioManager.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keycode))
