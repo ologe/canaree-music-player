@@ -138,7 +138,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     override fun onSkipToQueueItem(id: Long) {
         Timber.v("onSkipToQueueItem id=$id")
         val event = MediaSessionEvent.PlayerAction.SkipToItem(
-            id = id
+            progressive = id.toInt()
         )
         eventHandler.nextEvent(event)
     }

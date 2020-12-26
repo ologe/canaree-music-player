@@ -118,7 +118,7 @@ internal class MediaSessionEventHandler @Inject constructor(
             is MediaSessionEvent.PlayerAction.SeekTo -> player.seekTo(event.millis)
             is MediaSessionEvent.PlayerAction.SkipToPrevious -> handleSkipPrevious()
             is MediaSessionEvent.PlayerAction.SkipToNext -> handleSkipNext(event.ended)
-            is MediaSessionEvent.PlayerAction.SkipToItem -> TODO()
+            is MediaSessionEvent.PlayerAction.SkipToItem -> handleSkipTo(event.progressive)
             is MediaSessionEvent.PlayerAction.Forward10Seconds -> player.forwardTenSeconds()
             is MediaSessionEvent.PlayerAction.Forward30Seconds -> player.forwardThirtySeconds()
             is MediaSessionEvent.PlayerAction.Replay10Seconds -> player.replayTenSeconds()
@@ -137,6 +137,14 @@ internal class MediaSessionEventHandler @Inject constructor(
     private suspend fun handleSkipPrevious() {
         val bookmark = withContext(schedulers.main) { player.getBookmark() }
         val track = queue.getPreviousTrack(bookmark) ?: return
+        withContext(schedulers.main) {
+            player.prepare(playerModel = track, forcePause = false)
+            player.resume()
+        }
+    }
+
+    private suspend fun handleSkipTo(progressive: Int) {
+        val track = queue.getTrack(progressive) ?: return
         withContext(schedulers.main) {
             player.prepare(playerModel = track, forcePause = false)
             player.resume()

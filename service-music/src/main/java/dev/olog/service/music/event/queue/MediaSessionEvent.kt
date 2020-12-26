@@ -94,7 +94,7 @@ internal sealed class MediaSessionEvent {
         ) : PlayerAction()
 
         data class SkipToItem(
-            val id: Long,
+            val progressive: Int,
         ) : PlayerAction()
 
         object Forward10Seconds : PlayerAction()

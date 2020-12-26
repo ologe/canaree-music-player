@@ -155,6 +155,6 @@ private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {
         mediaId = MediaId.fromString(description.mediaId!!),
         title = description.title?.toString() ?: "",
         artist = description.subtitle?.toString() ?: "",
-        idInPlaylist = this.queueId
+        progressive = this.queueId
     )
 }

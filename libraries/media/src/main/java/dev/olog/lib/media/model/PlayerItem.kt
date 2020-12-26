@@ -6,5 +6,5 @@ data class PlayerItem(
     val mediaId: MediaId,
     val title: String,
     val artist: String,
-    val idInPlaylist: Long
+    val progressive: Long
 )

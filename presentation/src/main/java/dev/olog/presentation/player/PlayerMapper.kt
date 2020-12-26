@@ -12,7 +12,7 @@ internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
         title = title,
         artist = artist,
         album = "",
-        idInPlaylist = idInPlaylist.toInt(),
+        idInPlaylist = progressive.toInt(),
         dataModified = -1
     )
 }

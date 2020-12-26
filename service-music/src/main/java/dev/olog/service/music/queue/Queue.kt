@@ -332,6 +332,20 @@ internal class Queue @Inject constructor(
         return@whenIsSet null
     }
 
+    suspend fun getTrack(
+        progressive: Int
+    ): PlayerMediaEntity? = queueState.whenIsSet {
+        val newPosition = queue.indexOfFirst { it.progressive == progressive }
+        updateQueue(queue, newPosition)
+
+        val entity = queue[newPosition]
+        queue[newPosition].toPlayerMediaEntity(
+            positionInQueue = computePositionInQueue(),
+            bookmark = getPodcastBookmarkOrZero(entity),
+            skipType = SkipType.NONE,
+        )
+    }
+
     suspend fun swapRelative(from: Int, to: Int) = queueState.whenIsSet {
         swap(from + position + 1, to + position + 1)
     }
