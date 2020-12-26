@@ -60,6 +60,9 @@ ext {
     assertj = '3.18.1'
     robolectric = '4.4'
 
+    android_test_runner = '1.1.0'
+    android_test_rules = '1.1.0'
+
     lib_firebase = [
         bom        : "com.google.firebase:firebase-bom:$firebase",
         analytics  : "com.google.firebase:firebase-analytics-ktx",
@@ -150,6 +153,12 @@ ext {
         mockito        : "org.mockito:mockito-android:3.5.10",
         mockito_kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
         robolectric    : "org.robolectric:robolectric:$robolectric"
+    ]
+
+    lib_android_test = [
+        runner         : "androidx.test:runner:$android_test_runner",
+        rules          : "androidx.test:rules:$android_test_rules",
+        mockk          : "io.mockk:mockk-android:$mockk",
     ]
 
 }

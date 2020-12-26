@@ -53,17 +53,27 @@ android {
             useJUnitPlatform()
         }
     }
+
+    packagingOptions {
+        exclude 'win32-x86-64/attach_hotspot_windows.dll'
+        exclude 'win32-x86/attach_hotspot_windows.dll'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/licenses/ASM'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
 }
 
 dependencies {
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
+
+    // unit test
     testImplementation lib_core.coroutines_test
     testImplementation project(':test-shared')
-    androidTestImplementation project(':test-shared')
 
-    implementation lib_test.assertj
-
+    testImplementation lib_test.assertj
     testImplementation lib_test.junit
     testImplementation lib_test.junit_5
     testRuntimeOnly lib_test.junit_5_runtime
@@ -73,6 +83,19 @@ dependencies {
     testImplementation lib_test.mockito // TODO migrate to mockK
     testImplementation lib_test.mockito_kotlin // TODO migrate to mockK
 
+    testImplementation lib_test.robolectric
+
+    // android test
+    androidTestImplementation lib_core.coroutines_test
+    androidTestImplementation project(':test-shared')
+
+    androidTestImplementation lib_test.assertj
+    androidTestImplementation lib_test.junit
+
+    androidTestImplementation lib_android_test.mockk
+
+    androidTestImplementation lib_android_test.runner
+    androidTestImplementation lib_android_test.rules
 }
 
 kapt {
