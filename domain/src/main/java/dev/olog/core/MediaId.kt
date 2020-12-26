@@ -111,6 +111,14 @@ data class MediaId(
             )
         }
 
+        fun fromStringOrNull(mediaId: String): MediaId? {
+            return try {
+                fromString(mediaId)
+            } catch (ex: Throwable) {
+                return null
+            }
+        }
+
         fun fromString(mediaId: String): MediaId {
             val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
             return MediaId(

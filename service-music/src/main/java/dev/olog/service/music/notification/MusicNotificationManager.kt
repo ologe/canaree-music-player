@@ -20,13 +20,10 @@ internal class MusicNotificationManager @Inject constructor(
 ) {
 
     init {
-        val stateFlow = internalPlayerState.state
-            .filter { it.state != null }
-
         val isFavoriteFlow = observeFavoriteUseCase()
             .map { it == FavoriteEnum.FAVORITE }
 
-        stateFlow.combine(isFavoriteFlow) { state, isFavorite ->
+        internalPlayerState.state.combine(isFavoriteFlow) { state, isFavorite ->
             state to isFavorite
         }.mapLatest { (state, isFavorite) ->
             // TODO stop async image loading

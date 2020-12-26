@@ -98,7 +98,7 @@ internal class MediaSessionEventHandler @Inject constructor(
     private suspend fun handlePlayerActions(
         event: MediaSessionEvent.PlayerAction
     ) : Unit = withContext(NonCancellable + schedulers.main) {
-        if (!queue.isValidQueue) { // TODO should not be needed
+        if (!queue.isValidQueue) {
             handlePrepare(MediaSessionEvent.Prepare.LastQueue)
         }
 
@@ -157,12 +157,10 @@ internal class MediaSessionEventHandler @Inject constructor(
 
     private fun handleToggleShuffleMode() {
         shuffleMode.toggle()
-        // TODO update skip to actions
     }
 
     private fun handleToggleRepeatMode() {
         repeatMode.toggle()
-        // TODO update skip to actions
     }
 
     private suspend fun handleCustomAction(

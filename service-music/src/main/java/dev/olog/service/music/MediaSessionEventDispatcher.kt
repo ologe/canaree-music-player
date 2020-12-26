@@ -38,7 +38,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
         Timber.v("onPrepareFromMediaId mediaId=$mediaId, extras=$extras")
 
         val event = MediaSessionEvent.Prepare.FromMediaId(
-            mediaId = MediaId.fromString(mediaId), // TODO exit if is not valid
+            mediaId = MediaId.fromStringOrNull(mediaId) ?: return,
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)
@@ -67,9 +67,10 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     // region play from
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
+
         Timber.v("onPlayFromMediaId mediaId=$mediaId, extras=$extras")
         val event = MediaSessionEvent.Play.FromMediaId(
-            mediaId = MediaId.fromString(mediaId), // TODO exit if is not valid
+            mediaId = MediaId.fromStringOrNull(mediaId) ?: return,
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)
@@ -105,7 +106,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
     override fun onPause() {
         Timber.v("onPause")
         val event = MediaSessionEvent.PlayerAction.Pause(
-            stopService = true // TODO stop?
+            stopService = true
         )
         eventHandler.nextEvent(event)
     }

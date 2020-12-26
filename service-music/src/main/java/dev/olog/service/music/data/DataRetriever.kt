@@ -33,6 +33,7 @@ internal class DataRetriever @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
+    private val voiceSearch: VoiceSearch,
 ) {
 
     suspend fun getLastQueue(): List<MediaEntity> {
@@ -102,27 +103,27 @@ internal class DataRetriever @Inject constructor(
         val mediaId = MediaId.songId(-1)
 
         return when {
-            params.isUnstructured -> VoiceSearch.search(
+            params.isUnstructured -> voiceSearch.search(
                 songList = getSongListByParamUseCase(mediaId),
                 query = query
             )
-            params.isAlbumFocus -> VoiceSearch.filterByAlbum(
+            params.isAlbumFocus -> voiceSearch.filterByAlbum(
                 songList = getSongListByParamUseCase(mediaId),
                 query = params.album
             )
-            params.isArtistFocus -> VoiceSearch.filterByArtist(
+            params.isArtistFocus -> voiceSearch.filterByArtist(
                 songList = getSongListByParamUseCase(mediaId),
                 query = params.artist
             )
-            params.isSongFocus -> VoiceSearch.filterByTrack(
+            params.isSongFocus -> voiceSearch.filterByTrack(
                 songList = getSongListByParamUseCase(mediaId),
                 query = params.song
             )
-            params.isGenreFocus -> VoiceSearch.filterByGenre(
+            params.isGenreFocus -> voiceSearch.filterByGenre(
                 genreGateway = genreGateway,
                 query = params.genre
             )
-            else -> VoiceSearch.noFilter(
+            else -> voiceSearch.noFilter(
                 songList = getSongListByParamUseCase(mediaId)
             )
         }

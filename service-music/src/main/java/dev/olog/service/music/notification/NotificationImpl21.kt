@@ -124,7 +124,7 @@ internal open class NotificationImpl21 @Inject constructor(
         isPodcast: Boolean
     ) {
         val spannableTitle = buildSpannedString {
-            append(title, StyleSpan(Typeface.BOLD), 0) // TODO check flag
+            append(title, StyleSpan(Typeface.BOLD), 0)
         }
 
         builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)

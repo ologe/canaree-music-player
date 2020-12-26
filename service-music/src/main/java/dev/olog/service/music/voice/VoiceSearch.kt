@@ -5,9 +5,10 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
+import javax.inject.Inject
 
 // TODO refactor and inject
-internal object VoiceSearch {
+internal class VoiceSearch @Inject constructor(){
 
     fun noFilter(songList: List<Song>): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)

@@ -60,9 +60,7 @@ internal class EnhancedShuffle @Inject constructor(
 
     /*
      * The algorithm moves at the end of the queue recently played songs (found in [lastListened])
-     *
      */
-    // TODO persist played tracks??
     operator fun invoke(list: List<MediaEntity>): List<MediaEntity> {
         if (list.isEmpty()) {
             return list

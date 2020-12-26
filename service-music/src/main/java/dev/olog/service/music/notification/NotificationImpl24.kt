@@ -49,7 +49,7 @@ internal open class NotificationImpl24 @Inject constructor(
         builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
 
         val spannableTitle = buildSpannedString {
-            append(title, StyleSpan(Typeface.BOLD), 0) // TODO check flag
+            append(title, StyleSpan(Typeface.BOLD), 0)
         }
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS

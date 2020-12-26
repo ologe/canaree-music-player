@@ -42,7 +42,7 @@ internal class InternalPlayerState @Inject constructor(
 
     fun resume(bookmark: Duration, ) {
         Timber.i("resume bookmark=$bookmark")
-        val currentState = _state.value!! // TODO can assert??
+        val currentState = _state.value ?: return
         _state.value = Data(
 
             // keep the same
@@ -58,7 +58,7 @@ internal class InternalPlayerState @Inject constructor(
 
     fun pause(bookmark: Duration) {
         Timber.i("pause bookmark=$bookmark")
-        val currentState = _state.value!! // TODO can assert??
+        val currentState = _state.value ?: return
         _state.value = Data(
             // keep the same
             entity = currentState.entity,
