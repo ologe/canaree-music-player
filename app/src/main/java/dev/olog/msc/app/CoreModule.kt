@@ -7,6 +7,7 @@ import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.core.IEncrypter
+import java.util.*
 import javax.inject.Singleton
 import kotlin.random.Random
 
@@ -23,6 +24,9 @@ internal abstract class CoreModule {
         @Provides
         @Reusable
         fun provideRandom(): Random = Random
+
+        @Provides
+        fun provideCalendar(): Calendar = Calendar.getInstance()
 
     }
 
