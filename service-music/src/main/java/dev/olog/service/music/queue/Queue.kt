@@ -249,7 +249,7 @@ internal class Queue @Inject constructor(
 
     private suspend fun shuffle() = queueState.whenIsSet {
 
-        val newQueue = enhancedShuffle.shuffle(queue)
+        val newQueue = enhancedShuffle(queue)
         val newPosition = newQueue.indexOfFirst { it.progressive == entity.progressive }
 
         updateQueue(newQueue, newPosition)

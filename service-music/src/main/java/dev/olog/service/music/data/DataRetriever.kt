@@ -74,7 +74,7 @@ internal class DataRetriever @Inject constructor(
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
 
-        return enhancedShuffle.shuffle(items)
+        return enhancedShuffle(items)
     }
 
     private suspend fun fetchRecentlyAdded(

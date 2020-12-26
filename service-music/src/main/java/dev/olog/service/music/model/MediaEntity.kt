@@ -20,7 +20,30 @@ internal data class MediaEntity(
     val discNumber: Int,
     val trackNumber: Int,
     val isPodcast: Boolean
-)
+) {
+
+    companion object {
+        val EMPTY: MediaEntity
+            get() = MediaEntity(
+                progressive = 0,
+                id = 0,
+                mediaId = MediaId.songId(0),
+                artistId = 0,
+                albumId = 0,
+                title = "",
+                artist = "",
+                album = "",
+                albumArtist = "",
+                duration = 0,
+                dateAdded = 0,
+                path = "",
+                discNumber = 0,
+                trackNumber = 0,
+                isPodcast = false
+            )
+    }
+
+}
 
 internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
     return MediaEntity(
