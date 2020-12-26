@@ -5,13 +5,9 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.PlayerVolume
@@ -31,7 +27,7 @@ internal abstract class AbsPlayer(
     volume: PlayerVolume
 
 ) : IPlayerDelegate<CrossFadePlayer.Model>,
-    ExoPlayerListenerWrapper,
+    Player.EventListener,
     DefaultLifecycleObserver {
 
     private val trackSelector = DefaultTrackSelector()

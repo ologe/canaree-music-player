@@ -87,16 +87,3 @@ internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
         isPodcast = song.isPodcast
     )
 }
-
-internal fun MediaEntity.toPlayerMediaEntity(
-    positionInQueue: PositionInQueue,
-    bookmark: Duration,
-    skipType: SkipType,
-) : PlayerMediaEntity {
-    return PlayerMediaEntity(
-        mediaEntity = this,
-        positionInQueue = positionInQueue,
-        bookmark = bookmark,
-        skipType = skipType,
-    )
-}

@@ -24,7 +24,6 @@ import dev.olog.service.music.player.crossfade.CrossFadePlayerSwitcher
 abstract class MusicServiceModule {
 
     @Binds
-    @ServiceScoped
     internal abstract fun provideServiceLifecycle(instance: MusicService): IServiceLifecycleController
 
     @Binds

@@ -5,7 +5,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.test.shared.MainCoroutineRule

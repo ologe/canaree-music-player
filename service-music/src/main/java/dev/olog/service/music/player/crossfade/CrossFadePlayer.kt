@@ -11,7 +11,6 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.PlayerVolume
@@ -41,7 +40,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     context = context,
     mediaSourceFactory = mediaSourceFactory,
     volume = volume
-), ExoPlayerListenerWrapper {
+), Player.EventListener {
 
     companion object {
         private val MIN_CROSSFADE_FOR_GAPLESS = 1500.milliseconds
