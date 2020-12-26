@@ -1,10 +1,12 @@
-package dev.olog.data.local
+package dev.olog.core
 
+import dagger.Reusable
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-internal class DateTimeGenerator @Inject constructor() {
+@Reusable
+class DateTimeGenerator @Inject constructor() {
 
     companion object {
         private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {

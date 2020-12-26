@@ -2,7 +2,7 @@ package dev.olog.data.local.last.fm
 
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.base.Id
-import dev.olog.data.local.DateTimeGenerator
+import dev.olog.core.DateTimeGenerator
 import javax.inject.Inject
 
 interface ImageRetrieverLocalTrack {
