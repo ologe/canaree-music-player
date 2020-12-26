@@ -1,15 +1,15 @@
 package dev.olog.service.music
 
-import android.content.Context
+import android.app.Service
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 
 class NoisyTest {
 
-    private val context = mock<Context>()
+    private val service = mock<Service>()
     private val eventDispatcher = mock<EventDispatcher>()
 
-    private val noisy = Noisy(context, eventDispatcher)
+    private val noisy = Noisy(service, eventDispatcher)
 
     @Test
     fun `test lifecycle unsubscribe`() {
@@ -23,7 +23,7 @@ class NoisyTest {
     fun `test register`() {
         noisy.register()
 
-        verify(context).registerReceiver(any(), any())
+        verify(service).registerReceiver(any(), any())
     }
 
     @Test
@@ -32,14 +32,14 @@ class NoisyTest {
         noisy.register()
         noisy.register()
 
-        verify(context).registerReceiver(any(), any())
+        verify(service).registerReceiver(any(), any())
     }
 
     @Test
     fun `test unregister without previous registration`() {
         noisy.unregister()
 
-        verifyZeroInteractions(context)
+        verifyZeroInteractions(service)
     }
 
     @Test
@@ -47,7 +47,7 @@ class NoisyTest {
         noisy.register()
         noisy.unregister()
 
-        verify(context).unregisterReceiver(any())
+        verify(service).unregisterReceiver(any())
     }
 
     @Test
@@ -58,7 +58,7 @@ class NoisyTest {
         noisy.unregister()
         noisy.unregister()
 
-        verify(context).unregisterReceiver(any())
+        verify(service).unregisterReceiver(any())
     }
 
 }
