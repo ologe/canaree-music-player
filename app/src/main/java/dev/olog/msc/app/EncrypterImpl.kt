@@ -11,7 +11,6 @@ private val SALT = byteArrayOf(
     -45, 77, -117, -36, -113, -11, 32, -64, 89
 )
 
-@Singleton
 class EncrypterImpl @Inject constructor(
 
 ) : IEncrypter {
