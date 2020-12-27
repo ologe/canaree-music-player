@@ -10,7 +10,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerPlaybackState
 import dev.olog.lib.media.model.PlayerState
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
@@ -361,7 +361,7 @@ internal class PlayerFragmentAdapter(
         position: Int
     ) = holder.bindView {
         if (item is DisplayableTrack){
-            BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+            ImageLoader.loadSongImage(imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.artist
             explicit.onItemChanged(item.title)

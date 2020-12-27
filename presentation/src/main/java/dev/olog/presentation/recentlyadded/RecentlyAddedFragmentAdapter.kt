@@ -2,7 +2,7 @@ package dev.olog.presentation.recentlyadded
 
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
@@ -40,7 +40,7 @@ class RecentlyAddedFragmentAdapter(
     ) = holder.bindView {
         require(item is DisplayableTrack)
 
-        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
         explicit.onItemChanged(item.title)

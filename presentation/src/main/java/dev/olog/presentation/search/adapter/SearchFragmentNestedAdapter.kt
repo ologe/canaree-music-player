@@ -1,6 +1,6 @@
 package dev.olog.presentation.search.adapter
 
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
@@ -31,7 +31,7 @@ class SearchFragmentNestedAdapter(
     ) = holder.bindView {
         require(item is DisplayableAlbum)
 
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         quickAction.setId(item.mediaId)
         firstText.text = item.title
         secondText?.text = item.subtitle

@@ -12,7 +12,7 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
@@ -270,7 +270,7 @@ internal class DetailFragmentAdapter(
     ) = holder.bindView {
 
         if (imageView != null) {
-            BindingsAdapter.loadSongImage(imageView!!, mediaId)
+            ImageLoader.loadSongImage(imageView!!, mediaId)
         }
         firstText.text = title
         secondText?.text = subtitle
@@ -297,7 +297,7 @@ internal class DetailFragmentAdapter(
     ) = holder.bindView {
         when (itemViewType){
             R.layout.item_detail_image -> {
-                BindingsAdapter.loadBigAlbumImage(imageView!!, mediaId)
+                ImageLoader.loadBigAlbumImage(imageView!!, mediaId)
                 this.title.text = title
                 this.subtitle.text = subtitle
             }

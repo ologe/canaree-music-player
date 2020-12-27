@@ -4,7 +4,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.interfaces.SetupNestedList
@@ -89,7 +89,7 @@ internal class TabFragmentAdapter(
     }
 
     private fun LayoutContainerViewHolder.bindTrack(item: DisplayableTrack){
-        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
         duration?.let {
@@ -100,7 +100,7 @@ internal class TabFragmentAdapter(
     }
 
     private fun LayoutContainerViewHolder.bindAlbum(item: DisplayableAlbum){
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         quickAction?.setId(item.mediaId)
         firstText.text = item.title
         secondText?.text = item.subtitle

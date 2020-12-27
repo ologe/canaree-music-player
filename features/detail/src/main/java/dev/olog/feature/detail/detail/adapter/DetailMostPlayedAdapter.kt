@@ -5,7 +5,7 @@ import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentMostPlayedModel
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.*
 import kotlinx.android.synthetic.main.item_detail_song_most_played.*
 
@@ -35,7 +35,7 @@ internal class DetailMostPlayedAdapter(
         position: Int
     ) = holder.bindView {
 
-        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
         index.text = item.formattedPosition

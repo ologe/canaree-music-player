@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentRelatedArtistModel
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.*
 import kotlinx.android.synthetic.main.item_detail_related_artist.*
 
@@ -29,7 +29,7 @@ internal class DetailRelatedArtistsAdapter(
         item: DetailFragmentRelatedArtistModel,
         position: Int
     ) = holder.bindView {
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
         quickAction.setId(item.mediaId)

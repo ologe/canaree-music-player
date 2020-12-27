@@ -1,7 +1,7 @@
 package dev.olog.presentation.prefs.blacklist
 
 import androidx.core.view.isVisible
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.SimpleAdapter
 import kotlinx.android.synthetic.main.dialog_blacklist_item.*
@@ -25,7 +25,7 @@ class BlacklistFragmentAdapter(
         item: BlacklistModel,
         position: Int
     ) = bindView {
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         scrim.isVisible = item.isBlacklisted
         firstText.text = item.title
         secondText.text = item.displayablePath

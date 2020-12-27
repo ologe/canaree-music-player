@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
@@ -44,9 +44,9 @@ class PlayingQueueFragmentAdapter(
         item: DisplayableQueueSong,
         position: Int
     ) = holder.bindView {
-        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        ImageLoader.loadSongImage(imageView!!, item.mediaId)
         index.text = item.relativePosition
-        BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
+        ImageLoader.setBoldIfTrue(firstText, item.isCurrentSong)
         firstText.text = item.title
         secondText.text = item.subtitle
         explicit.onItemChanged(item.title)
@@ -70,7 +70,7 @@ class PlayingQueueFragmentAdapter(
             val payload = payloads[0] as List<Any>
             for (currentPayload in payload) {
                 when (currentPayload) {
-                    is Boolean -> BindingsAdapter.setBoldIfTrue(firstText, currentPayload)
+                    is Boolean -> ImageLoader.setBoldIfTrue(firstText, currentPayload)
                     is String -> {
                         val item = getItem(position)
                         val textColor = calculateTextColor(context, item.relativePosition)

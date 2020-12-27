@@ -1,7 +1,7 @@
 package dev.olog.presentation.folder.tree
 
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -57,8 +57,8 @@ class FolderTreeFragmentAdapter(
         firstText.text = item.title
 
         when (holder.itemViewType){
-            R.layout.item_folder_tree_directory -> BindingsAdapter.loadDirImage(imageView!!, item)
-            R.layout.item_folder_tree_track -> BindingsAdapter.loadFile(imageView!!, item)
+            R.layout.item_folder_tree_directory -> ImageLoader.loadDirImage(imageView!!, item.path)
+            R.layout.item_folder_tree_track -> ImageLoader.loadFile(imageView!!, item.path)
         }
     }
 }

@@ -1,4 +1,4 @@
-package dev.olog.presentation
+package dev.olog.lib.image.provider
 
 import android.graphics.Typeface
 import android.widget.ImageView
@@ -7,28 +7,24 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.lib.image.provider.CoverUtils
-import dev.olog.lib.image.provider.GlideApp
-import dev.olog.lib.image.provider.GlideUtils
 import dev.olog.lib.image.provider.model.AudioFileCover
-import dev.olog.presentation.model.DisplayableFile
 import dev.olog.lib.image.provider.target.RippleTarget
 
-object BindingsAdapter {
+object ImageLoader {
 
-    fun loadFile(view: ImageView, item: DisplayableFile) {
+    fun loadFile(view: ImageView, path: String?) {
         val context = view.context
         GlideApp.with(context).clear(view)
 
         GlideApp.with(context)
-                .load(AudioFileCover(item.path!!))
+                .load(AudioFileCover(path ?: ""))
                 .override(GlideUtils.OVERRIDE_SMALL)
-                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
+                .placeholder(CoverUtils.getGradient(context, MediaId.songId(path.hashCode().toLong())))
                 .into(view)
     }
 
-    fun loadDirImage(view: ImageView, item: DisplayableFile) {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "invalid path")
+    fun loadDirImage(view: ImageView, path: String?) {
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path ?: "invalid path")
         loadImageImpl(
             view,
             mediaId,

@@ -3,7 +3,7 @@ package dev.olog.presentation.playlist.chooser
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.AppShortcuts
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
@@ -45,7 +45,7 @@ class PlaylistChooserActivityAdapter(
     ) = holder.bindView {
         require(item is DisplayableAlbum)
 
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
     }

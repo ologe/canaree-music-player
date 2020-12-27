@@ -2,7 +2,7 @@ package dev.olog.presentation.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.TouchableAdapter
@@ -93,7 +93,7 @@ class SearchFragmentAdapter(
     }
 
     private fun LayoutContainerViewHolder.bindTrack(item: DisplayableTrack) {
-        BindingsAdapter.loadSongImage(imageView!!, item.mediaId)
+        ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
         if (item.album.isBlank()){
             secondText.text = item.artist
@@ -105,7 +105,7 @@ class SearchFragmentAdapter(
     }
 
     private fun LayoutContainerViewHolder.bindAlbum(item: DisplayableAlbum){
-        BindingsAdapter.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
     }
