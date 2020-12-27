@@ -12,7 +12,7 @@ import dev.olog.lib.image.provider.GlideApp
 import dev.olog.lib.image.provider.GlideUtils
 import dev.olog.lib.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.lib.image.provider.target.RippleTarget
 
 object BindingsAdapter {
 

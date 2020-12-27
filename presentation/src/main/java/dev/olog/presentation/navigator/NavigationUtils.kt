@@ -40,6 +40,7 @@ fun allowed(): Boolean {
     return allowed
 }
 
+@Deprecated("")
 fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
     var topFragment = fragmentManager.getTopFragment()
     if (topFragment == null) {

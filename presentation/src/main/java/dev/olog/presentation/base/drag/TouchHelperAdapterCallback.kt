@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
 import dev.olog.shared.android.coroutine.viewScope
-import kotlinx.android.synthetic.main.item_detail_song.*
+import kotlinx.android.synthetic.main.item_playing_queue.* // TODO don't depend on actual layout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs

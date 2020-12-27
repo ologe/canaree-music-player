@@ -5,11 +5,13 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 
+@Deprecated("")
 sealed class DisplayableItem(
     override val type: Int,
     override val mediaId: MediaId
 ) : BaseModel
 
+@Deprecated("")
 data class DisplayableTrack(
     override val type: Int,
     override val mediaId: MediaId,
@@ -25,6 +27,7 @@ data class DisplayableTrack(
 
 }
 
+@Deprecated("")
 data class DisplayableAlbum(
     override val type: Int,
     override val mediaId: MediaId,
@@ -44,6 +47,7 @@ data class DisplayableAlbum(
 
 }
 
+@Deprecated("")
 data class DisplayableHeader(
     override val type: Int,
     override val mediaId: MediaId,
@@ -53,7 +57,7 @@ data class DisplayableHeader(
 
 ) : DisplayableItem(type, mediaId)
 
-
+@Deprecated("")
 data class DisplayableNestedListPlaceholder(
     override val type: Int,
     override val mediaId: MediaId

@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.detail.DetailFragment
+import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
@@ -27,7 +26,7 @@ class SuperCerealScrollHelper(
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
         super.applyInsetsToList(fragment, list, toolbar, tabLayout)
-        if (fragment.tag?.startsWith(DetailFragment.TAG) == true){
+        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true){
             // apply only top padding
             list.updatePadding(top = 0)
         }

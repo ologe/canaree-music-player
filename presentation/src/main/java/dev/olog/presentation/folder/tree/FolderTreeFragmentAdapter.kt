@@ -9,7 +9,7 @@ import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.NavigatorLegacy
-import kotlinx.android.synthetic.main.item_detail_related_artist.*
+import kotlinx.android.synthetic.main.item_folder_tree_track.*
 
 class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,

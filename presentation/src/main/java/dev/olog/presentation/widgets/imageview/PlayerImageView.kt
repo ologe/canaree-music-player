@@ -8,7 +8,7 @@ import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.lib.image.provider.CoverUtils
 import dev.olog.lib.image.provider.GlideApp
-import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.lib.image.provider.target.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
 
