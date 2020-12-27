@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
@@ -17,16 +18,15 @@ import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LastFmCredentialsFragment : BaseDialogFragment() {
+class LastFmCredentialsFragment : DialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
