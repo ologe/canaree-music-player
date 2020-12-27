@@ -57,10 +57,6 @@ android {
         checkReleaseBuilds false
         disable 'MissingTranslation'
     }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {
@@ -82,6 +78,7 @@ dependencies {
     implementation project(':features:base')
     implementation project(':features:onboarding')
     implementation project(':features:detail')
+    implementation project(':features:library')
 
     implementation project(':libraries:media')
     implementation project(':libraries:equalizer')

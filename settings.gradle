@@ -8,6 +8,7 @@ include ':navigation'
 include ':features:base'
 include ':features:onboarding'
 include ':features:detail'
+include ':features:library'
 
 // data
 include ':data'

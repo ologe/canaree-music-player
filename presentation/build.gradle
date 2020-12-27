@@ -45,7 +45,7 @@ dependencies {
     implementation project(':navigation')
 
     implementation project(':features:base')
-    implementation project(':features:detail')
+    implementation project(':features:library')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
