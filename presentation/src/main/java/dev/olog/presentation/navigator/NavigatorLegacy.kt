@@ -10,8 +10,6 @@ interface NavigatorLegacy {
 
     fun toDetailFragment(mediaId: MediaId)
 
-    fun toRelatedArtists(mediaId: MediaId)
-
     fun toRecentlyAdded(mediaId: MediaId)
 
     fun toChooseTracksForPlaylistFragment(type: PlaylistType)

@@ -1,16 +1,14 @@
-package dev.olog.presentation.relatedartists
+package dev.olog.feature.detail.related.artist
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
 import dev.olog.feature.base.base.BaseFragment
-import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.feature.detail.R
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.launchIn
-import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.coroutines.flow.onEach
@@ -19,19 +17,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class RelatedArtistFragment : BaseFragment() {
 
-    companion object {
-        val TAG = RelatedArtistFragment::class.java.name
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-
-        fun newInstance(mediaId: MediaId): RelatedArtistFragment {
-            return RelatedArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
-            )
-        }
-    }
-
     @Inject
-    lateinit var navigator: NavigatorLegacy
+    lateinit var navigator: Navigator
+
     private val adapter by lazyFast {
         RelatedArtistFragmentAdapter(navigator)
     }
@@ -65,11 +53,6 @@ class RelatedArtistFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         back.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_related_artist

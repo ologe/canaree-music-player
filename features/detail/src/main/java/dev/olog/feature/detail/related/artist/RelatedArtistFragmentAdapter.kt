@@ -1,17 +1,17 @@
-package dev.olog.presentation.relatedartists
+package dev.olog.feature.detail.related.artist
 
+import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.base.adapter.*
+import dev.olog.feature.detail.R
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.navigation.Navigator
 import kotlinx.android.synthetic.main.item_related_artist.*
 
 class RelatedArtistFragmentAdapter(
-    private val navigator: NavigatorLegacy
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+    private val navigator: Navigator
+) : ObservableAdapter<RelatedArtistFragmentModel>(RelatedArtistFragmentModelDiff) {
 
+    override fun getItemViewType(position: Int): Int = R.layout.item_related_artist
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -25,11 +25,9 @@ class RelatedArtistFragmentAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: DisplayableItem,
+        item: RelatedArtistFragmentModel,
         position: Int
     ) = holder.bindView {
-        require(item is DisplayableAlbum)
-
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         quickAction.setId(item.mediaId)
         firstText.text = item.title
@@ -37,4 +35,21 @@ class RelatedArtistFragmentAdapter(
     }
 
 
+}
+
+private object RelatedArtistFragmentModelDiff : DiffUtil.ItemCallback<RelatedArtistFragmentModel>() {
+
+    override fun areItemsTheSame(
+        oldItem: RelatedArtistFragmentModel,
+        newItem: RelatedArtistFragmentModel
+    ): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun areContentsTheSame(
+        oldItem: RelatedArtistFragmentModel,
+        newItem: RelatedArtistFragmentModel
+    ): Boolean {
+        return oldItem == newItem
+    }
 }

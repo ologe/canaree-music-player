@@ -132,7 +132,7 @@ class MainActivity : MusicGlueActivity(),
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigatorLegacy.toDetailFragment(mediaId)
+                    navigator.toDetailFragment(mediaId)
                 }
             }
             Intent.ACTION_VIEW -> {

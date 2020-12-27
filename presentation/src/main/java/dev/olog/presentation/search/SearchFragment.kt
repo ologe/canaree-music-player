@@ -180,11 +180,6 @@ class SearchFragment : BaseFragment(),
         more.setOnClickListener(null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
-    }
-
     private fun startServiceOrRequestOverlayPermission() {
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }

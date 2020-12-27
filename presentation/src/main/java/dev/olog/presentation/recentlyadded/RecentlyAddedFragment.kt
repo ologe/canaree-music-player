@@ -77,10 +77,5 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         back.setOnClickListener(null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
-    }
-
     override fun provideLayoutId(): Int = R.layout.fragment_recently_added
 }

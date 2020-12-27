@@ -53,7 +53,20 @@ internal class NavigatorImpl @Inject constructor(
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
-        TODO("Not yet implemented")
+        val activity = activityProvider() ?: return
+        val fragment = fragments[FragmentScreen.RELATED_ARTISTS]?.get()
+        val tag = createBackStackTag(FragmentScreen.RELATED_ARTISTS.tag)
+
+        fragment?.arguments = bundleOf(
+            Params.MEDIA_ID to mediaId.toString(),
+        )
+
+        val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        addFragment(activity, fragment, tag) {
+            addToBackStack(tag)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            topFragment?.let { hide(it) }
+        }
     }
 
     // TODO move

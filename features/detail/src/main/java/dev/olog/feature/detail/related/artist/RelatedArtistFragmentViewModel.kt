@@ -1,4 +1,4 @@
-package dev.olog.presentation.relatedartists
+package dev.olog.feature.detail.related.artist
 
 import android.content.Context
 import androidx.hilt.Assisted
@@ -11,10 +11,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.relatedartists.RelatedArtistFragment.Companion.ARGUMENTS_MEDIA_ID
+import dev.olog.feature.detail.R
+import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
@@ -28,11 +26,11 @@ class RelatedArtistFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
+    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val dataPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val dataPublisher = MutableStateFlow<List<RelatedArtistFragmentModel>>(emptyList())
     private val titlePublisher = MutableStateFlow("")
 
     init {
@@ -48,14 +46,13 @@ class RelatedArtistFragmentViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun observeData(): Flow<List<DisplayableItem>> = dataPublisher
+    fun observeData(): Flow<List<RelatedArtistFragmentModel>> = dataPublisher
     fun observeTitle(): Flow<String> = titlePublisher
 
-    private fun Artist.toRelatedArtist(): DisplayableItem {
+    private fun Artist.toRelatedArtist(): RelatedArtistFragmentModel {
         val songs = context.resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
 
-        return DisplayableAlbum(
-            type = R.layout.item_related_artist,
+        return RelatedArtistFragmentModel(
             mediaId = getMediaId(),
             title = this.name,
             subtitle = songs

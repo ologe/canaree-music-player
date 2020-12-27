@@ -94,11 +94,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         slidingPanel.removeBottomSheetCallback(slidingPanelListener)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
-    }
-
     override fun provideLayoutId(): Int {
         val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
         return when (playerAppearanceAmbient.value) {

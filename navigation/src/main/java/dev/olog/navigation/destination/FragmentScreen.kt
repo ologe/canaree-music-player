@@ -4,7 +4,8 @@ private const val PREFIX = "dev.olog"
 
 enum class FragmentScreen(val tag: String) {
     ONBOARDING("$PREFIX.onboarding"),
-    DETAIL("$PREFIX.detail");
+    DETAIL("$PREFIX.detail"),
+    RELATED_ARTISTS("$PREFIX.related.artists");
 
     companion object {
         const val OWNERSHIP = PREFIX

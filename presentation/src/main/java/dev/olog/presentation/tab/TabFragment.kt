@@ -179,11 +179,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
-    }
-
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
         when (layoutId) {
             R.layout.item_tab_last_played_album_horizontal_list -> setupHorizontalList(
