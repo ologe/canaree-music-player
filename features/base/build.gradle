@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation project(':navigation')
+    implementation project(':shared')
+    implementation project(':shared-android')
+    implementation project(':shared-widgets')
+
+    implementation project(':libraries:image-provider')
+
+    implementation lib_x.core
+    implementation lib_x.appcompat
+    implementation lib_x.fragments
+    implementation lib_x.material
+    implementation lib_x.constraint_layout
+}
