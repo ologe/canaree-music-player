@@ -14,11 +14,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
+import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.android.utils.isMarshmallow

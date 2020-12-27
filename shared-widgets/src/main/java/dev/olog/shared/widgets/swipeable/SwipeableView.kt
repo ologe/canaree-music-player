@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.swipeableview
+package dev.olog.shared.widgets.swipeable
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,10 +6,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.lazyFast
+import dev.olog.shared.widgets.R
 import kotlinx.coroutines.flow.Flow
 
 class SwipeableView(

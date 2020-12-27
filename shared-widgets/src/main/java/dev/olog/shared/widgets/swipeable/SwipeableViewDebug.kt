@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.swipeableview
+package dev.olog.shared.widgets.swipeable
 
 import android.graphics.Canvas
 import android.graphics.Color

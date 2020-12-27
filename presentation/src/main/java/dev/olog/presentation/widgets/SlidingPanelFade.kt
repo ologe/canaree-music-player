@@ -6,12 +6,12 @@ import android.view.View
 import androidx.core.math.MathUtils.clamp
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.scrimBackground
+import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.lazyFast
 
 class SlidingPanelFade(

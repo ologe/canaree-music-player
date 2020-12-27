@@ -23,15 +23,14 @@ import dev.olog.presentation.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
-import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
-import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.coroutine.viewScope
+import dev.olog.shared.android.slidingPanel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,12 +42,6 @@ class NavigatorImpl @Inject internal constructor(
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
 ) : NavigatorLegacy {
-
-    override fun toFirstAccess() {
-        activity.supportFragmentManager.commit {
-            add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
-        }
-    }
 
     override fun toDetailFragment(mediaId: MediaId) {
         activity.slidingPanel.collapse()

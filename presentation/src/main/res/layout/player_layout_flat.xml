@@ -29,7 +29,7 @@
         android:layout_marginStart="@dimen/player_cover_margin_horizontal"
         android:layout_marginEnd="@dimen/player_cover_margin_horizontal"/>
 
-    <dev.olog.presentation.widgets.swipeableview.SwipeableView
+    <dev.olog.shared.widgets.swipeable.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
         app:layout_constraintTop_toTopOf="@+id/imageSwitcher"

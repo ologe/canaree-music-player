@@ -15,7 +15,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.NavigatorLegacy
@@ -23,9 +22,10 @@ import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.widgets.StatusBarView
-import dev.olog.presentation.widgets.swipeableview.SwipeableView
+import dev.olog.shared.widgets.swipeable.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.findActivity
+import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.swapped
 import kotlinx.android.synthetic.main.item_mini_queue.*

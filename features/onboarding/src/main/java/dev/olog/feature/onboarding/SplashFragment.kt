@@ -1,39 +1,22 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.onboarding
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.presentation.interfaces.Permission
+import dev.olog.shared.android.OnPermissionChanged
+import dev.olog.shared.android.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
-class SplashFragment : Fragment() {
-
-    companion object {
-        val TAG = SplashFragment::class.java.name
-    }
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private val adapter by lazyFast {
-        SplashFragmentViewPagerAdapter(
-            childFragmentManager
-        )
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        SplashFragmentViewPagerAdapter(childFragmentManager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,15 +71,6 @@ class SplashFragment : Fragment() {
             .commitAllowingStateLoss()
 
         (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
-
-//        ExplainTrialDialog.show(requireContext()) {
-//            requireActivity().supportFragmentManager
-//                .beginTransaction()
-//                .remove(this)
-//                .commitAllowingStateLoss()
-//
-//            (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
-//        }
     }
 
     private fun onStoragePermissionDenied() {

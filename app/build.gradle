@@ -84,6 +84,7 @@ dependencies {
     implementation project(':libraries:equalizer')
 
     implementation project(':navigation')
+    implementation project(':features:onboarding')
 
     implementation project(':libraries:network')
 

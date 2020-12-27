@@ -7,12 +7,16 @@ import dev.olog.core.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
+import dev.olog.navigation.internal.ActivityProvider
 import io.alterac.blurkit.BlurKit
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
 class App : ThemedApp() {
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
     @Inject
     lateinit var appShortcuts: AppShortcuts

@@ -22,9 +22,9 @@ abstract class NavigationModule {
     internal abstract fun provideNavigator(impl: NavigatorImpl): Navigator
 
     @Multibinds
-    internal abstract fun fragments(): Map<FragmentScreen, @JvmSuppressWildcards Fragment>
+    internal abstract fun fragments(): Map<FragmentScreen, Fragment>
 
     @Multibinds
-    internal abstract fun navigationIntents(): Map<NavigationIntent, @JvmSuppressWildcards Intent>
+    internal abstract fun navigationIntents(): Map<NavigationIntent, Intent>
 
 }

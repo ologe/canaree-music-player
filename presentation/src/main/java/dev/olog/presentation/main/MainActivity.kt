@@ -14,6 +14,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
@@ -26,7 +27,11 @@ import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
+import dev.olog.shared.android.OnPermissionChanged
+import dev.olog.shared.android.Permission
+import dev.olog.shared.android.SlidingPanelAmbient
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.immersiveAmbient
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,7 +47,9 @@ class MainActivity : MusicGlueActivity(),
 
     private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
-    lateinit var navigator: NavigatorLegacy
+    lateinit var navigatorLegacy: NavigatorLegacy
+    @Inject
+    lateinit var navigator: Navigator
 
     @Suppress("unused")
     @Inject
@@ -129,7 +136,7 @@ class MainActivity : MusicGlueActivity(),
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId)
+                    navigatorLegacy.toDetailFragment(mediaId)
                 }
             }
             Intent.ACTION_VIEW -> {

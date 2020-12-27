@@ -1,4 +1,4 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.onboarding
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -12,12 +12,11 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.feature.onboarding.widget.StoppingViewPager
 import dev.olog.lib.image.provider.CoverUtils
 import dev.olog.lib.image.provider.GlideApp
-import dev.olog.presentation.R
-import dev.olog.presentation.widgets.StoppingViewPager
-import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.android.extensions.launchIn
+import dev.olog.shared.widgets.swipeable.SwipeableView
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 import kotlinx.coroutines.flow.onEach
 

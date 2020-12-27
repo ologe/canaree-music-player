@@ -8,8 +8,6 @@ import dev.olog.core.entity.PlaylistType
 @Deprecated("")
 interface NavigatorLegacy {
 
-    fun toFirstAccess()
-
     fun toDetailFragment(mediaId: MediaId)
 
     fun toRelatedArtists(mediaId: MediaId)

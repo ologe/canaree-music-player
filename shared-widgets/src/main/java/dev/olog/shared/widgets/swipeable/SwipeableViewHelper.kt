@@ -1,13 +1,9 @@
-package dev.olog.presentation.widgets.swipeableview
+package dev.olog.shared.widgets.swipeable
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.view.ViewGroup
-import dev.olog.presentation.R
-import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
-import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.abs
@@ -30,15 +26,9 @@ internal class SwipeableViewHelper(
 
     var swipeListener: SwipeableView.SwipeListener? = null
 
-    private val viewSwitcher by lazyFast { findViewSwitcher() }
-
     private val isTouchingPublisher = MutableStateFlow(false)
 
     private val touchSlop by lazy { ViewConfiguration.get(view.context).scaledTouchSlop }
-
-    private fun findViewSwitcher(): CustomViewSwitcher? {
-        return (view.parent as ViewGroup).findViewById(R.id.imageSwitcher)
-    }
 
     fun onTouchDown(event: MotionEvent): Boolean {
         view.parent.requestDisallowInterceptTouchEvent(true)
@@ -117,12 +107,7 @@ internal class SwipeableViewHelper(
 
     @SuppressLint("Recycle")
     private fun requestRipple(event: MotionEvent) {
-        val switcher = viewSwitcher ?: return
-        val downEvent = MotionEvent.obtain(event).apply { this.action = MotionEvent.ACTION_DOWN }
-        val imageView = switcher.getImageView()
-        imageView.dispatchTouchEvent(downEvent)
-        downEvent.recycle()
-        imageView.dispatchTouchEvent(event)
+        // TODO
     }
 
     fun isTouching(): Flow<Boolean> = isTouchingPublisher

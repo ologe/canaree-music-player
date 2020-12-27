@@ -1,4 +1,4 @@
-package dev.olog.presentation.interfaces
+package dev.olog.shared.android
 
 import android.view.View
 import androidx.fragment.app.Fragment

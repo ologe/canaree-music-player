@@ -1,4 +1,4 @@
-package dev.olog.presentation.interfaces
+package dev.olog.shared.android
 
 interface OnPermissionChanged {
     fun onPermissionGranted(permission: Permission)

@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.slidingPanel
+import dev.olog.shared.android.slidingPanel
 
 class SimpleNestedScrollView(
     context: Context,
