@@ -13,19 +13,17 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.shared.widgets.adapter.drag.IDragListener
+import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
 import dev.olog.feature.detail.detail.DetailFragmentViewModel
 import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.feature.detail.detail.DetailSortDialog
+import dev.olog.feature.detail.detail.DetailTutorial
 import dev.olog.feature.detail.detail.model.DetailFragmentModel
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.*
-import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swapped
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_biography.*
 import kotlinx.android.synthetic.main.item_detail_header.*
 import kotlinx.android.synthetic.main.item_detail_header.title
@@ -47,7 +45,9 @@ internal class DetailFragmentAdapter(
     TouchableAdapter {
 
     private val headersIndex: Int
-        get() = currentList.indexOfFirst { it.isTrack }
+        get() = currentList.indexOfFirst { it.isPlayable }
+
+    override fun getItemViewType(position: Int): Int = getItem(position).layoutType
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         when (viewType) {
@@ -64,15 +64,18 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_song_with_drag_handle,
             R.layout.item_detail_song_with_track_and_image -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    viewModel.detailSortDataUseCase(item.mediaId) {
-                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
+                    val playable = item as? DetailFragmentModel.Playable ?: return@setOnClickListener
+                    viewModel.detailSortDataUseCase(playable.mediaId) {
+                        mediaProvider.playFromMediaId(playable.mediaId, viewModel.getFilter(), it)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    val playable = item as? DetailFragmentModel.Playable ?: return@setOnLongClickListener
+                    navigator.toDialog(playable.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    val playable = item as? DetailFragmentModel.Playable ?: return@setOnClickListener
+                    navigator.toDialog(playable.mediaId, view)
                 }
 
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
@@ -164,7 +167,7 @@ internal class DetailFragmentAdapter(
     private fun LayoutContainerViewHolder.bindTutorial(
 
     ) = bindView {
-        TutorialTapTarget.sortBy(sort, sortImage)
+        DetailTutorial.sortBy(sort, sortImage)
     }
 
     private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int) {
@@ -363,7 +366,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)
+        val item = getItem(viewHolder.adapterPosition) as? DetailFragmentModel.Playable ?: return
         mediaProvider.addToPlayNext(item.mediaId)
     }
 
@@ -377,7 +380,7 @@ internal class DetailFragmentAdapter(
 private object DetailFragmentModelDiff : DiffUtil.ItemCallback<DetailFragmentModel>() {
 
     override fun areItemsTheSame(oldItem: DetailFragmentModel, newItem: DetailFragmentModel): Boolean {
-        return oldItem.mediaId == newItem.mediaId
+        return oldItem == newItem // TODO not sure
     }
 
     override fun areContentsTheSame(oldItem: DetailFragmentModel, newItem: DetailFragmentModel): Boolean {

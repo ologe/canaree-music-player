@@ -6,13 +6,15 @@ import dev.olog.feature.detail.detail.model.DetailFragmentMostPlayedModel
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.base.adapter.*
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_song_most_played.*
 
 internal class DetailMostPlayedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 ) : ObservableAdapter<DetailFragmentMostPlayedModel>(DetailMostPlayedDiff) {
+
+    override fun getItemViewType(position: Int): Int = R.layout.item_detail_song_most_played
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

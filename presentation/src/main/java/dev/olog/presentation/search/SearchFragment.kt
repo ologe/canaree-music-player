@@ -12,11 +12,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.shared.widgets.base.BaseFragment
+import dev.olog.shared.widgets.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.drag.DragListenerImpl
+import dev.olog.shared.widgets.adapter.drag.IDragListener
+import dev.olog.shared.widgets.adapter.SetupNestedList
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter

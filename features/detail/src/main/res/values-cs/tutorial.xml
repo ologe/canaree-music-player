@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tutorial_sort_by_text">Klepnutím na text změníte typ řazení</string>
+    <string name="tutorial_sort_by_arrow">Klepnutím na šipku změníte řazení</string>
+
+</resources>

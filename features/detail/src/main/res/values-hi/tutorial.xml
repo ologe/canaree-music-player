@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tutorial_sort_by_text">Tap the text to change the sort type</string>
+    <string name="tutorial_sort_by_arrow">Tap the arrow to reverse the sort</string>
+
+</resources>

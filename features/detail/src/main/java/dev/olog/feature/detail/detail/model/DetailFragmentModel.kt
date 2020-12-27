@@ -3,22 +3,20 @@ package dev.olog.feature.detail.detail.model
 import androidx.annotation.LayoutRes
 import dev.olog.core.MediaId
 import dev.olog.feature.detail.R
-import dev.olog.presentation.model.BaseModel
 
 internal sealed class DetailFragmentModel(
     @LayoutRes open val layoutType: Int
-) : BaseModel {
+) {
 
-    val isTrack: Boolean
-        get() = this is Track || this is PlaylistTrack
+    interface Playable {
+        val mediaId: MediaId
+    }
 
-    override val type: Int
-        get() = TODO("Not yet implemented")
-    override val mediaId: MediaId
-        get() = TODO("Not yet implemented")
+    val isPlayable: Boolean
+        get() = this is Playable
 
     data class MainHeader(
-        override val mediaId: MediaId,
+        val mediaId: MediaId,
         val title: String,
         val subtitle: String
     ) : DetailFragmentModel(R.layout.item_detail_image)
@@ -33,7 +31,7 @@ internal sealed class DetailFragmentModel(
         val title: String,
         val subtitle: String,
         val trackNumber: Int,
-    ) : DetailFragmentModel(layoutRes)
+    ) : DetailFragmentModel(layoutRes), Playable
 
     data class PlaylistTrack(
         private val layoutRes: Int,
@@ -41,9 +39,8 @@ internal sealed class DetailFragmentModel(
         val title: String,
         val subtitle: String,
         val idInPlaylist: Int,
-    ) : DetailFragmentModel(layoutRes)
+    ) : DetailFragmentModel(layoutRes), Playable
 
-    // TODO visible = false
     data class MostPlayedHeader(
         val title: String,
     ) : DetailFragmentModel(R.layout.item_detail_header)

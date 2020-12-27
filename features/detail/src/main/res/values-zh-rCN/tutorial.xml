@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_sort_by_text">点击文字以更改排列方式</string>
+    <string name="tutorial_sort_by_arrow">点击箭头反转排序</string>
+</resources>

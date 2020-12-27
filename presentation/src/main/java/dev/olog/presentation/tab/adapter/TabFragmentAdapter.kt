@@ -7,17 +7,17 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.shared.widgets.adapter.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_album.*
-import kotlinx.android.synthetic.main.item_tab_album.firstText
-import kotlinx.android.synthetic.main.item_tab_album.secondText
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_tab_header.*
 import kotlinx.android.synthetic.main.item_tab_podcast.*
 import kotlinx.android.synthetic.main.item_tab_song.*
+import kotlinx.android.synthetic.main.item_tab_song.firstText
+import kotlinx.android.synthetic.main.item_tab_song.secondText
 
 internal class TabFragmentAdapter(
     private val navigator: NavigatorLegacy,
@@ -101,7 +101,7 @@ internal class TabFragmentAdapter(
 
     private fun LayoutContainerViewHolder.bindAlbum(item: DisplayableAlbum){
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
-        quickAction?.setId(item.mediaId)
+//        quickAction?.setId(item.mediaId)
         firstText.text = item.title
         secondText?.text = item.subtitle
         explicit?.isVisible = false

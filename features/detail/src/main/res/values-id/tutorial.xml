@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_sort_by_text">Tekan teks untuk mengurutkan tipe</string>
+    <string name="tutorial_sort_by_arrow">Tekan panah untuk membalikan urutan</string>
+</resources>

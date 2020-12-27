@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_sort_by_text">Πάτα το κείμενο για να αλλάξεις την σειρά</string>
-    <string name="tutorial_sort_by_arrow">Πάτα το βέλος για να αντιστρέψεις την σειρά</string>
-
     <string name="tutorial_floating_window">Πάτα για να ανοίξεις ενα αιωρούμενο παράθυρο με τους στίχους και το YouTube βίντεο</string>
     <string name="tutorial_lyrics">Εμφάνιση αποθηκευμένων στίχων</string>
     <string name="tutorial_add_lyrics">Πρόσθεσε ή ενημέρωσε τους στίχους σου</string>

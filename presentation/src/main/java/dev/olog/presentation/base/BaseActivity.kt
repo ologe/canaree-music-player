@@ -7,7 +7,7 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.shared.widgets.extension.setLightStatusBar
 import dev.olog.shared.android.theme.immersiveAmbient
 
 abstract class BaseActivity : AppCompatActivity(), ThemedActivity {

@@ -34,6 +34,7 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.immersiveAmbient
 import dev.olog.shared.android.theme.playerAppearanceAmbient
+import dev.olog.shared.widgets.RestorableScrollHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -43,7 +44,8 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     SlidingPanelAmbient,
     HasBottomNavigation,
-    OnPermissionChanged {
+    OnPermissionChanged,
+    RestorableScrollHelper {
 
     private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
@@ -211,7 +213,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreUpperWidgetsTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }

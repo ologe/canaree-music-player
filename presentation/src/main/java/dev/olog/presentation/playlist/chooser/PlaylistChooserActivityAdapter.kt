@@ -6,9 +6,9 @@ import dev.olog.core.AppShortcuts
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
+import dev.olog.shared.widgets.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_tab_album.*

@@ -5,7 +5,7 @@ import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentAlbumModel
 import dev.olog.navigation.Navigator
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.base.adapter.*
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_album.*
 
 internal class DetailSiblingsAdapter(
@@ -31,7 +31,7 @@ internal class DetailSiblingsAdapter(
     ) = holder.bindView {
 
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
-        quickAction.setId(item.mediaId)
+//        quickAction.setId(item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
     }

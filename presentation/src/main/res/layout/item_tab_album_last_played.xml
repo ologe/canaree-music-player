@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.imageview.ShapeImageView
         android:id="@+id/cover"
         tools:src="@drawable/placeholder_album"
         android:layout_width="0dp"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1" />
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.shared.widgets.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"

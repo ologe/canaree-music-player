@@ -3,8 +3,8 @@ package dev.olog.presentation.thanks
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.lib.image.provider.GlideApp
-import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
+import dev.olog.shared.widgets.adapter.ObservableAdapter
 import dev.olog.presentation.model.SpecialThanksModel
 import kotlinx.android.synthetic.main.item_special_thanks.*
 

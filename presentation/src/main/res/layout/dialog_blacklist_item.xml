@@ -8,7 +8,7 @@
     android:layout_margin="5dp"
     tools:layout_width="150dp">
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.imageview.ShapeImageView
         android:id="@+id/cover"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -15,11 +15,11 @@ import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.offline.lyrics.*
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.shared.widgets.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.shared.widgets.extension.removeLightStatusBar
+import dev.olog.shared.widgets.extension.setLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tutorial_sort_by_text">Clica no texto para mudar o tipo de ordem</string>
+    <string name="tutorial_sort_by_arrow">Clica na seta para inverter a ordem</string>
+
+</resources>

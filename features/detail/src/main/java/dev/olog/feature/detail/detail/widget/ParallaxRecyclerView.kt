@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
+import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
 import kotlinx.android.synthetic.main.item_detail_image.*
 
 class ParallaxRecyclerView(

@@ -18,9 +18,9 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.shared.widgets.base.BaseFragment
+import dev.olog.shared.widgets.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

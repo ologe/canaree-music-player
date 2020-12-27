@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.shared.widgets.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.launchIn

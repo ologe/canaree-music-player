@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab.layoutmanager
 
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.ObservableAdapter
 import dev.olog.presentation.model.BaseModel
 
 class ArtistSpanSizeLookup(

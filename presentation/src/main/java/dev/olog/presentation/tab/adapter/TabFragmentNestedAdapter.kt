@@ -5,6 +5,7 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_tab_album_last_played.*
 
 internal class TabFragmentNestedAdapter(
@@ -29,7 +30,7 @@ internal class TabFragmentNestedAdapter(
         require(item is DisplayableAlbum)
 
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
-        quickAction.setId(item.mediaId)
+//        quickAction.setId(item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
     }

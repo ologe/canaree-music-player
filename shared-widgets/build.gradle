@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+androidExtensions {
+    experimental = true
+}
 
 dependencies {
     implementation project(':prefs-keys')
@@ -8,7 +14,12 @@ dependencies {
     implementation project(':shared')
 
     implementation lib_core.coroutines
+
     implementation lib_x.material
     implementation lib_x.core
     implementation lib_x.palette
+    implementation lib_x.constraint_layout
+
+    implementation lib_ui.tap_target_view
 }
+

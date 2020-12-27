@@ -2,8 +2,8 @@ package dev.olog.presentation.prefs.blacklist
 
 import androidx.core.view.isVisible
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.base.adapter.LayoutContainerViewHolder
-import dev.olog.presentation.base.adapter.SimpleAdapter
+import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
+import dev.olog.shared.widgets.adapter.SimpleAdapter
 import kotlinx.android.synthetic.main.dialog_blacklist_item.*
 
 class BlacklistFragmentAdapter(
@@ -14,10 +14,9 @@ class BlacklistFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.itemView.setOnClickListener {
-            getItem(viewHolder.adapterPosition)?.let { item ->
-                item.isBlacklisted = !item.isBlacklisted
-                notifyItemChanged(viewHolder.adapterPosition)
-            }
+            val item = getItem(viewHolder.adapterPosition)
+            item.isBlacklisted = !item.isBlacklisted
+            notifyItemChanged(viewHolder.adapterPosition)
         }
     }
 

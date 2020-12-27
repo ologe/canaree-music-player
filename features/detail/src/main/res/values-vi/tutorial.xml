@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tutorial_sort_by_text">Chạm vào chữ để đổi cách sắp xếp</string>
+    <string name="tutorial_sort_by_arrow">Chạm vào mũi tên để sắp xếp theo thứ tự ngược lại</string>
+
+</resources>

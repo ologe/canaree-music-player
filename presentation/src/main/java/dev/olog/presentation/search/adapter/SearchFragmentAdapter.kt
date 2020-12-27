@@ -5,14 +5,15 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
+import dev.olog.shared.widgets.adapter.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.SearchFragmentViewModel
+import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_search_header.*
 import kotlinx.android.synthetic.main.item_search_recent.*
 

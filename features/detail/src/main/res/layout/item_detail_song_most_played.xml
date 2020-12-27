@@ -23,7 +23,7 @@
         tools:layout_marginStart="8dp"
         tools:text="1" />
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.imageview.ShapeImageView
         android:id="@+id/cover"
         android:layout_width="@dimen/item_detail_most_played_cover_size"
         android:layout_height="@dimen/item_detail_most_played_cover_size"
@@ -60,7 +60,7 @@
         app:layout_goneMarginStart="0dp"
         tools:text="@tools:sample/lorem" />
 
-    <dev.olog.presentation.widgets.textview.ExplicitView
+    <dev.olog.shared.widgets.ExplicitView
         android:id="@+id/explicit"
         android:layout_width="16dp"
         android:layout_height="16dp"

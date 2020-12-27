@@ -2,7 +2,7 @@ package dev.olog.presentation.tab.layoutmanager
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.shared.widgets.adapter.ObservableAdapter
 import dev.olog.presentation.model.BaseModel
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
