@@ -22,7 +22,7 @@ import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.presentation.widgets.StatusBarView
+import dev.olog.shared.widgets.StatusBarView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.findActivity
