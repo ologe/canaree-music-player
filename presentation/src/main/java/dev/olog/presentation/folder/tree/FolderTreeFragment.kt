@@ -5,9 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.widgets.BreadCrumbLayout

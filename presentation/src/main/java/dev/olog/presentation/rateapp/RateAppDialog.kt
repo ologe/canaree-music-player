@@ -21,6 +21,7 @@ private var counterAlreadyIncreased = false
 private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
 private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
+@Deprecated("use in-app review API")
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val activity: FragmentActivity

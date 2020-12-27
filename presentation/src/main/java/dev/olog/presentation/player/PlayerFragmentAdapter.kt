@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
+import dev.olog.feature.base.adapter.*
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.adapter.drag.TouchableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerPlaybackState
@@ -13,8 +16,6 @@ import dev.olog.lib.media.model.PlayerState
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.shared.widgets.adapter.drag.IDragListener
-import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.NavigatorLegacy
@@ -28,7 +29,6 @@ import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.swapped
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_mini_queue.*
 import kotlinx.android.synthetic.main.layout_view_switcher.*
 import kotlinx.android.synthetic.main.player_controls_default.*

@@ -1,12 +1,12 @@
 package dev.olog.presentation.folder.tree
 
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.setOnClickListener
+import dev.olog.feature.base.adapter.setOnLongClickListener
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.ObservableAdapter
-import dev.olog.shared.widgets.adapter.setOnClickListener
-import dev.olog.shared.widgets.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.NavigatorLegacy
 import kotlinx.android.synthetic.main.item_folder_tree_track.*

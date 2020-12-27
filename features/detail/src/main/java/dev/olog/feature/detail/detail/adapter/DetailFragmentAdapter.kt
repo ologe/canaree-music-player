@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.shared.widgets.adapter.drag.IDragListener
-import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.detail.detail.DetailFragmentViewModel
 import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.feature.detail.detail.DetailSortDialog
@@ -23,7 +24,6 @@ import dev.olog.feature.detail.detail.model.DetailFragmentModel
 import dev.olog.navigation.Navigator
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swapped
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_biography.*
 import kotlinx.android.synthetic.main.item_detail_header.*
 import kotlinx.android.synthetic.main.item_detail_header.title

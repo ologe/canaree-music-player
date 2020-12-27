@@ -16,6 +16,8 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared-widgets')
 
+    implementation project(':features:base')
+
     implementation project(':libraries:image-provider')
     implementation project(':libraries:media')
 

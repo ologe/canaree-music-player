@@ -1,9 +1,9 @@
 package dev.olog.presentation.prefs.blacklist
 
 import androidx.core.view.isVisible
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.SimpleAdapter
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.SimpleAdapter
 import kotlinx.android.synthetic.main.dialog_blacklist_item.*
 
 class BlacklistFragmentAdapter(

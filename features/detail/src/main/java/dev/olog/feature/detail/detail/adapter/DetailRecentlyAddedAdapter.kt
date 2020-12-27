@@ -1,12 +1,12 @@
 package dev.olog.feature.detail.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentRecentlyAddedModel
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_song_recent.*
 
 internal class DetailRecentlyAddedAdapter(

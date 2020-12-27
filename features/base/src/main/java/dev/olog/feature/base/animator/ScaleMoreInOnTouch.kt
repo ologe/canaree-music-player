@@ -1,0 +1,18 @@
+package dev.olog.feature.base.animator
+
+import android.content.Context
+import android.view.View
+import dev.olog.feature.base.R
+
+class ScaleMoreInOnTouch(
+    private val view: View
+) : AnimateOnTouch() {
+
+    override fun animate(context: Context) {
+        setAnimationAndPlay(view, R.animator.scale_more_in)
+    }
+
+    override fun restore(context: Context) {
+        setAnimationAndPlay(view, R.animator.restore)
+    }
+}

@@ -9,16 +9,19 @@ androidExtensions {
 }
 
 dependencies {
-    implementation project(':navigation')
+    implementation project(':domain')
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
 
-    implementation project(':libraries:image-provider')
+    implementation project(':libraries:media')
 
     implementation lib_x.core
     implementation lib_x.appcompat
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.constraint_layout
+    implementation lib_x.preference
+
+    implementation lib_ui.color_desaturation
 }

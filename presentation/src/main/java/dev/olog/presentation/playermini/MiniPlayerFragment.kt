@@ -6,10 +6,10 @@ import androidx.core.math.MathUtils
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded

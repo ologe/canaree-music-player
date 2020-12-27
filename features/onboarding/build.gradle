@@ -13,6 +13,8 @@ dependencies {
 
     implementation project(':libraries:image-provider')
 
+    implementation project(':features:base')
+
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 

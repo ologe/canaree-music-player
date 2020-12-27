@@ -1,12 +1,12 @@
 package dev.olog.presentation.search.adapter
 
+import dev.olog.feature.base.adapter.*
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.SearchFragmentViewModel
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_search_album.*
 
 class SearchFragmentNestedAdapter(
@@ -33,7 +33,7 @@ class SearchFragmentNestedAdapter(
         require(item is DisplayableAlbum)
 
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
-//        quickAction.setId(item.mediaId)
+        quickAction.setId(item.mediaId)
         firstText.text = item.title
         secondText?.text = item.subtitle
     }

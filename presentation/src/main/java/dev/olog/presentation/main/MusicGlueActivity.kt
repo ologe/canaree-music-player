@@ -12,6 +12,7 @@ import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdModifier
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.feature.base.base.BaseActivity
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.lib.media.MediaExposer
@@ -20,7 +21,6 @@ import dev.olog.lib.media.connection.OnConnectionChanged
 import dev.olog.lib.media.customAction
 import dev.olog.lib.media.model.*
 import dev.olog.lib.media.playPause
-import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

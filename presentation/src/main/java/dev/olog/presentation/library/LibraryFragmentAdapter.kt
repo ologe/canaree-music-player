@@ -14,9 +14,9 @@ import dev.olog.shared.isInBounds
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 class LibraryFragmentAdapter(
-        private val context: Context,
-        fragmentManager: FragmentManager,
-        private val categories : List<LibraryCategoryBehavior>
+    private val context: Context,
+    fragmentManager: FragmentManager,
+    private val categories : List<LibraryCategoryBehavior>
 
 ) : FragmentPagerAdapter(fragmentManager) {
 

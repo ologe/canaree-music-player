@@ -16,11 +16,11 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.SetupNestedList
+import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.base.BaseFragment
-import dev.olog.shared.widgets.adapter.ObservableAdapter
-import dev.olog.shared.widgets.adapter.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

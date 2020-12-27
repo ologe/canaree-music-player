@@ -1,11 +1,11 @@
 package dev.olog.feature.detail.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentRelatedArtistModel
 import dev.olog.navigation.Navigator
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_detail_related_artist.*
 
 internal class DetailRelatedArtistsAdapter(
@@ -32,7 +32,7 @@ internal class DetailRelatedArtistsAdapter(
         ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
-//        quickAction.setId(item.mediaId)
+        quickAction.setId(item.mediaId)
     }
 }
 

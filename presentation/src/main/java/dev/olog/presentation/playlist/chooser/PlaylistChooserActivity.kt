@@ -6,8 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.AppShortcuts
+import dev.olog.feature.base.base.BaseActivity
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*

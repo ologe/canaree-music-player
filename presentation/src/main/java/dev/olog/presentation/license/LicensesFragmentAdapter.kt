@@ -2,9 +2,9 @@ package dev.olog.presentation.license
 
 import android.text.method.LinkMovementMethod
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.ObservableAdapter
-import dev.olog.shared.widgets.adapter.setOnClickListener
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.presentation.model.LicenseModel
 import kotlinx.android.synthetic.main.item_license.*
 

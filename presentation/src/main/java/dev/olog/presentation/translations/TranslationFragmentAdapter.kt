@@ -1,8 +1,8 @@
 package dev.olog.presentation.translations
 
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.SimpleAdapter
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.SimpleAdapter
 import dev.olog.presentation.navigator.NavigatorAbout
 import kotlinx.android.synthetic.main.item_translations_contributor.*
 

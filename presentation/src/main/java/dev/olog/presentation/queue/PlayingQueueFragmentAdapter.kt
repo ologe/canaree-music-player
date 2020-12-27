@@ -3,17 +3,17 @@ package dev.olog.presentation.queue
 import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.base.adapter.*
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.adapter.drag.TouchableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.adapter.drag.IDragListener
-import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swapped
-import dev.olog.shared.widgets.adapter.*
 import kotlinx.android.synthetic.main.item_playing_queue.*
 
 class PlayingQueueFragmentAdapter(

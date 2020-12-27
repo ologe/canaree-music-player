@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.base.RestorableScrollHelper
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
@@ -34,7 +35,6 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.immersiveAmbient
 import dev.olog.shared.android.theme.playerAppearanceAmbient
-import dev.olog.shared.widgets.RestorableScrollHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay

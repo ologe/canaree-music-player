@@ -6,11 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.feature.base.adapter.drag.DragListenerImpl
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.base.BaseFragment
-import dev.olog.shared.widgets.adapter.drag.DragListenerImpl
-import dev.olog.shared.widgets.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn

@@ -1,9 +1,9 @@
 package dev.olog.presentation.about
 
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.ObservableAdapter
-import dev.olog.shared.widgets.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout

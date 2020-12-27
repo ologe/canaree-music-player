@@ -1,14 +1,14 @@
 package dev.olog.presentation.prefs.categories
 
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
+import dev.olog.feature.base.adapter.SimpleAdapter
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.adapter.drag.TouchableAdapter
+import dev.olog.feature.base.adapter.setOnDragListener
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
-import dev.olog.shared.widgets.adapter.SimpleAdapter
-import dev.olog.shared.widgets.adapter.drag.IDragListener
-import dev.olog.shared.widgets.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.swap
-import dev.olog.shared.widgets.adapter.setOnDragListener
 import kotlinx.android.synthetic.main.item_library_categories.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

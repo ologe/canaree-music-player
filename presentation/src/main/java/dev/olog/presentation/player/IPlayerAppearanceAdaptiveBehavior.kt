@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
+import dev.olog.feature.base.adapter.LayoutContainerViewHolder
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.widgets.adapter.LayoutContainerViewHolder
 import dev.olog.shared.android.extensions.colorBackground
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.palette.ColorUtil

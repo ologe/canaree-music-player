@@ -70,24 +70,28 @@ dependencies {
     implementation project(':data')
     implementation project(':data-local')
     implementation project(':data-remote')
-    implementation project(':libraries:image-provider')
-    implementation project(':libraries:media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':shared-android')
-    implementation project(':shared-widgets')
-    implementation project(':service-music')
+
     implementation project(':service-floating')
-    implementation project(':libraries:offline-lyrics')
     implementation project(':intents')
     implementation project(':shared')
-    implementation project(':libraries:equalizer')
 
     implementation project(':navigation')
+
+    implementation project(':features:base')
     implementation project(':features:onboarding')
     implementation project(':features:detail')
 
+    implementation project(':libraries:media')
+    implementation project(':libraries:equalizer')
+    implementation project(':libraries:image-provider')
+    implementation project(':libraries:offline-lyrics')
     implementation project(':libraries:network')
+
+    implementation project(':shared-android')
+    implementation project(':shared-widgets')
+    implementation project(':service-music')
 
     implementation lib_core.coroutines
 
