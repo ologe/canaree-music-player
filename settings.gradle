@@ -4,6 +4,8 @@ include ':domain'
 include ':presentation'
 include ':app-shortcuts'
 
+include ':navigation'
+
 // data
 include ':data'
 include ':data-remote'

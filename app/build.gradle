@@ -83,6 +83,8 @@ dependencies {
     implementation project(':shared')
     implementation project(':libraries:equalizer')
 
+    implementation project(':navigation')
+
     implementation project(':libraries:network')
 
     implementation lib_core.coroutines
