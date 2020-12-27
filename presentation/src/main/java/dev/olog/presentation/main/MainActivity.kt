@@ -24,15 +24,9 @@ import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.presentation.utils.collapse
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.OnPermissionChanged
-import dev.olog.shared.android.Permission
-import dev.olog.shared.android.SlidingPanelAmbient
+import dev.olog.shared.android.*
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.slidingPanel
 import dev.olog.shared.android.theme.immersiveAmbient
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import kotlinx.android.synthetic.main.activity_main.*

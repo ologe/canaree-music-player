@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.math.MathUtils.clamp
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.collapse
+import dev.olog.shared.android.collapse
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.isTablet

@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.bottomsheet
+package dev.olog.feature.base.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

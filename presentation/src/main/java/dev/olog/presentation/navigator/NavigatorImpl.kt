@@ -27,9 +27,7 @@ import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
-import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.coroutine.viewScope
-import dev.olog.shared.android.slidingPanel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -3,14 +3,13 @@ package dev.olog.presentation.equalizer
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
-import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
+import dev.olog.feature.base.base.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
 import dev.olog.shared.android.extensions.launch
