@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.navigation.BottomNavigationPage
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.android.extensions.observeKey
@@ -22,10 +23,9 @@ internal class PresentationPreferencesImpl @Inject constructor(
 
         private const val FIRST_ACCESS = "$TAG.FIRST_ACCESS"
 
-        private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
-        private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
-        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
-        private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
+        private const val LIBRARY_TRACKS_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
+        private const val LIBRARY_PODCAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
+        private const val BOTTOM_NAVIGATION_PAGE = "$TAG.BOTTOM_VIEW_4"
 
         private const val CATEGORY_FOLDER_ORDER = "$TAG.CATEGORY_FOLDER_ORDER"
         private const val CATEGORY_PLAYLIST_ORDER = "$TAG.CATEGORY_PLAYLIST_ORDER"
@@ -65,42 +65,32 @@ internal class PresentationPreferencesImpl @Inject constructor(
         return isFirstAccess
     }
 
-    override fun getViewPagerLibraryLastPage(): Int {
-        return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
-    }
-
-    override fun setViewPagerLibraryLastPage(lastPage: Int) {
-        preferences.edit { putInt(VIEW_PAGER_LAST_PAGE, lastPage) }
-    }
-
-    override fun getViewPagerPodcastLastPage(): Int {
-        return preferences.getInt(VIEW_PAGER_PODCAST_LAST_PAGE, 1)
-    }
-
-    override fun setViewPagerPodcastLastPage(lastPage: Int) {
-        preferences.edit { putInt(VIEW_PAGER_PODCAST_LAST_PAGE, lastPage) }
-    }
-
-    override fun getLastBottomViewPage(): BottomNavigationPage {
-        val page =
-            preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
-        return BottomNavigationPage.valueOf(page)
-    }
-
-    override fun setLastBottomViewPage(page: BottomNavigationPage) {
-        preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
-    }
-
-    override fun getLastLibraryPage(): LibraryPage {
-        val page = preferences.getString(LIBRARY_LAST_PAGE, LibraryPage.TRACKS.toString())!!
-        return LibraryPage.valueOf(page)
-    }
-
-    override fun setLibraryPage(page: LibraryPage) {
-        preferences.edit {
-            putString(LIBRARY_LAST_PAGE, page.toString())
+    override var bottomNavigationPage: BottomNavigationPage
+        get() {
+            val page = preferences.getString(BOTTOM_NAVIGATION_PAGE, BottomNavigationPage.LIBRARY_TRACKS.toString())!!
+            return BottomNavigationPage.valueOf(page)
         }
-    }
+        set(value) {
+            preferences.edit {
+                putString(BOTTOM_NAVIGATION_PAGE, value.toString())
+            }
+        }
+
+    override var libraryTracksLastPage: Int
+        get() = preferences.getInt(LIBRARY_TRACKS_PAGE, 2)
+        set(value) {
+            preferences.edit {
+                putInt(LIBRARY_TRACKS_PAGE, value)
+            }
+        }
+
+    override var libraryPodcastsLastPage: Int
+        get() = preferences.getInt(LIBRARY_PODCAST_PAGE, 1)
+        set(value) {
+            preferences.edit {
+                putInt(LIBRARY_PODCAST_PAGE, value)
+            }
+        }
 
     override fun getLibraryCategories(): List<LibraryCategoryBehavior> {
         return listOf(

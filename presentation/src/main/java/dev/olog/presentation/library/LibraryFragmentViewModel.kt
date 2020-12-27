@@ -5,8 +5,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.navigation.BottomNavigationPage
+import dev.olog.navigation.Params
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.argument
 
@@ -16,22 +17,22 @@ internal class LibraryFragmentViewModel @ViewModelInject constructor(
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ): ViewModel() {
 
-    private val isPodcast = state.argument<Boolean>(LibraryFragment.IS_PODCAST)
+    private val isPodcast = state.argument<Boolean>(Params.IS_PODCAST)
 
     fun getViewPagerLastPage(totalPages: Int): Int {
         val lastPage = if (isPodcast) {
-            appPrefsUseCase.getViewPagerPodcastLastPage()
+            appPrefsUseCase.libraryPodcastsLastPage
         } else {
-            appPrefsUseCase.getViewPagerLibraryLastPage()
+            appPrefsUseCase.libraryTracksLastPage
         }
         return lastPage.coerceIn(0, totalPages)
     }
 
     fun setViewPagerLastPage(page: Int) {
         if (isPodcast) {
-            appPrefsUseCase.setViewPagerPodcastLastPage(page)
+            appPrefsUseCase.libraryPodcastsLastPage = page
         } else {
-            appPrefsUseCase.setViewPagerLibraryLastPage(page)
+            appPrefsUseCase.libraryTracksLastPage = page
         }
     }
 
@@ -48,8 +49,8 @@ internal class LibraryFragmentViewModel @ViewModelInject constructor(
             .filter { it.visible }
     }
 
-    fun setLibraryPage(page: LibraryPage) {
-        appPrefsUseCase.setLibraryPage(page)
+    fun setLibraryPage(page: BottomNavigationPage) {
+        appPrefsUseCase.bottomNavigationPage = page
     }
 
     fun canShowPodcasts() = appPrefsUseCase.canShowPodcasts()

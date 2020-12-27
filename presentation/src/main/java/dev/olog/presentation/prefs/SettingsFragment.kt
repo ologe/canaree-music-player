@@ -20,8 +20,8 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.lib.image.provider.GlideApp
 import dev.olog.lib.image.provider.creator.ImagesFolderUtils
+import dev.olog.navigation.BottomNavigationPage
 import dev.olog.presentation.R
-import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
@@ -154,7 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
-                presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
+                presentationPrefs.bottomNavigationPage = BottomNavigationPage.LIBRARY_TRACKS
                 requireActivity().recreate()
             }
         }

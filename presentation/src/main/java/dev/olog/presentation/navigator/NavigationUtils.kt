@@ -2,8 +2,8 @@ package dev.olog.presentation.navigator
 
 import android.util.Log
 import androidx.fragment.app.*
+import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.presentation.R
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.android.extensions.getTopFragment
@@ -16,8 +16,8 @@ var backStackCount = mutableMapOf<String, Int>()
 private var lastRequest: Long = -1
 
 private val basicFragments = listOf(
-    LibraryFragment.TAG_TRACK,
-    LibraryFragment.TAG_PODCAST,
+    FragmentScreen.LIBRARY_TRACKS.tag,
+    FragmentScreen.LIBRARY_PODCASTS.tag,
     SearchFragment.TAG,
     PlayingQueueFragment.TAG
 )

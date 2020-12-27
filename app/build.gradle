@@ -61,7 +61,6 @@ android {
 
 dependencies {
     implementation project(':app-shortcuts')
-    implementation project(':analytics')
     implementation project(':domain')
     implementation project(':data')
     implementation project(':data-local')

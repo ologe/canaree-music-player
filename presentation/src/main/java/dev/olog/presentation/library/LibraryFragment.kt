@@ -6,14 +6,13 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.base.base.BaseFragment
+import dev.olog.navigation.BottomNavigationPage
+import dev.olog.navigation.Params
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
@@ -26,13 +25,9 @@ import javax.inject.Inject
 class LibraryFragment : BaseFragment() {
 
     companion object {
-        val TAG_TRACK = LibraryFragment::class.java.name
-        val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
-        const val IS_PODCAST = "IS_PODCAST"
-
         fun newInstance(isPodcast: Boolean): LibraryFragment {
             return LibraryFragment().withArguments(
-                IS_PODCAST to isPodcast
+                Params.IS_PODCAST to isPodcast
             )
         }
     }
@@ -41,10 +36,8 @@ class LibraryFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: NavigatorLegacy
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
 
-    private val isPodcast by argument<Boolean>(IS_PODCAST)
+    private val isPodcast by argument<Boolean>(Params.IS_PODCAST)
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
@@ -101,8 +94,8 @@ class LibraryFragment : BaseFragment() {
         more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
-        tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
-        podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
+        tracks.setOnClickListener { changeLibraryPage(BottomNavigationPage.LIBRARY_TRACKS) }
+        podcasts.setOnClickListener { changeLibraryPage(BottomNavigationPage.LIBRARY_PODCASTS) }
     }
 
     override fun onPause() {
@@ -119,9 +112,9 @@ class LibraryFragment : BaseFragment() {
         viewPager.adapter = null
     }
 
-    private fun changeLibraryPage(page: LibraryPage) {
+    private fun changeLibraryPage(page: BottomNavigationPage) {
         viewModel.setLibraryPage(page)
-        (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
+        (requireActivity() as HasBottomNavigation).navigate(page)
     }
 
     private fun createMediaId(): MediaIdCategory? {
@@ -144,10 +137,6 @@ class LibraryFragment : BaseFragment() {
 
             override fun onPageSelected(position: Int) {
                 viewModel.setViewPagerLastPage(position)
-                pagerAdapter.getCategoryAtPosition(position)?.let {
-                    trackerFacade.trackScreen(it.toString(), null)
-                }
-
             }
         }
 

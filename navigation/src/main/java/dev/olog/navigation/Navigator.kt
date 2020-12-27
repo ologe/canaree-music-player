@@ -3,7 +3,7 @@ package dev.olog.navigation
 import android.view.View
 import dev.olog.core.MediaId
 
-interface Navigator {
+interface Navigator : BottomNavigator {
 
     fun toFirstAccess()
 

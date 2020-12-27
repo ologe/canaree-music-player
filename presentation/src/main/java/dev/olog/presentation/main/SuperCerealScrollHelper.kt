@@ -83,7 +83,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {
         val tag = fragment.tag
-        if (tag == LibraryFragment.TAG_TRACK || tag == LibraryFragment.TAG_PODCAST){
+        if (tag == FragmentScreen.LIBRARY_TRACKS.tag || tag == FragmentScreen.LIBRARY_PODCASTS.tag) {
             return fragment.view?.findViewByIdNotRecursive(R.id.viewPager)
         }
         return null

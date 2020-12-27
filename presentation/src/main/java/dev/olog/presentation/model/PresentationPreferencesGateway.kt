@@ -1,22 +1,17 @@
 package dev.olog.presentation.model
 
+import dev.olog.navigation.BottomNavigationPage
 import dev.olog.presentation.tab.TabCategory
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway {
 
-    fun getLastBottomViewPage(): BottomNavigationPage
-    fun setLastBottomViewPage(page: BottomNavigationPage)
-
-    fun getLastLibraryPage(): LibraryPage
-    fun setLibraryPage(page: LibraryPage)
+    var bottomNavigationPage: BottomNavigationPage
 
     fun isFirstAccess(): Boolean
 
-    fun getViewPagerLibraryLastPage(): Int
-    fun setViewPagerLibraryLastPage(lastPage: Int)
-    fun getViewPagerPodcastLastPage(): Int
-    fun setViewPagerPodcastLastPage(lastPage: Int)
+    var libraryTracksLastPage: Int
+    var libraryPodcastsLastPage: Int
 
     fun getLibraryCategories() : List<LibraryCategoryBehavior>
     fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior>

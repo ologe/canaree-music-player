@@ -22,7 +22,6 @@ include ':service-floating'
 //libs
 include ':libraries:network'
 include ':libraries:equalizer'
-include ':analytics'
 include ':libraries:offline-lyrics'
 include ':libraries:media'
 include ':libraries:jaudiotagger'

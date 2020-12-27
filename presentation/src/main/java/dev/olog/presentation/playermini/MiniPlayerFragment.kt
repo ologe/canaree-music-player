@@ -10,7 +10,7 @@ import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.expand
+import dev.olog.shared.android.expand
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.isCollapsed
 import dev.olog.shared.android.isExpanded

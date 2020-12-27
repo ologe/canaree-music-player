@@ -2,11 +2,9 @@ package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
-import dev.olog.analytics.TrackerFacade
 import dev.olog.core.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
-import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import dev.olog.navigation.internal.ActivityProvider
 import io.alterac.blurkit.BlurKit
 import timber.log.Timber
@@ -24,9 +22,6 @@ class App : ThemedApp() {
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
 
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
-
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
@@ -36,7 +31,6 @@ class App : ThemedApp() {
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
-        registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
 
     private fun initializeComponents() {

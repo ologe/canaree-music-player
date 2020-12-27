@@ -1,23 +1,25 @@
 package dev.olog.navigation.internal
 
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.core.MediaId
+import dev.olog.navigation.BottomNavigator
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
 import dev.olog.navigation.destination.FragmentScreen
+import dev.olog.navigation.utils.findFirstVisibleFragment
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class NavigatorImpl @Inject constructor(
+    bottomNavigator: BottomNavigatorImpl,
     private val activityProvider: ActivityProvider,
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
 ) : BaseNavigator(),
-    Navigator {
+    Navigator,
+    BottomNavigator by bottomNavigator {
 
     override fun toFirstAccess() {
         val activity = activityProvider() ?: return
@@ -48,7 +50,7 @@ internal class NavigatorImpl @Inject constructor(
             Params.MEDIA_ID to mediaId.toString(),
         )
 
-        val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val topFragment = activity.supportFragmentManager.findFirstVisibleFragment()
         addFragment(activity, fragment, tag) {
             addToBackStack(tag)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -58,38 +60,6 @@ internal class NavigatorImpl @Inject constructor(
 
     override fun toDialog(mediaId: MediaId, view: View) {
         TODO("Not yet implemented")
-    }
-
-    // TODO move, search for all copies
-    private val basicFragments = listOf<String>(
-//        LibraryFragment.TAG_TRACK,
-//        LibraryFragment.TAG_PODCAST,
-//        SearchFragment.TAG,
-//        PlayingQueueFragment.TAG
-    )
-
-    // TODO move, search for all copies
-    private fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
-        var topFragment = fragmentManager.getTopFragment()
-        if (topFragment == null) {
-            topFragment = fragmentManager.fragments
-                .filter { it.isVisible }
-                .firstOrNull { basicFragments.contains(it.tag) }
-        }
-        if (topFragment == null) {
-            Log.e("Navigator", "Something went wrong, for some reason no fragment was found")
-        }
-        return topFragment
-    }
-
-    // TODO move, search for all copies
-    private fun FragmentManager.getTopFragment(): Fragment? {
-        val topFragment = this.backStackEntryCount - 1
-        if (topFragment > -1) {
-            val tag = this.getBackStackEntryAt(topFragment).name
-            return this.findFragmentByTag(tag)
-        }
-        return null
     }
 
 }
