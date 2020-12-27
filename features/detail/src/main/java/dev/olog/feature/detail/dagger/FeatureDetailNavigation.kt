@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoMap
 import dev.olog.feature.detail.detail.DetailFragment
+import dev.olog.feature.detail.recently.added.RecentlyAddedFragment
 import dev.olog.feature.detail.related.artist.RelatedArtistFragment
 import dev.olog.navigation.dagger.FragmentScreenKey
 import dev.olog.navigation.destination.FragmentScreen
@@ -24,5 +25,10 @@ object FeatureDetailNavigation {
     @IntoMap
     @FragmentScreenKey(FragmentScreen.RELATED_ARTISTS)
     fun provideRelatedArtistsFragment(): Fragment = RelatedArtistFragment()
+
+    @Provides
+    @IntoMap
+    @FragmentScreenKey(FragmentScreen.RECENTLY_ADDED)
+    fun provideRecentlyAddedFragment(): Fragment = RecentlyAddedFragment()
 
 }

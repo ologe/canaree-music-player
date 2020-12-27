@@ -1,24 +1,24 @@
-package dev.olog.presentation.recentlyadded
+package dev.olog.feature.detail.recently.added
 
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.adapter.drag.TouchableAdapter
-import dev.olog.lib.media.MediaProvider
+import dev.olog.feature.detail.R
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.lib.media.MediaProvider
+import dev.olog.navigation.Navigator
 import kotlinx.android.synthetic.main.item_recently_added.*
 
 class RecentlyAddedFragmentAdapter(
-    private val navigator: NavigatorLegacy,
+    private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+) : ObservableAdapter<RecentlyAddedFragmentModel>(RecentlyAddedFragmentModelDiff),
     TouchableAdapter {
+
+    override fun getItemViewType(position: Int): Int = R.layout.item_recently_added
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -36,10 +36,9 @@ class RecentlyAddedFragmentAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: DisplayableItem,
+        item: RecentlyAddedFragmentModel,
         position: Int
     ) = holder.bindView {
-        require(item is DisplayableTrack)
 
         ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
@@ -56,4 +55,21 @@ class RecentlyAddedFragmentAdapter(
         mediaProvider.addToPlayNext(item.mediaId)
     }
 
+}
+
+private object RecentlyAddedFragmentModelDiff : DiffUtil.ItemCallback<RecentlyAddedFragmentModel>() {
+
+    override fun areItemsTheSame(
+        oldItem: RecentlyAddedFragmentModel,
+        newItem: RecentlyAddedFragmentModel
+    ): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun areContentsTheSame(
+        oldItem: RecentlyAddedFragmentModel,
+        newItem: RecentlyAddedFragmentModel
+    ): Boolean {
+        return oldItem == newItem
+    }
 }

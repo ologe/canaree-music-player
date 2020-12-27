@@ -27,10 +27,22 @@ internal class NavigatorImpl @Inject constructor(
     }
 
     override fun toDetailFragment(mediaId: MediaId) {
-        val activity = activityProvider() ?: return
         // TODO collapse sliding panel here
-        val fragment = fragments[FragmentScreen.DETAIL]?.get()
-        val tag = createBackStackTag(FragmentScreen.DETAIL.tag)
+        toDetailScreen(FragmentScreen.DETAIL, mediaId)
+    }
+
+    override fun toRelatedArtists(mediaId: MediaId) {
+        toDetailScreen(FragmentScreen.RELATED_ARTISTS, mediaId)
+    }
+
+    override fun toRecentlyAdded(mediaId: MediaId) {
+        toDetailScreen(FragmentScreen.RECENTLY_ADDED, mediaId)
+    }
+
+    private fun toDetailScreen(screen: FragmentScreen, mediaId: MediaId) {
+        val activity = activityProvider() ?: return
+        val fragment = fragments[screen]?.get()
+        val tag = createBackStackTag(screen.tag)
 
         fragment?.arguments = bundleOf(
             Params.MEDIA_ID to mediaId.toString(),
@@ -42,34 +54,13 @@ internal class NavigatorImpl @Inject constructor(
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             topFragment?.let { hide(it) }
         }
-    }
-
-    override fun toRecentlyAdded(mediaId: MediaId) {
-        TODO("Not yet implemented")
     }
 
     override fun toDialog(mediaId: MediaId, view: View) {
         TODO("Not yet implemented")
     }
 
-    override fun toRelatedArtists(mediaId: MediaId) {
-        val activity = activityProvider() ?: return
-        val fragment = fragments[FragmentScreen.RELATED_ARTISTS]?.get()
-        val tag = createBackStackTag(FragmentScreen.RELATED_ARTISTS.tag)
-
-        fragment?.arguments = bundleOf(
-            Params.MEDIA_ID to mediaId.toString(),
-        )
-
-        val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
-        addFragment(activity, fragment, tag) {
-            addToBackStack(tag)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            topFragment?.let { hide(it) }
-        }
-    }
-
-    // TODO move
+    // TODO move, search for all copies
     private val basicFragments = listOf<String>(
 //        LibraryFragment.TAG_TRACK,
 //        LibraryFragment.TAG_PODCAST,
@@ -77,8 +68,8 @@ internal class NavigatorImpl @Inject constructor(
 //        PlayingQueueFragment.TAG
     )
 
-    // TODO move
-    fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
+    // TODO move, search for all copies
+    private fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
         var topFragment = fragmentManager.getTopFragment()
         if (topFragment == null) {
             topFragment = fragmentManager.fragments
@@ -91,7 +82,7 @@ internal class NavigatorImpl @Inject constructor(
         return topFragment
     }
 
-    // TODO move
+    // TODO move, search for all copies
     private fun FragmentManager.getTopFragment(): Fragment? {
         val topFragment = this.backStackEntryCount - 1
         if (topFragment > -1) {

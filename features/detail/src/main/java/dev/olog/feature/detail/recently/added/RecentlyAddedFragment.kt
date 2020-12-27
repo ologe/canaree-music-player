@@ -1,20 +1,18 @@
-package dev.olog.presentation.recentlyadded
+package dev.olog.feature.detail.recently.added
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.base.BaseFragment
+import dev.olog.feature.detail.R
 import dev.olog.lib.media.mediaProvider
-import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
-import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.coroutines.flow.onEach
@@ -23,19 +21,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
-    companion object {
-        val TAG = RecentlyAddedFragment::class.java.name
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-
-        fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
-            return RecentlyAddedFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
-            )
-        }
-    }
-
     @Inject
-    lateinit var navigator: NavigatorLegacy
+    lateinit var navigator: Navigator
+
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
             navigator = navigator,

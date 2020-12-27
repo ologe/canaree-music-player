@@ -1,4 +1,4 @@
-package dev.olog.presentation.recentlyadded
+package dev.olog.feature.detail.recently.added
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -9,10 +9,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.recentlyadded.RecentlyAddedFragment.Companion.ARGUMENTS_MEDIA_ID
+import dev.olog.navigation.Params
+import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
@@ -25,11 +23,11 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
+    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val dataPublisher = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val dataPublisher = MutableStateFlow<List<RecentlyAddedFragmentModel>>(emptyList())
     private val titlePublisher = MutableStateFlow("")
 
     init {
@@ -45,18 +43,14 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun observeData(): Flow<List<DisplayableItem>> = dataPublisher
+    fun observeData(): Flow<List<RecentlyAddedFragmentModel>> = dataPublisher
     fun observeTitle(): Flow<String> = titlePublisher
 
-    private fun Song.toRecentDetailDisplayableItem(): DisplayableItem {
-        return DisplayableTrack(
-            type = R.layout.item_recently_added,
+    private fun Song.toRecentDetailDisplayableItem(): RecentlyAddedFragmentModel {
+        return RecentlyAddedFragmentModel(
             mediaId = MediaId.playableItem(mediaId, id),
             title = title,
-            artist = artist,
-            album = album,
-            idInPlaylist = idInPlaylist,
-            dataModified = this.dateModified
+            subtitle = DisplayableItemUtils.trackSubtitle(artist, album),
         )
     }
 

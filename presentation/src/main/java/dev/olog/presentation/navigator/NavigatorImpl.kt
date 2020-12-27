@@ -25,7 +25,6 @@ import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
-import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,15 +47,6 @@ class NavigatorImpl @Inject internal constructor(
 //            dev.olog.feature.detail.detail.DetailFragment.newInstance(mediaId),
 //            newTag
 //        )
-    }
-
-    override fun toRecentlyAdded(mediaId: MediaId) {
-        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
-        superCerealTransition(
-            activity,
-            RecentlyAddedFragment.newInstance(mediaId),
-            newTag
-        )
     }
 
     override fun toOfflineLyrics() {
