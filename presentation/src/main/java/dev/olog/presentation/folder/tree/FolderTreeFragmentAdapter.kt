@@ -8,13 +8,13 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import kotlinx.android.synthetic.main.item_detail_related_artist.*
 
 class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator
+    private val navigator: NavigatorLegacy
 ) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {

@@ -5,7 +5,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 
-interface Navigator {
+@Deprecated("")
+interface NavigatorLegacy {
 
     fun toFirstAccess()
 

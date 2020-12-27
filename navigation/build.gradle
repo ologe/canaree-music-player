@@ -1,7 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':domain')
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
+    implementation lib_x.core
+    implementation lib_x.fragments
+    implementation lib_x.material
 }

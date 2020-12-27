@@ -11,7 +11,7 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.SearchFragmentViewModel
 import kotlinx.android.synthetic.main.item_search_header.*
 import kotlinx.android.synthetic.main.item_search_recent.*
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_search_recent.*
 class SearchFragmentAdapter(
     private val setupNestedList: SetupNestedList,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val viewModel: SearchFragmentViewModel
 
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),

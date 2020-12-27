@@ -18,7 +18,7 @@ import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -51,7 +51,7 @@ class DetailFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
 
     private val viewModel by viewModels<DetailFragmentViewModel>()
 

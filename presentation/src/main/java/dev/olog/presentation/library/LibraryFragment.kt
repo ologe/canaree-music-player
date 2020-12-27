@@ -14,7 +14,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -40,7 +40,7 @@ class LibraryFragment : BaseFragment() {
     private val viewModel by viewModels<LibraryFragmentViewModel>()
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
     @Inject
     lateinit var trackerFacade: TrackerFacade
 

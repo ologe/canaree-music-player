@@ -17,7 +17,7 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
@@ -89,7 +89,7 @@ class SearchFragment : BaseFragment(),
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

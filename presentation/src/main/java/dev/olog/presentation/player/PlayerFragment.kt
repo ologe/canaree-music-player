@@ -15,7 +15,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.interfaces.slidingPanel
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
@@ -40,7 +40,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
 
     private lateinit var layoutManager: LinearLayoutManager
 

@@ -42,7 +42,7 @@ class NavigatorImpl @Inject internal constructor(
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
-) : Navigator {
+) : NavigatorLegacy {
 
     override fun toFirstAccess() {
         activity.supportFragmentManager.commit {

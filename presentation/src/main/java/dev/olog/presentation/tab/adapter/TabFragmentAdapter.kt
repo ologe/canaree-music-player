@@ -9,7 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.*
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_tab_podcast.*
 import kotlinx.android.synthetic.main.item_tab_song.*
 
 internal class TabFragmentAdapter(
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val mediaProvider: MediaProvider,
     private val viewModel: TabFragmentViewModel,
     private val setupNestedList: SetupNestedList

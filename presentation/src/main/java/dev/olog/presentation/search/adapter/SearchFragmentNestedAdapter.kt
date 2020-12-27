@@ -4,12 +4,12 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.search.SearchFragmentViewModel
 import kotlinx.android.synthetic.main.item_search_album.*
 
 class SearchFragmentNestedAdapter(
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val viewModel: SearchFragmentViewModel
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 

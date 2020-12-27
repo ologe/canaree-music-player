@@ -20,7 +20,7 @@ import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
@@ -42,7 +42,7 @@ class MainActivity : MusicGlueActivity(),
 
     private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
 
     @Suppress("unused")
     @Inject

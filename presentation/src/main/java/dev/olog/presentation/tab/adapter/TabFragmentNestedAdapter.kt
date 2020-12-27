@@ -4,11 +4,11 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import kotlinx.android.synthetic.main.item_tab_album_last_played.*
 
 internal class TabFragmentNestedAdapter(
-    private val navigator: Navigator
+    private val navigator: NavigatorLegacy
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {

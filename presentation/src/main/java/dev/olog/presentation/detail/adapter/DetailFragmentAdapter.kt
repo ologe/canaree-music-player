@@ -23,7 +23,7 @@ import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPA
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swapped
@@ -43,7 +43,7 @@ import kotlinx.coroutines.flow.onEach
 internal class DetailFragmentAdapter(
     private val mediaId: MediaId,
     private val setupNestedList: SetupNestedList,
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener

@@ -24,7 +24,7 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
@@ -54,7 +54,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(navigator)

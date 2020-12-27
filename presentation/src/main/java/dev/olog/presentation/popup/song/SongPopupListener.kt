@@ -7,14 +7,14 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import javax.inject.Inject
 
 class SongPopupListener @Inject constructor(
     private val activity: FragmentActivity,
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 

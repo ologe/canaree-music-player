@@ -7,7 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.extensions.withArguments
@@ -31,7 +31,7 @@ class RelatedArtistFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
     private val adapter by lazyFast {
         RelatedArtistFragmentAdapter(navigator)
     }

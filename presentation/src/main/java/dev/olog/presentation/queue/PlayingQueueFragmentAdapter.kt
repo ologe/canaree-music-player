@@ -10,7 +10,7 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swapped
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_playing_queue.*
 
 class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
 

@@ -6,11 +6,11 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import kotlinx.android.synthetic.main.item_detail_song_most_played.*
 
 class DetailMostPlayedAdapter(
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val mediaProvider: MediaProvider
 ) : ObservableAdapter<DisplayableTrack>(DiffCallbackMostPlayed) {
 

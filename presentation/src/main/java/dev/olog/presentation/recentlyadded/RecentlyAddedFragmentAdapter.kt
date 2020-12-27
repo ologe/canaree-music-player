@@ -9,11 +9,11 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import kotlinx.android.synthetic.main.item_recently_added.*
 
 class RecentlyAddedFragmentAdapter(
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),

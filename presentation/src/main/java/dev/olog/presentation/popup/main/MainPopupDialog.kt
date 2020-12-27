@@ -15,7 +15,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
 import dev.olog.shared.android.extensions.findActivity
@@ -39,7 +39,7 @@ internal class MainPopupDialog @Inject constructor(
      *                 [MediaId.playingQueueId] when from playing queue
      *                 valid category when form tab
      */
-    fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
+    fun show(anchor: View, navigator: NavigatorLegacy, category: MediaIdCategory?) {
         val popup = CascadePopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
             MediaIdCategory.ALBUMS -> R.menu.main_albums

@@ -18,7 +18,7 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
@@ -50,7 +50,7 @@ import me.saket.cascade.CascadePopupMenu
 
 internal class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
+    private val navigator: NavigatorLegacy,
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter,
     private val dragListener: IDragListener,

@@ -14,7 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.launch
@@ -40,7 +40,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorLegacy
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
