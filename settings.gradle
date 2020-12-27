@@ -6,6 +6,7 @@ include ':app-shortcuts'
 
 include ':navigation'
 include ':features:onboarding'
+include ':features:detail'
 
 // data
 include ':data'

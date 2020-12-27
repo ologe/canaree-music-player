@@ -85,6 +85,7 @@ dependencies {
 
     implementation project(':navigation')
     implementation project(':features:onboarding')
+    implementation project(':features:detail')
 
     implementation project(':libraries:network')
 
