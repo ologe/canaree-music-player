@@ -21,7 +21,11 @@ fun main() {
     val fromModule = args[0]
     val toModule = args[1]
     val resourceType = args[2]
-    val fileName = "${args[3]}.xml"
+    var fileName = args[3]
+    if (File(fileName).extension.isBlank()) {
+        // append .xml if no extensions is explicited
+        fileName = fileName + ".xml"
+    }
 
     val rootDir = Paths.get("").toAbsolutePath().parent
     val fromPath = "$rootDir/${fromModule}/src/main/res/${resourceType}"
