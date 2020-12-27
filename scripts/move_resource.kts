@@ -26,6 +26,7 @@ fun main() {
         // append .xml if no extensions is explicited
         fileName = fileName + ".xml"
     }
+    val copy = args.getOrNull(4) == "copy"
 
     val rootDir = Paths.get("").toAbsolutePath().parent
     val fromPath = "$rootDir/${fromModule}/src/main/res/${resourceType}"
@@ -59,9 +60,13 @@ fun main() {
             p.mkdirs()
         }
 
-        Files.move(File(f).toPath(), File(newModulePath).toPath(), StandardCopyOption.REPLACE_EXISTING)
+        if (copy) {
+            Files.copy(File(f).toPath(), File(newModulePath).toPath(), StandardCopyOption.REPLACE_EXISTING)
+        } else {
+            Files.move(File(f).toPath(), File(newModulePath).toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
 
-        println("moved ${index + 1}/${filesToMove.size}")
+        println("${if (copy) "copied" else "moved"}  ${index + 1}/${filesToMove.size}")
     }
 
     println("Done")
@@ -81,13 +86,14 @@ enum class ResourceType(val value: String) {
 }
 
 fun sanityChecks(): Boolean {
-    if (args.size != 4) {
+    if (args.size !in 4..5) {
         println("""
             4 arguments needed:
               1) from module
               2) to module
               3) resource type
               4) file name
+              5) "copy" (optional)
         """.trimIndent())
         return false
     }
