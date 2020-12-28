@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_floating_window">Click to open a floating window with lyrics and youtube video</string>
     <string name="tutorial_lyrics">सुरक्षित गाने के बोल देखें</string>
     <string name="tutorial_add_lyrics">गाने के बोल जोड़ें या हटाएँ</string>
     <string name="tutorial_search_lyrics">गाने के बोल इंटरनेट पर ढूंढें</string>

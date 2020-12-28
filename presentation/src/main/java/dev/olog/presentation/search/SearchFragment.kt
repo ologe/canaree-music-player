@@ -169,7 +169,9 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        more.setOnClickListener {
+//            navigator.toMainPopup(it, null) // TODO create search popup
+        }
     }
 
     override fun onPause() {

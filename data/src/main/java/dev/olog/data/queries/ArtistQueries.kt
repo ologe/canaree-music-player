@@ -9,7 +9,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 
@@ -18,7 +18,7 @@ internal class ArtistQueries(
     private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     isPodcast: Boolean
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 

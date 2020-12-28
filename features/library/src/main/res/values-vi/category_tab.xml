@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tab_auto_playlists">Danh sách phát tự động</string>
+    <string name="tab_all_playlists">Tất cả các danh sách phát</string>
+    <string name="tab_all_albums">Tất cả các album</string>
+    <string name="tab_all_artists">Tất cả các nghệ sĩ</string>
+    <string name="tab_recent_played">Được phát gần đây</string>
+    <string name="tab_recent_added">Được thêm gần đây</string>
+
+    <string-array name="tab_recently_added">
+        <item>Album mới</item>
+        <item>Nhạc sĩ mới</item>
+    </string-array>
+
+    <string name="tab_podcast_duration" translatable="false">%d phút</string>
+
+</resources>

@@ -10,7 +10,7 @@ import dev.olog.core.gateway.base.HasLastPlayed
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.local.recently.played.RecentlyPlayedPodcastArtistDao
 import dev.olog.data.mapper.toArtist
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 internal class PodcastArtistRepository @Inject constructor(
     @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: RecentlyPlayedPodcastArtistDao,
     schedulers: Schedulers

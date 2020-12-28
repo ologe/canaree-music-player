@@ -122,7 +122,7 @@
         android:paddingStart="@dimen/playing_queue_margin_horizontal"
         android:paddingEnd="@dimen/playing_queue_margin_horizontal"/>
 
-    <dev.olog.presentation.widgets.fascroller.RxWaveSideBarView
+    <dev.olog.shared.widgets.scroller.RxWaveSideBarView
         android:id="@+id/sidebar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

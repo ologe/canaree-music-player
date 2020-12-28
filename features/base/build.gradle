@@ -16,6 +16,8 @@ dependencies {
 
     implementation project(':libraries:media')
 
+    implementation project(':navigation')
+
     implementation lib_x.core
     implementation lib_x.appcompat
     implementation lib_x.fragments

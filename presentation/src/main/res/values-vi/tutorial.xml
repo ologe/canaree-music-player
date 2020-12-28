@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_floating_window">Chạm để mở một cửa sổ thả nổi với lời và video trên YouTube</string>
     <string name="tutorial_lyrics">Hiển thị lời bài hát đã lưu</string>
     <string name="tutorial_add_lyrics">Thêm hoặc sửa lời bài hát</string>
     <string name="tutorial_search_lyrics">Tìm lời bài hát ở trên mạng</string>

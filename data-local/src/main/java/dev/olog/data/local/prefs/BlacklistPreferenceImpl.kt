@@ -5,7 +5,7 @@ import androidx.core.content.edit
 import dev.olog.core.prefs.BlacklistPreferences
 import javax.inject.Inject
 
-class BlacklistPreferenceImpl @Inject constructor(
+internal class BlacklistPreferenceImpl @Inject constructor(
     private val preferences: SharedPreferences
 ) : BlacklistPreferences {
 
@@ -22,7 +22,8 @@ class BlacklistPreferenceImpl @Inject constructor(
         preferences.edit { putStringSet(BLACKLIST, set) }
     }
 
-    override fun setDefault() {
+    // TODO reset all??
+    override fun reset() {
         setBlackList(setOf())
     }
 

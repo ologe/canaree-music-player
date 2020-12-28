@@ -16,7 +16,7 @@ import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.offline.lyrics.*
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.feature.base.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.widgets.extension.removeLightStatusBar
 import dev.olog.shared.widgets.extension.setLightStatusBar

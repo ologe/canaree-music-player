@@ -12,7 +12,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     blacklistPrefs: BlacklistPreferences,
     schedulers: Schedulers
 ) : BaseRepository<Song, Id>(context, schedulers), SongGateway {

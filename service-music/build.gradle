@@ -48,8 +48,6 @@ dependencies {
 
     implementation lib_utils.last_fm_binding
 
-    implementation lib_debug.timber
-
     implementation 'com.google.android.exoplayer:exoplayer-core:2.12.2'
 //    implementation project(':exoplayer-library-core') // TODO restore
 //    implementation project(':exoplayer-extension-flac')

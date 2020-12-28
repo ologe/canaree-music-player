@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tab_auto_playlists">Auto playlists</string>
+    <string name="tab_all_playlists">All playlists</string>
+    <string name="tab_all_albums">All albums</string>
+    <string name="tab_all_artists">All artists</string>
+    <string name="tab_recent_played">Recently played</string>
+    <string name="tab_recent_added">Recently added</string>
+
+    <string-array name="tab_recently_added">
+        <item>New albums</item>
+        <item>New artist</item>
+    </string-array>
+
+    <string name="tab_podcast_duration" translatable="false">%d min</string>
+
+</resources>

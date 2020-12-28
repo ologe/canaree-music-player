@@ -1,8 +1,6 @@
 package dev.olog.presentation.main
 
 import android.view.View
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.marginTop
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -10,14 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.navigation.destination.FragmentScreen
-import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
-import dev.olog.shared.android.extensions.setMargin
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
@@ -30,16 +25,16 @@ class SuperCerealScrollHelper(
             // apply only top padding
             list.updatePadding(top = 0)
         }
-        if (fragment is FolderTreeFragment){
-            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
-            if (crumbsWrapper.marginTop < 1){
-//                 margin not set yet
-                fragment.requireView().doOnPreDraw {
-                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
-                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
-                }
-            }
-        }
+//        if (fragment is FolderTreeFragment){ TODO
+//            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
+//            if (crumbsWrapper.marginTop < 1){
+////                 margin not set yet
+//                fragment.requireView().doOnPreDraw {
+//                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
+//                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
+//                }
+//            }
+//        }
     }
 
     override fun searchForFab(fragment: Fragment): View? {

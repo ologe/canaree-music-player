@@ -2,10 +2,9 @@ package dev.olog.presentation.navigator
 
 import android.view.View
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 
-@Deprecated("")
+@Deprecated("use navigation.Navigator")
 interface NavigatorLegacy {
 
     fun toDetailFragment(mediaId: MediaId)
@@ -17,8 +16,6 @@ interface NavigatorLegacy {
     fun toOfflineLyrics()
 
     fun toDialog(mediaId: MediaId, anchor: View)
-
-    fun toMainPopup(anchor: View, category: MediaIdCategory?)
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 

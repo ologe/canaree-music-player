@@ -12,10 +12,10 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.base.base.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.feature.base.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.widgets.fascroller.WaveSideBarView
+import dev.olog.shared.widgets.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach
 
+// TODO add multiselection
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
@@ -69,12 +70,12 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         viewModel.observeData()
             .onEach {
                 adapter.submitList(it)
-                sidebar.onDataChanged(it)
+//                sidebar.onDataChanged(it) TODO
                 restoreUpperWidgetsTranslation()
                 emptyStateText.isVisible = it.isEmpty()
             }.launchIn(this)
 
-        sidebar.scrollableLayoutId = R.layout.item_create_playlist
+//        sidebar.scrollableLayoutId = R.layout.item_create_playlist TODO
 
         editText.afterTextChange()
             .filter { it.isBlank() || it.trim().length >= 2 }

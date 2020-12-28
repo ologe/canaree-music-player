@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tab_auto_playlists">Listas de reprodução automáticas</string>
+    <string name="tab_all_playlists">Todas as listas de reprodução</string>
+    <string name="tab_all_albums">Todos os álbuns</string>
+    <string name="tab_all_artists">Todos os artistas</string>
+    <string name="tab_recent_played">Ouviu recentemente</string>
+    <string name="tab_recent_added">Adicionado recentemente</string>
+
+    <string-array name="tab_recently_added">
+        <item>Novos álbuns</item>
+        <item>Novos artistas</item>
+    </string-array>
+
+</resources>

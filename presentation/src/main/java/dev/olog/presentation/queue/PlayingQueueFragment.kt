@@ -81,7 +81,9 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
+        more.setOnClickListener {
+//            navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) // TODO create queue popup
+        }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 

@@ -4,12 +4,12 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ObserveDetailSortUseCase @Inject constructor(
-    private val gateway: SortPreferences
+    private val gateway: SortPreferencesGateway
 
 ) : FlowUseCaseWithParam<SortEntity, MediaId>() {
 

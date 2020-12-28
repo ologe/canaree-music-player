@@ -6,6 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoMap
+import dev.olog.feature.library.library.LibraryFragment
+import dev.olog.feature.library.library.prefs.LibraryPrefsFragment
 import dev.olog.navigation.dagger.FragmentScreenKey
 import dev.olog.navigation.destination.FragmentScreen
 
@@ -16,11 +18,16 @@ object FeatureLibraryNavigation {
     @Provides
     @IntoMap
     @FragmentScreenKey(FragmentScreen.LIBRARY_TRACKS)
-    fun provideDetailFragment(): Fragment = TODO()
+    fun provideLibraryTracksFragment(): Fragment = LibraryFragment.newInstance(false)
 
     @Provides
     @IntoMap
     @FragmentScreenKey(FragmentScreen.LIBRARY_PODCASTS)
-    fun provideRelatedArtistsFragment(): Fragment = TODO()
+    fun provideLibraryPodcastsFragment(): Fragment = LibraryFragment.newInstance(false)
+
+    @Provides
+    @IntoMap
+    @FragmentScreenKey(FragmentScreen.LIBRARY_PREFS)
+    fun provideLibraryPrefsFragment(): Fragment = LibraryPrefsFragment()
 
 }

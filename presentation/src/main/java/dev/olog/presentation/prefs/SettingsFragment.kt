@@ -16,15 +16,12 @@ import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.lib.image.provider.GlideApp
 import dev.olog.lib.image.provider.creator.ImagesFolderUtils
-import dev.olog.navigation.BottomNavigationPage
 import dev.olog.presentation.R
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
-import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.isDarkMode
@@ -44,10 +41,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     @Inject
-    internal lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
+    internal lateinit var tutorialPrefs: TutorialPreferenceGateway
 
     @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    internal lateinit var navigator: Navigator
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -58,6 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var autoCreateImages: Preference
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
+    // TODO add reset all prefs
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -83,13 +81,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         libraryCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
-                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
+            navigator.toLibraryPreferences(false)
             true
         }
         podcastCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
+            navigator.toLibraryPreferences(true)
             true
         }
         blacklist.setOnPreferenceClickListener {
@@ -154,7 +150,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
-                presentationPrefs.bottomNavigationPage = BottomNavigationPage.LIBRARY_TRACKS
+//                presentationPrefs.bottomNavigationPage = BottomNavigationPage.LIBRARY_TRACKS TODO
                 requireActivity().recreate()
             }
         }
@@ -188,7 +184,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.prefs_reset_tutorial_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefs.reset() }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }

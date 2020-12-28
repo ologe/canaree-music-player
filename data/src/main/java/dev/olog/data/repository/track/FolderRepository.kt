@@ -12,7 +12,7 @@ import dev.olog.core.gateway.base.Path
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.local.most.played.FolderMostPlayedDao
 import dev.olog.data.local.most.played.FolderMostPlayedEntity
@@ -32,7 +32,7 @@ import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,

@@ -1,10 +1,11 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.ResettablePreference
 import dev.olog.core.entity.LastMetadata
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 
-interface MusicPreferencesGateway {
+interface MusicPreferencesGateway : ResettablePreference {
 
     var bookmark: Duration
 
@@ -25,8 +26,6 @@ interface MusicPreferencesGateway {
     fun getLastMetadata(): LastMetadata
     fun setLastMetadata(metadata: LastMetadata)
     fun observeLastMetadata(): Flow<LastMetadata>
-
-    fun setDefault()
 
     var crossfade: Duration
     var isGapless: Boolean

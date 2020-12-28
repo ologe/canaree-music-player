@@ -14,7 +14,6 @@ enum class MediaIdCategory {
     PODCASTS_ARTISTS,
 
     HEADER, // TODO remove
-    PLAYING_QUEUE // TODO remove
 }
 
 enum class MediaIdModifier {
@@ -58,6 +57,7 @@ data class MediaId(
         // TODO convert categoryValue to long
         private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
 
+        @Deprecated("delete")
         fun headerId(value: String): MediaId {
             return MediaId(
                 category = MediaIdCategory.HEADER,
@@ -66,14 +66,6 @@ data class MediaId(
                 modifier = null,
             )
         }
-
-        val playingQueueId: MediaId
-            get() = MediaId(
-                category = MediaIdCategory.PLAYING_QUEUE,
-                categoryValue = "all",
-                leaf = null,
-                modifier = null,
-            )
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(
@@ -206,9 +198,6 @@ data class MediaId(
         get() = category == MediaIdCategory.PODCASTS_ARTISTS
     val isAnyPodcast : Boolean
         get() = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
-
-    val isPlayingQueue: Boolean
-        get() = category == MediaIdCategory.PLAYING_QUEUE
 
     // TODO delete
     fun assertPlaylist(){

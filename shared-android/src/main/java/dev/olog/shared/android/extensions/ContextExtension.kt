@@ -25,12 +25,14 @@ inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.d
 
 inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
+@Deprecated("use snackbar")
 inline fun Context.toast(message: Int): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
         .apply {
             show()
         }
 
+@Deprecated("use snackbar")
 inline fun Context.toast(message: CharSequence): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
         .apply {

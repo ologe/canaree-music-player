@@ -1,10 +1,17 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.ResettablePreference
 import dev.olog.core.entity.UserCredentials
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
-interface AppPreferencesGateway {
+interface AppPreferencesGateway : ResettablePreference {
+
+    val isFirstAccess: Boolean
+    val isAdaptiveColorEnabled: Boolean
+    fun observePlayerControlsVisibility(): Flow<Boolean>
+
+    val canShowPodcasts: Boolean
 
     fun resetSleepTimer()
     fun setSleepTimer(sleepFrom: Long, sleepTime: Long)
@@ -21,6 +28,5 @@ interface AppPreferencesGateway {
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 
-    fun setDefault()
 }
 

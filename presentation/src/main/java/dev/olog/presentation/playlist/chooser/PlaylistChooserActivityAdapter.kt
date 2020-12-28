@@ -11,7 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_tab_album.*
+import kotlinx.android.synthetic.main.item_playlist_chooser.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity,

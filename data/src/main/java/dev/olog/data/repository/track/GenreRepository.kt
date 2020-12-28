@@ -12,7 +12,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.local.most.played.GenreMostPlayedDao
 import dev.olog.data.local.most.played.GenreMostPlayedEntity
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
     @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_floating_window">Haga clic para abrir una ventana flotante con letras y video de YouTube</string>
     <string name="tutorial_lyrics">Mostrar letras guardadas</string>
     <string name="tutorial_add_lyrics">Agrega o actualiza tus letras</string>
     <string name="tutorial_search_lyrics">Busca tus letras en la web</string>

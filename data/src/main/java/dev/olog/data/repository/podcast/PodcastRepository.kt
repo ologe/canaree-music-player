@@ -10,7 +10,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.local.podcast.PodcastPositionDao
 import dev.olog.data.local.podcast.PodcastPositionEntity
@@ -31,7 +31,7 @@ import kotlin.time.seconds
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
+    sortPrefs: SortPreferencesGateway,
     blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers

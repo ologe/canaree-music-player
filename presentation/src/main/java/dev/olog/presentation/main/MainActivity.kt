@@ -10,6 +10,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.base.CanHandleOnBackPressed
+import dev.olog.feature.base.DrawsOnTop
+import dev.olog.feature.base.HasBottomNavigation
 import dev.olog.feature.base.RestorableScrollHelper
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
@@ -19,9 +22,6 @@ import dev.olog.navigation.Navigator
 import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.*
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.navigation.BottomNavigationPage
 import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.rateapp.RateAppDialog
@@ -185,18 +185,17 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun tryPopFolderBack(): Boolean {
-        val categoriesFragment =
-            supportFragmentManager.findFragmentByTag(FragmentScreen.LIBRARY_TRACKS.tag) as? LibraryFragment ?: return false
+        val categoriesFragment = supportFragmentManager.findFragmentByTag(FragmentScreen.LIBRARY_TRACKS.tag) ?: return false
 
         if (!categoriesFragment.isVisible || categoriesFragment.view == null) {
             return false
         }
 
-        if (categoriesFragment.isCurrentFragmentFolderTree()){
-            val folderTree = categoriesFragment.childFragmentManager.fragments
-                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-            return folderTree?.handleOnBackPressed() == true
-        }
+//        if (categoriesFragment.isCurrentFragmentFolderTree()){ TODO
+//            val folderTree = categoriesFragment.childFragmentManager.fragments
+//                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
+//            return folderTree?.handleOnBackPressed() == true
+//        }
         return false
     }
 

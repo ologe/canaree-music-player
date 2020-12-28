@@ -70,7 +70,6 @@ internal class DetailDataProvider @Inject constructor(
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(parentMediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
-            MediaIdCategory.PLAYING_QUEUE,
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> error("invalid category=$parentMediaId")
         }.exhaustive

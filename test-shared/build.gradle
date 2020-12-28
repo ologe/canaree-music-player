@@ -12,4 +12,5 @@ dependencies {
     implementation lib_test.junit
     implementation lib_test.junit_5
     implementation lib_test.mockk
+    implementation lib_test.assertj
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
 // TODO inject schedulers??
-
+// TODO cache indexes?
 @Suppress("unused")
 internal suspend inline fun <T> ContentResolver.queryAll(
     cursor: Cursor,

@@ -25,7 +25,7 @@ abstract class ObservableAdapter<T>(
 
     protected abstract fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int)
 
-    override fun getItemViewType(position: Int): Int = TODO()
+    override fun getItemViewType(position: Int): Int = TODO(this.toString())
 
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = getItem(position)

@@ -3,11 +3,11 @@ package dev.olog.core.interactor.sort
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import javax.inject.Inject
 
 class SetSortOrderUseCase @Inject constructor(
-    private val gateway: SortPreferences
+    private val gateway: SortPreferencesGateway
 ) {
 
     class Request(

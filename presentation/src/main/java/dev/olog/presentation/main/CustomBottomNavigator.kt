@@ -1,13 +1,14 @@
 package dev.olog.presentation.main
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.AttributeSet
+import androidx.core.content.edit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.navigation.BottomNavigationPage
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.R
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -16,15 +17,28 @@ internal class CustomBottomNavigator(
     attrs: AttributeSet
 ) : BottomNavigationView(context, attrs) {
 
+    companion object {
+        private const val BOTTOM_NAVIGATION_KEY = "AppPreferencesDataStoreImpl.BOTTOM_VIEW_4"
+    }
+
     @Inject
-    internal lateinit var prefs: PresentationPreferencesGateway
+    internal lateinit var prefs: SharedPreferences
+
+    @Deprecated("use LibraryPreferencesGateway, this is a temp solution")
+    private var bottomNavigationPage: BottomNavigationPage
+        get() = BottomNavigationPage.valueOf(prefs.getString(BOTTOM_NAVIGATION_KEY, BottomNavigationPage.LIBRARY_TRACKS.toString())!!)
+        set(value) {
+            prefs.edit {
+                putString(BOTTOM_NAVIGATION_KEY, value.toString())
+            }
+        }
 
     @Inject
     internal lateinit var navigator: Navigator
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val lastLibraryPage = prefs.bottomNavigationPage
+        val lastLibraryPage = bottomNavigationPage
         selectedItemId = lastLibraryPage.toMenuId()
 
         setOnNavigationItemSelectedListener { menu ->
@@ -45,17 +59,17 @@ internal class CustomBottomNavigator(
     }
 
     fun navigateToLastPage(){
-        val navigationPage = prefs.bottomNavigationPage
+        val navigationPage = bottomNavigationPage
         navigator.bottomNavigate(navigationPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
-        prefs.bottomNavigationPage = page
+        bottomNavigationPage = page
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this){
         R.id.navigation_library -> {
-            val isTracks = prefs.bottomNavigationPage == BottomNavigationPage.LIBRARY_TRACKS
+            val isTracks = bottomNavigationPage == BottomNavigationPage.LIBRARY_TRACKS
             if (isTracks) BottomNavigationPage.LIBRARY_TRACKS else BottomNavigationPage.LIBRARY_PODCASTS
         }
         R.id.navigation_search -> BottomNavigationPage.SEARCH

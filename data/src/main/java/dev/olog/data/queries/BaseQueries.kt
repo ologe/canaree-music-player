@@ -6,13 +6,13 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import kotlin.time.days
 
 @Suppress("DEPRECATION")
 abstract class BaseQueries(
     protected val blacklistPrefs: BlacklistPreferences,
-    protected val sortPrefs: SortPreferences,
+    protected val sortPrefs: SortPreferencesGateway,
     protected val isPodcast: Boolean
 ) {
 

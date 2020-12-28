@@ -33,7 +33,8 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity {
 
     override fun getResources(): Resources {
         if (customResources == null){
-            customResources = DarkDesaturatedResources(isDarkMode, super.getResources())
+            val res = super.getResources()
+            customResources = DarkDesaturatedResources(res.configuration.isDarkMode, res)
         }
         return customResources!!
     }

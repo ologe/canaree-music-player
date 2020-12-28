@@ -56,11 +56,11 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
+//        list.adapter = adapter TODO restore
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+//        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) TODO restore
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha

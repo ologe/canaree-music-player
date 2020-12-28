@@ -7,9 +7,8 @@ import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class EqualizerPreferenceImpl @Inject constructor(
+internal class EqualizerPreferenceImpl @Inject constructor(
     private val preferences: SharedPreferences
-
 ) : EqualizerPreferencesGateway {
 
     companion object {
@@ -60,7 +59,8 @@ class EqualizerPreferenceImpl @Inject constructor(
         preferences.edit { putString(VIRTUALIZER_SETTINGS, settings) }
     }
 
-    override fun setDefault() {
+    // TODO reset all??
+    override fun reset() {
         setEqualizerEnabled(false)
     }
 }

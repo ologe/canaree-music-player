@@ -1,5 +1,6 @@
 package dev.olog.lib.media
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
@@ -8,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 val FragmentActivity.mediaProvider: MediaProvider
     get() = this as MediaProvider
+
+val Fragment.mediaProvider: MediaProvider
+    get() = requireActivity().mediaProvider
 
 interface MediaProvider {
 

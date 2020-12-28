@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.feature.base.DrawsOnTop
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*

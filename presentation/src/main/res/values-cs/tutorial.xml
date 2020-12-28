@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_floating_window">Klepnutím otevřete plovoucí okno s texty a videem youtube</string>
     <string name="tutorial_lyrics">Zobrazit uložené texty</string>
     <string name="tutorial_add_lyrics">Přidejte nebo aktualizujte své texty</string>
     <string name="tutorial_search_lyrics">Prohledávejte texty na webu</string>

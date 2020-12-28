@@ -7,7 +7,7 @@ import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.base.Path
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.SortPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 
@@ -16,7 +16,7 @@ internal class FolderQueries(
     private val schedulers: Schedulers,
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
-    sortPrefs: SortPreferences
+    sortPrefs: SortPreferencesGateway
 ) : BaseQueries(blacklistPrefs, sortPrefs, false) {
 
     suspend fun getAll(includeBlackListed: Boolean): Cursor = withContext(schedulers.io) {
