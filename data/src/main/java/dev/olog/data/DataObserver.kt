@@ -8,11 +8,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 
 internal class DataObserver(
-    private val scheduler: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
     private val onUpdate: suspend () -> Unit
 ) : ContentObserver(Handler(Looper.getMainLooper())) {
 
-    override fun onChange(selfChange: Boolean) = GlobalScope.launchUnit(scheduler) {
+    override fun onChange(selfChange: Boolean) = GlobalScope.launchUnit(dispatcher) {
         onUpdate()
     }
 }

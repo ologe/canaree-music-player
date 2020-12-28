@@ -17,7 +17,7 @@ import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.feature.detail.detail.DetailFragmentHeaders
 import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.feature.detail.detail.mapper.*
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6

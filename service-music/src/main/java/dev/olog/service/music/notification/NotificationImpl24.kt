@@ -11,7 +11,7 @@ import androidx.core.text.buildSpannedString
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import javax.inject.Inject
 import kotlin.time.Duration
 
@@ -34,7 +34,7 @@ internal open class NotificationImpl24 @Inject constructor(
             .setShowWhen(false)
             .setUsesChronometer(false)
 
-        builder.setSubText(TextUtils.formatMillis(bookmark.toLongMilliseconds(), true))
+        builder.setSubText(TextUtils.formatTimeMillis(bookmark, true))
     }
 
     @SuppressLint("RestrictedApi")

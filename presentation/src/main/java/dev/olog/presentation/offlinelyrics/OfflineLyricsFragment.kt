@@ -74,7 +74,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
-                seekBar.max = it.duration.toInt()
+                seekBar.max = it.duration.toLongMilliseconds().toInt()
                 scrollView.scrollTo(0, 0)
             }.launchIn(this)
 

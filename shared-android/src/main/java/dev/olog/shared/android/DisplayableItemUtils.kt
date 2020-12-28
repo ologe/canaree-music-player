@@ -1,7 +1,6 @@
 package dev.olog.shared.android
 
 import android.content.res.Resources
-import dev.olog.shared.TextUtils
 
 object DisplayableItemUtils {
 

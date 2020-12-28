@@ -59,7 +59,7 @@ class OfflineLyricsContent(
                 service.lifecycleScope.launch { loadImage(it.mediaId) }
                 content.header.text = it.title
                 content.subHeader.text = it.artist
-                content.seekBar.max = it.duration.toInt()
+                content.seekBar.max = it.duration.toLongMilliseconds().toInt()
                 content.scrollView.scrollTo(0, 0)
             }.launchIn(service.lifecycleScope)
 

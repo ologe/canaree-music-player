@@ -3,32 +3,48 @@ package dev.olog.lib.media.model
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
 import dev.olog.intents.MusicConstants
-import dev.olog.shared.TextUtils
+import dev.olog.lib.media.getBoolean
+import dev.olog.shared.android.TextUtils
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
-class PlayerMetadata(private val metadata: MediaMetadataCompat) {
+class PlayerMetadata(
+    private val metadata: MediaMetadataCompat
+) {
 
-    val id: Long = mediaId.leaf!!
+    val id: Long
+        get() = mediaId.leaf!!
+
     val mediaId: MediaId
         get() {
             val mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
             return MediaId.fromString(mediaId)
         }
 
-    val title: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE).toString()
-    val artist: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST).toString()
-    val album: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM).toString()
-    val duration: Long = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
-    val isPodcast: Boolean = metadata.getBoolean(MusicConstants.IS_PODCAST)
-    val path: String = metadata.getString(MusicConstants.PATH).toString()
+    val title: String
+        get() = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE).toString()
 
-    val isSkippingToNext = metadata.getBoolean(MusicConstants.SKIP_NEXT)
-    val isSkippingToPrevious = metadata.getBoolean(MusicConstants.SKIP_PREVIOUS)
+    val artist: String
+        get() = metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST).toString()
 
-    val readableDuration: String = TextUtils.formatMillis(duration)
+    val album: String
+        get() = metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM).toString()
 
-    private fun MediaMetadataCompat.getBoolean(key: String): Boolean {
-        return getLong(key) != 0L
-    }
+    val duration: Duration
+        get() = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).milliseconds
+
+    val isPodcast: Boolean
+        get() = metadata.getBoolean(MusicConstants.IS_PODCAST)
+
+    val isSkippingToNext: Boolean
+        get() = metadata.getBoolean(MusicConstants.SKIP_NEXT)
+    val isSkippingToPrevious: Boolean
+        get() = metadata.getBoolean(MusicConstants.SKIP_PREVIOUS)
+
+    val readableDuration: String
+        get() = TextUtils.formatTimeMillis(duration)
+
+
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is PlayerMetadata) {
@@ -39,21 +55,12 @@ class PlayerMetadata(private val metadata: MediaMetadataCompat) {
         }
 
         return this.mediaId == other.mediaId &&
-                this.path == other.path &&
-                this.isSkippingToNext == other.isSkippingToNext &&
-                this.isSkippingToPrevious == other.isSkippingToPrevious &&
-                this.isPodcast == other.isPodcast
+            this.isSkippingToNext == other.isSkippingToNext &&
+            this.isSkippingToPrevious == other.isSkippingToPrevious
     }
 
     override fun hashCode(): Int {
-        var result = metadata.hashCode()
-        result = 31 * result + id.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + artist.hashCode()
-        result = 31 * result + album.hashCode()
-        result = 31 * result + duration.hashCode()
-        result = 31 * result + isPodcast.hashCode()
-        result = 31 * result + path.hashCode()
+        var result = mediaId.hashCode()
         result = 31 * result + isSkippingToNext.hashCode()
         result = 31 * result + isSkippingToPrevious.hashCode()
         return result

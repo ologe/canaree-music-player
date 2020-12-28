@@ -2,7 +2,7 @@ package dev.olog.shared.widgets.scroller
 
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 
 class RxWaveSideBarView(
     context: Context,

@@ -29,20 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility project.javaVersion
+        targetCompatibility project.javaVersion
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += [ // TODO remove after coroutines became stable
-            "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xuse-experimental=kotlin.time.ExperimentalTime",
-            "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
-        ]
-
-//        allWarningsAsErrors = true
+        freeCompilerArgs += project.freeCompilerArgs
     }
 
     testOptions {

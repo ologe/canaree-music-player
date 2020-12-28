@@ -30,6 +30,7 @@ enum class PlayerState {
     }
 }
 
+// TODO test if is working correctly
 class PlayerPlaybackState(private val stateCompat: PlaybackStateCompat) {
 
     val state = PlayerState.of(stateCompat.state)

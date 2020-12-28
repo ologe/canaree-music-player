@@ -16,10 +16,10 @@ import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
 import dev.olog.lib.image.provider.GlideUtils
 import dev.olog.lib.image.provider.getCachedBitmap
+import dev.olog.lib.media.putBoolean
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.player.InternalPlayerState
-import dev.olog.service.music.utils.putBoolean
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
@@ -75,7 +75,6 @@ internal class MusicServiceMetadata @Inject constructor(
             .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
             .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
             .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration.toLongMilliseconds())
-            .putString(MusicConstants.PATH, entity.path)
             .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
             .putBoolean(MusicConstants.SKIP_NEXT, skipNext)
             .putBoolean(MusicConstants.SKIP_PREVIOUS, skipPrevious)

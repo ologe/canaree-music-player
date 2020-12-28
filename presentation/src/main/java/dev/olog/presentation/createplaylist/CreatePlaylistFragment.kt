@@ -17,7 +17,7 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.shared.widgets.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*

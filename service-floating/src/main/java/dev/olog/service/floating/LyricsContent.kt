@@ -33,7 +33,7 @@ class LyricsContent(
             .onEach {
                 content.header.text = it.title
                 content.subHeader.text = it.artist
-                content.seekBar.max = it.duration.toInt()
+                content.seekBar.max = it.duration.toLongMilliseconds().toInt()
             }.launchIn(service.lifecycleScope)
     }
 

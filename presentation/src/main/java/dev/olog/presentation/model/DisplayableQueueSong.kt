@@ -1,7 +1,7 @@
 package dev.olog.presentation.model
 
 import dev.olog.core.MediaId
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 
 data class DisplayableQueueSong(
     override val type: Int,

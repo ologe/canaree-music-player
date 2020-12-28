@@ -29,9 +29,6 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:$junit_5_enabler"
     }
-
-
-    
     
 }
 
@@ -40,7 +37,15 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-//        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
+            kotlinOptions {
+                jvmTarget = rootProject.javaVersion.toString()
+                allWarningsAsErrors = rootProject.allWarningsAsErrors
+            }
+        }
     }
 }
 

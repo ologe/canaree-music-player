@@ -10,7 +10,7 @@ import dev.olog.feature.library.prefs.LibraryPreferencesGateway
 import dev.olog.feature.library.tab.model.TabFragmentCategory
 import dev.olog.feature.library.tab.model.TabFragmentDataProvider
 import dev.olog.feature.library.tab.model.TabFragmentModel
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext

@@ -22,7 +22,7 @@ import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.shared.widgets.StatusBarView
 import dev.olog.shared.widgets.swipeable.SwipeableView
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.isCollapsed
 import dev.olog.shared.android.isExpanded
@@ -174,7 +174,7 @@ internal class PlayerFragmentAdapter(
 
         seekBar.setListener(
             onProgressChanged = {
-                bookmark.text = TextUtils.formatMillis(it)
+                bookmark.text = TextUtils.formatTimeMillis(it.toLong())
             }, onStartTouch = {
 
             }, onStopTouch = {
@@ -304,7 +304,7 @@ internal class PlayerFragmentAdapter(
 
         val readableDuration = metadata.readableDuration
         duration.text = readableDuration
-        seekBar.max = metadata.duration.toInt()
+        seekBar.max = metadata.duration.toLongMilliseconds().toInt()
 
         playerControls.podcast_controls.isVisible = metadata.isPodcast
     }
