@@ -8,9 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
@@ -19,10 +17,10 @@ import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.R
 import dev.olog.data.local.history.HistoryDao
-import dev.olog.data.local.playlist.PlaylistDao
 import dev.olog.data.local.most.played.PlaylistMostPlayedDao
-import dev.olog.data.local.playlist.PlaylistEntity
 import dev.olog.data.local.most.played.PlaylistMostPlayedEntity
+import dev.olog.data.local.playlist.PlaylistDao
+import dev.olog.data.local.playlist.PlaylistEntity
 import dev.olog.data.local.playlist.PlaylistTrackEntity
 import dev.olog.data.local.playlist.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
@@ -75,7 +73,7 @@ internal class PlaylistRepository @Inject constructor(
             .map { it?.toDomain() }
     }
 
-    override suspend fun getTrackListByParam(param: Id): List<Song> {
+    override suspend fun getTrackListByParam(param: Id): List<PlaylistSong> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
@@ -83,7 +81,7 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.getPlaylistTracks(param, songGateway)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Id): Flow<List<PlaylistSong>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
         }
@@ -91,18 +89,23 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
-    private suspend fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<PlaylistSong> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.LAST_ADDED.id -> songGateway.getAll()
+                .sortedByDescending { it.dateAdded }
+                .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
             AutoPlaylist.HISTORY.id -> historyDao.getTracks(songGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
+    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<PlaylistSong>> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
+            AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { list ->
+                list.sortedByDescending { it.dateAdded }
+                    .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
+            }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
             AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
@@ -129,7 +132,6 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
         return mostPlayedDao.observeAll(folderPath, songGateway)
-            .distinctUntilChanged()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
@@ -151,7 +153,7 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
         return observeTrackListByParam(params)
             .map {  songList ->
-                val artists = songList.groupBy { it.artistId }
+                val artists = songList.groupBy { it.song.artistId }
                     .map { it.key }
                 artistGateway.getAll()
                     .filter { artists.contains(it.id) }

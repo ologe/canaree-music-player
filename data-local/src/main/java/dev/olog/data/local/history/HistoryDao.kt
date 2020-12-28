@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import dev.olog.core.entity.track.PlaylistSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.toPlaylistSong
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import kotlinx.coroutines.flow.Flow
@@ -63,38 +65,42 @@ abstract class HistoryDao {
     """)
     abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
-    suspend fun getTracks(songGateway: SongGateway): List<Song> {
+    suspend fun getTracks(songGateway: SongGateway): List<PlaylistSong> {
         val historyList = getAllTracksImpl()
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->
-            songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
+            val song = songList[entity.songId]?.first()
+            song?.toPlaylistSong(entity.id)
         }
     }
 
-    suspend fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
+    suspend fun getPodcasts(podcastGateway: PodcastGateway): List<PlaylistSong> {
         val historyList = getAllPodcastsImpl()
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->
-            songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
+            val song = songList[entity.podcastId]?.first()
+            song?.toPlaylistSong(entity.id)
         }
     }
 
-    fun observeTracks(songGateway: SongGateway): Flow<List<Song>> {
+    fun observeTracks(songGateway: SongGateway): Flow<List<PlaylistSong>> {
         return observeAllTracksImpl()
             .map { historyList ->
                 val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 historyList.mapNotNull { entity ->
-                    songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
+                    val song = songList[entity.songId]?.first()
+                    song?.toPlaylistSong(entity.id)
                 }
             }
     }
 
-    fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<PlaylistSong>> {
         return observeAllPodcastsImpl()
             .map { historyList ->
                 val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 historyList.mapNotNull { entity ->
-                    songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
+                    val song = songList[entity.podcastId]?.first()
+                    song?.toPlaylistSong(entity.id)
                 }
             }
     }

@@ -70,9 +70,9 @@ internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntit
 internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     val song = this.song
     return MediaEntity(
-        progressive = song.idInPlaylist,
+        progressive = serviceProgressive,
         id = song.id,
-        mediaId = this.mediaId,
+        mediaId = song.getMediaId(),
         artistId = song.artistId,
         albumId = song.albumId,
         title = song.title,

@@ -3,16 +3,16 @@ package dev.olog.core.gateway
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.PlaylistSong
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteGateway {
 
-    suspend fun getTracks(): List<Song>
-    suspend fun getPodcasts(): List<Song>
+    suspend fun getTracks(): List<PlaylistSong>
+    suspend fun getPodcasts(): List<PlaylistSong>
 
-    fun observeTracks(): Flow<List<Song>>
-    fun observePodcasts(): Flow<List<Song>>
+    fun observeTracks(): Flow<List<PlaylistSong>>
+    fun observePodcasts(): Flow<List<PlaylistSong>>
 
     suspend fun addSingle(type: FavoriteType, songId: Long)
     suspend fun addGroup(type: FavoriteType, songListId: List<Long>)

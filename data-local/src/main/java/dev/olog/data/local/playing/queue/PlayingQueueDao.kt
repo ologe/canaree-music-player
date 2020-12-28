@@ -4,14 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -21,7 +18,7 @@ internal abstract class PlayingQueueDao {
     @Query(
         """
         SELECT * FROM playing_queue
-        ORDER BY progressive
+        ORDER BY internalId
     """
     )
     abstract suspend fun getAllImpl(): List<PlayingQueueEntity>
@@ -29,7 +26,7 @@ internal abstract class PlayingQueueDao {
     @Query(
         """
         SELECT * FROM playing_queue
-        ORDER BY progressive
+        ORDER BY internalId
     """
     )
     abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
@@ -60,9 +57,7 @@ internal abstract class PlayingQueueDao {
 
             val song = fakeSongList[0] // only one song
             val playingQueueSong = song.toPlayingQueueSong(
-                idInPlaylist = playingQueueEntity.idInPlaylist,
-                category = playingQueueEntity.category,
-                categoryValue = playingQueueEntity.categoryValue
+                serviceProgressive = playingQueueEntity.serviceProgressive,
             )
             result.add(playingQueueSong)
         }
@@ -89,28 +84,22 @@ internal abstract class PlayingQueueDao {
 
     @Transaction
     open suspend fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
-        assertBackgroundThread()
-
         deleteAllImpl()
         val result = list.map {
             PlayingQueueEntity(
                 songId = it.songId,
-                category = it.mediaId.category.toString(),
-                categoryValue = it.mediaId.categoryValue,
-                idInPlaylist = it.idInPlaylist
+                serviceProgressive = it.serviceProgressive,
             )
         }
         insertAllImpl(result)
     }
 
-    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
-            : PlayingQueueSong {
-
-        val parentMediaId = MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue)
-
+    private fun Song.toPlayingQueueSong(
+        serviceProgressive: Int
+    ) : PlayingQueueSong {
         return PlayingQueueSong(
-            this.copy(idInPlaylist = idInPlaylist),
-            MediaId.playableItem(parentMediaId, this.id)
+            song = this,
+            serviceProgressive = serviceProgressive,
         )
     }
 

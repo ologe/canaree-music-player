@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.local.migrations.Migration15to16
 import dev.olog.data.local.migrations.Migration16to17
 import dev.olog.data.local.migrations.Migration17to18
+import dev.olog.data.local.migrations.Migration18to19
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +25,7 @@ internal object RepositoryHelperModule {
                 Migration15to16(),
                 Migration16to17(),
                 Migration17to18(),
+                Migration18to19(),
             )
             .build()
     }

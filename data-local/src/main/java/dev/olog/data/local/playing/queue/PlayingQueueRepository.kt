@@ -44,8 +44,8 @@ internal class PlayingQueueRepository @Inject constructor(
 
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
-            this.copy(idInPlaylist = progressive),
-            getMediaId()
+            song = this,
+            serviceProgressive = progressive,
         )
     }
 

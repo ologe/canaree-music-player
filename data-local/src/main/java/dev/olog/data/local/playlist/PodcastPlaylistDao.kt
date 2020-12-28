@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import dev.olog.core.entity.track.PlaylistSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.toPlaylistSong
 import dev.olog.core.gateway.podcast.PodcastGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -58,11 +60,12 @@ abstract class PodcastPlaylistDao {
     suspend fun getPlaylistTracks(
         playlistId: Long,
         podcastGateway: PodcastGateway
-    ): List<Song> {
+    ): List<PlaylistSong> {
         val trackList = getPlaylistTracksImpl(playlistId)
-        val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        val podcastList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
-            songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+            val song = podcastList[entity.podcastId]?.first()
+            song?.toPlaylistSong(entity.idInPlaylist)
         }
     }
 
@@ -78,12 +81,13 @@ abstract class PodcastPlaylistDao {
     fun observePlaylistTracks(
         playlistId: Long,
         podcastGateway: PodcastGateway
-    ): Flow<List<Song>> {
+    ): Flow<List<PlaylistSong>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
-                val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                val podcastList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 trackList.mapNotNull { entity ->
-                    songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+                    val song = podcastList[entity.podcastId]?.first()
+                    song?.toPlaylistSong(entity.idInPlaylist)
                 }
             }
     }

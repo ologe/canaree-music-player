@@ -3,7 +3,9 @@ package dev.olog.data.local.favorite
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.track.PlaylistSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.toPlaylistSong
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -29,33 +31,37 @@ internal class FavoriteRepository @Inject constructor(
         favoriteStatePublisher.value = state
     }
 
-    override suspend fun getTracks(): List<Song> {
+    override suspend fun getTracks(): List<PlaylistSong> {
         val historyList = favoriteDao.getAllTracksImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
+            .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
     }
 
-    override suspend fun getPodcasts(): List<Song> {
+    override suspend fun getPodcasts(): List<PlaylistSong> {
         val historyList = favoriteDao.getAllPodcastsImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
+            .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
     }
 
-    override fun observeTracks(): Flow<List<Song>> {
+    override fun observeTracks(): Flow<List<PlaylistSong>> {
         return favoriteDao.observeAllTracksImpl()
             .map { favorites ->
                 val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> songs[id]?.get(0) }
-                    .sortedBy { it.title }
+                    .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
+                    .sortedBy { it.song.title }
             }
     }
 
-    override fun observePodcasts(): Flow<List<Song>> {
+    override fun observePodcasts(): Flow<List<PlaylistSong>> {
         return favoriteDao.observeAllPodcastsImpl()
             .map { favorites ->
                 val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> podcast[id]?.get(0) }
-                    .sortedBy { it.title }
+                    .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
+                    .sortedBy { it.song.title }
             }
     }
 

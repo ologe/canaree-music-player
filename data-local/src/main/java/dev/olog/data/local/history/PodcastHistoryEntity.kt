@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 )
 data class PodcastHistoryEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val podcastId: Long,
     val dateAdded: Long = System.currentTimeMillis()
 )

@@ -17,8 +17,7 @@ data class Song(
     val dateModified: Long,
     val path: String,
     val trackColumn: Int,
-    val idInPlaylist: Int,
-    val isPodcast: Boolean
+    val isPodcast: Boolean,
 
 ) {
 
@@ -62,25 +61,6 @@ data class Song(
         return MediaId.createCategoryValue(category, this.artistId.toString())
     }
 
-    fun withInInPlaylist(idInPlaylist: Int): Song {
-        return Song(
-            id = id,
-            artistId = artistId,
-            albumId = albumId,
-            title = title,
-            artist = artist,
-            albumArtist = albumArtist,
-            album = album,
-            duration = duration,
-            dateAdded = dateAdded,
-            dateModified = dateModified,
-            path = path,
-            trackColumn = trackColumn,
-            idInPlaylist = idInPlaylist,
-            isPodcast = isPodcast
-        )
-    }
-
 }
 
 val Song.Companion.EMPTY: Song
@@ -97,6 +77,5 @@ val Song.Companion.EMPTY: Song
         dateModified = 0,
         path = "",
         trackColumn = 0,
-        idInPlaylist = 0,
         isPodcast = false
     )

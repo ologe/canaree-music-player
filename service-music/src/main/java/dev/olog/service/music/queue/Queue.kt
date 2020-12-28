@@ -177,9 +177,8 @@ internal class Queue @Inject constructor(
     private suspend fun persistQueue(items: List<MediaEntity>) {
         val request = items.map {
             UpdatePlayingQueueUseCaseRequest(
-                mediaId = it.mediaId,
                 songId = it.id,
-                idInPlaylist = it.progressive
+                serviceProgressive = it.progressive
             )
         }
         updatePlayingQueueUseCase(request)

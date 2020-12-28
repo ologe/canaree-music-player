@@ -6,13 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "playing_queue",
-    indices = [(Index("progressive"))]
+    indices = [(Index("internalId"))]
 )
 data class PlayingQueueEntity(
     @PrimaryKey(autoGenerate = true)
-    val progressive: Int = 0,
-    val category: String,
-    val categoryValue: String,
+    val internalId: Int = 0,
     val songId: Long,
-    val idInPlaylist: Int
+    val serviceProgressive: Int
 )

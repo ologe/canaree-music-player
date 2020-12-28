@@ -46,13 +46,12 @@ fun Cursor.toSong(): Song {
         dateModified = dateModified,
         path = path,
         trackColumn = track,
-        idInPlaylist = -1,
         isPodcast = isPodcast
     )
 }
 
-fun Cursor.toPlaylistSong(): Song {
-    val idInPlaylist = getInt(MediaStore.Audio.Playlists.Members._ID)
+fun Cursor.toPlaylistSong(): PlaylistSong {
+    val idInPlaylist = getLong(MediaStore.Audio.Playlists.Members._ID)
     val id = getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -73,21 +72,23 @@ fun Cursor.toPlaylistSong(): Song {
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
-    return Song(
-        id = id,
-        artistId = artistId,
-        albumId = albumId,
-        title = title,
-        artist = artist,
-        albumArtist = albumArtist,
-        album = album,
-        duration = duration,
-        dateAdded = dateAdded,
-        dateModified = dateModified,
-        path = path,
-        trackColumn = track,
+    return PlaylistSong(
+        song = Song(
+            id = id,
+            artistId = artistId,
+            albumId = albumId,
+            title = title,
+            artist = artist,
+            albumArtist = albumArtist,
+            album = album,
+            duration = duration,
+            dateAdded = dateAdded,
+            dateModified = dateModified,
+            path = path,
+            trackColumn = track,
+            isPodcast = isPodcast,
+        ),
         idInPlaylist = idInPlaylist,
-        isPodcast = isPodcast
     )
 }
 
