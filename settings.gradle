@@ -9,6 +9,7 @@ include ':features:base'
 include ':features:onboarding'
 include ':features:detail'
 include ':features:library'
+include ':features:search'
 
 // data
 include ':data'

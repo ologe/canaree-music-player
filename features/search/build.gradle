@@ -31,7 +31,5 @@ dependencies {
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.constraint_layout
-
-    implementation lib_ui.cascade_popup
-    implementation lib_ui.tap_target_view
+    implementation lib_x.preference
 }
