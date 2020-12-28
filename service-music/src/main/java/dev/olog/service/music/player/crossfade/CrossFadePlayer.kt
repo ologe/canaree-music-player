@@ -56,7 +56,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         get() {
             val crossfade = musicPrefs.crossfade
             if (isGapless){
-                // force song preloading
+                // force track preloading
                 return crossfade.coerceAtLeast(MIN_CROSSFADE_FOR_GAPLESS)
             } else {
                 return crossfade

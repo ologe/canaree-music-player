@@ -23,7 +23,7 @@ internal class MediaIdKey(
         other as MediaIdKey
 
         if (this.mediaId.isLeaf && other.mediaId.isLeaf) {
-            // is song
+            // is track
             return this.mediaId.leaf == other.mediaId.leaf
         }
         return this.mediaId.category == other.mediaId.category &&

@@ -73,7 +73,7 @@ internal class PlaylistRepository @Inject constructor(
             .map { it?.toDomain() }
     }
 
-    override suspend fun getTrackListByParam(param: Id): List<PlaylistSong> {
+    override suspend fun getTrackListByParam(param: Id): List<Track> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
@@ -81,7 +81,7 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.getPlaylistTracks(param, songGateway)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<PlaylistSong>> {
+    override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
         }
@@ -89,22 +89,20 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
-    private suspend fun getAutoPlaylistsTracks(param: Id): List<PlaylistSong> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<Track> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.getAll()
                 .sortedByDescending { it.dateAdded }
-                .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
             AutoPlaylist.HISTORY.id -> historyDao.getTracks(songGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<PlaylistSong>> {
+    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Track>> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { list ->
                 list.sortedByDescending { it.dateAdded }
-                    .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
             }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
             AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
@@ -129,7 +127,7 @@ internal class PlaylistRepository @Inject constructor(
         )
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Track>> {
         val folderPath = mediaId.categoryId
         return mostPlayedDao.observeAll(folderPath, songGateway)
     }
@@ -137,7 +135,6 @@ internal class PlaylistRepository @Inject constructor(
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         mostPlayedDao.insertOne(
             PlaylistMostPlayedEntity(
-                id = 0,
                 songId = mediaId.leaf!!,
                 playlistId = mediaId.categoryId
             )
@@ -153,7 +150,7 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
         return observeTrackListByParam(params)
             .map {  songList ->
-                val artists = songList.groupBy { it.song.artistId }
+                val artists = songList.groupBy { it.artistId }
                     .map { it.key }
                 artistGateway.getAll()
                     .filter { artists.contains(it.id) }

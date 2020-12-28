@@ -5,7 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.lib.image.provider.executor.GlideScope
@@ -36,7 +36,7 @@ class GlideOriginalImageFetcher(
                 return@launch
             }
 
-            val song: Song? = when {
+            val track: Track? = when {
                 mediaId.isAlbum -> songGateway.getByAlbumId(id)
                 mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
                 mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
@@ -48,12 +48,12 @@ class GlideOriginalImageFetcher(
             }
             yield()
 
-            if (song == null) {
+            if (track == null) {
                 callback.onLoadFailed(IllegalArgumentException("track not found for id $id"))
                 return@launch
             }
             try {
-                val stream = OriginalImageFetcher.loadImage(context, song)
+                val stream = OriginalImageFetcher.loadImage(context, track)
                 callback.onDataReady(stream)
             } catch (ex: Throwable) {
                 callback.onLoadFailed(RuntimeException(ex))

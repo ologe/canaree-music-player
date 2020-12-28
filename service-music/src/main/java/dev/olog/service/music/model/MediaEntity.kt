@@ -1,8 +1,8 @@
 package dev.olog.service.music.model
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.PlayingQueueTrack
+import dev.olog.core.entity.track.Track
 import kotlin.time.Duration
 import kotlin.time.milliseconds
 
@@ -47,7 +47,7 @@ internal data class MediaEntity(
 
 }
 
-internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
+internal fun Track.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
     return MediaEntity(
         progressive = progressive,
         id = this.id,
@@ -67,23 +67,23 @@ internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntit
     )
 }
 
-internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
-    val song = this.song
+internal fun PlayingQueueTrack.toMediaEntity() : MediaEntity {
+    val track = this.track
     return MediaEntity(
         progressive = serviceProgressive,
-        id = song.id,
-        mediaId = song.getMediaId(),
-        artistId = song.artistId,
-        albumId = song.albumId,
-        title = song.title,
-        artist = song.artist,
-        albumArtist = song.albumArtist,
-        album = song.album,
-        duration = song.duration.milliseconds,
-        dateAdded = song.dateAdded,
-        path = song.path,
-        discNumber = song.discNumber,
-        trackNumber = song.trackNumber,
-        isPodcast = song.isPodcast
+        id = track.id,
+        mediaId = track.getMediaId(),
+        artistId = track.artistId,
+        albumId = track.albumId,
+        title = track.title,
+        artist = track.artist,
+        albumArtist = track.albumArtist,
+        album = track.album,
+        duration = track.duration.milliseconds,
+        dateAdded = track.dateAdded,
+        path = track.path,
+        discNumber = track.discNumber,
+        trackNumber = track.trackNumber,
+        isPodcast = track.isPodcast
     )
 }

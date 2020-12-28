@@ -3,8 +3,8 @@ package dev.olog.service.music.data
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdModifier
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.PlayingQueueTrack
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -37,7 +37,7 @@ internal class DataRetriever @Inject constructor(
 ) {
 
     suspend fun getLastQueue(): List<MediaEntity> {
-        return playingQueueGateway.getAll().map(PlayingQueueSong::toMediaEntity)
+        return playingQueueGateway.getAll().map(PlayingQueueTrack::toMediaEntity)
     }
 
     suspend fun getFromMediaId(
@@ -60,7 +60,7 @@ internal class DataRetriever @Inject constructor(
         val filter = extras?.getTyped<String>(MusicServiceCustomAction.ARGUMENT_FILTER)
         return getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
     }
 
@@ -72,7 +72,7 @@ internal class DataRetriever @Inject constructor(
 
         val items =  getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
 
         return enhancedShuffle(items)
@@ -82,14 +82,14 @@ internal class DataRetriever @Inject constructor(
         mediaId: MediaId
     ): List<MediaEntity> {
         return getRecentlyAddedUseCase(mediaId).first()
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
     }
 
     private suspend fun fetchMostPlayed(
         mediaId: MediaId
     ): List<MediaEntity> {
         return getMostPlayedSongsUseCase(mediaId).first()
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
     }
 
     suspend fun getFromSearch(
@@ -117,7 +117,7 @@ internal class DataRetriever @Inject constructor(
             )
             params.isSongFocus -> voiceSearch.filterByTrack(
                 songList = getSongListByParamUseCase(mediaId),
-                query = params.song
+                query = params.track
             )
             params.isGenreFocus -> voiceSearch.filterByGenre(
                 genreGateway = genreGateway,
@@ -142,7 +142,7 @@ internal class DataRetriever @Inject constructor(
         return listOf(mediaEntity)
     }
 
-    private fun Sequence<Song>.filterSongList(filter: String?): Sequence<Song> {
+    private fun Sequence<Track>.filterSongList(filter: String?): Sequence<Track> {
         return this.filter {
             if (filter.isNullOrBlank()) {
                 true

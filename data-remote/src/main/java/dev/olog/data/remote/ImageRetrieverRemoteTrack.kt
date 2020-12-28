@@ -2,7 +2,7 @@ package dev.olog.data.remote
 
 import androidx.annotation.VisibleForTesting
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.data.remote.deezer.DeezerService
 import dev.olog.data.remote.lastfm.LastFmService
 import dev.olog.lib.network.QueryNormalizer
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 interface ImageRetrieverRemoteTrack {
 
-    suspend fun fetch(song: Song): LastFmTrack
+    suspend fun fetch(track: Track): LastFmTrack
 
 }
 
@@ -23,37 +23,37 @@ internal class ImageRetrieverRemoteTrackImpl @Inject constructor(
     private val deezerService: DeezerService,
 ) : ImageRetrieverRemoteTrack {
 
-    override suspend fun fetch(song: Song): LastFmTrack = coroutineScope {
+    override suspend fun fetch(track: Track): LastFmTrack = coroutineScope {
 
-        val trackTitle = QueryNormalizer.normalize(song.title)
+        val trackTitle = QueryNormalizer.normalize(track.title)
 
         val trackArtist = QueryNormalizer.normalize(
-            original = if (song.hasUnknownArtist) "" else song.artist
+            original = if (track.hasUnknownArtist) "" else track.artist
         )
 
         val calls = listOf(
-            async { fetchLastFmTrack(song, trackTitle, trackArtist) },
+            async { fetchLastFmTrack(track, trackTitle, trackArtist) },
             async { fetchDeezerTrackImage(trackTitle, trackArtist) }
         ).awaitAll()
 
-        val track = calls[0] as LastFmTrack
+        val lastFmTrack = calls[0] as LastFmTrack
         val deezerImage = calls[1] as String?
 
-        track.copy(
-            image = deezerImage ?: track.image
+        lastFmTrack.copy(
+            image = deezerImage ?: lastFmTrack.image
         )
     }
 
     @VisibleForTesting
     internal suspend fun fetchLastFmTrack(
-        song: Song,
+        track: Track,
         trackTitle: String,
         trackArtist: String
     ): LastFmTrack {
-        val trackId = song.id
+        val trackId = track.id
 
         var result: LastFmTrack? = null
-        if (!song.hasUnknownArtist) {
+        if (!track.hasUnknownArtist) {
             // search only if has valid artist
             result = lastFmService.getTrackInfo(trackId, trackTitle, trackArtist)
         }

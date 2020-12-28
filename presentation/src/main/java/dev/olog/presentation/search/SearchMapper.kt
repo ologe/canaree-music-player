@@ -54,14 +54,14 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
     )
 }
 
-internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
+internal fun Track.toSearchDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(
         type = R.layout.item_search_song,
         mediaId = getMediaId(),
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = idInPlaylist,
+        idInPlaylist = -1,
         dataModified = this.dateModified
     )
 }

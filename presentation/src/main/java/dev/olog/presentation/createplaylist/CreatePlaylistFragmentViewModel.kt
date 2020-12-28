@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
@@ -73,7 +73,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
 
     fun observeData(): Flow<List<DisplayableItem>> = data
 
-    private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
+    private fun getPlaylistTypeTracks(): Flow<List<Track>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
         PlaylistType.TRACK -> getAllSongsUseCase.observeAll()
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")

@@ -56,7 +56,7 @@ internal fun Playlist.toTabPresentation(
     )
 }
 
-internal fun Song.toTabPresentation(): TabFragmentModel {
+internal fun Track.toTabPresentation(): TabFragmentModel {
     if (isPodcast) {
         return TabFragmentModel.Podcast(
             mediaId = getMediaId(),

@@ -4,7 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore.Audio.*
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
 import java.io.*
@@ -14,16 +14,16 @@ object OriginalImageFetcher {
     private val NAMES = arrayOf("folder", "cover", "album")
     private val EXTENSIONS = arrayOf("jpg", "jpeg", "png")
 
-    suspend fun loadImage(context: Context, song: Song): InputStream? {
+    suspend fun loadImage(context: Context, track: Track): InputStream? {
         var retriever: MediaMetadataRetriever? = null
         return try {
             retriever = MediaMetadataRetriever().apply {
-                val uri = ContentUris.withAppendedId(Media.EXTERNAL_CONTENT_URI, song.id)
+                val uri = ContentUris.withAppendedId(Media.EXTERNAL_CONTENT_URI, track.id)
                 val fd = context.contentResolver.openFileDescriptor(uri, "r")
                 if (fd != null){
                     setDataSource(fd.fileDescriptor) // time consuming
                 } else {
-                    setDataSource(song.path)
+                    setDataSource(track.path)
                 }
             }
             yield()
@@ -32,7 +32,7 @@ object OriginalImageFetcher {
             if (picture != null) {
                 ByteArrayInputStream(picture)
             } else {
-                fallback(song.path)
+                fallback(track.path)
             }
         } finally {
             retriever?.release()

@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -57,22 +57,22 @@ internal class GenreRepository @Inject constructor(
 
     override suspend fun queryAll(): List<Genre> {
         val cursor = queries.getAll()
-        val genres = contentResolver.queryAll(cursor, Cursor::toGenre)
-        return genres.mapNotNull { it.withSize() }
+        return contentResolver.queryAll(cursor) {
+            it.toGenre(this::computeSize)
+        }
     }
 
-    private suspend fun Genre.withSize(): Genre? {
+    private suspend fun computeSize(id: Id): Int? {
         // get the size for every genre
-        val sizeQueryCursor = queries.countGenreSize(this.id)
-        val size = contentResolver.queryCountRow(sizeQueryCursor)
-            .takeIf { it > 0 } ?: return null
-
-        return this.copy(size = size)
+        val sizeQueryCursor = queries.countGenreSize(id)
+        return contentResolver
+            .queryCountRow(sizeQueryCursor)
+            .takeIf { it > 0 }
     }
 
     override suspend fun getByParam(param: Id): Genre? {
         return publisher.value?.find { it.id == param }
-            ?: contentResolver.queryOne(queries.getByParam(param), Cursor::toGenre)?.withSize()
+            ?: contentResolver.queryOne(queries.getByParam(param)) { it.toGenre(this::computeSize) }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
@@ -81,12 +81,12 @@ internal class GenreRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override suspend fun getTrackListByParam(param: Id): List<Song> {
+    override suspend fun getTrackListByParam(param: Id): List<Track> {
         val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor, Cursor::toPlaylistSong)
+        return contentResolver.queryAll(cursor) { it.toPlaylistSong(param) }
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
@@ -98,7 +98,7 @@ internal class GenreRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Track>> {
         return mostPlayedDao.observeAll(mediaId.categoryId, songGateway)
             .distinctUntilChanged()
     }
@@ -106,7 +106,6 @@ internal class GenreRepository @Inject constructor(
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         mostPlayedDao.insertOne(
             GenreMostPlayedEntity(
-                id = 0,
                 songId = mediaId.leaf!!,
                 genreId = mediaId.categoryId
             )
@@ -119,11 +118,11 @@ internal class GenreRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override fun observeRecentlyAdded(path: Id): Flow<List<Song>> {
+    override fun observeRecentlyAdded(param: Id): Flow<List<Track>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(path)
-            contentResolver.queryAll(cursor, Cursor::toPlaylistSong)
+            val cursor = queries.getRecentlyAdded(param)
+            contentResolver.queryAll(cursor) { it.toPlaylistSong(param) }
         }
     }
 

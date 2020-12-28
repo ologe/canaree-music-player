@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import dev.olog.core.entity.track.PlaylistSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.entity.track.toPlaylistSong
 import dev.olog.core.gateway.podcast.PodcastGateway
 import kotlinx.coroutines.flow.Flow
@@ -60,12 +59,15 @@ abstract class PodcastPlaylistDao {
     suspend fun getPlaylistTracks(
         playlistId: Long,
         podcastGateway: PodcastGateway
-    ): List<PlaylistSong> {
+    ): List<Track.PlaylistSong> {
         val trackList = getPlaylistTracksImpl(playlistId)
-        val podcastList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        val podcastList : Map<Long, List<Track>> = podcastGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
-            val song = podcastList[entity.podcastId]?.first()
-            song?.toPlaylistSong(entity.idInPlaylist)
+            val track = podcastList[entity.podcastId]?.first()
+            track?.toPlaylistSong(
+                playlistId = playlistId,
+                idInPlaylist = entity.idInPlaylist
+            )
         }
     }
 
@@ -81,13 +83,16 @@ abstract class PodcastPlaylistDao {
     fun observePlaylistTracks(
         playlistId: Long,
         podcastGateway: PodcastGateway
-    ): Flow<List<PlaylistSong>> {
+    ): Flow<List<Track.PlaylistSong>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
-                val podcastList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                val podcastList : Map<Long, List<Track>> = podcastGateway.getAll().groupBy { it.id }
                 trackList.mapNotNull { entity ->
-                    val song = podcastList[entity.podcastId]?.first()
-                    song?.toPlaylistSong(entity.idInPlaylist)
+                    val track = podcastList[entity.podcastId]?.first()
+                    track?.toPlaylistSong(
+                        playlistId = playlistId,
+                        idInPlaylist = entity.idInPlaylist
+                    )
                 }
             }
     }

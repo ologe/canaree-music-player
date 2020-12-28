@@ -3,7 +3,7 @@ package dev.olog.presentation.edit
 import android.content.Context
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
@@ -31,11 +31,11 @@ class EditItemDialogFactory @Inject constructor(
     fun toEditTrack(mediaId: MediaId, action: () -> Unit) = GlobalScope.launch(Dispatchers.IO) {
         try {
             if (mediaId.isAnyPodcast) {
-                val song = getPodcastUseCase.getByParam(mediaId.resolveId)!!
-                checkItem(song)
+                val track = getPodcastUseCase.getByParam(mediaId.resolveId)!!
+                checkItem(track)
             } else {
-                val song = getSongUseCase.getByParam(mediaId.resolveId)!!
-                checkItem(song)
+                val track = getSongUseCase.getByParam(mediaId.resolveId)!!
+                checkItem(track)
             }
             withContext(Dispatchers.Main) {
                 action()
@@ -76,8 +76,8 @@ class EditItemDialogFactory @Inject constructor(
         }
     }
 
-    private fun checkItem(song: Song) {
-        val file = File(song.path)
+    private fun checkItem(track: Track) {
+        val file = File(track.path)
         val audioFile = AudioFileIO.read(file)
         audioFile.tagOrCreateAndSetDefault
     }

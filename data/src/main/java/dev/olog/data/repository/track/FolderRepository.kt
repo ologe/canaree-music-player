@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.base.Path
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -92,12 +92,12 @@ internal class FolderRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override suspend fun getTrackListByParam(param: Path): List<Song> {
+    override suspend fun getTrackListByParam(param: Path): List<Track> {
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor, Cursor::toSong)
     }
 
-    override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Path): Flow<List<Track>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
     }
@@ -107,7 +107,7 @@ internal class FolderRepository @Inject constructor(
         return extractFolders(cursor)
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Track>> {
         val folderPath = mediaId.categoryValue
         return mostPlayedDao.observeAll(folderPath, songGateway)
             .distinctUntilChanged()
@@ -116,7 +116,6 @@ internal class FolderRepository @Inject constructor(
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         mostPlayedDao.insertOne(
             FolderMostPlayedEntity(
-                id = 0,
                 songId = mediaId.leaf!!,
                 folderPath = mediaId.categoryValue
             )
@@ -135,10 +134,10 @@ internal class FolderRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {
+    override fun observeRecentlyAdded(param: Path): Flow<List<Track>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(path)
+            val cursor = queries.getRecentlyAdded(param)
             contentResolver.queryAll(cursor, Cursor::toSong)
         }
     }

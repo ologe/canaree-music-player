@@ -42,7 +42,7 @@ internal class VoiceSearchParams(
     var genre = "null"
     var artist = "null"
     var album = "null"
-    var song = "null"
+    var track = "null"
 
     init {
 
@@ -83,9 +83,9 @@ internal class VoiceSearchParams(
                         artist = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     MediaStore.Audio.Media.ENTRY_CONTENT_TYPE -> {
-                        // for a Song focused search, title, album, artist and genre are set:
+                        // for a track focused search, title, album, artist and genre are set:
                         isSongFocus = true
-                        song = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_TITLE) ?: "null"
+                        track = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_TITLE) ?: "null"
                         album = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
                         genre = extras.getTyped<String>(genreKey) ?: "null"
                         artist = extras.getTyped<String>(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
@@ -108,7 +108,7 @@ internal class VoiceSearchParams(
                 + " genre=" + genre
                 + " artist=" + artist
                 + " album=" + album
-                + " song=" + song)
+                + " track=" + track)
     }
 
 }

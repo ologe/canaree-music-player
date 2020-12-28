@@ -38,7 +38,7 @@ internal sealed class DetailFragmentModel(
         override val mediaId: MediaId,
         val title: String,
         val subtitle: String,
-        val idInPlaylist: Int,
+        val idInPlaylist: Long,
     ) : DetailFragmentModel(layoutRes), Playable
 
     data class MostPlayedHeader(

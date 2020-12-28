@@ -1,6 +1,6 @@
-package dev.olog.presentation.edit.song
+package dev.olog.presentation.edit.track
 
-data class DisplayableSong(
+data class DisplayableTrack(
     val id: Long,
     val artistId: Long,
     val albumId: Long,

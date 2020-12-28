@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.PlayingQueueTrack
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
@@ -39,14 +39,14 @@ internal abstract class PlayingQueueDao {
 
     private fun makePlayingQueue(
         playingQueue: List<PlayingQueueEntity>,
-        songList: List<Song>,
-        podcastList: List<Song>
-    ): List<PlayingQueueSong> {
+        songList: List<Track>,
+        podcastList: List<Track>
+    ): List<PlayingQueueTrack> {
         // mapping to avoid O(n^2) iteration
         val mappedSongList = songList.groupBy { it.id }
         val mappedPodcastList = podcastList.groupBy { it.id }
 
-        val result = mutableListOf<PlayingQueueSong>()
+        val result = mutableListOf<PlayingQueueTrack>()
 
         for (playingQueueEntity in playingQueue) {
             val id = playingQueueEntity.songId
@@ -55,8 +55,8 @@ internal abstract class PlayingQueueDao {
                 ?: mappedPodcastList[id]
                 ?: continue
 
-            val song = fakeSongList[0] // only one song
-            val playingQueueSong = song.toPlayingQueueSong(
+            val track = fakeSongList[0] // only one track
+            val playingQueueSong = track.toPlayingQueueSong(
                 serviceProgressive = playingQueueEntity.serviceProgressive,
             )
             result.add(playingQueueSong)
@@ -65,9 +65,9 @@ internal abstract class PlayingQueueDao {
     }
 
     suspend fun getAllAsSongs(
-        songList: List<Song>,
-        podcastList: List<Song>
-    ): List<PlayingQueueSong> {
+        songList: List<Track>,
+        podcastList: List<Track>
+    ): List<PlayingQueueTrack> {
         val queueEntityList = getAllImpl()
         return makePlayingQueue(queueEntityList, songList, podcastList)
     }
@@ -75,7 +75,7 @@ internal abstract class PlayingQueueDao {
     fun observeAllAsSongs(
         songGateway: SongGateway,
         podcastGateway: PodcastGateway
-    ): Flow<List<PlayingQueueSong>> {
+    ): Flow<List<PlayingQueueTrack>> {
         return this.observeAllImpl()
             .map {
                 makePlayingQueue(it, songGateway.getAll(), podcastGateway.getAll())
@@ -94,11 +94,11 @@ internal abstract class PlayingQueueDao {
         insertAllImpl(result)
     }
 
-    private fun Song.toPlayingQueueSong(
+    private fun Track.toPlayingQueueSong(
         serviceProgressive: Int
-    ) : PlayingQueueSong {
-        return PlayingQueueSong(
-            song = this,
+    ) : PlayingQueueTrack {
+        return PlayingQueueTrack(
+            track = this,
             serviceProgressive = serviceProgressive,
         )
     }

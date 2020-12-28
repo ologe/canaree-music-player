@@ -6,13 +6,15 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.core.entity.track.*
+import dev.olog.core.gateway.base.Id
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getStringOrNull
 import java.io.File
+import java.util.*
 
-fun Cursor.toSong(): Song {
+fun Cursor.toSong(): Track.Song {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -33,7 +35,7 @@ fun Cursor.toSong(): Song {
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
-    return Song(
+    return Track.Song(
         id = id,
         artistId = artistId,
         albumId = albumId,
@@ -50,7 +52,7 @@ fun Cursor.toSong(): Song {
     )
 }
 
-fun Cursor.toPlaylistSong(): PlaylistSong {
+fun Cursor.toPlaylistSong(playlistId: Long): Track.PlaylistSong {
     val idInPlaylist = getLong(MediaStore.Audio.Playlists.Members._ID)
     val id = getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
@@ -72,22 +74,21 @@ fun Cursor.toPlaylistSong(): PlaylistSong {
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
-    return PlaylistSong(
-        song = Song(
-            id = id,
-            artistId = artistId,
-            albumId = albumId,
-            title = title,
-            artist = artist,
-            albumArtist = albumArtist,
-            album = album,
-            duration = duration,
-            dateAdded = dateAdded,
-            dateModified = dateModified,
-            path = path,
-            trackColumn = track,
-            isPodcast = isPodcast,
-        ),
+    return Track.PlaylistSong(
+        id = id,
+        artistId = artistId,
+        albumId = albumId,
+        title = title,
+        artist = artist,
+        albumArtist = albumArtist,
+        album = album,
+        duration = duration,
+        dateAdded = dateAdded,
+        dateModified = dateModified,
+        path = path,
+        trackColumn = track,
+        isPodcast = isPodcast,
+        playlistId = playlistId,
         idInPlaylist = idInPlaylist,
     )
 }
@@ -133,12 +134,14 @@ fun Cursor.toArtist(): Artist {
     )
 }
 
-internal fun Cursor.toGenre(): Genre {
+internal suspend fun Cursor.toGenre(computeSize: suspend (Id) -> Int?): Genre? {
     val id = this.getLong(BaseColumns._ID)
-    val name = this.getStringOrNull(MediaStore.Audio.GenresColumns.NAME)?.capitalize() ?: ""
+    val name = this.getStringOrNull(MediaStore.Audio.GenresColumns.NAME)?.capitalize(Locale.ROOT) ?: ""
+
+    val size = computeSize(id) ?: return null
     return Genre(
         id = id,
         name = name,
-        size = 0 // wil be updated later
+        size = size
     )
 }

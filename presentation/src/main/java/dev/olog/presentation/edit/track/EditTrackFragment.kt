@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.song
+package dev.olog.presentation.edit.track
 
 import android.os.Bundle
 import android.view.View

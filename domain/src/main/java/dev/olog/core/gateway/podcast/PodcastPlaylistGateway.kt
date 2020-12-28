@@ -1,12 +1,11 @@
 package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.PlaylistSong
 import dev.olog.core.gateway.base.*
 
 interface PodcastPlaylistGateway :
     BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id, PlaylistSong>,
+    ChildHasTracks<Id>,
     HasSiblings<Playlist, Id>,
     HasRelatedArtists<Id> {
 

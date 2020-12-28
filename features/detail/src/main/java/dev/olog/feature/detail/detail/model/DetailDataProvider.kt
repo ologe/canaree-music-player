@@ -4,7 +4,7 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -89,7 +89,7 @@ internal class DetailDataProvider @Inject constructor(
             .flatMapLatest { order ->
                 observeSongListByParamUseCase(parentMediaId)
                     .combine(filterFlow) { songList, filter ->
-                        val filteredSongList: MutableList<Song> = songList.asSequence()
+                        val filteredSongList: MutableList<Track> = songList.asSequence()
                             .filter {
                                 it.title.contains(filter, true) ||
                                         it.artist.contains(filter, true) ||
@@ -142,7 +142,7 @@ internal class DetailDataProvider @Inject constructor(
         parentMediaId: MediaId
     ): Flow<List<DetailFragmentMostPlayedModel>> {
         return mostPlayedUseCase(parentMediaId).map {
-            it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(parentMediaId, index) }
+            it.mapIndexed { index, track -> track.toMostPlayedDetailDisplayableItem(parentMediaId, index) }
         }
     }
 

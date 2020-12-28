@@ -2,7 +2,7 @@ package dev.olog.core.interactor.songlist
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -25,7 +25,7 @@ class GetSongListByParamUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(mediaId: MediaId): List<Song> {
+    suspend operator fun invoke(mediaId: MediaId): List<Track> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)

@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.base.HasLastPlayed
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -73,12 +73,12 @@ internal class PodcastArtistRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override suspend fun getTrackListByParam(param: Id): List<Song> {
+    override suspend fun getTrackListByParam(param: Id): List<Track> {
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor, Cursor::toSong)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
     }

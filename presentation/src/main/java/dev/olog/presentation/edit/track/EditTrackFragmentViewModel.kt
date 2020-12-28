@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.song
+package dev.olog.presentation.edit.track
 
 import android.content.Context
 import androidx.hilt.Assisted
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.argument
@@ -38,24 +38,24 @@ class EditTrackFragmentViewModel @ViewModelInject constructor(
 
     private var fetchJob by autoDisposeJob()
 
-    private val songPublisher = MutableStateFlow<Song?>(null)
-    private val displayablePublisher = MutableStateFlow<DisplayableSong?>(null)
+    private val songPublisher = MutableStateFlow<Track?>(null)
+    private val displayablePublisher = MutableStateFlow<DisplayableTrack?>(null)
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
 
         viewModelScope.launch {
-            val song = withContext(Dispatchers.IO) {
+            val track = withContext(Dispatchers.IO) {
                 presenter.getSong(mediaId)
             }
-            songPublisher.value = song
-            displayablePublisher.value = song.toDisplayableSong()
+            songPublisher.value = track
+            displayablePublisher.value = track.toDisplayableSong()
         }
     }
 
-    fun observeData(): Flow<DisplayableSong> = displayablePublisher.filterNotNull()
+    fun observeData(): Flow<DisplayableTrack> = displayablePublisher.filterNotNull()
 
-    fun getOriginalSong(): Song = songPublisher.value!!
+    fun getOriginalSong(): Track = songPublisher.value!!
 
     fun fetchSongInfo(mediaId: MediaId): Boolean {
         if (!NetworkUtils.isConnected(context)) {
@@ -84,13 +84,13 @@ class EditTrackFragmentViewModel @ViewModelInject constructor(
         fetchJob = null
     }
 
-    private fun Song.toDisplayableSong(): DisplayableSong {
+    private fun Track.toDisplayableSong(): DisplayableTrack {
         val file = File(path)
         val audioFile = AudioFileIO.read(file)
         val audioHeader = audioFile.audioHeader
         val tag = audioFile.tagOrCreateAndSetDefault
 
-        return DisplayableSong(
+        return DisplayableTrack(
             id = this.id,
             artistId = this.artistId,
             albumId = this.albumId,

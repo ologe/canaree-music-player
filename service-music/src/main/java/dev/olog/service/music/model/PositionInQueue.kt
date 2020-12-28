@@ -14,7 +14,7 @@ internal enum class PositionInQueue {
      */
     LAST,
     /**
-     * Is the only song the list, has no previous or next songs
+     * Is the only track the list, has no previous or next songs
      */
     FIRST_AND_LAST
 }

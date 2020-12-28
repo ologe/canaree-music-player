@@ -18,12 +18,12 @@ class UpdateMultipleTracksUseCase @Inject constructor(
 
     suspend operator fun invoke(param: Data) {
         try {
-            val songList = getSongListByParamUseCase(param.mediaId)
-            for (song in songList) {
+            val trackList = getSongListByParamUseCase(param.mediaId)
+            for (track in trackList) {
                 updateTrackUseCase(
                     UpdateTrackUseCase.Data(
                         mediaId = null, // set to null because do not want to update track image
-                        path = song.path,
+                        path = track.path,
                         fields = param.fields,
                         isPodcast = null
                     )

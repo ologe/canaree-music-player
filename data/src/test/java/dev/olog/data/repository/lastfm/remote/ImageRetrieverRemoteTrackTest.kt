@@ -2,7 +2,7 @@ package dev.olog.data.repository.lastfm.remote
 
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.EMPTY
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.data.remote.deezer.DeezerService
 import dev.olog.data.remote.deezer.dto.DeezerAlbumDto
 import dev.olog.data.remote.deezer.dto.DeezerTrackDto
@@ -112,14 +112,14 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should fetch trackInfo only, when has valid title and artist`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "artist"
             )
             coEvery { lastFmService.getTrackInfo(1L, "title", "artist") } returns LAST_FM_INFO_SUCCESS
 
-            val actual = sut.fetchLastFmTrack(song, "title", "artist")
+            val actual = sut.fetchLastFmTrack(track, "title", "artist")
 
             assertThat(actual).isEqualTo(
                 LastFmTrack(
@@ -137,14 +137,14 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should search track (no track info), when unknown artist`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "<unknown>"
             )
             coEvery { lastFmService.searchTrack(1L, "title", "<unknown>") } returns LAST_FM_SEARCH_SUCCESS
 
-            val actual = sut.fetchLastFmTrack(song, "title", "<unknown>")
+            val actual = sut.fetchLastFmTrack(track, "title", "<unknown>")
 
             assertThat(actual).isEqualTo(
                 LastFmTrack(
@@ -162,7 +162,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should search track, when track info returns null`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "artist"
@@ -170,7 +170,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
             coEvery { lastFmService.getTrackInfo(1L, "title", "artist") } returns null
             coEvery { lastFmService.searchTrack(1L, "title", "artist") } returns LAST_FM_SEARCH_SUCCESS
 
-            val actual = sut.fetchLastFmTrack(song, "title", "artist")
+            val actual = sut.fetchLastFmTrack(track, "title", "artist")
 
             assertThat(actual).isEqualTo(
                 LastFmTrack(
@@ -188,7 +188,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should return nullTrack, when both search and track info returns null`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "artist"
@@ -196,7 +196,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
             coEvery { lastFmService.getTrackInfo(1L, "title", "artist") } returns null
             coEvery { lastFmService.searchTrack(1L, "title", "artist") } returns null
 
-            val actual = sut.fetchLastFmTrack(song, "title", "artist")
+            val actual = sut.fetchLastFmTrack(track, "title", "artist")
 
             assertThat(actual).isEqualTo(
                 LastFmNulls.createNullTrack(1L).toDomain()
@@ -210,7 +210,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should return model with deezer image when deezer model is non null`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "artist"
@@ -218,7 +218,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
             coEvery { deezerService.getTrack("title - artist") } returns IoResult.just(DEEZER_SUCCESS)
             coEvery { lastFmService.getTrackInfo(1L, "title", "artist") } returns LAST_FM_INFO_SUCCESS
 
-            val actual = sut.fetch(song)
+            val actual = sut.fetch(track)
 
             assertThat(actual).isEqualTo(
                 LastFmTrack(
@@ -236,7 +236,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
 
         @Test
         fun `should return model with last fm image when deezer model is null`() = coroutineRule {
-            val song = Song.EMPTY.copy(
+            val track = Track.EMPTY.copy(
                 id = 1L,
                 title = "title",
                 artist = "artist"
@@ -244,7 +244,7 @@ class ImageRetrieverRemoteTrackTest : StatelessSutTest() {
             coEvery { deezerService.getTrack("title - artist") } returns IoResult.ServerError(0, "")
             coEvery { lastFmService.getTrackInfo(1L, "title", "artist") } returns LAST_FM_INFO_SUCCESS
 
-            val actual = sut.fetch(song)
+            val actual = sut.fetch(track)
 
             assertThat(actual).isEqualTo(
                 LastFmTrack(

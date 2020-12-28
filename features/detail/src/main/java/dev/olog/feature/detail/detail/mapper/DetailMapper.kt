@@ -22,14 +22,13 @@ internal fun Artist.toRelatedArtist(resources: Resources): DetailFragmentRelated
     )
 }
 
-internal fun Song.toDetailDisplayableItem(
+internal fun Track.toDetailDisplayableItem(
     parentId: MediaId,
     sortType: SortType
 ): DetailFragmentModel {
-    val isPlaylist = parentId.isPlaylist || parentId.isPodcastPlaylist
     val layoutRes = computeLayoutType(parentId, sortType)
 
-    if (isPlaylist) {
+    if (this is Track.PlaylistSong) {
         return DetailFragmentModel.PlaylistTrack(
             layoutRes = layoutRes,
             mediaId = getMediaId(),
@@ -62,7 +61,7 @@ private fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
     }
 }
 
-internal fun Song.toMostPlayedDetailDisplayableItem(
+internal fun Track.toMostPlayedDetailDisplayableItem(
     parentId: MediaId,
     position: Int
 ): DetailFragmentMostPlayedModel {
@@ -79,7 +78,7 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
     )
 }
 
-internal fun Song.toRecentDetailDisplayableItem(
+internal fun Track.toRecentDetailDisplayableItem(
     parentId: MediaId
 ): DetailFragmentRecentlyAddedModel {
     val mediaId = MediaId.playableItem(parentId, id).copy(

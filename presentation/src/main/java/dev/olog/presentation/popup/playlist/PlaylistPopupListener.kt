@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.lib.media.mediaProvider
@@ -26,18 +26,18 @@ class PlaylistPopupListener @Inject constructor(
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var playlist: Playlist
-    private var song: Song? = null
+    private var track: Track? = null
 
-    fun setData(playlist: Playlist, song: Song?): PlaylistPopupListener {
+    fun setData(playlist: Playlist, track: Track?): PlaylistPopupListener {
         this.playlist = playlist
-        this.song = song
+        this.track = track
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null) {
+        if (track != null) {
             val playlistMediaId = playlist.getMediaId()
-            return MediaId.playableItem(playlistMediaId, song!!.id)
+            return MediaId.playableItem(playlistMediaId, track!!.id)
         } else {
             return playlist.getMediaId()
         }
@@ -59,10 +59,10 @@ class PlaylistPopupListener @Inject constructor(
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
+            R.id.viewAlbum -> viewAlbum(navigator, track!!.getAlbumMediaId())
+            R.id.viewArtist -> viewArtist(navigator, track!!.getArtistMediaId())
+            R.id.share -> share(activity, track!!)
+            R.id.setRingtone -> setRingtone(navigator, getMediaId(), track!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title)
             R.id.removeDuplicates -> removeDuplicates()
         }
@@ -76,10 +76,10 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        if (song == null) {
+        if (track == null) {
             navigator.toCreatePlaylistDialog(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), -1, track!!.title)
         }
     }
 
@@ -100,35 +100,35 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playLater() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayLater(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun playNext() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayNext(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId(), -1, track!!.title)
         }
     }
 
 
     private fun addToFavorite() {
-        if (song == null) {
+        if (track == null) {
             navigator.toAddToFavoriteDialog(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun delete() {
-        if (song == null) {
+        if (track == null) {
             navigator.toDeleteDialog(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId(), -1, track!!.title)
         }
     }
 

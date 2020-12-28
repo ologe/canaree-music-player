@@ -3,7 +3,7 @@ package dev.olog.data.local.most.played
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.track.SongGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -30,7 +30,7 @@ abstract class GenreMostPlayedDao {
     fun observeAll(
         playlistId: Long,
         songGateway: SongGateway
-    ): Flow<List<Song>> {
+    ): Flow<List<Track>> {
         return this.observeAllImpl(playlistId)
             .map { mostPlayed ->
                 val songList = songGateway.getAll()

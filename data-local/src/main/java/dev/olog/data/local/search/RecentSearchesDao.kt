@@ -259,12 +259,12 @@ abstract class RecentSearchesDao {
         )
     }
 
-    private fun songMapper(recentSearch: RecentSearchesEntity, song: Song?): SearchResult? {
-        if (song == null) {
+    private fun songMapper(recentSearch: RecentSearchesEntity, track: Track?): SearchResult? {
+        if (track == null) {
             return null
         }
         return SearchResult(
-            song.getMediaId(), recentSearch.dataType, song.title
+            track.getMediaId(), recentSearch.dataType, track.title
         )
     }
 

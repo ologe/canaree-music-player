@@ -1,7 +1,7 @@
 package dev.olog.service.music.voice
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
@@ -10,36 +10,36 @@ import javax.inject.Inject
 // TODO refactor and inject
 internal class VoiceSearch @Inject constructor(){
 
-    fun noFilter(songList: List<Song>): List<MediaEntity> {
+    fun noFilter(songList: List<Track>): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)
-        return songList.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+        return songList.mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
     }
 
-    fun filterByAlbum(songList: List<Song>, query: String): List<MediaEntity> {
+    fun filterByAlbum(songList: List<Track>, query: String): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.album.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
     }
 
-    fun filterByArtist(songList: List<Song>, query: String): List<MediaEntity> {
+    fun filterByArtist(songList: List<Track>, query: String): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.artist.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
     }
 
-    fun filterByTrack(songList: List<Song>, query: String): List<MediaEntity> {
+    fun filterByTrack(songList: List<Track>, query: String): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.title.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
     }
 
-    fun search(songList: List<Song>, query: String): List<MediaEntity> {
+    fun search(songList: List<Track>, query: String): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter {
@@ -47,7 +47,7 @@ internal class VoiceSearch @Inject constructor(){
                         it.artist.equals(query, true) ||
                         it.album.equals(query, true)
             }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, mediaId) }
             .toList()
     }
 
@@ -56,7 +56,7 @@ internal class VoiceSearch @Inject constructor(){
         val parentMediaId = genre.getMediaId()
 
         return genreGateway.getTrackListByParam(genre.id)
-            .mapIndexed { index, song -> song.toMediaEntity(index, parentMediaId) }
+            .mapIndexed { index, track -> track.toMediaEntity(index, parentMediaId) }
     }
 
 }

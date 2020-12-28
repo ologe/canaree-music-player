@@ -1,7 +1,7 @@
 package dev.olog.lib.offline.lyrics.domain
 
 import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.SongGateway
 import kotlinx.coroutines.Dispatchers
@@ -18,17 +18,17 @@ class InsertOfflineLyricsUseCase @Inject constructor(
 )  {
 
     suspend operator fun invoke(offlineLyrics: OfflineLyrics) = withContext(Dispatchers.IO){
-        val song = songGateway.getByParam(offlineLyrics.trackId)
-        if (song != null){
-            saveLyricsOnMetadata(song, offlineLyrics.lyrics)
+        val track = songGateway.getByParam(offlineLyrics.trackId)
+        if (track != null){
+            saveLyricsOnMetadata(track, offlineLyrics.lyrics)
         }
         gateway.saveLyrics(offlineLyrics)
     }
 
-    suspend fun saveLyricsOnMetadata(song: Song, lyrics: String) {
+    suspend fun saveLyricsOnMetadata(track: Track, lyrics: String) {
         try {
-            updateTrackMetadata(song.path, lyrics)
-            updateFileIfAny(song.path, lyrics)
+            updateTrackMetadata(track.path, lyrics)
+            updateFileIfAny(track.path, lyrics)
         } catch (ex: Throwable){
             ex.printStackTrace()
         }

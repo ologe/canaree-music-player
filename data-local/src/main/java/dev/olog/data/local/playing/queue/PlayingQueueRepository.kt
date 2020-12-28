@@ -1,7 +1,7 @@
 package dev.olog.data.local.playing.queue
 
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.PlayingQueueTrack
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -17,7 +17,7 @@ internal class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
-    override suspend fun getAll(): List<PlayingQueueSong> {
+    override suspend fun getAll(): List<PlayingQueueTrack> {
         try {
             val playingQueue = playingQueueDao.getAllAsSongs(
                 songList = songGateway.getAll(),
@@ -26,7 +26,7 @@ internal class PlayingQueueRepository @Inject constructor(
             if (playingQueue.isNotEmpty()) {
                 return playingQueue
             }
-            return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
+            return songGateway.getAll().mapIndexed { index, track -> track.toPlayingQueueSong(index) }
         } catch (ex: SecurityException) {
             // sometimes this method is called without having storage permission
             Timber.e(ex)
@@ -34,7 +34,7 @@ internal class PlayingQueueRepository @Inject constructor(
         }
     }
 
-    override fun observeAll(): Flow<List<PlayingQueueSong>> {
+    override fun observeAll(): Flow<List<PlayingQueueTrack>> {
         return playingQueueDao.observeAllAsSongs(songGateway, podcastGateway)
     }
 
@@ -42,9 +42,9 @@ internal class PlayingQueueRepository @Inject constructor(
         playingQueueDao.insert(list)
     }
 
-    private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
-        return PlayingQueueSong(
-            song = this,
+    private fun Track.toPlayingQueueSong(progressive: Int): PlayingQueueTrack {
+        return PlayingQueueTrack(
+            track = this,
             serviceProgressive = progressive,
         )
     }

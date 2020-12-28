@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaIdModifier
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -307,7 +307,7 @@ internal class Queue @Inject constructor(
         val currentPosition = queue.indexOf(entity)
         var newPosition = currentPosition - 1
         if (currentPosition == 0 && newPosition < 0 && !repeatMode.isRepeatAll()) {
-            // restart song from beginning if is first
+            // restart track from beginning if is first
             return@whenIsSet entity.toPlayerMediaEntity(
                 positionInQueue = computePositionInQueue(),
                 bookmark = bookmark,
@@ -420,7 +420,7 @@ internal class Queue @Inject constructor(
         updateQueue(newQueue, newPosition)
     }
 
-    private suspend fun findTrack(id: Long, isPodcast: Boolean): Song? {
+    private suspend fun findTrack(id: Long, isPodcast: Boolean): Track? {
         return if (isPodcast) {
             podcastGateway.getByParam(id)
         } else {

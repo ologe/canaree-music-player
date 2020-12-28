@@ -2,7 +2,7 @@ package dev.olog.presentation.popup.artist
 
 import android.view.View
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -11,13 +11,13 @@ import dev.olog.shared.android.utils.isQ
 class ArtistPopup(
     view: View,
     @Suppress("UNUSED_PARAMETER") artist: Artist,
-    song: Song?,
+    track: Track?,
     listener: AbsPopupListener
 
 ) : AbsPopup(view) {
 
     init {
-        if (song == null) {
+        if (track == null) {
             inflate(R.menu.dialog_artist)
         } else {
             inflate(R.menu.dialog_song)
@@ -27,7 +27,7 @@ class ArtistPopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (isQ() && song == null) {
+        if (isQ() && track == null) {
             // works bad on Q
             menu.removeItem(R.id.delete)
         }

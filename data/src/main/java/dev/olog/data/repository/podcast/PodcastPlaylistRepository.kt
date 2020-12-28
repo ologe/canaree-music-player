@@ -79,36 +79,34 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .map { it?.toDomain() }
     }
 
-    override suspend fun getTrackListByParam(param: Id): List<PlaylistSong> {
+    override suspend fun getTrackListByParam(param: Id): List<Track> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
         return podcastPlaylistDao.getPlaylistTracks(param, podcastGateway)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<PlaylistSong>> {
+    override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
         }
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
 
-    private suspend fun getAutoPlaylistsTracks(param: Id): List<PlaylistSong> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<Track> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll()
                 .sortedByDescending { it.dateAdded }
-                .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()
             AutoPlaylist.HISTORY.id -> historyDao.getPodcasts(podcastGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<PlaylistSong>> {
+    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Track>> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> podcastGateway.observeAll().map { list ->
                 list.sortedByDescending { it.dateAdded }
-                    .mapIndexed { index, song -> song.toPlaylistSong(index.toLong()) }
             }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observePodcasts()
             AutoPlaylist.HISTORY.id -> historyDao.observePodcasts(podcastGateway)
@@ -185,7 +183,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
         return observeTrackListByParam(params)
             .map {  songList ->
-                val artists = songList.groupBy { it.song.artistId }
+                val artists = songList.groupBy { it.artistId }
                     .map { it.key }
                 podcastArtistGateway.getAll()
                     .filter { artists.contains(it.id) }

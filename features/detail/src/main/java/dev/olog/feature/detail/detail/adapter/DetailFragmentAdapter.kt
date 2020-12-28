@@ -210,7 +210,7 @@ internal class DetailFragmentAdapter(
                 mediaId = item.mediaId,
                 title = item.title,
                 subtitle = item.subtitle,
-                position = item.idInPlaylist,
+                position = item.idInPlaylist.toInt(),
             )
             is DetailFragmentModel.RelatedArtistHeader -> bindHeader(
                 holder = holder,
@@ -269,7 +269,7 @@ internal class DetailFragmentAdapter(
         mediaId: MediaId,
         title: String,
         subtitle: String,
-        position: Int,
+        position: Int, // TODO not sure about the name
     ) = holder.bindView {
 
         if (imageView != null) {

@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup.song
+package dev.olog.presentation.popup.track
 
 import android.view.View
 import dev.olog.presentation.R

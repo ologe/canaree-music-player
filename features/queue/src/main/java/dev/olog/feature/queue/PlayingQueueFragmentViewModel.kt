@@ -3,7 +3,7 @@ package dev.olog.feature.queue
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.PlayingQueueSong
+import dev.olog.core.entity.PlayingQueueTrack
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.shared.android.DisplayableItemUtils
@@ -22,7 +22,7 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
         get() =  musicPreferencesUseCase.lastProgressive
 
     private val dataPublisher = MutableStateFlow<List<PlayingQueueFragmentModel>>(emptyList())
-    private val queuePublisher = MutableStateFlow<List<PlayingQueueSong>>(emptyList())
+    private val queuePublisher = MutableStateFlow<List<PlayingQueueTrack>>(emptyList())
 
     init {
         playingQueueGateway.observeAll()
@@ -72,12 +72,12 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun PlayingQueueSong.toDisplayableItem(
+    private fun PlayingQueueTrack.toDisplayableItem(
         trackIndexInThisQueue: Int,
         playingIndexInThisQueue: Int,
         playingIndexInServiceQueue: Int
     ): PlayingQueueFragmentModel {
-        val song = this.song
+        val track = this.track
 
         val relativePosition = when {
             trackIndexInThisQueue > playingIndexInThisQueue -> "+${trackIndexInThisQueue - playingIndexInThisQueue}"
@@ -87,9 +87,9 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
 
         return PlayingQueueFragmentModel(
             progressive = serviceProgressive,
-            mediaId = song.getMediaId(),
-            title = song.title,
-            subtitle = DisplayableItemUtils.trackSubtitle(song.artist, song.album),
+            mediaId = track.getMediaId(),
+            title = track.title,
+            subtitle = DisplayableItemUtils.trackSubtitle(track.artist, track.album),
             relativePosition = relativePosition,
             isCurrentSong = serviceProgressive == playingIndexInServiceQueue
         )

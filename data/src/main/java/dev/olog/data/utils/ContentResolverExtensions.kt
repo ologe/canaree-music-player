@@ -11,14 +11,14 @@ import kotlinx.coroutines.yield
 @Suppress("unused")
 internal suspend inline fun <T> ContentResolver.queryAll(
     cursor: Cursor,
-    crossinline mapper: (Cursor) -> T
+    crossinline mapper: suspend (Cursor) -> T?
 ): List<T> = withContext(Dispatchers.IO) {
 
     cursor.use {
         buildList {
             while (it.moveToNext()) {
                 yield()
-                add(mapper(it))
+                add(mapper(it) ?: continue)
             }
         }
     }
@@ -27,7 +27,7 @@ internal suspend inline fun <T> ContentResolver.queryAll(
 @Suppress("unused")
 internal suspend inline fun <T> ContentResolver.queryOne(
     cursor: Cursor,
-    crossinline mapper: (Cursor) -> T
+    crossinline mapper: suspend (Cursor) -> T?
 ): T? = withContext(Dispatchers.IO) {
 
     cursor.use {

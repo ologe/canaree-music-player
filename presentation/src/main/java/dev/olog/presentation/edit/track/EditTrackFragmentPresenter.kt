@@ -1,8 +1,8 @@
-package dev.olog.presentation.edit.song
+package dev.olog.presentation.edit.track
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -17,16 +17,24 @@ class EditTrackFragmentPresenter @Inject constructor(
 
 ) {
 
-    suspend fun getSong(mediaId: MediaId): Song {
-        val song = if (mediaId.isPodcast) {
+    suspend fun getSong(mediaId: MediaId): Track {
+        val track = if (mediaId.isPodcast) {
             podcastGateway.getByParam(mediaId.leaf!!)!!
         } else {
             songGateway.getByParam(mediaId.leaf!!)!!
         }
-        return song.copy(
-            artist = if (song.hasUnknownArtist) "" else song.artist,
-            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
-        )
+        val artist = if (track.hasUnknownArtist) "" else track.artist
+        val album = if (track.album == AppConstants.UNKNOWN) "" else track.album
+        return when (track) {
+            is Track.Song -> track.copy(
+                artist = artist,
+                album = album,
+            )
+            is Track.PlaylistSong -> track.copy(
+                artist = artist,
+                album = album,
+            )
+        }
     }
 
     suspend fun fetchData(id: Id): LastFmTrack? {

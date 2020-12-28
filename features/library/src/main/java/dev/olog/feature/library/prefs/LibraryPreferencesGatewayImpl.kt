@@ -132,9 +132,9 @@ internal class LibraryPreferencesGatewayImpl @Inject constructor(
             putInt(CATEGORY_PLAYLIST_ORDER, playlist.order)
             putBoolean(CATEGORY_PLAYLIST_VISIBILITY, playlist.visible)
 
-            val song = behavior.first { it.category == MediaIdCategory.SONGS }
-            putInt(CATEGORY_SONG_ORDER, song.order)
-            putBoolean(CATEGORY_SONG_VISIBILITY, song.visible)
+            val track = behavior.first { it.category == MediaIdCategory.SONGS }
+            putInt(CATEGORY_SONG_ORDER, track.order)
+            putBoolean(CATEGORY_SONG_VISIBILITY, track.visible)
 
             val album = behavior.first { it.category == MediaIdCategory.ALBUMS }
             putInt(CATEGORY_ALBUM_ORDER, album.order)
@@ -189,9 +189,9 @@ internal class LibraryPreferencesGatewayImpl @Inject constructor(
             putInt(CATEGORY_PODCAST_PLAYLIST_ORDER, playlist.order)
             putBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, playlist.visible)
 
-            val song = behavior.first { it.category == MediaIdCategory.PODCASTS }
-            putInt(CATEGORY_PODCAST_ORDER, song.order)
-            putBoolean(CATEGORY_PODCAST_VISIBILITY, song.visible)
+            val track = behavior.first { it.category == MediaIdCategory.PODCASTS }
+            putInt(CATEGORY_PODCAST_ORDER, track.order)
+            putBoolean(CATEGORY_PODCAST_VISIBILITY, track.visible)
 
             val album = behavior.first { it.category == MediaIdCategory.PODCASTS_ALBUMS }
             putInt(CATEGORY_PODCAST_ALBUM_ORDER, album.order)

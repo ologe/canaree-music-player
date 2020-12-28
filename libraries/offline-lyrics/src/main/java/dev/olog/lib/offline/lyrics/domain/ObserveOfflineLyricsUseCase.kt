@@ -1,6 +1,6 @@
 package dev.olog.lib.offline.lyrics.domain
 
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
@@ -27,16 +27,16 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
     }
 
     private suspend fun mapLyrics(id: Long, lyrics: String): String {
-        val song = songGateway.getByParam(id) ?: return lyrics
+        val track = songGateway.getByParam(id) ?: return lyrics
         try {
-            return getLyricsFromMetadata(song)
+            return getLyricsFromMetadata(track)
         } catch (ex: Throwable) {
             return lyrics
         }
     }
 
-    private fun getLyricsFromMetadata(song: Song): String {
-        val file = File(song.path)
+    private fun getLyricsFromMetadata(track: Track): String {
+        val file = File(track.path)
 
         val fileName = file.nameWithoutExtension
         val lyricsFile = File(file.parentFile, "$fileName.lrc")

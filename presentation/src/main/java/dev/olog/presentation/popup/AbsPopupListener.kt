@@ -9,7 +9,7 @@ import androidx.core.text.parseAsHtml
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
@@ -83,16 +83,16 @@ abstract class AbsPopupListener(
         context.toast(context.getString(R.string.popup_error_message))
     }
 
-    protected fun share(activity: Activity, song: Song) {
+    protected fun share(activity: Activity, track: Track) {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
-        val uri = FileProvider.getUriForPath(activity, song.path)
+        val uri = FileProvider.getUriForPath(activity, track.path)
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         intent.type = "audio/*"
         grantUriPermission(activity, intent, uri)
         try {
             if (intent.resolveActivity(activity.packageManager) != null) {
-                val string = activity.getString(R.string.share_song_x, song.title)
+                val string = activity.getString(R.string.share_song_x, track.title)
                 activity.startActivity(Intent.createChooser(intent, string.parseAsHtml()))
             } else {
                 activity.toast(R.string.song_not_shareable)
@@ -129,8 +129,8 @@ abstract class AbsPopupListener(
         navigator.toDetailFragment(mediaId)
     }
 
-    protected fun setRingtone(navigator: NavigatorLegacy, mediaId: MediaId, song: Song) {
-        navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
+    protected fun setRingtone(navigator: NavigatorLegacy, mediaId: MediaId, track: Track) {
+        navigator.toSetRingtoneDialog(mediaId, track.title, track.artist)
     }
 
 

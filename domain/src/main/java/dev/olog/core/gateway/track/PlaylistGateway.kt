@@ -1,12 +1,11 @@
 package dev.olog.core.gateway.track
 
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.PlaylistSong
 import dev.olog.core.gateway.base.*
 
 interface PlaylistGateway :
     BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id, PlaylistSong>,
+    ChildHasTracks<Id>,
     HasMostPlayed,
     HasSiblings<Playlist, Id>,
     PlaylistOperations,

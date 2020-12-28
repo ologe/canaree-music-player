@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.lib.media.mediaProvider
@@ -25,17 +25,17 @@ class AlbumPopupListener @Inject constructor(
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var album: Album
-    private var song: Song? = null
+    private var track: Track? = null
 
-    fun setData(album: Album, song: Song?): AlbumPopupListener {
+    fun setData(album: Album, track: Track?): AlbumPopupListener {
         this.album = album
-        this.song = song
+        this.track = track
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null) {
-            return MediaId.playableItem(album.getMediaId(), song!!.id)
+        if (track != null) {
+            return MediaId.playableItem(album.getMediaId(), track!!.id)
         } else {
             return album.getMediaId()
         }
@@ -57,8 +57,8 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist()
             R.id.viewAlbum -> viewAlbum(navigator, album.getMediaId())
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
+            R.id.share -> share(activity, track!!)
+            R.id.setRingtone -> setRingtone(navigator, getMediaId(), track!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title)
         }
 
@@ -66,10 +66,10 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        if (song == null) {
+        if (track == null) {
             navigator.toCreatePlaylistDialog(getMediaId(), album.songs, album.title)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), -1, track!!.title)
         }
     }
 
@@ -82,35 +82,35 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun playLater() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayLater(getMediaId(), album.songs, album.title)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun playNext() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayNext(getMediaId(), album.songs, album.title)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId(), -1, track!!.title)
         }
     }
 
 
     private fun addToFavorite() {
-        if (song == null) {
+        if (track == null) {
             navigator.toAddToFavoriteDialog(getMediaId(), album.songs, album.title)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun delete() {
-        if (song == null) {
+        if (track == null) {
             navigator.toDeleteDialog(getMediaId(), album.songs, album.title)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId(), -1, track!!.title)
         }
     }
 

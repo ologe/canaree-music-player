@@ -53,12 +53,12 @@ class EnhancedShuffleTest {
             // randomly shuffle
             MediaEntity.EMPTY.copy(id = 8),
             MediaEntity.EMPTY.copy(id = 9),
-            // first half played song shuffled
+            // first half played tracks shuffled
             MediaEntity.EMPTY.copy(id = 0),
             MediaEntity.EMPTY.copy(id = 3),
             MediaEntity.EMPTY.copy(id = 2),
             MediaEntity.EMPTY.copy(id = 1),
-            // last half played song in reverse order
+            // last half played tracks in reverse order
             MediaEntity.EMPTY.copy(id = 4),
             MediaEntity.EMPTY.copy(id = 5),
             MediaEntity.EMPTY.copy(id = 6),
@@ -86,13 +86,13 @@ class EnhancedShuffleTest {
         val expected = listOf(
             // no randomly shuffle
 //            ---
-            // first half played song shuffled
+            // first half played tracks shuffled
             MediaEntity.EMPTY.copy(id = 2),
             MediaEntity.EMPTY.copy(id = 3),
             MediaEntity.EMPTY.copy(id = 1),
             MediaEntity.EMPTY.copy(id = 4),
             MediaEntity.EMPTY.copy(id = 0),
-            // last half played song in reverse order
+            // last half played tracks in reverse order
             MediaEntity.EMPTY.copy(id = 5),
             MediaEntity.EMPTY.copy(id = 6),
             MediaEntity.EMPTY.copy(id = 7),

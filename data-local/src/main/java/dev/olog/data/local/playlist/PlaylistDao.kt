@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import dev.olog.core.entity.track.PlaylistSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.entity.track.toPlaylistSong
 import dev.olog.core.gateway.track.SongGateway
 import kotlinx.coroutines.flow.Flow
@@ -60,12 +59,15 @@ abstract class PlaylistDao {
     suspend fun getPlaylistTracks(
         playlistId: Long,
         songGateway: SongGateway
-    ): List<PlaylistSong> {
+    ): List<Track.PlaylistSong> {
         val trackList = getPlaylistTracksImpl(playlistId)
-        val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+        val songList : Map<Long, List<Track>> = songGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
-            val song = songList[entity.trackId]?.first()
-            song?.toPlaylistSong(entity.idInPlaylist)
+            val track = songList[entity.trackId]?.first()
+            track?.toPlaylistSong(
+                playlistId = playlistId,
+                idInPlaylist = entity.idInPlaylist
+            )
         }
     }
 
@@ -81,13 +83,16 @@ abstract class PlaylistDao {
     fun observePlaylistTracks(
         playlistId: Long,
         songGateway: SongGateway
-    ): Flow<List<PlaylistSong>> {
+    ): Flow<List<Track.PlaylistSong>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
-                val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                val songList : Map<Long, List<Track>> = songGateway.getAll().groupBy { it.id }
                 trackList.mapNotNull { entity ->
-                    val song = songList[entity.trackId]?.first()
-                    song?.toPlaylistSong(entity.idInPlaylist)
+                    val track = songList[entity.trackId]?.first()
+                    track?.toPlaylistSong(
+                        playlistId = playlistId,
+                        idInPlaylist = entity.idInPlaylist
+                    )
                 }
             }
     }

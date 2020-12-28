@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
@@ -35,7 +35,7 @@ internal class PodcastRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, schedulers), PodcastGateway {
+) : BaseRepository<Track, Id>(context, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
         schedulers = schedulers,
@@ -53,17 +53,17 @@ internal class PodcastRepository @Inject constructor(
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
 
-    override suspend fun queryAll(): List<Song> {
+    override suspend fun queryAll(): List<Track> {
         val cursor = queries.getAll()
         return contentResolver.queryAll(cursor, Cursor::toSong)
     }
 
-    override suspend fun getByParam(param: Id): Song? {
+    override suspend fun getByParam(param: Id): Track? {
         return publisher.value?.find { it.id == param }
             ?: contentResolver.queryOne(queries.getByParam(param), Cursor::toSong)
     }
 
-    override fun observeByParam(param: Id): Flow<Song?> {
+    override fun observeByParam(param: Id): Flow<Track?> {
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
@@ -74,7 +74,7 @@ internal class PodcastRepository @Inject constructor(
         return deleteInternal(id)
     }
 
-    override suspend fun deleteGroup(podcastList: List<Song>) {
+    override suspend fun deleteGroup(podcastList: List<Track>) {
         for (id in podcastList) {
             deleteInternal(id.id)
         }
@@ -112,7 +112,7 @@ internal class PodcastRepository @Inject constructor(
         podcastPositionDao.setPosition(entity)
     }
 
-    override suspend fun getByAlbumId(albumId: Id): Song? {
+    override suspend fun getByAlbumId(albumId: Id): Track? {
         return publisher.value?.find { it.albumId == albumId }
             ?: contentResolver.queryOne(queries.getByAlbumId(albumId), Cursor::toSong)
     }

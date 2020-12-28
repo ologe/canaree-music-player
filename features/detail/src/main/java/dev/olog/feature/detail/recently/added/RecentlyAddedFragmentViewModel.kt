@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.navigation.Params
@@ -46,7 +46,7 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
     fun observeData(): Flow<List<RecentlyAddedFragmentModel>> = dataPublisher
     fun observeTitle(): Flow<String> = titlePublisher
 
-    private fun Song.toRecentDetailDisplayableItem(): RecentlyAddedFragmentModel {
+    private fun Track.toRecentDetailDisplayableItem(): RecentlyAddedFragmentModel {
         return RecentlyAddedFragmentModel(
             mediaId = MediaId.playableItem(mediaId, id),
             title = title,

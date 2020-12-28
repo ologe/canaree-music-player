@@ -2,7 +2,7 @@ package dev.olog.core.interactor.songlist
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -25,10 +25,10 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 
-) : FlowUseCaseWithParam<List<Song>, MediaId>() {
+) : FlowUseCaseWithParam<List<Track>, MediaId>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
+    override fun buildUseCase(mediaId: MediaId): Flow<List<Track>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)

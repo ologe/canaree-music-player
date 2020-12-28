@@ -6,7 +6,7 @@ import java.io.File
 object ImagesFolderUtils {
 
     const val FOLDER = "folder"
-    const val SONG = "song"
+    const val TRACK = "song"
     const val ALBUM = "album"
     const val ARTIST = "artist"
     const val PLAYLIST = "playlist"

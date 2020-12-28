@@ -41,8 +41,8 @@ internal class ImageRetrieverRepository @Inject constructor(
             return cached
         }
 
-        val song = songGateway.getByParam(trackId) ?: return null
-        val result = remoteTrack.fetch(song)
+        val track = songGateway.getByParam(trackId) ?: return null
+        val result = remoteTrack.fetch(track)
 
         localTrack.cache(result)
         return result

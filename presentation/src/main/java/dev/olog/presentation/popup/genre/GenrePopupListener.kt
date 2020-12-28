@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.lib.media.mediaProvider
@@ -25,17 +25,17 @@ class GenrePopupListener @Inject constructor(
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var genre: Genre
-    private var song: Song? = null
+    private var track: Track? = null
 
-    fun setData(genre: Genre, song: Song?): GenrePopupListener {
+    fun setData(genre: Genre, track: Track?): GenrePopupListener {
         this.genre = genre
-        this.song = song
+        this.track = track
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null) {
-            return MediaId.playableItem(genre.getMediaId(), song!!.id)
+        if (track != null) {
+            return MediaId.playableItem(genre.getMediaId(), track!!.id)
         } else {
             return genre.getMediaId()
         }
@@ -55,10 +55,10 @@ class GenrePopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
+            R.id.viewAlbum -> viewAlbum(navigator, track!!.getAlbumMediaId())
+            R.id.viewArtist -> viewArtist(navigator, track!!.getArtistMediaId())
+            R.id.share -> share(activity, track!!)
+            R.id.setRingtone -> setRingtone(navigator, getMediaId(), track!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), genre.name)
         }
 
@@ -66,10 +66,10 @@ class GenrePopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        if (song == null) {
+        if (track == null) {
             navigator.toCreatePlaylistDialog(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), -1, track!!.title)
         }
     }
 
@@ -82,35 +82,35 @@ class GenrePopupListener @Inject constructor(
     }
 
     private fun playLater() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayLater(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun playNext() {
-        if (song == null) {
+        if (track == null) {
             navigator.toPlayNext(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId(), -1, track!!.title)
         }
     }
 
 
     private fun addToFavorite() {
-        if (song == null) {
+        if (track == null) {
             navigator.toAddToFavoriteDialog(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun delete() {
-        if (song == null) {
+        if (track == null) {
             navigator.toDeleteDialog(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId(), -1, track!!.title)
         }
     }
 

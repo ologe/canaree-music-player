@@ -7,7 +7,7 @@ import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.EMPTY
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -100,12 +100,12 @@ class ImageRetrieverRepositoryTest : StatelessSutTest() {
 
         @Test
         fun `should return fetched model and cache it, when item is not cached and is found in repo`() = coroutineRule {
-            val song = Song.EMPTY
+            val track = Track.EMPTY
             val result = LastFmTrack.EMPTY
 
             coEvery { localTrack.getCached(1L) } returns null
-            coEvery { songGateway.getByParam(1L) } returns song
-            coEvery { remoteTrack.fetch(song) } returns result
+            coEvery { songGateway.getByParam(1L) } returns track
+            coEvery { remoteTrack.fetch(track) } returns result
 
             val actual = sut.getTrack(1L)
 

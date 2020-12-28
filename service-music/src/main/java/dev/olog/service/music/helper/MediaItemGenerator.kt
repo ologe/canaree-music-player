@@ -60,7 +60,7 @@ internal class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Track.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
@@ -70,7 +70,7 @@ internal class MediaItemGenerator @Inject constructor(
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
+    private fun Track.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(MediaId.playableItem(parentId, this.id).toString())
             .setTitle(this.title)
