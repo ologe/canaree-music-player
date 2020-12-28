@@ -79,6 +79,7 @@ dependencies {
     implementation project(':features:detail')
     implementation project(':features:library')
     implementation project(':features:search')
+    implementation project(':features:queue')
 
     implementation project(':libraries:media')
     implementation project(':libraries:equalizer')

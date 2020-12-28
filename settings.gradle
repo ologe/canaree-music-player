@@ -10,6 +10,7 @@ include ':features:onboarding'
 include ':features:detail'
 include ':features:library'
 include ':features:search'
+include ':features:queue'
 
 // data
 include ':data'
