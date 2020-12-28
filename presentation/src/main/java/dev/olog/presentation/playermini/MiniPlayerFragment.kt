@@ -11,13 +11,15 @@ import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.shared.android.expand
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.launch
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.isCollapsed
 import dev.olog.shared.android.isExpanded
 import dev.olog.shared.android.slidingPanel
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlin.time.Duration
 
 @AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
@@ -137,8 +139,8 @@ class MiniPlayerFragment : BaseFragment(){
         }
     }
 
-    private fun updateProgressBarMax(max: Long) {
-        progressBar.max = max.toInt()
+    private fun updateProgressBarMax(max: Duration) {
+        progressBar.max = max.toLongMilliseconds().toInt()
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){

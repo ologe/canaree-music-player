@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
@@ -6,13 +6,11 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableQueueSong
+import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-
 
 class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -23,7 +21,7 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     val lastProgressive: Int
         get() =  musicPreferencesUseCase.lastProgressive
 
-    private val dataPublisher = MutableStateFlow<List<DisplayableQueueSong>>(emptyList())
+    private val dataPublisher = MutableStateFlow<List<PlayingQueueFragmentModel>>(emptyList())
     private val queuePublisher = MutableStateFlow<List<PlayingQueueSong>>(emptyList())
 
     init {
@@ -35,12 +33,12 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
 
         queuePublisher.combine(musicPreferencesUseCase.observeLastProgressive().distinctUntilChanged())
         { queue, progressive ->
-            val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == progressive }
+            val indexInThisQueue = queue.indexOfFirst { it.serviceProgressive == progressive }
             queue.mapIndexed { index, item ->
                 item.toDisplayableItem(
-                    currentPosition = index,
-                    currentPlayingIndex = currentPlayingIndex,
-                    currentPlayingIdInPlaylist = progressive
+                    trackIndexInThisQueue = index,
+                    playingIndexInThisQueue = indexInThisQueue,
+                    playingIndexInServiceQueue = progressive
                 )
             }
         }
@@ -49,7 +47,7 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun observeData(): Flow<List<DisplayableQueueSong>> = dataPublisher
+    fun observeData(): Flow<List<PlayingQueueFragmentModel>> = dataPublisher
 
     fun recalculatePositionsAfterRemove(position: Int) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -75,35 +73,26 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     }
 
     private fun PlayingQueueSong.toDisplayableItem(
-        currentPosition: Int,
-        currentPlayingIndex: Int,
-        currentPlayingIdInPlaylist: Int
-    ): DisplayableQueueSong {
+        trackIndexInThisQueue: Int,
+        playingIndexInThisQueue: Int,
+        playingIndexInServiceQueue: Int
+    ): PlayingQueueFragmentModel {
         val song = this.song
 
-        val relativePosition = computeRelativePosition(currentPosition, currentPlayingIndex)
+        val relativePosition = when {
+            trackIndexInThisQueue > playingIndexInThisQueue -> "+${trackIndexInThisQueue - playingIndexInThisQueue}"
+            trackIndexInThisQueue < playingIndexInThisQueue -> "${trackIndexInThisQueue - playingIndexInThisQueue}"
+            else -> "-"
+        }
 
-        return DisplayableQueueSong(
-            type = R.layout.item_playing_queue,
-            mediaId = mediaId,
+        return PlayingQueueFragmentModel(
+            progressive = serviceProgressive,
+            mediaId = song.getMediaId(),
             title = song.title,
-            artist = song.artist,
-            album = song.album,
-            idInPlaylist = song.idInPlaylist,
+            subtitle = DisplayableItemUtils.trackSubtitle(song.artist, song.album),
             relativePosition = relativePosition,
-            isCurrentSong = song.idInPlaylist == currentPlayingIdInPlaylist
+            isCurrentSong = serviceProgressive == playingIndexInServiceQueue
         )
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun computeRelativePosition(
-        currentPosition: Int,
-        currentPlayingIndex: Int
-    ): String {
-        return when {
-            currentPosition > currentPlayingIndex -> "+${currentPosition - currentPlayingIndex}"
-            currentPosition < currentPlayingIndex -> "${currentPosition - currentPlayingIndex}"
-            else -> "-"
-        }
-    }
 }

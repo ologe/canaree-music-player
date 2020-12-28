@@ -9,7 +9,6 @@ import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.presentation.prefs.SettingsFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
@@ -61,7 +60,7 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
-        if (fragment.tag == PlayingQueueFragment.TAG){
+        if (fragment.tag == FragmentScreen.QUEUE.tag) {
             // for some reason when drag and drop in queue fragment, the queue became crazy
             return null
         }

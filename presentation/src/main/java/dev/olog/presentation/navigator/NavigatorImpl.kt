@@ -85,12 +85,12 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
-        superCerealTransition(
-            activity,
-            CreatePlaylistFragment.newInstance(type),
-            newTag
-        )
+//        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
+//        superCerealTransition(
+//            activity,
+//            CreatePlaylistFragment.newInstance(type),
+//            newTag
+//        )
     }
 
     override fun toDialog(mediaId: MediaId, anchor: View) {

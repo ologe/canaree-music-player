@@ -34,5 +34,6 @@ dependencies {
     implementation lib_x.preference
 
     implementation lib_ui.cascade_popup
+    implementation lib_ui.scroll_helper
     implementation lib_ui.tap_target_view
 }

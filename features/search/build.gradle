@@ -32,4 +32,6 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.constraint_layout
     implementation lib_x.preference
+
+    implementation lib_ui.scroll_helper
 }

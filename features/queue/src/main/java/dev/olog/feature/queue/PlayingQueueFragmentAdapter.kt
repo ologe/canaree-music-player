@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
@@ -8,9 +8,7 @@ import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.adapter.drag.TouchableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.navigation.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swapped
@@ -18,18 +16,19 @@ import kotlinx.android.synthetic.main.item_playing_queue.*
 
 class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
-    private val navigator: NavigatorLegacy,
+    private val navigator: Navigator,
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
-
-) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue),
+) : ObservableAdapter<PlayingQueueFragmentModel>(PlayingQueueFragmentModelDiff),
     TouchableAdapter {
+
+    override fun getItemViewType(position: Int): Int = R.layout.item_playing_queue
 
     private val moves = mutableListOf<Pair<Int, Int>>()
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.skipToQueueItem(item.idInPlaylist)
+            mediaProvider.skipToQueueItem(item.progressive)
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -41,7 +40,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: DisplayableQueueSong,
+        item: PlayingQueueFragmentModel,
         position: Int
     ) = holder.bindView {
         ImageLoader.loadSongImage(imageView!!, item.mediaId)
@@ -115,24 +114,25 @@ class PlayingQueueFragmentAdapter(
 
 }
 
-object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() {
+private object PlayingQueueFragmentModelDiff : DiffUtil.ItemCallback<PlayingQueueFragmentModel>() {
+
     override fun areItemsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
+        oldItem: PlayingQueueFragmentModel,
+        newItem: PlayingQueueFragmentModel
     ): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
 
     override fun areContentsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
+        oldItem: PlayingQueueFragmentModel,
+        newItem: PlayingQueueFragmentModel
     ): Boolean {
         return oldItem == newItem
     }
 
     override fun getChangePayload(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
+        oldItem: PlayingQueueFragmentModel,
+        newItem: PlayingQueueFragmentModel
     ): Any? {
         val mutableList = mutableListOf<Any>()
         if (oldItem.relativePosition != newItem.relativePosition) {
