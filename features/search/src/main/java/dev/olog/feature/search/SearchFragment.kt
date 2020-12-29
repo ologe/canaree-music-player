@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.os.Bundle
 import android.view.View
@@ -10,21 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.adapter.ObservableAdapter
-import dev.olog.feature.base.adapter.SetupNestedList
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.base.BaseFragment
+import dev.olog.feature.search.adapter.SearchFragmentAdapter
+import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.lib.media.mediaProvider
-import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorLegacy
-import dev.olog.presentation.search.adapter.SearchFragmentAdapter
-import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.utils.showIme
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.hideIme
 import dev.olog.shared.android.extensions.launchIn
+import dev.olog.shared.android.extensions.showIme
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
@@ -34,22 +31,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment(),
-    SetupNestedList,
     IDragListener by DragListenerImpl() {
-
-    companion object {
-        val TAG = SearchFragment::class.java.name
-
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
-        }
-    }
 
     private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
-            setupNestedList = this,
+            setupNestedList = this::setupNestedList,
             mediaProvider = requireActivity().mediaProvider,
             navigator = navigator,
             viewModel = viewModel
@@ -89,7 +77,7 @@ class SearchFragment : BaseFragment(),
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     @Inject
-    lateinit var navigator: NavigatorLegacy
+    lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,16 +124,16 @@ class SearchFragment : BaseFragment(),
     }
 
 
-    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
+    private fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
         when (layoutId) {
             R.layout.item_search_list_albums -> setupHorizontalList(recyclerView, albumAdapter)
             R.layout.item_search_list_artists -> setupHorizontalList(recyclerView, artistAdapter)
-            R.layout.item_search_list_folder -> setupHorizontalList(recyclerView, folderAdapter)
+            R.layout.item_search_list_folders -> setupHorizontalList(recyclerView, folderAdapter)
             R.layout.item_search_list_playlists -> setupHorizontalList(
                 recyclerView,
                 playlistAdapter
             )
-            R.layout.item_search_list_genre -> setupHorizontalList(recyclerView, genreAdapter)
+            R.layout.item_search_list_genres -> setupHorizontalList(recyclerView, genreAdapter)
         }
     }
 
@@ -183,7 +171,7 @@ class SearchFragment : BaseFragment(),
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
+//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity()) TODO
     }
 
 

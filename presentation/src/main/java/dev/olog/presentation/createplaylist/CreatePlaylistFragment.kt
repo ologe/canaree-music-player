@@ -14,7 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.utils.hideIme
+import dev.olog.shared.android.extensions.hideIme
 import dev.olog.shared.widgets.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.TextUtils

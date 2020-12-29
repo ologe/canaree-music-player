@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="item_search_footer_text_size">16dp</dimen>
+
+</resources>

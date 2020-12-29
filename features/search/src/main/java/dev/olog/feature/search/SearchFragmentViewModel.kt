@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
@@ -7,25 +7,25 @@ import dev.olog.core.MediaId
 import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.search.model.SearchDataProvider
+import dev.olog.feature.search.model.SearchFragmentModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class SearchFragmentViewModel @ViewModelInject constructor(
+internal class SearchFragmentViewModel @ViewModelInject constructor(
     private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
-
 ) : ViewModel() {
 
-    private val data = MutableStateFlow<List<DisplayableItem>>(emptyList())
-    private val albumData = MutableStateFlow<List<DisplayableItem>>(emptyList())
-    private val artistsData = MutableStateFlow<List<DisplayableItem>>(emptyList())
-    private val genresData = MutableStateFlow<List<DisplayableItem>>(emptyList())
-    private val playlistsData = MutableStateFlow<List<DisplayableItem>>(emptyList())
-    private val foldersData = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val data = MutableStateFlow<List<SearchFragmentModel>>(emptyList())
+    private val albumData = MutableStateFlow<List<SearchFragmentModel.Album>>(emptyList())
+    private val artistsData = MutableStateFlow<List<SearchFragmentModel.Album>>(emptyList())
+    private val genresData = MutableStateFlow<List<SearchFragmentModel.Album>>(emptyList())
+    private val playlistsData = MutableStateFlow<List<SearchFragmentModel.Album>>(emptyList())
+    private val foldersData = MutableStateFlow<List<SearchFragmentModel.Album>>(emptyList())
 
     init {
         // all
@@ -65,26 +65,26 @@ class SearchFragmentViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun observeData(): Flow<List<DisplayableItem>> = data
-    fun observeArtistsData(): Flow<List<DisplayableItem>> = artistsData
-    fun observeAlbumsData(): Flow<List<DisplayableItem>> = albumData
-    fun observeGenresData(): Flow<List<DisplayableItem>> = genresData
-    fun observePlaylistsData(): Flow<List<DisplayableItem>> = playlistsData
-    fun observeFoldersData(): Flow<List<DisplayableItem>> = foldersData
+    fun observeData(): Flow<List<SearchFragmentModel>> = data
+    fun observeArtistsData(): Flow<List<SearchFragmentModel.Album>> = artistsData
+    fun observeAlbumsData(): Flow<List<SearchFragmentModel.Album>> = albumData
+    fun observeGenresData(): Flow<List<SearchFragmentModel.Album>> = genresData
+    fun observePlaylistsData(): Flow<List<SearchFragmentModel.Album>> = playlistsData
+    fun observeFoldersData(): Flow<List<SearchFragmentModel.Album>> = foldersData
 
     fun updateQuery(newQuery: String) {
         dataProvider.updateQuery(newQuery.trim())
     }
 
-    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch {
         insertRecentUse(mediaId)
     }
 
-    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch {
         deleteRecentSearchUseCase(mediaId)
     }
 
-    fun clearRecentSearches() = viewModelScope.launch(Dispatchers.IO) {
+    fun clearRecentSearches() = viewModelScope.launch {
         clearRecentSearchesUseCase()
     }
 

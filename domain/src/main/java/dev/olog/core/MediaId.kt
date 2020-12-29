@@ -49,12 +49,11 @@ data class MediaId(
         get() = category.ordinal
 
     companion object {
-        // nn -> non non null
+        // nn -> non null
         // [*] -> optional modifier:
         //      \shuffle
         //      \most_played
         // ^nn_category/nn_category_value|nullable_leaf[*]$
-        // TODO convert categoryValue to long
         private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
 
         @Deprecated("delete")

@@ -1,16 +1,17 @@
 package dev.olog.data.local.search
 
 import androidx.room.*
-import dev.olog.core.RecentSearchesTypes.ALBUM
-import dev.olog.core.RecentSearchesTypes.ARTIST
-import dev.olog.core.RecentSearchesTypes.FOLDER
-import dev.olog.core.RecentSearchesTypes.GENRE
-import dev.olog.core.RecentSearchesTypes.PLAYLIST
-import dev.olog.core.RecentSearchesTypes.PODCAST
-import dev.olog.core.RecentSearchesTypes.PODCAST_ALBUM
-import dev.olog.core.RecentSearchesTypes.PODCAST_ARTIST
-import dev.olog.core.RecentSearchesTypes.PODCAST_PLAYLIST
-import dev.olog.core.RecentSearchesTypes.SONG
+import dev.olog.core.RecentSearchesType
+import dev.olog.core.RecentSearchesType.ALBUM
+import dev.olog.core.RecentSearchesType.ARTIST
+import dev.olog.core.RecentSearchesType.FOLDER
+import dev.olog.core.RecentSearchesType.GENRE
+import dev.olog.core.RecentSearchesType.PLAYLIST
+import dev.olog.core.RecentSearchesType.PODCAST
+import dev.olog.core.RecentSearchesType.PODCAST_ALBUM
+import dev.olog.core.RecentSearchesType.PODCAST_ARTIST
+import dev.olog.core.RecentSearchesType.PODCAST_PLAYLIST
+import dev.olog.core.RecentSearchesType.SONG
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
@@ -105,7 +106,7 @@ abstract class RecentSearchesDao {
     abstract suspend fun deleteImpl(recentSearch: RecentSearchesEntity)
 
     @Query("DELETE FROM recent_searches WHERE dataType = :dataType AND itemId = :itemId")
-    abstract suspend fun deleteImpl(dataType: Int, itemId: Long)
+    abstract suspend fun deleteImpl(dataType: RecentSearchesType, itemId: Long)
 
     @Query("DELETE FROM recent_searches")
     abstract suspend fun deleteAllImpl()

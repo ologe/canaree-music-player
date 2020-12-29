@@ -1,9 +1,9 @@
-package dev.olog.presentation.utils
+package dev.olog.shared.android.extensions
 
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import dev.olog.shared.android.extensions.systemService
 
+// TODO improve
 fun TextView.showIme() {
     isFocusable = true
     if (requestFocus()) {
@@ -12,6 +12,7 @@ fun TextView.showIme() {
     }
 }
 
+// TODO improve
 fun TextView.hideIme() {
     val inputManager = context.systemService<InputMethodManager>()
     clearFocus()

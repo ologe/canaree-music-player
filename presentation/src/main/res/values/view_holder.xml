@@ -30,7 +30,4 @@
     <!--shuffle-->
     <dimen name="item_shuffle_text_size">15dp</dimen>
 
-    <!--item search footer-->
-    <dimen name="item_search_footer_text_size">16dp</dimen>
-
 </resources>
