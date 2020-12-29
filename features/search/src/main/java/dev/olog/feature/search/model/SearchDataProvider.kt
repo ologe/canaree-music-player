@@ -74,8 +74,8 @@ internal class SearchDataProvider @Inject constructor(
             .map { recent ->
                 buildList {
                     if (recent.isNotEmpty()) {
-                        add(SearchFragmentModel.ClearRecent)
                         addAll(recent)
+                        add(SearchFragmentModel.ClearRecent)
                         add(0, searchHeaders.recent)
                     }
                 }
