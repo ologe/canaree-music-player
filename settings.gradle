@@ -11,6 +11,7 @@ include ':features:detail'
 include ':features:library'
 include ':features:search'
 include ':features:queue'
+include ':features:about'
 
 // data
 include ':data'
