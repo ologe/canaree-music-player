@@ -12,6 +12,7 @@ include ':features:library'
 include ':features:search'
 include ':features:queue'
 include ':features:about'
+include ':features:player'
 
 // data
 include ':data'
