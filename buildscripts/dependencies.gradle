@@ -30,7 +30,7 @@ ext {
     blur_kit = '1.0.0'
     color_desaturation = '1.0.2'
     tap_target_view = '2.0.0'
-    cascade_popup = '1.1.0'
+    cascade_popup = '1.2.0'
 
 //    data
     room = '2.2.5'
