@@ -12,8 +12,8 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorLegacy
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*
@@ -117,20 +117,20 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected fun viewInfo(navigator: NavigatorLegacy, mediaId: MediaId) {
-        navigator.toEditInfoFragment(mediaId)
+    protected fun viewInfo(navigator: Navigator, mediaId: MediaId) {
+        navigator.toEditInfo(mediaId)
     }
 
-    protected fun viewAlbum(navigator: NavigatorLegacy, mediaId: MediaId) {
+    protected fun viewAlbum(navigator: Navigator, mediaId: MediaId) {
         navigator.toDetailFragment(mediaId)
     }
 
-    protected fun viewArtist(navigator: NavigatorLegacy, mediaId: MediaId) {
+    protected fun viewArtist(navigator: Navigator, mediaId: MediaId) {
         navigator.toDetailFragment(mediaId)
     }
 
-    protected fun setRingtone(navigator: NavigatorLegacy, mediaId: MediaId, track: Track) {
-        navigator.toSetRingtoneDialog(mediaId, track.title, track.artist)
+    protected fun setRingtone(navigator: Navigator, mediaId: MediaId, track: Track) {
+//        navigator.toSetRingtoneDialog(mediaId, track.title, track.artist) TODO
     }
 
 

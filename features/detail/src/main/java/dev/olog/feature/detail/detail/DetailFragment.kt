@@ -26,6 +26,7 @@ import dev.olog.shared.lazyFast
 import dev.olog.feature.base.CanChangeStatusBarColor
 import dev.olog.feature.base.adapter.SetupNestedList
 import dev.olog.feature.base.base.BaseFragment
+import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.shared.widgets.extension.removeLightStatusBar
 import dev.olog.shared.widgets.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.fragment_detail.*

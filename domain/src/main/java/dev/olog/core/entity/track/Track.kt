@@ -88,6 +88,8 @@ sealed class Track(
 
     val hasUnknownArtist: Boolean
         get() = this.artist == "<unknown>"
+    val hasUnknownAlbum: Boolean
+        get() = this.album == "<unknown>"
 
     val discNumber: Int
         get() {

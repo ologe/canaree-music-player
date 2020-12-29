@@ -9,21 +9,28 @@ import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.lib.media.mediaProvider
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.internal.ActivityProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorLegacy
-import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import dev.olog.shared.android.extensions.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(
-    private val activity: FragmentActivity,
+    private val activityProvider: ActivityProvider,
     private val appShortcuts: AppShortcuts,
-    private val navigator: NavigatorLegacy,
+    private val navigator: Navigator,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(
+    getPlaylistUseCase = getPlaylistBlockingUseCase,
+    addToPlaylistUseCase = addToPlaylistUseCase,
+    podcastPlaylist = false
+) {
+
+    private val activity: FragmentActivity
+        get() = activityProvider()!!
 
     private lateinit var playlist: Playlist
     private var track: Track? = null
@@ -49,7 +56,7 @@ class PlaylistPopupListener @Inject constructor(
         onPlaylistSubItemClick(activity, itemId, getMediaId(), playlist.size, playlist.title)
 
         when (itemId) {
-            AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
+            R.id.newPlaylist -> toCreatePlaylist()
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
@@ -72,14 +79,14 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun removeDuplicates() {
-        navigator.toRemoveDuplicatesDialog(playlist.getMediaId(), playlist.title)
+        navigator.toRemoveDuplicates(playlist.getMediaId(), playlist.title)
     }
 
     private fun toCreatePlaylist() {
         if (track == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toCreatePlaylist(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, track!!.title)
+            navigator.toCreatePlaylist(getMediaId(), -1, track!!.title)
         }
     }
 
@@ -118,26 +125,26 @@ class PlaylistPopupListener @Inject constructor(
 
     private fun addToFavorite() {
         if (track == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toAddToFavorite(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, track!!.title)
+            navigator.toAddToFavorite(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun delete() {
         if (track == null) {
-            navigator.toDeleteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toDelete(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, track!!.title)
+            navigator.toDelete(getMediaId(), -1, track!!.title)
         }
     }
 
     private fun rename() {
-        navigator.toRenameDialog(getMediaId(), playlist.title)
+        navigator.toRename(getMediaId(), playlist.title)
     }
 
     private fun clearPlaylist() {
-        navigator.toClearPlaylistDialog(getMediaId(), playlist.title)
+        navigator.toClearPlaylist(getMediaId(), playlist.title)
     }
 
 

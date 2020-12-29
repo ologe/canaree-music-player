@@ -11,10 +11,6 @@ interface NavigatorLegacy {
 
     fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 
-    fun toEditInfoFragment(mediaId: MediaId)
-
-    fun toDialog(mediaId: MediaId, anchor: View)
-
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 
     fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)

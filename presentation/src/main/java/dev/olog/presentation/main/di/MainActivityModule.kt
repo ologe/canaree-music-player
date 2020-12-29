@@ -5,13 +5,13 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dev.olog.presentation.navigator.NavigatorLegacy
-import dev.olog.presentation.navigator.NavigatorImpl
+import dev.olog.presentation.navigator.NavigatorLegacyImpl
 
 @Module
 @InstallIn(ActivityComponent::class)
 abstract class MainActivityModule {
 
     @Binds
-    abstract fun provideNavigator(impl: NavigatorImpl): NavigatorLegacy
+    abstract fun provideNavigator(impl: NavigatorLegacyImpl): NavigatorLegacy
 
 }

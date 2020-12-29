@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_info_year">Tahun</string>
+    <string name="edit_info_disc">Disc #</string>
+    <string name="edit_info_track">Trek #</string>
+    <string name="edit_info_auto_tag_no_results">Hasil tidak ditemukan</string>
+    <string name="edit_info_disc_number_not_digits">Disk # hanya boleh digit</string>
+    <string name="edit_info_track_number_not_digits">Trek # hanya boleh digit</string>
+    <string name="edit_song_fetching_info">Mengambil info lagu</string>
+    <string name="edit_song_info_not_found">Info tidak ditemukan</string>
+    <string name="edit_song_image_not_found">Gambar tidak ditemukan</string>
+    <string name="edit_track_update_success">Info trek diperbarui</string>
+    <string name="edit_album_update_success">Info almbum diperbarui</string>
+    <string name="edit_artist_update_success">Info artis diperbarui</string>
+    <string name="edit_album_update_start">Memulai memperbarui album..</string>
+    <string name="edit_artist_update_start">Memulai memperbarui artis</string>
+    <string name="edit_song_invalid_title">Judul tidak boleh kosong</string>
+    <string name="edit_artist_invalid_title">Nama artis tidak boleh kosong</string>
+    <string name="edit_song_invalid_disc_number">Nomor disc invalid</string>
+    <string name="edit_song_invalid_track_number">Nomor trek invalid</string>
+    <string name="edit_song_invalid_year">Tahun invalid</string>
+    <string name="edit_song_cannot_read">Tidak dapat memperbarui trek (berkas mungkin korup)</string>
+    <string name="edit_song_read_only">Tidak dapat memperbarui trek, berkas tsb hanya baca</string>
+    <string name="edit_song_file_not_found">Tidak dapat memperbarui trek saat ini, berkas tidak ditemukan</string>
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="other">Perubahan anda akan diterapkan pada lagu %d</item>
+    </plurals>
+    <string-array name="edit_item_image_dialog">
+        <item>Kembalikan ke awal</item>
+        <item>Gambar menyesuaikan</item>
+    </string-array>
+</resources>

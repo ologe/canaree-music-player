@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">Χρόνος</string>
+    <string name="edit_info_disc">Δίσκος #</string>
+    <string name="edit_info_track">Κομμάτι #</string>
+
+    <string name="edit_info_auto_tag_no_results">Δεν βρέθηκαν αποτελέσματα</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Δίσκος # πρέπει να είναι μόνο ψηφία</string>
+    <string name="edit_info_track_number_not_digits">Κομμάτι # πρέπει να είναι μόνο ψηφία</string>
+
+    <string name="edit_song_fetching_info">Βρίσκω πληροφορίες για το τραγούδι</string>
+
+    <string name="edit_song_info_not_found">Δεν βρέθηκαν πληροφορίες</string>
+    <string name="edit_song_image_not_found">Δεν βρέθηκε φωτογραφία</string>
+
+    <string name="edit_track_update_success">Ενημερώθηκαν οι πληροφρίες του κομματιού</string>
+    <string name="edit_album_update_success">Ενημερώθηκαν οι πληροφορίες του άλμπουμ</string>
+    <string name="edit_artist_update_success">Ενημερώθηκαν οι πληροφορίες του καλλιτέχνη</string>
+    <string name="edit_album_update_start">Έναρξη ενημέρωσης άλμπουμπ..</string>
+    <string name="edit_artist_update_start">Έναρξη ενημέρωσης καλλιτέχνη..</string>
+
+    <string name="edit_song_invalid_title">Ο τίτλος δεν γίνεται να είναι κενός</string>
+    <string name="edit_artist_invalid_title">Το όνομα του καλλιτέχνη δεν γίνεται να είναι κενό</string>
+    <string name="edit_song_invalid_disc_number">Μη έγκυρο νούμερο δίσκου</string>
+    <string name="edit_song_invalid_track_number">Μη έγκυρο νούμερο κομματιού</string>
+    <string name="edit_song_invalid_year">Μη έγκυρος χρόνος</string>
+    <string name="edit_song_cannot_read">Δεν γίνεται ενημέρωση κομματιού (το αρχείο μπορεί να είναι κατεστραμμένο)</string>
+    <string name="edit_song_read_only">Δεν γίνεται ενημέρωση κομματιού, το αρχείο ειναι μόνο για ανάγνωση</string>
+    <string name="edit_song_file_not_found">Δεν γίνεται ενημέρωση κομματιού, δεν βρέθηκε το αρχείο</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">Οι αλλαγές σας θα εφαρμοστούν στο %d τραγούδι</item>
+        <item quantity="other">Οι αλλαγές σας θα εφαρμοστούν στα %d τραγούδια</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>Επαναφορά προεπιλεγμένου</item>
+        <item>Εξατομίκευση φωτογραφίας</item>
+    </string-array>
+
+</resources>

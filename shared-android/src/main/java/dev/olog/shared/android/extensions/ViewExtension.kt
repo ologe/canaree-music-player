@@ -12,12 +12,21 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
+fun ViewGroup.forEachLeafRecursively(action: (view: View) -> Unit) {
     forEach {
         if (it is ViewGroup) {
-            it.forEachRecursively(action)
+            it.forEachLeafRecursively(action)
         } else {
             action(it)
+        }
+    }
+}
+
+fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
+    forEach {
+        action(it)
+        if (it is ViewGroup) {
+            it.forEachRecursively(action)
         }
     }
 }

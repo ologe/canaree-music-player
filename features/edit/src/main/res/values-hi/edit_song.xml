@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">साल</string>
+    <string name="edit_info_disc">डिस्क #</string>
+    <string name="edit_info_track">ट्रैक #</string>
+
+    <string name="edit_info_auto_tag_no_results">कोई परिणाम नहीं</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">डिस्क # सिर्फ संख्या हो सकता है</string>
+    <string name="edit_info_track_number_not_digits">ट्रैक # सिर्फ संख्या हो सकता है</string>
+
+    <string name="edit_song_fetching_info">Fetching song info</string>
+
+    <string name="edit_song_info_not_found">कोई जानकारी नहीं मिली</string>
+    <string name="edit_song_image_not_found">कोई चित्र नहीं मिला</string>
+
+    <string name="edit_track_update_success">ट्रैक जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_album_update_success">एल्बम जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_artist_update_success">संगीतकार जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_album_update_start">एल्बम जानकारी नवनीकरण शुरू..</string>
+    <string name="edit_artist_update_start">संगीतकार जानकारी नवनीकरण शुरू..</string>
+
+    <string name="edit_song_invalid_title">अमान्य : शीर्षक में कुछ नहीं लिखा</string>
+    <string name="edit_artist_invalid_title">अमान्य : संगीतकार में कुछ नहीं लिखा</string>
+    <string name="edit_song_invalid_disc_number">अमान्य डिस्क संख्या</string>
+    <string name="edit_song_invalid_track_number">अमान्य ट्रैक संख्या</string>
+    <string name="edit_song_invalid_year">अमान्य साल</string>
+    <string name="edit_song_cannot_read">ट्रैक का नवनीकरण नहीं हो सकता (फाइल ख़राब हो सकती है)</string>
+    <string name="edit_song_read_only">ट्रैक का नवनीकरण नहीं हो सकता, फाइल सिर्फ पढ़ी जा सकती है</string>
+    <string name="edit_song_file_not_found">ट्रैक का नवनीकरण नहीं हो सकता, फाइल नहीं मिली</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">आपके परिवर्तनों को %d गाने में लागू किया जाएगा</item>
+        <item quantity="other">आपके परिवर्तनों को %d गानों में लागू किया जाएगा</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>पहले जैसा करें</item>
+        <item>चित्र को स्टाइल करें</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_year">Año</string>
+    <string name="edit_info_disc">Número de disco</string>
+    <string name="edit_info_track">Número de pista</string>
+
+    <string name="edit_info_auto_tag_no_results">No se han encontrado resultados</string>
+
+    <string name="edit_info_disc_number_not_digits">El número de disco debe ser solo dígitos</string>
+    <string name="edit_info_track_number_not_digits">El número de pista debe ser solo dígitos</string>
+
+    <string name="edit_song_fetching_info">Ir a buscar información de la canción</string>
+
+    <string name="edit_song_info_not_found">Información no encontrada</string>
+    <string name="edit_song_image_not_found">Imagen no encontrada</string>
+
+    <string name="edit_track_update_success">Información de la pista actualizada</string>
+    <string name="edit_album_update_success">Información del álbum actualizada</string>
+    <string name="edit_artist_update_success">Información del artista actualizada</string>
+    <string name="edit_album_update_start">Comenzó a actualizar el álbum..</string>
+    <string name="edit_artist_update_start">Comenzó a actualizar artista..</string>
+
+    <string name="edit_song_invalid_title">El título no puede ser nulo</string>
+    <string name="edit_artist_invalid_title">El nombre del artista no puede ser nulo</string>
+    <string name="edit_song_invalid_disc_number">Número de disco inválido</string>
+    <string name="edit_song_invalid_track_number">Número de pista inválido</string>
+    <string name="edit_song_invalid_year">Año no válido</string>
+    <string name="edit_song_cannot_read">No se puede actualizar la pista (el archivo puede estar dañado)</string>
+    <string name="edit_song_read_only">No se puede actualizar la pista, el archivo es de solo lectura</string>
+    <string name="edit_song_file_not_found">No se puede actualizar la pista actual, archivo no encontrado</string>
+
+
+</resources>

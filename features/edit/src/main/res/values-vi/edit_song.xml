@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">Năm</string>
+    <string name="edit_info_disc">Đĩa #</string>
+    <string name="edit_info_track">Bài số #</string>
+
+    <string name="edit_info_auto_tag_no_results">Không tìm thấy kết quả nào</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Số đĩa phải là số</string>
+    <string name="edit_info_track_number_not_digits">Số bài phải là số</string>
+
+    <string name="edit_song_fetching_info">Đang lấy thông tin bài hát</string>
+
+    <string name="edit_song_info_not_found">Không thấy thông tin</string>
+    <string name="edit_song_image_not_found">Không thấy ảnh</string>
+
+    <string name="edit_track_update_success">Đã cập nhật thông tin bài hát</string>
+    <string name="edit_album_update_success">Đã cập nhật thông tin album</string>
+    <string name="edit_artist_update_success">Đã cập nhật thông tin nghệ sĩ</string>
+    <string name="edit_album_update_start">Đang cập nhật album...</string>
+    <string name="edit_artist_update_start">Đang cập nhật nghệ sĩ...</string>
+
+    <string name="edit_song_invalid_title">Không được bỏ trống tên bài hát</string>
+    <string name="edit_artist_invalid_title">Không được bỏ trống tên nghệ sĩ</string>
+    <string name="edit_song_invalid_disc_number">Không được bỏ trống số đĩa</string>
+    <string name="edit_song_invalid_track_number">Số bài không hợp lệ</string>
+    <string name="edit_song_invalid_year">Năm xuất hành không hợp lệ</string>
+    <string name="edit_song_cannot_read">Không thể cập nhật thông tin bài hát (file can be corrupted)</string>
+    <string name="edit_song_read_only">Không thể cập nhật thông tin bài hát, the tệp chỉ đọc</string>
+    <string name="edit_song_file_not_found">Không thể cập nhật thông tin bài hát hiện tại, không tìm thấy tệp</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
+        <item quantity="other">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>Đặt lại như cũ</item>
+        <item>Cách điệu ảnh</item>
+    </string-array>
+
+</resources>

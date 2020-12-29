@@ -13,6 +13,7 @@ import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.base.BaseFragment
+import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.feature.search.adapter.SearchFragmentAdapter
 import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.lib.media.mediaProvider

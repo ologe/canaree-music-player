@@ -10,8 +10,8 @@ import dev.olog.shared.android.utils.isQ
 class AlbumPopup(
     view: View,
     track: Track?,
-    listener: AbsPopupListener
-
+    listener: AbsPopupListener,
+    tracks: suspend () -> List<Track>
 ) : AbsPopup(view) {
 
     init {
@@ -29,6 +29,8 @@ class AlbumPopup(
             // works bad on Q
             menu.removeItem(R.id.delete)
         }
+
+        setupViewInfo(view, tracks)
     }
 
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import dev.olog.feature.base.RestorableScrollHelper
 
 abstract class BaseFragment : Fragment() {
 
@@ -20,9 +19,5 @@ abstract class BaseFragment : Fragment() {
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
-
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as RestorableScrollHelper).restoreUpperWidgetsTranslation()
-    }
 
 }

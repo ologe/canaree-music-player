@@ -18,6 +18,8 @@ interface Navigator : BottomNavigator, AboutNavigator {
 
     fun toRelatedArtists(mediaId: MediaId)
 
+    fun toEditInfo(mediaId: MediaId)
+
     fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 
     fun toLibraryPreferences(isPodcast: Boolean)
@@ -35,5 +37,14 @@ interface Navigator : BottomNavigator, AboutNavigator {
     fun toCreatePlaylist()
 
     fun toOfflineLyrics()
+
+    fun toCreatePlaylist(mediaId: MediaId, songs: Int, title: String)
+    fun toPlayLater(mediaId: MediaId, songs: Int, title: String)
+    fun toPlayNext(mediaId: MediaId, songs: Int, title: String)
+    fun toAddToFavorite(mediaId: MediaId, songs: Int, title: String)
+    fun toRename(mediaId: MediaId, title: String)
+    fun toDelete(mediaId: MediaId, songs: Int, title: String)
+    fun toRemoveDuplicates(mediaId: MediaId, title: String)
+    fun toClearPlaylist(mediaId: MediaId, title: String)
 
 }

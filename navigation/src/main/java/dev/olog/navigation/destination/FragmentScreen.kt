@@ -23,6 +23,10 @@ enum class FragmentScreen(val tag: String) {
     SLEEP_TIMER("$PREFIX.sleep.timer"),
     OFFLINE_LYRICS("$PREFIX.offline.lyrics"),
 
+    EDIT_TRACK("$PREFIX.edit.track"),
+    EDIT_ALBUM("$PREFIX.edit.album"),
+    EDIT_ARTIST("$PREFIX.edit.artist"),
+
     ABOUT("$PREFIX.about"),
     SPECIAL_THANKS("$PREFIX.special.thanks"),
     LOCALIZATION("$PREFIX.localization"),

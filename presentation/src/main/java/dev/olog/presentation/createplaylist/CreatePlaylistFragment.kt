@@ -13,6 +13,7 @@ import dev.olog.feature.base.base.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
+import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.hideIme
 import dev.olog.shared.widgets.scroller.WaveSideBarView

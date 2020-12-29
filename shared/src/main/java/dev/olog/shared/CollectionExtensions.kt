@@ -42,6 +42,10 @@ fun <T> List<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? {
     return null
 }
 
+fun List<Boolean>.allTrue(): Boolean {
+    return all { it }
+}
+
 operator fun<T> List<T>.component6() = get(5)
 operator fun<T> List<T>.component7() = get(6)
 operator fun<T> List<T>.component8() = get(7)

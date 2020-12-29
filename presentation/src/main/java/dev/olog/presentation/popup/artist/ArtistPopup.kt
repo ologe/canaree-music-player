@@ -12,8 +12,8 @@ class ArtistPopup(
     view: View,
     @Suppress("UNUSED_PARAMETER") artist: Artist,
     track: Track?,
-    listener: AbsPopupListener
-
+    listener: AbsPopupListener,
+    tracks: suspend () -> List<Track>
 ) : AbsPopup(view) {
 
     init {
@@ -31,6 +31,8 @@ class ArtistPopup(
             // works bad on Q
             menu.removeItem(R.id.delete)
         }
+
+        setupViewInfo(view, tracks)
     }
 
 }

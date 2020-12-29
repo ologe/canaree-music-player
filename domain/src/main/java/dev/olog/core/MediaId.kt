@@ -182,6 +182,10 @@ data class MediaId(
         get() = category == MediaIdCategory.PODCASTS_ARTISTS
     val isAnyPodcast : Boolean
         get() = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
+    val isAnyAlbum: Boolean
+        get() = isPodcastAlbum || isAlbum
+    val isAnyArtist: Boolean
+        get() = isPodcastArtist || isArtist
 
     // TODO delete
     fun assertPlaylist(){

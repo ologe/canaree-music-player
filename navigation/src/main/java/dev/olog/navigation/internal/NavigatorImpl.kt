@@ -19,6 +19,7 @@ internal class NavigatorImpl @Inject constructor(
     aboutNavigatorImpl: AboutNavigatorImpl,
     private val activityProvider: ActivityProvider,
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
+    private val popupMenuFactory: PopupMenuFactory,
 ) : BaseNavigator(),
     Navigator,
     BottomNavigator by bottomNavigator,
@@ -57,12 +58,30 @@ internal class NavigatorImpl @Inject constructor(
         navigateToDetail(FragmentScreen.RELATED_ARTISTS, mediaId)
     }
 
+    override fun toEditInfo(mediaId: MediaId) {
+        val screen = when  {
+            mediaId.isLeaf -> FragmentScreen.EDIT_TRACK
+            mediaId.isAnyAlbum -> FragmentScreen.EDIT_ALBUM
+            mediaId.isAnyArtist -> FragmentScreen.EDIT_ARTIST
+            else -> error("invalid mediaId?$mediaId")
+        }
+        navigate(
+            screen = screen,
+            containerId = android.R.id.content,
+            forced = true,
+            bundle = bundleOf(Params.MEDIA_ID to mediaId.toString())
+        )
+    }
+
     override fun toRecentlyAdded(mediaId: MediaId) {
         navigateToDetail(FragmentScreen.RECENTLY_ADDED, mediaId)
     }
 
     override fun toDialog(mediaId: MediaId, view: View) {
-        TODO("Not yet implemented")
+        if (!allowed()) {
+            return
+        }
+        popupMenuFactory.show(view, mediaId)
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
@@ -170,4 +189,35 @@ internal class NavigatorImpl @Inject constructor(
         }
     }
 
+    override fun toCreatePlaylist(mediaId: MediaId, songs: Int, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toPlayLater(mediaId: MediaId, songs: Int, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toPlayNext(mediaId: MediaId, songs: Int, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toAddToFavorite(mediaId: MediaId, songs: Int, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toRename(mediaId: MediaId, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toDelete(mediaId: MediaId, songs: Int, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toRemoveDuplicates(mediaId: MediaId, title: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun toClearPlaylist(mediaId: MediaId, title: String) {
+        TODO("Not yet implemented")
+    }
 }
