@@ -13,6 +13,7 @@ include ':features:search'
 include ':features:queue'
 include ':features:about'
 include ':features:player'
+include ':features:edit'
 
 // data
 include ':data'
