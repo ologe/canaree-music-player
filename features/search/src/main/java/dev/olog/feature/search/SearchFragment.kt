@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.feature.search.adapter.SearchFragmentAdapter
 import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment(),
+class SearchFragment : Fragment(R.layout.fragment_search),
     IDragListener by DragListenerImpl() {
 
     private val viewModel by viewModels<SearchFragmentViewModel>()
@@ -180,7 +180,5 @@ class SearchFragment : BaseFragment(),
         super.onStop()
         editText.hideIme()
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_search
 
 }

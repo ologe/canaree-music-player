@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.base.HasBottomNavigation
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.library.LibraryTutorial
 import dev.olog.feature.library.R
 import dev.olog.feature.library.dialog.MainPopupDialog
@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @AndroidEntryPoint
-class LibraryFragment : BaseFragment() {
+class LibraryFragment : Fragment(R.layout.fragment_library) {
 
     companion object {
         fun newInstance(isPodcast: Boolean): LibraryFragment {
@@ -140,5 +140,4 @@ class LibraryFragment : BaseFragment() {
             }
         }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_library
 }

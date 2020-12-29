@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.base.adapter.ObservableAdapter
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.library.R
 import dev.olog.feature.library.tab.adapter.TabFragmentAdapter
 import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : BaseFragment() {
+class TabFragment : Fragment(R.layout.fragment_tab) {
 
     companion object {
 
@@ -231,5 +231,4 @@ class TabFragment : BaseFragment() {
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_tab
 }

@@ -1,8 +1,11 @@
 package dev.olog.feature.player.player
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.math.MathUtils.clamp
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -13,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.player.PlayerTutorial
 import dev.olog.feature.player.R
 import dev.olog.feature.player.volume.PlayerVolumeFragment
@@ -38,7 +40,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
 
     private val viewModel by viewModels<PlayerFragmentViewModel>()
 
@@ -48,6 +50,23 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     lateinit var navigator: Navigator
 
     private lateinit var layoutManager: LinearLayoutManager
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
+        val layoutId = when (playerAppearanceAmbient.value) {
+            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
+            PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
+            PlayerAppearance.MINI -> R.layout.fragment_player_mini
+            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
+            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
+            else -> R.layout.fragment_player_default
+        }
+        return inflater.inflate(layoutId, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
@@ -114,18 +133,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             add(android.R.id.content, fragment, null)
             addToBackStack(null)
-        }
-    }
-
-    override fun provideLayoutId(): Int {
-        val playerAppearanceAmbient = requireContext().playerAppearanceAmbient
-        return when (playerAppearanceAmbient.value) {
-            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
-            PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
-            PlayerAppearance.MINI -> R.layout.fragment_player_mini
-            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
-            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
-            else -> R.layout.fragment_player_default
         }
     }
 

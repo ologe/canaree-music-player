@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.math.MathUtils
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.player.R
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.media.model.PlayerState
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.*
 import kotlin.time.Duration
 
 @AndroidEntryPoint
-internal class PlayerMiniFragment : BaseFragment() {
+internal class PlayerMiniFragment : Fragment(R.layout.fragment_mini_player) {
 
     private val viewModel by viewModels<PlayerMiniFragmentViewModel>()
 
@@ -139,5 +139,4 @@ internal class PlayerMiniFragment : BaseFragment() {
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_mini_player
 }

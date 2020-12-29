@@ -2,10 +2,10 @@ package dev.olog.feature.about.about
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.about.R
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AboutFragment : BaseFragment() {
+class AboutFragment : Fragment(R.layout.fragment_about) {
 
     @Inject
     lateinit var navigator: Navigator
@@ -47,5 +47,4 @@ class AboutFragment : BaseFragment() {
         back.setOnClickListener(null)
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_about
 }

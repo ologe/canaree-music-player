@@ -2,10 +2,10 @@ package dev.olog.feature.about.localization
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.about.R
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class LocalizationFragment : BaseFragment() {
+internal class LocalizationFragment : Fragment(R.layout.fragment_translations) {
 
     @Inject
     internal lateinit var navigator: Navigator
@@ -46,9 +46,5 @@ internal class LocalizationFragment : BaseFragment() {
         super.onPause()
         back.setOnClickListener(null)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_translations
-
-
 
 }

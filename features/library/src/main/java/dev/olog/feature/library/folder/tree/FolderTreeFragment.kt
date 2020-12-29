@@ -2,14 +2,14 @@ package dev.olog.feature.library.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.base.base.BaseFragment
-import dev.olog.lib.media.mediaProvider
 import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.library.R
 import dev.olog.feature.library.folder.tree.widget.BreadCrumbLayout
+import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dimen
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FolderTreeFragment : BaseFragment(),
+class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
 
@@ -109,6 +109,4 @@ class FolderTreeFragment : BaseFragment(),
             crumbsWrapper.translationY = clampedTranslation
         }
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_folder_tree
 }

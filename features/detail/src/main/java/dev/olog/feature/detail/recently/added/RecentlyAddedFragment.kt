@@ -2,12 +2,12 @@ package dev.olog.feature.detail.recently.added
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+class RecentlyAddedFragment : Fragment(R.layout.fragment_recently_added), IDragListener by DragListenerImpl() {
 
     @Inject
     lateinit var navigator: Navigator
@@ -64,6 +64,4 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         super.onPause()
         back.setOnClickListener(null)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_recently_added
 }

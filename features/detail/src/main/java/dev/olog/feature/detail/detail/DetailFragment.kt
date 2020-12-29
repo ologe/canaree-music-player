@@ -4,29 +4,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.feature.base.CanChangeStatusBarColor
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.SetupNestedList
+import dev.olog.feature.base.adapter.drag.DragListenerImpl
+import dev.olog.feature.base.adapter.drag.IDragListener
+import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.feature.detail.R
-import dev.olog.feature.detail.detail.adapter.DetailFragmentAdapter
-import dev.olog.feature.detail.detail.adapter.DetailMostPlayedAdapter
-import dev.olog.feature.detail.detail.adapter.DetailRecentlyAddedAdapter
-import dev.olog.feature.detail.detail.adapter.DetailRelatedArtistsAdapter
-import dev.olog.feature.detail.detail.adapter.DetailSiblingsAdapter
+import dev.olog.feature.detail.detail.adapter.*
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
-import dev.olog.feature.base.adapter.ObservableAdapter
-import dev.olog.feature.base.adapter.drag.DragListenerImpl
-import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import dev.olog.feature.base.CanChangeStatusBarColor
-import dev.olog.feature.base.adapter.SetupNestedList
-import dev.olog.feature.base.base.BaseFragment
-import dev.olog.feature.base.restoreUpperWidgetsTranslation
 import dev.olog.shared.widgets.extension.removeLightStatusBar
 import dev.olog.shared.widgets.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -38,7 +34,7 @@ import kotlin.math.abs
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment(),
+class DetailFragment : Fragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
     SetupNestedList,
     IDragListener by DragListenerImpl() {
@@ -243,8 +239,6 @@ class DetailFragment : BaseFragment(),
 
         requireActivity().window.setLightStatusBar()
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_detail
 
     private val scrollListener = object : RecyclerView.OnScrollListener(){
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

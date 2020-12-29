@@ -2,9 +2,9 @@ package dev.olog.feature.detail.related.artist
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.feature.detail.R
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RelatedArtistFragment : BaseFragment() {
+class RelatedArtistFragment : Fragment(R.layout.fragment_related_artist) {
 
     @Inject
     lateinit var navigator: Navigator
@@ -55,5 +55,4 @@ class RelatedArtistFragment : BaseFragment() {
         back.setOnClickListener(null)
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_related_artist
 }

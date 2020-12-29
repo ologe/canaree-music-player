@@ -8,9 +8,9 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.image.provider.OnImageLoadingError
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.mediaProvider
@@ -34,7 +34,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
+class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsOnTop {
 
     companion object {
         const val TAG = "OfflineLyricsFragment"
@@ -208,6 +208,4 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         CustomTabsHelper.openCustomTab(requireContext(), customTabIntent, uri, callback)
     }
 
-
-    override fun provideLayoutId(): Int = R.layout.fragment_offline_lyrics
 }

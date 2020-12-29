@@ -3,13 +3,13 @@ package dev.olog.feature.queue
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.base.adapter.drag.IDragListener
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragListener by DragListenerImpl() {
 
     // TODO check why is using viewModels on activity
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
@@ -86,7 +86,6 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 //        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity()) TODO
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
 
 
 }

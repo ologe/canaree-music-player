@@ -5,11 +5,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
-import dev.olog.feature.base.base.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.onEach
 
 // TODO add multiselection
 @AndroidEntryPoint
-class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
+class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
@@ -161,6 +161,4 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
 }
