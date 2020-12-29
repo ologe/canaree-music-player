@@ -49,11 +49,9 @@ data class MediaId(
         get() = category.ordinal
 
     companion object {
-        // nn -> non null
-        // [*] -> optional modifier:
-        //      \shuffle
-        //      \most_played
-        // ^nn_category/nn_category_value|nullable_leaf[*]$
+        // ALBUMS/10|
+        // ALBUMS/10|99
+        // ALBUMS/10|99\MOST_PLAYED
         private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
 
         @Deprecated("delete")
@@ -110,6 +108,8 @@ data class MediaId(
             }
         }
 
+        // TODO is broken for folders
+        // e.g. FOLDERS//storage/emulated/0/Music|1
         fun fromString(mediaId: String): MediaId {
             val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
             return MediaId(
