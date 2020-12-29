@@ -5,6 +5,6 @@ import dev.olog.core.MediaId
 data class PlayerItem(
     val mediaId: MediaId,
     val title: String,
-    val artist: String,
-    val progressive: Long
+    val subtitle: String,
+    val serviceProgressive: Long
 )

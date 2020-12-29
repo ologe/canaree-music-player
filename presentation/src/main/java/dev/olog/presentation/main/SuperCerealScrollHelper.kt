@@ -24,7 +24,7 @@ class SuperCerealScrollHelper(
             // apply only top padding
             list.updatePadding(top = 0)
         }
-//        if (fragment is FolderTreeFragment){ TODO
+//        if (fragment is FolderTreeFragment){
 //            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
 //            if (crumbsWrapper.marginTop < 1){
 ////                 margin not set yet
@@ -92,7 +92,7 @@ class SuperCerealScrollHelper(
 
     private fun isViewPagerChildTag(tag: String?) = tag?.startsWith("android:switcher:") == true
 
-    private fun hasFragmentOwnership(tag: String?) = tag?.startsWith("dev.olog") == true
+    private fun hasFragmentOwnership(tag: String?) = tag?.startsWith(FragmentScreen.OWNERSHIP) == true
 
-    private fun isPlayerTag(tag: String?) = tag?.contains("Player") == true
+    private fun isPlayerTag(tag: String?) = tag == FragmentScreen.PLAYER.tag
 }

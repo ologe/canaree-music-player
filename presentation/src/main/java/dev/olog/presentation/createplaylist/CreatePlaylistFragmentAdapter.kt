@@ -16,6 +16,8 @@ class CreatePlaylistFragmentAdapter(
     private val viewModel: CreatePlaylistFragmentViewModel
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
+    override fun getItemViewType(position: Int): Int = R.layout.item_create_playlist
+
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, view ->
             val checkBox = view.findViewById<CheckBox>(R.id.selected)

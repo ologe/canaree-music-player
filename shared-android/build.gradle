@@ -18,4 +18,6 @@ dependencies {
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions
+
+    implementation lib_ui.blur_kit
 }

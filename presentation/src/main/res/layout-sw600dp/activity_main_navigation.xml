@@ -42,17 +42,15 @@
         app:behavior_peekHeight="@dimen/sliding_panel_peek"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <fragment
-            android:name="dev.olog.presentation.player.PlayerFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/playerFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:tag="@string/player_fragment_tag" />
+            android:layout_height="match_parent" />
 
-        <fragment
-            android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/miniPlayerFragment"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
-            android:tag="@string/mini_player_fragment_tag" />
+            android:layout_height="@dimen/sliding_panel_peek" />
 
     </FrameLayout>
 

@@ -15,9 +15,13 @@ enum class FragmentScreen(val tag: String) {
     RELATED_ARTISTS("$PREFIX.related.artists"),
     RECENTLY_ADDED("$PREFIX.recently.added"),
 
+    PLAYER("$PREFIX.player"),
+    PLAYER_MINI("$PREFIX.player.mini"),
+
     EQUALIZER("$PREFIX.equalizer"),
     SETTINGS("$PREFIX.settings"),
     SLEEP_TIMER("$PREFIX.sleep.timer"),
+    OFFLINE_LYRICS("$PREFIX.offline.lyrics"),
 
     ABOUT("$PREFIX.about"),
     SPECIAL_THANKS("$PREFIX.special.thanks"),

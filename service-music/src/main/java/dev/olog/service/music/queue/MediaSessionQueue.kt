@@ -5,6 +5,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dev.olog.service.music.model.MediaEntity
+import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ internal class MediaSessionQueue @Inject constructor(
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(mediaId.toString())
             .setTitle(this.title)
-            .setSubtitle(this.artist)
+            .setSubtitle(DisplayableItemUtils.trackSubtitle(this.artist, this.album))
             .build()
 
         return MediaSessionCompat.QueueItem(description, this.progressive.toLong())

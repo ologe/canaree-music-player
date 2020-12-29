@@ -8,9 +8,7 @@ import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.local.R
 import dev.olog.shared.android.extensions.observeKey
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -169,11 +167,9 @@ internal class MusicPreferencesGatewayImpl @Inject constructor(
 
     override fun observeVolume(): Flow<Int> {
         return preferences.observeKey(MUSIC_VOLUME, 100)
-            .flowOn(Dispatchers.IO)
     }
 
     override fun observeShowLockscreenArtwork(): Flow<Boolean> {
         return preferences.observeKey(context.getString(R.string.prefs_lockscreen_artwork_key), false)
-            .flowOn(Dispatchers.IO)
     }
 }

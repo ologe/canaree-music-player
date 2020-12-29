@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tutorial_lyrics">显示已保存的歌词</string>
     <string name="tutorial_add_lyrics">添加或更新歌词</string>
     <string name="tutorial_search_lyrics">在网络上搜索歌词</string>
     <string name="tutorial_adjust_sync">调整歌词时间轴（仅针对滚动歌词）</string>

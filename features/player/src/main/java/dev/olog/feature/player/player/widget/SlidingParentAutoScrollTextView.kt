@@ -1,0 +1,54 @@
+package dev.olog.feature.player.player.widget
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.shared.android.extensions.findAncestorByType
+import dev.olog.shared.android.slidingPanel
+import dev.olog.shared.widgets.AutoScrollTextView
+
+class SlidingParentAutoScrollTextView(
+    context: Context,
+    attrs: AttributeSet
+) : AutoScrollTextView(context, attrs) {
+
+    private val parentList: RecyclerView?
+        get() = findAncestorByType()
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (!isInEditMode){
+            isSelected = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+            slidingPanel.addBottomSheetCallback(listener)
+            parentList?.addOnScrollListener(recyclerViewListener)
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        if (!isInEditMode){
+            slidingPanel.removeBottomSheetCallback(listener)
+            parentList?.removeOnScrollListener(recyclerViewListener)
+        }
+    }
+
+    private val recyclerViewListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            isSelected = newState == RecyclerView.SCROLL_STATE_IDLE &&
+                    !recyclerView.canScrollVertically(-1)
+        }
+    }
+
+    private val listener = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            isSelected = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
+}

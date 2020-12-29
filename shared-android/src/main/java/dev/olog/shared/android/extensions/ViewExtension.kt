@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package dev.olog.shared.android.extensions
 
 import android.content.Context
@@ -13,14 +11,6 @@ import androidx.core.view.*
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
-
-inline fun View.setVisible() {
-    this.visibility = View.VISIBLE
-}
-
-inline fun View.toggleSelected() {
-    this.isSelected = !this.isSelected
-}
 
 fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     forEach {
@@ -123,6 +113,16 @@ suspend fun View.awaitOnAttach() = suspendCancellableCoroutine<Unit> { continuat
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun View.dip(value: Int): Int = context.dip(value)
+@Suppress("NOTHING_TO_INLINE")
 inline fun View.dipf(value: Int): Float = context.dipf(value)
+@Suppress("NOTHING_TO_INLINE")
 inline fun View.dimen(@DimenRes resource: Int): Int = context.dimen(resource)
+
+val View.locationInWindow: IntArray
+    get() {
+        val outLocation = intArrayOf(0, 0)
+        this.getLocationInWindow(outLocation)
+        return outLocation
+    }

@@ -93,7 +93,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             requireActivity().onBackPressed()
         }
         filterList.setOnClickListener {
-            filterList.toggleSelected()
+            filterList.isSelected = !filterList.isSelected
             viewModel.toggleShowOnlyFiltered()
 
             toast?.cancel()

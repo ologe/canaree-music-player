@@ -45,18 +45,6 @@ class NavigatorImpl @Inject internal constructor(
 //        )
     }
 
-    override fun toOfflineLyrics() {
-        if (!allowed()) {
-            return
-        }
-        activity.supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(android.R.id.content, OfflineLyricsFragment.newInstance(), OfflineLyricsFragment.TAG)
-            addToBackStack(OfflineLyricsFragment.TAG)
-        }
-    }
-
     override fun toEditInfoFragment(mediaId: MediaId) {
         if (allowed()) {
             when {

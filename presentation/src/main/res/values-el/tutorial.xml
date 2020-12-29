@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_lyrics">Εμφάνιση αποθηκευμένων στίχων</string>
     <string name="tutorial_add_lyrics">Πρόσθεσε ή ενημέρωσε τους στίχους σου</string>
     <string name="tutorial_search_lyrics">Ψάξε τους στίχους σου στο διαδίκτυο</string>
     <string name="tutorial_adjust_sync">Ρύθμισε τον συγχρονισμό (μόνο για συγχρονισμένους στίχους)</string>

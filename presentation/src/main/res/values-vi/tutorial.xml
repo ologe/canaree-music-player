@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tutorial_lyrics">Hiển thị lời bài hát đã lưu</string>
     <string name="tutorial_add_lyrics">Thêm hoặc sửa lời bài hát</string>
     <string name="tutorial_search_lyrics">Tìm lời bài hát ở trên mạng</string>
     <string name="tutorial_adjust_sync">Chỉnh tốc độ chạy lời bài hát (chỉ áp dụng cho lời bài hát đã lưu)</string>

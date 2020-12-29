@@ -7,7 +7,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.intents.Classes
 import dev.olog.lib.media.connection.IMediaConnectionCallback
@@ -25,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MediaExposer(
     private val context: Context,
@@ -57,13 +57,13 @@ class MediaExposer(
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
-            Log.w("MediaExposer", "Storage permission is not granted")
+            Timber.w("Storage permission is not granted")
             return
         }
         connectionJob = connectionPublisher
             .filterNotNull()
             .onEach { state ->
-                Log.d("MediaExposer", "Connection state=$state")
+                Timber.d("Connection state=$state")
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> onConnectionChanged.onConnectedSuccess(
                         mediaBrowser = mediaBrowser,
@@ -126,7 +126,7 @@ class MediaExposer(
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
         queue ?: return
         queueJob = coroutineScope.launch(Dispatchers.Default) {
-            val result = queue.map(MediaSessionCompat.QueueItem::toDisplayableItem)
+            val result = queue.mapNotNull(MediaSessionCompat.QueueItem::toDisplayableItem)
             queuePublisher.value = result
         }
     }
@@ -148,13 +148,16 @@ class MediaExposer(
 
 }
 
-private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {
-    val description = this.description
+private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem? {
+    val description = this.description ?: return null
+    val mediaId = description.mediaId ?: return null
+    val title = description.title?.toString() ?: return null
+    val subtitle = description.title?.toString() ?: return null
 
     return PlayerItem(
-        mediaId = MediaId.fromString(description.mediaId!!),
-        title = description.title?.toString() ?: "",
-        artist = description.subtitle?.toString() ?: "",
-        progressive = this.queueId
+        mediaId = MediaId.fromString(mediaId),
+        title = title,
+        subtitle = subtitle,
+        serviceProgressive = this.queueId
     )
 }

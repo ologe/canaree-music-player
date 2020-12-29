@@ -36,9 +36,9 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
             val indexInThisQueue = queue.indexOfFirst { it.serviceProgressive == progressive }
             queue.mapIndexed { index, item ->
                 item.toDisplayableItem(
-                    trackIndexInThisQueue = index,
-                    playingIndexInThisQueue = indexInThisQueue,
-                    playingIndexInServiceQueue = progressive
+                    indexInThisQueue = index,
+                    playingTrackIndexInThisQueue = indexInThisQueue,
+                    playingTrackIndexInServiceQueue = progressive
                 )
             }
         }
@@ -73,25 +73,25 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     }
 
     private fun PlayingQueueTrack.toDisplayableItem(
-        trackIndexInThisQueue: Int,
-        playingIndexInThisQueue: Int,
-        playingIndexInServiceQueue: Int
+        indexInThisQueue: Int,
+        playingTrackIndexInThisQueue: Int,
+        playingTrackIndexInServiceQueue: Int
     ): PlayingQueueFragmentModel {
         val track = this.track
 
         val relativePosition = when {
-            trackIndexInThisQueue > playingIndexInThisQueue -> "+${trackIndexInThisQueue - playingIndexInThisQueue}"
-            trackIndexInThisQueue < playingIndexInThisQueue -> "${trackIndexInThisQueue - playingIndexInThisQueue}"
+            indexInThisQueue > playingTrackIndexInThisQueue -> "+${indexInThisQueue - playingTrackIndexInThisQueue}"
+            indexInThisQueue < playingTrackIndexInThisQueue -> "${indexInThisQueue - playingTrackIndexInThisQueue}"
             else -> "-"
         }
 
         return PlayingQueueFragmentModel(
-            progressive = serviceProgressive,
+            serviceProgressive = serviceProgressive.toLong(),
             mediaId = track.getMediaId(),
             title = track.title,
             subtitle = DisplayableItemUtils.trackSubtitle(track.artist, track.album),
             relativePosition = relativePosition,
-            isCurrentSong = serviceProgressive == playingIndexInServiceQueue
+            isCurrentSong = serviceProgressive == playingTrackIndexInServiceQueue
         )
     }
 

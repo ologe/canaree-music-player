@@ -59,6 +59,9 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        navigator.toPlayer(R.id.playerFragment)
+        navigator.toMiniPlayer(R.id.miniPlayerFragment)
+
         if (immersiveAmbient.isEnabled) {
             // workaround, on some device on immersive mode bottom navigation disappears
             rootView.fitsSystemWindows = true

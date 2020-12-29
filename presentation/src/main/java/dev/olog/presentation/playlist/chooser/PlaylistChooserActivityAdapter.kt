@@ -18,6 +18,8 @@ class PlaylistChooserActivityAdapter(
     private val appShortcuts: AppShortcuts,
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
+    override fun getItemViewType(position: Int): Int = R.layout.item_playlist_chooser
+
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             askConfirmation(item)

@@ -13,8 +13,6 @@ interface NavigatorLegacy {
 
     fun toEditInfoFragment(mediaId: MediaId)
 
-    fun toOfflineLyrics()
-
     fun toDialog(mediaId: MediaId, anchor: View)
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)

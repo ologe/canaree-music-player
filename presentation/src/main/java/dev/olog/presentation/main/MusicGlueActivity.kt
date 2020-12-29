@@ -122,8 +122,8 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
-    override fun skipToQueueItem(idInPlaylist: Int) {
-        transportControls()?.skipToQueueItem(idInPlaylist.toLong())
+    override fun skipToQueueItem(serviceProgressive: Long) {
+        transportControls()?.skipToQueueItem(serviceProgressive)
     }
 
     override fun shuffle(mediaId: MediaId, filter: String?) {

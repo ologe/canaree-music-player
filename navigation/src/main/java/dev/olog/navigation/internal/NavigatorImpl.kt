@@ -32,6 +32,22 @@ internal class NavigatorImpl @Inject constructor(
         )
     }
 
+    override fun toPlayer(@IdRes containerId: Int) {
+        val activity = activityProvider() ?: return
+        val screen = FragmentScreen.PLAYER
+        val fragment = fragments[screen]?.get()
+        val tag = screen.tag
+        replaceFragment(activity, fragment, tag, containerId, forced = true)
+    }
+
+    override fun toMiniPlayer(@IdRes containerId: Int) {
+        val activity = activityProvider() ?: return
+        val screen = FragmentScreen.PLAYER_MINI
+        val fragment = fragments[screen]?.get()
+        val tag = screen.tag
+        replaceFragment(activity, fragment, tag, containerId, forced = true)
+    }
+
     override fun toDetailFragment(mediaId: MediaId) {
         // TODO collapse sliding panel here
         navigateToDetail(FragmentScreen.DETAIL, mediaId)
@@ -108,6 +124,14 @@ internal class NavigatorImpl @Inject constructor(
         navigate(screen = FragmentScreen.SLEEP_TIMER)
     }
 
+    override fun toOfflineLyrics() {
+        navigate(
+            screen = FragmentScreen.OFFLINE_LYRICS,
+            containerId = android.R.id.content
+        )
+        // TODO setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)?
+    }
+
     private fun navigate(
         screen: FragmentScreen,
         bundle: Bundle? = null,
@@ -124,7 +148,9 @@ internal class NavigatorImpl @Inject constructor(
             activity = activity,
             fragment = fragment,
             tag = tag,
-            containerId = containerId, forced = forced)
+            containerId = containerId,
+            forced = forced
+        )
     }
 
     private fun navigateToDetail(screen: FragmentScreen, mediaId: MediaId) {

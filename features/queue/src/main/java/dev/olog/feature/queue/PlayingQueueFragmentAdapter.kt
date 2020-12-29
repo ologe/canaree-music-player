@@ -28,7 +28,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.skipToQueueItem(item.progressive)
+            mediaProvider.skipToQueueItem(item.serviceProgressive)
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->

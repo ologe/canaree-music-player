@@ -27,7 +27,7 @@ interface MediaProvider {
         sort: SortEntity?
     )
 
-    fun skipToQueueItem(idInPlaylist: Int)
+    fun skipToQueueItem(serviceProgressive: Long)
     fun shuffle(mediaId: MediaId, filter: String?)
     fun skipToNext()
     fun skipToPrevious()
