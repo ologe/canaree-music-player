@@ -12,4 +12,6 @@ dependencies {
     implementation lib_x.core
     implementation lib_x.fragments
     implementation lib_x.material
+    implementation lib_x.browser
+    implementation lib_ui.custom_tabs
 }

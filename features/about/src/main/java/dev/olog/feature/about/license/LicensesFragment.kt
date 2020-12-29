@@ -1,36 +1,26 @@
-package dev.olog.presentation.license
+package dev.olog.feature.about.license
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.about.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_licenses.*
 
-class LicensesFragment : Fragment() {
+@AndroidEntryPoint
+internal class LicensesFragment : Fragment(R.layout.fragment_licenses) {
 
-    companion object {
-        val TAG = LicensesFragment::class.java.name
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_licenses, container, false)
-    }
+    private val viewModel by viewModels<LicensesFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val presenter = LicensesFragmentPresenter(requireContext())
         val adapter = LicensesFragmentAdapter()
 
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
 
-        adapter.submitList(presenter.data)
+        adapter.submitList(viewModel.data)
     }
 
     override fun onResume() {

@@ -1,41 +1,37 @@
-package dev.olog.presentation.about
+package dev.olog.feature.about.localization
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.about.R
 import dev.olog.feature.base.base.BaseFragment
-import dev.olog.presentation.R
-import dev.olog.presentation.navigator.NavigatorAbout
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_about.*
+import kotlinx.android.synthetic.main.fragment_translations.*
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AboutFragment : BaseFragment() {
-
-    companion object {
-        val TAG = AboutFragment::class.java.name
-    }
+internal class LocalizationFragment : BaseFragment() {
 
     @Inject
-    lateinit var navigator: NavigatorAbout
-
-    private val viewModel by viewModels<AboutFragmentPresenter>()
+    internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
-        AboutFragmentAdapter(navigator)
+        LocalizationFragmentAdapter(navigator)
     }
 
+    private val viewModel by viewModels<LocalizationFragmentViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
+        list.layoutManager = OverScrollLinearLayoutManager(list)
 
         viewModel.data
-            .onEach(adapter::submitList)
+            .onEach { adapter.submitList(it) }
             .launchIn(this)
     }
 
@@ -51,5 +47,8 @@ class AboutFragment : BaseFragment() {
         back.setOnClickListener(null)
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_about
+    override fun provideLayoutId(): Int = R.layout.fragment_translations
+
+
+
 }

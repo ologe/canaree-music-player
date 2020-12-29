@@ -44,11 +44,11 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
         currentTrackIdPublisher.offer(trackId)
     }
 
-    val footerLoadMore : DisplayableItem = DisplayableHeader(
-            type = R.layout.item_mini_queue_load_more,
-            mediaId = MediaId.headerId("load more"),
-            title = ""
-    )
+    val footerLoadMore : DisplayableItem = TODO() // DisplayableHeader(
+//            type = R.layout.item_mini_queue_load_more,
+//            mediaId = MediaId.headerId("load more"),
+//            title = ""
+//    )
 
     fun playerControls(): DisplayableItem {
         val playerAppearanceAmbient = context.playerAppearanceAmbient
@@ -62,11 +62,12 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
             PlayerAppearance.MINI -> R.layout.player_layout_mini
             else -> throw IllegalStateException("invalid theme")
         }
-        return DisplayableHeader(
-            type = id,
-            mediaId = MediaId.headerId("player controls id"),
-            title = ""
-        )
+        TODO()
+//        return DisplayableHeader(
+//            type = id,
+//            mediaId = MediaId.headerId("player controls id"),
+//            title = ""
+//        )
     }
 
     val onFavoriteStateChanged: Flow<FavoriteEnum> = favoritePublisher.filterNotNull()

@@ -4,7 +4,7 @@ import android.view.View
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 
-interface Navigator : BottomNavigator {
+interface Navigator : BottomNavigator, AboutNavigator {
 
     fun toFirstAccess()
 

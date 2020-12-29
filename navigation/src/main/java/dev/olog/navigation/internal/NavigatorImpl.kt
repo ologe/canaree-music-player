@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
-import dev.olog.navigation.BottomNavigator
-import dev.olog.navigation.Navigator
-import dev.olog.navigation.Params
-import dev.olog.navigation.R
+import dev.olog.navigation.*
 import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.navigation.utils.findFirstVisibleFragment
 import javax.inject.Inject
@@ -19,11 +16,13 @@ import javax.inject.Provider
 
 internal class NavigatorImpl @Inject constructor(
     bottomNavigator: BottomNavigatorImpl,
+    aboutNavigatorImpl: AboutNavigatorImpl,
     private val activityProvider: ActivityProvider,
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
 ) : BaseNavigator(),
     Navigator,
-    BottomNavigator by bottomNavigator {
+    BottomNavigator by bottomNavigator,
+    AboutNavigator by aboutNavigatorImpl {
 
     override fun toFirstAccess() {
         navigate(

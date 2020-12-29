@@ -12,8 +12,6 @@ enum class MediaIdCategory {
     PODCASTS,
     PODCASTS_ALBUMS,
     PODCASTS_ARTISTS,
-
-    HEADER, // TODO remove
 }
 
 enum class MediaIdModifier {
@@ -53,16 +51,6 @@ data class MediaId(
         // ALBUMS/10|99
         // ALBUMS/10|99\MOST_PLAYED
         private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
-
-        @Deprecated("delete")
-        fun headerId(value: String): MediaId {
-            return MediaId(
-                category = MediaIdCategory.HEADER,
-                categoryValue = value,
-                leaf = null,
-                modifier = null,
-            )
-        }
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(
@@ -146,7 +134,7 @@ data class MediaId(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -155,7 +143,7 @@ data class MediaId(
     val categoryId: Long
         get() {
             return when {
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -172,9 +160,6 @@ data class MediaId(
             return source
         }
 
-    // TODO delete
-    val isHeader: Boolean
-        get() = category == MediaIdCategory.HEADER
     val isFolder : Boolean
         get() = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean

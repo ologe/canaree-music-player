@@ -9,7 +9,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.android.utils.PlayStoreUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,7 +48,7 @@ class RateAppDialog @Inject constructor(
             .setMessage(R.string.rate_app_message)
             .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->
                 setNeverShowAgain()
-                PlayStoreUtils.open(activity)
+//                PlayStoreUtils.open(activity)
             }
             .setNegativeButton(R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
             .setNeutralButton(R.string.rate_app_neutral_button) { _, _ -> }

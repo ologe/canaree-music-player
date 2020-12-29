@@ -1,16 +1,18 @@
-package dev.olog.presentation.license
+package dev.olog.feature.about.license
 
 import android.text.method.LinkMovementMethod
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.about.R
 import dev.olog.feature.base.adapter.LayoutContainerViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
-import dev.olog.presentation.model.LicenseModel
 import kotlinx.android.synthetic.main.item_license.*
 
-class LicensesFragmentAdapter(
+internal class LicensesFragmentAdapter(
 
-) : ObservableAdapter<LicenseModel>(DiffCallbackLicenseModel) {
+) : ObservableAdapter<LicenseFragmentModel>(LicenseFragmentModelDiff) {
+
+    override fun getItemViewType(position: Int): Int = R.layout.item_license
 
     override fun initViewHolderListeners(viewHolder: LayoutContainerViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { _, _, _ ->
@@ -21,7 +23,7 @@ class LicensesFragmentAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: LicenseModel,
+        item: LicenseFragmentModel,
         position: Int
     ) = holder.bindView {
         name.text = item.name
@@ -32,12 +34,19 @@ class LicensesFragmentAdapter(
 
 }
 
-object DiffCallbackLicenseModel : DiffUtil.ItemCallback<LicenseModel>() {
-    override fun areItemsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
-        return oldItem.mediaId == newItem.mediaId
+private object LicenseFragmentModelDiff : DiffUtil.ItemCallback<LicenseFragmentModel>() {
+
+    override fun areItemsTheSame(
+        oldItem: LicenseFragmentModel,
+        newItem: LicenseFragmentModel
+    ): Boolean {
+        return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
+    override fun areContentsTheSame(
+        oldItem: LicenseFragmentModel,
+        newItem: LicenseFragmentModel
+    ): Boolean {
         return oldItem == newItem
     }
 }

@@ -16,9 +16,13 @@ enum class FragmentScreen(val tag: String) {
     RECENTLY_ADDED("$PREFIX.recently.added"),
 
     EQUALIZER("$PREFIX.equalizer"),
-    ABOUT("$PREFIX.about"),
     SETTINGS("$PREFIX.settings"),
-    SLEEP_TIMER("$PREFIX.sleep.timer");
+    SLEEP_TIMER("$PREFIX.sleep.timer"),
+
+    ABOUT("$PREFIX.about"),
+    SPECIAL_THANKS("$PREFIX.special.thanks"),
+    LOCALIZATION("$PREFIX.localization"),
+    LICENSE("$PREFIX.license");
 
     companion object {
         const val OWNERSHIP = PREFIX

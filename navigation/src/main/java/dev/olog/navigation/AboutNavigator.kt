@@ -1,6 +1,6 @@
-package dev.olog.presentation.navigator
+package dev.olog.navigation
 
-interface NavigatorAbout {
+interface AboutNavigator {
 
     fun toLicensesFragment()
 
@@ -18,7 +18,8 @@ interface NavigatorAbout {
 
     fun toGithub()
 
-    fun toTranslations()
+    fun toLocalization()
+
     fun requestTranslation()
 
 }

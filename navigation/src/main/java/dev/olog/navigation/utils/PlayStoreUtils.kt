@@ -1,9 +1,8 @@
-package dev.olog.shared.android.utils
+package dev.olog.navigation.utils
 
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import dev.olog.shared.android.extensions.toast
 
 object PlayStoreUtils {
 
@@ -16,7 +15,8 @@ object PlayStoreUtils {
         if (intent.resolveActivity(activity.packageManager) != null) {
             activity.startActivity(intent)
         } else {
-            activity.toast("Play Store not found")
+            // TODO snackbar?
+//            activity.toast("Play Store not found")
         }
     }
 
