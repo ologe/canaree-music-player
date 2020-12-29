@@ -47,7 +47,6 @@ internal class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
-    private val presenter: PlayerFragmentPresenter,
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior,
     private val toPlayerVolume: (View) -> Unit
@@ -113,24 +112,24 @@ internal class PlayerFragmentAdapter(
 
             holder.imageSwitcher?.let {
                 it.observeProcessorColors()
-                    .onEach(presenter::updateProcessorColors)
+                    .onEach(viewModel::updateProcessorColors)
                     .launchIn(holder.coroutineScope)
                 it.observePaletteColors()
-                    .onEach(presenter::updatePaletteColors)
+                    .onEach(viewModel::updatePaletteColors)
                     .launchIn(holder.coroutineScope)
             }
             holder.miniCover?.let {
                 it.observeProcessorColors()
-                    .onEach(presenter::updateProcessorColors)
+                    .onEach(viewModel::updateProcessorColors)
                     .launchIn(holder.coroutineScope)
                 it.observePaletteColors()
-                    .onEach(presenter::updatePaletteColors)
+                    .onEach(viewModel::updatePaletteColors)
                     .launchIn(holder.coroutineScope)
             }
 
             holder.bindPlayerControls()
 
-            playerAppearanceAdaptiveBehavior(holder, presenter)
+            playerAppearanceAdaptiveBehavior(holder, viewModel)
         }
     }
 
@@ -246,7 +245,7 @@ internal class PlayerFragmentAdapter(
             .onEach(previous::updateVisibility)
             .launchIn(coroutineScope)
 
-        presenter.observePlayerControlsVisibility()
+        viewModel.observePlayerControlsVisibility()
             .filter { !playerAppearanceAmbient.isFullscreen()
                     && !playerAppearanceAmbient.isMini()
                     && !playerAppearanceAmbient.isSpotify()

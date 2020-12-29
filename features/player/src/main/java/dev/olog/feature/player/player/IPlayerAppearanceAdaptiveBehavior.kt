@@ -35,18 +35,18 @@ internal interface IPlayerAppearanceAdaptiveBehavior {
             }
     }
 
-    operator fun invoke(viewHolder: LayoutContainerViewHolder, presenter: PlayerFragmentPresenter)
+    operator fun invoke(viewHolder: LayoutContainerViewHolder, viewModel: PlayerFragmentViewModel)
 }
 
 internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(
         viewHolder: LayoutContainerViewHolder,
-        presenter: PlayerFragmentPresenter
+        viewModel: PlayerFragmentViewModel
     ) = viewHolder.bindView {
         val view = viewHolder.itemView
 
-        presenter.observePaletteColors()
+        viewModel.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 val first = makeFirstColor(view.context, accent)
@@ -83,10 +83,10 @@ internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveB
 
     override fun invoke(
         viewHolder: LayoutContainerViewHolder,
-        presenter: PlayerFragmentPresenter
+        viewModel: PlayerFragmentViewModel
     ) = viewHolder.bindView {
 
-        presenter.observePaletteColors()
+        viewModel.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 artist.apply { animateTextColor(accent) }
@@ -104,10 +104,10 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
 
     override fun invoke(
         viewHolder: LayoutContainerViewHolder,
-        presenter: PlayerFragmentPresenter
+        viewModel: PlayerFragmentViewModel
     ) = viewHolder.bindView {
 
-        presenter.observeProcessorColors()
+        viewModel.observeProcessorColors()
             .onEach { colors ->
                 title.apply {
                     animateTextColor(colors.primaryText)
@@ -119,7 +119,7 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
                 }
             }.launchIn(coroutineScope)
 
-        presenter.observePaletteColors()
+        viewModel.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 seekBar.apply {
@@ -136,10 +136,10 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
 
     override fun invoke(
         viewHolder: LayoutContainerViewHolder,
-        presenter: PlayerFragmentPresenter
+        viewModel: PlayerFragmentViewModel
     ) = viewHolder.bindView {
 
-        presenter.observePaletteColors()
+        viewModel.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 seekBar.apply {
@@ -158,10 +158,10 @@ internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior 
 
     override fun invoke(
         viewHolder: LayoutContainerViewHolder,
-        presenter: PlayerFragmentPresenter
+        viewModel: PlayerFragmentViewModel
     ) = viewHolder.bindView {
 
-        presenter.observePaletteColors()
+        viewModel.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
                 artist.apply { animateTextColor(accent) }

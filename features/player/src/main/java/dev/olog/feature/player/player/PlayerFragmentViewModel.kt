@@ -7,24 +7,29 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.feature.player.R
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.playerAppearanceAmbient
+import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 internal class PlayerFragmentViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-    private val musicPrefsUseCase: MusicPreferencesGateway,
-    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
+    private val appPrefs: AppPreferencesGateway,
+    private val musicPrefs: MusicPreferencesGateway,
+    private val tutorialPrefs: TutorialPreferenceGateway
 ) : ViewModel() {
 
     private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
-
     private val favoritePublisher = MutableStateFlow<FavoriteEnum?>(null)
+
+    private val processorPublisher = MutableStateFlow<ProcessorColors?>(null)
+    private val palettePublisher = MutableStateFlow<PaletteColors?>(null)
 
     init {
         observeFavoriteAnimationUseCase()
@@ -56,18 +61,18 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
 
     val onFavoriteStateChanged: Flow<FavoriteEnum> = favoritePublisher.filterNotNull()
 
-    val skipToNextVisibility = musicPrefsUseCase
+    val skipToNextVisibility = musicPrefs
             .observeSkipToNextVisibility()
 
-    val skipToPreviousVisibility = musicPrefsUseCase
+    val skipToPreviousVisibility = musicPrefs
             .observeSkipToPreviousVisibility()
 
     fun showLyricsTutorialIfNeverShown(): Boolean {
-        return tutorialPreferenceUseCase.lyricsTutorial()
+        return tutorialPrefs.lyricsTutorial()
     }
 
     fun getPlaybackSpeed(): Int {
-        val speed = musicPrefsUseCase.getPlaybackSpeed()
+        val speed = musicPrefs.getPlaybackSpeed()
         return when (speed) {
             .5f -> 0
             .8f -> 1
@@ -91,7 +96,53 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
             R.id.speed300 -> 3f
             else -> 1f
         }
-        musicPrefsUseCase.setPlaybackSpeed(speed)
+        musicPrefs.setPlaybackSpeed(speed)
+    }
+
+    fun observePlayerControlsVisibility(): Flow<Boolean> {
+        return appPrefs.observePlayerControlsVisibility()
+    }
+
+    // allow adaptive color on flat appearance
+    fun observeProcessorColors(): Flow<ProcessorColors> {
+
+        return processorPublisher
+            .filterNotNull()
+            .map {
+                val playerAppearanceAmbient = context.playerAppearanceAmbient
+                if (appPrefs.isAdaptiveColorEnabled || playerAppearanceAmbient.isFlat()) {
+                    it
+                } else {
+                    InvalidProcessColors
+                }
+            }
+            .filter { it is ValidProcessorColors }
+            .flowOn(Dispatchers.Default)
+    }
+
+    // allow adaptive color on flat appearance
+    fun observePaletteColors(): Flow<PaletteColors> {
+
+        return palettePublisher
+            .filterNotNull()
+            .map {
+                val playerAppearanceAmbient = context.playerAppearanceAmbient
+                if (appPrefs.isAdaptiveColorEnabled || playerAppearanceAmbient.isFlat() || playerAppearanceAmbient.isSpotify()) {
+                    it
+                } else {
+                    InvalidPaletteColors
+                }
+            }
+            .filter { it is ValidPaletteColors }
+            .flowOn(Dispatchers.Default)
+    }
+
+    fun updateProcessorColors(palette: ProcessorColors) {
+        processorPublisher.value = palette
+    }
+
+    fun updatePaletteColors(palette: PaletteColors) {
+        palettePublisher.value = palette
     }
 
 

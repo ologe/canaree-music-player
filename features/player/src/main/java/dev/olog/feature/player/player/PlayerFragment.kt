@@ -45,8 +45,6 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
     private val viewModel by viewModels<PlayerFragmentViewModel>()
 
     @Inject
-    internal lateinit var presenter: PlayerFragmentPresenter
-    @Inject
     lateinit var navigator: Navigator
 
     private lateinit var layoutManager: LinearLayoutManager
@@ -74,7 +72,6 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
             mediaProvider = requireActivity().mediaProvider,
             navigator = navigator,
             viewModel = viewModel,
-            presenter = presenter,
             dragListener = this,
             playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(
                 playerAppearanceAmbient.value
