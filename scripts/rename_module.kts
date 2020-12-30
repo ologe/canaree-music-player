@@ -39,7 +39,7 @@ fun main() {
         return
     }
 
-    // get all build.gradle.kts from modules that are not $moduleName
+    // get all build.gradle from modules that are not $moduleName
     val modules = searchForGradleFiles(rootDir, moduleName)
 
     // delete iml file
@@ -69,12 +69,12 @@ fun searchForGradleFiles(rootDir: File, moduleName: String): List<File> {
     val modules = rootDir
         .listFiles()!!
         .filter { it.name != moduleName } // exclude chosen module
-        .map { File(it, "build.gradle.kts") }
+        .map { File(it, "build.gradle") }
         .filter { it.exists() }
         .filter { it.readText().contains("(\":${moduleName}\")") } // filter only files that contains the module as dependency
         .toMutableList()
 
-    modules.add(File(rootDir, "settings.gradle.kts")) // add also settings.gradle
+    modules.add(File(rootDir, "settings.gradle")) // add also settings.gradle
 
     println("need to update ${modules.size} gradle files")
 
@@ -105,7 +105,9 @@ fun updateModulesXmlFile(rootDir: File, moduleName: String) {
 }
 
 fun ensureNewModuleNameIsWellFormatted(renameTo: String): Boolean {
-    return renameTo.isNotBlank() && // not blank
-        !renameTo[0].isDigit() && // don't start with digit
-        regex.matches(renameTo) // contains letters, numbers and dot, underscore and dash symbol
+    return renameTo.split(File.separator).all { m ->
+        m.isNotBlank() && // not blank
+            !m[0].isDigit() && // don't start with digit
+            regex.matches(m) // contains letters, numbers and dot, underscore and dash symbol
+    }
 }
