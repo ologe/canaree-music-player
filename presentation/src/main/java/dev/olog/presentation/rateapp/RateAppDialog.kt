@@ -5,9 +5,11 @@ import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.presentation.R
+import com.google.android.play.core.ktx.launchReview
+import com.google.android.play.core.ktx.requestReview
+import com.google.android.play.core.review.ReviewManagerFactory
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.navigation.internal.ActivityProvider
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,21 +17,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private var counterAlreadyIncreased = false
-
-private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
-private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
-
-@Deprecated("use in-app review API")
+// TODO test
 class RateAppDialog @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val activity: FragmentActivity
+    private val schedulers: Schedulers,
+    activityProvider: ActivityProvider,
 ) {
+
+    companion object {
+        private var counterAlreadyIncreased = false
+
+        private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
+
+        // TODO check if is spamming
+        private const val CHECK_EVERY_STARTUP = 20
+    }
 
     private var job by autoDisposeJob()
 
     init {
-        check(activity)
+        val activity = activityProvider()
+        if (activity != null) {
+            check(activity)
+        }
     }
 
     private fun check(activity: FragmentActivity) {
@@ -37,23 +46,15 @@ class RateAppDialog @Inject constructor(
             val show = updateCounter(activity)
             delay(2000)
             if (show) {
-                showAlert()
+                showAlert(activity)
             }
         }
     }
 
-    private suspend fun showAlert() = withContext(Dispatchers.Main) {
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.rate_app_title)
-            .setMessage(R.string.rate_app_message)
-            .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->
-                setNeverShowAgain()
-//                PlayStoreUtils.open(activity)
-            }
-            .setNegativeButton(R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
-            .setNeutralButton(R.string.rate_app_neutral_button) { _, _ -> }
-            .setCancelable(false)
-            .show()
+    private suspend fun showAlert(activity: FragmentActivity) = withContext(Dispatchers.Main) {
+        val manager = ReviewManagerFactory.create(activity)
+        val review = manager.requestReview()
+        manager.launchReview(activity, review)
     }
 
     /**
@@ -69,20 +70,10 @@ class RateAppDialog @Inject constructor(
             val newValue = oldValue + 1
             prefs.edit { putInt(PREFS_APP_STARTED_COUNT, newValue) }
 
-            newValue.rem(20) == 0 && !isNeverShowAgain()
+            newValue.rem(CHECK_EVERY_STARTUP) == 0
         } else {
             false
         }
-    }
-
-    private fun isNeverShowAgain(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, false)
-    }
-
-    private fun setNeverShowAgain() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        prefs.edit { putBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, true) }
     }
 
 }
