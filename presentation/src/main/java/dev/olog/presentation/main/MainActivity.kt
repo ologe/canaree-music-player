@@ -53,7 +53,7 @@ class MainActivity : MusicGlueActivity(),
     lateinit var statusBarColorBehavior: StatusBarColorBehavior
     @Suppress("unused")
     @Inject
-    lateinit var rateAppDialog: RateAppDialog
+    internal lateinit var rateAppDialog: RateAppDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

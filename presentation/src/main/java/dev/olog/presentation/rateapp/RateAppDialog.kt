@@ -16,16 +16,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 // TODO test
-class RateAppDialog @Inject constructor(
+@Singleton
+internal class RateAppDialog @Inject constructor(
     private val schedulers: Schedulers,
     activityProvider: ActivityProvider,
 ) {
 
     companion object {
-        private var counterAlreadyIncreased = false
-
         private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
 
         // TODO check if is spamming
@@ -51,7 +51,7 @@ class RateAppDialog @Inject constructor(
         }
     }
 
-    private suspend fun showAlert(activity: FragmentActivity) = withContext(Dispatchers.Main) {
+    private suspend fun showAlert(activity: FragmentActivity) = withContext(schedulers.main) {
         val manager = ReviewManagerFactory.create(activity)
         val review = manager.requestReview()
         manager.launchReview(activity, review)
@@ -60,20 +60,14 @@ class RateAppDialog @Inject constructor(
     /**
      * @return true when is requested to show rate dialog
      */
-    private suspend fun updateCounter(context: Context): Boolean = withContext(Dispatchers.IO) {
-        if (!counterAlreadyIncreased) {
-            counterAlreadyIncreased = true
+    private suspend fun updateCounter(context: Context): Boolean = withContext(schedulers.io) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        val oldValue = prefs.getInt(PREFS_APP_STARTED_COUNT, 0)
+        val newValue = oldValue + 1
+        prefs.edit { putInt(PREFS_APP_STARTED_COUNT, newValue) }
 
-            val oldValue = prefs.getInt(PREFS_APP_STARTED_COUNT, 0)
-            val newValue = oldValue + 1
-            prefs.edit { putInt(PREFS_APP_STARTED_COUNT, newValue) }
-
-            newValue.rem(CHECK_EVERY_STARTUP) == 0
-        } else {
-            false
-        }
+        newValue.rem(CHECK_EVERY_STARTUP) == 0
     }
 
 }
