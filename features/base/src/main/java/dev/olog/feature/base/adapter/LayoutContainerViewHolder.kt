@@ -15,6 +15,7 @@ class LayoutContainerViewHolder(view: View) : RecyclerView.ViewHolder(view),
     val context: Context
         get() = itemView.context
 
+    @Deprecated("delete")
     val imageView: ImageView? = itemView.findViewById(R.id.cover)
 
     override val containerView: View = itemView

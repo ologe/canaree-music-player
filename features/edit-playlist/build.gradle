@@ -17,7 +17,6 @@ dependencies {
     implementation project(':shared-widgets')
     implementation project(':shared:localization')
 
-    implementation project(':libraries:jaudiotagger')
     implementation project(':libraries:image-provider')
 
     implementation project(':features:base')

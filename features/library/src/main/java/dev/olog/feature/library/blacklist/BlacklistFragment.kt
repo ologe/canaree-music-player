@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.library.blacklist
 
 import android.provider.MediaStore
 import androidx.fragment.app.viewModels
@@ -6,23 +6,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
 import dev.olog.feature.base.base.ListDialog
+import dev.olog.feature.library.R
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.takeWhile
 
 @AndroidEntryPoint
-class BlacklistFragment : ListDialog() {
-
-    companion object {
-        const val TAG = "BlacklistFragment"
-
-        fun newInstance(): BlacklistFragment {
-            return BlacklistFragment()
-        }
-    }
+internal class BlacklistFragment : ListDialog() {
 
     private val viewModel by viewModels<BlacklistFragmentViewModel>()
 

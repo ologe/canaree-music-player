@@ -1,11 +1,10 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -17,12 +16,10 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.lib.image.provider.GlideApp
 import dev.olog.lib.image.provider.creator.ImagesFolderUtils
-import dev.olog.presentation.R
-import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.launch
@@ -35,10 +32,6 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
     SharedPreferences.OnSharedPreferenceChangeListener {
-
-    companion object {
-        val TAG = SettingsFragment::class.java.name
-    }
 
     @Inject
     internal lateinit var tutorialPrefs: TutorialPreferenceGateway
@@ -89,11 +82,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         blacklist.setOnPreferenceClickListener {
-            requireActivity().supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            }
+            navigator.toBlacklist()
             true
         }
 

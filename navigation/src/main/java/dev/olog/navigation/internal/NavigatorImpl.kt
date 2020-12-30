@@ -156,6 +156,13 @@ internal class NavigatorImpl @Inject constructor(
         // TODO setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)?
     }
 
+    override fun toBlacklist() {
+        navigate(
+            screen = FragmentScreen.BLACKLIST,
+            containerId = android.R.id.content
+        )
+    }
+
     private fun navigate(
         screen: FragmentScreen,
         bundle: Bundle? = null,

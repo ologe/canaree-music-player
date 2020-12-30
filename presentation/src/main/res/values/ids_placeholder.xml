@@ -3,5 +3,8 @@
 
     <item name="viewPager" type="id"/>
     <item name="newPlaylist" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="tabLayout" type="id"/>
+    <item name="fab" type="id"/>
 
 </resources>

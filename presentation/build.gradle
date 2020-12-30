@@ -3,25 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'dagger.hilt.android.plugin'
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
-
-android {
-
-    defaultConfig {
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-    }
-
-}
 
 androidExtensions {
     experimental = true
@@ -39,13 +21,12 @@ dependencies {
     implementation project(':libraries:jaudiotagger')
     implementation project(':intents')
     implementation project(':shared')
+    implementation project(':shared:localization')
     implementation project(':libraries:equalizer')
 
     implementation project(':navigation')
 
     implementation project(':features:base')
-    implementation project(':features:edit-playlist')
-    implementation project(':features:settings')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
@@ -74,13 +55,10 @@ dependencies {
     implementation lib_ui.tap_target_view
     implementation lib_ui.cascade_popup
 
-    implementation lib_ui.dialogs_core
-    implementation lib_ui.dialogs_color
+
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
     implementation lib_ui.color_desaturation
-
-    implementation lib_utils.last_fm_binding
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions

@@ -1,14 +1,11 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.library.blacklist
 
-import android.os.Environment
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.presentation.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -19,8 +16,8 @@ internal class BlacklistFragmentViewModel @ViewModelInject constructor(
     private val appPreferencesUseCase: BlacklistPreferences
 ): ViewModel() {
 
-    private val _data = MutableStateFlow<List<BlacklistModel>>(emptyList())
-    val data: Flow<List<BlacklistModel>>
+    private val _data = MutableStateFlow<List<BlacklistFragmentModel>>(emptyList())
+    val data: Flow<List<BlacklistFragmentModel>>
         get() = _data
 
     init {
@@ -34,9 +31,8 @@ internal class BlacklistFragmentViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
-        return BlacklistModel(
-            R.layout.dialog_blacklist_item,
+    private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistFragmentModel {
+        return BlacklistFragmentModel(
             getMediaId(),
             this.title,
             this.path,
@@ -44,7 +40,7 @@ internal class BlacklistFragmentViewModel @ViewModelInject constructor(
         )
     }
 
-    fun saveBlacklisted(data: List<BlacklistModel>) {
+    fun saveBlacklisted(data: List<BlacklistFragmentModel>) {
         val blacklisted = data.filter { it.isBlacklisted }
             .map { it.path }
             .toSet()
@@ -54,28 +50,3 @@ internal class BlacklistFragmentViewModel @ViewModelInject constructor(
 
 }
 
-data class BlacklistModel(
-    val type: Int,
-    val mediaId: MediaId,
-    val title: String,
-    val path: String,
-    var isBlacklisted: Boolean
-) {
-
-    companion object {
-        @Suppress("DEPRECATION")
-        private val defaultStorageDir = Environment.getExternalStorageDirectory().path ?: "/storage/emulated/0/"
-    }
-
-    // show the path without "/storage/emulated/0"
-    val displayablePath : String
-        get() {
-            return try {
-                path.substring(defaultStorageDir.length)
-            } catch (ex: StringIndexOutOfBoundsException){
-                ex.printStackTrace()
-                path
-            }
-        }
-
-}

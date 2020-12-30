@@ -5,6 +5,20 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+android.defaultConfig {
+
+    buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
+    buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
+}
+
 dependencies {
     implementation project(':domain')
     implementation project(':navigation')
@@ -13,7 +27,6 @@ dependencies {
     implementation project(':shared-widgets')
     implementation project(':shared:localization')
 
-    implementation project(':libraries:jaudiotagger')
     implementation project(':libraries:image-provider')
 
     implementation project(':features:base')
@@ -28,6 +41,13 @@ dependencies {
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.constraint_layout
+    implementation lib_x.preference
+    implementation lib_ui.dialogs_core
+    implementation lib_ui.dialogs_color // TODO create custom
 
     implementation lib_ui.glide
+    implementation lib_ui.color_desaturation
+    implementation lib_ui.scroll_helper
+
+    implementation lib_utils.last_fm_binding // TODO delete
 }

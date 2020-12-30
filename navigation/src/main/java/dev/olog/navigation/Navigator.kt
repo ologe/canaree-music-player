@@ -49,6 +49,8 @@ interface Navigator :
 
     fun toOfflineLyrics()
 
+    fun toBlacklist()
+
     fun toCreatePlaylist(mediaId: MediaId, songs: Int, title: String)
     fun toPlayLater(mediaId: MediaId, songs: Int, title: String)
     fun toPlayNext(mediaId: MediaId, songs: Int, title: String)

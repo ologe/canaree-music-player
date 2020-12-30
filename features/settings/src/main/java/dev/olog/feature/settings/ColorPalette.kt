@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.graphics.Color
 import dev.olog.lib.ColorDesaturationUtils

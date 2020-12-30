@@ -23,7 +23,6 @@ android {
 
 dependencies {
     implementation project(':app-shortcuts')
-    implementation project(':libraries:jaudiotagger')
     implementation project(':domain')
     implementation project(':libraries:image-provider')
     implementation project(':shared-android')

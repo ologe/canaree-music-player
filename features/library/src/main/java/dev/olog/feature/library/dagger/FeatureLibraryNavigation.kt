@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoMap
+import dev.olog.feature.library.blacklist.BlacklistFragment
 import dev.olog.feature.library.library.LibraryFragment
 import dev.olog.feature.library.library.prefs.LibraryPrefsFragment
 import dev.olog.navigation.dagger.FragmentScreenKey
@@ -29,5 +30,10 @@ object FeatureLibraryNavigation {
     @IntoMap
     @FragmentScreenKey(FragmentScreen.LIBRARY_PREFS)
     fun provideLibraryPrefsFragment(): Fragment = LibraryPrefsFragment()
+
+    @Provides
+    @IntoMap
+    @FragmentScreenKey(FragmentScreen.BLACKLIST)
+    fun provideBlacklistFragment(): Fragment = BlacklistFragment()
 
 }

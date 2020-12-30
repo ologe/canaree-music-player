@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.prefs.lastfm
+package dev.olog.feature.settings.last.fm
 
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -16,8 +16,8 @@ import de.umass.lastfm.Authenticator
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
-import dev.olog.presentation.BuildConfig
-import dev.olog.presentation.R
+import dev.olog.feature.settings.BuildConfig
+import dev.olog.feature.settings.R
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.autoDisposeJob
@@ -25,8 +25,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// TODO move logic to a viewmodel
 @AndroidEntryPoint
-class LastFmCredentialsFragment : DialogFragment() {
+internal class LastFmCredentialsFragment : DialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
