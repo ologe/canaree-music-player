@@ -11,6 +11,8 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':navigation')
 
+    implementation project(':libraries:media')
+
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 

@@ -55,6 +55,7 @@ android {
         exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/LICENSE-notice.md'
         exclude 'META-INF/equalizer_debug.kotlin_module'
+        exclude 'META-INF/offline-lyrics_debug.kotlin_module'
     }
 }
 

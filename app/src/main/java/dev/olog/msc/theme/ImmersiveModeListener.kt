@@ -3,9 +3,9 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.msc.R
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
-import dev.olog.presentation.R
 import dev.olog.shared.widgets.StatusBarView
 import dev.olog.shared.ConflatedSharedFlow
 import dev.olog.shared.android.theme.ImmersiveAmbient

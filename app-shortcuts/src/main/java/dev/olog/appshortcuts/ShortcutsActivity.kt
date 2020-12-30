@@ -32,8 +32,8 @@ internal class ShortcutsActivity : AppCompatActivity() {
         val action = intent.action ?: return
 
         val test = when (action) {
-            dev.olog.lib.media.MusicServiceAction.PLAY.name,
-            dev.olog.lib.media.MusicServiceCustomAction.SHUFFLE.name -> intents.musicServiceClass
+            MusicServiceAction.PLAY.name,
+            MusicServiceCustomAction.SHUFFLE.name -> intents.musicServiceClass
             else -> null
         } ?: return
 

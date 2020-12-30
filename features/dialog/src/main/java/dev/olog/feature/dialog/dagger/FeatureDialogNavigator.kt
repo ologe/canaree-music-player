@@ -1,7 +1,6 @@
 package dev.olog.feature.dialog.dagger
 
 import androidx.fragment.app.Fragment
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +26,7 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object FeatureDialogNavigator {
 
-    @Binds
+    @Provides
     @Singleton
     internal fun providePopupFactory(impl: PopupMenuFactoryImpl): PopupMenuFactory = impl
 

@@ -66,7 +66,6 @@ dependencies {
     implementation project(':data-local')
     implementation project(':data-remote')
     implementation project(':prefs-keys')
-    implementation project(':presentation')
 
     implementation project(':service-floating')
     implementation project(':intents')

@@ -24,10 +24,6 @@
 - Contains interactors (business use-cases)
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/domain/build.gradle)
 
-#### `:presentation`
-- Self explanatory
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/presentation/build.gradle)
-
 #### `:service-music`
 - Self explanatory
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/service-music/build.gradle)
