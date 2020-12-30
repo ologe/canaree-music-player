@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="tutorial_add_lyrics">गाने के बोल जोड़ें या हटाएँ</string>
-    <string name="tutorial_search_lyrics">गाने के बोल इंटरनेट पर ढूंढें</string>
-    <string name="tutorial_adjust_sync">Adjust synchronization (only for synced lyrics)</string>
-
-</resources>

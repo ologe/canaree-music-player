@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tutorial_sort_by_text">Tekan teks untuk mengurutkan tipe</string>
-    <string name="tutorial_sort_by_arrow">Tekan panah untuk membalikan urutan</string>
+    <string name="tutorial_floating_window">Klik untuk membuka jendela mengambang dengan lirik dan video youtube</string>
+    <string name="tutorial_lyrics">Tampilkan lirik tersimpan</string>
+    <string name="tutorial_add_lyrics">Tambah atau perbarui lirikmu</string>
+    <string name="tutorial_search_lyrics">Cari lirik di internet</string>
+    <string name="tutorial_adjust_sync">Sesuaikan sinkronisasi (untuk lirik sinkronisasi)</string>
 </resources>

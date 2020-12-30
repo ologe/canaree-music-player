@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="tutorial_add_lyrics">Agrega o actualiza tus letras</string>
-    <string name="tutorial_search_lyrics">Busca tus letras en la web</string>
-    <string name="tutorial_adjust_sync">Ajuste la sincronización (solo para letras sincronizadas)</string>
-
-</resources>
