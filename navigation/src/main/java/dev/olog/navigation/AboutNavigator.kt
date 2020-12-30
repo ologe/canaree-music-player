@@ -6,8 +6,6 @@ interface AboutNavigator {
 
     fun toSpecialThanksFragment()
 
-    fun toMarket()
-
     fun toPrivacyPolicy()
 
     fun joinCommunity()

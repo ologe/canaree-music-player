@@ -10,15 +10,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.lib.image.provider.getCachedBitmap
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.navigation.Params
+import dev.olog.navigation.destination.NavigationIntent
+import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 internal class AppShortcutsImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val intents: NavigationIntents,
 ): AppShortcuts {
 
     private var job by autoDisposeJob()
@@ -27,7 +28,10 @@ internal class AppShortcutsImpl @Inject constructor(
         ShortcutManagerCompat.removeAllDynamicShortcuts(context)
         ShortcutManagerCompat.addDynamicShortcuts(
             context, listOf(
-                playlistChooser(), search(), shuffle(), play()
+                playlistChooser(),
+                search(),
+                shuffle(),
+                play()
             )
         )
     }
@@ -35,10 +39,10 @@ internal class AppShortcutsImpl @Inject constructor(
     override fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
+            val intent = intents[NavigationIntent.DETAIL]?.get() ?: return
+            intent.putExtra(Params.MEDIA_ID, mediaId.toString())
+
             job = GlobalScope.launch {
-                val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
-                intent.action = Shortcuts.DETAIL
-                intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 
                 val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() })
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
@@ -70,60 +74,35 @@ internal class AppShortcutsImpl @Inject constructor(
     }
 
     private fun search(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.SEARCH)
+        return ShortcutInfoCompat.Builder(context, ShortcutsConstants.SEARCH)
             .setShortLabel(context.getString(R.string.shortcut_search))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_search))
-            .setIntent(createSearchIntent())
+            .setIntent(intents[NavigationIntent.SEARCH]?.get() ?: Intent())
             .build()
     }
 
     private fun play(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.PLAY)
+        return ShortcutInfoCompat.Builder(context, ShortcutsConstants.PLAY)
             .setShortLabel(context.getString(R.string.shortcut_play))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_play))
-            .setIntent(createPlayIntent())
+            .setIntent(intents[NavigationIntent.SHORTCUTS_PLAY]?.get() ?: Intent())
             .build()
     }
 
     private fun shuffle(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.SHUFFLE)
+        return ShortcutInfoCompat.Builder(context, ShortcutsConstants.SHUFFLE)
             .setShortLabel(context.getString(R.string.shortcut_shuffle))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_shuffle))
-            .setIntent(createShuffleIntent())
+            .setIntent(intents[NavigationIntent.SHORTCUTS_SHUFFLE]?.get() ?: Intent())
             .build()
     }
 
     private fun playlistChooser(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.PLAYLIST_CHOOSER)
+        return ShortcutInfoCompat.Builder(context, ShortcutsConstants.PLAYLIST_CHOOSER)
             .setShortLabel(context.getString(R.string.shortcut_playlist_chooser))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_playlist_add))
-            .setIntent(createPlaylistChooserIntent())
+            .setIntent(intents[NavigationIntent.PLAYLIST_CHOOSER]?.get() ?: Intent())
             .build()
-    }
-
-    private fun createSearchIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
-        intent.action = Shortcuts.SEARCH
-        return intent
-    }
-
-    private fun createPlayIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
-        intent.action = MusicServiceAction.PLAY.name
-        return intent
-    }
-
-    private fun createShuffleIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
-        intent.action = MusicServiceCustomAction.SHUFFLE.name
-        return intent
-    }
-
-    private fun createPlaylistChooserIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_PLAYLIST_CHOOSER))
-        intent.action = Shortcuts.PLAYLIST_CHOOSER
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        return intent
     }
 
 }

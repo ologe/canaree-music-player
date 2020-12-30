@@ -22,9 +22,6 @@
     <string name="about_translations" translatable="false">Help translate the app</string>
     <string name="about_translations_description" translatable="false">Click for more details</string>
 
-    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
-    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
-
     <string name="about_privacy_policy">Privacy Policy</string>
     <string name="about_privacy_policy_description">Important for both of us</string>
 

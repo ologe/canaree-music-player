@@ -1,4 +1,4 @@
-package dev.olog.presentation.createplaylist
+package dev.olog.feature.edit.playlist.create
 
 import android.os.Bundle
 import android.view.View
@@ -9,13 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.R
-import dev.olog.presentation.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.restoreUpperWidgetsTranslation
-import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.shared.android.extensions.hideIme
+import dev.olog.feature.edit.playlist.R
 import dev.olog.shared.widgets.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.TextUtils
@@ -28,18 +24,8 @@ import kotlinx.coroutines.flow.onEach
 
 // TODO add multiselection
 @AndroidEntryPoint
-class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), DrawsOnTop {
-
-    companion object {
-        val TAG = CreatePlaylistFragment::class.java.name
-        val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
-
-        fun newInstance(type: PlaylistType): CreatePlaylistFragment {
-            return CreatePlaylistFragment().withArguments(
-                ARGUMENT_PLAYLIST_TYPE to type
-            )
-        }
-    }
+internal class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist),
+    DrawsOnTop {
 
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
 
@@ -55,18 +41,8 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
         list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
-            .onEach { size ->
-                val text = when (size) {
-                    0 -> getString(R.string.popup_new_playlist)
-                    else -> resources.getQuantityString(
-                        R.plurals.playlist_tracks_chooser_count,
-                        size,
-                        size
-                    )
-                }
-                header.text = text
-                fab.isInvisible = size <= 0
-            }.launchIn(this)
+            .onEach(this::onSelectedCountChanged)
+            .launchIn(this)
 
         viewModel.observeData()
             .onEach {
@@ -83,6 +59,19 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
             .debounce(250)
             .onEach(viewModel::updateFilter)
             .launchIn(this)
+    }
+
+    private fun onSelectedCountChanged(size: Int) {
+//        val text = when (size) { TODO restore
+//            0 -> getString(R.string.popup_new_playlist)
+//            else -> resources.getQuantityString(
+//                R.plurals.playlist_tracks_chooser_count,
+//                size,
+//                size
+//            )
+//        }
+//        header.text = text
+//        fab.isInvisible = size <= 0
     }
 
     override fun onResume() {
@@ -121,25 +110,26 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
     }
 
     private fun showCreateDialog() {
-        TextViewDialog(requireContext(), getString(R.string.popup_new_playlist), null)
-            .addTextView(customizeWrapper = {
-                hint = getString(R.string.new_playlist_hint)
-            })
-            .show(
-                positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
-                    val text = it[0].editableText.toString()
-                    if (text.isNotBlank()){
-                        viewModel.savePlaylist(text)
-                    } else {
-                        false
-                    }
-                }, dismissAction = {
-                    dismiss()
-                    requireActivity().onBackPressed()
-                }
-            )
+//        TextViewDialog(requireContext(), getString(R.string.popup_new_playlist), null) TODO restore
+//            .addTextView(customizeWrapper = {
+//                hint = getString(R.string.new_playlist_hint)
+//            })
+//            .show(
+//                positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
+//                    val text = it[0].editableText.toString()
+//                    if (text.isNotBlank()){
+//                        viewModel.savePlaylist(text)
+//                    } else {
+//                        false
+//                    }
+//                }, dismissAction = {
+//                    dismiss()
+//                    requireActivity().onBackPressed()
+//                }
+//            )
     }
 
+    // TODO refactor, see TabFragment
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
         list.stopScroll()
 
@@ -148,7 +138,6 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
             "#" -> 0
             "?" -> adapter.lastIndex()
             else -> adapter.indexOf { item ->
-                require(item is DisplayableTrack)
                 if (item.title.isBlank()) {
                     return@indexOf false
                 }

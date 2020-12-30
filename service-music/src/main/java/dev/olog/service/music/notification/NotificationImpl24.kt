@@ -11,6 +11,7 @@ import androidx.core.text.buildSpannedString
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
+import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.shared.android.TextUtils
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -18,9 +19,13 @@ import kotlin.time.Duration
 @RequiresApi(Build.VERSION_CODES.N)
 internal open class NotificationImpl24 @Inject constructor(
     service: Service,
-    mediaSession: MediaSessionCompat
-
-) : NotificationImpl21(service, mediaSession) {
+    mediaSession: MediaSessionCompat,
+    intents: NavigationIntents,
+) : NotificationImpl21(
+    service = service,
+    mediaSession = mediaSession,
+    intents = intents
+) {
 
     override fun startChronometer(bookmark: Duration) {
         builder.setWhen(System.currentTimeMillis() - bookmark.toLongMilliseconds())

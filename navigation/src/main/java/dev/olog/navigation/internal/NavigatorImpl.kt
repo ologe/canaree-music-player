@@ -17,13 +17,15 @@ import javax.inject.Provider
 internal class NavigatorImpl @Inject constructor(
     bottomNavigator: BottomNavigatorImpl,
     aboutNavigatorImpl: AboutNavigatorImpl,
+    serviceNavigatorImpl: ServiceNavigatorImpl,
     private val activityProvider: ActivityProvider,
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
     private val popupMenuFactory: PopupMenuFactory,
 ) : BaseNavigator(),
     Navigator,
     BottomNavigator by bottomNavigator,
-    AboutNavigator by aboutNavigatorImpl {
+    AboutNavigator by aboutNavigatorImpl,
+    ServiceNavigator by serviceNavigatorImpl {
 
     override fun toFirstAccess() {
         navigate(
@@ -85,7 +87,10 @@ internal class NavigatorImpl @Inject constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        TODO("Not yet implemented")
+        navigate(
+            screen = FragmentScreen.CREATE_PLAYLIST,
+            bundle = bundleOf(Params.TYPE to type),
+        )
     }
 
     override fun toCreatePlaylist(

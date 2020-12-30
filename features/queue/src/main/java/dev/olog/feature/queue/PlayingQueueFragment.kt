@@ -73,17 +73,13 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
         more.setOnClickListener {
 //            navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) // TODO create queue popup
         }
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener { navigator.toFloatingWindow() }
     }
 
     override fun onPause() {
         super.onPause()
         more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
-    }
-
-    private fun startServiceOrRequestOverlayPermission() {
-//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity()) TODO
     }
 
 

@@ -15,9 +15,10 @@ import androidx.core.text.buildSpannedString
 import androidx.media.app.NotificationCompat.MediaStyle
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.lib.image.provider.getCachedBitmap
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.mainActivityClass
 import dev.olog.service.music.R
 import dev.olog.service.music.player.InternalPlayerState
 import dev.olog.shared.android.extensions.asActivityPendingIntent
@@ -28,7 +29,8 @@ import kotlin.time.Duration
 
 internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
-    private val mediaSession: MediaSessionCompat
+    private val mediaSession: MediaSessionCompat,
+    private val intents: NavigationIntents,
 ) : INotification {
 
     protected val notificationManager = service.systemService<NotificationManager>()
@@ -142,8 +144,8 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildContentIntent(): PendingIntent {
-        val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
-        intent.action = AppConstants.ACTION_CONTENT_VIEW
+        val intent = Intent(service, intents.mainActivityClass)
+        intent.action = Navigator.INTENT_ACTION_CONTENT_VIEW
         return intent.asActivityPendingIntent(service)
     }
 }

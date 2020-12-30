@@ -29,11 +29,6 @@ internal class AboutFragmentViewModel @ViewModelInject constructor(
             subtitle = context.getString(R.string.about_beta_description)
         ),
         AboutFragmentModel(
-            type = AboutFragmentType.RATE,
-            title = context.getString(R.string.about_support_rate),
-            subtitle = context.getString(R.string.about_support_rate_description)
-        ),
-        AboutFragmentModel(
             type = AboutFragmentType.SPECIAL_THANKS,
             title = context.getString(R.string.about_special_thanks_to),
             subtitle = context.getString(R.string.about_special_thanks_to_description)

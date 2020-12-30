@@ -7,7 +7,6 @@ internal enum class AboutFragmentType {
     BETA,
     SPECIAL_THANKS,
     LOCALIZATION,
-    RATE,
     PRIVACY_POLICY,
     CHANGELOG,
     GITHUB,

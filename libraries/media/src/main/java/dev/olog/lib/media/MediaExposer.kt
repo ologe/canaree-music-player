@@ -29,14 +29,15 @@ import timber.log.Timber
 class MediaExposer(
     private val context: Context,
     private val coroutineScope: CoroutineScope,
-    private val onConnectionChanged: OnConnectionChanged
+    private val onConnectionChanged: OnConnectionChanged,
+    private val musicServiceClass: Class<*>,
 ) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, Classes.SERVICE_MUSIC),
+            ComponentName(context, musicServiceClass),
             MusicServiceConnection(this),
             null
         )

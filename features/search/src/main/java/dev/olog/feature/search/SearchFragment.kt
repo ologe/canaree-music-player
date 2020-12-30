@@ -157,7 +157,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         fab.setOnClickListener { editText.showIme() }
 
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener { navigator.toFloatingWindow() }
         more.setOnClickListener {
 //            navigator.toMainPopup(it, null) // TODO create search popup
         }
@@ -169,10 +169,6 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         fab.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         more.setOnClickListener(null)
-    }
-
-    private fun startServiceOrRequestOverlayPermission() {
-//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity()) TODO
     }
 
 

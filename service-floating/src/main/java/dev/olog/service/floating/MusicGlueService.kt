@@ -15,6 +15,8 @@ import dev.olog.lib.media.model.PlayerPlaybackState
 import dev.olog.lib.media.playPause
 import dev.olog.lib.media.skipToNext
 import dev.olog.lib.media.skipToPrevious
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.musicServiceClass
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -22,10 +24,16 @@ import javax.inject.Inject
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     private val service: LifecycleService,
+    private val intents: NavigationIntents,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
-        MediaExposer(service, service.lifecycleScope, this)
+        MediaExposer(
+            context = service,
+            coroutineScope = service.lifecycleScope,
+            onConnectionChanged = this,
+            musicServiceClass = intents.musicServiceClass
+        )
     }
     private var mediaController: MediaControllerCompat? = null
 

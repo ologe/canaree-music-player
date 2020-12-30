@@ -18,9 +18,6 @@
     <string name="about_special_thanks_to">Μεγάλο ευχαριστώ στους</string>
     <string name="about_special_thanks_to_description">Πάτα να δείς</string>
 
-    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
-    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
-
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
     <string name="about_privacy_policy_description">Σημαντικό και για τους δυό μας</string>
 

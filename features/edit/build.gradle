@@ -5,6 +5,10 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation project(':domain')
     implementation project(':navigation')

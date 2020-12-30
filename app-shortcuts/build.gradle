@@ -9,6 +9,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':shared-android')
+    implementation project(':navigation')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

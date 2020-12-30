@@ -1,4 +1,4 @@
-package dev.olog.presentation.createplaylist
+package dev.olog.feature.edit.playlist.create
 
 import android.util.LongSparseArray
 import androidx.core.util.contains
@@ -15,9 +15,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.presentation.createplaylist.CreatePlaylistFragment.Companion.ARGUMENT_PLAYLIST_TYPE
-import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
@@ -26,7 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
-class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
+// TODO refactor
+internal class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
@@ -34,8 +33,8 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    private val playlistType = state.argument<PlaylistType>(ARGUMENT_PLAYLIST_TYPE)
-    private val data = MutableStateFlow<List<DisplayableItem>>(emptyList())
+    private val playlistType = state.argument<PlaylistType>(Params.TYPE)
+    private val data = MutableStateFlow<List<CreatePlaylistFragmentModel>>(emptyList())
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountPublisher = MutableStateFlow(0)
@@ -71,7 +70,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         filterPublisher.value = filter
     }
 
-    fun observeData(): Flow<List<DisplayableItem>> = data
+    fun observeData(): Flow<List<CreatePlaylistFragmentModel>> = data
 
     private fun getPlaylistTypeTracks(): Flow<List<Track>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
@@ -98,7 +97,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
 
     suspend fun savePlaylist(playlistTitle: String): Boolean {
         if (selectedIds.isEmpty()) {
-            throw IllegalStateException("not supposed to happen, save button must be invisible")
+            error("not supposed to happen, save button must be invisible")
         }
         withContext(Dispatchers.IO){
             insertCustomTrackListToPlaylist(

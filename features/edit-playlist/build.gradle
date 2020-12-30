@@ -5,6 +5,10 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation project(':domain')
     implementation project(':navigation')
@@ -27,4 +31,6 @@ dependencies {
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.constraint_layout
+
+    implementation lib_ui.scroll_helper
 }

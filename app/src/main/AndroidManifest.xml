@@ -77,9 +77,6 @@
         <activity android:name="dev.olog.appshortcuts.ShortcutsActivity"
             android:theme="@style/TransparentTheme"/>
 
-        <!--app shortcust playlist chooser-->
-        <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
-
         <!--music service-->
         <service
             android:name="dev.olog.service.music.MusicService"

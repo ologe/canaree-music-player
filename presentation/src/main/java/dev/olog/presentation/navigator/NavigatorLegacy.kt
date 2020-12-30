@@ -1,15 +1,11 @@
 package dev.olog.presentation.navigator
 
-import android.view.View
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlaylistType
 
 @Deprecated("use navigation.Navigator")
 interface NavigatorLegacy {
 
     fun toDetailFragment(mediaId: MediaId)
-
-    fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 

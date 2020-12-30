@@ -1,20 +1,17 @@
-package dev.olog.presentation.createplaylist
-
+package dev.olog.feature.edit.playlist.create
 
 import android.widget.CheckBox
+import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.base.adapter.LayoutContainerViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
+import dev.olog.feature.edit.playlist.R
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
 import kotlinx.android.synthetic.main.item_create_playlist.*
 
-class CreatePlaylistFragmentAdapter(
+internal class CreatePlaylistFragmentAdapter(
     private val viewModel: CreatePlaylistFragmentViewModel
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ObservableAdapter<CreatePlaylistFragmentModel>(CreatePlaylistFragmentModelDiff) {
 
     override fun getItemViewType(position: Int): Int = R.layout.item_create_playlist
 
@@ -29,14 +26,30 @@ class CreatePlaylistFragmentAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: DisplayableItem,
+        item: CreatePlaylistFragmentModel,
         position: Int
     ) = holder.bindView {
-        require(item is DisplayableTrack)
 
         selected.isChecked = viewModel.isChecked(item.mediaId)
         ImageLoader.loadSongImage(imageView!!, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
+    }
+}
+
+private object CreatePlaylistFragmentModelDiff : DiffUtil.ItemCallback<CreatePlaylistFragmentModel>() {
+
+    override fun areItemsTheSame(
+        oldItem: CreatePlaylistFragmentModel,
+        newItem: CreatePlaylistFragmentModel
+    ): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun areContentsTheSame(
+        oldItem: CreatePlaylistFragmentModel,
+        newItem: CreatePlaylistFragmentModel
+    ): Boolean {
+        return oldItem == newItem
     }
 }

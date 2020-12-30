@@ -8,18 +8,19 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.msc.R
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.MusicService
-import dev.olog.presentation.main.MainActivity
-import dev.olog.shared.android.palette.ImageProcessorResult
-import dev.olog.shared.android.extensions.asServicePendingIntent
-import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
+import dev.olog.msc.R
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.mainActivityClass
+import dev.olog.service.music.MusicService
+import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.systemService
+import dev.olog.shared.android.palette.ImageProcessorResult
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -28,7 +29,10 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var intents: NavigationIntents
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -100,17 +104,21 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
-    private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
+    private fun buildPendingIntent(context: Context, action: String): PendingIntent {
         val intent = Intent(context, MusicService::class.java)
         intent.action = action
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val intent = Intent(context, intents.mainActivityClass)
+        intent.action = Navigator.INTENT_ACTION_CONTENT_VIEW
+        return PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
     }
 
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){

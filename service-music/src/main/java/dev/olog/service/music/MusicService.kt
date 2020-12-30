@@ -16,6 +16,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.destination.NavigationIntent
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.mainActivityClass
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
@@ -58,6 +62,8 @@ class MusicService : BaseMusicService() {
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
     internal lateinit var noisy: Noisy
+    @Inject
+    internal lateinit var intents: NavigationIntents
 
     override fun onCreate() {
         super.onCreate()
@@ -212,9 +218,12 @@ class MusicService : BaseMusicService() {
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
+        val intent = Intent(this, intents.mainActivityClass)
+        intent.action = Navigator.INTENT_ACTION_CONTENT_VIEW
         return PendingIntent.getActivity(
             this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
         )
     }
 }

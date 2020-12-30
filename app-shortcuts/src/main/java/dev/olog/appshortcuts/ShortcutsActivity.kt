@@ -5,9 +5,18 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import dev.olog.intents.Classes
+import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.intents.MusicServiceAction
+import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.musicServiceClass
+import javax.inject.Inject
 
-class ShortcutsActivity : AppCompatActivity() {
+@AndroidEntryPoint
+internal class ShortcutsActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var intents: NavigationIntents
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +31,14 @@ class ShortcutsActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         val action = intent.action ?: return
 
+        val test = when (action) {
+            MusicServiceAction.PLAY.name,
+            MusicServiceCustomAction.SHUFFLE.name -> intents.musicServiceClass
+            else -> null
+        } ?: return
+
         // forwards action to music service
-        val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
+        val serviceIntent = Intent(this, test)
         serviceIntent.action = action
         ContextCompat.startForegroundService(this, serviceIntent)
     }

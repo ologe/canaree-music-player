@@ -1,4 +1,4 @@
-package dev.olog.presentation.playlist.chooser
+package dev.olog.feature.edit.playlist.choose
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.AppShortcuts
 import dev.olog.feature.base.base.BaseActivity
-import dev.olog.presentation.R
+import dev.olog.feature.edit.playlist.R
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*

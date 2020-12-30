@@ -1,22 +1,20 @@
-package dev.olog.presentation.playlist.chooser
+package dev.olog.feature.edit.playlist.choose
 
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DiffUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.AppShortcuts
 import dev.olog.feature.base.adapter.LayoutContainerViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
+import dev.olog.feature.edit.playlist.R
 import dev.olog.lib.image.provider.ImageLoader
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_playlist_chooser.*
 
-class PlaylistChooserActivityAdapter(
+internal class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity,
     private val appShortcuts: AppShortcuts,
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ObservableAdapter<PlaylistChooserActivityModel>(PlaylistChooserActivityModelDiff) {
 
     override fun getItemViewType(position: Int): Int = R.layout.item_playlist_chooser
 
@@ -26,8 +24,7 @@ class PlaylistChooserActivityAdapter(
         }
     }
 
-    private fun askConfirmation(item: DisplayableItem) {
-        require(item is DisplayableAlbum)
+    private fun askConfirmation(item: PlaylistChooserActivityModel) {
 
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.playlist_chooser_dialog_title)
@@ -42,13 +39,29 @@ class PlaylistChooserActivityAdapter(
 
     override fun bind(
         holder: LayoutContainerViewHolder,
-        item: DisplayableItem,
+        item: PlaylistChooserActivityModel,
         position: Int
     ) = holder.bindView {
-        require(item is DisplayableAlbum)
 
-        ImageLoader.loadAlbumImage(imageView!!, item.mediaId)
+        ImageLoader.loadAlbumImage(cover, item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle
+    }
+}
+
+private object PlaylistChooserActivityModelDiff : DiffUtil.ItemCallback<PlaylistChooserActivityModel>() {
+
+    override fun areItemsTheSame(
+        oldItem: PlaylistChooserActivityModel,
+        newItem: PlaylistChooserActivityModel
+    ): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun areContentsTheSame(
+        oldItem: PlaylistChooserActivityModel,
+        newItem: PlaylistChooserActivityModel
+    ): Boolean {
+        return oldItem == newItem
     }
 }

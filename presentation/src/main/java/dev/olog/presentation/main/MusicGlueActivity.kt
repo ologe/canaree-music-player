@@ -20,18 +20,25 @@ import dev.olog.lib.media.connection.OnConnectionChanged
 import dev.olog.lib.media.customAction
 import dev.olog.lib.media.model.*
 import dev.olog.lib.media.playPause
+import dev.olog.navigation.destination.NavigationIntents
+import dev.olog.navigation.destination.musicServiceClass
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
     OnConnectionChanged {
 
+    @Inject
+    lateinit var intents: NavigationIntents
+
     private val mediaExposer by lazyFast {
         MediaExposer(
             context = this,
             coroutineScope = lifecycleScope,
-            onConnectionChanged = this
+            onConnectionChanged = this,
+            musicServiceClass = intents.musicServiceClass
         )
     }
 

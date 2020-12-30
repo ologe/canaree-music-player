@@ -7,9 +7,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.navigation.AboutNavigator
-import dev.olog.navigation.R
 import dev.olog.navigation.destination.FragmentScreen
-import dev.olog.navigation.utils.PlayStoreUtils
 import saschpe.android.customtabs.CustomTabsHelper
 import javax.inject.Inject
 import javax.inject.Provider
@@ -25,13 +23,6 @@ internal class AboutNavigatorImpl @Inject constructor(
 
     override fun toSpecialThanksFragment() {
         navigate(FragmentScreen.SPECIAL_THANKS)
-    }
-
-    override fun toMarket() {
-        if (allowed()) {
-            val activity = activityProvider() ?: return
-            PlayStoreUtils.open(activity)
-        }
     }
 
     override fun toPrivacyPolicy() {

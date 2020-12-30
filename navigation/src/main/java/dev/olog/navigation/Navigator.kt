@@ -5,7 +5,18 @@ import androidx.annotation.IdRes
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 
-interface Navigator : BottomNavigator, AboutNavigator {
+interface Navigator :
+    BottomNavigator,
+    AboutNavigator,
+    ServiceNavigator {
+
+    companion object {
+        const val START_SERVICE_ACTION = "start.service"
+        const val INTENT_ACTION_SEARCH = "intent.search"
+        const val INTENT_ACTION_DETAIL = "intent.detail"
+        const val INTENT_ACTION_CONTENT_VIEW = "intent.content.view"
+        const val HOVER_CODE = 123
+    }
 
     fun toFirstAccess()
 

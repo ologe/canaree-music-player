@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.feature.base.dialog
 
 import android.content.Context
 import android.content.DialogInterface
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.presentation.R
+import dev.olog.feature.base.R
 import dev.olog.shared.android.extensions.showIme
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast

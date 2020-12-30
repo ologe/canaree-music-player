@@ -2,7 +2,6 @@ package dev.olog.presentation.navigator
 
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -25,15 +24,6 @@ class NavigatorLegacyImpl @Inject internal constructor(
 //        superCerealTransition(
 //            activity,
 //            dev.olog.feature.detail.detail.DetailFragment.newInstance(mediaId),
-//            newTag
-//        )
-    }
-
-    override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-//        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
-//        superCerealTransition(
-//            activity,
-//            CreatePlaylistFragment.newInstance(type),
 //            newTag
 //        )
     }

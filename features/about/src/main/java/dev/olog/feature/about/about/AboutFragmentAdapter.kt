@@ -22,7 +22,6 @@ internal class AboutFragmentAdapter(
                 AboutFragmentType.AUTHOR -> {}
                 AboutFragmentType.THIRD_SOFTWARE -> navigator.toLicensesFragment()
                 AboutFragmentType.SPECIAL_THANKS -> navigator.toSpecialThanksFragment()
-                AboutFragmentType.RATE -> navigator.toMarket()
                 AboutFragmentType.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
                 AboutFragmentType.COMMUNITY -> navigator.joinCommunity()
                 AboutFragmentType.BETA -> navigator.joinBeta()

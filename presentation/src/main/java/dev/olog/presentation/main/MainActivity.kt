@@ -5,25 +5,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.HasBottomNavigation
 import dev.olog.feature.base.RestorableScrollHelper
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
-import dev.olog.navigation.Navigator
-import dev.olog.navigation.destination.FragmentScreen
-import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.presentation.R
 import dev.olog.navigation.BottomNavigationPage
-import dev.olog.presentation.navigator.NavigatorLegacy
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.Params
+import dev.olog.navigation.destination.FragmentScreen
+import dev.olog.presentation.R
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.*
@@ -43,8 +36,7 @@ class MainActivity : MusicGlueActivity(),
     RestorableScrollHelper {
 
     private val viewModel by viewModels<MainActivityViewModel>()
-    @Inject
-    lateinit var navigatorLegacy: NavigatorLegacy
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -121,41 +113,32 @@ class MainActivity : MusicGlueActivity(),
 
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
-            FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
-            }
-            Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            AppConstants.ACTION_CONTENT_VIEW -> slidingPanel.expand()
-            MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
-                ContextCompat.startForegroundService(this, serviceIntent)
-            }
-            Shortcuts.DETAIL -> {
-                launch {
-                    delay(250)
-                    val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
-                    val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId)
-                }
-            }
-            Intent.ACTION_VIEW -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MusicServiceAction.PLAY_URI.name
-                serviceIntent.data = intent.data
-                ContextCompat.startForegroundService(this, serviceIntent)
-            }
+            Navigator.START_SERVICE_ACTION -> navigator.toFloatingWindow()
+            Navigator.INTENT_ACTION_SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
+            Navigator.INTENT_ACTION_CONTENT_VIEW -> slidingPanel.expand()
+            MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> navigator.toMusicPlayFromSearch()
+            Navigator.INTENT_ACTION_DETAIL -> handleDetailIntent(intent)
+            Intent.ACTION_VIEW -> navigator.toMusicPlayFromUri(intent.data)
         }
         intent.action = null
         setIntent(null)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
-            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+    private fun handleDetailIntent(intent: Intent) {
+        launch {
+            delay(250)
+            val string = intent.getStringExtra(Params.MEDIA_ID) ?: return@launch
+            val mediaId = MediaId.fromStringOrNull(string) ?: return@launch
+            navigator.toDetailFragment(mediaId)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == Navigator.HOVER_CODE) {
+            navigator.toFloatingWindow()
+            return
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onBackPressed() {

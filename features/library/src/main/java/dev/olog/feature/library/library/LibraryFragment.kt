@@ -13,6 +13,7 @@ import dev.olog.feature.library.LibraryTutorial
 import dev.olog.feature.library.R
 import dev.olog.feature.library.dialog.MainPopupDialog
 import dev.olog.navigation.BottomNavigationPage
+import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -33,6 +34,9 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
     }
 
     private val viewModel by viewModels<LibraryFragmentViewModel>()
+
+    @Inject
+    lateinit var navigator: Navigator
 
     @Inject
     internal lateinit var mainPopupFactory: Provider<MainPopupDialog>
@@ -92,7 +96,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
         more.setOnClickListener(this::toMainPopup)
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener { navigator.toFloatingWindow() }
 
         tracks.setOnClickListener { changeLibraryPage(BottomNavigationPage.LIBRARY_TRACKS) }
         podcasts.setOnClickListener { changeLibraryPage(BottomNavigationPage.LIBRARY_PODCASTS) }
@@ -119,10 +123,6 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
 
     private fun createMediaId(): MediaIdCategory? {
         return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
-    }
-
-    private fun startServiceOrRequestOverlayPermission() {
-//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity()) TODO restore
     }
 
     private val onPageChangeListener =
