@@ -88,6 +88,7 @@ dependencies {
     implementation project(':features:settings')
     implementation project(':features:equalizer')
     implementation project(':features:offline-lyrics')
+    implementation project(':features:dialog')
 
     implementation project(':libraries:media')
     implementation project(':libraries:equalizer')

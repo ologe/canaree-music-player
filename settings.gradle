@@ -19,6 +19,7 @@ include ':features:edit-playlist'
 include ':features:settings'
 include ':features:equalizer'
 include ':features:offline-lyrics'
+include ':features:dialog'
 
 // data
 include ':data'
