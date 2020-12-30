@@ -1,4 +1,4 @@
-package dev.olog.presentation.offlinelyrics
+package dev.olog.feature.offline.lyrics
 
 import android.content.Context
 import android.content.Intent
@@ -15,9 +15,7 @@ import dev.olog.lib.image.provider.OnImageLoadingError
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.mediaProvider
 import dev.olog.lib.offline.lyrics.*
-import dev.olog.presentation.R
 import dev.olog.feature.base.DrawsOnTop
-import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.widgets.extension.removeLightStatusBar
 import dev.olog.shared.widgets.extension.setLightStatusBar
 import dev.olog.shared.android.extensions.*
@@ -34,15 +32,8 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsOnTop {
-
-    companion object {
-        const val TAG = "OfflineLyricsFragment"
-
-        fun newInstance(): OfflineLyricsFragment {
-            return OfflineLyricsFragment()
-        }
-    }
+internal class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics),
+    DrawsOnTop {
 
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
@@ -64,7 +55,7 @@ class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsO
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (presenter.showAddLyricsIfNeverShown()) {
-            TutorialTapTarget.addLyrics(search, edit, sync)
+            OfflineLyricsTutorial.addLyrics(search, edit, sync)
         }
 
         requireActivity().mediaProvider.metadata

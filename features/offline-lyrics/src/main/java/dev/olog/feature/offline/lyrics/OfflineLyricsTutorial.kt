@@ -1,15 +1,13 @@
-package dev.olog.presentation.tutorial
+package dev.olog.feature.offline.lyrics
 
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
-import com.getkeepsafe.taptargetview.TapTargetView
-import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.widgets.extension.tint
 
-object TutorialTapTarget {
+internal object OfflineLyricsTutorial {
 
     fun addLyrics(search: View, edit: View, sync: View){
         val context = search.context
