@@ -6,7 +6,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.service.music.data.DataRetriever
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.queue.Queue

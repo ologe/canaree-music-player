@@ -6,8 +6,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.navigation.destination.musicServiceClass
 import javax.inject.Inject
@@ -32,8 +32,8 @@ internal class ShortcutsActivity : AppCompatActivity() {
         val action = intent.action ?: return
 
         val test = when (action) {
-            MusicServiceAction.PLAY.name,
-            MusicServiceCustomAction.SHUFFLE.name -> intents.musicServiceClass
+            dev.olog.lib.media.MusicServiceAction.PLAY.name,
+            dev.olog.lib.media.MusicServiceCustomAction.SHUFFLE.name -> intents.musicServiceClass
             else -> null
         } ?: return
 

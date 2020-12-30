@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
+import dev.olog.lib.media.MusicServiceAction
 import dev.olog.msc.R
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.destination.NavigationIntents

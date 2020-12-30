@@ -9,8 +9,8 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.multibindings.IntoMap
 import dev.olog.appshortcuts.ShortcutsActivity
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.navigation.dagger.NavigationIntentKey
 import dev.olog.navigation.destination.NavigationIntent
 
@@ -23,7 +23,7 @@ object FeatureAppShortcutsDagger {
     @NavigationIntentKey(NavigationIntent.SHORTCUTS_PLAY)
     fun provideShortcutsPlay(@ApplicationContext context: Context): Intent {
         val intent = Intent(context, ShortcutsActivity::class.java)
-        intent.action = MusicServiceAction.PLAY.name
+        intent.action = dev.olog.lib.media.MusicServiceAction.PLAY.name
         return intent
     }
 
@@ -32,7 +32,7 @@ object FeatureAppShortcutsDagger {
     @NavigationIntentKey(NavigationIntent.SHORTCUTS_SHUFFLE)
     fun provideShortcutsShuffle(@ApplicationContext context: Context): Intent {
         val intent = Intent(context, ShortcutsActivity::class.java)
-        intent.action = MusicServiceCustomAction.SHUFFLE.name
+        intent.action = dev.olog.lib.media.MusicServiceCustomAction.SHUFFLE.name
         return intent
     }
 

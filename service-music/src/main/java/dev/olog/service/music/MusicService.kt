@@ -14,10 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.navigation.Navigator
-import dev.olog.navigation.destination.NavigationIntent
 import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.navigation.destination.mainActivityClass
 import dev.olog.service.music.helper.CarHelper

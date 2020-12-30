@@ -12,8 +12,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdModifier
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.feature.base.base.BaseActivity
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.lib.media.MediaExposer
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.connection.OnConnectionChanged

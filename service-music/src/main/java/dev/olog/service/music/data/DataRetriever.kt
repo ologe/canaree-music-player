@@ -11,7 +11,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.queue.EnhancedShuffle

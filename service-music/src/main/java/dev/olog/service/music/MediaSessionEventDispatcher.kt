@@ -8,7 +8,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.service.music.event.queue.MediaSessionEvent
 import dev.olog.service.music.event.queue.MediaSessionEventHandler
 import dev.olog.shared.android.extensions.toJavaUri

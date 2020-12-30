@@ -9,7 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.multibindings.IntoMap
-import dev.olog.intents.MusicServiceAction
+import dev.olog.lib.media.MusicServiceAction
 import dev.olog.navigation.dagger.NavigationIntentKey
 import dev.olog.navigation.destination.NavigationIntent
 import dev.olog.service.music.MusicService

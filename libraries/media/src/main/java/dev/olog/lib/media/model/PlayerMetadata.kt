@@ -2,7 +2,7 @@ package dev.olog.lib.media.model
 
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
-import dev.olog.intents.MusicConstants
+import dev.olog.lib.media.MusicConstants
 import dev.olog.lib.media.getBoolean
 import dev.olog.shared.android.TextUtils
 import kotlin.time.Duration

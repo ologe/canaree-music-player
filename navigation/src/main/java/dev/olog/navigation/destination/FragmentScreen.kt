@@ -29,6 +29,16 @@ enum class FragmentScreen(val tag: String) {
     EDIT_ALBUM("$PREFIX.edit.album"),
     EDIT_ARTIST("$PREFIX.edit.artist"),
 
+    DIALOG_DELETE("$PREFIX.dialog.delete"),
+    DIALOG_ADD_FAVORITE("$PREFIX.dialog.add.favorite"),
+    DIALOG_PLAY_LATER("$PREFIX.dialog.play.later"),
+    DIALOG_PLAY_NEXT("$PREFIX.dialog.play.next"),
+    DIALOG_PLAYLIST_CLEAR("$PREFIX.dialog.playlist.clear"),
+    DIALOG_PLAYLIST_CREATE("$PREFIX.dialog.playlist.create"),
+    DIALOG_PLAYLIST_REMOVE_DUPLICATES("$PREFIX.dialog.playlist.remove.duplicates"),
+    DIALOG_PLAYLIST_RENAME("$PREFIX.dialog.playlist.rename"),
+    DIALOG_RINGTONE("$PREFIX.dialog.ringtone"),
+
     ABOUT("$PREFIX.about"),
     SPECIAL_THANKS("$PREFIX.special.thanks"),
     LOCALIZATION("$PREFIX.localization"),
