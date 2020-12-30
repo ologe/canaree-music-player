@@ -16,7 +16,7 @@ include ':features:player'
 include ':features:edit'
 include ':features:edit-playlist'
 include ':features:settings'
-
+include ':features:equalizer'
 
 // data
 include ':data'
