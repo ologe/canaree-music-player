@@ -69,7 +69,7 @@ dependencies {
 
     implementation project(':service-floating')
     implementation project(':intents')
-    implementation project(':shared')
+    implementation project(':shared:jvm')
 
     implementation project(':navigation')
 

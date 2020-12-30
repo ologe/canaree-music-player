@@ -40,7 +40,7 @@ include ':libraries:image-provider'
 // shared
 include ':prefs-keys'
 include ':intents'
-include ':shared'
+include ':shared:jvm'
 include ':shared-android'
 include ':shared-widgets'
 include ':shared:localization'

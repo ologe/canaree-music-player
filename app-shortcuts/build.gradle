@@ -7,7 +7,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':libraries:image-provider')
     implementation project(':intents')
-    implementation project(':shared')
+    implementation project(':shared:jvm')
     implementation project(':shared-android')
     implementation project(':navigation')
 

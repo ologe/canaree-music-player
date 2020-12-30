@@ -23,7 +23,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':data-local')
     implementation project(':data-remote')
-    implementation project(':shared')
+    implementation project(':shared:jvm')
     implementation project(':shared-android')
     implementation project(':prefs-keys')
     implementation project(':libraries:network')

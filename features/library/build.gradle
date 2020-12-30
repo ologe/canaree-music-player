@@ -12,7 +12,7 @@ androidExtensions {
 dependencies {
     implementation project(':domain')
     implementation project(':navigation')
-    implementation project(':shared')
+    implementation project(':shared:jvm')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':shared:localization')
