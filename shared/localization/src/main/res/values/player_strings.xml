@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="player_now_playing" translatable="false">Now Playing</string>
     <string name="player_load_more_song">more songs load as you listen</string>
 
 </resources>
