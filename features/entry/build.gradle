@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':navigation')
+    implementation project(':shared')
+    implementation project(':shared-android')
+    implementation project(':shared-widgets')
+    implementation project(':shared:localization')
+
+    implementation project(':libraries:image-provider')
+
+    implementation project(':features:base')
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+    implementation lib_core.hilt_vm
+    kapt lib_core.hilt_vm_processor
+
+    implementation lib_x.core
+    implementation lib_x.appcompat
+    implementation lib_x.fragments
+    implementation lib_x.material
+    implementation lib_x.constraint_layout
+}

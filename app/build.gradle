@@ -75,6 +75,7 @@ dependencies {
     implementation project(':navigation')
 
     implementation project(':features:base')
+    implementation project(':features:entry')
     implementation project(':features:onboarding')
     implementation project(':features:detail')
     implementation project(':features:library')
