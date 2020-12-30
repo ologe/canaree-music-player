@@ -14,6 +14,7 @@ include ':features:queue'
 include ':features:about'
 include ':features:player'
 include ':features:edit'
+include ':features:edit-playlist'
 
 // data
 include ':data'

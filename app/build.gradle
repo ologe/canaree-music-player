@@ -83,6 +83,7 @@ dependencies {
     implementation project(':features:about')
     implementation project(':features:player')
     implementation project(':features:edit')
+    implementation project(':features:edit-playlist')
 
     implementation project(':libraries:media')
     implementation project(':libraries:equalizer')
