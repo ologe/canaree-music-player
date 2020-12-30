@@ -41,6 +41,7 @@ include ':intents'
 include ':shared'
 include ':shared-android'
 include ':shared-widgets'
+include ':shared:localization'
 
 // test
 include ':test-shared'

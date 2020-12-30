@@ -15,6 +15,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
+    implementation project(':shared:localization')
 
     implementation project(':features:base')
 
