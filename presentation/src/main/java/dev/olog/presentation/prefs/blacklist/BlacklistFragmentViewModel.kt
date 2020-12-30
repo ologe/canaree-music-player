@@ -9,7 +9,6 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BaseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -56,12 +55,12 @@ internal class BlacklistFragmentViewModel @ViewModelInject constructor(
 }
 
 data class BlacklistModel(
-    override val type: Int,
-    override val mediaId: MediaId,
+    val type: Int,
+    val mediaId: MediaId,
     val title: String,
     val path: String,
     var isBlacklisted: Boolean
-) : BaseModel {
+) {
 
     companion object {
         @Suppress("DEPRECATION")
