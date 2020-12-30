@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup.track
+package dev.olog.feature.dialog.popup.track
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
@@ -6,10 +6,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.dialog.R
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.internal.ActivityProvider
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import javax.inject.Inject
 
 class TrackPopupListener @Inject constructor(

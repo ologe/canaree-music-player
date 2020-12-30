@@ -1,6 +1,7 @@
 package dev.olog.feature.dialog.dagger
 
 import androidx.fragment.app.Fragment
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +15,20 @@ import dev.olog.feature.dialog.playlist.clear.ClearPlaylistDialog
 import dev.olog.feature.dialog.playlist.create.CreatePlaylistDialog
 import dev.olog.feature.dialog.playlist.duplicates.RemovePlaylistDuplicatesDialog
 import dev.olog.feature.dialog.playlist.rename.RenamePlaylistDialog
+import dev.olog.feature.dialog.popup.PopupMenuFactoryImpl
 import dev.olog.feature.dialog.ringtone.SetRingtoneDialog
+import dev.olog.navigation.PopupMenuFactory
 import dev.olog.navigation.dagger.FragmentScreenKey
 import dev.olog.navigation.destination.FragmentScreen
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object FeatureDialogNavigator {
+
+    @Binds
+    @Singleton
+    internal fun providePopupFactory(impl: PopupMenuFactoryImpl): PopupMenuFactory = impl
 
     @Provides
     @IntoMap

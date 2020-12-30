@@ -1,12 +1,12 @@
-package dev.olog.presentation.popup.playlist
+package dev.olog.feature.dialog.popup.playlist
 
 import android.view.View
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Track
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.R
+import dev.olog.feature.dialog.popup.AbsPopup
+import dev.olog.feature.dialog.popup.AbsPopupListener
 
 class PlaylistPopup(
     view: View,

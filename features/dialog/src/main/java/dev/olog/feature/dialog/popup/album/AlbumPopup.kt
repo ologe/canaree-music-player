@@ -1,16 +1,14 @@
-package dev.olog.presentation.popup.artist
+package dev.olog.feature.dialog.popup.album
 
 import android.view.View
-import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Track
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.R
+import dev.olog.feature.dialog.popup.AbsPopup
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import dev.olog.shared.android.utils.isQ
 
-class ArtistPopup(
+class AlbumPopup(
     view: View,
-    @Suppress("UNUSED_PARAMETER") artist: Artist,
     track: Track?,
     listener: AbsPopupListener,
     tracks: suspend () -> List<Track>
@@ -18,7 +16,7 @@ class ArtistPopup(
 
     init {
         if (track == null) {
-            inflate(R.menu.dialog_artist)
+            inflate(R.menu.dialog_album)
         } else {
             inflate(R.menu.dialog_song)
         }

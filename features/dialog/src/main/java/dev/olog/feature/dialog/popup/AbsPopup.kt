@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup
+package dev.olog.feature.dialog.popup
 
 import android.content.Context
 import android.graphics.Typeface
@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Track
-import dev.olog.presentation.R
+import dev.olog.feature.dialog.R
 import dev.olog.shared.allTrue
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.findChild

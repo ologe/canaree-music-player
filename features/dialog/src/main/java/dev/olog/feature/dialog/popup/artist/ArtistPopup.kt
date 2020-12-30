@@ -1,25 +1,24 @@
-package dev.olog.presentation.popup.folder
+package dev.olog.feature.dialog.popup.artist
 
 import android.view.View
-import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Track
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.R
+import dev.olog.feature.dialog.popup.AbsPopup
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import dev.olog.shared.android.utils.isQ
 
-class FolderPopup(
+class ArtistPopup(
     view: View,
-    @Suppress("UNUSED_PARAMETER") folder: Folder,
+    @Suppress("UNUSED_PARAMETER") artist: Artist,
     track: Track?,
-    listener: AbsPopupListener
-
+    listener: AbsPopupListener,
+    tracks: suspend () -> List<Track>
 ) : AbsPopup(view) {
-
 
     init {
         if (track == null) {
-            inflate(R.menu.dialog_folder)
+            inflate(R.menu.dialog_artist)
         } else {
             inflate(R.menu.dialog_song)
         }
@@ -32,5 +31,8 @@ class FolderPopup(
             // works bad on Q
             menu.removeItem(R.id.delete)
         }
+
+        setupViewInfo(view, tracks)
     }
+
 }

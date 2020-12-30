@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup
+package dev.olog.feature.dialog.popup
 
 import android.view.View
 import dev.olog.core.MediaId
@@ -10,12 +10,12 @@ import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.navigation.PopupMenuFactory
-import dev.olog.presentation.popup.album.AlbumPopup
-import dev.olog.presentation.popup.artist.ArtistPopup
-import dev.olog.presentation.popup.folder.FolderPopup
-import dev.olog.presentation.popup.genre.GenrePopup
-import dev.olog.presentation.popup.playlist.PlaylistPopup
-import dev.olog.presentation.popup.track.TrackPopup
+import dev.olog.feature.dialog.popup.album.AlbumPopup
+import dev.olog.feature.dialog.popup.artist.ArtistPopup
+import dev.olog.feature.dialog.popup.folder.FolderPopup
+import dev.olog.feature.dialog.popup.genre.GenrePopup
+import dev.olog.feature.dialog.popup.playlist.PlaylistPopup
+import dev.olog.feature.dialog.popup.track.TrackPopup
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.launchUnit
 import kotlinx.coroutines.withContext

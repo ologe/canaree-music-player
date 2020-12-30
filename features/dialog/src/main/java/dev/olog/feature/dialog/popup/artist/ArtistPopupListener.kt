@@ -1,21 +1,21 @@
-package dev.olog.presentation.popup.genre
+package dev.olog.feature.dialog.popup.artist
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.dialog.R
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.internal.ActivityProvider
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import javax.inject.Inject
 
-class GenrePopupListener @Inject constructor(
+class ArtistPopupListener @Inject constructor(
     private val activityProvider: ActivityProvider,
     private val appShortcuts: AppShortcuts,
     private val navigator: Navigator,
@@ -31,27 +31,27 @@ class GenrePopupListener @Inject constructor(
     private val activity: FragmentActivity
         get() = activityProvider()!!
 
-    private lateinit var genre: Genre
+    private lateinit var artist: Artist
     private var track: Track? = null
 
-    fun setData(genre: Genre, track: Track?): GenrePopupListener {
-        this.genre = genre
+    fun setData(artist: Artist, track: Track?): ArtistPopupListener {
+        this.artist = artist
         this.track = track
         return this
     }
 
     private fun getMediaId(): MediaId {
         if (track != null) {
-            return MediaId.playableItem(genre.getMediaId(), track!!.id)
+            return MediaId.playableItem(artist.getMediaId(), track!!.id)
         } else {
-            return genre.getMediaId()
+            return artist.getMediaId()
         }
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.size, genre.name)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), artist.songs, artist.name)
 
         when (itemId) {
             R.id.newPlaylist -> toCreatePlaylist()
@@ -62,19 +62,20 @@ class GenrePopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, track!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, track!!.getArtistMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, track!!.getArtistMediaId())
+            R.id.viewArtist -> viewArtist(navigator, artist.getMediaId())
             R.id.share -> share(activity, track!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), track!!)
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), genre.name)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name)
         }
+
 
         return true
     }
 
     private fun toCreatePlaylist() {
         if (track == null) {
-            navigator.toCreatePlaylist(getMediaId(), genre.size, genre.name)
+            navigator.toCreatePlaylist(getMediaId(), artist.songs, artist.name)
         } else {
             navigator.toCreatePlaylist(getMediaId(), -1, track!!.title)
         }
@@ -90,7 +91,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun playLater() {
         if (track == null) {
-            navigator.toPlayLater(getMediaId(), genre.size, genre.name)
+            navigator.toPlayLater(getMediaId(), artist.songs, artist.name)
         } else {
             navigator.toPlayLater(getMediaId(), -1, track!!.title)
         }
@@ -98,7 +99,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun playNext() {
         if (track == null) {
-            navigator.toPlayNext(getMediaId(), genre.size, genre.name)
+            navigator.toPlayNext(getMediaId(), artist.songs, artist.name)
         } else {
             navigator.toPlayNext(getMediaId(), -1, track!!.title)
         }
@@ -107,7 +108,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun addToFavorite() {
         if (track == null) {
-            navigator.toAddToFavorite(getMediaId(), genre.size, genre.name)
+            navigator.toAddToFavorite(getMediaId(), artist.songs, artist.name)
         } else {
             navigator.toAddToFavorite(getMediaId(), -1, track!!.title)
         }
@@ -115,7 +116,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun delete() {
         if (track == null) {
-            navigator.toDelete(getMediaId(), genre.size, genre.name)
+            navigator.toDelete(getMediaId(), artist.songs, artist.name)
         } else {
             navigator.toDelete(getMediaId(), -1, track!!.title)
         }

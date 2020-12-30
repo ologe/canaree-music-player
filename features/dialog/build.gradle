@@ -21,6 +21,7 @@ dependencies {
 
     implementation project(':libraries:image-provider')
     implementation project(':libraries:media')
+    implementation project(':libraries:jaudiotagger')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

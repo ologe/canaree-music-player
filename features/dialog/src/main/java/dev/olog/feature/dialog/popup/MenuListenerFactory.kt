@@ -1,12 +1,12 @@
-package dev.olog.presentation.popup
+package dev.olog.feature.dialog.popup
 
 import dev.olog.core.entity.track.*
-import dev.olog.presentation.popup.album.AlbumPopupListener
-import dev.olog.presentation.popup.artist.ArtistPopupListener
-import dev.olog.presentation.popup.folder.FolderPopupListener
-import dev.olog.presentation.popup.genre.GenrePopupListener
-import dev.olog.presentation.popup.playlist.PlaylistPopupListener
-import dev.olog.presentation.popup.track.TrackPopupListener
+import dev.olog.feature.dialog.popup.album.AlbumPopupListener
+import dev.olog.feature.dialog.popup.artist.ArtistPopupListener
+import dev.olog.feature.dialog.popup.folder.FolderPopupListener
+import dev.olog.feature.dialog.popup.genre.GenrePopupListener
+import dev.olog.feature.dialog.popup.playlist.PlaylistPopupListener
+import dev.olog.feature.dialog.popup.track.TrackPopupListener
 import javax.inject.Inject
 import javax.inject.Provider
 

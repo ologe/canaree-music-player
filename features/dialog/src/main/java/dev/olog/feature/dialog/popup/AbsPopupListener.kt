@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup
+package dev.olog.feature.dialog.popup
 
 import android.app.Activity
 import android.content.Context
@@ -12,8 +12,8 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.dialog.R
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.R
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*

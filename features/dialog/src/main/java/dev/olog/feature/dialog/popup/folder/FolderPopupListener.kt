@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup.folder
+package dev.olog.feature.dialog.popup.folder
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
@@ -8,11 +8,11 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.dialog.R
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.internal.ActivityProvider
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import javax.inject.Inject
 
 class FolderPopupListener @Inject constructor(

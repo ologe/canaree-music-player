@@ -1,22 +1,24 @@
-package dev.olog.presentation.popup.album
+package dev.olog.feature.dialog.popup.genre
 
 import android.view.View
+import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Track
-import dev.olog.presentation.R
-import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.feature.dialog.R
+import dev.olog.feature.dialog.popup.AbsPopup
+import dev.olog.feature.dialog.popup.AbsPopupListener
 import dev.olog.shared.android.utils.isQ
 
-class AlbumPopup(
+class GenrePopup(
     view: View,
+    @Suppress("UNUSED_PARAMETER") genre: Genre,
     track: Track?,
-    listener: AbsPopupListener,
-    tracks: suspend () -> List<Track>
+    listener: AbsPopupListener
+
 ) : AbsPopup(view) {
 
     init {
         if (track == null) {
-            inflate(R.menu.dialog_album)
+            inflate(R.menu.dialog_genre)
         } else {
             inflate(R.menu.dialog_song)
         }
@@ -29,8 +31,6 @@ class AlbumPopup(
             // works bad on Q
             menu.removeItem(R.id.delete)
         }
-
-        setupViewInfo(view, tracks)
     }
 
 }
