@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry.widget
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import androidx.core.content.edit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.entry.R
 import dev.olog.navigation.BottomNavigationPage
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.R
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -18,8 +18,10 @@ dependencies {
     implementation project(':shared:localization')
 
     implementation project(':libraries:image-provider')
+    implementation project(':libraries:media')
 
     implementation project(':features:base')
+    implementation project(':intents')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
@@ -31,4 +33,11 @@ dependencies {
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.constraint_layout
+    implementation lib_x.media
+    implementation lib_x.lifecycle_java8
+    implementation lib_x.play_core
+    implementation lib_x.play_core_ktx
+    implementation lib_x.preference
+
+    implementation lib_ui.scroll_helper
 }

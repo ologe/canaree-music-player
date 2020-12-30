@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,12 +12,11 @@ import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.HasBottomNavigation
 import dev.olog.feature.base.RestorableScrollHelper
+import dev.olog.feature.entry.rate.RateAppDialog
 import dev.olog.navigation.BottomNavigationPage
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
 import dev.olog.navigation.destination.FragmentScreen
-import dev.olog.presentation.R
-import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.*
 import dev.olog.shared.android.extensions.*
@@ -42,7 +41,7 @@ class MainActivity : MusicGlueActivity(),
 
     @Suppress("unused")
     @Inject
-    lateinit var statusBarColorBehavior: StatusBarColorBehavior
+    internal lateinit var statusBarColorBehavior: StatusBarColorBehavior
     @Suppress("unused")
     @Inject
     internal lateinit var rateAppDialog: RateAppDialog

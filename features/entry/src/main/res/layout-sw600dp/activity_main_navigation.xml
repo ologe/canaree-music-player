@@ -12,7 +12,7 @@
         android:background="?colorSurface"
         android:layout_marginEnd="@dimen/player_size">
 
-        <dev.olog.presentation.main.CustomBottomNavigator
+        <dev.olog.feature.entry.widget.CustomBottomNavigator
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="@dimen/sliding_panel_peek"
@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <dev.olog.presentation.widgets.SlidingPanelFade
+    <dev.olog.feature.entry.widget.SlidingPanelFade
         android:id="@+id/slidingPanelFade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

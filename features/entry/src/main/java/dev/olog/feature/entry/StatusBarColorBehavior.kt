@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -15,40 +15,32 @@ import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.android.utils.isMarshmallow
 import javax.inject.Inject
 
-class StatusBarColorBehavior @Inject constructor(
+internal class StatusBarColorBehavior @Inject constructor(
     private val activity: FragmentActivity,
-) : DefaultLifecycleObserver, FragmentManager.OnBackStackChangedListener {
+) : FragmentManager.OnBackStackChangedListener {
+
+    private val observer = object : DefaultLifecycleObserver {
+        override fun onResume(owner: LifecycleOwner) {
+            slidingPanel.addBottomSheetCallback(slidingPanelListener)
+            activity.supportFragmentManager.addOnBackStackChangedListener(this@StatusBarColorBehavior)
+        }
+
+        override fun onPause(owner: LifecycleOwner) {
+            slidingPanel.removeBottomSheetCallback(slidingPanelListener)
+            activity.supportFragmentManager.removeOnBackStackChangedListener(this@StatusBarColorBehavior)
+        }
+    }
 
     init {
-        activity.lifecycle.addObserver(this)
+        if (isMarshmallow()) {
+            activity.lifecycle.addObserver(observer)
+        }
     }
 
     private val slidingPanel: BottomSheetBehavior<*>
         get() = activity.slidingPanel
 
-    override fun onResume(owner: LifecycleOwner) {
-        if (!isMarshmallow()){
-            return
-        }
-
-        slidingPanel.addBottomSheetCallback(slidingPanelListener)
-        activity.supportFragmentManager.addOnBackStackChangedListener(this)
-    }
-
-    override fun onPause(owner: LifecycleOwner) {
-        if (!isMarshmallow()){
-            return
-        }
-
-        slidingPanel.removeBottomSheetCallback(slidingPanelListener)
-        activity.supportFragmentManager.removeOnBackStackChangedListener(this)
-    }
-
     override fun onBackStackChanged() {
-        if (!isMarshmallow()){
-            return
-        }
-
         val fragment = searchFragmentWithLightStatusBar(activity)
         if (fragment == null){
             activity.window.setLightStatusBar()

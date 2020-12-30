@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry
 
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat

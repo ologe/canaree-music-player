@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry
 
 import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject

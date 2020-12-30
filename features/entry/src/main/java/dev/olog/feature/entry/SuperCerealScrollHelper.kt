@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.entry
 
 import android.view.View
 import androidx.core.view.updatePadding
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import dev.olog.presentation.R
 import dev.olog.navigation.destination.FragmentScreen
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType

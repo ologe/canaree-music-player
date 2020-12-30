@@ -1,4 +1,4 @@
-package dev.olog.presentation.main.di
+package dev.olog.presentation.navigator
 
 import dagger.Binds
 import dagger.Module
@@ -9,6 +9,7 @@ import dev.olog.presentation.navigator.NavigatorLegacyImpl
 
 @Module
 @InstallIn(ActivityComponent::class)
+@Deprecated("delete")
 abstract class MainActivityModule {
 
     @Binds

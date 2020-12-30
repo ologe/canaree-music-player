@@ -1,4 +1,4 @@
-package dev.olog.presentation.rateapp
+package dev.olog.feature.entry.rate
 
 import android.content.Context
 import androidx.core.content.edit
@@ -11,7 +11,6 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.navigation.internal.ActivityProvider
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

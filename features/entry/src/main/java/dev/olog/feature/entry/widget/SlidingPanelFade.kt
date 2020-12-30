@@ -1,11 +1,11 @@
-package dev.olog.presentation.widgets
+package dev.olog.feature.entry.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.R
+import dev.olog.feature.entry.R
 import dev.olog.shared.android.collapse
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findActivity

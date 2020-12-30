@@ -6,5 +6,6 @@
     <item name="toolbar" type="id"/>
     <item name="tabLayout" type="id"/>
     <item name="fab" type="id"/>
+    <item name="recycler_view" type="id"/>
 
 </resources>
