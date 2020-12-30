@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer;
+package dev.olog.feature.dialog.sleep.timer;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,7 +18,8 @@ import android.view.ViewConfiguration;
 
 import androidx.core.widget.ScrollerCompat;
 
-import dev.olog.presentation.R;
+import dev.olog.feature.dialog.R;
+
 
 class NumberPickerView extends View {
 

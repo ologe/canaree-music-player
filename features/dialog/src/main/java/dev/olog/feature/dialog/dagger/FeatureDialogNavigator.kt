@@ -17,6 +17,7 @@ import dev.olog.feature.dialog.playlist.duplicates.RemovePlaylistDuplicatesDialo
 import dev.olog.feature.dialog.playlist.rename.RenamePlaylistDialog
 import dev.olog.feature.dialog.popup.PopupMenuFactoryImpl
 import dev.olog.feature.dialog.ringtone.SetRingtoneDialog
+import dev.olog.feature.dialog.sleep.timer.SleepTimerPickerDialog
 import dev.olog.navigation.PopupMenuFactory
 import dev.olog.navigation.dagger.FragmentScreenKey
 import dev.olog.navigation.destination.FragmentScreen
@@ -74,5 +75,10 @@ object FeatureDialogNavigator {
     @IntoMap
     @FragmentScreenKey(FragmentScreen.DIALOG_RINGTONE)
     fun provideRingtone(): Fragment = SetRingtoneDialog()
+
+    @Provides
+    @IntoMap
+    @FragmentScreenKey(FragmentScreen.SLEEP_TIMER)
+    fun provideSleepTimer(): Fragment = SleepTimerPickerDialog()
 
 }

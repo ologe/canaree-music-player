@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer
+package dev.olog.feature.dialog.sleep.timer
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import dev.olog.presentation.R
+import dev.olog.feature.dialog.R
 
 class ScrollHmsPicker (
         context: Context,
@@ -48,7 +48,7 @@ class ScrollHmsPicker (
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ScrollHmsPicker)
 
         val colorNormal = ta.getColor(R.styleable.ScrollHmsPicker_shp_normal_color,
-                color(android.R.color.darker_gray))
+            color(android.R.color.darker_gray))
         @ColorInt val colorSelected = ta.getColor(R.styleable.ScrollHmsPicker_shp_selected_color,
                 color(android.R.color.holo_red_light))
         val hours = ta.getInteger(R.styleable.ScrollHmsPicker_shp_hours, 0)

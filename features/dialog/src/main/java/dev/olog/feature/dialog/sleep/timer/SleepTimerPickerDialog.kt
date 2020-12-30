@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer
+package dev.olog.feature.dialog.sleep.timer
 
 import android.os.Bundle
 import android.os.SystemClock
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.presentation.R
+import dev.olog.feature.dialog.R
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast

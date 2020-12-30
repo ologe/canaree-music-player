@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <dev.olog.presentation.sleeptimer.NumberPickerView
+    <dev.olog.feature.dialog.sleep.timer.NumberPickerView
         android:id="@+id/pickerHours"
         style="@style/ScrollNumberPickerStyle"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         android:layout_marginRight="12dp"
         android:text="@string/scroll_hms_picker_hours_label" />
 
-    <dev.olog.presentation.sleeptimer.NumberPickerView
+    <dev.olog.feature.dialog.sleep.timer.NumberPickerView
         android:id="@+id/pickerMinutes"
         style="@style/ScrollNumberPickerStyle"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_marginRight="12dp"
         android:text="@string/scroll_hms_picker_minutes_label" />
 
-    <dev.olog.presentation.sleeptimer.NumberPickerView
+    <dev.olog.feature.dialog.sleep.timer.NumberPickerView
         android:id="@+id/pickerSeconds"
         style="@style/ScrollNumberPickerStyle"
         android:layout_width="wrap_content"
