@@ -66,6 +66,7 @@ dependencies {
     implementation lib_x.preference
     implementation lib_x.coordinator
     implementation lib_x.fragments
+    implementation lib_x.play_core
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view

@@ -18,6 +18,7 @@ ext {
     android_x_annotations = '1.1.0'
     android_x_coordinator = '1.1.0'
     android_x_fragments = '1.2.5'
+    android_x_play_core = '1.9.0'
     constraint_layout = '2.0.4'
     lifecycle = '2.2.0'
 
@@ -99,6 +100,7 @@ ext {
         lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle",
         lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
         lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+        play_core           : "com.google.android.play:core-ktx:$android_x_play_core"
     ]
 
     lib_ui = [
