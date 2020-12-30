@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.equalizer.croller;
+package dev.olog.feature.equalizer.widget.croller;
 
 import android.content.Context;
 import android.content.res.Resources;

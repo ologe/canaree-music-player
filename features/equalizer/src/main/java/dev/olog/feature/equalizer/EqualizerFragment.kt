@@ -1,24 +1,19 @@
-package dev.olog.presentation.equalizer
+package dev.olog.feature.equalizer
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import androidx.core.view.forEachIndexed
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
 import dev.olog.feature.base.dialog.TextViewDialog
 import dev.olog.feature.base.base.BaseBottomSheetFragment
-import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
-import dev.olog.presentation.widgets.equalizer.croller.Croller
+import dev.olog.feature.equalizer.widget.BoxedVertical
+import dev.olog.feature.equalizer.widget.croller.Croller
 import dev.olog.shared.android.extensions.launch
-import dev.olog.shared.android.extensions.launchIn
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import me.saket.cascade.CascadePopupMenu
 
@@ -26,15 +21,10 @@ import me.saket.cascade.CascadePopupMenu
 internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
-        const val TAG = "EqualizerFragment"
         const val DEFAULT_BAR_ALPHA = .75f
-
-        fun newInstance(): EqualizerFragment {
-            return EqualizerFragment()
-        }
     }
 
-    private val presenter by activityViewModels<EqualizerFragmentViewModel>()
+    private val presenter by activityViewModels<dev.olog.feature.equalizer.EqualizerFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

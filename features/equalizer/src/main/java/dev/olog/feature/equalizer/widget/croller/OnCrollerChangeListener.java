@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.equalizer.croller;
+package dev.olog.feature.equalizer.widget.croller;
 
 public interface OnCrollerChangeListener {
     void onProgressChanged(Croller croller, int progress);

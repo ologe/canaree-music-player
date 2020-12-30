@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
+    <dev.olog.feature.equalizer.widget.BoxedVertical
         android:id="@+id/seekbar"
         android:layout_width="24dp"
         android:layout_height="150dp"

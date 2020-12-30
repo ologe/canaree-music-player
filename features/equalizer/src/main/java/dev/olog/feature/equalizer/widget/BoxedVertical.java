@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.equalizer.bar;
+package dev.olog.feature.equalizer.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
-import dev.olog.presentation.R;
+import dev.olog.feature.equalizer.R;
 
 public class BoxedVertical extends View {
 
