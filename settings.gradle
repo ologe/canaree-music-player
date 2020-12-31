@@ -1,7 +1,6 @@
 include ':app'
 
 include ':domain'
-include ':app-shortcuts'
 
 include ':navigation'
 include ':features:base'
@@ -19,6 +18,7 @@ include ':features:settings'
 include ':features:equalizer'
 include ':features:offline-lyrics'
 include ':features:dialog'
+include ':features:app-shortcuts'
 
 // data
 include ':data'

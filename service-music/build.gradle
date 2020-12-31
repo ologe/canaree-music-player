@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation project(':app-shortcuts')
+    implementation project(':features:app-shortcuts')
     implementation project(':domain')
     implementation project(':libraries:image-provider')
     implementation project(':shared:android')
