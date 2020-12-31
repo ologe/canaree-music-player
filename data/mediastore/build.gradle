@@ -21,7 +21,7 @@ android {
 
 dependencies {
     implementation project(':domain')
-    implementation project(':data-local')
+    implementation project(':data:local')
     implementation project(':data-remote')
     implementation project(':shared:jvm')
     implementation project(':shared:android')
