@@ -39,7 +39,6 @@ include ':libraries:jaudiotagger'
 include ':libraries:image-provider'
 
 // shared
-include ':intents'
 include ':shared:jvm'
 include ':shared:android'
 include ':shared:widgets'

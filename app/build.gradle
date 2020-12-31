@@ -67,7 +67,6 @@ dependencies {
     implementation project(':shared:prefs-keys')
 
     implementation project(':service-floating')
-    implementation project(':intents')
     implementation project(':shared:jvm')
 
     implementation project(':navigation')

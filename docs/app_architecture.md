@@ -65,10 +65,6 @@
 
 ## Utils
 
-#### `:intents`
-- Contains common actions and constants for communication between modules
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/intents/build.gradle)
-
 #### `:shared:prefs-keys`
 - Contains shared preferences keys, using a separate module for communication between modules
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/prefs-keys/build.gradle)

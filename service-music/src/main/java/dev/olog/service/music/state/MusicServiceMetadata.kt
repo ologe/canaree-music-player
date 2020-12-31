@@ -11,12 +11,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.intents.Classes
 import dev.olog.lib.media.MusicConstants
-import dev.olog.intents.WidgetConstants
+import dev.olog.shared.android.WidgetConstants
 import dev.olog.lib.image.provider.GlideUtils
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.putBoolean
+import dev.olog.navigation.dagger.RemoteWidgets
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.player.InternalPlayerState
@@ -36,6 +36,7 @@ internal class MusicServiceMetadata @Inject constructor(
     private val mediaSession: MediaSessionCompat,
     musicPrefs: MusicPreferencesGateway,
     internalPlayerState: InternalPlayerState,
+    private val widgets: RemoteWidgets,
 ) {
 
     private val builder = MediaMetadataCompat.Builder()
@@ -97,7 +98,7 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values.map { it.get() }) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

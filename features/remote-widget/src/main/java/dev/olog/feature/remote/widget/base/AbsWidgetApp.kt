@@ -10,7 +10,7 @@ import dev.olog.feature.remote.widget.model.WidgetActions
 import dev.olog.feature.remote.widget.model.WidgetMetadata
 import dev.olog.feature.remote.widget.model.WidgetSize
 import dev.olog.feature.remote.widget.model.WidgetState
-import dev.olog.intents.WidgetConstants
+import dev.olog.shared.android.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
 

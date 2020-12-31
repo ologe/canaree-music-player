@@ -1,4 +1,4 @@
-package dev.olog.intents
+package dev.olog.shared.android
 
 object WidgetConstants {
 

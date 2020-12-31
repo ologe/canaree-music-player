@@ -7,7 +7,6 @@ dependencies {
     implementation project(':shared:android')
     implementation project(':shared:jvm')
     implementation project(':libraries:jaudiotagger')
-    implementation project(':intents')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

@@ -21,7 +21,6 @@ dependencies {
     implementation project(':libraries:media')
 
     implementation project(':features:base')
-    implementation project(':intents')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

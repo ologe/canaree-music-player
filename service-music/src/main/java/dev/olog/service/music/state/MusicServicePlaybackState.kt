@@ -8,8 +8,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.intents.Classes
-import dev.olog.intents.WidgetConstants
+import dev.olog.shared.android.WidgetConstants
+import dev.olog.navigation.dagger.RemoteWidgets
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
@@ -19,8 +19,8 @@ import kotlin.time.Duration
 internal class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
-
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val widgets: RemoteWidgets,
 ) {
 
     private val builder = PlaybackStateCompat.Builder().apply {
@@ -105,7 +105,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Duration) {
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values.map { it.get() }) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
@@ -120,7 +120,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values.map { it.get() }) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

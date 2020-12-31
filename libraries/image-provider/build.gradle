@@ -9,7 +9,6 @@ dependencies {
     implementation project(':shared:android')
     implementation project(':shared:jvm')
     implementation project(':shared:prefs-keys')
-    implementation project(':intents')
 
     implementation lib_core.coroutines
     implementation lib_core.hilt

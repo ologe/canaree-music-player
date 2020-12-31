@@ -28,7 +28,6 @@ dependencies {
     implementation project(':shared:android')
     implementation project(':shared:jvm')
     implementation project(':shared:prefs-keys')
-    implementation project(':intents')
     implementation project(':libraries:equalizer')
     implementation project(':libraries:media')
     implementation project(':navigation')

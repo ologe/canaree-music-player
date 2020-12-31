@@ -8,7 +8,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.core.MediaId
-import dev.olog.intents.Classes
 import dev.olog.lib.media.connection.IMediaConnectionCallback
 import dev.olog.lib.media.connection.MusicServiceConnection
 import dev.olog.lib.media.connection.MusicServiceConnectionState
