@@ -85,7 +85,10 @@ fun updateGradleFiles(modules: List<File>, moduleName: String, renameTo: String)
     modules.forEachIndexed { index, f ->
 
         // replaced (":moduleName") with (":renameTo")
-        val newFilesContent = f.readText().replace("(\":${moduleName}\")", "(\":${renameTo}\")")
+        val newFilesContent = f.readText().replace(
+            oldValue = "(':${moduleName.replace('/',':')}')",
+            newValue = "(':${renameTo.replace('/',':')}')"
+        )
         f.writeText(newFilesContent)
 
         println("gradle rename ${index + 1}/${modules.size}")
