@@ -10,7 +10,7 @@ dependencies {
     implementation project(':libraries:image-provider')
     implementation project(':shared:android')
     implementation project(':shared:jvm')
-    implementation project(':shared-widgets')
+    implementation project(':shared:widgets')
     implementation project(':prefs-keys')
     implementation project(':libraries:media')
     implementation project(':libraries:offline-lyrics')

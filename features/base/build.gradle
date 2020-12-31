@@ -12,7 +12,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':shared:jvm')
     implementation project(':shared:android')
-    implementation project(':shared-widgets')
+    implementation project(':shared:widgets')
 
     implementation project(':libraries:media')
 
