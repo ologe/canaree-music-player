@@ -22,7 +22,7 @@ include ':features:app-shortcuts'
 include ':features:remote-widget'
 
 // data
-include ':data'
+include ':data:mediastore'
 include ':data-remote'
 include ':data-local'
 
