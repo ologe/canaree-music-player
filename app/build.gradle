@@ -95,7 +95,7 @@ dependencies {
     implementation project(':libraries:offline-lyrics')
     implementation project(':libraries:network')
 
-    implementation project(':shared-android')
+    implementation project(':shared:android')
     implementation project(':shared-widgets')
     implementation project(':service-music')
 

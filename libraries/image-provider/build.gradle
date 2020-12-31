@@ -6,7 +6,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':libraries:jaudiotagger')
     implementation project(':domain')
-    implementation project(':shared-android')
+    implementation project(':shared:android')
     implementation project(':shared:jvm')
     implementation project(':prefs-keys')
     implementation project(':intents')

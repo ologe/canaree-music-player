@@ -8,7 +8,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':navigation')
     implementation project(':shared:jvm')
-    implementation project(':shared-android')
+    implementation project(':shared:android')
     implementation project(':shared-widgets')
     implementation project(':shared:localization')
 

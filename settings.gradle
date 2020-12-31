@@ -41,7 +41,7 @@ include ':libraries:image-provider'
 include ':prefs-keys'
 include ':intents'
 include ':shared:jvm'
-include ':shared-android'
+include ':shared:android'
 include ':shared-widgets'
 include ':shared:localization'
 

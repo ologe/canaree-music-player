@@ -10,7 +10,7 @@ androidExtensions {
 
 dependencies {
     implementation project(':prefs-keys')
-    implementation project(':shared-android')
+    implementation project(':shared:android')
     implementation project(':shared:jvm')
 
     implementation lib_core.coroutines
