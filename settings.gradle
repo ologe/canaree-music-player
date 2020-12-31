@@ -44,9 +44,7 @@ include ':shared:jvm'
 include ':shared:android'
 include ':shared:widgets'
 include ':shared:localization'
-
-// test
-include ':test-shared'
+include ':shared:test'
 
 // TODO restore
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'

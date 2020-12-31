@@ -67,7 +67,7 @@ dependencies {
 
     // unit test
     testImplementation lib_core.coroutines_test
-    testImplementation project(':test-shared')
+    testImplementation project(':shared:test')
 
     testImplementation lib_test.assertj
     testImplementation lib_test.junit
@@ -83,7 +83,7 @@ dependencies {
 
     // android test
     androidTestImplementation lib_core.coroutines_test
-    androidTestImplementation project(':test-shared')
+    androidTestImplementation project(':shared:test')
 
     androidTestImplementation lib_test.assertj
     androidTestImplementation lib_test.junit
