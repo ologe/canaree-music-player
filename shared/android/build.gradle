@@ -4,7 +4,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':shared:jvm')
-    implementation project(':prefs-keys')
+    implementation project(':shared:prefs-keys')
 
     implementation lib_core.coroutines
     implementation lib_x.material

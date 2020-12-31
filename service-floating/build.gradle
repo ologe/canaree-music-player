@@ -11,7 +11,7 @@ dependencies {
     implementation project(':shared:android')
     implementation project(':shared:jvm')
     implementation project(':shared:widgets')
-    implementation project(':prefs-keys')
+    implementation project(':shared:prefs-keys')
     implementation project(':libraries:media')
     implementation project(':libraries:offline-lyrics')
     implementation project(':navigation')

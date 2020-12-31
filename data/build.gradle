@@ -25,7 +25,7 @@ dependencies {
     implementation project(':data-remote')
     implementation project(':shared:jvm')
     implementation project(':shared:android')
-    implementation project(':prefs-keys')
+    implementation project(':shared:prefs-keys')
     implementation project(':libraries:network')
 
     implementation lib_core.coroutines

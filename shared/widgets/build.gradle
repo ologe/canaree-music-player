@@ -9,7 +9,7 @@ androidExtensions {
 }
 
 dependencies {
-    implementation project(':prefs-keys')
+    implementation project(':shared:prefs-keys')
     implementation project(':shared:android')
     implementation project(':shared:jvm')
 
