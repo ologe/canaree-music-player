@@ -23,7 +23,7 @@ include ':features:remote-widget'
 
 // data
 include ':data:mediastore'
-include ':data-remote'
+include ':data:remote'
 include ':data:local'
 
 // services
