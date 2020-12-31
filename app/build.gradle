@@ -60,7 +60,6 @@ android {
 }
 
 dependencies {
-    implementation project(':features:app-shortcuts')
     implementation project(':domain')
     implementation project(':data')
     implementation project(':data-local')
@@ -88,6 +87,9 @@ dependencies {
     implementation project(':features:equalizer')
     implementation project(':features:offline-lyrics')
     implementation project(':features:dialog')
+    implementation project(':features:remote-widget')
+    implementation project(':features:app-shortcuts')
+
 
     implementation project(':libraries:media')
     implementation project(':libraries:equalizer')

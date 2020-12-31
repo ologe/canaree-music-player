@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.remote.widget.base
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -10,13 +10,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.intents.Classes
+import dev.olog.feature.remote.widget.R
+import dev.olog.feature.remote.widget.model.WidgetActions
+import dev.olog.feature.remote.widget.model.WidgetMetadata
+import dev.olog.feature.remote.widget.model.WidgetSize
+import dev.olog.feature.remote.widget.model.WidgetState
 import dev.olog.lib.media.MusicServiceAction
-import dev.olog.msc.R
 import dev.olog.navigation.Navigator
+import dev.olog.navigation.dagger.RemoteWidgets
 import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.navigation.destination.mainActivityClass
-import dev.olog.service.music.MusicService
+import dev.olog.navigation.destination.musicServiceClass
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.systemService
@@ -33,12 +37,14 @@ abstract class BaseWidget : AbsWidgetApp() {
     lateinit var musicPrefsUseCase: MusicPreferencesGateway
     @Inject
     lateinit var intents: NavigationIntents
+    @Inject
+    lateinit var widgets: RemoteWidgets
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
             val appWidgetManager = context.systemService<AppWidgetManager>()
-            for (clazz in Classes.widgets) {
+            for (clazz in widgets.values.map { it.get() }) {
                 val ids = context.getAppWidgetsIdsFor(clazz)
                 onUpdate(context, appWidgetManager, ids)
             }
@@ -105,7 +111,7 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun buildPendingIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, MusicService::class.java)
+        val intent = Intent(context, intents.musicServiceClass)
         intent.action = action
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }

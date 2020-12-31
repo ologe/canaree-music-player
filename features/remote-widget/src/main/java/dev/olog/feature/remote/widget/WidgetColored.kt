@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.remote.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -6,8 +6,9 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.feature.remote.widget.base.BaseWidget
+import dev.olog.feature.remote.widget.model.WidgetMetadata
 import dev.olog.lib.image.provider.getCachedBitmap
-import dev.olog.msc.R
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*

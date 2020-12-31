@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.remote.widget.base
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,6 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
+import dev.olog.feature.remote.widget.model.WidgetActions
+import dev.olog.feature.remote.widget.model.WidgetMetadata
+import dev.olog.feature.remote.widget.model.WidgetSize
+import dev.olog.feature.remote.widget.model.WidgetState
 import dev.olog.intents.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {

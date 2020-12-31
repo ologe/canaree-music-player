@@ -19,6 +19,7 @@ include ':features:equalizer'
 include ':features:offline-lyrics'
 include ':features:dialog'
 include ':features:app-shortcuts'
+include ':features:remote-widget'
 
 // data
 include ':data'
