@@ -71,7 +71,7 @@ fun searchForGradleFiles(rootDir: File, moduleName: String): List<File> {
         .filter { it.name != moduleName } // exclude chosen module
         .map { File(it, "build.gradle") }
         .filter { it.exists() }
-        .filter { it.readText().contains("(\":${moduleName}\")") } // filter only files that contains the module as dependency
+        .filter { it.readText().contains("(':${moduleName}')") } // filter only files that contains the module as dependency
         .toMutableList()
 
     modules.add(File(rootDir, "settings.gradle")) // add also settings.gradle
