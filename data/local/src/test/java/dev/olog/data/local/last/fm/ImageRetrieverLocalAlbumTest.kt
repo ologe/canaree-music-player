@@ -1,38 +1,37 @@
-package dev.olog.data.repository.lastfm.local
+package dev.olog.data.local.last.fm
 
+import dev.olog.domain.DateTimeGenerator
 import dev.olog.domain.entity.EMPTY
-import dev.olog.domain.entity.LastFmArtist
-import dev.olog.data.local.last.fm.LastFmDao
-import dev.olog.data.local.last.fm.ImageRetrieverLocalArtist
-import dev.olog.data.local.last.fm.LastFmArtistEntity
-import dev.olog.data.mapper.toDomain
-import dev.olog.data.mapper.toModel
+import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.StatelessSutTest
 import dev.olog.test.shared.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.Rule
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class ImageRetrieverLocalArtistTest : StatelessSutTest() {
+class ImageRetrieverLocalAlbumTest : StatelessSutTest() {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
     private val dao = mockk<LastFmDao>(relaxUnitFun = true)
-    private val sut = ImageRetrieverLocalArtist(
-        dao = dao
+    private val dateTimeGenerator = mockk<DateTimeGenerator>()
+    private val sut = ImageRetrieverLocalAlbumImpl(
+        dao = dao,
+        dateTimeGenerator = dateTimeGenerator,
     )
 
     @Nested
     inner class MustFetch {
 
         @Test
-        fun `mustFetch should return true when item not exists`() = coroutineRule {
-            coEvery { dao.getArtist(1) } returns null
+        fun `should return true when item not exists`() = coroutineRule {
+            coEvery { dao.getAlbum(1) } returns null
 
             // when
             val actual = sut.mustFetch(1)
@@ -42,8 +41,8 @@ class ImageRetrieverLocalArtistTest : StatelessSutTest() {
         }
 
         @Test
-        fun `mustFetch should return false when item exists`() = coroutineRule {
-            coEvery { dao.getArtist(1) } returns LastFmArtistEntity.EMPTY
+        fun `should return false when item exists`() = coroutineRule {
+            coEvery { dao.getAlbum(1) } returns LastFmAlbumEntity.EMPTY
 
             // when
             val actual = sut.mustFetch(1)
@@ -59,9 +58,9 @@ class ImageRetrieverLocalArtistTest : StatelessSutTest() {
 
         @Test
         fun `should return item when item exists`() = coroutineRule {
-            val model = LastFmArtistEntity.EMPTY.copy(id = 1)
+            val model = LastFmAlbumEntity.EMPTY.copy(id = 1)
 
-            coEvery { dao.getArtist(1) } returns model
+            coEvery { dao.getAlbum(1) } returns model
 
             // when
             val actual = sut.getCached(1)
@@ -71,7 +70,7 @@ class ImageRetrieverLocalArtistTest : StatelessSutTest() {
 
         @Test
         fun `should return null when item not exists`() = coroutineRule {
-            coEvery { dao.getArtist(1) } returns null
+            coEvery { dao.getAlbum(1) } returns null
 
             // when
             val actual = sut.getCached(1)
@@ -81,21 +80,21 @@ class ImageRetrieverLocalArtistTest : StatelessSutTest() {
 
     }
 
-
     @Test
     fun `should cache`() = coroutineRule {
-        val model = LastFmArtist.EMPTY
+        every { dateTimeGenerator.formattedNow() } returns "now"
+        val model = LastFmAlbum.EMPTY
 
         sut.cache(model)
 
-        coVerify { dao.insertArtist(model.toModel()) }
+        coVerify { dao.insertAlbum(model.toModel("now")) }
     }
 
     @Test
     fun `should delete`() = coroutineRule {
         sut.delete(1)
 
-        coVerify { dao.deleteArtist(1) }
+        coVerify { dao.deleteAlbum(1) }
     }
 
 }

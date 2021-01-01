@@ -1,17 +1,14 @@
-package dev.olog.data.repository.lastfm.local
+package dev.olog.data.local.last.fm
 
 import dev.olog.domain.entity.EMPTY
 import dev.olog.domain.entity.LastFmTrack
-import dev.olog.data.local.last.fm.LastFmDao
-import dev.olog.data.local.last.fm.ImageRetrieverLocalTrack
-import dev.olog.data.local.last.fm.LastFmTrackEntity
-import dev.olog.data.mapper.toDomain
-import dev.olog.data.mapper.toModel
+import dev.olog.domain.DateTimeGenerator
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.StatelessSutTest
 import dev.olog.test.shared.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.Rule
 import org.junit.jupiter.api.Nested
@@ -23,8 +20,10 @@ class ImageRetrieverLocalTrackTest : StatelessSutTest() {
     val coroutineRule = MainCoroutineRule()
 
     private val dao = mockk<LastFmDao>(relaxUnitFun = true)
-    private val sut = ImageRetrieverLocalTrack(
-        dao = dao
+    private val dateTimeGenerator = mockk<DateTimeGenerator>()
+    private val sut = ImageRetrieverLocalTrackImpl(
+        dao = dao,
+        dateTimeGenerator = dateTimeGenerator,
     )
 
     @Nested
@@ -83,11 +82,12 @@ class ImageRetrieverLocalTrackTest : StatelessSutTest() {
 
     @Test
     fun `should cache`() = coroutineRule {
+        every { dateTimeGenerator.formattedNow() } returns "now"
         val model = LastFmTrack.EMPTY
 
         sut.cache(model)
 
-        coVerify { dao.insertTrack(model.toModel()) }
+        coVerify { dao.insertTrack(model.toModel("now")) }
     }
 
     @Test
