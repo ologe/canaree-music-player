@@ -33,9 +33,8 @@ internal class ClippedSourceFactory @Inject constructor (
      */
     override fun get(model: CrossFadePlayer.Model): MediaSource {
         val mediaSource = sourceFactory.get(model.mediaEntity)
-        val isFlac = model.isFlac // TODO i think flac is supported now
 
-        if (!isFlac && isGapless && model.isGoodIdeaToClip && !model.mediaEntity.isPodcast){
+        if (isGapless && model.isGoodIdeaToClip && !model.mediaEntity.isPodcast){
             if (model.isTrackEnded){
                 // clip start and end
                 return ClippingMediaSource(

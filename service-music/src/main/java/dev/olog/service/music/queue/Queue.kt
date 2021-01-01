@@ -395,7 +395,7 @@ internal class Queue @Inject constructor(
         var maxProgressive = queue.maxByOrNull { it.progressive }?.progressive ?: 0
 
         val tracksToAdd = ids.mapNotNull { findTrack(it, isPodcast) }
-            .map { it.toMediaEntity(++maxProgressive, it.getMediaId()) }
+            .map { it.toMediaEntity(++maxProgressive) }
 
         val newQueue = queue + tracksToAdd
 
@@ -412,7 +412,7 @@ internal class Queue @Inject constructor(
         var maxProgressive = queue.maxByOrNull { it.progressive }?.progressive ?: 0
 
         val tracksToAdd = ids.mapNotNull { findTrack(it, isPodcast) }
-            .map { it.toMediaEntity(++maxProgressive, it.getMediaId()) }
+            .map { it.toMediaEntity(++maxProgressive) }
 
         val newQueue = before + tracksToAdd + after
         val newPosition = newQueue.indexOfFirstOrNull { it.progressive == entity.progressive } ?: 0

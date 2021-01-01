@@ -89,7 +89,7 @@ private fun MediaEntity.toScrollData(): ScrobbleData {
         this.album,
         null,
         null,
-        this.trackNumber,
+        -1,
         null,
         true
     )

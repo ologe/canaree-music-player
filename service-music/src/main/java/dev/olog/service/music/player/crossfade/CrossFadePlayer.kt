@@ -192,7 +192,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         val bookmark: Duration
             get() = playerMediaEntity.bookmark
 
-        val isFlac: Boolean = mediaEntity.path.endsWith(".flac")
         val duration: Duration = mediaEntity.duration
         val isCrossFadeOn: Boolean = crossFadeTime.isPositive()
         val isTrackEnded: Boolean = trackEnded && isCrossFadeOn
