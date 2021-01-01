@@ -6,10 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaIdCategory
-import dev.olog.domain.entity.sort.SortArranging
-import dev.olog.domain.entity.sort.SortEntity
-import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortPreferencesGateway
 import dev.olog.feature.library.R
 import dev.olog.feature.library.prefs.LibraryPreferencesGateway
@@ -100,111 +98,111 @@ internal class MainPopupDialog @Inject constructor(
         }
     }
 
-    private fun initializeTracksSort(menu: Menu): SortEntity {
+    private fun initializeTracksSort(menu: Menu): Sort {
         val sort = gateway.getAllTracksSort()
         val item = when (sort.type) {
-            SortType.TITLE -> R.id.by_title
-            SortType.ALBUM -> R.id.by_album
-            SortType.ARTIST -> R.id.by_artist
-            SortType.DURATION -> R.id.by_duration
-            SortType.RECENTLY_ADDED -> R.id.by_date
+            Sort.Type.TITLE -> R.id.by_title
+            Sort.Type.ALBUM -> R.id.by_album
+            Sort.Type.ARTIST -> R.id.by_artist
+            Sort.Type.DURATION -> R.id.by_duration
+            Sort.Type.RECENTLY_ADDED -> R.id.by_date
             else -> throw IllegalStateException("invalid for tracks ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.arranging == Sort.Arranging.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
         return sort
     }
 
-    private fun initializeAlbumSort(menu: Menu): SortEntity {
+    private fun initializeAlbumSort(menu: Menu): Sort {
         val sort = gateway.getAllAlbumsSort()
         val item = when (sort.type) {
-            SortType.TITLE -> R.id.by_title
-            SortType.ARTIST -> R.id.by_artist
+            Sort.Type.TITLE -> R.id.by_title
+            Sort.Type.ARTIST -> R.id.by_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.arranging == Sort.Arranging.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
         return sort
     }
 
-    private fun initializeArtistSort(menu: Menu): SortEntity {
+    private fun initializeArtistSort(menu: Menu): Sort {
         val sort = gateway.getAllArtistsSort()
         val item = when (sort.type) {
-            SortType.ARTIST -> R.id.by_artist
-            SortType.ALBUM_ARTIST -> R.id.by_album_artist
+            Sort.Type.ARTIST -> R.id.by_artist
+            Sort.Type.ALBUM_ARTIST -> R.id.by_album_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.arranging == Sort.Arranging.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
         return sort
     }
 
-    private fun handleAllSongsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllSongsSorting(menuItem: MenuItem, sort: Sort) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) Sort.Arranging.ASCENDING else Sort.Arranging.DESCENDING
+            Sort(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
-                R.id.by_title -> SortType.TITLE
-                R.id.by_artist -> SortType.ARTIST
-                R.id.by_album -> SortType.ALBUM
-                R.id.by_duration -> SortType.DURATION
-                R.id.by_date -> SortType.RECENTLY_ADDED
+                R.id.by_title -> Sort.Type.TITLE
+                R.id.by_artist -> Sort.Type.ARTIST
+                R.id.by_album -> Sort.Type.ALBUM
+                R.id.by_duration -> Sort.Type.DURATION
+                R.id.by_date -> Sort.Type.RECENTLY_ADDED
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllTracksSort(model)
         context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
-    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: Sort) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) Sort.Arranging.ASCENDING else Sort.Arranging.DESCENDING
+            Sort(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
-                R.id.by_title -> SortType.TITLE
-                R.id.by_artist -> SortType.ARTIST
+                R.id.by_title -> Sort.Type.TITLE
+                R.id.by_artist -> Sort.Type.ARTIST
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllAlbumsSort(model)
         context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
-    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: Sort) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) Sort.Arranging.ASCENDING else Sort.Arranging.DESCENDING
+            Sort(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
-                R.id.by_artist -> SortType.ARTIST
-                R.id.by_album_artist -> SortType.ALBUM_ARTIST
+                R.id.by_artist -> Sort.Type.ARTIST
+                R.id.by_album_artist -> Sort.Type.ALBUM_ARTIST
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllArtistsSort(model)

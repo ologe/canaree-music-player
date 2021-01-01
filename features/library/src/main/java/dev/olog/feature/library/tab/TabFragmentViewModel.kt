@@ -2,8 +2,7 @@ package dev.olog.feature.library.tab
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import dev.olog.domain.entity.sort.SortEntity
-import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.prefs.SortPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.library.prefs.LibraryPreferencesGateway
@@ -27,15 +26,15 @@ internal class TabFragmentViewModel @ViewModelInject constructor(
         .get(category)
         .flowOn(schedulers.cpu)
 
-    fun getAllTracksSortOrder(): SortEntity {
+    fun getAllTracksSortOrder(): Sort {
         return appPreferencesUseCase.getAllTracksSort()
     }
 
-    fun getAllAlbumsSortOrder(): SortEntity {
+    fun getAllAlbumsSortOrder(): Sort {
         return appPreferencesUseCase.getAllAlbumsSort()
     }
 
-    fun getAllArtistsSortOrder(): SortEntity {
+    fun getAllArtistsSortOrder(): Sort {
         return appPreferencesUseCase.getAllArtistsSort()
     }
 
@@ -78,12 +77,12 @@ internal class TabFragmentViewModel @ViewModelInject constructor(
             .toList()
     }
 
-    private fun getSortTypeByCategory(category: TabFragmentCategory): SortType {
+    private fun getSortTypeByCategory(category: TabFragmentCategory): Sort.Type {
         return when (category) {
             TabFragmentCategory.SONGS -> getAllTracksSortOrder().type
             TabFragmentCategory.ALBUMS -> getAllAlbumsSortOrder().type
             TabFragmentCategory.ARTISTS -> getAllArtistsSortOrder().type
-            else -> SortType.TITLE
+            else -> Sort.Type.TITLE
         }
     }
 

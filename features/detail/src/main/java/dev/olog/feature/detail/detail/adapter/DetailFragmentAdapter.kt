@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.entity.AutoPlaylist
-import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.Sort
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.MediaProvider
@@ -159,7 +159,7 @@ internal class DetailFragmentAdapter(
     }
 
     private fun LayoutContainerViewHolder.bindSorting(
-        sort: SortEntity,
+        sort: Sort,
     ) = bindView {
         sortImage.update(sort)
     }

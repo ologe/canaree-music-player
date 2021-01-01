@@ -3,15 +3,15 @@ package dev.olog.feature.detail.detail
 import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
-import dev.olog.domain.entity.sort.SortType
 import dev.olog.feature.detail.R
 import me.saket.cascade.CascadePopupMenu
 
 class DetailSortDialog {
 
-    fun show(view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
+    fun show(view: View, mediaId: MediaId, sortType: Sort.Type, updateUseCase: (Sort.Type) -> Unit) {
         val context = view.context
         val popup = CascadePopupMenu(context, view)
         popup.inflate(getLayout(mediaId))
@@ -20,14 +20,14 @@ class DetailSortDialog {
 
         popup.setOnMenuItemClickListener { menu ->
             val newSortType = when (menu.itemId){
-                R.id.by_title -> SortType.TITLE
-                R.id.by_artist -> SortType.ARTIST
-                R.id.by_album -> SortType.ALBUM
-                R.id.by_album_artist -> SortType.ALBUM_ARTIST
-                R.id.by_duration -> SortType.DURATION
-                R.id.by_recently_added -> SortType.RECENTLY_ADDED
-                R.id.by_custom -> SortType.CUSTOM
-                R.id.by_track_number -> SortType.TRACK_NUMBER
+                R.id.by_title -> Sort.Type.TITLE
+                R.id.by_artist -> Sort.Type.ARTIST
+                R.id.by_album -> Sort.Type.ALBUM
+                R.id.by_album_artist -> Sort.Type.ALBUM_ARTIST
+                R.id.by_duration -> Sort.Type.DURATION
+                R.id.by_recently_added -> Sort.Type.RECENTLY_ADDED
+                R.id.by_custom -> Sort.Type.CUSTOM
+                R.id.by_track_number -> Sort.Type.TRACK_NUMBER
                 else -> throw IllegalArgumentException("sort type not exist")
             }
 
@@ -53,16 +53,16 @@ class DetailSortDialog {
         }
     }
 
-    private fun setChecked(menu: Menu, sortType: SortType){
+    private fun setChecked(menu: Menu, sortType: Sort.Type){
         val item = when (sortType){
-            SortType.TITLE -> R.id.by_title
-            SortType.ALBUM -> R.id.by_album
-            SortType.ARTIST -> R.id.by_artist
-            SortType.ALBUM_ARTIST -> R.id.by_album_artist
-            SortType.DURATION -> R.id.by_duration
-            SortType.RECENTLY_ADDED ->R.id.by_recently_added
-            SortType.CUSTOM -> R.id.by_custom
-            SortType.TRACK_NUMBER ->R.id.by_track_number
+            Sort.Type.TITLE -> R.id.by_title
+            Sort.Type.ALBUM -> R.id.by_album
+            Sort.Type.ARTIST -> R.id.by_artist
+            Sort.Type.ALBUM_ARTIST -> R.id.by_album_artist
+            Sort.Type.DURATION -> R.id.by_duration
+            Sort.Type.RECENTLY_ADDED ->R.id.by_recently_added
+            Sort.Type.CUSTOM -> R.id.by_custom
+            Sort.Type.TRACK_NUMBER ->R.id.by_track_number
         }
         menu.findItem(item).isChecked = true
     }

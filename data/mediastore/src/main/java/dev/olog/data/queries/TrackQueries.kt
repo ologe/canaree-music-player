@@ -4,8 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
-import dev.olog.domain.entity.sort.SortArranging
-import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.gateway.base.Id
 import dev.olog.domain.prefs.BlacklistPreferences
 import dev.olog.domain.prefs.SortPreferencesGateway
@@ -101,26 +100,26 @@ internal class TrackQueries(
 
         val sortEntity = sortPrefs.getAllTracksSort()
         var sort = when (sortEntity.type) {
-            SortType.TITLE -> "lower($TITLE)"
-            SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM -> "lower($ALBUM)"
-            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
-            SortType.DURATION -> DURATION
-            SortType.RECENTLY_ADDED -> DATE_ADDED
+            Sort.Type.TITLE -> "lower($TITLE)"
+            Sort.Type.ARTIST -> "lower($ARTIST)"
+            Sort.Type.ALBUM -> "lower($ALBUM)"
+            Sort.Type.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
+            Sort.Type.DURATION -> DURATION
+            Sort.Type.RECENTLY_ADDED -> DATE_ADDED
             else -> "lower($TITLE)"
         }
 
         sort += " COLLATE UNICODE "
 
-        if (sortEntity.type == SortType.RECENTLY_ADDED) {
+        if (sortEntity.type == Sort.Type.RECENTLY_ADDED) {
             // recently added order works in reverse
-            if (sortEntity.arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == Sort.Arranging.ASCENDING) {
                 sort += " DESC"
             } else {
                 sort += " ASC"
             }
         } else {
-            if (sortEntity.arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == Sort.Arranging.ASCENDING) {
                 sort += " ASC"
             } else {
                 sort += " DESC"

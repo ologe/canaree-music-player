@@ -4,9 +4,8 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaIdCategory
-import dev.olog.domain.entity.sort.SortArranging
-import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.gateway.base.Id
 import dev.olog.domain.prefs.BlacklistPreferences
 import dev.olog.domain.prefs.SortPreferencesGateway
@@ -91,12 +90,12 @@ internal class ArtistQueries(
 
         val sortEntity = sortPrefs.getAllArtistsSort()
         var sort = when (sortEntity.type) {
-            SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
+            Sort.Type.ARTIST -> "lower($ARTIST)"
+            Sort.Type.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
             else -> "lower($ARTIST)"
         }
         sort += " COLLATE UNICODE "
-        if (sortEntity.arranging == SortArranging.DESCENDING) {
+        if (sortEntity.arranging == Sort.Arranging.DESCENDING) {
             sort += " DESC"
         }
         return sort

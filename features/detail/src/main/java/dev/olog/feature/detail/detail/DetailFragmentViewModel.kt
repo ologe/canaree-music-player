@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
-import dev.olog.domain.entity.sort.SortEntity
-import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.domain.interactor.sort.GetDetailSortUseCase
 import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
@@ -130,23 +129,23 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
     fun observeSongs(): Flow<List<DetailFragmentModel>> = songPublisher.filterNotNull()
     fun observeBiography(): Flow<String> = biographyPublisher.filterNotNull()
 
-    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
+    fun detailSortDataUseCase(mediaId: MediaId, action: (Sort) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)
         action(sortOrder)
     }
 
-    fun observeSortOrder(action: (SortType) -> Unit) {
+    fun observeSortOrder(action: (Sort.Type) -> Unit) {
         val sortEntity = getSortOrderUseCase(parentMediaId)
         action(sortEntity.type)
     }
 
-    fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateSortOrder(sortType: Sort.Type) = viewModelScope.launch(Dispatchers.IO) {
         setSortOrderUseCase(SetSortOrderUseCase.Request(parentMediaId, sortType))
     }
 
     fun toggleSortArranging() {
         if (parentMediaId.category == MediaIdCategory.PLAYLISTS &&
-            getSortOrderUseCase(parentMediaId).type == SortType.CUSTOM){
+            getSortOrderUseCase(parentMediaId).type == Sort.Type.CUSTOM){
             return
         }
         toggleSortArrangingUseCase(parentMediaId.category)
@@ -167,7 +166,7 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
         presenter.removeFromPlaylist(item)
     }
 
-    fun observeSorting(): Flow<SortEntity> {
+    fun observeSorting(): Flow<Sort> {
         return observeSortOrderUseCase(parentMediaId)
     }
 

@@ -1,8 +1,8 @@
 package dev.olog.feature.library.tab.model
 
 import androidx.annotation.LayoutRes
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaId
-import dev.olog.domain.entity.sort.SortType
 import dev.olog.feature.library.R
 import dev.olog.shared.android.DisplayableItemUtils
 import kotlin.time.Duration
@@ -13,9 +13,9 @@ sealed class TabFragmentModel(
 
     interface Scrollable {
 
-        fun sortBy(type: SortType): String?
+        fun sortBy(type: Sort.Type): String
 
-        fun letter(type: SortType): String = sortBy(type)?.firstOrNull()?.toUpperCase()?.toString() ?: ""
+        fun letter(type: Sort.Type): String = sortBy(type).firstOrNull()?.toUpperCase()?.toString() ?: ""
 
     }
 
@@ -26,11 +26,11 @@ sealed class TabFragmentModel(
         val subtitle: String?,
     ) : TabFragmentModel(layoutId), Scrollable {
 
-        override fun sortBy(type: SortType): String? {
+        override fun sortBy(type: Sort.Type): String {
             if (mediaId.isAlbum) {
                 return when (type) {
-                    SortType.TITLE -> title
-                    else -> subtitle // artist
+                    Sort.Type.TITLE -> title
+                    else -> subtitle.orEmpty() // artist
                 }
             }
             return title
@@ -47,10 +47,10 @@ sealed class TabFragmentModel(
         val subtitle: String
             get() = DisplayableItemUtils.trackSubtitle(artist, album)
 
-        override fun sortBy(type: SortType): String? = when (type) {
-            SortType.TITLE -> title
-            SortType.ALBUM -> album
-            SortType.ARTIST -> artist
+        override fun sortBy(type: Sort.Type): String = when (type) {
+            Sort.Type.TITLE -> title
+            Sort.Type.ALBUM -> album
+            Sort.Type.ARTIST -> artist
             else -> title
         }
 
@@ -67,10 +67,10 @@ sealed class TabFragmentModel(
         val subtitle: String
             get() = DisplayableItemUtils.trackSubtitle(artist, album)
 
-        override fun sortBy(type: SortType): String? = when (type) {
-            SortType.TITLE -> title
-            SortType.ALBUM -> album
-            SortType.ARTIST -> artist
+        override fun sortBy(type: Sort.Type): String = when (type) {
+            Sort.Type.TITLE -> title
+            Sort.Type.ALBUM -> album
+            Sort.Type.ARTIST -> artist
             else -> title
         }
 

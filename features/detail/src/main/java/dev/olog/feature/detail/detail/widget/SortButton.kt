@@ -3,9 +3,7 @@ package dev.olog.feature.detail.detail.widget
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.olog.domain.entity.sort.SortArranging
-import dev.olog.domain.entity.sort.SortEntity
-import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.Sort
 import dev.olog.feature.detail.R
 
 internal class SortButton(
@@ -13,11 +11,11 @@ internal class SortButton(
     attrs: AttributeSet
 ) : AppCompatImageButton(context, attrs) {
 
-    fun update(sortEntity: SortEntity) {
-        if (sortEntity.type == SortType.CUSTOM) {
+    fun update(sortEntity: Sort) {
+        if (sortEntity.type == Sort.Type.CUSTOM) {
             setImageResource(R.drawable.vd_remove)
         } else {
-            if (sortEntity.arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == Sort.Arranging.ASCENDING) {
                 setImageResource(R.drawable.vd_arrow_down)
             } else {
                 setImageResource(R.drawable.vd_arrow_up)

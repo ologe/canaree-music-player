@@ -1,17 +1,13 @@
 package dev.olog.feature.detail.detail.mapper
 
 import android.content.res.Resources
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.Sort
+import dev.olog.domain.entity.track.*
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdModifier
-import dev.olog.domain.entity.AutoPlaylist
-import dev.olog.domain.entity.sort.SortType
-import dev.olog.domain.entity.track.*
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.*
-import dev.olog.feature.detail.detail.model.DetailFragmentAlbumModel
-import dev.olog.feature.detail.detail.model.DetailFragmentModel
-import dev.olog.feature.detail.detail.model.DetailFragmentMostPlayedModel
-import dev.olog.feature.detail.detail.model.DetailFragmentRecentlyAddedModel
 import dev.olog.shared.android.DisplayableItemUtils
 
 internal fun Artist.toRelatedArtist(resources: Resources): DetailFragmentRelatedArtistModel {
@@ -24,7 +20,7 @@ internal fun Artist.toRelatedArtist(resources: Resources): DetailFragmentRelated
 
 internal fun Track.toDetailDisplayableItem(
     parentId: MediaId,
-    sortType: SortType
+    sortType: Sort.Type
 ): DetailFragmentModel {
     val layoutRes = computeLayoutType(parentId, sortType)
 
@@ -47,16 +43,16 @@ internal fun Track.toDetailDisplayableItem(
     )
 }
 
-private fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+private fun computeLayoutType(parentId: MediaId, sortType: Sort.Type): Int {
     return when {
         parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
-        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
+        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == Sort.Type.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
             if (AutoPlaylist.isAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
-        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
+        parentId.isFolder && sortType == Sort.Type.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
         else -> R.layout.item_detail_song
     }
 }

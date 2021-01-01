@@ -10,7 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdModifier
-import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.Sort
 import dev.olog.feature.base.base.BaseActivity
 import dev.olog.lib.media.MusicServiceAction
 import dev.olog.lib.media.MusicServiceCustomAction
@@ -119,7 +119,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         return mediaController()?.transportControls
     }
 
-    override fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?) {
+    override fun playFromMediaId(mediaId: MediaId, filter: String?, sort: Sort?) {
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_FILTER to filter,
             MusicServiceAction.ARGUMENT_SORT_TYPE to sort?.type?.name,

@@ -1,8 +1,8 @@
 package dev.olog.domain.interactor.sort
 
+import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
-import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortPreferencesGateway
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class SetSortOrderUseCase @Inject constructor(
 
     class Request(
         val mediaId: MediaId,
-        val sortType: SortType
+        val sortType: Sort.Type
     )
 
     operator fun invoke(param: Request) {

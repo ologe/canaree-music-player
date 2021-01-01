@@ -2,8 +2,7 @@ package dev.olog.domain.prefs
 
 import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.domain.ResettablePreference
-import dev.olog.domain.entity.sort.SortEntity
-import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.Sort
 import kotlinx.coroutines.flow.Flow
 
 interface SortPreferencesGateway: ResettablePreference, SortAll, SortDetail
@@ -11,33 +10,33 @@ interface SortPreferencesGateway: ResettablePreference, SortAll, SortDetail
 // TODO sorting for podcast?
 // TODO create some sealed class to distinguish all from detail categories
 interface SortAll {
-    fun getAllTracksSort(): SortEntity
-    fun getAllAlbumsSort(): SortEntity
-    fun getAllArtistsSort(): SortEntity
+    fun getAllTracksSort(): Sort
+    fun getAllAlbumsSort(): Sort
+    fun getAllArtistsSort(): Sort
 
-    fun setAllTracksSort(sortType: SortEntity)
-    fun setAllAlbumsSort(sortType: SortEntity)
-    fun setAllArtistsSort(sortType: SortEntity)
+    fun setAllTracksSort(sortType: Sort)
+    fun setAllAlbumsSort(sortType: Sort)
+    fun setAllArtistsSort(sortType: Sort)
 }
 
 interface SortDetail {
-    fun observeDetailFolderSort() : Flow<SortEntity>
-    fun observeDetailPlaylistSort() : Flow<SortEntity>
-    fun observeDetailAlbumSort() : Flow<SortEntity>
-    fun observeDetailArtistSort() : Flow<SortEntity>
-    fun observeDetailGenreSort() : Flow<SortEntity>
+    fun observeDetailFolderSort() : Flow<Sort>
+    fun observeDetailPlaylistSort() : Flow<Sort>
+    fun observeDetailAlbumSort() : Flow<Sort>
+    fun observeDetailArtistSort() : Flow<Sort>
+    fun observeDetailGenreSort() : Flow<Sort>
 
-    fun getDetailFolderSort() : SortEntity
-    fun getDetailPlaylistSort() : SortEntity
-    fun getDetailAlbumSort() : SortEntity
-    fun getDetailArtistSort() : SortEntity
-    fun getDetailGenreSort() : SortEntity
+    fun getDetailFolderSort() : Sort
+    fun getDetailPlaylistSort() : Sort
+    fun getDetailAlbumSort() : Sort
+    fun getDetailArtistSort() : Sort
+    fun getDetailGenreSort() : Sort
 
-    fun setDetailFolderSort(sortType: SortType)
-    fun setDetailPlaylistSort(sortType: SortType)
-    fun setDetailAlbumSort(sortType: SortType)
-    fun setDetailArtistSort(sortType: SortType)
-    fun setDetailGenreSort(sortType: SortType)
+    fun setDetailFolderSort(sortType: Sort.Type)
+    fun setDetailPlaylistSort(sortType: Sort.Type)
+    fun setDetailAlbumSort(sortType: Sort.Type)
+    fun setDetailArtistSort(sortType: Sort.Type)
+    fun setDetailGenreSort(sortType: Sort.Type)
 
     fun toggleDetailSortArranging(category: MediaIdCategory)
 }
