@@ -75,7 +75,7 @@ class MediaIdTest {
         fun shuffle() {
             serializeDeserialize(
                 mediaId = MediaId.shuffleId(),
-                expectedString = "SONGS#all##SHUFFLE"
+                expectedString = "SONGS#all#-1#SHUFFLE"
             )
         }
 

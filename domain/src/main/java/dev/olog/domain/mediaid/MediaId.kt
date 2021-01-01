@@ -77,7 +77,7 @@ sealed class MediaId(
             return Track(
                 category = MediaIdCategory.SONGS,
                 categoryValue = "all",
-                id = Long.MIN_VALUE,
+                id = -1,
                 modifier = MediaIdModifier.SHUFFLE,
             )
         }
