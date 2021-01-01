@@ -7,7 +7,7 @@ enum class MediaIdModifier {
 
     companion object {
 
-        fun find(value: String): MediaIdModifier? {
+        fun findOrNull(value: String): MediaIdModifier? {
             return values().find { it.name == value }
         }
 

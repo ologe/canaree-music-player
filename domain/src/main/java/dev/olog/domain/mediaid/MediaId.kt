@@ -75,7 +75,7 @@ data class MediaId(
                 category = MediaIdCategory.valueOf(groups[1]),
                 categoryValue = groups[2],
                 leaf = groups[3].toLongOrNull(),
-                modifier = MediaIdModifier.find(groups[5])
+                modifier = MediaIdModifier.findOrNull(groups[5])
             )
         }
     }
