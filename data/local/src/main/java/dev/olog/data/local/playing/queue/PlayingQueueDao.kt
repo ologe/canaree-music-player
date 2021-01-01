@@ -8,7 +8,7 @@ import dev.olog.domain.entity.PlayingQueueTrack
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
-import dev.olog.domain.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -83,7 +83,7 @@ internal abstract class PlayingQueueDao {
     }
 
     @Transaction
-    open suspend fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
+    open suspend fun insert(list: List<UpdatePlayingQueueUseCase.Request>) {
         deleteAllImpl()
         val result = list.map {
             PlayingQueueEntity(

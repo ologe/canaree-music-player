@@ -7,13 +7,13 @@ class UpdatePlayingQueueUseCase @Inject constructor(
     private val gateway: PlayingQueueGateway
 ) {
 
-    suspend operator fun invoke(param: List<UpdatePlayingQueueUseCaseRequest>) {
+    suspend operator fun invoke(param: List<Request>) {
         gateway.update(param)
     }
 
-}
+    data class Request(
+        val songId: Long,
+        val serviceProgressive: Int
+    )
 
-data class UpdatePlayingQueueUseCaseRequest(
-    val songId: Long,
-    val serviceProgressive: Int
-)
+}

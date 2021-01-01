@@ -1,7 +1,7 @@
 package dev.olog.domain.gateway
 
 import dev.olog.domain.entity.PlayingQueueTrack
-import dev.olog.domain.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import kotlinx.coroutines.flow.Flow
 
 interface PlayingQueueGateway {
@@ -14,6 +14,6 @@ interface PlayingQueueGateway {
 
     suspend fun getAll(): List<PlayingQueueTrack>
 
-    suspend fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
+    suspend fun update(list: List<UpdatePlayingQueueUseCase.Request>)
 
 }

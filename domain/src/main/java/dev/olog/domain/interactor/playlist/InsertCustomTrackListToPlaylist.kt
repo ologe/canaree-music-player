@@ -11,22 +11,20 @@ class InsertCustomTrackListToPlaylist @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(param: InsertCustomTrackListRequest) {
+    suspend operator fun invoke(
+        playlistTitle: String,
+        tracksId: List<Long>,
+        type: PlaylistType
+    ) {
 
-        if (param.type == PlaylistType.PODCAST) {
-            val playlistId = podcastPlaylistGateway.createPlaylist(param.playlistTitle)
+        if (type == PlaylistType.PODCAST) {
+            val playlistId = podcastPlaylistGateway.createPlaylist(playlistTitle)
 
-            podcastPlaylistGateway.addSongsToPlaylist(playlistId, param.tracksId)
+            podcastPlaylistGateway.addSongsToPlaylist(playlistId, tracksId)
         } else {
-            val playlistId = playlistGateway.createPlaylist(param.playlistTitle)
+            val playlistId = playlistGateway.createPlaylist(playlistTitle)
 
-            playlistGateway.addSongsToPlaylist(playlistId, param.tracksId)
+            playlistGateway.addSongsToPlaylist(playlistId, tracksId)
         }
     }
 }
-
-data class InsertCustomTrackListRequest(
-    val playlistTitle: String,
-    val tracksId: List<Long>,
-    val type: PlaylistType
-)

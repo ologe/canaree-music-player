@@ -5,7 +5,7 @@ import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
-class RenameUseCase @Inject constructor(
+class RenamePlaylistUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway
 

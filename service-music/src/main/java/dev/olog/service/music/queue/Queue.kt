@@ -11,7 +11,6 @@ import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
 import dev.olog.domain.interactor.PodcastPositionUseCase
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
-import dev.olog.domain.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.media.model.PlayerRepeatMode
@@ -176,7 +175,7 @@ internal class Queue @Inject constructor(
 
     private suspend fun persistQueue(items: List<MediaEntity>) {
         val request = items.map {
-            UpdatePlayingQueueUseCaseRequest(
+            UpdatePlayingQueueUseCase.Request(
                 songId = it.id,
                 serviceProgressive = it.progressive
             )

@@ -13,7 +13,6 @@ import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
-import dev.olog.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
@@ -101,11 +100,9 @@ internal class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         }
         withContext(Dispatchers.IO){
             insertCustomTrackListToPlaylist(
-                InsertCustomTrackListRequest(
-                    playlistTitle,
-                    selectedIds.toList(),
-                    playlistType
-                )
+                playlistTitle = playlistTitle,
+                tracksId = selectedIds.toList(),
+                type = playlistType
             )
         }
 

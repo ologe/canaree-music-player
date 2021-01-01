@@ -5,7 +5,7 @@ import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
-import dev.olog.domain.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,7 +38,7 @@ internal class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.observeAllAsSongs(songGateway, podcastGateway)
     }
 
-    override suspend fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
+    override suspend fun update(list: List<UpdatePlayingQueueUseCase.Request>) {
         playingQueueDao.insert(list)
     }
 

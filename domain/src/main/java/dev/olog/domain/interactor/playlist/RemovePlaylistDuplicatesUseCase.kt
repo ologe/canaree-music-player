@@ -5,7 +5,7 @@ import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
-class RemoveDuplicatesUseCase @Inject constructor(
+class RemovePlaylistDuplicatesUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway
 
