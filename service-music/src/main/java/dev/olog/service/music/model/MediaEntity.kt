@@ -42,7 +42,7 @@ internal fun Track.toMediaEntity(progressive: Int) : MediaEntity {
         title = this.title,
         artist = this.artist,
         album = this.album,
-        duration = this.duration.milliseconds,
+        duration = this.duration,
     )
 }
 
@@ -54,6 +54,6 @@ internal fun PlayingQueueTrack.toMediaEntity() : MediaEntity {
         title = track.title,
         artist = track.artist,
         album = track.album,
-        duration = track.duration.milliseconds,
+        duration = track.duration,
     )
 }

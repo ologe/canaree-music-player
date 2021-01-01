@@ -23,8 +23,10 @@ import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mapListItem
+import dev.olog.shared.sumBy
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlin.time.Duration
 
 internal class DetailDataProvider @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -95,7 +97,7 @@ internal class DetailDataProvider @Inject constructor(
                                         it.album.contains(filter, true)
                             }.toMutableList()
 
-                        val songListDuration = filteredSongList.sumBy { it.duration.toInt() }
+                        val totalDuration = filteredSongList.sumBy { it.duration }
                         val songListSize = filteredSongList.size
 
                         val result: MutableList<DetailFragmentModel> = filteredSongList.asSequence()
@@ -104,7 +106,7 @@ internal class DetailDataProvider @Inject constructor(
 
                         if (result.isNotEmpty()) {
                             result.addAll(0, headers.songs)
-                            result.add(createDurationFooter(songListSize, songListDuration))
+                            result.add(createDurationFooter(songListSize, totalDuration))
                         } else {
                             result.add(headers.noTracks)
                         }
@@ -204,7 +206,7 @@ internal class DetailDataProvider @Inject constructor(
         else -> throw IllegalArgumentException("invalid category=$parentMediaId")
     }
 
-    private fun createDurationFooter(songCount: Int, duration: Int): DetailFragmentModel {
+    private fun createDurationFooter(songCount: Int, duration: Duration): DetailFragmentModel {
         val songs = DisplayableItemUtils.readableSongCount(resources, songCount)
         val time = TimeUtils.formatMillis(context, duration)
 

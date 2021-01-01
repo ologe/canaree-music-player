@@ -1,6 +1,8 @@
 package dev.olog.shared
 
 import java.util.*
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
 fun <T> List<T>.swapped(i: Int, j: Int): List<T> {
     if (isInBounds(i) && isInBounds(j)){
@@ -44,6 +46,14 @@ fun <T> List<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? {
 
 fun List<Boolean>.allTrue(): Boolean {
     return all { it }
+}
+
+public inline fun <T> Iterable<T>.sumBy(selector: (T) -> Duration): Duration {
+    var sum = 0.milliseconds
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
 }
 
 operator fun<T> List<T>.component6() = get(5)

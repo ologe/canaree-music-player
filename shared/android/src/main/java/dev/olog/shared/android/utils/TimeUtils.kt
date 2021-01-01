@@ -5,24 +5,22 @@ package dev.olog.shared.android.utils
 import android.content.Context
 import dev.olog.shared.android.R
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
+import kotlin.time.Duration
 
 object TimeUtils {
 
-    inline fun formatMillis(context: Context, millis: Int): String {
-        return formatMillis(context, millis.toLong())
-    }
-
-    fun formatMillis(context: Context, millis: Long): String {
-        val hours = TimeUnit.MILLISECONDS.toHours(millis)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
+    fun formatMillis(context: Context, duration: Duration): String {
+        val millis = duration.toLongMilliseconds()
+        val minutes = abs(millis / (1000 * 60) % 60) // 0..59
+        val hours = abs(millis / (1000 * 60 * 60)) // 0..Long.MAX_VALUE
 
         if (hours == 0L) {
             return context.resources.getQuantityString(R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
-        } else {
-            var result = context.resources.getQuantityString(R.plurals.common_plurals_hours, hours.toInt(), hours.toInt()) + " "
-            result += context.resources.getQuantityString(R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
-            return result
         }
+        val h = context.resources.getQuantityString(R.plurals.common_plurals_hours, hours.toInt(), hours.toInt())
+        val m = context.resources.getQuantityString(R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
+        return "$h $m"
     }
 
     fun timeAsMillis(hours: Int, minutes: Int, seconds: Int): Long {

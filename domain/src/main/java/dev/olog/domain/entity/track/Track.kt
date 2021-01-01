@@ -3,6 +3,8 @@ package dev.olog.domain.entity.track
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
 import java.io.File
+import kotlin.time.Duration
+import kotlin.time.milliseconds
 
 sealed class Track(
     open val id: Long,
@@ -12,7 +14,7 @@ sealed class Track(
     open val artist: String,
     open val albumArtist: String,
     open val album: String,
-    open val duration: Long,
+    open val duration: Duration,
     open val dateAdded: Long,
     open val dateModified: Long,
     open val path: String,
@@ -30,7 +32,7 @@ sealed class Track(
         override val artist: String,
         override val albumArtist: String,
         override val album: String,
-        override val duration: Long,
+        override val duration: Duration,
         override val dateAdded: Long,
         override val dateModified: Long,
         override val path: String,
@@ -60,7 +62,7 @@ sealed class Track(
         override val artist: String,
         override val albumArtist: String,
         override val album: String,
-        override val duration: Long,
+        override val duration: Duration,
         override val dateAdded: Long,
         override val dateModified: Long,
         override val path: String,
@@ -165,7 +167,7 @@ val Track.Companion.EMPTY: Track.Song
         artist = "",
         albumArtist = "",
         album = "",
-        duration = 0,
+        duration = 0.milliseconds,
         dateAdded = 0,
         dateModified = 0,
         path = "",
@@ -182,7 +184,7 @@ val Track.PlaylistSong.Companion.EMPTY: Track.PlaylistSong
         artist = "",
         albumArtist = "",
         album = "",
-        duration = 0,
+        duration = 0.milliseconds,
         dateAdded = 0,
         dateModified = 0,
         path = "",

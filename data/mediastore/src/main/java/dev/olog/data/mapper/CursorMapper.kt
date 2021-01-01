@@ -13,6 +13,7 @@ import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getStringOrNull
 import java.io.File
 import java.util.*
+import kotlin.time.milliseconds
 
 fun Cursor.toSong(): Track.Song {
     val id = getLong(BaseColumns._ID)
@@ -43,7 +44,7 @@ fun Cursor.toSong(): Track.Song {
         artist = artist,
         albumArtist = albumArtist,
         album = album,
-        duration = duration,
+        duration = duration.milliseconds,
         dateAdded = dateAdded,
         dateModified = dateModified,
         path = path,
@@ -82,7 +83,7 @@ fun Cursor.toPlaylistSong(playlistId: Long): Track.PlaylistSong {
         artist = artist,
         albumArtist = albumArtist,
         album = album,
-        duration = duration,
+        duration = duration.milliseconds,
         dateAdded = dateAdded,
         dateModified = dateModified,
         path = path,

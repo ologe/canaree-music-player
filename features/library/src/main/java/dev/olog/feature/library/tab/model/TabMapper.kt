@@ -63,7 +63,7 @@ internal fun Track.toTabPresentation(): TabFragmentModel {
             title = title,
             artist = artist,
             album = album,
-            duration = this.duration.milliseconds
+            duration = this.duration
         )
     }
     return TabFragmentModel.Track(
