@@ -48,7 +48,7 @@ internal class DetailFragmentHeaders @Inject constructor(
 
     fun albums(parentMediaId: MediaId): List<DetailFragmentModel> = listOf(
         DetailFragmentModel.AlbumsHeader(
-            title = context.resources.getStringArray(R.array.detail_album_header)[parentMediaId.source]
+            title = context.resources.getStringArray(R.array.detail_album_header)[0/*TODO parentMediaId.source*/]
         ),
         DetailFragmentModel.AlbumsList
     )

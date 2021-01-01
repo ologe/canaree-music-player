@@ -73,7 +73,7 @@ class PlayNextDialog : BaseDialog() {
     }
 
     private fun createMessage() : String {
-        if (mediaId.isAll || mediaId.isLeaf){
+        if (mediaId.isSongs || mediaId.isLeaf){
             return getString(R.string.add_song_x_to_play_next, title)
         }
         return resources.getQuantityString(R.plurals.add_xx_songs_to_play_next, listSize, listSize)

@@ -1,6 +1,7 @@
 package dev.olog.domain.mediaid
 
-data class MediaId(
+@Suppress("DataClassPrivateConstructor")
+data class MediaId private constructor(
     val category: MediaIdCategory,
     val categoryValue: String,
     val leaf: Long?,
@@ -14,14 +15,11 @@ data class MediaId(
         }
     }
 
-    val source : Int
-        get() = category.ordinal
-
     companion object {
-        // ALBUMS/10|
-        // ALBUMS/10|99
-        // ALBUMS/10|99\MOST_PLAYED
-        private val MEDIA_ID_REGEX = "^(\\w+)\\/(\\w+)\\|(\\d*)(\\\\(\\w+))?\$".toRegex()
+        // ALBUMS#10#
+        // ALBUMS#10#99
+        // ALBUMS#10#99#MOST_PLAYED
+        private val MEDIA_ID_REGEX = "^(\\w+)#(.+)#(\\d*)(#(\\w+))?$".toRegex()
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(
@@ -67,8 +65,6 @@ data class MediaId(
             }
         }
 
-        // TODO is broken for folders
-        // e.g. FOLDERS//storage/emulated/0/Music|1
         fun fromString(mediaId: String): MediaId {
             val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
             return MediaId(
@@ -87,14 +83,14 @@ data class MediaId(
     override fun toString(): String {
         return buildString {
             append(category.toString())
-            append("/")
+            append("#")
             append(categoryValue)
-            append("|")
+            append("#")
             if (leaf != null) {
                 append(leaf)
             }
             if (modifier != null) {
-                append("\\")
+                append("#")
                 append(modifier)
             }
         }
@@ -123,7 +119,7 @@ data class MediaId(
         get() = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean
         get() = category == MediaIdCategory.PLAYLISTS
-    val isAll: Boolean
+    val isSongs: Boolean
         get() = category == MediaIdCategory.SONGS
     val isAlbum : Boolean
         get() = category == MediaIdCategory.ALBUMS
@@ -145,12 +141,8 @@ data class MediaId(
         get() = isPodcastAlbum || isAlbum
     val isAnyArtist: Boolean
         get() = isPodcastArtist || isArtist
+    val isAnyPlaylist: Boolean
+        get() = isPlaylist || isPodcastPlaylist
 
-    // TODO delete
-    fun assertPlaylist(){
-        require(isPlaylist || isPodcastPlaylist) {
-            "not a playlist, category=${this.category}"
-        }
-    }
 
 }

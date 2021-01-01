@@ -41,7 +41,7 @@ internal class DetailFragmentPresenter @Inject constructor(
         parentMediaId: MediaId,
         moveList: List<Pair<Int, Int>>
     ){
-        parentMediaId.assertPlaylist()
+        require(parentMediaId.isAnyPlaylist)
         val playlistId = parentMediaId.resolveId
         moveItemInPlaylistUseCase.execute(
             MoveItemInPlaylistUseCase.Input(playlistId, moveList,
