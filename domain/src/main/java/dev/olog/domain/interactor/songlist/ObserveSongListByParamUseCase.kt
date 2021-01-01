@@ -1,17 +1,15 @@
 package dev.olog.domain.interactor.songlist
 
-import dev.olog.domain.mediaid.MediaId
-import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.podcast.PodcastAlbumGateway
 import dev.olog.domain.gateway.podcast.PodcastArtistGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
-import dev.olog.domain.interactor.base.FlowUseCaseWithParam
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-
 
 class ObserveSongListByParamUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
@@ -25,10 +23,9 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 
-) : FlowUseCaseWithParam<List<Track>, MediaId>() {
+) {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCase(mediaId: MediaId): Flow<List<Track>> {
+    operator fun invoke(mediaId: MediaId): Flow<List<Track>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
