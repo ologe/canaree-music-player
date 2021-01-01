@@ -1,6 +1,6 @@
 package dev.olog.service.music.event.queue
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.shared.android.BundleDictionary
 import java.net.URI

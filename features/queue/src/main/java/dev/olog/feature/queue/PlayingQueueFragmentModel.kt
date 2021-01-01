@@ -1,6 +1,6 @@
 package dev.olog.feature.queue
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 
 data class PlayingQueueFragmentModel(
     val mediaId: MediaId,

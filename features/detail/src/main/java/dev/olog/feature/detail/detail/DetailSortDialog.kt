@@ -3,8 +3,8 @@ package dev.olog.feature.detail.detail
 import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
 import dev.olog.feature.detail.R
 import me.saket.cascade.CascadePopupMenu

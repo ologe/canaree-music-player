@@ -1,7 +1,7 @@
 package dev.olog.navigation
 
 import android.view.View
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 
 interface PopupMenuFactory {
 

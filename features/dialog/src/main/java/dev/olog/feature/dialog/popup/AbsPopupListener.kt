@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.parseAsHtml
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Track

@@ -8,7 +8,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.podcast.PodcastGateway

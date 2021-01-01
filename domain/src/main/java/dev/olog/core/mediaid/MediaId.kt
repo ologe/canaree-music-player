@@ -1,33 +1,4 @@
-package dev.olog.core
-
-enum class MediaIdCategory {
-    FOLDERS,
-    PLAYLISTS,
-    SONGS,
-    ALBUMS,
-    ARTISTS,
-    GENRES,
-
-    PODCASTS_PLAYLIST,
-    PODCASTS,
-    PODCASTS_ALBUMS,
-    PODCASTS_ARTISTS,
-}
-
-enum class MediaIdModifier {
-    MOST_PLAYED,
-    RECENTLY_ADDED,
-    SHUFFLE;
-
-    companion object {
-
-        fun find(value: String): MediaIdModifier? {
-            return values().find { it.name == value }
-        }
-
-    }
-
-}
+package dev.olog.core.mediaid
 
 data class MediaId(
     val category: MediaIdCategory,

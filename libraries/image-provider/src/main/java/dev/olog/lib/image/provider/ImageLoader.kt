@@ -5,8 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.lib.image.provider.model.AudioFileCover
 import dev.olog.lib.image.provider.target.RippleTarget
 

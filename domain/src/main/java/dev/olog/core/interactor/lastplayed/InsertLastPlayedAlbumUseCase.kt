@@ -1,6 +1,6 @@
 package dev.olog.core.interactor.lastplayed
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import javax.inject.Inject

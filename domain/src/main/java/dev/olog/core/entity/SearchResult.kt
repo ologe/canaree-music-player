@@ -1,6 +1,6 @@
 package dev.olog.core.entity
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.RecentSearchesType
 
 data class SearchResult(

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.library.R
 import dev.olog.lib.media.MediaProvider

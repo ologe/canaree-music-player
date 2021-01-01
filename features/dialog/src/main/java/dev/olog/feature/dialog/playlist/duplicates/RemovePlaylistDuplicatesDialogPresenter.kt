@@ -1,6 +1,6 @@
 package dev.olog.feature.dialog.playlist.duplicates
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.interactor.playlist.RemoveDuplicatesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

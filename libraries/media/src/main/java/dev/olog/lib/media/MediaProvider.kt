@@ -2,7 +2,7 @@ package dev.olog.lib.media
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.lib.media.model.*
 import kotlinx.coroutines.flow.Flow

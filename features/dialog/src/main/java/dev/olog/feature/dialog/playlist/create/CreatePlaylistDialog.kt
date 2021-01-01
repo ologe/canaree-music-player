@@ -5,7 +5,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.feature.dialog.R
 import dev.olog.feature.dialog.base.BaseEditTextDialog
 import dev.olog.shared.android.extensions.argument

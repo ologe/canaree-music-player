@@ -1,6 +1,6 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.ResettablePreference
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType

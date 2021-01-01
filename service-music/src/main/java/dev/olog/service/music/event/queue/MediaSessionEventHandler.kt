@@ -3,7 +3,7 @@ package dev.olog.service.music.event.queue
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.lib.media.MusicServiceCustomAction

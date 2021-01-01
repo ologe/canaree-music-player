@@ -1,6 +1,6 @@
 package dev.olog.core.interactor.search
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
 import javax.inject.Inject
 

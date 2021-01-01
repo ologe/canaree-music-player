@@ -8,8 +8,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.text.style.StyleSpan
 import androidx.annotation.RequiresApi
 import androidx.core.text.buildSpannedString
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.navigation.destination.NavigationIntents
 import dev.olog.shared.android.TextUtils

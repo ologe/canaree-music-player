@@ -1,8 +1,8 @@
 package dev.olog.feature.detail.detail.mapper
 
 import android.content.res.Resources
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdModifier
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdModifier
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*

@@ -1,5 +1,7 @@
 package dev.olog.core
 
+import dev.olog.core.mediaid.MediaId
+
 interface AppShortcuts {
 
     // stub

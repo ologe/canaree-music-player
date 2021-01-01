@@ -1,6 +1,6 @@
 package dev.olog.feature.edit
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.feature.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.feature.edit.domain.UpdateTrackUseCase

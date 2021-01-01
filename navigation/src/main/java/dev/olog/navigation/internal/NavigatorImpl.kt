@@ -6,7 +6,7 @@ import androidx.annotation.IdRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.navigation.*
 import dev.olog.navigation.destination.FragmentScreen

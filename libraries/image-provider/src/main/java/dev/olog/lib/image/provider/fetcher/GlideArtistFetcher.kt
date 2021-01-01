@@ -3,7 +3,7 @@ package dev.olog.lib.image.provider.fetcher
 import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.gateway.ImageRetrieverGateway
 import java.io.InputStream
 

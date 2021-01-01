@@ -1,6 +1,6 @@
 package dev.olog.feature.detail.detail
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase

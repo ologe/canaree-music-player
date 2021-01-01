@@ -1,8 +1,8 @@
 package dev.olog.service.music.data
 
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdModifier
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdModifier
 import dev.olog.core.entity.PlayingQueueTrack
 import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.PlayingQueueGateway

@@ -1,7 +1,7 @@
 package dev.olog.feature.detail.detail.model
 
 import androidx.annotation.LayoutRes
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.feature.detail.R
 
 internal sealed class DetailFragmentModel(

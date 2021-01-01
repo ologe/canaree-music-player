@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.MediaId
 import dev.olog.feature.about.R
 
 internal class SpecialThanksFragmentViewModel @ViewModelInject constructor(

@@ -6,7 +6,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.lib.image.provider.OnImageLoadingError
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.offline.lyrics.*

@@ -1,7 +1,7 @@
 package dev.olog.feature.player.player
 
 import androidx.annotation.LayoutRes
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.feature.player.R
 import dev.olog.lib.media.model.PlayerItem
 

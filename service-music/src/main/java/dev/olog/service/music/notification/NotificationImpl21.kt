@@ -13,8 +13,8 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import androidx.core.text.buildSpannedString
 import androidx.media.app.NotificationCompat.MediaStyle
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.destination.NavigationIntents

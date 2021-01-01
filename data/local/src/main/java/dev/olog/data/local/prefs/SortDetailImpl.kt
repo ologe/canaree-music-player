@@ -2,7 +2,7 @@ package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType

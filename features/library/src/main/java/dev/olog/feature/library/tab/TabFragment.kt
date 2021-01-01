@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.library.R

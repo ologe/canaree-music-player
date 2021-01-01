@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType

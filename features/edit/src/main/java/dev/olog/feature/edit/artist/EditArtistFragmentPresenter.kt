@@ -1,6 +1,6 @@
 package dev.olog.feature.edit.artist
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.gateway.ImageRetrieverGateway

@@ -1,6 +1,6 @@
 package dev.olog.feature.detail.detail.model
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 
 internal data class DetailFragmentMostPlayedModel(
     val mediaId: MediaId,

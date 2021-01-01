@@ -4,7 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.MediaIdModifier
+import dev.olog.core.mediaid.MediaIdModifier
 import dev.olog.core.entity.track.Track
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway

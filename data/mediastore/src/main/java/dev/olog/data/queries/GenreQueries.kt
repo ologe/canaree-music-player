@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Genres.*
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferencesGateway

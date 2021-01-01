@@ -1,7 +1,7 @@
 package dev.olog.core.interactor.sort
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import dev.olog.core.prefs.SortPreferencesGateway

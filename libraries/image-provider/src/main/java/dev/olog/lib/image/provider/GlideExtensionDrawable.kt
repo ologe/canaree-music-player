@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.shared.safeResume
 import kotlin.coroutines.suspendCoroutine
 

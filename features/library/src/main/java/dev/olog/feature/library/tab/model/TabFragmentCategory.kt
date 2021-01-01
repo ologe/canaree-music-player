@@ -1,6 +1,6 @@
 package dev.olog.feature.library.tab.model
 
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaIdCategory
 
 internal enum class TabFragmentCategory {
     FOLDERS,

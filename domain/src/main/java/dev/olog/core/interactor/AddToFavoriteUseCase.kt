@@ -1,6 +1,6 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase

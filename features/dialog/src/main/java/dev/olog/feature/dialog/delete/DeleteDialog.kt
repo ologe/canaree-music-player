@@ -4,8 +4,8 @@ import android.app.RecoverableSecurityException
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.mediaid.MediaId
+import dev.olog.core.mediaid.MediaIdCategory
 import dev.olog.feature.dialog.R
 import dev.olog.feature.dialog.base.BaseDialog
 import dev.olog.shared.android.extensions.argument

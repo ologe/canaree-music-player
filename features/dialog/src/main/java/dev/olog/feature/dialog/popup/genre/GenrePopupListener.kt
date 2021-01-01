@@ -3,7 +3,7 @@ package dev.olog.feature.dialog.popup.genre
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.AppShortcuts
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Track
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase

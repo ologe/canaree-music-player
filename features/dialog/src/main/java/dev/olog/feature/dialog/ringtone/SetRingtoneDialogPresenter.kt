@@ -10,7 +10,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.feature.dialog.R
 import dev.olog.shared.android.utils.isMarshmallow
 import kotlinx.coroutines.Dispatchers

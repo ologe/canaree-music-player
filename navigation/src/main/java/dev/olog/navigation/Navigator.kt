@@ -2,7 +2,7 @@ package dev.olog.navigation
 
 import android.view.View
 import androidx.annotation.IdRes
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.PlaylistType
 
 interface Navigator :

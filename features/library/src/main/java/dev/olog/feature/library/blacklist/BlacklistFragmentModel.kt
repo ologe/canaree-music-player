@@ -1,7 +1,7 @@
 package dev.olog.feature.library.blacklist
 
 import android.os.Environment
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 
 internal data class BlacklistFragmentModel(
     val mediaId: MediaId,

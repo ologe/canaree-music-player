@@ -1,6 +1,6 @@
 package dev.olog.core.gateway.base
 
-import dev.olog.core.MediaId
+import dev.olog.core.mediaid.MediaId
 import dev.olog.core.entity.track.Track
 import kotlinx.coroutines.flow.Flow
 
