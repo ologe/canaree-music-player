@@ -14,7 +14,7 @@ internal sealed class MediaSessionEvent {
         object LastQueue : Prepare()
 
         data class FromMediaId(
-            val mediaId: MediaId,
+            val mediaId: MediaId.Track,
             val extras: BundleDictionary,
         ) : Prepare()
 
@@ -33,7 +33,7 @@ internal sealed class MediaSessionEvent {
     sealed class Play : MediaSessionEvent() {
 
         data class FromMediaId(
-            val mediaId: MediaId,
+            val mediaId: MediaId.Track,
             val extras: BundleDictionary,
         ) : Play()
 

@@ -28,7 +28,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         )
     }
 
-    override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
+    override suspend fun addSongsToPlaylist(playlistId: Long, vararg songIds: Long) {
         var maxIdInPlaylist = (playlistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PlaylistTrackEntity(

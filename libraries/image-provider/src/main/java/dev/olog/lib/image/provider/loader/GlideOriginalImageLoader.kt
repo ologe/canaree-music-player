@@ -21,7 +21,7 @@ internal class GlideOriginalImageLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf) {
+        if (mediaId is MediaId.Track) {
             return true
         }
         if (mediaId.isAlbum || mediaId.isPodcastAlbum) {

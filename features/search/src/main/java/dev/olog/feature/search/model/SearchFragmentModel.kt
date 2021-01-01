@@ -9,14 +9,14 @@ sealed class SearchFragmentModel(
 ) {
 
     data class Track(
-        val mediaId: MediaId,
+        val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String?
     ) : SearchFragmentModel(R.layout.item_search_song)
 
     data class Album(
         @LayoutRes private val layoutRes: Int,
-        val mediaId: MediaId,
+        val mediaId: MediaId.Category,
         val title: String,
         val subtitle: String?,
     ) : SearchFragmentModel(layoutRes)
@@ -29,14 +29,14 @@ sealed class SearchFragmentModel(
     // recent
 
     data class RecentTrack(
-        val mediaId: MediaId,
+        val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String?
     ) : SearchFragmentModel(R.layout.item_search_recent)
 
     data class RecentAlbum(
         @LayoutRes private val layoutRes: Int,
-        val mediaId: MediaId,
+        val mediaId: MediaId.Category,
         val title: String,
         val subtitle: String
     ) : SearchFragmentModel(layoutRes)

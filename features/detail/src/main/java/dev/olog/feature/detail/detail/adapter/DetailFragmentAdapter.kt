@@ -322,8 +322,8 @@ internal class DetailFragmentAdapter(
 
     val canSwipeRight: Boolean
         get() {
-            if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
-                val playlistId = mediaId.resolveId
+            if (mediaId.isAnyPlaylist) {
+                val playlistId = mediaId.categoryValue.toLong()
                 return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
             }
             return false

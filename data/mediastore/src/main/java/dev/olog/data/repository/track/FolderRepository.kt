@@ -113,10 +113,10 @@ internal class FolderRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
         mostPlayedDao.insertOne(
             FolderMostPlayedEntity(
-                songId = mediaId.leaf!!,
+                songId = mediaId.id,
                 folderPath = mediaId.categoryValue
             )
         )

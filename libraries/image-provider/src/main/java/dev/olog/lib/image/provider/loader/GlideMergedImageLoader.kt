@@ -26,7 +26,7 @@ class GlideMergedImageLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf) {
+        if (mediaId is MediaId.Track) {
             return false
         }
         return mediaId.isFolder || mediaId.isPlaylist || mediaId.isGenre || mediaId.isPodcastPlaylist

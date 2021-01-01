@@ -6,5 +6,8 @@ object Params {
     const val IS_PODCAST = "podcast"
     const val CATEGORY = "category"
     const val TYPE = "type"
+    const val TITLE = "title"
+    const val ARTIST = "artist"
+    const val SIZE = "size"
 
 }

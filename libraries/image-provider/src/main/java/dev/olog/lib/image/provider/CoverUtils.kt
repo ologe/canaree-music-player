@@ -92,7 +92,7 @@ object CoverUtils {
 
     @DrawableRes
     private fun getDrawable(mediaId: MediaId): Int {
-        if (mediaId.isLeaf) {
+        if (mediaId is MediaId.Track) {
             if (mediaId.isAnyPodcast) {
                 return R.drawable.placeholder_podcast
             }
@@ -113,3 +113,14 @@ object CoverUtils {
     }
 
 }
+
+private val MediaId.resolveId: Long
+    get() {
+        if (this is MediaId.Track) {
+            return id
+        }
+        if (this.isFolder) {
+            return categoryValue.hashCode().toLong()
+        }
+        return categoryValue.toLong()
+    }

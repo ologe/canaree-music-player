@@ -14,7 +14,6 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway
-
 ) {
 
     operator fun invoke(mediaId: MediaId): Flow<List<Track>> {

@@ -12,7 +12,7 @@ class ObserveDetailSortUseCase @Inject constructor(
 
 )  {
 
-    operator fun invoke(mediaId: MediaId): Flow<Sort> {
+    operator fun invoke(mediaId: MediaId.Category): Flow<Sort> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> gateway.observeDetailFolderSort()
             MediaIdCategory.PLAYLISTS,
@@ -22,7 +22,9 @@ class ObserveDetailSortUseCase @Inject constructor(
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> gateway.observeDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.observeDetailGenreSort()
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
+
+            MediaIdCategory.SONGS,
+            MediaIdCategory.PODCASTS -> error("invalid mediaid=$mediaId")
         }
     }
 

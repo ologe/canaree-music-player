@@ -1,18 +1,44 @@
 package dev.olog.domain.mediaid
 
-@Suppress("DataClassPrivateConstructor")
-data class MediaId private constructor(
-    val category: MediaIdCategory,
-    val categoryValue: String,
-    val leaf: Long?,
-    val modifier: MediaIdModifier?
+sealed class MediaId(
+    open val category: MediaIdCategory,
+    open val categoryValue: String,
+    open val modifier: MediaIdModifier?
 ) {
 
-    init {
-        // TODO check all instance creation
-        require(categoryValue.isNotBlank()) {
-            "categoryValue is blank=${toString()}"
+    data class Category(
+        override val category: MediaIdCategory,
+        override val categoryValue: String,
+        override val modifier: MediaIdModifier?,
+    ) : MediaId(category, categoryValue, modifier) {
+
+        init {
+            // TODO check all instance creation
+            require(categoryValue.isNotBlank()) {
+                "categoryValue is blank=${toString()}"
+            }
         }
+
+        override fun toString(): String = super.toString()
+
+    }
+
+    data class Track(
+        override val category: MediaIdCategory,
+        override val categoryValue: String,
+        override val modifier: MediaIdModifier?,
+        val id: Long,
+    ) : MediaId(category, categoryValue, modifier) {
+
+        init {
+            // TODO check all instance creation
+            require(categoryValue.isNotBlank()) {
+                "categoryValue is blank=${toString()}"
+            }
+        }
+
+        override fun toString(): String = super.toString()
+
     }
 
     companion object {
@@ -21,38 +47,37 @@ data class MediaId private constructor(
         // ALBUMS#10#99#MOST_PLAYED
         private val MEDIA_ID_REGEX = "^(\\w+)#(.+)#(\\d*)(#(\\w+))?$".toRegex()
 
-        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
-            return MediaId(
+        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): Category {
+            return Category(
                 category = category,
                 categoryValue = categoryValue,
-                leaf = null,
                 modifier = null,
             )
         }
 
-        fun songId(id: Long): MediaId {
-            return MediaId(
+        fun songId(id: Long): Track {
+            return Track(
                 category = MediaIdCategory.SONGS,
                 categoryValue = "all",
-                leaf = id,
+                id = id,
                 modifier = null
             )
         }
 
-        fun playableItem(parentId: MediaId, songId: Long): MediaId {
-            return MediaId(
+        fun playableItem(parentId: MediaId, songId: Long): Track {
+            return Track(
                 category = parentId.category,
                 categoryValue = parentId.categoryValue,
-                leaf = songId,
+                id = songId,
                 modifier = null
             )
         }
 
-        fun shuffleId(): MediaId {
-            return MediaId(
+        fun shuffleId(): Track {
+            return Track(
                 category = MediaIdCategory.SONGS,
                 categoryValue = "all",
-                leaf = null,
+                id = Long.MIN_VALUE,
                 modifier = MediaIdModifier.SHUFFLE,
             )
         }
@@ -67,17 +92,27 @@ data class MediaId private constructor(
 
         fun fromString(mediaId: String): MediaId {
             val groups = MEDIA_ID_REGEX.find(mediaId)!!.groupValues
-            return MediaId(
+            val trackId = groups.getOrNull(3)?.toLongOrNull()
+            if (trackId != null) {
+                return Track(
+                    category = MediaIdCategory.valueOf(groups[1]),
+                    categoryValue = groups[2],
+                    id = trackId,
+                    modifier = MediaIdModifier.findOrNull(groups[5])
+                )
+            }
+            return Category(
                 category = MediaIdCategory.valueOf(groups[1]),
                 categoryValue = groups[2],
-                leaf = groups[3].toLongOrNull(),
                 modifier = MediaIdModifier.findOrNull(groups[5])
             )
         }
     }
 
-    val isLeaf: Boolean
-        get() = leaf != null
+    fun withModifier(modifier: MediaIdModifier) = when (this) {
+        is Category -> this.copy(modifier = modifier)
+        is Track -> this.copy(modifier = modifier)
+    }
 
     // TODO test
     override fun toString(): String {
@@ -86,8 +121,8 @@ data class MediaId private constructor(
             append("#")
             append(categoryValue)
             append("#")
-            if (leaf != null) {
-                append(leaf)
+            if (this@MediaId is Track) {
+                append(id)
             }
             if (modifier != null) {
                 append("#")
@@ -95,25 +130,6 @@ data class MediaId private constructor(
             }
         }
     }
-
-    // TODO delete
-    val resolveId: Long
-        get() {
-            return when {
-                isLeaf -> leaf!!.toLong()
-                isFolder -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
-            }
-        }
-
-    // TODO delete
-    val categoryId: Long
-        get() {
-            return when {
-                isFolder -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
-            }
-        }
 
     val isFolder : Boolean
         get() = category == MediaIdCategory.FOLDERS

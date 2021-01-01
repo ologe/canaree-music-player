@@ -33,8 +33,8 @@ class GlideMergedImageFetcher(
             try {
                 val inputStream = when {
                     mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
-                    mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
-                    else -> makePlaylistImage(mediaId.categoryId)
+                    mediaId.isGenre -> makeGenreImage(mediaId.categoryValue.toLong())
+                    else -> makePlaylistImage(mediaId.categoryValue.toLong())
                 }
                 callback.onDataReady(inputStream)
             } catch (ex: Throwable){

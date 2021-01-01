@@ -163,6 +163,7 @@ internal class MediaSessionEventHandler @Inject constructor(
         repeatMode.toggle()
     }
 
+    @Suppress("IMPLICIT_CAST_TO_ANY")
     private suspend fun handleCustomAction(
         action: MusicServiceCustomAction,
         extras: BundleDictionary?,
@@ -212,7 +213,7 @@ internal class MediaSessionEventHandler @Inject constructor(
                 queue.addToPlayNext(ids.orEmpty(), isPodcast)
             }
             MusicServiceCustomAction.TOGGLE_FAVORITE -> error("invalid action=$action")
-        }
+        }.exhaustive
     }
 
 

@@ -26,7 +26,7 @@ internal class EditAlbumFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditAlbumFragmentPresenter
 ) : ViewModel() {
 
-    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
+    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString) as MediaId.Category
     private val publisher = MutableStateFlow<EditAlbumFragmentModel?>(null)
 
     init {

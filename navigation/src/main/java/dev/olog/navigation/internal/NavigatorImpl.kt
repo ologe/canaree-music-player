@@ -62,7 +62,7 @@ internal class NavigatorImpl @Inject constructor(
 
     override fun toEditInfo(mediaId: MediaId) {
         val screen = when  {
-            mediaId.isLeaf -> FragmentScreen.EDIT_TRACK
+            mediaId is MediaId.Track -> FragmentScreen.EDIT_TRACK
             mediaId.isAnyAlbum -> FragmentScreen.EDIT_ALBUM
             mediaId.isAnyArtist -> FragmentScreen.EDIT_ARTIST
             else -> error("invalid mediaId?$mediaId")

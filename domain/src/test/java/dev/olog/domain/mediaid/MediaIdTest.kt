@@ -1,6 +1,5 @@
 package dev.olog.domain.mediaid
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Nested
@@ -153,20 +152,6 @@ class MediaIdTest {
                 mediaId.isAnyPodcast
             )
         }
-    }
-
-    @Test
-    fun `test isLeaf`() {
-        val category = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "value")
-
-        assertEquals(false, category.isLeaf)
-        assertEquals(
-            true,
-            MediaId.playableItem(category, 1).isLeaf
-        )
-
-        // assert shuffle all is not a leaf
-        assertEquals(false, MediaId.shuffleId().isLeaf)
     }
 
 }

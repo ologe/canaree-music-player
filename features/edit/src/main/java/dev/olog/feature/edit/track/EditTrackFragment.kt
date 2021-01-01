@@ -7,9 +7,6 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.edit.*
-import dev.olog.feature.edit.BaseEditItemFragment
-import dev.olog.feature.edit.EditItemViewModel
-import dev.olog.feature.edit.UpdateResult
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
@@ -19,20 +16,12 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 internal class EditTrackFragment : BaseEditItemFragment() {
 
-    companion object {
-        const val TAG = "EditTrackFragment"
-
-        fun newInstance(mediaId: MediaId): EditTrackFragment {
-            return EditTrackFragment().withArguments(
-                Params.MEDIA_ID to mediaId.toString()
-            )
-        }
-    }
-
     private val viewModel by viewModels<EditTrackFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
-    private val mediaId by argument(Params.MEDIA_ID, MediaId::fromString)
+    private val mediaId by argument<String, MediaId.Track>(Params.MEDIA_ID) {
+        MediaId.fromString(it) as MediaId.Track
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         title.afterTextChange()

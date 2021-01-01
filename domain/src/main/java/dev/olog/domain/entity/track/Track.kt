@@ -110,7 +110,7 @@ sealed class Track(
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
 
-    fun getMediaId(): MediaId {
+    fun getMediaId(): MediaId.Track {
         if (this is PlaylistSong) {
             val category = if (isPodcast) MediaIdCategory.PODCASTS_PLAYLIST else MediaIdCategory.PLAYLISTS
             val mediaId = MediaId.createCategoryValue(category, playlistId.toString())
@@ -121,12 +121,12 @@ sealed class Track(
         return MediaId.playableItem(mediaId, id)
     }
 
-    fun getAlbumMediaId(): MediaId {
+    fun getAlbumMediaId(): MediaId.Category {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
         return MediaId.createCategoryValue(category, this.albumId.toString())
     }
 
-    fun getArtistMediaId(): MediaId {
+    fun getArtistMediaId(): MediaId.Category {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
         return MediaId.createCategoryValue(category, this.artistId.toString())
     }

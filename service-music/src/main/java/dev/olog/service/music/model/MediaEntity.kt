@@ -18,7 +18,7 @@ internal data class MediaEntity(
 
     val isPodcast: Boolean
         get() = mediaId.isAnyPodcast
-    val mediaId: MediaId
+    val mediaId: MediaId.Track
         get() = MediaId.songId(this.id)
 
     companion object {

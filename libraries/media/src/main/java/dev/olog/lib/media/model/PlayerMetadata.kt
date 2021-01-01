@@ -13,12 +13,12 @@ class PlayerMetadata(
 ) {
 
     val id: Long
-        get() = mediaId.leaf!!
+        get() = mediaId.id
 
-    val mediaId: MediaId
+    val mediaId: MediaId.Track
         get() {
             val mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-            return MediaId.fromString(mediaId)
+            return MediaId.fromString(mediaId) as MediaId.Track
         }
 
     val title: String

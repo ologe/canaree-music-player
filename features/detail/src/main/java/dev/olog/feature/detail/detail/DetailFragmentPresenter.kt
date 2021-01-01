@@ -21,19 +21,21 @@ internal class DetailFragmentPresenter @Inject constructor(
         item: DetailFragmentModel.PlaylistTrack
     ) {
 
-        val playlistId = item.mediaId.categoryId
+        val playlistId = item.mediaId.categoryValue.toLong()
         val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
             removeFromPlaylistUseCase(
-                RemoveFromPlaylistUseCase.Input(
-                    playlistId, item.mediaId.leaf!!, playlistType
-            ))
+                playlistId = playlistId,
+                type = playlistType,
+                idInPlaylist = item.mediaId.id
+            )
         } else {
             removeFromPlaylistUseCase(
-                RemoveFromPlaylistUseCase.Input(
-                playlistId, item.idInPlaylist, playlistType
-            ))
+                playlistId = playlistId,
+                type = playlistType,
+                idInPlaylist = item.idInPlaylist
+            )
         }
     }
 
@@ -42,11 +44,13 @@ internal class DetailFragmentPresenter @Inject constructor(
         moveList: List<Pair<Int, Int>>
     ){
         require(parentMediaId.isAnyPlaylist)
-        val playlistId = parentMediaId.resolveId
+        val playlistId = parentMediaId.categoryValue.toLong()
+        val type = if (parentMediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         moveItemInPlaylistUseCase.execute(
-            MoveItemInPlaylistUseCase.Input(playlistId, moveList,
-                if (parentMediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
-        ))
+            playlistId = playlistId,
+            type = type,
+            moveList = moveList,
+        )
     }
 
     fun showSortByTutorialIfNeverShown(): Boolean {

@@ -16,15 +16,14 @@ class ObserveRelatedArtistsUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway
-
 ) {
 
     operator fun invoke(mediaId: MediaId): Flow<List<Artist>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeRelatedArtists(mediaId.categoryValue)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.observeRelatedArtists(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeRelatedArtists(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryValue.toLong())
+            MediaIdCategory.GENRES -> genreGateway.observeRelatedArtists(mediaId.categoryValue.toLong())
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeRelatedArtists(mediaId.categoryValue.toLong())
             else -> flowOf(listOf())
         }
     }

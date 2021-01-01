@@ -19,8 +19,8 @@ class SleepTimerUseCase @Inject constructor(
     }
 
     fun getLast(): SleepData = SleepData(
-        gateway.getSleepFrom(),
-        gateway.getSleepTime()
+        fromWhen = gateway.getSleepFrom(),
+        sleepTime = gateway.getSleepTime()
     )
 
     fun set(sleepFrom: Long, sleepTime: Long, nextSleep: Long) {

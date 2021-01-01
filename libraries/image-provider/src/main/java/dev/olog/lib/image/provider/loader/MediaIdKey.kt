@@ -5,39 +5,15 @@ import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
 import java.security.MessageDigest
 
-internal class MediaIdKey(
+internal data class MediaIdKey(
     private val mediaId: MediaId
 ) : Key {
 
     override fun toString(): String {
-        if (mediaId.isLeaf) {
-            return "${MediaIdCategory.SONGS}-${mediaId.leaf}"
+        if (mediaId is MediaId.Track) {
+            return "${MediaIdCategory.SONGS}-${mediaId.id}"
         }
         return "${mediaId.category.name}-${mediaId.categoryValue}"
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MediaIdKey
-
-        if (this.mediaId.isLeaf && other.mediaId.isLeaf) {
-            // is track
-            return this.mediaId.leaf == other.mediaId.leaf
-        }
-        return this.mediaId.category == other.mediaId.category &&
-                this.mediaId.categoryValue == other.mediaId.categoryValue
-    }
-
-    override fun hashCode(): Int {
-        var result = 17
-        result = 31 * result + mediaId.category.name.hashCode()
-        result = 31 * result + mediaId.categoryValue.hashCode()
-        if (mediaId.isLeaf) {
-            result = 31 * result + mediaId.leaf!!.hashCode()
-        }
-        return result
     }
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {

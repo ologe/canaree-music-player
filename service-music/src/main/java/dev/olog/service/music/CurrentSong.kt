@@ -3,8 +3,8 @@ package dev.olog.service.music
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.Favorite
+import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.InsertHistorySongUseCase
 import dev.olog.domain.interactor.InsertMostPlayedUseCase
@@ -55,12 +55,7 @@ internal class CurrentSong @Inject constructor(
 
         insertMostPlayedUseCase(entity.mediaId)
 
-        insertHistorySongUseCase(
-            InsertHistorySongUseCase.Input(
-                entity.id,
-                entity.isPodcast
-            )
-        )
+        insertHistorySongUseCase(entity.mediaId)
     }
 
     private suspend fun updateFavorite(mediaEntity: MediaEntity) {

@@ -5,20 +5,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.domain.mediaid.MediaId
-import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.domain.entity.Sort
 import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.domain.interactor.sort.GetDetailSortUseCase
 import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.domain.interactor.sort.SetSortOrderUseCase
 import dev.olog.domain.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.feature.detail.detail.model.*
-import dev.olog.feature.detail.detail.model.DetailDataProvider
-import dev.olog.feature.detail.detail.model.DetailFragmentAlbumModel
-import dev.olog.feature.detail.detail.model.DetailFragmentMostPlayedModel
-import dev.olog.feature.detail.detail.model.DetailFragmentRecentlyAddedModel
-import dev.olog.feature.detail.detail.model.DetailFragmentRelatedArtistModel
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +39,7 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
         const val RELATED_ARTISTS_TO_SEE = 10
     }
 
-    val parentMediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
+    val parentMediaId = state.argument(Params.MEDIA_ID, MediaId::fromString) as MediaId.Category
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
@@ -108,8 +103,8 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val biography = when {
-                    parentMediaId.isArtist -> imageRetrieverGateway.getArtist(parentMediaId.categoryId)?.wiki
-                    parentMediaId.isAlbum -> imageRetrieverGateway.getAlbum(parentMediaId.categoryId)?.wiki
+                    parentMediaId.isArtist -> imageRetrieverGateway.getArtist(parentMediaId.categoryValue.toLong())?.wiki
+                    parentMediaId.isAlbum -> imageRetrieverGateway.getAlbum(parentMediaId.categoryValue.toLong())?.wiki
                     else -> null
                 }
                 withContext(Dispatchers.Main) {
@@ -140,7 +135,7 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
     }
 
     fun updateSortOrder(sortType: Sort.Type) = viewModelScope.launch(Dispatchers.IO) {
-        setSortOrderUseCase(SetSortOrderUseCase.Request(parentMediaId, sortType))
+        setSortOrderUseCase(parentMediaId, sortType)
     }
 
     fun toggleSortArranging() {

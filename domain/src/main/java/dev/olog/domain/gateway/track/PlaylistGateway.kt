@@ -24,7 +24,7 @@ interface PlaylistOperations {
 
     suspend fun clearPlaylist(playlistId: Long)
 
-    suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>)
+    suspend fun addSongsToPlaylist(playlistId: Long, vararg songIds: Long)
 
     suspend fun insertSongToHistory(songId: Long)
 

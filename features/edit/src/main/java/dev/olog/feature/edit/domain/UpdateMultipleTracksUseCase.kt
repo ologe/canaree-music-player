@@ -29,9 +29,9 @@ internal class UpdateMultipleTracksUseCase @Inject constructor(
                 )
             }
             if (param.mediaId.isArtist || param.mediaId.isPodcastArtist) {
-                updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
+                updateArtistMediaStore(param.mediaId.categoryValue.toLong(), param.isPodcast)
             } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum) {
-                updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
+                updateAlbumMediaStore(param.mediaId.categoryValue.toLong(), param.isPodcast)
             }
         } catch (ex: Throwable){
             ex.printStackTrace()

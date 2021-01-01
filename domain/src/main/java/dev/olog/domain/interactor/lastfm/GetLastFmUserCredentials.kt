@@ -6,13 +6,13 @@ import dev.olog.domain.prefs.AppPreferencesGateway
 import javax.inject.Inject
 
 class GetLastFmUserCredentials @Inject constructor(
-    private val gateway: AppPreferencesGateway,
+    private val prefs: AppPreferencesGateway,
     private val lastFmEncrypter: IEncrypter
 
 ) {
 
     fun execute(): UserCredentials {
-        return decryptUser(gateway.getLastFmCredentials())
+        return decryptUser(prefs.getLastFmCredentials())
     }
 
     private fun decryptUser(user: UserCredentials): UserCredentials {

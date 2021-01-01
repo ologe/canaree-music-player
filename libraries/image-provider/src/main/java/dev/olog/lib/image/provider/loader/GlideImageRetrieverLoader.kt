@@ -5,9 +5,9 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.domain.mediaid.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.lib.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.lib.image.provider.fetcher.GlideSongFetcher
@@ -23,7 +23,7 @@ internal class GlideImageRetrieverLoader(
         if (mediaId.isAnyPodcast) {
             return false
         }
-        return mediaId.isLeaf || mediaId.isAlbum || mediaId.isArtist
+        return mediaId is MediaId.Track || mediaId.isAlbum || mediaId.isArtist
     }
 
     override fun buildLoadData(
@@ -33,7 +33,7 @@ internal class GlideImageRetrieverLoader(
         options: Options
     ): ModelLoader.LoadData<InputStream>? {
 
-        return if (mediaId.isLeaf) {
+        return if (mediaId is MediaId.Track) {
             // download track image
             ModelLoader.LoadData(
                 MediaIdKey(mediaId),
@@ -49,7 +49,7 @@ internal class GlideImageRetrieverLoader(
                 MediaIdKey(mediaId),
                 GlideAlbumFetcher(
                     context,
-                    mediaId,
+                    mediaId as MediaId.Category,
                     imageRetrieverGateway
                 )
             )
@@ -59,7 +59,7 @@ internal class GlideImageRetrieverLoader(
                 MediaIdKey(mediaId),
                 GlideArtistFetcher(
                     context,
-                    mediaId,
+                    mediaId as MediaId.Category,
                     imageRetrieverGateway
                 )
             )

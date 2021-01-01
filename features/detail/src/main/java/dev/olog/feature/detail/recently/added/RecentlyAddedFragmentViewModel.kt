@@ -23,7 +23,7 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 
-    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
+    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString) as MediaId.Category
 
     val itemOrdinal = mediaId.category.ordinal
 

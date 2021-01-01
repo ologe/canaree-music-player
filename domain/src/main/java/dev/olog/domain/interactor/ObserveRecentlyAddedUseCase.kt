@@ -12,13 +12,12 @@ import javax.inject.Inject
 class ObserveRecentlyAddedUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
     private val genreGateway: GenreGateway
-
 ) {
 
     operator fun invoke(mediaId: MediaId): Flow<List<Track>> {
         return when (mediaId.category){
             MediaIdCategory.FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryValue)
-            MediaIdCategory.GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId)
+            MediaIdCategory.GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryValue.toLong())
             else -> flowOf(listOf())
         }
     }

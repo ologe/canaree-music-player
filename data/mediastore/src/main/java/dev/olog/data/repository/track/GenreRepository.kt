@@ -99,15 +99,15 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Track>> {
-        return mostPlayedDao.observeAll(mediaId.categoryId, songGateway)
+        return mostPlayedDao.observeAll(mediaId.categoryValue.toLong(), songGateway)
             .distinctUntilChanged()
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
         mostPlayedDao.insertOne(
             GenreMostPlayedEntity(
-                songId = mediaId.leaf!!,
-                genreId = mediaId.categoryId
+                songId = mediaId.id,
+                genreId = mediaId.categoryValue.toLong()
             )
         )
     }

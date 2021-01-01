@@ -10,7 +10,7 @@ data class Playlist(
     val isPodcast: Boolean
 ) {
 
-    fun getMediaId(): MediaId {
+    fun getMediaId(): MediaId.Category {
         val category =
             if (isPodcast) MediaIdCategory.PODCASTS_PLAYLIST else MediaIdCategory.PLAYLISTS
         return MediaId.createCategoryValue(category, id.toString())

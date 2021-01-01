@@ -15,11 +15,11 @@ internal class EditTrackFragmentPresenter @Inject constructor(
     private val lastFmGateway: ImageRetrieverGateway
 ) {
 
-    suspend fun getSong(mediaId: MediaId): Track {
+    suspend fun getSong(mediaId: MediaId.Track): Track {
         val track = if (mediaId.isPodcast) {
-            podcastGateway.getByParam(mediaId.leaf!!)!!
+            podcastGateway.getByParam(mediaId.id)!!
         } else {
-            songGateway.getByParam(mediaId.leaf!!)!!
+            songGateway.getByParam(mediaId.id)!!
         }
         val artist = if (track.hasUnknownArtist) "" else track.artist
         val album = if (track.hasUnknownAlbum) "" else track.album

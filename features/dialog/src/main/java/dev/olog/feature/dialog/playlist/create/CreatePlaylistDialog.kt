@@ -1,6 +1,7 @@
 package dev.olog.feature.dialog.playlist.create
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -8,34 +9,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.dialog.R
 import dev.olog.feature.dialog.base.BaseEditTextDialog
+import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreatePlaylistDialog : BaseEditTextDialog() {
 
-    companion object {
-        const val TAG = "NewPlaylistDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+    private val viewModel by viewModels<CreatePlaylistDialogViewModel>()
 
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): CreatePlaylistDialog {
-            return CreatePlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_LIST_SIZE to listSize,
-                    ARGUMENTS_ITEM_TITLE to itemTitle
-            )
-        }
-    }
-
-    @Inject lateinit var presenter: CreatePlaylistDialogPresenter
-
-    private val mediaId: MediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
-    private val title by argument<String>(ARGUMENTS_ITEM_TITLE)
-    private val listSize by argument<Int>(ARGUMENTS_LIST_SIZE)
+    private val mediaId: MediaId by argument(Params.MEDIA_ID, MediaId::fromString)
+    private val title by argument<String>(Params.TITLE)
+    private val listSize by argument<Int>(Params.SIZE)
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
@@ -55,7 +40,7 @@ class CreatePlaylistDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(string)
             message = successMessage(requireActivity(), string).toString()
         } catch (ex: Throwable) {
             ex.printStackTrace()
@@ -69,10 +54,10 @@ class CreatePlaylistDialog : BaseEditTextDialog() {
 //        if (mediaId.isPlayingQueue){ TODO
 //            return context.getString(R.string.queue_saved_as_playlist, currentValue)
 //        }
-        if (mediaId.isLeaf){
-            return context.getString(R.string.added_song_x_to_playlist_y, title, currentValue)
-        }
-        return context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
+        return when (mediaId) {
+            is MediaId.Category -> context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
                 listSize, listSize, currentValue)
+            is MediaId.Track -> context.getString(R.string.added_song_x_to_playlist_y, title, currentValue)
+        }
     }
 }

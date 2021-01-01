@@ -9,6 +9,7 @@ import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.lib.image.provider.model.AudioFileCover
 import dev.olog.lib.image.provider.target.RippleTarget
+import dev.olog.shared.exhaustive
 
 object ImageLoader {
 
@@ -49,11 +50,10 @@ object ImageLoader {
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .transition(DrawableTransitionOptions.withCrossFade())
 
-        if (mediaId.isLeaf) {
-            builder.into(view)
-        } else {
-            builder.into(RippleTarget(view))
-        }
+        when (mediaId) {
+            is MediaId.Category -> builder.into(RippleTarget(view))
+            is MediaId.Track -> builder.into(view)
+        }.exhaustive
     }
 
     fun loadSongImage(view: ImageView, mediaId: MediaId) {

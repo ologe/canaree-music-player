@@ -19,7 +19,7 @@ interface PodcastPlaylistGateway :
 
     suspend fun clearPlaylist(playlistId: Id)
 
-    suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>)
+    suspend fun addSongsToPlaylist(playlistId: Id, vararg songIds: Long)
 
     suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long)
 

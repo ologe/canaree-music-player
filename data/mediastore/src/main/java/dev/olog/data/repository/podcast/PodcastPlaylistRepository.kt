@@ -145,7 +145,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
+    override suspend fun addSongsToPlaylist(playlistId: Id, vararg songIds: Long) {
         var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PodcastPlaylistTrackEntity(

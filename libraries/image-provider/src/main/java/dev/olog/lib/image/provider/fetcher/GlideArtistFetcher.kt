@@ -15,12 +15,12 @@ private const val DEEZER_PLACEHOLDER = "https://cdns-images.dzcdn.net/images/art
 
 class GlideArtistFetcher(
     context: Context,
-    mediaId: MediaId,
+    mediaId: MediaId.Category,
     private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : BaseDataFetcher(context) {
 
-    private val id = mediaId.resolveId
+    private val id = mediaId.categoryValue.toLong()
 
     override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
         val image = imageRetrieverGateway.getArtist(id)!!.image

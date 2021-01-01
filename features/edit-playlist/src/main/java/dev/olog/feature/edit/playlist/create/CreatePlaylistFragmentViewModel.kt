@@ -8,12 +8,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
 import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toList
@@ -77,8 +77,8 @@ internal class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
     }
 
-    fun toggleItem(mediaId: MediaId) {
-        val id = mediaId.resolveId
+    fun toggleItem(mediaId: MediaId.Track) {
+        val id = mediaId.id
         selectedIds.toggle(id, id)
         selectionCountPublisher.value = selectedIds.size()
     }
@@ -87,8 +87,8 @@ internal class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         showOnlyFiltered.value = !showOnlyFiltered.value
     }
 
-    fun isChecked(mediaId: MediaId): Boolean {
-        val id = mediaId.resolveId
+    fun isChecked(mediaId: MediaId.Track): Boolean {
+        val id = mediaId.id
         return selectedIds[id] != null
     }
 
@@ -101,8 +101,8 @@ internal class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
         withContext(Dispatchers.IO){
             insertCustomTrackListToPlaylist(
                 playlistTitle = playlistTitle,
-                tracksId = selectedIds.toList(),
-                type = playlistType
+                type = playlistType,
+                *selectedIds.toList().toLongArray(),
             )
         }
 

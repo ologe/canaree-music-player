@@ -55,19 +55,19 @@ internal class DetailDataProvider @Inject constructor(
         val item = when (parentMediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeByParam(parentMediaId.categoryValue)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.GENRES -> genreGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.GENRES -> genreGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(parentMediaId.categoryId)
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(parentMediaId.categoryValue.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> error("invalid category=$parentMediaId")
@@ -81,7 +81,7 @@ internal class DetailDataProvider @Inject constructor(
     }
 
     fun observe(
-        parentMediaId: MediaId,
+        parentMediaId: MediaId.Category,
         filterFlow: Flow<String>
     ): Flow<List<DetailFragmentModel>> {
         val songListFlow = sortOrderUseCase(parentMediaId)
@@ -165,38 +165,38 @@ internal class DetailDataProvider @Inject constructor(
                 resources
             )
         }
-        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.GENRES -> genreGateway.observeSiblings(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.GENRES -> genreGateway.observeSiblings(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
         // podcasts
-        MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(parentMediaId.categoryId).mapListItem {
+        MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(parentMediaId.categoryValue.toLong()).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )

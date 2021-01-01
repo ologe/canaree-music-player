@@ -22,12 +22,12 @@ data class Album(
     val hasUnknownArtist: Boolean
         get() = this.artist == "<unknown>"
 
-    fun getMediaId(): MediaId {
+    fun getMediaId(): MediaId.Category {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
         return MediaId.createCategoryValue(category, this.id.toString())
     }
 
-    fun getArtistMediaId(): MediaId {
+    fun getArtistMediaId(): MediaId.Category {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
         return MediaId.createCategoryValue(category, this.artistId.toString())
     }

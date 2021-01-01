@@ -7,9 +7,6 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.edit.*
-import dev.olog.feature.edit.BaseEditItemFragment
-import dev.olog.feature.edit.EditItemViewModel
-import dev.olog.feature.edit.UpdateResult
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
@@ -18,16 +15,6 @@ import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 internal class EditArtistFragment : BaseEditItemFragment() {
-
-    companion object {
-        const val TAG = "EditArtistFragment"
-
-        fun newInstance(mediaId: MediaId): EditArtistFragment {
-            return EditArtistFragment().withArguments(
-                Params.MEDIA_ID to mediaId.toString()
-            )
-        }
-    }
 
     private val viewModel by viewModels<EditArtistFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()

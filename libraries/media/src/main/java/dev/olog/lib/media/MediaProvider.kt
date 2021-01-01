@@ -2,8 +2,8 @@ package dev.olog.lib.media
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.entity.Sort
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.media.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -36,7 +36,7 @@ interface MediaProvider {
     fun toggleShuffleMode()
     fun toggleRepeatMode()
 
-    fun addToPlayNext(mediaId: MediaId)
+    fun addToPlayNext(mediaId: MediaId.Track)
 
     fun togglePlayerFavorite()
 

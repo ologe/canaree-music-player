@@ -3,10 +3,10 @@ package dev.olog.feature.search
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.domain.mediaid.MediaId
-import dev.olog.domain.interactor.search.ClearRecentSearchesUseCase
+import dev.olog.domain.gateway.RecentSearchesGateway
 import dev.olog.domain.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.domain.interactor.search.InsertRecentSearchUseCase
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.search.model.SearchDataProvider
 import dev.olog.feature.search.model.SearchFragmentModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ internal class SearchFragmentViewModel @ViewModelInject constructor(
     private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
-    private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
+    private val recentSearchesGateway: RecentSearchesGateway
 ) : ViewModel() {
 
     private val data = MutableStateFlow<List<SearchFragmentModel>>(emptyList())
@@ -85,7 +85,7 @@ internal class SearchFragmentViewModel @ViewModelInject constructor(
     }
 
     fun clearRecentSearches() = viewModelScope.launch {
-        clearRecentSearchesUseCase()
+        recentSearchesGateway.deleteAll()
     }
 
 }

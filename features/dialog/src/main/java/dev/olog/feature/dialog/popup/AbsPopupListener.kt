@@ -6,12 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.parseAsHtml
-import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.dialog.R
 import dev.olog.navigation.Navigator
 import dev.olog.shared.android.FileProvider
@@ -66,10 +66,9 @@ abstract class AbsPopupListener(
         title: String
     ) = withContext(Dispatchers.Main) {
         val playlist = playlists.first { it.id == playlistId }.title
-        val message = if (mediaId.isLeaf) {
-            context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
-        } else {
-            context.resources.getQuantityString(
+        val message = when (mediaId) {
+            is MediaId.Track -> context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
+            is MediaId.Category -> context.resources.getQuantityString(
                 R.plurals.xx_songs_added_to_playlist_y,
                 listSize,
                 listSize,

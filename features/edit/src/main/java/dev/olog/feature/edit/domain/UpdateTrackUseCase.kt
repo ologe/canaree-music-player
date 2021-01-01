@@ -27,7 +27,7 @@ internal class UpdateTrackUseCase @Inject constructor(
             updateTagFields(tag, param)
             audioFile.commit()
 
-            val id = param.mediaId?.resolveId
+            val id = param.mediaId?.id
 
             if (id != null) {
                 updateMediaStore(id, param.isPodcast)
@@ -75,7 +75,7 @@ internal class UpdateTrackUseCase @Inject constructor(
     }
 
     data class Data(
-        val mediaId: MediaId?,
+        val mediaId: MediaId.Track?,
         val path: String,
         val fields: Map<FieldKey, String>,
         val isPodcast: Boolean?

@@ -11,6 +11,7 @@ import dev.olog.domain.mediaid.MediaIdCategory
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@Deprecated("rename to ObserveSongListUseCase")
 class ObserveSongListByParamUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
@@ -28,15 +29,15 @@ class ObserveSongListByParamUseCase @Inject constructor(
     operator fun invoke(mediaId: MediaId): Flow<List<Track>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.SONGS -> songDataStore.observeAll()
-            MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.ARTISTS -> artistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.ARTISTS -> artistGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.PODCASTS -> podcastGateway.observeAll()
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeTrackListByParam(mediaId.categoryValue.toLong())
         }
     }
 

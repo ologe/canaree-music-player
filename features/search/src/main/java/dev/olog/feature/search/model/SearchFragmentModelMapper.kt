@@ -4,6 +4,7 @@ import android.content.Context
 import dev.olog.domain.RecentSearchesType
 import dev.olog.domain.entity.SearchResult
 import dev.olog.domain.entity.track.*
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.search.R
 import dev.olog.shared.android.DisplayableItemUtils
 
@@ -27,7 +28,7 @@ internal fun SearchResult.toSearchDisplayableItem(
 
     if (isPlayable) {
         return SearchFragmentModel.RecentTrack(
-            mediaId = this.mediaId,
+            mediaId = this.mediaId as MediaId.Track,
             title = this.title,
             subtitle = subtitle,
         )
@@ -39,7 +40,7 @@ internal fun SearchResult.toSearchDisplayableItem(
     }
     return SearchFragmentModel.RecentAlbum(
         layoutRes = layout,
-        mediaId = this.mediaId,
+        mediaId = this.mediaId as MediaId.Category,
         title = this.title,
         subtitle = subtitle
     )

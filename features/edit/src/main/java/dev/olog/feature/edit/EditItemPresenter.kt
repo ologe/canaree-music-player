@@ -18,11 +18,11 @@ internal class EditItemPresenter @Inject constructor(
     }
 
     suspend fun deleteAlbum(mediaId: MediaId) {
-        return lastFmGateway.deleteAlbum(mediaId.categoryId)
+        return lastFmGateway.deleteAlbum(mediaId.categoryValue.toLong())
     }
 
     suspend fun deleteArtist(mediaId: MediaId) {
-        return lastFmGateway.deleteArtist(mediaId.categoryId)
+        return lastFmGateway.deleteArtist(mediaId.categoryValue.toLong())
     }
 
     fun updateSingle(info: UpdateSongInfo) {

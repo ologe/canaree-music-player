@@ -9,14 +9,14 @@ internal sealed class DetailFragmentModel(
 ) {
 
     interface Playable {
-        val mediaId: MediaId
+        val mediaId: MediaId.Track
     }
 
     val isPlayable: Boolean
         get() = this is Playable
 
     data class MainHeader(
-        val mediaId: MediaId,
+        val mediaId: MediaId.Category,
         val title: String,
         val subtitle: String
     ) : DetailFragmentModel(R.layout.item_detail_image)
@@ -27,7 +27,7 @@ internal sealed class DetailFragmentModel(
 
     data class Track(
         private val layoutRes: Int,
-        override val mediaId: MediaId,
+        override val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String,
         val trackNumber: Int,
@@ -35,7 +35,7 @@ internal sealed class DetailFragmentModel(
 
     data class PlaylistTrack(
         private val layoutRes: Int,
-        override val mediaId: MediaId,
+        override val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String,
         val idInPlaylist: Long,

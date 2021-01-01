@@ -9,7 +9,6 @@ import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
-import dev.olog.domain.interactor.PodcastPositionUseCase
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -38,7 +37,6 @@ internal class Queue @Inject constructor(
     private val musicPrefs: MusicPreferencesGateway,
     private val repeatMode: MusicServiceRepeatMode,
     private val shuffleMode: MusicServiceShuffleMode,
-    private val podcastPosition: PodcastPositionUseCase,
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway,
@@ -122,7 +120,7 @@ internal class Queue @Inject constructor(
         val current = when (event) {
             is MediaSessionEvent.Prepare.LastQueue -> musicPrefs.lastProgressive
             is MediaSessionEvent.Prepare.FromMediaId -> {
-                val songId = event.mediaId.leaf
+                val songId = event.mediaId.id
                 items.getCurrentSongIndexWhenPlayingNewQueue(songId)
             }
             is MediaSessionEvent.Prepare.FromSearch -> 0
@@ -154,7 +152,7 @@ internal class Queue @Inject constructor(
 
     private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Duration  {
         if (mediaEntity.isPodcast) {
-            val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
+            val bookmark = podcastGateway.getCurrentPosition(mediaEntity.id, mediaEntity.duration)
             return bookmark.coerceIn(0.milliseconds, mediaEntity.duration)
         } else {
             val bookmark = musicPrefs.bookmark
@@ -166,7 +164,7 @@ internal class Queue @Inject constructor(
         mediaEntity: MediaEntity
     ): Duration {
         return if (mediaEntity.isPodcast) {
-            val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
+            val bookmark = podcastGateway.getCurrentPosition(mediaEntity.id, mediaEntity.duration)
             bookmark.coerceIn(0.milliseconds, mediaEntity.duration)
         } else {
             0.milliseconds
@@ -429,7 +427,7 @@ internal class Queue @Inject constructor(
 
     suspend fun updatePodcastPosition(bookmark: Duration) = queueState.whenIsSet {
         if (entity.isPodcast) {
-            podcastPosition.set(entity.id, bookmark)
+            podcastGateway.saveCurrentPosition(entity.id, bookmark)
         }
     }
 

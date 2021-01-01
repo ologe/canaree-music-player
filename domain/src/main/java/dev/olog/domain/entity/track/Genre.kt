@@ -9,7 +9,7 @@ data class Genre(
     val size: Int
 ) {
 
-    fun getMediaId(): MediaId {
+    fun getMediaId(): MediaId.Category {
         return MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString())
     }
 

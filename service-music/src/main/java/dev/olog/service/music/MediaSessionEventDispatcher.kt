@@ -38,7 +38,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
         Timber.v("onPrepareFromMediaId mediaId=$mediaId, extras=$extras")
 
         val event = MediaSessionEvent.Prepare.FromMediaId(
-            mediaId = MediaId.fromStringOrNull(mediaId) ?: return,
+            mediaId = MediaId.fromStringOrNull(mediaId) as? MediaId.Track ?: return,
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)
@@ -70,7 +70,7 @@ internal class MediaSessionEventDispatcher @Inject constructor(
 
         Timber.v("onPlayFromMediaId mediaId=$mediaId, extras=$extras")
         val event = MediaSessionEvent.Play.FromMediaId(
-            mediaId = MediaId.fromStringOrNull(mediaId) ?: return,
+            mediaId = MediaId.fromStringOrNull(mediaId) as? MediaId.Track ?: return,
             extras = extras.toMap()
         )
         eventHandler.nextEvent(event)

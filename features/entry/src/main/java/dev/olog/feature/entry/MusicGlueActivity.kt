@@ -139,7 +139,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         )
 
         transportControls()?.playFromMediaId(
-            mediaId.copy(modifier = MediaIdModifier.SHUFFLE).toString(),
+            mediaId.withModifier(MediaIdModifier.SHUFFLE).toString(),
             bundle
         )
     }
@@ -212,11 +212,11 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.customAction(MusicServiceCustomAction.MOVE_RELATIVE, bundle)
     }
 
-    override fun addToPlayNext(mediaId: MediaId) {
+    override fun addToPlayNext(mediaId: MediaId.Track) {
         transportControls()?.customAction(
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT,
             bundleOf(
-                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.leaf!!),
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.id),
                 MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast
             )
 

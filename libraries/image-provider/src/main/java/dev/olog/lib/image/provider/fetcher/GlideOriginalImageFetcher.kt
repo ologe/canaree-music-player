@@ -4,10 +4,10 @@ import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
-import dev.olog.domain.mediaid.MediaId
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -31,19 +31,28 @@ class GlideOriginalImageFetcher(
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         scope.launch {
             val id = getId()
-            if (id == -1L) {
+            if (id == null) {
                 callback.onLoadFailed(Exception("item not found for id$id"))
                 return@launch
             }
 
-            val track: Track? = when {
-                mediaId.isAlbum -> songGateway.getByAlbumId(id)
-                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
-                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
-                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
-                else -> {
-                    callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
-                    return@launch
+            val track: Track? = when (mediaId) {
+                is MediaId.Track -> {
+                    if (mediaId.isAnyPodcast) {
+                        podcastGateway.getByParam(id)
+                    } else {
+                        songGateway.getByParam(id)
+                    }
+                }
+                is MediaId.Category -> {
+                    when {
+                        mediaId.isAlbum -> songGateway.getByAlbumId(id)
+                        mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
+                        else -> {
+                            callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
+                            return@launch
+                        }
+                    }
                 }
             }
             yield()
@@ -63,14 +72,11 @@ class GlideOriginalImageFetcher(
 
 
 
-    private fun getId(): Long {
-        if (mediaId.isAlbum || mediaId.isPodcastAlbum){
-            return mediaId.categoryId
+    private fun getId(): Long? {
+        return when (mediaId) {
+            is MediaId.Track -> mediaId.id
+            is MediaId.Category -> mediaId.categoryValue.toLongOrNull()?.takeIf { mediaId.isAnyAlbum }
         }
-        if (mediaId.isLeaf){
-            return mediaId.leaf!!
-        }
-        return -1
     }
 
     override fun cleanup() {

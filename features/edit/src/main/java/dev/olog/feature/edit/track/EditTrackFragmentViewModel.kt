@@ -31,7 +31,7 @@ internal class EditTrackFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditTrackFragmentPresenter
 ) : ViewModel() {
 
-    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString)
+    private val mediaId = state.argument(Params.MEDIA_ID, MediaId::fromString) as MediaId.Track
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
@@ -58,14 +58,14 @@ internal class EditTrackFragmentViewModel @ViewModelInject constructor(
 
     fun getOriginalSong(): Track = songPublisher.value!!
 
-    fun fetchSongInfo(mediaId: MediaId): Boolean {
+    fun fetchSongInfo(mediaId: MediaId.Track): Boolean {
         if (!NetworkUtils.isConnected(context)) {
             return false
         }
         fetchJob = viewModelScope.launch {
             try {
                 val lastFmTrack = withContext(Dispatchers.IO) {
-                    presenter.fetchData(mediaId.resolveId)
+                    presenter.fetchData(mediaId.id)
                 }
                 var currentSong = displayablePublisher.value!!
                 currentSong = currentSong.copy(

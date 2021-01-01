@@ -9,12 +9,12 @@ import java.io.InputStream
 
 class GlideAlbumFetcher(
     context: Context,
-    mediaId: MediaId,
+    mediaId: MediaId.Category,
     private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : BaseDataFetcher(context) {
 
-    private val id = mediaId.resolveId
+    private val id = mediaId.categoryValue.toLong()
 
     override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
         return imageRetrieverGateway.getAlbum(id)!!.image
