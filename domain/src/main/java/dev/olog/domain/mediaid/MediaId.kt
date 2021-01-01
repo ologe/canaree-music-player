@@ -1,16 +1,16 @@
 package dev.olog.domain.mediaid
 
-sealed class MediaId(
-    open val category: MediaIdCategory,
-    open val categoryValue: String,
-    open val modifier: MediaIdModifier?
-) {
+sealed class MediaId {
+
+    abstract val category: MediaIdCategory
+    abstract val categoryValue: String
+    abstract val modifier: MediaIdModifier?
 
     data class Category(
         override val category: MediaIdCategory,
         override val categoryValue: String,
         override val modifier: MediaIdModifier?,
-    ) : MediaId(category, categoryValue, modifier) {
+    ) : MediaId() {
 
         init {
             // TODO check all instance creation
@@ -28,7 +28,7 @@ sealed class MediaId(
         override val categoryValue: String,
         override val modifier: MediaIdModifier?,
         val id: Long,
-    ) : MediaId(category, categoryValue, modifier) {
+    ) : MediaId() {
 
         init {
             // TODO check all instance creation

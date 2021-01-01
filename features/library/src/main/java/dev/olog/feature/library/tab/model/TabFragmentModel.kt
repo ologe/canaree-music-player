@@ -1,15 +1,14 @@
 package dev.olog.feature.library.tab.model
 
-import androidx.annotation.LayoutRes
 import dev.olog.domain.entity.Sort
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.library.R
 import dev.olog.shared.android.DisplayableItemUtils
 import kotlin.time.Duration
 
-sealed class TabFragmentModel(
-    @LayoutRes open val layoutType: Int
-) {
+sealed class TabFragmentModel {
+
+    abstract val layoutType: Int
 
     interface Scrollable {
 
@@ -20,11 +19,11 @@ sealed class TabFragmentModel(
     }
 
     data class Album(
-        @LayoutRes private val layoutId: Int,
+        override val layoutType: Int,
         val mediaId: MediaId,
         val title: String,
         val subtitle: String?,
-    ) : TabFragmentModel(layoutId), Scrollable {
+    ) : TabFragmentModel(), Scrollable {
 
         override fun sortBy(type: Sort.Type): String {
             if (mediaId.isAlbum) {
@@ -42,7 +41,9 @@ sealed class TabFragmentModel(
         val title: String,
         val artist: String,
         val album: String,
-    ) : TabFragmentModel(R.layout.item_tab_track), Scrollable {
+    ) : TabFragmentModel(), Scrollable {
+
+        override val layoutType: Int = R.layout.item_tab_track
 
         val subtitle: String
             get() = DisplayableItemUtils.trackSubtitle(artist, album)
@@ -62,7 +63,9 @@ sealed class TabFragmentModel(
         val artist: String,
         val album: String,
         val duration: Duration,
-    ) : TabFragmentModel(R.layout.item_tab_podcast), Scrollable {
+    ) : TabFragmentModel(), Scrollable {
+
+        override val layoutType: Int = R.layout.item_tab_podcast
 
         val subtitle: String
             get() = DisplayableItemUtils.trackSubtitle(artist, album)
@@ -81,14 +84,26 @@ sealed class TabFragmentModel(
 
     data class Header(
         val title: String
-    ) : TabFragmentModel(R.layout.item_tab_header)
+    ) : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_header
+    }
 
-    object Shuffle : TabFragmentModel(R.layout.item_tab_shuffle)
+    object Shuffle : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_shuffle
+    }
 
-    object RecentlyPlayedAlbumsList : TabFragmentModel(R.layout.item_tab_last_played_album_list)
-    object RecentlyPlayedArtistList : TabFragmentModel(R.layout.item_tab_last_played_artist_list)
+    object RecentlyPlayedAlbumsList : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_last_played_album_list
+    }
+    object RecentlyPlayedArtistList : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_last_played_artist_list
+    }
 
-    object RecentlyAddedAlbumsList : TabFragmentModel(R.layout.item_tab_recently_added_album_list)
-    object RecentlyAddedArtistList : TabFragmentModel(R.layout.item_tab_recently_added_artist_list)
+    object RecentlyAddedAlbumsList : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_recently_added_album_list
+    }
+    object RecentlyAddedArtistList : TabFragmentModel() {
+        override val layoutType: Int = R.layout.item_tab_recently_added_album_list
+    }
 
 }

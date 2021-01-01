@@ -6,21 +6,21 @@ import java.io.File
 import kotlin.time.Duration
 import kotlin.time.milliseconds
 
-sealed class Track(
-    open val id: Long,
-    open val artistId: Long,
-    open val albumId: Long,
-    open val title: String,
-    open val artist: String,
-    open val albumArtist: String,
-    open val album: String,
-    open val duration: Duration,
-    open val dateAdded: Long,
-    open val dateModified: Long,
-    open val path: String,
-    open val trackColumn: Int,
-    open val isPodcast: Boolean,
-) {
+sealed class Track {
+
+    abstract val id: Long
+    abstract val artistId: Long
+    abstract val albumId: Long
+    abstract val title: String
+    abstract val artist: String
+    abstract val albumArtist: String
+    abstract val album: String
+    abstract val duration: Duration
+    abstract val dateAdded: Long
+    abstract val dateModified: Long
+    abstract val path: String
+    abstract val trackColumn: Int
+    abstract val isPodcast: Boolean
 
     companion object;
 
@@ -38,21 +38,9 @@ sealed class Track(
         override val path: String,
         override val trackColumn: Int,
         override val isPodcast: Boolean,
-    ): Track(
-        id = id,
-        artistId = artistId,
-        albumId = albumId,
-        title = title,
-        artist = artist,
-        albumArtist = albumArtist,
-        album = album,
-        duration = duration,
-        dateAdded = dateAdded,
-        dateModified = dateModified,
-        path = path,
-        trackColumn = trackColumn,
-        isPodcast = isPodcast
-    )
+    ): Track() {
+        companion object
+    }
 
     data class PlaylistSong(
         override val id: Long,
@@ -70,21 +58,7 @@ sealed class Track(
         override val isPodcast: Boolean,
         val playlistId: Long,
         val idInPlaylist: Long,
-    ): Track(
-        id = id,
-        artistId = artistId,
-        albumId = albumId,
-        title = title,
-        artist = artist,
-        albumArtist = albumArtist,
-        album = album,
-        duration = duration,
-        dateAdded = dateAdded,
-        dateModified = dateModified,
-        path = path,
-        trackColumn = trackColumn,
-        isPodcast = isPodcast
-    ) {
+    ): Track() {
         companion object
     }
 

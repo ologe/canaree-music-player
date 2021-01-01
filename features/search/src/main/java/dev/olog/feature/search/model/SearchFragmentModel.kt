@@ -1,30 +1,33 @@
 package dev.olog.feature.search.model
 
-import androidx.annotation.LayoutRes
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.search.R
 
-sealed class SearchFragmentModel(
-    @LayoutRes open val layoutType: Int
-) {
+sealed class SearchFragmentModel {
+
+    abstract val layoutType: Int
 
     data class Track(
         val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String?
-    ) : SearchFragmentModel(R.layout.item_search_song)
+    ) : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_song
+    }
 
     data class Album(
-        @LayoutRes private val layoutRes: Int,
+        override val layoutType: Int,
         val mediaId: MediaId.Category,
         val title: String,
         val subtitle: String?,
-    ) : SearchFragmentModel(layoutRes)
+    ) : SearchFragmentModel()
 
     data class Header(
         val title: String,
         val subtitle: String,
-    ) : SearchFragmentModel(R.layout.item_search_header)
+    ) : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_header
+    }
 
     // recent
 
@@ -32,25 +35,41 @@ sealed class SearchFragmentModel(
         val mediaId: MediaId.Track,
         val title: String,
         val subtitle: String?
-    ) : SearchFragmentModel(R.layout.item_search_recent)
+    ) : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_recent
+    }
 
     data class RecentAlbum(
-        @LayoutRes private val layoutRes: Int,
+        override val layoutType: Int,
         val mediaId: MediaId.Category,
         val title: String,
         val subtitle: String
-    ) : SearchFragmentModel(layoutRes)
+    ) : SearchFragmentModel()
 
-    object RecentHeader : SearchFragmentModel(R.layout.item_search_recent_header)
+    object RecentHeader : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_recent_header
+    }
 
-    object ClearRecent: SearchFragmentModel(R.layout.item_search_clear_recent)
+    object ClearRecent: SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_clear_recent
+    }
 
     // list
 
-    object FoldersList : SearchFragmentModel(R.layout.item_search_list_folders)
-    object AlbumsList : SearchFragmentModel(R.layout.item_search_list_albums)
-    object ArtistsList : SearchFragmentModel(R.layout.item_search_list_artists)
-    object PlaylistList : SearchFragmentModel(R.layout.item_search_list_playlists)
-    object GenreList : SearchFragmentModel(R.layout.item_search_list_genres)
+    object FoldersList : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_list_folders
+    }
+    object AlbumsList : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_list_albums
+    }
+    object ArtistsList : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_list_artists
+    }
+    object PlaylistList : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_list_playlists
+    }
+    object GenreList : SearchFragmentModel() {
+        override val layoutType: Int = R.layout.item_search_list_genres
+    }
 
 }

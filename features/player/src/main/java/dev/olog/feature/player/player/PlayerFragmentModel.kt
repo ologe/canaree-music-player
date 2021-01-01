@@ -1,26 +1,29 @@
 package dev.olog.feature.player.player
 
-import androidx.annotation.LayoutRes
 import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.player.R
 import dev.olog.lib.media.model.PlayerItem
 
-sealed class PlayerFragmentModel(
-    @LayoutRes open val layoutType: Int
-) {
+sealed class PlayerFragmentModel {
+
+    abstract val layoutType: Int
 
     data class Content(
-        @LayoutRes override val layoutType: Int
-    ) : PlayerFragmentModel(layoutType)
+        override val layoutType: Int
+    ) : PlayerFragmentModel()
 
     data class MiniQueueItem(
         val mediaId: MediaId,
         val title: String,
         val subtitle: String,
         val serviceProgressive: Long,
-    ) : PlayerFragmentModel(R.layout.item_mini_queue)
+    ) : PlayerFragmentModel() {
+        override val layoutType: Int = R.layout.item_mini_queue
+    }
 
-    object LoadMoreFooter : PlayerFragmentModel(R.layout.item_mini_queue_load_more)
+    object LoadMoreFooter : PlayerFragmentModel() {
+        override val layoutType: Int = R.layout.item_mini_queue_load_more
+    }
 
 }
 

@@ -1,26 +1,32 @@
 package dev.olog.shared.widgets.adaptive
 
-sealed class ProcessorColors(
-    val background: Int,
-    val primaryText: Int,
-    val secondaryText: Int
-)
+sealed class ProcessorColors {
+    abstract val background: Int
+    abstract val primaryText: Int
+    abstract val secondaryText: Int
+}
 
-sealed class PaletteColors(
-    val accent: Int
-)
+sealed class PaletteColors {
+    abstract val accent: Int
+}
 
 class ValidProcessorColors(
-    background: Int,
-    primaryText: Int,
-    secondaryText: Int
-) : ProcessorColors(background, primaryText, secondaryText)
+    override val background: Int,
+    override val primaryText: Int,
+    override val secondaryText: Int
+) : ProcessorColors()
 
-object InvalidProcessColors : ProcessorColors(0, 0, 0)
+object InvalidProcessColors : ProcessorColors() {
+    override val background: Int = 0
+    override val primaryText: Int = 0
+    override val secondaryText: Int = 0
+}
 
 
 class ValidPaletteColors(
-    accent: Int
-) : PaletteColors(accent)
+    override val accent: Int
+) : PaletteColors()
 
-object InvalidPaletteColors : PaletteColors(0)
+object InvalidPaletteColors : PaletteColors() {
+    override val accent: Int = 0
+}
