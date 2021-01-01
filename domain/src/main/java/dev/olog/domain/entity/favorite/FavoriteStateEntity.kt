@@ -4,20 +4,7 @@ data class FavoriteStateEntity(
     val songId: Long,
     val enum: FavoriteEnum,
     val favoriteType: FavoriteType
-) {
-
-    companion object {
-
-        val INVALID: FavoriteStateEntity
-            get() = FavoriteStateEntity(
-                songId = Long.MIN_VALUE,
-                enum = FavoriteEnum.NOT_FAVORITE,
-                favoriteType = FavoriteType.TRACK,
-            )
-
-    }
-
-}
+)
 
 enum class FavoriteEnum {
     FAVORITE,

@@ -7,10 +7,7 @@ import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
@@ -19,10 +16,10 @@ internal class FavoriteRepository @Inject constructor(
     private val podcastGateway: PodcastGateway,
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = MutableStateFlow(FavoriteStateEntity.INVALID)
+    private val favoriteStatePublisher = MutableStateFlow<FavoriteStateEntity?>(null)
 
     override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
-        .filter { it != FavoriteStateEntity.INVALID }
+        .filterNotNull()
         .map { it.enum }
 
     override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
@@ -64,8 +61,9 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun addSingle(type: FavoriteType, songId: Long) {
+        val id = favoriteStatePublisher.value?.songId ?: return
+
         favoriteDao.addToFavoriteSingle(type, songId)
-        val id = favoriteStatePublisher.value.songId
         if (songId == id) {
             updateFavoriteState(
                 FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
@@ -74,35 +72,39 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun addGroup(type: FavoriteType, songListId: List<Long>) {
+        val id = favoriteStatePublisher.value?.songId ?: return
+
         favoriteDao.addToFavorite(type, songListId)
-        val songId = favoriteStatePublisher.value.songId
-        if (songListId.contains(songId)) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type))
+        if (songListId.contains(id)) {
+            updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type))
         }
     }
 
     override suspend fun deleteSingle(type: FavoriteType, songId: Long) {
+        val id = favoriteStatePublisher.value?.songId ?: return
+
         favoriteDao.removeFromFavorite(type, listOf(songId))
-        val id = favoriteStatePublisher.value.songId
         if (songId == id) {
             updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
         }
     }
 
     override suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>) {
+        val id = favoriteStatePublisher.value?.songId ?: return
+
         favoriteDao.removeFromFavorite(type, songListId)
-        val songId = favoriteStatePublisher.value.songId
-        if (songListId.contains(songId)) {
+        if (songListId.contains(id)) {
             updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
+                FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
             )
         }
     }
 
     override suspend fun deleteAll(type: FavoriteType) {
+        val id = favoriteStatePublisher.value?.songId ?: return
+
         favoriteDao.deleteTracks()
-        val songId = favoriteStatePublisher.value.songId
-        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
+        updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type))
     }
 
     override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
@@ -110,7 +112,7 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun toggleFavorite() {
-        val value = favoriteStatePublisher.value
+        val value = favoriteStatePublisher.value ?: return
         val id = value.songId
         val state = value.enum
         val type = value.favoriteType
