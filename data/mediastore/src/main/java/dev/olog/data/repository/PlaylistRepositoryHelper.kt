@@ -1,13 +1,13 @@
 package dev.olog.data.repository
 
 import dev.olog.domain.entity.AutoPlaylist
-import dev.olog.domain.entity.favorite.FavoriteType
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.track.PlaylistOperations
 import dev.olog.data.local.history.HistoryDao
 import dev.olog.data.local.playlist.PlaylistDao
 import dev.olog.data.local.playlist.PlaylistEntity
 import dev.olog.data.local.playlist.PlaylistTrackEntity
+import dev.olog.domain.entity.Favorite
 import dev.olog.shared.swap
 import javax.inject.Inject
 
@@ -21,7 +21,10 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     override suspend fun createPlaylist(playlistName: String): Long {
         return playlistDao.createPlaylist(
-            PlaylistEntity(name = playlistName, size = 0)
+            PlaylistEntity(
+                name = playlistName,
+                size = 0
+            )
         )
     }
 
@@ -29,7 +32,8 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         var maxIdInPlaylist = (playlistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PlaylistTrackEntity(
-                playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
+                playlistId = playlistId,
+                idInPlaylist = ++maxIdInPlaylist,
                 trackId = it
             )
         }
@@ -43,7 +47,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     override suspend fun clearPlaylist(playlistId: Long) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
         when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(Favorite.Type.TRACK)
             AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
         }
     }
@@ -58,7 +62,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(Favorite.Type.TRACK, songId)
             AutoPlaylist.HISTORY.id -> historyDao.deleteSingle(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }

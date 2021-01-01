@@ -6,10 +6,11 @@ import dev.olog.domain.entity.track.Track
 import kotlin.time.Duration
 import kotlin.time.milliseconds
 
+// TODO delete unused fields
 internal data class MediaEntity(
     val progressive: Int,
     val id: Long,
-    val mediaId: MediaId,
+    val mediaId: MediaId, // TODO check mediaid creation
     val artistId: Long,
     val albumId: Long,
     val title: String,

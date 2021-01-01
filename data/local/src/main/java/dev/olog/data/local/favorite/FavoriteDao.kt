@@ -1,7 +1,8 @@
 package dev.olog.data.local.favorite
 
 import androidx.room.*
-import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.Favorite
+import dev.olog.shared.exhaustive
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -43,28 +44,25 @@ abstract class FavoriteDao {
     @Delete
     abstract suspend fun deleteGroupPodcastImpl(item: List<FavoritePodcastEntity>)
 
-    suspend fun addToFavoriteSingle(type: FavoriteType, id: Long) {
-        if (type == FavoriteType.TRACK) {
-            insertOneImpl(FavoriteEntity(id))
-        } else {
-            insertOnePodcastImpl(FavoritePodcastEntity(id))
-        }
+    suspend fun addToFavoriteSingle(type: Favorite.Type, id: Long) {
+        when (type) {
+            Favorite.Type.TRACK -> insertOneImpl(FavoriteEntity(id))
+            Favorite.Type.PODCAST -> insertOnePodcastImpl(FavoritePodcastEntity(id))
+        }.exhaustive
     }
 
-    suspend fun addToFavorite(type: FavoriteType, songIds: List<Long>) {
-        if (type == FavoriteType.TRACK) {
-            insertGroupImpl(songIds.map { FavoriteEntity(it) })
-        } else {
-            insertGroupPodcastImpl(songIds.map { FavoritePodcastEntity(it) })
-        }
+    suspend fun addToFavorite(type: Favorite.Type, songIds: List<Long>) {
+        when (type) {
+            Favorite.Type.TRACK -> insertGroupImpl(songIds.map { FavoriteEntity(it) })
+            Favorite.Type.PODCAST -> insertGroupPodcastImpl(songIds.map { FavoritePodcastEntity(it) })
+        }.exhaustive
     }
 
-    open suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
-        if (type == FavoriteType.TRACK){
-            deleteGroupImpl(songId.map { FavoriteEntity(it) })
-        } else {
-            deleteGroupPodcastImpl(songId.map { FavoritePodcastEntity(it) })
-        }
+    open suspend fun removeFromFavorite(type: Favorite.Type, songId: List<Long>) {
+        when (type) {
+            Favorite.Type.TRACK -> deleteGroupImpl(songId.map { FavoriteEntity(it) })
+            Favorite.Type.PODCAST -> deleteGroupPodcastImpl(songId.map { FavoritePodcastEntity(it) })
+        }.exhaustive
     }
 
     @Query("SELECT songId FROM favorite_songs WHERE songId = :songId")

@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation project(':domain')
+    implementation project(':shared:jvm')
     implementation project(':shared:android')
     implementation project(':shared:prefs-keys')
 

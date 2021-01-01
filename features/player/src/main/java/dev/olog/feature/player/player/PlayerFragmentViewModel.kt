@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.domain.entity.favorite.FavoriteEnum
+import dev.olog.domain.entity.Favorite
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -26,7 +26,7 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
-    private val favoritePublisher = MutableStateFlow<FavoriteEnum?>(null)
+    private val favoritePublisher = MutableStateFlow<Favorite.State?>(null)
 
     private val processorPublisher = MutableStateFlow<ProcessorColors?>(null)
     private val palettePublisher = MutableStateFlow<PaletteColors?>(null)
@@ -59,7 +59,7 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
         return PlayerFragmentModel.Content(id)
     }
 
-    val onFavoriteStateChanged: Flow<FavoriteEnum> = favoritePublisher.filterNotNull()
+    val onFavoriteStateChanged: Flow<Favorite.State> = favoritePublisher.filterNotNull()
 
     val skipToNextVisibility = musicPrefs
             .observeSkipToNextVisibility()

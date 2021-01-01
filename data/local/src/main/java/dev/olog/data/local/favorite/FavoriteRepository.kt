@@ -1,12 +1,11 @@
 package dev.olog.data.local.favorite
 
-import dev.olog.domain.entity.favorite.FavoriteEnum
-import dev.olog.domain.entity.favorite.FavoriteStateEntity
-import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.Favorite
 import dev.olog.domain.entity.track.Track
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.shared.exhaustive
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -16,13 +15,13 @@ internal class FavoriteRepository @Inject constructor(
     private val podcastGateway: PodcastGateway,
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = MutableStateFlow<FavoriteStateEntity?>(null)
+    private val favoriteStatePublisher = MutableStateFlow<Favorite?>(null)
 
-    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
+    override fun observeToggleFavorite(): Flow<Favorite.State> = favoriteStatePublisher
         .filterNotNull()
-        .map { it.enum }
+        .map { it.state }
 
-    override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
+    override suspend fun updateFavoriteState(state: Favorite) {
         favoriteStatePublisher.value = state
     }
 
@@ -60,76 +59,99 @@ internal class FavoriteRepository @Inject constructor(
             }
     }
 
-    override suspend fun addSingle(type: FavoriteType, songId: Long) {
-        val id = favoriteStatePublisher.value?.songId ?: return
+    override suspend fun addSingle(type: Favorite.Type, trackId: Long) {
+        val id = favoriteStatePublisher.value?.trackId ?: return
 
-        favoriteDao.addToFavoriteSingle(type, songId)
-        if (songId == id) {
+        favoriteDao.addToFavoriteSingle(type, trackId)
+        if (trackId == id) {
             updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
+                state = Favorite(
+                    trackId = trackId,
+                    state = Favorite.State.FAVORITE,
+                    favoriteType = type
+                )
             )
         }
     }
 
-    override suspend fun addGroup(type: FavoriteType, songListId: List<Long>) {
-        val id = favoriteStatePublisher.value?.songId ?: return
+    override suspend fun addGroup(type: Favorite.Type, trackList: List<Long>) {
+        val id = favoriteStatePublisher.value?.trackId ?: return
 
-        favoriteDao.addToFavorite(type, songListId)
-        if (songListId.contains(id)) {
-            updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type))
-        }
-    }
-
-    override suspend fun deleteSingle(type: FavoriteType, songId: Long) {
-        val id = favoriteStatePublisher.value?.songId ?: return
-
-        favoriteDao.removeFromFavorite(type, listOf(songId))
-        if (songId == id) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
-        }
-    }
-
-    override suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>) {
-        val id = favoriteStatePublisher.value?.songId ?: return
-
-        favoriteDao.removeFromFavorite(type, songListId)
-        if (songListId.contains(id)) {
-            updateFavoriteState(
-                FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
+        favoriteDao.addToFavorite(type, trackList)
+        if (trackList.contains(id)) {
+            updateFavoriteState(state = Favorite(
+                trackId = id,
+                state = Favorite.State.FAVORITE,
+                favoriteType = type
+            )
             )
         }
     }
 
-    override suspend fun deleteAll(type: FavoriteType) {
-        val id = favoriteStatePublisher.value?.songId ?: return
+    override suspend fun deleteSingle(type: Favorite.Type, trackId: Long) {
+        val id = favoriteStatePublisher.value?.trackId ?: return
+
+        favoriteDao.removeFromFavorite(type, listOf(trackId))
+        if (trackId == id) {
+            updateFavoriteState(state = Favorite(
+                trackId = trackId,
+                state = Favorite.State.NOT_FAVORITE,
+                favoriteType = type
+            )
+            )
+        }
+    }
+
+    override suspend fun deleteGroup(type: Favorite.Type, trackList: List<Long>) {
+        val id = favoriteStatePublisher.value?.trackId ?: return
+
+        favoriteDao.removeFromFavorite(type, trackList)
+        if (trackList.contains(id)) {
+            updateFavoriteState(
+                state = Favorite(
+                    trackId = id,
+                    state = Favorite.State.NOT_FAVORITE,
+                    favoriteType = type
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteAll(type: Favorite.Type) {
+        val id = favoriteStatePublisher.value?.trackId ?: return
 
         favoriteDao.deleteTracks()
-        updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type))
+        updateFavoriteState(state = Favorite(
+            trackId = id,
+            state = Favorite.State.NOT_FAVORITE,
+            favoriteType = type
+        )
+        )
     }
 
-    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
-        return favoriteDao.isFavorite(songId) != null
+    override suspend fun isFavorite(type: Favorite.Type, trackId: Long): Boolean {
+        return favoriteDao.isFavorite(trackId) != null
     }
 
     override suspend fun toggleFavorite() {
         val value = favoriteStatePublisher.value ?: return
-        val id = value.songId
-        val state = value.enum
+        val id = value.trackId
+        val state = value.state
         val type = value.favoriteType
 
         when (state) {
-            FavoriteEnum.NOT_FAVORITE -> {
+            Favorite.State.NOT_FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type)
+                    Favorite(id, Favorite.State.FAVORITE, type)
                 )
                 favoriteDao.addToFavoriteSingle(type, id)
             }
-            FavoriteEnum.FAVORITE -> {
+            Favorite.State.FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
+                    Favorite(id, Favorite.State.NOT_FAVORITE, type)
                 )
                 favoriteDao.removeFromFavorite(type, listOf(id))
             }
-        }
+        }.exhaustive
     }
 }

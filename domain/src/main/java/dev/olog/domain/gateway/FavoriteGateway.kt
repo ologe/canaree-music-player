@@ -1,8 +1,6 @@
 package dev.olog.domain.gateway
 
-import dev.olog.domain.entity.favorite.FavoriteEnum
-import dev.olog.domain.entity.favorite.FavoriteStateEntity
-import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.Favorite
 import dev.olog.domain.entity.track.Track
 import kotlinx.coroutines.flow.Flow
 
@@ -14,18 +12,18 @@ interface FavoriteGateway {
     fun observeTracks(): Flow<List<Track>>
     fun observePodcasts(): Flow<List<Track>>
 
-    suspend fun addSingle(type: FavoriteType, songId: Long)
-    suspend fun addGroup(type: FavoriteType, songListId: List<Long>)
+    suspend fun addSingle(type: Favorite.Type, trackId: Long)
+    suspend fun addGroup(type: Favorite.Type, trackList: List<Long>)
 
-    suspend fun deleteSingle(type: FavoriteType, songId: Long)
-    suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>)
+    suspend fun deleteSingle(type: Favorite.Type, trackId: Long)
+    suspend fun deleteGroup(type: Favorite.Type, trackList: List<Long>)
 
-    suspend fun deleteAll(type: FavoriteType)
+    suspend fun deleteAll(type: Favorite.Type)
 
-    suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean
+    suspend fun isFavorite(type: Favorite.Type, trackId: Long): Boolean
 
-    fun observeToggleFavorite(): Flow<FavoriteEnum>
-    suspend fun updateFavoriteState(state: FavoriteStateEntity)
+    fun observeToggleFavorite(): Flow<Favorite.State>
+    suspend fun updateFavoriteState(state: Favorite)
 
     suspend fun toggleFavorite()
 

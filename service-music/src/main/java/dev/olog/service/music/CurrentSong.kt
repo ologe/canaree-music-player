@@ -4,9 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.entity.LastMetadata
-import dev.olog.domain.entity.favorite.FavoriteEnum
-import dev.olog.domain.entity.favorite.FavoriteStateEntity
-import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.Favorite
 import dev.olog.domain.interactor.InsertHistorySongUseCase
 import dev.olog.domain.interactor.InsertMostPlayedUseCase
 import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
@@ -68,10 +66,17 @@ internal class CurrentSong @Inject constructor(
     }
 
     private suspend fun updateFavorite(mediaEntity: MediaEntity) {
-        val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
-        val isFavorite = isFavoriteSongUseCase(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
-        val isFavoriteEnum = if (isFavorite) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE
-        updateFavoriteStateUseCase(FavoriteStateEntity(mediaEntity.id, isFavoriteEnum, type))
+        val isFavorite = isFavoriteSongUseCase(
+            trackId = mediaEntity.id,
+            type = Favorite.Type.fromMediaId(mediaEntity.mediaId)
+        )
+        updateFavoriteStateUseCase(
+            Favorite(
+            trackId = mediaEntity.id,
+            state = Favorite.State.fromBoolean(isFavorite),
+            favoriteType = Favorite.Type.fromMediaId(mediaEntity.mediaId)
+        )
+        )
     }
 
     private fun saveLastMetadata(entity: MediaEntity) {

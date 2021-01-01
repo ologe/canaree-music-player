@@ -3,7 +3,6 @@ package dev.olog.data.repository.podcast
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.AutoPlaylist
-import dev.olog.domain.entity.favorite.FavoriteType
 import dev.olog.domain.entity.track.*
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.base.Id
@@ -16,6 +15,7 @@ import dev.olog.data.local.playlist.PodcastPlaylistDao
 import dev.olog.data.local.playlist.PodcastPlaylistEntity
 import dev.olog.data.local.playlist.PodcastPlaylistTrackEntity
 import dev.olog.data.local.playlist.toDomain
+import dev.olog.domain.entity.Favorite
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
@@ -135,7 +135,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override suspend fun clearPlaylist(playlistId: Id) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
         when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(Favorite.Type.PODCAST)
             AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
         }
     }
@@ -160,7 +160,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(Favorite.Type.PODCAST, songId)
             AutoPlaylist.HISTORY.id -> historyDao.deleteSinglePodcast(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }

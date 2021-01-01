@@ -3,16 +3,17 @@ package dev.olog.feature.player.player.widget
 import android.content.Context
 import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
-import dev.olog.domain.entity.favorite.FavoriteEnum
+import dev.olog.domain.entity.Favorite
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.theme.playerAppearanceAmbient
+import dev.olog.shared.exhaustive
 
 class LottieFavorite(
     context: Context,
     attrs: AttributeSet
 ) : LottieAnimationView(context, attrs) {
 
-    private var state: FavoriteEnum = FavoriteEnum.NOT_FAVORITE
+    private var state: Favorite.State = Favorite.State.NOT_FAVORITE
 
     init {
         if (!isInEditMode){
@@ -50,7 +51,7 @@ class LottieFavorite(
 
     fun toggleFavorite(){
         this.state = this.state.reverse()
-        animateFavorite(this.state == FavoriteEnum.FAVORITE)
+        animateFavorite(this.state == Favorite.State.FAVORITE)
     }
 
     private fun animateFavorite(toFavorite: Boolean) {
@@ -63,16 +64,16 @@ class LottieFavorite(
         }
     }
 
-    fun onNextState(favoriteEnum: FavoriteEnum) {
-        if (this.state == favoriteEnum) {
+    fun onNextState(state: Favorite.State) {
+        if (this.state == state) {
             return
         }
-        this.state = FavoriteEnum.valueOf(favoriteEnum.name)
+        this.state = state
 
-        when (favoriteEnum) {
-            FavoriteEnum.FAVORITE -> toggleFavorite(true)
-            FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
-        }
+        when (state) {
+            Favorite.State.FAVORITE -> toggleFavorite(true)
+            Favorite.State.NOT_FAVORITE -> toggleFavorite(false)
+        }.exhaustive
     }
 
 }
