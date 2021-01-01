@@ -100,12 +100,12 @@ internal fun Cursor.toAlbum(): Album {
     val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
 
+    val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
     val dirName = try {
-        val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
         val path = data.substring(1, data.lastIndexOf(File.separator))
         path.substring(path.lastIndexOf(File.separator) + 1)
-    } catch (ex: Throwable){
-        ex.printStackTrace()
+    } catch (ex: Throwable) {
+        Timber.w("invalid path=$data")
         ""
     }
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
