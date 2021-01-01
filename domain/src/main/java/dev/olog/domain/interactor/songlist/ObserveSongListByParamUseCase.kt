@@ -40,7 +40,6 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeTrackListByParam(mediaId.categoryId)
-            else -> throw AssertionError("invalid media id $mediaId")
         }
     }
 

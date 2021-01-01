@@ -40,7 +40,6 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.PODCASTS -> getPodcastUseCase.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistUseCase.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
-            else -> throw IllegalArgumentException("invalid media category ${param.category}")
         }.map { it ?: "" }
     }
 

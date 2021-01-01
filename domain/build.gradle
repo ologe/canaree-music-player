@@ -7,6 +7,4 @@ dependencies {
 
     implementation lib_core.hilt
     implementation lib_core.coroutines
-
-    implementation lib_x.annotations
 }

@@ -37,7 +37,6 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.getTrackListByParam(mediaId.categoryId)
-            else -> throw AssertionError("invalid media id $mediaId")
         }
     }
 
