@@ -324,9 +324,7 @@ internal class DetailFragmentAdapter(
         get() {
             if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
                 val playlistId = mediaId.resolveId
-                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
-                    playlistId
-                )
+                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
             }
             return false
         }

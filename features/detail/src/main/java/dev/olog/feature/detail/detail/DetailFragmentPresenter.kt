@@ -16,6 +16,7 @@ internal class DetailFragmentPresenter @Inject constructor(
 
 ) {
 
+    // TODO refactor, use proper type system
     suspend fun removeFromPlaylist(
         item: DetailFragmentModel.PlaylistTrack
     ) {
@@ -31,7 +32,7 @@ internal class DetailFragmentPresenter @Inject constructor(
         } else {
             removeFromPlaylistUseCase(
                 RemoveFromPlaylistUseCase.Input(
-                playlistId, item.idInPlaylist.toLong(), playlistType
+                playlistId, item.idInPlaylist, playlistType
             ))
         }
     }

@@ -10,8 +10,8 @@ abstract class BaseThemeUpdater(
         sharedPreferences: SharedPreferences,
         key: String
     ) {
-        when (key) {
-            this.key -> onPrefsChanged()
+        if (key == this.key) {
+            onPrefsChanged()
         }
     }
 

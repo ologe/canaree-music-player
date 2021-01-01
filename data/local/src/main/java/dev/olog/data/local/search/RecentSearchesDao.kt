@@ -19,6 +19,7 @@ import dev.olog.domain.gateway.podcast.PodcastArtistGateway
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
+import dev.olog.shared.exhaustive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -93,8 +94,7 @@ abstract class RecentSearchesDao {
                             val item = podcastArtistList.getByParam(recentEntity.itemId)
                             artistMapper(recentEntity, item)
                         }
-                        else -> throw IllegalArgumentException("invalid recent element type ${recentEntity.dataType}")
-                    }
+                    }.exhaustive
                 }
             }
     }

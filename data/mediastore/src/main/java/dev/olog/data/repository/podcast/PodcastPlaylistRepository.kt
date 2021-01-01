@@ -50,14 +50,19 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     override fun getAllAutoPlaylists(): List<Playlist> {
         return listOf(
-            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
-            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
-            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2])
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED, autoPlaylistTitles[0]),
+            createAutoPlaylist(AutoPlaylist.FAVORITE, autoPlaylistTitles[1]),
+            createAutoPlaylist(AutoPlaylist.HISTORY, autoPlaylistTitles[2])
         )
     }
 
-    private fun createAutoPlaylist(id: Long, title: String): Playlist {
-        return Playlist(id, title, 0, true)
+    private fun createAutoPlaylist(autoPlaylist: AutoPlaylist, title: String): Playlist {
+        return Playlist(
+            id = autoPlaylist.id,
+            title = title,
+            size = 0,
+            isPodcast = true
+        )
     }
 
     override suspend fun getByParam(param: Id): Playlist? {
@@ -80,37 +85,37 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun getTrackListByParam(param: Id): List<Track> {
-        if (AutoPlaylist.isAutoPlaylist(param)){
-            return getAutoPlaylistsTracks(param)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(param)
+        if (autoPlaylist != null){
+            return getAutoPlaylistsTracks(autoPlaylist)
         }
         return podcastPlaylistDao.getPlaylistTracks(param, podcastGateway)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
-        if (AutoPlaylist.isAutoPlaylist(param)){
-            return observeAutoPlaylistsTracks(param)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(param)
+        if (autoPlaylist != null) {
+            return observeAutoPlaylistsTracks(autoPlaylist)
         }
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
 
-    private suspend fun getAutoPlaylistsTracks(param: Id): List<Track> {
-        return when (param){
-            AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll()
+    private suspend fun getAutoPlaylistsTracks(id: AutoPlaylist): List<Track> {
+        return when (id){
+            AutoPlaylist.LAST_ADDED -> podcastGateway.getAll()
                 .sortedByDescending { it.dateAdded }
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()
-            AutoPlaylist.HISTORY.id -> historyDao.getPodcasts(podcastGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+            AutoPlaylist.FAVORITE -> favoriteGateway.getPodcasts()
+            AutoPlaylist.HISTORY -> historyDao.getPodcasts(podcastGateway)
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Track>> {
-        return when (param){
-            AutoPlaylist.LAST_ADDED.id -> podcastGateway.observeAll().map { list ->
+    private fun observeAutoPlaylistsTracks(id: AutoPlaylist): Flow<List<Track>> {
+        return when (id){
+            AutoPlaylist.LAST_ADDED -> podcastGateway.observeAll().map { list ->
                 list.sortedByDescending { it.dateAdded }
             }
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.observePodcasts()
-            AutoPlaylist.HISTORY.id -> historyDao.observePodcasts(podcastGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+            AutoPlaylist.FAVORITE -> favoriteGateway.observePodcasts()
+            AutoPlaylist.HISTORY -> historyDao.observePodcasts(podcastGateway)
         }
     }
 
@@ -152,17 +157,18 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long) {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-            return removeFromAutoPlaylist(playlistId, idInPlaylist)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(playlistId)
+        if (autoPlaylist != null) {
+            return removeFromAutoPlaylist(autoPlaylist, idInPlaylist)
         }
         return podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist)
     }
 
-    private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
-        return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(Favorite.Type.PODCAST, songId)
-            AutoPlaylist.HISTORY.id -> historyDao.deleteSinglePodcast(songId)
-            else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
+    private suspend fun removeFromAutoPlaylist(autoPlaylist: AutoPlaylist, songId: Long) {
+        return when (autoPlaylist) {
+            AutoPlaylist.FAVORITE -> favoriteGateway.deleteSingle(Favorite.Type.PODCAST, songId)
+            AutoPlaylist.HISTORY -> historyDao.deleteSinglePodcast(songId)
+            AutoPlaylist.LAST_ADDED -> error("cannot remove from last added")
         }
     }
 

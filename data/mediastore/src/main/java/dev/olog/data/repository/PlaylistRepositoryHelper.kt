@@ -53,18 +53,19 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-            removeFromAutoPlaylist(playlistId, idInPlaylist)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(playlistId)
+        if (autoPlaylist != null) {
+            removeFromAutoPlaylist(autoPlaylist, idInPlaylist)
         } else {
             return playlistDao.deleteTrack(playlistId, idInPlaylist)
         }
     }
 
-    private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
-        return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(Favorite.Type.TRACK, songId)
-            AutoPlaylist.HISTORY.id -> historyDao.deleteSingle(songId)
-            else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
+    private suspend fun removeFromAutoPlaylist(autoPlaylist: AutoPlaylist, songId: Long) {
+        return when (autoPlaylist) {
+            AutoPlaylist.FAVORITE -> favoriteGateway.deleteSingle(Favorite.Type.TRACK, songId)
+            AutoPlaylist.HISTORY -> historyDao.deleteSingle(songId)
+            AutoPlaylist.LAST_ADDED -> error("cannot remove from last added")
         }
     }
 

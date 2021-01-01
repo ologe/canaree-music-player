@@ -34,6 +34,7 @@ class PlaylistPopup(
                 menu.removeItem(R.id.removeDuplicates)
             }
             if (playlist.id == AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlist.id)) {
+                // TODO add clear support for all playlist??
                 menu.removeItem(R.id.clear)
             }
             if (playlist.size < 1) {

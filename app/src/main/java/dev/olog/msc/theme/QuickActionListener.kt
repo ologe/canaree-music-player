@@ -39,7 +39,8 @@ internal class QuickActionListener @Inject constructor(
         return when (value) {
             context.getString(R.string.prefs_quick_action_entry_value_hide) -> QuickAction.NONE
             context.getString(R.string.prefs_quick_action_entry_value_play) -> QuickAction.PLAY
-            else -> QuickAction.SHUFFLE
+            context.getString(R.string.prefs_quick_action_entry_value_shuffle) -> QuickAction.SHUFFLE
+            else -> error("invalid $value")
         }
     }
 }

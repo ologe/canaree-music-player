@@ -74,53 +74,52 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override suspend fun getTrackListByParam(param: Id): List<Track> {
-        if (AutoPlaylist.isAutoPlaylist(param)){
-            return getAutoPlaylistsTracks(param)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(param)
+        if (autoPlaylist != null) {
+            return getAutoPlaylistsTracks(autoPlaylist)
         }
         // TODO sort
         return playlistDao.getPlaylistTracks(param, songGateway)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Track>> {
-        if (AutoPlaylist.isAutoPlaylist(param)){
-            return observeAutoPlaylistsTracks(param)
+        val autoPlaylist = AutoPlaylist.fromIdOrNull(param)
+        if (autoPlaylist != null) {
+            return observeAutoPlaylistsTracks(autoPlaylist)
         }
         // TODO sort
         return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
-    private suspend fun getAutoPlaylistsTracks(param: Id): List<Track> {
-        return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.getAll()
-                .sortedByDescending { it.dateAdded }
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
-            AutoPlaylist.HISTORY.id -> historyDao.getTracks(songGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+    private suspend fun getAutoPlaylistsTracks(autoPlaylist: AutoPlaylist): List<Track> {
+        return when (autoPlaylist){
+            AutoPlaylist.LAST_ADDED -> songGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.FAVORITE -> favoriteGateway.getTracks()
+            AutoPlaylist.HISTORY -> historyDao.getTracks(songGateway)
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Track>> {
-        return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { list ->
+    private fun observeAutoPlaylistsTracks(autoPlaylist: AutoPlaylist): Flow<List<Track>> {
+        return when (autoPlaylist){
+            AutoPlaylist.LAST_ADDED -> songGateway.observeAll().map { list ->
                 list.sortedByDescending { it.dateAdded }
             }
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
-            AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+            AutoPlaylist.FAVORITE -> favoriteGateway.observeTracks()
+            AutoPlaylist.HISTORY -> historyDao.observeTracks(songGateway)
         }
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
         return listOf(
-            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
-            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
-            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2])
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED, autoPlaylistTitles[0]),
+            createAutoPlaylist(AutoPlaylist.FAVORITE, autoPlaylistTitles[1]),
+            createAutoPlaylist(AutoPlaylist.HISTORY, autoPlaylistTitles[2])
         )
     }
 
-    private fun createAutoPlaylist(id: Long, title: String): Playlist {
+    private fun createAutoPlaylist(autoPlaylist: AutoPlaylist, title: String): Playlist {
         return Playlist(
-            id = id,
+            id = autoPlaylist.id,
             title = title,
             size = 0,
             isPodcast = false
