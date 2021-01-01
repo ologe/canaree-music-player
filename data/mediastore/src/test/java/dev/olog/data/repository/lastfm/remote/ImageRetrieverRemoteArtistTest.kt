@@ -1,8 +1,8 @@
 package dev.olog.data.repository.lastfm.remote
 
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.EMPTY
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.entity.track.EMPTY
 import dev.olog.data.remote.deezer.DeezerService
 import dev.olog.data.remote.deezer.dto.DeezerArtistDto
 import dev.olog.data.remote.deezer.dto.DeezerArtistSearchResultDto

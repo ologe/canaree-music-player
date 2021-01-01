@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.core.gateway.*
+import dev.olog.domain.gateway.*
 import dev.olog.data.local.equalizer.preset.EqualizerRepository
 import dev.olog.data.local.favorite.FavoriteRepository
 import dev.olog.data.local.lyrics.OfflineLyricsRepository

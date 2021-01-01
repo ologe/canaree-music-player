@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.data.local.R
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow

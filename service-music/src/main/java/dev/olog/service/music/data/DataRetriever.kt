@@ -1,16 +1,16 @@
 package dev.olog.service.music.data
 
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdModifier
-import dev.olog.core.entity.PlayingQueueTrack
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.track.GenreGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
-import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdModifier
+import dev.olog.domain.entity.PlayingQueueTrack
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.track.GenreGateway
+import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.domain.interactor.ObserveMostPlayedSongsUseCase
+import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity

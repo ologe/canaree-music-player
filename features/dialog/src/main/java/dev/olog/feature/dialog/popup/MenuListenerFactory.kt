@@ -1,6 +1,6 @@
 package dev.olog.feature.dialog.popup
 
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.track.*
 import dev.olog.feature.dialog.popup.album.AlbumPopupListener
 import dev.olog.feature.dialog.popup.artist.ArtistPopupListener
 import dev.olog.feature.dialog.popup.folder.FolderPopupListener

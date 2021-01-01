@@ -1,6 +1,6 @@
 package dev.olog.lib.media.model
 
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 
 data class PlayerItem(
     val mediaId: MediaId,

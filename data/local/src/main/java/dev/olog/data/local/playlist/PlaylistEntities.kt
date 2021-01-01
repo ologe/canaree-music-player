@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import dev.olog.core.entity.track.Playlist
+import dev.olog.domain.entity.track.Playlist
 
 @Entity(tableName = "playlist")
 data class PlaylistEntity(

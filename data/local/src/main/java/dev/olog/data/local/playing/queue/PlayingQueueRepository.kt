@@ -1,11 +1,11 @@
 package dev.olog.data.local.playing.queue
 
-import dev.olog.core.entity.PlayingQueueTrack
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.domain.entity.PlayingQueueTrack
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCaseRequest
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package dev.olog.feature.dialog.playlist.rename
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.interactor.playlist.RenameUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.interactor.playlist.RenameUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

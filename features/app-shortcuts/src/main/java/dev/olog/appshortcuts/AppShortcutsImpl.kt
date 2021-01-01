@@ -7,8 +7,8 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.AppShortcuts
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.AppShortcuts
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.navigation.Params
 import dev.olog.navigation.destination.NavigationIntent

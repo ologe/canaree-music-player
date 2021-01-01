@@ -5,10 +5,10 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.track.SongGateway
 import dev.olog.lib.image.provider.fetcher.GlideOriginalImageFetcher
 import java.io.InputStream
 import javax.inject.Inject

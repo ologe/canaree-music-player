@@ -3,11 +3,10 @@ package dev.olog.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import dev.olog.core.gateway.base.BaseGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.base.BaseGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ConflatedSharedFlow
 import dev.olog.shared.value
 import kotlinx.coroutines.GlobalScope

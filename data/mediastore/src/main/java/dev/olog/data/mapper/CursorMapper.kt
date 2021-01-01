@@ -5,8 +5,8 @@ package dev.olog.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.base.Id
+import dev.olog.domain.entity.track.*
+import dev.olog.domain.gateway.base.Id
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong

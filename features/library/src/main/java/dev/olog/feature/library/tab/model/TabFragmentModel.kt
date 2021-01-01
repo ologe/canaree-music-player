@@ -1,8 +1,8 @@
 package dev.olog.feature.library.tab.model
 
 import androidx.annotation.LayoutRes
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.sort.SortType
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.sort.SortType
 import dev.olog.feature.library.R
 import dev.olog.shared.android.DisplayableItemUtils
 import kotlin.time.Duration

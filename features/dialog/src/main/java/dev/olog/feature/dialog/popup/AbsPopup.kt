@@ -9,8 +9,8 @@ import android.view.View
 import androidx.core.view.children
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.entity.track.Playlist
+import dev.olog.domain.entity.track.Track
 import dev.olog.feature.dialog.R
 import dev.olog.shared.allTrue
 import dev.olog.shared.android.extensions.findActivity

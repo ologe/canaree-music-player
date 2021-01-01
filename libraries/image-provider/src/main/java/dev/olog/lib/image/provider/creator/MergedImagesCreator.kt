@@ -3,8 +3,8 @@ package dev.olog.lib.image.provider.creator
 import android.content.Context
 import android.graphics.Bitmap
 import com.bumptech.glide.util.Util.assertBackgroundThread
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdCategory
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.lib.image.provider.OnImageLoadingError
 import dev.olog.lib.image.provider.getCachedBitmap
 import kotlinx.coroutines.yield

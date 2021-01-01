@@ -3,7 +3,7 @@ package dev.olog.service.floating
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import dev.olog.shared.autoDisposeJob

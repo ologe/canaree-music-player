@@ -13,9 +13,9 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
-import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
+import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.feature.settings.BuildConfig
 import dev.olog.feature.settings.R
 import dev.olog.shared.android.extensions.launch

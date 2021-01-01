@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdCategory
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
+import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.lib.media.MusicServiceCustomAction
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.destination.NavigationIntents

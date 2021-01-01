@@ -1,6 +1,6 @@
 package dev.olog.feature.detail.related.artist
 
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 
 data class RelatedArtistFragmentModel(
     val mediaId: MediaId,

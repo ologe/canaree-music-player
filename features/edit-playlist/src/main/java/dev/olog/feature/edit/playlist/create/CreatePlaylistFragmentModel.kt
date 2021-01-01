@@ -1,7 +1,7 @@
 package dev.olog.feature.edit.playlist.create
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Track
 import dev.olog.shared.android.DisplayableItemUtils
 
 internal data class CreatePlaylistFragmentModel(

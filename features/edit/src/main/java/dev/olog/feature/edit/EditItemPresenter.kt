@@ -1,7 +1,7 @@
 package dev.olog.feature.edit
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.feature.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.feature.edit.domain.UpdateTrackUseCase
 import org.jaudiotagger.tag.FieldKey

@@ -3,7 +3,7 @@ package dev.olog.data.local.search
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import dev.olog.core.RecentSearchesType
+import dev.olog.domain.RecentSearchesType
 
 @Entity(
     tableName = "recent_searches",

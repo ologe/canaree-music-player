@@ -1,7 +1,7 @@
 package dev.olog.feature.dialog.delete
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.interactor.DeleteUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.interactor.DeleteUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

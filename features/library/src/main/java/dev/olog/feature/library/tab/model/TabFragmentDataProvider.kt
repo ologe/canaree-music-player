@@ -2,12 +2,12 @@ package dev.olog.feature.library.tab.model
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
+import dev.olog.domain.entity.track.Playlist
+import dev.olog.domain.gateway.podcast.PodcastAlbumGateway
+import dev.olog.domain.gateway.podcast.PodcastArtistGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
 import dev.olog.feature.library.prefs.LibraryPreferencesGateway
 import dev.olog.feature.library.tab.TabFragmentHeaders
 import dev.olog.shared.mapListItem

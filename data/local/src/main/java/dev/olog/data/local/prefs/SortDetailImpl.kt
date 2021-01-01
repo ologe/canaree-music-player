@@ -2,11 +2,11 @@ package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.mediaid.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.SortDetail
+import dev.olog.domain.mediaid.MediaIdCategory
+import dev.olog.domain.entity.sort.SortArranging
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.prefs.SortDetail
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

@@ -5,7 +5,7 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.base.base.BaseBottomSheetFragment
 import dev.olog.lib.image.provider.CoverUtils
 import dev.olog.lib.image.provider.GlideApp

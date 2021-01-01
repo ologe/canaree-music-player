@@ -1,9 +1,9 @@
 package dev.olog.lib.offline.lyrics.domain
 
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.base.FlowUseCaseWithParam
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.domain.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

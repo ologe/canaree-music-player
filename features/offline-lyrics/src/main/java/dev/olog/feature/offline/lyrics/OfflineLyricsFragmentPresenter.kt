@@ -3,8 +3,8 @@ package dev.olog.feature.offline.lyrics
 import android.content.Context
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.lib.offline.lyrics.BaseOfflineLyricsPresenter
 import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.lib.offline.lyrics.domain.ObserveOfflineLyricsUseCase

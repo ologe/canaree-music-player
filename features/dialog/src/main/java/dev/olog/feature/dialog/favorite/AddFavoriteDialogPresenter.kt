@@ -1,8 +1,8 @@
 package dev.olog.feature.dialog.favorite
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.interactor.AddToFavoriteUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.interactor.AddToFavoriteUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

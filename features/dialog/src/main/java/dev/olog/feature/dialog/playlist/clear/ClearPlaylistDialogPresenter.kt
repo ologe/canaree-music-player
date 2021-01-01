@@ -1,7 +1,7 @@
 package dev.olog.feature.dialog.playlist.clear
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.interactor.playlist.ClearPlaylistUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.interactor.playlist.ClearPlaylistUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

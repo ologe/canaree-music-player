@@ -10,7 +10,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.image.provider.OnImageLoadingError
 import dev.olog.lib.image.provider.getCachedBitmap
 import dev.olog.lib.media.mediaProvider

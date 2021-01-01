@@ -1,12 +1,12 @@
 package dev.olog.feature.edit.track
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.base.Id
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.track.SongGateway
 import javax.inject.Inject
 
 internal class EditTrackFragmentPresenter @Inject constructor(

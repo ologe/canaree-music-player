@@ -1,6 +1,6 @@
 package dev.olog.data.api.lastfm.artist
 
-import dev.olog.core.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmArtist
 import dev.olog.data.remote.lastfm.dto.LastFmBioDto
 import dev.olog.data.remote.lastfm.dto.LastFmImageDto
 import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoDto

@@ -18,7 +18,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.image.provider.loader.AudioFileCoverLoader
 import dev.olog.lib.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.lib.image.provider.loader.GlideMergedImageLoader

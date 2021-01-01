@@ -2,7 +2,7 @@ package dev.olog.service.music.player.mediasource
 
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
 import javax.inject.Inject

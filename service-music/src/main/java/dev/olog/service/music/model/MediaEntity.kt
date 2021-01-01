@@ -1,8 +1,8 @@
 package dev.olog.service.music.model
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.PlayingQueueTrack
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.PlayingQueueTrack
+import dev.olog.domain.entity.track.Track
 import kotlin.time.Duration
 import kotlin.time.milliseconds
 

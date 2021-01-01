@@ -8,9 +8,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdModifier
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdModifier
+import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.feature.base.base.BaseActivity
 import dev.olog.lib.media.MusicServiceAction
 import dev.olog.lib.media.MusicServiceCustomAction

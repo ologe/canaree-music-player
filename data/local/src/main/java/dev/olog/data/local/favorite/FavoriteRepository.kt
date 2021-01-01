@@ -1,12 +1,12 @@
 package dev.olog.data.local.favorite
 
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.entity.favorite.FavoriteStateEntity
-import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.domain.entity.favorite.FavoriteEnum
+import dev.olog.domain.entity.favorite.FavoriteStateEntity
+import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.FavoriteGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.track.SongGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter

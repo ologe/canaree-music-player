@@ -7,10 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.interactor.GetItemTitleUseCase
-import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.interactor.GetItemTitleUseCase
+import dev.olog.domain.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.feature.detail.R
 import dev.olog.navigation.Params
 import dev.olog.shared.android.extensions.argument

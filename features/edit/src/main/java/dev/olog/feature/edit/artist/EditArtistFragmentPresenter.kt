@@ -1,12 +1,12 @@
 package dev.olog.feature.edit.artist
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.base.Id
+import dev.olog.domain.gateway.podcast.PodcastArtistGateway
+import dev.olog.domain.gateway.track.ArtistGateway
 import javax.inject.Inject
 
 internal class EditArtistFragmentPresenter @Inject constructor(

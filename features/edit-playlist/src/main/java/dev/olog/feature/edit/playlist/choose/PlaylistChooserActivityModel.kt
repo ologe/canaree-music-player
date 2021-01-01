@@ -1,8 +1,8 @@
 package dev.olog.feature.edit.playlist.choose
 
 import android.content.res.Resources
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Playlist
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Playlist
 import dev.olog.shared.android.DisplayableItemUtils
 
 data class PlaylistChooserActivityModel(

@@ -1,7 +1,7 @@
 package dev.olog.lib.equalizer.equalizer
 
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
+import dev.olog.domain.entity.EqualizerBand
+import dev.olog.domain.entity.EqualizerPreset
 import kotlinx.coroutines.flow.Flow
 
 internal interface IEqualizerInternal {

@@ -1,7 +1,7 @@
 package dev.olog.data.local.favorite
 
 import androidx.room.*
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.domain.entity.favorite.FavoriteType
 import kotlinx.coroutines.flow.Flow
 
 @Dao

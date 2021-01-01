@@ -4,11 +4,11 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.mediaid.MediaIdCategory
-import dev.olog.core.gateway.base.Path
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.mediaid.MediaIdCategory
+import dev.olog.domain.gateway.base.Path
+import dev.olog.domain.prefs.BlacklistPreferences
+import dev.olog.domain.prefs.SortPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")

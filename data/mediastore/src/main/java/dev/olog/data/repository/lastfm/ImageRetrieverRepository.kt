@@ -1,13 +1,13 @@
 package dev.olog.data.repository.lastfm
 
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.track.AlbumGateway
-import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.domain.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.base.Id
+import dev.olog.domain.gateway.track.AlbumGateway
+import dev.olog.domain.gateway.track.ArtistGateway
+import dev.olog.domain.gateway.track.SongGateway
 import dev.olog.data.local.last.fm.ImageRetrieverLocalAlbum
 import dev.olog.data.local.last.fm.ImageRetrieverLocalArtist
 import dev.olog.data.local.last.fm.ImageRetrieverLocalTrack

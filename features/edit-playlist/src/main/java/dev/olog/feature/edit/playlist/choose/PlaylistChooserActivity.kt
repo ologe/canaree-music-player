@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.AppShortcuts
+import dev.olog.domain.AppShortcuts
 import dev.olog.feature.base.base.BaseActivity
 import dev.olog.feature.edit.playlist.R
 import dev.olog.shared.android.extensions.toast

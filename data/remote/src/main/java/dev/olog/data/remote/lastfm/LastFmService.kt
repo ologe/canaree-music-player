@@ -1,9 +1,9 @@
 package dev.olog.data.remote.lastfm
 
 import androidx.annotation.IntRange
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Album
+import dev.olog.domain.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.entity.track.Album
 import dev.olog.data.remote.BuildConfig
 import dev.olog.data.remote.lastfm.dto.LastFmAlbumInfoDto
 import dev.olog.data.remote.lastfm.dto.LastFmAlbumSearchDto

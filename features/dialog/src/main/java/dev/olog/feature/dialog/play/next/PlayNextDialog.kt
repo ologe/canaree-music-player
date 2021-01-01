@@ -4,7 +4,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.dialog.R
 import dev.olog.feature.dialog.base.BaseDialog
 import dev.olog.shared.android.extensions.argument

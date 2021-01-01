@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.base.CanChangeStatusBarColor
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.SetupNestedList

@@ -2,7 +2,7 @@ package dev.olog.data.local.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.domain.prefs.BlacklistPreferences
 import javax.inject.Inject
 
 internal class BlacklistPreferenceImpl @Inject constructor(

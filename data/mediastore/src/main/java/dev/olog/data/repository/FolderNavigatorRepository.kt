@@ -4,11 +4,11 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore.Audio.Media
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.FileType
-import dev.olog.core.gateway.FolderNavigatorGateway
-import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.FileType
+import dev.olog.domain.gateway.FolderNavigatorGateway
+import dev.olog.domain.gateway.track.FolderGateway
+import dev.olog.domain.prefs.BlacklistPreferences
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import kotlinx.coroutines.flow.*
 import java.io.File

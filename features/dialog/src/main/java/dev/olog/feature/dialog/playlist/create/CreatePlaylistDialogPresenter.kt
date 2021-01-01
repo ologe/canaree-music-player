@@ -1,13 +1,13 @@
 package dev.olog.feature.dialog.playlist.create
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
-import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.track.SongGateway
+import dev.olog.domain.interactor.playlist.InsertCustomTrackListRequest
+import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

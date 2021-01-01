@@ -132,5 +132,5 @@
 
 
 # STYLE TRANFER MODULE (caused by reflection)
--keep class dev.olog.core.Stylizer
+-keep class dev.olog.domain.Stylizer
 -keep class dev.olog.feature.stylize.StylizerImpl

@@ -1,10 +1,9 @@
 package dev.olog.msc.app
 
 import com.tozny.crypto.android.AesCbcWithIntegrity
-import dev.olog.core.IEncrypter
+import dev.olog.domain.IEncrypter
 import dev.olog.msc.BuildConfig
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private val SALT = byteArrayOf(
     -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95,

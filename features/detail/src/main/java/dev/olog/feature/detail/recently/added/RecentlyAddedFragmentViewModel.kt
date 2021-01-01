@@ -5,10 +5,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Track
-import dev.olog.core.interactor.GetItemTitleUseCase
-import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.interactor.GetItemTitleUseCase
+import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.navigation.Params
 import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.android.extensions.argument

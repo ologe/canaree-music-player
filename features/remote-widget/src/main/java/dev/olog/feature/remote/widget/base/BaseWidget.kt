@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.core.entity.LastMetadata
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.entity.LastMetadata
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.remote.widget.R
 import dev.olog.feature.remote.widget.model.WidgetActions
 import dev.olog.feature.remote.widget.model.WidgetMetadata

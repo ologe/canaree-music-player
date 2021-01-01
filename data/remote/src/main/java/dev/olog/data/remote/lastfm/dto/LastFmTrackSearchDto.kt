@@ -1,6 +1,6 @@
 package dev.olog.data.remote.lastfm.dto
 
-import dev.olog.core.entity.LastFmTrack
+import dev.olog.domain.entity.LastFmTrack
 
 internal data class LastFmTrackSearchDto(
     val results: LastFmTrackSearchResultDto?

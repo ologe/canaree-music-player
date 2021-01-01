@@ -1,8 +1,8 @@
 package dev.olog.feature.dialog.popup.folder
 
 import android.view.View
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.entity.track.Folder
+import dev.olog.domain.entity.track.Track
 import dev.olog.feature.dialog.R
 import dev.olog.feature.dialog.popup.AbsPopup
 import dev.olog.feature.dialog.popup.AbsPopupListener

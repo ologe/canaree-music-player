@@ -3,7 +3,7 @@ package dev.olog.service.music.player
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.IPlayer

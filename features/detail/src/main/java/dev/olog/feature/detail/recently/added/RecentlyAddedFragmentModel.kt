@@ -1,6 +1,6 @@
 package dev.olog.feature.detail.recently.added
 
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 
 data class RecentlyAddedFragmentModel(
     val mediaId: MediaId,

@@ -3,7 +3,7 @@ package dev.olog.data.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import dev.olog.core.RecentSearchesType
+import dev.olog.domain.RecentSearchesType
 import dev.olog.data.local.equalizer.preset.EqualizerBandEntity
 
 internal class CustomTypeConverters {

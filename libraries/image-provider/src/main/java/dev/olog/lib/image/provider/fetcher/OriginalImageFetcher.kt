@@ -4,7 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore.Audio.*
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.entity.track.Track
 import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
 import java.io.*

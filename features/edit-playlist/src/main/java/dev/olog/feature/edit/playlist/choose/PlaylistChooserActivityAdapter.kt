@@ -3,7 +3,7 @@ package dev.olog.feature.edit.playlist.choose
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.AppShortcuts
+import dev.olog.domain.AppShortcuts
 import dev.olog.feature.base.adapter.LayoutContainerViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener

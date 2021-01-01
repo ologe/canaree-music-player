@@ -7,9 +7,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
 import dev.olog.lib.media.MediaProvider

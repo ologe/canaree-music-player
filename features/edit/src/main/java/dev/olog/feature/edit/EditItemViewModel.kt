@@ -5,8 +5,8 @@ import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Track
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

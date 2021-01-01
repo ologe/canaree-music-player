@@ -2,7 +2,7 @@ package dev.olog.feature.detail.detail
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentModel
 import javax.inject.Inject

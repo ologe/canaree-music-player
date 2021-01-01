@@ -1,8 +1,8 @@
 package dev.olog.data.remote
 
 import androidx.annotation.VisibleForTesting
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Track
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.entity.track.Track
 import dev.olog.data.remote.deezer.DeezerService
 import dev.olog.data.remote.lastfm.LastFmService
 import dev.olog.lib.network.QueryNormalizer

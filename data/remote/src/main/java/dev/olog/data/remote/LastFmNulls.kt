@@ -1,8 +1,8 @@
 package dev.olog.data.remote
 
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.LastFmTrack
+import dev.olog.domain.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmTrack
 
 object LastFmNulls {
 

@@ -8,7 +8,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.play.core.ktx.launchReview
 import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewManagerFactory
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.navigation.internal.ActivityProvider
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.delay

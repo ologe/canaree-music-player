@@ -2,14 +2,14 @@ package dev.olog.data.repository.podcast
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.favorite.FavoriteType
+import dev.olog.domain.entity.track.*
+import dev.olog.domain.gateway.FavoriteGateway
+import dev.olog.domain.gateway.base.Id
+import dev.olog.domain.gateway.podcast.PodcastArtistGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.R
 import dev.olog.data.local.history.HistoryDao
 import dev.olog.data.local.playlist.PodcastPlaylistDao

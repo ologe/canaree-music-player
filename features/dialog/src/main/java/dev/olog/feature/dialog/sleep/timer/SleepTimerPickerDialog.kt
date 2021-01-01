@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.feature.dialog.R
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.extensions.launch

@@ -3,9 +3,9 @@ package dev.olog.feature.edit.domain
 import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 

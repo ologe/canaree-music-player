@@ -1,10 +1,10 @@
 package dev.olog.data.local.equalizer.preset
 
 import android.os.Build
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
-import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.domain.entity.EqualizerBand
+import dev.olog.domain.entity.EqualizerPreset
+import dev.olog.domain.gateway.EqualizerGateway
+import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow

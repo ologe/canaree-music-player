@@ -1,8 +1,8 @@
 package dev.olog.data.local.last.fm
 
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.DateTimeGenerator
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.gateway.base.Id
+import dev.olog.domain.DateTimeGenerator
 import javax.inject.Inject
 
 interface ImageRetrieverLocalTrack {

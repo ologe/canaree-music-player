@@ -1,8 +1,8 @@
 package dev.olog.feature.detail.detail.mapper
 
 import android.content.res.Resources
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.track.*
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.model.DetailFragmentModel
 

@@ -1,7 +1,7 @@
 package dev.olog.lib.media.model
 
 import android.support.v4.media.MediaMetadataCompat
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.lib.media.MusicConstants
 import dev.olog.lib.media.getBoolean
 import dev.olog.shared.android.TextUtils

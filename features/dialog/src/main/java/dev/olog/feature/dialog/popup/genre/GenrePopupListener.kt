@@ -2,12 +2,12 @@ package dev.olog.feature.dialog.popup.genre
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.core.AppShortcuts
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Track
-import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
-import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.domain.AppShortcuts
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Genre
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
+import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.dialog.R
 import dev.olog.lib.media.mediaProvider
 import dev.olog.navigation.Navigator

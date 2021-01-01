@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.player.R
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope

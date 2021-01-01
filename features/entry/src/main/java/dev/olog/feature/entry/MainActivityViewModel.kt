@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.shared.android.Permissions
 
 internal class MainActivityViewModel @ViewModelInject constructor(

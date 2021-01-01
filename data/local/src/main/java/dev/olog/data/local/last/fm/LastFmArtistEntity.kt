@@ -3,7 +3,7 @@ package dev.olog.data.local.last.fm
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import dev.olog.core.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmArtist
 
 @Entity(
     tableName = "last_fm_artist_v2",

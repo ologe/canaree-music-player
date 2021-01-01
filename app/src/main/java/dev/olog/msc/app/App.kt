@@ -2,8 +2,8 @@ package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
-import dev.olog.core.AppShortcuts
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.domain.AppShortcuts
+import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import dev.olog.navigation.internal.ActivityProvider
 import io.alterac.blurkit.BlurKit

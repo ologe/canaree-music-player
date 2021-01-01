@@ -7,7 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.HasBottomNavigation

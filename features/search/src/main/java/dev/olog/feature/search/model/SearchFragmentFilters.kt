@@ -1,6 +1,6 @@
 package dev.olog.feature.search.model
 
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.track.*
 
 @JvmName("filterTracks")
 internal fun List<Track>.filterBy(query: String): List<Track> {

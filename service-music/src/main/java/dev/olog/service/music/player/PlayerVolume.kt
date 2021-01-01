@@ -2,7 +2,7 @@ package dev.olog.service.music.player
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.VolumeMaxValues
 import dev.olog.shared.FlowInterval
 import dev.olog.shared.autoDisposeJob

@@ -15,7 +15,7 @@ import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.lib.image.provider.GlideApp
 import dev.olog.lib.image.provider.creator.ImagesFolderUtils

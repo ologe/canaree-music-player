@@ -1,8 +1,8 @@
 package dev.olog.data.remote
 
 import androidx.annotation.VisibleForTesting
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.track.Artist
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.track.Artist
 import dev.olog.data.remote.deezer.DeezerService
 import dev.olog.data.remote.lastfm.LastFmService
 import dev.olog.data.remote.lastfm.dto.toDomain

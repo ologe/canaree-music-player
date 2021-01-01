@@ -10,8 +10,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.multibindings.IntoSet
-import dev.olog.core.ResettablePreference
-import dev.olog.core.prefs.*
+import dev.olog.domain.ResettablePreference
+import dev.olog.domain.prefs.*
 import dev.olog.data.local.prefs.*
 import javax.inject.Singleton
 

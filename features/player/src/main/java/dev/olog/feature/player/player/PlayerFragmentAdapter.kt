@@ -4,7 +4,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.adapter.drag.IDragListener
 import dev.olog.feature.base.adapter.drag.TouchableAdapter

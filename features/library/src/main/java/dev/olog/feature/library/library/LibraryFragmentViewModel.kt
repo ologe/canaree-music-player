@@ -4,8 +4,8 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.prefs.AppPreferencesGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.library.prefs.LibraryPreferencesGateway
 import dev.olog.navigation.BottomNavigationPage
 import dev.olog.navigation.Params

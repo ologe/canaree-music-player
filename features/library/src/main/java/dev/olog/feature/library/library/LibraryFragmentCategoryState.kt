@@ -1,7 +1,7 @@
 package dev.olog.feature.library.library
 
 import android.content.Context
-import dev.olog.core.mediaid.MediaIdCategory
+import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.feature.library.R
 
 data class LibraryFragmentCategoryState(

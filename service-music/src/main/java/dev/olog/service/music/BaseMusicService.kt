@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.lib.media.MusicServiceAction

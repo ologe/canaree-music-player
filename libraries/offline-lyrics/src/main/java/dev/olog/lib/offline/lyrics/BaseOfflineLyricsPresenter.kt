@@ -9,8 +9,8 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.lib.offline.lyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.autoDisposeJob

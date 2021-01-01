@@ -9,8 +9,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.media.MusicConstants
 import dev.olog.shared.android.WidgetConstants
 import dev.olog.lib.image.provider.GlideUtils

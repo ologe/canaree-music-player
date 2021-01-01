@@ -3,9 +3,9 @@ package dev.olog.feature.library.blacklist
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.domain.entity.track.Folder
+import dev.olog.domain.gateway.track.FolderGateway
+import dev.olog.domain.prefs.BlacklistPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

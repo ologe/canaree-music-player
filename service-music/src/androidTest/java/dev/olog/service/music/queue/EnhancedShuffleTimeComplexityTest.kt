@@ -1,7 +1,7 @@
 package dev.olog.service.music.queue
 
 import androidx.test.filters.FlakyTest
-import dev.olog.core.DateTimeGenerator
+import dev.olog.domain.DateTimeGenerator
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType

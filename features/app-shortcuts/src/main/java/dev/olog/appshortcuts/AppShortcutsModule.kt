@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.core.AppShortcuts
+import dev.olog.domain.AppShortcuts
 import javax.inject.Singleton
 
 @Module

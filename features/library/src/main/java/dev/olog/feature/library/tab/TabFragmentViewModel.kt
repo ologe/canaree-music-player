@@ -2,10 +2,10 @@ package dev.olog.feature.library.tab
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.SortPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.prefs.SortPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.library.prefs.LibraryPreferencesGateway
 import dev.olog.feature.library.tab.model.TabFragmentCategory
 import dev.olog.feature.library.tab.model.TabFragmentDataProvider

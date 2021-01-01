@@ -1,11 +1,11 @@
 package dev.olog.feature.detail.detail
 
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
-import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.interactor.playlist.MoveItemInPlaylistUseCase
+import dev.olog.domain.interactor.playlist.RemoveFromPlaylistUseCase
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.detail.detail.model.DetailFragmentModel
 import javax.inject.Inject
 

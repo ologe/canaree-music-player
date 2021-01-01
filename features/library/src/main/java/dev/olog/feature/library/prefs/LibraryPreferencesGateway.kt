@@ -1,6 +1,6 @@
 package dev.olog.feature.library.prefs
 
-import dev.olog.core.ResettablePreference
+import dev.olog.domain.ResettablePreference
 import dev.olog.feature.library.library.LibraryFragmentCategoryState
 import dev.olog.feature.library.tab.model.TabFragmentCategory
 import dev.olog.navigation.BottomNavigationPage

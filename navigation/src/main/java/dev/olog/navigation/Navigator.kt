@@ -2,8 +2,8 @@ package dev.olog.navigation
 
 import android.view.View
 import androidx.annotation.IdRes
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.PlaylistType
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.PlaylistType
 
 interface Navigator :
     BottomNavigator,

@@ -1,9 +1,9 @@
 package dev.olog.lib.offline.lyrics.domain
 
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.entity.track.Track
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.SongGateway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO

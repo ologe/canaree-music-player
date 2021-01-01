@@ -4,9 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import dev.olog.core.entity.track.Track
-import dev.olog.core.entity.track.toPlaylistSong
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.entity.track.toPlaylistSong
+import dev.olog.domain.gateway.podcast.PodcastGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

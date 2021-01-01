@@ -3,7 +3,7 @@ package dev.olog.service.music.queue
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.DateTimeGenerator
+import dev.olog.domain.DateTimeGenerator
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.player.InternalPlayerState
 import dev.olog.shared.removeFirst

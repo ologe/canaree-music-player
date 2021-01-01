@@ -6,12 +6,12 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.gateway.track.GenreGateway
-import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.domain.gateway.track.FolderGateway
+import dev.olog.domain.gateway.track.GenreGateway
+import dev.olog.domain.gateway.track.PlaylistGateway
+import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.lib.image.provider.fetcher.GlideMergedImageFetcher
 import java.io.InputStream
 import javax.inject.Inject

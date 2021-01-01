@@ -1,13 +1,12 @@
 package dev.olog.data.local.search
 
-import dev.olog.core.entity.SearchResult
-import dev.olog.core.gateway.*
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
-import dev.olog.data.local.search.RecentSearchesDao
+import dev.olog.domain.entity.SearchResult
+import dev.olog.domain.gateway.*
+import dev.olog.domain.gateway.podcast.PodcastAlbumGateway
+import dev.olog.domain.gateway.podcast.PodcastArtistGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

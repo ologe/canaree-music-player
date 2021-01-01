@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.remote.widget.base.BaseWidget
 import dev.olog.feature.remote.widget.model.WidgetMetadata
 import dev.olog.lib.image.provider.getCachedBitmap

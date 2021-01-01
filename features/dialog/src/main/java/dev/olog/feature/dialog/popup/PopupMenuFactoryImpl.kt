@@ -1,14 +1,14 @@
 package dev.olog.feature.dialog.popup
 
 import android.view.View
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
+import dev.olog.domain.gateway.podcast.PodcastAlbumGateway
+import dev.olog.domain.gateway.podcast.PodcastArtistGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.navigation.PopupMenuFactory
 import dev.olog.feature.dialog.popup.album.AlbumPopup
 import dev.olog.feature.dialog.popup.artist.ArtistPopup

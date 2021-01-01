@@ -2,10 +2,10 @@ package dev.olog.feature.dialog.popup.track
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.entity.track.Track
-import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
-import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.entity.track.Track
+import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
+import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.dialog.R
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.internal.ActivityProvider

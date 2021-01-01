@@ -8,15 +8,14 @@ import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.interactor.ObserveLastFmUserCredentials
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.player.InternalPlayerState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 import kotlin.time.milliseconds

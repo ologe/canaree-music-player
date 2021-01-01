@@ -9,11 +9,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.mediaid.MediaIdCategory
-import dev.olog.core.entity.FileType
-import dev.olog.core.gateway.FolderNavigatorGateway
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.mediaid.MediaIdCategory
+import dev.olog.domain.entity.FileType
+import dev.olog.domain.gateway.FolderNavigatorGateway
+import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.feature.library.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

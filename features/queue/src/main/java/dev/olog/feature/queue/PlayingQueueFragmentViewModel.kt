@@ -3,9 +3,9 @@ package dev.olog.feature.queue
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.PlayingQueueTrack
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.entity.PlayingQueueTrack
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.shared.android.DisplayableItemUtils
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers

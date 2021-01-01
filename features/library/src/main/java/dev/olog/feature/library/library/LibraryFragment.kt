@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.mediaid.MediaIdCategory
+import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.feature.base.HasBottomNavigation
 import dev.olog.feature.library.LibraryTutorial
 import dev.olog.feature.library.R

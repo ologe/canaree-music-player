@@ -3,8 +3,8 @@ package dev.olog.lib.image.provider.fetcher
 import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
-import dev.olog.core.mediaid.MediaId
-import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.domain.mediaid.MediaId
+import dev.olog.domain.gateway.ImageRetrieverGateway
 import java.io.InputStream
 
 class GlideSongFetcher(

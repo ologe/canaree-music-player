@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dev.olog.core.IEncrypter
+import dev.olog.domain.IEncrypter
 import java.util.*
 import javax.inject.Singleton
 import kotlin.random.Random

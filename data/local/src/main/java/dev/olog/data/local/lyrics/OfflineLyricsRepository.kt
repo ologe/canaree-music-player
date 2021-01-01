@@ -1,7 +1,7 @@
 package dev.olog.data.local.lyrics
 
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.data.local.lyrics.sync.LyricsSyncAdjustmentDao
 import dev.olog.data.local.lyrics.sync.LyricsSyncAdjustmentEntity
 import kotlinx.coroutines.flow.Flow

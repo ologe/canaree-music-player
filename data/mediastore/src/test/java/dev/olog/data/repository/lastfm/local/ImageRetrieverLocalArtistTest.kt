@@ -1,9 +1,8 @@
 package dev.olog.data.repository.lastfm.local
 
-import dev.olog.core.entity.EMPTY
-import dev.olog.core.entity.LastFmArtist
+import dev.olog.domain.entity.EMPTY
+import dev.olog.domain.entity.LastFmArtist
 import dev.olog.data.local.last.fm.LastFmDao
-import dev.olog.data.local.last.fm.EMPTY
 import dev.olog.data.local.last.fm.ImageRetrieverLocalArtist
 import dev.olog.data.local.last.fm.LastFmArtistEntity
 import dev.olog.data.mapper.toDomain

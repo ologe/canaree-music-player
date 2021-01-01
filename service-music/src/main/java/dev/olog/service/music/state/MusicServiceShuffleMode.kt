@@ -2,7 +2,7 @@ package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.lib.media.model.PlayerShuffleMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

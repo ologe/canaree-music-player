@@ -1,6 +1,6 @@
 package dev.olog.data.remote.lastfm.dto
 
-import dev.olog.core.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmAlbum
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
 internal data class LastFmAlbumSearchDto(

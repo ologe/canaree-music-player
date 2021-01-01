@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.mediaid.MediaIdCategory
+import dev.olog.domain.mediaid.MediaIdCategory
 import dev.olog.feature.library.R
 import dev.olog.feature.library.library.LibraryFragmentCategoryState
 import dev.olog.feature.library.tab.model.TabFragmentCategory

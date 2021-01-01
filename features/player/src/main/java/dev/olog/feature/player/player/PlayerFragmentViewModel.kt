@@ -5,11 +5,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.entity.favorite.FavoriteEnum
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.prefs.AppPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.player.R
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.playerAppearanceAmbient

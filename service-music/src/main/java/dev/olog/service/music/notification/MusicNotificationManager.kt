@@ -3,9 +3,9 @@ package dev.olog.service.music.notification
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.favorite.FavoriteEnum
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.service.music.player.InternalPlayerState
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

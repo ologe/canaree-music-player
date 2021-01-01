@@ -1,9 +1,9 @@
 package dev.olog.feature.search.model
 
 import android.content.Context
-import dev.olog.core.RecentSearchesType
-import dev.olog.core.entity.SearchResult
-import dev.olog.core.entity.track.*
+import dev.olog.domain.RecentSearchesType
+import dev.olog.domain.entity.SearchResult
+import dev.olog.domain.entity.track.*
 import dev.olog.feature.search.R
 import dev.olog.shared.android.DisplayableItemUtils
 
