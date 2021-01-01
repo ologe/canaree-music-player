@@ -18,60 +18,11 @@ import org.robolectric.annotation.Config
 import kotlin.time.milliseconds
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@Config(manifest = Config.NONE)
 class CursorMapperTest {
 
-    private fun buildCursor(map: Map<String, Any?>): Cursor {
-        val sorted = map.toSortedMap()
-        val cursor = MatrixCursor(sorted.keys.toTypedArray())
-
-        val firstRow = sorted.mapValues { (_, value) ->
-            if (value is List<Any?>?) value.orEmpty().first() else value
-        }
-        cursor.addRow(firstRow.values)
-
-        val withMoreValues = map
-            .filter { (_, value) -> value is List<Any?>? && (value.orEmpty().size  > 1) }
-            .mapValues { it.value as List<Any?>? }
-            .mapValues { it.value.orEmpty().drop(1) }
-
-        for ((key, variants) in withMoreValues) {
-            for (variant in variants) {
-                val firstRowCopy = firstRow.toMutableMap()
-                firstRowCopy[key] = variant
-                cursor.addRow(firstRowCopy.toSortedMap().values)
-            }
-        }
-
-        return cursor
-    }
-
     @Test
-    fun `map to song`() {
-        val cursor = buildCursor(mapOf(
-                MediaStore.Audio.AudioColumns._ID to 1,
-                MediaStore.Audio.AudioColumns.ARTIST_ID to 2,
-                MediaStore.Audio.AudioColumns.ALBUM_ID to 3,
-                MediaStore.Audio.AudioColumns.TITLE to "title",
-                MediaStore.Audio.AudioColumns.ARTIST to "artist",
-                MediaStore.Audio.AudioColumns.ALBUM to "album",
-                Columns.ALBUM_ARTIST to listOf(
-                    "album_artist",
-                    null
-                ),
-                MediaStore.Audio.AudioColumns.DURATION to 123,
-                MediaStore.Audio.AudioColumns.DATE_ADDED to 456,
-                MediaStore.Audio.AudioColumns.DATE_MODIFIED to 789,
-                MediaStore.Audio.AudioColumns.DATA to "data",
-                MediaStore.Audio.AudioColumns.TRACK to 4001,
-                MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
-                    0,
-                    1
-                ),
-        ))
-
-        // default
-        cursor.moveToNext()
+    fun `map to song`() = runBlockingTest {
         val expectedDefault = Track.Song(
             id = 1,
             artistId = 2,
@@ -88,56 +39,37 @@ class CursorMapperTest {
             isPodcast = false
         )
 
-        Assertions.assertEquals(expectedDefault, cursor.toTrack())
-
-        // null album artist
-        cursor.moveToNext()
-        val expectedNoAlbumArtist = expectedDefault.copy(
-            albumArtist = expectedDefault.artist
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = Cursor::toTrack,
+            map = mapOf(
+                MediaStore.Audio.AudioColumns._ID to 1,
+                MediaStore.Audio.AudioColumns.ARTIST_ID to 2,
+                MediaStore.Audio.AudioColumns.ALBUM_ID to 3,
+                MediaStore.Audio.AudioColumns.TITLE to "title",
+                MediaStore.Audio.AudioColumns.ARTIST to "artist",
+                MediaStore.Audio.AudioColumns.ALBUM to "album",
+                Columns.ALBUM_ARTIST to listOf(
+                    "album_artist",
+                    null to expectedDefault.copy(albumArtist = expectedDefault.artist),
+                ),
+                MediaStore.Audio.AudioColumns.DURATION to 123,
+                MediaStore.Audio.AudioColumns.DATE_ADDED to 456,
+                MediaStore.Audio.AudioColumns.DATE_MODIFIED to 789,
+                MediaStore.Audio.AudioColumns.DATA to "data",
+                MediaStore.Audio.AudioColumns.TRACK to 4001,
+                MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
+                    0,
+                    1 to expectedDefault.copy(isPodcast = true),
+                ),
+            ),
         )
-
-        Assertions.assertEquals(expectedNoAlbumArtist, cursor.toTrack())
-
-        // podcast
-        cursor.moveToNext()
-        val expectedPodcast = expectedDefault.copy(
-            isPodcast = true
-        )
-
-        Assertions.assertEquals(expectedPodcast, cursor.toTrack())
-
-        cursor.close()
     }
 
     @Test
-    fun `map to playlist songs`() {
+    fun `map to playlist songs`() = runBlockingTest {
         val playlistId = 5L
 
-        val cursor = buildCursor(mapOf(
-            MediaStore.Audio.Playlists.Members._ID to 1,
-            MediaStore.Audio.Playlists.Members.AUDIO_ID to 2,
-            MediaStore.Audio.AudioColumns.ARTIST_ID to 3,
-            MediaStore.Audio.AudioColumns.ALBUM_ID to 4,
-            MediaStore.Audio.AudioColumns.TITLE to "title",
-            MediaStore.Audio.AudioColumns.ARTIST to "artist",
-            MediaStore.Audio.AudioColumns.ALBUM to "album",
-            Columns.ALBUM_ARTIST to listOf(
-                "album_artist",
-                null
-            ),
-            MediaStore.Audio.AudioColumns.DURATION to 123,
-            MediaStore.Audio.AudioColumns.DATE_ADDED to 456,
-            MediaStore.Audio.AudioColumns.DATE_MODIFIED to 789,
-            MediaStore.Audio.AudioColumns.DATA to "data",
-            MediaStore.Audio.AudioColumns.TRACK to 4001,
-            MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
-                0,
-                1
-            ),
-        ))
-
-        // default
-        cursor.moveToNext()
         val expectedDefault = Track.PlaylistSong(
             id = 2,
             artistId = 3,
@@ -156,52 +88,37 @@ class CursorMapperTest {
             idInPlaylist = 1,
         )
 
-        Assertions.assertEquals(expectedDefault, cursor.toPlaylistTrack(playlistId))
-
-        // null album artist
-        cursor.moveToNext()
-        val expectedNoAlbumArtist = expectedDefault.copy(
-            albumArtist = expectedDefault.artist
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = { it.toPlaylistTrack(playlistId) },
+            map = mapOf(
+                MediaStore.Audio.Playlists.Members._ID to 1,
+                MediaStore.Audio.Playlists.Members.AUDIO_ID to 2,
+                MediaStore.Audio.AudioColumns.ARTIST_ID to 3,
+                MediaStore.Audio.AudioColumns.ALBUM_ID to 4,
+                MediaStore.Audio.AudioColumns.TITLE to "title",
+                MediaStore.Audio.AudioColumns.ARTIST to "artist",
+                MediaStore.Audio.AudioColumns.ALBUM to "album",
+                Columns.ALBUM_ARTIST to listOf(
+                    "album_artist",
+                    null to expectedDefault.copy(albumArtist = expectedDefault.artist),
+                ),
+                MediaStore.Audio.AudioColumns.DURATION to 123,
+                MediaStore.Audio.AudioColumns.DATE_ADDED to 456,
+                MediaStore.Audio.AudioColumns.DATE_MODIFIED to 789,
+                MediaStore.Audio.AudioColumns.DATA to "data",
+                MediaStore.Audio.AudioColumns.TRACK to 4001,
+                MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
+                    0,
+                    1 to expectedDefault.copy(isPodcast = true),
+                ),
+            ),
         )
-
-        Assertions.assertEquals(expectedNoAlbumArtist, cursor.toPlaylistTrack(playlistId))
-
-        // podcast
-        cursor.moveToNext()
-        val expectedPodcast = expectedDefault.copy(
-            isPodcast = true
-        )
-
-        Assertions.assertEquals(expectedPodcast, cursor.toPlaylistTrack(playlistId))
-
-        cursor.close()
     }
 
 
     @Test
-    fun `map to album`() {
-        val cursor = buildCursor(mapOf(
-            MediaStore.Audio.Media.ALBUM_ID to 1,
-            MediaStore.Audio.Media.ARTIST_ID to 2,
-            MediaStore.Audio.Media.ALBUM to "album",
-            MediaStore.Audio.Media.ARTIST to "artist",
-            Columns.ALBUM_ARTIST to listOf(
-                "album_artist",
-                null,
-            ),
-            MediaStore.Audio.AudioColumns.DATA to listOf(
-                "/storage/emulated/0/music/track.mp3",
-                "/storage/emulated/0/album/track.mp3",
-                "",
-            ),
-            MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
-                0,
-                1
-            ),
-        ))
-
-        // default
-        cursor.moveToNext()
+    fun `map to album`() = runBlockingTest {
         val expectedDefault = Album(
             id = 1,
             artistId = 2,
@@ -213,57 +130,34 @@ class CursorMapperTest {
             isPodcast = false
         )
 
-        Assertions.assertEquals(expectedDefault, cursor.toAlbum())
-
-        // null album artist
-        cursor.moveToNext()
-        val expectedNoAlbumArtist = expectedDefault.copy(
-            albumArtist = expectedDefault.artist
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = Cursor::toAlbum,
+            mapOf(
+                MediaStore.Audio.Media.ALBUM_ID to 1,
+                MediaStore.Audio.Media.ARTIST_ID to 2,
+                MediaStore.Audio.Media.ALBUM to "album",
+                MediaStore.Audio.Media.ARTIST to "artist",
+                Columns.ALBUM_ARTIST to listOf(
+                    "album_artist",
+                    null to expectedDefault.copy(albumArtist = expectedDefault.artist),
+                ),
+                MediaStore.Audio.AudioColumns.DATA to listOf(
+                    "/storage/emulated/0/music/track.mp3",
+                    "/storage/emulated/0/album/track.mp3" to expectedDefault.copy(hasSameNameAsFolder = true),
+                    "" to expectedDefault.copy(hasSameNameAsFolder = false),
+                ),
+                MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
+                    0,
+                    1 to expectedDefault.copy(isPodcast = true),
+                ),
+            ),
         )
-        Assertions.assertEquals(expectedNoAlbumArtist, cursor.toAlbum())
-
-        // same name as folder
-        cursor.moveToNext()
-        val expectedSameNameAsFolder = expectedDefault.copy(
-            hasSameNameAsFolder = true
-        )
-        Assertions.assertEquals(expectedSameNameAsFolder, cursor.toAlbum())
-
-        // null, name different than folder
-        cursor.moveToNext()
-        val expectedDifferentNameThanFolder = expectedDefault.copy(
-            hasSameNameAsFolder = false
-        )
-        Assertions.assertEquals(expectedDifferentNameThanFolder, cursor.toAlbum())
-
-        // podcast
-        cursor.moveToNext()
-        val expectedPodcast = expectedDefault.copy(
-            isPodcast = true
-        )
-        Assertions.assertEquals(expectedPodcast, cursor.toAlbum())
-
-        cursor.close()
     }
 
 
     @Test
-    fun `map to artist`() {
-        val cursor = buildCursor(mapOf(
-            MediaStore.Audio.Media.ARTIST_ID to 1,
-            MediaStore.Audio.Media.ARTIST to "name",
-            MediaStore.Audio.Media.ALBUM_ARTIST to listOf(
-                "album_artist",
-                null
-            ),
-            MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
-                0,
-                1
-            ),
-        ))
-
-        // default
-        cursor.moveToNext()
+    fun `map to artist`() = runBlockingTest {
         val expectedDefault = Artist(
             id = 1,
             name = "name",
@@ -272,43 +166,116 @@ class CursorMapperTest {
             isPodcast = false
         )
 
-        Assertions.assertEquals(expectedDefault, cursor.toArtist())
-
-        // null album artist
-        cursor.moveToNext()
-        val expectedNoAlbumArtist = expectedDefault.copy(
-            albumArtist = expectedDefault.name
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = Cursor::toArtist,
+            map = mapOf(
+                MediaStore.Audio.Media.ARTIST_ID to 1,
+                MediaStore.Audio.Media.ARTIST to "name",
+                MediaStore.Audio.Media.ALBUM_ARTIST to listOf(
+                    "album_artist",
+                    null to expectedDefault.copy(albumArtist = expectedDefault.name),
+                ),
+                MediaStore.Audio.AudioColumns.IS_PODCAST to listOf(
+                    0,
+                    1 to expectedDefault.copy(isPodcast = true),
+                ),
+            )
         )
-        Assertions.assertEquals(expectedNoAlbumArtist, cursor.toArtist())
-
-        // podcast
-        cursor.moveToNext()
-        val expectedPodcast = expectedDefault.copy(
-            isPodcast = true
-        )
-        Assertions.assertEquals(expectedPodcast, cursor.toArtist())
-
-        cursor.close()
     }
 
     @Test
-    fun `map to genre`() = runBlockingTest {
+    fun `map to genre, non null size, should return valid genre`() = runBlockingTest {
         val size = 123
 
-        val cursor = buildCursor(mapOf(
-            BaseColumns._ID to 1,
-            MediaStore.Audio.GenresColumns.NAME to "name",
-        ))
-
-        // default
-        cursor.moveToNext()
         val expectedDefault = Genre(
             id = 1,
             name = "Name",
             size = size
         )
 
-        Assertions.assertEquals(expectedDefault, cursor.toGenre { size })
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = { it.toGenre { size } },
+            map = mapOf(
+                BaseColumns._ID to 1,
+                MediaStore.Audio.GenresColumns.NAME to "name",
+            )
+        )
+    }
+
+    @Test
+    fun `map to genre, null size, should return null genre`() = runBlockingTest {
+        val size: Int? = null
+
+        val expectedDefault: Genre? = null
+
+        testCursor(
+            expectedDefault = expectedDefault,
+            mapper = { it.toGenre { size } },
+            map = mapOf(
+                BaseColumns._ID to 1,
+                MediaStore.Audio.GenresColumns.NAME to "name",
+            )
+        )
+    }
+
+    /**
+     * usage:
+     *
+     * class Test(val id: Int, val variant: String)
+     *
+     * val expectedDefault = Test(1, default)
+     *
+     * testCursor(
+     *   expectedDefault = expectedDefault,
+     *   mapper = some mapper that convert a Cursor to Test.class,
+     *   map = mapOf(
+     *      _id to 1,
+     *      variant to listOf(
+     *          "default",  // the first value of the list is used to build expectedDefault
+     *          "variant_1" to expectedDefault.copy(variant = "variant_1"),  // pair.second is the expected state for this variant
+     *          "variant_2" to expectedDefault.copy(variant = "variant_2"),
+     *      )
+     *   ),
+     * )
+     *
+     * // note that if multiple columns has variants, each variant is computed using the
+     * // default (first) value from the other columns
+     */
+    private suspend fun<T> testCursor(
+        expectedDefault: T,
+        mapper: suspend (Cursor) -> T,
+        map: Map<String, Any?>,
+    ) {
+        val sorted = map.toSortedMap()
+        val cursor = MatrixCursor(sorted.keys.toTypedArray())
+
+        val firstRow = sorted.mapValues { (_, value) ->
+            if (value is List<Any?>?) value.orEmpty().first() else value
+        }
+        cursor.addRow(firstRow.values)
+        cursor.moveToFirst()
+        Assertions.assertEquals(expectedDefault, mapper(cursor))
+
+        val withMoreValues = map
+            .filter { (_, value) -> value is List<Any?>? && (value.orEmpty().size  > 1) }
+            .mapValues { it.value as List<Any?>? }
+            .mapValues { it.value.orEmpty().drop(1) }
+
+        for ((key, variants) in withMoreValues) {
+            for (variantPair in variants) {
+                require(variantPair is Pair<*, *>)
+                val variant = variantPair.first
+                val expectedVariant = variantPair.second
+
+                val firstRowCopy = firstRow.toMutableMap()
+                firstRowCopy[key] = variant
+                cursor.addRow(firstRowCopy.toSortedMap().values)
+                cursor.moveToNext()
+                Assertions.assertEquals(expectedVariant, mapper(cursor))
+            }
+        }
 
         cursor.close()
     }
