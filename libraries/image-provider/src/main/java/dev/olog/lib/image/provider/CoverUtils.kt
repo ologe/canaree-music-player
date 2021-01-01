@@ -51,19 +51,15 @@ object CoverUtils {
     }
 
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
-        return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
-    }
-
-    fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
         return get(
-            context,
-            position,
-            getDrawable(source)
+            context = context,
+            position = mediaId.resolveId.toInt(),
+            drawableRes = getDrawable(mediaId)
         )
     }
 
     fun onlyGradient(context: Context, mediaId: MediaId): Drawable {
-        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.resolveSource))!!.mutate() as LayerDrawable
+        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
         val position = mediaId.resolveId.toInt()
@@ -95,18 +91,25 @@ object CoverUtils {
     }
 
     @DrawableRes
-    private fun getDrawable(source: Int): Int = when (source) {
-        MediaIdCategory.FOLDERS.ordinal -> R.drawable.placeholder_folder
-        MediaIdCategory.PLAYLISTS.ordinal,
-        MediaIdCategory.PODCASTS_PLAYLIST.ordinal -> R.drawable.placeholder_playlist
-        MediaIdCategory.SONGS.ordinal -> R.drawable.placeholder_musical_note
-        MediaIdCategory.ALBUMS.ordinal,
-        MediaIdCategory.PODCASTS_ALBUMS.ordinal -> R.drawable.placeholder_album
-        MediaIdCategory.ARTISTS.ordinal,
-        MediaIdCategory.PODCASTS_ARTISTS.ordinal -> R.drawable.placeholder_artist
-        MediaIdCategory.GENRES.ordinal -> R.drawable.placeholder_genre
-        MediaIdCategory.PODCASTS.ordinal -> R.drawable.placeholder_podcast
-        else -> throw IllegalArgumentException("invalid source $source")
+    private fun getDrawable(mediaId: MediaId): Int {
+        if (mediaId.isLeaf) {
+            if (mediaId.isAnyPodcast) {
+                return R.drawable.placeholder_podcast
+            }
+            return R.drawable.placeholder_musical_note
+        }
+        return when (mediaId.category) {
+            MediaIdCategory.FOLDERS -> R.drawable.placeholder_folder
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.PODCASTS_PLAYLIST -> R.drawable.placeholder_playlist
+            MediaIdCategory.SONGS -> R.drawable.placeholder_musical_note
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.PODCASTS_ALBUMS -> R.drawable.placeholder_album
+            MediaIdCategory.ARTISTS,
+            MediaIdCategory.PODCASTS_ARTISTS -> R.drawable.placeholder_artist
+            MediaIdCategory.GENRES -> R.drawable.placeholder_genre
+            MediaIdCategory.PODCASTS -> R.drawable.placeholder_podcast
+        }
     }
 
 }

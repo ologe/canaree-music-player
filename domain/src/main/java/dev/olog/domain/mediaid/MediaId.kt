@@ -119,18 +119,6 @@ data class MediaId(
             }
         }
 
-    // TODO delete
-    val resolveSource : Int
-        get() {
-            if (isLeaf && isPodcast){
-                return MediaIdCategory.PODCASTS.ordinal
-            }
-            if (isLeaf){
-                return MediaIdCategory.SONGS.ordinal
-            }
-            return source
-        }
-
     val isFolder : Boolean
         get() = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean

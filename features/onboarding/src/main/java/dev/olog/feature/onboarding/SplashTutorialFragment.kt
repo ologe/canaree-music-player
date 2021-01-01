@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.domain.mediaid.MediaId
 import dev.olog.feature.onboarding.widget.StoppingViewPager
 import dev.olog.lib.image.provider.CoverUtils
 import dev.olog.lib.image.provider.GlideApp
@@ -111,7 +112,7 @@ class SplashTutorialFragment : Fragment(),
         GlideApp.with(requireContext())
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(requireContext(), position))
+                .placeholder(CoverUtils.getGradient(requireContext(), MediaId.songId(position.toLong())))
                 .into(cover)
     }
 }
