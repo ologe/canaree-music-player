@@ -1,8 +1,8 @@
 package dev.olog.domain
 
 import dev.olog.domain.mediaid.MediaIdModifier
-import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class MediaIdModifierTest {
 
