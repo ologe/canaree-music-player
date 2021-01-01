@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.entity.Favorite
-import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.service.music.player.InternalPlayerState
 import kotlinx.coroutines.flow.*
@@ -15,12 +15,12 @@ internal class MusicNotificationManager @Inject constructor(
     schedulers: Schedulers,
     lifecycleOwner: LifecycleOwner,
     private val notificationImpl: INotification,
-    observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
+    favoriteGateway: FavoriteGateway,
     internalPlayerState: InternalPlayerState,
 ) {
 
     init {
-        val isFavoriteFlow = observeFavoriteUseCase()
+        val isFavoriteFlow = favoriteGateway.observePlayingTrackFavoriteState()
             .map { it == Favorite.State.FAVORITE }
 
         internalPlayerState.state.combine(isFavoriteFlow) { state, isFavorite ->

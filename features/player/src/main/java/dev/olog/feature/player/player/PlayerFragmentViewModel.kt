@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.Favorite
-import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.prefs.TutorialPreferenceGateway
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.*
 
 internal class PlayerFragmentViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
-    observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+    favoriteGateway: FavoriteGateway,
     private val appPrefs: AppPreferencesGateway,
     private val musicPrefs: MusicPreferencesGateway,
     private val tutorialPrefs: TutorialPreferenceGateway
@@ -32,7 +32,7 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
     private val palettePublisher = MutableStateFlow<PaletteColors?>(null)
 
     init {
-        observeFavoriteAnimationUseCase()
+        favoriteGateway.observePlayingTrackFavoriteState()
             .flowOn(Dispatchers.Default)
             .onEach { favoritePublisher.value = it }
             .launchIn(viewModelScope)

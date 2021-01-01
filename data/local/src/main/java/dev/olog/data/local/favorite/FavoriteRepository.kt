@@ -17,11 +17,11 @@ internal class FavoriteRepository @Inject constructor(
 
     private val favoriteStatePublisher = MutableStateFlow<Favorite?>(null)
 
-    override fun observeToggleFavorite(): Flow<Favorite.State> = favoriteStatePublisher
+    override fun observePlayingTrackFavoriteState(): Flow<Favorite.State> = favoriteStatePublisher
         .filterNotNull()
         .map { it.state }
 
-    override suspend fun updateFavoriteState(state: Favorite) {
+    override suspend fun updatePlayingTrackFavorite(state: Favorite) {
         favoriteStatePublisher.value = state
     }
 
@@ -64,7 +64,7 @@ internal class FavoriteRepository @Inject constructor(
 
         favoriteDao.addToFavoriteSingle(type, trackId)
         if (trackId == id) {
-            updateFavoriteState(
+            updatePlayingTrackFavorite(
                 state = Favorite(
                     trackId = trackId,
                     state = Favorite.State.FAVORITE,
@@ -79,7 +79,7 @@ internal class FavoriteRepository @Inject constructor(
 
         favoriteDao.addToFavorite(type, trackList)
         if (trackList.contains(id)) {
-            updateFavoriteState(state = Favorite(
+            updatePlayingTrackFavorite(state = Favorite(
                 trackId = id,
                 state = Favorite.State.FAVORITE,
                 favoriteType = type
@@ -93,7 +93,7 @@ internal class FavoriteRepository @Inject constructor(
 
         favoriteDao.removeFromFavorite(type, listOf(trackId))
         if (trackId == id) {
-            updateFavoriteState(state = Favorite(
+            updatePlayingTrackFavorite(state = Favorite(
                 trackId = trackId,
                 state = Favorite.State.NOT_FAVORITE,
                 favoriteType = type
@@ -107,7 +107,7 @@ internal class FavoriteRepository @Inject constructor(
 
         favoriteDao.removeFromFavorite(type, trackList)
         if (trackList.contains(id)) {
-            updateFavoriteState(
+            updatePlayingTrackFavorite(
                 state = Favorite(
                     trackId = id,
                     state = Favorite.State.NOT_FAVORITE,
@@ -121,7 +121,7 @@ internal class FavoriteRepository @Inject constructor(
         val id = favoriteStatePublisher.value?.trackId ?: return
 
         favoriteDao.deleteTracks()
-        updateFavoriteState(state = Favorite(
+        updatePlayingTrackFavorite(state = Favorite(
             trackId = id,
             state = Favorite.State.NOT_FAVORITE,
             favoriteType = type
@@ -133,7 +133,7 @@ internal class FavoriteRepository @Inject constructor(
         return favoriteDao.isFavorite(trackId) != null
     }
 
-    override suspend fun toggleFavorite() {
+    override suspend fun togglePlayingTrackFavoriteState() {
         val value = favoriteStatePublisher.value ?: return
         val id = value.trackId
         val state = value.state
@@ -141,13 +141,13 @@ internal class FavoriteRepository @Inject constructor(
 
         when (state) {
             Favorite.State.NOT_FAVORITE -> {
-                updateFavoriteState(
+                updatePlayingTrackFavorite(
                     Favorite(id, Favorite.State.FAVORITE, type)
                 )
                 favoriteDao.addToFavoriteSingle(type, id)
             }
             Favorite.State.FAVORITE -> {
-                updateFavoriteState(
+                updatePlayingTrackFavorite(
                     Favorite(id, Favorite.State.NOT_FAVORITE, type)
                 )
                 favoriteDao.removeFromFavorite(type, listOf(id))

@@ -152,7 +152,7 @@ internal class MediaSessionEventHandler @Inject constructor(
     }
 
     private suspend fun handleToggleFavorite() = withContext(NonCancellable) {
-        favoriteGateway.toggleFavorite()
+        favoriteGateway.togglePlayingTrackFavoriteState()
     }
 
     private fun handleToggleShuffleMode() {

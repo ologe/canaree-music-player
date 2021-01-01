@@ -22,9 +22,9 @@ interface FavoriteGateway {
 
     suspend fun isFavorite(type: Favorite.Type, trackId: Long): Boolean
 
-    fun observeToggleFavorite(): Flow<Favorite.State>
-    suspend fun updateFavoriteState(state: Favorite)
+    fun observePlayingTrackFavoriteState(): Flow<Favorite.State>
+    suspend fun updatePlayingTrackFavorite(state: Favorite)
 
-    suspend fun toggleFavorite()
+    suspend fun togglePlayingTrackFavoriteState()
 
 }

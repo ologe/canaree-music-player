@@ -5,10 +5,9 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.Favorite
+import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.InsertHistorySongUseCase
 import dev.olog.domain.interactor.InsertMostPlayedUseCase
-import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
-import dev.olog.domain.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.domain.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.domain.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -25,8 +24,7 @@ internal class CurrentSong @Inject constructor(
     private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
     private val insertHistorySongUseCase: InsertHistorySongUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-    private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
+    private val favoriteGateway: FavoriteGateway,
     private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
     private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
     playerState: InternalPlayerState,
@@ -66,16 +64,16 @@ internal class CurrentSong @Inject constructor(
     }
 
     private suspend fun updateFavorite(mediaEntity: MediaEntity) {
-        val isFavorite = isFavoriteSongUseCase(
+        val isFavorite = favoriteGateway.isFavorite(
             trackId = mediaEntity.id,
             type = Favorite.Type.fromMediaId(mediaEntity.mediaId)
         )
-        updateFavoriteStateUseCase(
+        favoriteGateway.updatePlayingTrackFavorite(
             Favorite(
-            trackId = mediaEntity.id,
-            state = Favorite.State.fromBoolean(isFavorite),
-            favoriteType = Favorite.Type.fromMediaId(mediaEntity.mediaId)
-        )
+                trackId = mediaEntity.id,
+                state = Favorite.State.fromBoolean(isFavorite),
+                favoriteType = Favorite.Type.fromMediaId(mediaEntity.mediaId)
+            )
         )
     }
 
