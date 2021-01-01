@@ -1,4 +1,4 @@
-package dev.olog.data.repository.lastfm.remote
+package dev.olog.data.remote
 
 import dev.olog.domain.entity.LastFmArtist
 import dev.olog.domain.entity.track.Artist
@@ -11,9 +11,6 @@ import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoDto
 import dev.olog.data.remote.lastfm.dto.LastFmArtistInfoResultDto
 import dev.olog.data.remote.lastfm.dto.LastFmBioDto
 import dev.olog.data.remote.lastfm.dto.LastFmImageDto
-import dev.olog.data.remote.LastFmNulls
-import dev.olog.data.mapper.toDomain
-import dev.olog.data.remote.ImageRetrieverRemoteArtist
 import dev.olog.lib.network.model.IoResult
 import dev.olog.lib.network.model.just
 import dev.olog.test.shared.MainCoroutineRule
@@ -50,7 +47,7 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
     private val lastFmService = mockk<LastFmService>()
     private val deezerService = mockk<DeezerService>()
 
-    private val sut = ImageRetrieverRemoteArtist(
+    private val sut = ImageRetrieverRemoteArtistImpl(
         lastFmService = lastFmService,
         deezerService = deezerService
     )
@@ -142,7 +139,9 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
                 id = 1L,
                 name = "artist name"
             )
-            coEvery { lastFmService.getArtistInfo("artist name") } returns IoResult.just(LAST_FM_SUCCESS)
+            coEvery { lastFmService.getArtistInfo("artist name") } returns IoResult.just(
+                LAST_FM_SUCCESS
+            )
             coEvery { deezerService.getArtist("artist name") } returns IoResult.just(DEEZER_SUCCESS)
 
             // when
@@ -175,7 +174,7 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
 
             // then
             assertThat(actual).isEqualTo(
-                LastFmNulls.createNullArtist(1L).toDomain()
+                LastFmNulls.createNullArtist(1L)
             )
         }
 
@@ -186,7 +185,9 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
                 name = "artist name"
             )
 
-            coEvery { lastFmService.getArtistInfo("artist name") } returns IoResult.just(LAST_FM_SUCCESS)
+            coEvery { lastFmService.getArtistInfo("artist name") } returns IoResult.just(
+                LAST_FM_SUCCESS
+            )
 
             coEvery { deezerService.getArtist("artist name") } returns IoResult.ServerError(0, "")
 
@@ -195,7 +196,7 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
 
             // then
             assertThat(actual).isEqualTo(
-                LastFmNulls.createNullArtist(1L).toDomain()
+                LastFmNulls.createNullArtist(1L)
             )
         }
 
@@ -215,7 +216,7 @@ class ImageRetrieverRemoteArtistTest : StatelessSutTest() {
 
             // then
             assertThat(actual).isEqualTo(
-                LastFmNulls.createNullArtist(1L).toDomain()
+                LastFmNulls.createNullArtist(1L)
             )
         }
 

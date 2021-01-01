@@ -1,4 +1,4 @@
-package dev.olog.data.api.lastfm.artist
+package dev.olog.data.remote.lastfm.dto
 
 import dev.olog.domain.entity.LastFmArtist
 import dev.olog.data.remote.lastfm.dto.LastFmBioDto
