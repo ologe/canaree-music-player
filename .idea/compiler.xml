@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="canaree.app" target="11" />
+      <module name="canaree.data.local" target="11" />
+      <module name="canaree.data.mediastore" target="11" />
+      <module name="canaree.data.remote" target="11" />
+      <module name="canaree.domain" target="11" />
+      <module name="canaree.features.about" target="11" />
+      <module name="canaree.features.app-shortcuts" target="11" />
+      <module name="canaree.features.base" target="11" />
+      <module name="canaree.features.detail" target="11" />
+      <module name="canaree.features.dialog" target="11" />
+      <module name="canaree.features.edit" target="11" />
+      <module name="canaree.features.edit-playlist" target="11" />
+      <module name="canaree.features.entry" target="11" />
+      <module name="canaree.features.equalizer" target="11" />
+      <module name="canaree.features.library" target="11" />
+      <module name="canaree.features.offline-lyrics" target="11" />
+      <module name="canaree.features.onboarding" target="11" />
+      <module name="canaree.features.player" target="11" />
+      <module name="canaree.features.queue" target="11" />
+      <module name="canaree.features.remote-widget" target="11" />
+      <module name="canaree.features.search" target="11" />
+      <module name="canaree.features.settings" target="11" />
+      <module name="canaree.libraries.equalizer" target="11" />
+      <module name="canaree.libraries.image-provider" target="11" />
+      <module name="canaree.libraries.media" target="11" />
+      <module name="canaree.libraries.network" target="11" />
+      <module name="canaree.libraries.offline-lyrics" target="11" />
+      <module name="canaree.navigation" target="11" />
+      <module name="canaree.service-floating" target="11" />
+      <module name="canaree.service-music" target="11" />
+      <module name="canaree.shared.android" target="11" />
+      <module name="canaree.shared.localization" target="11" />
+      <module name="canaree.shared.prefs-keys" target="11" />
+      <module name="canaree.shared.test" target="11" />
+      <module name="canaree.shared.widgets" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
