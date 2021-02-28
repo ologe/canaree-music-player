@@ -27,7 +27,7 @@ internal fun Folder.toTabPresentation(
     spanSize: Int
 ): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = computeAlbumLayoutId(getMediaId(), spanSize),
+        layoutType = computeAlbumLayoutId(getMediaId(), spanSize),
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableItemUtils.readableSongCount(resources, size),
@@ -36,7 +36,7 @@ internal fun Folder.toTabPresentation(
 
 internal fun Playlist.toTabAutoPlaylist(): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = R.layout.item_tab_auto_playlist,
+        layoutType = R.layout.item_tab_auto_playlist,
         mediaId = getMediaId(),
         title = title,
         subtitle = null,
@@ -49,7 +49,7 @@ internal fun Playlist.toTabPresentation(
 ): TabFragmentModel.Album {
 
     return TabFragmentModel.Album(
-        layoutId = computeAlbumLayoutId(getMediaId(), spanSize),
+        layoutType = computeAlbumLayoutId(getMediaId(), spanSize),
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableItemUtils.readableSongCount(resources, size)
@@ -79,7 +79,7 @@ internal fun Album.toTabPresentation(
     spanSize: Int
 ): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = computeAlbumLayoutId(getMediaId(), spanSize),
+        layoutType = computeAlbumLayoutId(getMediaId(), spanSize),
         mediaId = getMediaId(),
         title = title,
         subtitle = artist
@@ -93,7 +93,7 @@ internal fun Artist.toTabPresentation(
     val songs = DisplayableItemUtils.readableSongCount(resources, songs)
 
     return TabFragmentModel.Album(
-        layoutId = computeAlbumLayoutId(getMediaId(), spanSize),
+        layoutType = computeAlbumLayoutId(getMediaId(), spanSize),
         mediaId = getMediaId(),
         title = name,
         subtitle = songs
@@ -106,7 +106,7 @@ internal fun Genre.toTabPresentation(
     spanSize: Int
 ): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = computeAlbumLayoutId(getMediaId(), spanSize),
+        layoutType = computeAlbumLayoutId(getMediaId(), spanSize),
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableItemUtils.readableSongCount(resources, size)
@@ -115,7 +115,7 @@ internal fun Genre.toTabPresentation(
 
 internal fun Album.toRecentlyPlayedDisplayableItem(): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = R.layout.item_tab_album_last_played,
+        layoutType = R.layout.item_tab_album_last_played,
         mediaId = getMediaId(),
         title = title,
         subtitle = artist
@@ -124,7 +124,7 @@ internal fun Album.toRecentlyPlayedDisplayableItem(): TabFragmentModel.Album {
 
 internal fun Artist.toRecentlyPlayedDisplayableItem(resources: Resources): TabFragmentModel.Album {
     return TabFragmentModel.Album(
-        layoutId = R.layout.item_tab_artist_last_played,
+        layoutType = R.layout.item_tab_artist_last_played,
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableItemUtils.readableSongCount(resources, songs)

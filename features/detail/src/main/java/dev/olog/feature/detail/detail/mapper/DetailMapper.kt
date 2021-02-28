@@ -26,7 +26,7 @@ internal fun Track.toDetailDisplayableItem(
 
     if (this is Track.PlaylistSong) {
         return DetailFragmentModel.PlaylistTrack(
-            layoutRes = layoutRes,
+            layoutType = layoutRes,
             mediaId = getMediaId(),
             title = this.title,
             subtitle = DisplayableItemUtils.trackSubtitle(artist, album),
@@ -35,7 +35,7 @@ internal fun Track.toDetailDisplayableItem(
     }
 
     return DetailFragmentModel.Track(
-        layoutRes = computeLayoutType(parentId, sortType),
+        layoutType = computeLayoutType(parentId, sortType),
         mediaId = MediaId.playableItem(parentId, id),
         title = this.title,
         subtitle = DisplayableItemUtils.trackSubtitle(artist, album),

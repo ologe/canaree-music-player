@@ -39,7 +39,7 @@ internal fun SearchResult.toSearchDisplayableItem(
         else -> R.layout.item_search_recent_album
     }
     return SearchFragmentModel.RecentAlbum(
-        layoutRes = layout,
+        layoutType = layout,
         mediaId = this.mediaId as MediaId.Category,
         title = this.title,
         subtitle = subtitle
@@ -56,7 +56,7 @@ internal fun Track.toSearchDisplayableItem(): SearchFragmentModel.Track {
 
 internal fun Album.toSearchDisplayableItem(): SearchFragmentModel.Album {
     return SearchFragmentModel.Album(
-        layoutRes = R.layout.item_search_album,
+        layoutType = R.layout.item_search_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = artist
@@ -65,7 +65,7 @@ internal fun Album.toSearchDisplayableItem(): SearchFragmentModel.Album {
 
 internal fun Artist.toSearchDisplayableItem(): SearchFragmentModel.Album {
     return SearchFragmentModel.Album(
-        layoutRes = R.layout.item_search_artist,
+        layoutType = R.layout.item_search_artist,
         mediaId = getMediaId(),
         title = name,
         subtitle = null,
@@ -74,7 +74,7 @@ internal fun Artist.toSearchDisplayableItem(): SearchFragmentModel.Album {
 
 internal fun Playlist.toSearchDisplayableItem(): SearchFragmentModel.Album {
     return SearchFragmentModel.Album(
-        layoutRes = R.layout.item_search_album,
+        layoutType = R.layout.item_search_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = null,
@@ -83,7 +83,7 @@ internal fun Playlist.toSearchDisplayableItem(): SearchFragmentModel.Album {
 
 internal fun Genre.toSearchDisplayableItem(): SearchFragmentModel.Album {
     return SearchFragmentModel.Album(
-        layoutRes = R.layout.item_search_album,
+        layoutType = R.layout.item_search_album,
         mediaId = getMediaId(),
         title = name,
         subtitle = null,
@@ -92,7 +92,7 @@ internal fun Genre.toSearchDisplayableItem(): SearchFragmentModel.Album {
 
 internal fun Folder.toSearchDisplayableItem(): SearchFragmentModel.Album {
     return SearchFragmentModel.Album(
-        layoutRes = R.layout.item_search_album,
+        layoutType = R.layout.item_search_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = null,
