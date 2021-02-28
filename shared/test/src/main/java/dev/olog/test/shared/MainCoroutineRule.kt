@@ -16,6 +16,8 @@
 
 package dev.olog.test.shared
 
+import dev.olog.domain.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
@@ -24,6 +26,12 @@ import org.junit.runner.Description
 class MainCoroutineRule(
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher() {
+
+    val schedulers: Schedulers = object : Schedulers {
+        override val io: CoroutineDispatcher = testDispatcher
+        override val cpu: CoroutineDispatcher = testDispatcher
+        override val main: CoroutineDispatcher = testDispatcher
+    }
 
     override fun starting(description: Description) {
         super.starting(description)
