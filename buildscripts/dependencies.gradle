@@ -160,9 +160,9 @@ ext {
     ]
 
     lib_android_test = [
-        runner         : "androidx.test:runner:$android_test_runner",
-        rules          : "androidx.test:rules:$android_test_rules",
-        mockk          : "io.mockk:mockk-android:$mockk",
+        runner: "androidx.test:runner:$android_test_runner",
+        rules : "androidx.test:rules:$android_test_rules",
+        mockk : "io.mockk:mockk-android:$mockk",
     ]
 
 }
