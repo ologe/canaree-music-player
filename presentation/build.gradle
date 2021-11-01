@@ -28,6 +28,9 @@ androidExtensions {
 }
 
 dependencies {
+    implementation project(':features:base')
+    implementation project(':features:library:impl')
+
     implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':image-provider')

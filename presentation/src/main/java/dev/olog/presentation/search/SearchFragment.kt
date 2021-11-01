@@ -15,7 +15,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.base.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter

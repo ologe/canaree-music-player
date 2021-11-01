@@ -7,17 +7,17 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':core')
+    implementation project(':features:base')
     api project(':features:library:api')
 
-    implementation project(':core')
-    
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
-    
+
     // androidx
     implementation lib_x.appcompat
     implementation lib_x.material

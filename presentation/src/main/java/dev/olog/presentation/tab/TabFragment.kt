@@ -6,7 +6,6 @@ import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.base.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

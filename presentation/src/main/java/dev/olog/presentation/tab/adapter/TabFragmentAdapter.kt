@@ -7,7 +7,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.base.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel

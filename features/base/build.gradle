@@ -22,4 +22,5 @@ dependencies {
     implementation lib_x.core_ktx
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
+    implementation lib_x.recycler
 }
