@@ -5,6 +5,8 @@ import dagger.Binds
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.olog.equalizer.bassboost.BassBoostImpl
 import dev.olog.equalizer.bassboost.BassBoostProxy
 import dev.olog.equalizer.bassboost.IBassBoost
@@ -17,6 +19,7 @@ import dev.olog.equalizer.virtualizer.VirtualizerProxy
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class EqualizerModule {
 
     // proxies
@@ -38,16 +41,16 @@ abstract class EqualizerModule {
     // implementation
 
     @Binds
+    @Singleton
     internal abstract fun provideBassBoostInternal(impl: BassBoostImpl): IBassBoostInternal
 
     @Binds
+    @Singleton
     internal abstract fun provideVirtualizerInternal(impl: VirtualizerImpl): IVirtualizerInternal
 
-    @Module
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideInternalEqualizer(
             equalizerImpl: Lazy<EqualizerImpl>,
             equalizerImpl28: Lazy<EqualizerImpl28>

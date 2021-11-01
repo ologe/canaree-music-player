@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
@@ -11,8 +12,8 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
     implementation lib_core.coroutines
 
     implementation lib_x.appcompat

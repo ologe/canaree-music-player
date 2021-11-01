@@ -1,10 +1,8 @@
 package dev.olog.presentation.relatedartists
 
 import android.content.res.Resources
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
@@ -20,13 +18,16 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RelatedArtistFragmentViewModel @Inject constructor(
     resources: Resources,
-    mediaId: MediaId,
+    savedStateHandle: SavedStateHandle,
     useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
+
+    private val mediaId = MediaId.fromString(savedStateHandle.get<String>(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)!!)
 
     val itemOrdinal = mediaId.category.ordinal
 

@@ -1,43 +1,28 @@
 package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import dev.olog.analytics.TrackerFacade
+import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.R
-import dev.olog.msc.tracker.ActivityAndFragmentsTracker
-import dev.olog.shared.android.extensions.configuration
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
-class App : ThemedApp(), HasAndroidInjector {
+@HiltAndroidApp
+class App : ThemedApp() {
 
     private lateinit var appShortcuts: AppShortcuts
 
     @Inject
-    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-
-    @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
-
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
 
     override fun onCreate() {
         super.onCreate()
-        inject()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
-        registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
 
     private fun initializeComponents() {
@@ -57,11 +42,4 @@ class App : ThemedApp(), HasAndroidInjector {
         sleepTimerUseCase.reset()
     }
 
-    private fun inject() {
-        DaggerAppComponent.factory()
-            .create(CoreComponent.coreComponent(this))
-            .inject(this)
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

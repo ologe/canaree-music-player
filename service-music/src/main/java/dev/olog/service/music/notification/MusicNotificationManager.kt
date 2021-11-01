@@ -8,7 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.Event
@@ -22,7 +22,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class MusicNotificationManager @Inject constructor(
     private val service: Service,
     private val notificationImpl: INotification,

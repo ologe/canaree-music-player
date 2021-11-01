@@ -4,9 +4,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    lifecycleOwner: LifecycleOwner,
     private val mediaSession: MediaSessionCompat
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
@@ -32,7 +30,7 @@ internal class MediaSessionQueue @Inject constructor(
     private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
 
         launch {
             delayedChannel.asFlow()

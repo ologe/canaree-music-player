@@ -2,11 +2,10 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.presentation.pro.IBilling
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
@@ -15,6 +14,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AboutFragment : BaseFragment() {
 
     companion object {
@@ -24,13 +24,12 @@ class AboutFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: NavigatorAbout
-    @Inject
-    lateinit var billing: IBilling
+
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing)
+        AboutFragmentPresenter(ctx.applicationContext)
     }
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator, presenter)
+        AboutFragmentAdapter(lifecycle, navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

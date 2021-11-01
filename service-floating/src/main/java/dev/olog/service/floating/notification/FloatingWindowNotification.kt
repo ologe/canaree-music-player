@@ -4,10 +4,8 @@ import android.app.*
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
@@ -24,7 +22,7 @@ private const val CHANNEL_ID = "0xfff"
 
 class FloatingWindowNotification @Inject constructor(
     private val service: Service,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    lifecycleOwner: LifecycleOwner,
     private val notificationManager: NotificationManager,
     private val musicPreferencesUseCase: MusicPreferencesGateway
 
@@ -43,7 +41,7 @@ class FloatingWindowNotification @Inject constructor(
     private var notificationTitle = ""
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
 
     }
 

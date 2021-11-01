@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
@@ -25,7 +24,7 @@ import dev.olog.shared.clamp
  */
 internal abstract class AbsPlayer<T>(
     private val context: Context,
-    lifecycle: Lifecycle,
+    lifecycleOwner: LifecycleOwner,
     private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume
 
@@ -41,7 +40,7 @@ internal abstract class AbsPlayer<T>(
     protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
 
         volume.listener = object : IMaxAllowedPlayerVolume.Listener {
             override fun onMaxAllowedVolumeChanged(volume: Float) {

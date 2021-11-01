@@ -10,7 +10,7 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
@@ -18,14 +18,13 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
+import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val billing: IBilling,
     private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences,
     private val presentationPrefs: PresentationPreferencesGateway
@@ -51,9 +50,6 @@ internal class MainPopupDialog @Inject constructor(
         }
         popup.inflate(layoutId)
 
-        if (billing.getBillingsState().isPremiumStrict()) {
-            popup.menu.removeItem(R.id.premium)
-        }
         if (category == null || category == MediaIdCategory.PLAYING_QUEUE){
             popup.menu.removeItem(R.id.gridSize)
         }
@@ -74,7 +70,6 @@ internal class MainPopupDialog @Inject constructor(
 
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.premium -> billing.purchasePremium()
                 R.id.about -> popupNavigator.toAboutActivity()
                 R.id.equalizer -> popupNavigator.toEqualizer()
                 R.id.settings -> popupNavigator.toSettingsActivity()
@@ -107,7 +102,7 @@ internal class MainPopupDialog @Inject constructor(
         val current = presentationPrefs.getSpanCount(category)
         presentationPrefs.setSpanCount(category, spanCount)
         if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
-            (view.context as Activity).recreate()
+            (view.context.findInContext<Activity>()).recreate()
         }
     }
 

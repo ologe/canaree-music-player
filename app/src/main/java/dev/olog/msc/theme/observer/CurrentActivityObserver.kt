@@ -3,6 +3,7 @@ package dev.olog.msc.theme.observer
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import dev.olog.shared.android.extensions.findInContext
 
 internal class CurrentActivityObserver(context: Context) :
     ActivityLifecycleCallbacks {
@@ -11,7 +12,7 @@ internal class CurrentActivityObserver(context: Context) :
         private set
 
     init {
-        (context.applicationContext as Application).registerActivityLifecycleCallbacks(this)
+        (context.applicationContext.findInContext<Application>()).registerActivityLifecycleCallbacks(this)
     }
 
     override fun onActivityStarted(activity: Activity) {

@@ -8,13 +8,12 @@ import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
-    lifecycle: Lifecycle,
+    lifecycleOwner: LifecycleOwner,
     context: Context,
     @LayoutRes layoutRes: Int
 
@@ -35,7 +34,7 @@ abstract class WebViewContent(
     private val refresh = content.findViewById<View>(R.id.refresh)
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
         try {
             webView.webChromeClient = object : WebChromeClient() {

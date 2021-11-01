@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.KeyEvent
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.PlayerMediaEntity
@@ -25,7 +25,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
     private val queue: IQueue,
     private val player: IPlayer,

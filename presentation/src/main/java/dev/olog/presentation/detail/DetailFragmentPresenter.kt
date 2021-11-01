@@ -1,5 +1,6 @@
 package dev.olog.presentation.detail
 
+import androidx.lifecycle.SavedStateHandle
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.PlaylistType
@@ -10,12 +11,14 @@ import dev.olog.presentation.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
+    savedStateHandle: SavedStateHandle,
     private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
     private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) {
+
+    private val mediaId = MediaId.fromString(savedStateHandle.get<String>(DetailFragment.ARGUMENTS_MEDIA_ID)!!)
 
     suspend fun removeFromPlaylist(item: DisplayableTrack) {
         mediaId.assertPlaylist()

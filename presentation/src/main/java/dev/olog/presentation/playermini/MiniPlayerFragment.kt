@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-@Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {

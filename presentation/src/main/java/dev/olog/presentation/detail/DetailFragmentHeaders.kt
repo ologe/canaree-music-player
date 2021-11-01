@@ -1,18 +1,23 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
+@ViewModelScoped
 class DetailFragmentHeaders @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val mediaId: MediaId
+    savedStateHandle: SavedStateHandle,
 ) {
+
+    private val mediaId = MediaId.fromString(savedStateHandle.get<String>(DetailFragment.ARGUMENTS_MEDIA_ID)!!)
 
     companion object {
         val RELATED_ARTISTS_SEE_ALL = MediaId.headerId("related artist header")

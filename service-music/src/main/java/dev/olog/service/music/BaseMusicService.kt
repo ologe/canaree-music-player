@@ -2,6 +2,7 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.content.Intent
+import android.os.IBinder
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -34,11 +35,29 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private var serviceStarted = false
 
     @CallSuper
+    override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
+        super.onCreate()
+    }
+
+    @CallSuper
+    override fun onBind(intent: Intent?): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
+        return super.onBind(intent)
+    }
+
+    @Suppress("deprecation")
+    @CallSuper
+    override fun onStart(intent: Intent?, startId: Int) {
+        dispatcher.onServicePreSuperOnStart();
+        super.onStart(intent, startId)
+    }
+
+    @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         serviceStarted = true
-
         handleIntent(intent)
-
         return Service.START_NOT_STICKY
     }
 
@@ -47,6 +66,8 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
     }
+
+    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     private fun handleIntent(intent: Intent?) {
         intent ?: return
@@ -119,8 +140,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             stopSelf()
         }
     }
-
-    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     protected abstract fun handleMediaButton(intent: Intent)
 

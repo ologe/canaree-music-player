@@ -5,29 +5,24 @@ import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.shared.CustomScope
 import dev.olog.shared.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
+    lifecycleOwner: LifecycleOwner
 
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
@@ -40,7 +35,7 @@ class MusicGlueService @Inject constructor(
     private var mediaController: MediaControllerCompat? = null
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
         mediaExposer.connect()
     }
 
