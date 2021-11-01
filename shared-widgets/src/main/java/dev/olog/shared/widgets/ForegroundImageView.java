@@ -27,7 +27,7 @@ public class ForegroundImageView extends AppCompatImageView {
         }
         a.recycle();
 
-        setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
+        setForeground(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.mid_grey_ripple));
 
         setScaleType(ScaleType.CENTER_CROP);
     }

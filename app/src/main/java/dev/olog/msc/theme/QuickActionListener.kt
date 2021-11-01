@@ -14,7 +14,7 @@ internal class QuickActionListener @Inject constructor(
 ) : BaseThemeUpdater<QuickAction>(
     context,
     prefs,
-    context.getString(R.string.prefs_quick_action_key)
+    context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_key)
 ) {
 
     val quickActionPublisher by lazy { ConflatedBroadcastChannel(getValue()) }
@@ -28,12 +28,12 @@ internal class QuickActionListener @Inject constructor(
 
     override fun getValue(): QuickAction {
         val value =
-            prefs.getString(key, context.getString(R.string.prefs_quick_action_entry_value_hide))
+            prefs.getString(key, context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_hide))
 
 
         return when (value) {
-            context.getString(R.string.prefs_quick_action_entry_value_hide) -> QuickAction.NONE
-            context.getString(R.string.prefs_quick_action_entry_value_play) -> QuickAction.PLAY
+            context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_hide) -> QuickAction.NONE
+            context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_play) -> QuickAction.PLAY
             else -> QuickAction.SHUFFLE
         }
     }

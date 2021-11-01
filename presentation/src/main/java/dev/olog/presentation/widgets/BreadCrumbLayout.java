@@ -133,7 +133,7 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     private void init() {
         contentColorActivated = ContextExtensionKt.textColorPrimary(getContext());
         contentColorDeactivated = ContextExtensionKt.textColorSecondary(getContext());
-        setMinimumHeight((int) getResources().getDimension(R.dimen.tab));
+        setMinimumHeight((int) getResources().getDimension(dev.olog.shared.android.R.dimen.tab));
         setClipToPadding(false);
         setHorizontalScrollBarEnabled(false);
         mCrumbs = new ArrayList<>();

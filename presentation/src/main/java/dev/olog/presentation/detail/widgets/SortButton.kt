@@ -15,12 +15,12 @@ internal class SortButton(
 
     fun update(sortEntity: SortEntity) {
         if (sortEntity.type == SortType.CUSTOM) {
-            setImageResource(R.drawable.vd_remove)
+            setImageResource(dev.olog.shared.android.R.drawable.vd_remove)
         } else {
             if (sortEntity.arranging == SortArranging.ASCENDING) {
-                setImageResource(R.drawable.vd_arrow_down)
+                setImageResource(dev.olog.shared.android.R.drawable.vd_arrow_down)
             } else {
-                setImageResource(R.drawable.vd_arrow_up)
+                setImageResource(dev.olog.shared.android.R.drawable.vd_arrow_up)
             }
         }
     }

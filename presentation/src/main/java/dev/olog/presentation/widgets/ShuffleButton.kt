@@ -29,7 +29,7 @@ class ShuffleButton(
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
-        setImageResource(R.drawable.vd_shuffle)
+        setImageResource(dev.olog.shared.android.R.drawable.vd_shuffle)
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){

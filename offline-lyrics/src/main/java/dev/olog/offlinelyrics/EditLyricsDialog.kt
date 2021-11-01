@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit) {
-        val themeWrapper = ContextThemeWrapper(context, R.style.AppTheme)
+        val themeWrapper = ContextThemeWrapper(context, dev.olog.shared.android.R.style.AppTheme)
         val builder = MaterialAlertDialogBuilder(themeWrapper)
             .setTitle(R.string.offline_lyrics_edit_title)
             .setView(R.layout.layout_edit_text)

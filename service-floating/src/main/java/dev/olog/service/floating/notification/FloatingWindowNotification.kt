@@ -71,7 +71,7 @@ class FloatingWindowNotification @Inject constructor(
         return builder
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setSmallIcon(R.drawable.vd_bird_singing)
+            .setSmallIcon(dev.olog.shared.android.R.drawable.vd_bird_singing)
             .setContentTitle(notificationTitle)
             .setContentText(service.getString(R.string.floating_window_notification_content_text))
             .setColor(service.colorControlNormal())

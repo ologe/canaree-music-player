@@ -16,7 +16,7 @@ internal class PlayerAppearanceListener @Inject constructor(
 ) : BaseThemeUpdater<PlayerAppearance>(
     context,
     prefs,
-    context.getString(R.string.prefs_appearance_key)
+    context.getString(dev.olog.prefskeys.R.string.prefs_appearance_key)
 ), ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
     var playerAppearance by mutableLazy { getValue() }
@@ -29,16 +29,16 @@ internal class PlayerAppearanceListener @Inject constructor(
 
     override fun getValue(): PlayerAppearance {
         val value =
-            prefs.getString(key, context.getString(R.string.prefs_appearance_entry_value_default))
+            prefs.getString(key, context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_default))
 
         return when (value) {
-            context.getString(R.string.prefs_appearance_entry_value_default) -> PlayerAppearance.DEFAULT
-            context.getString(R.string.prefs_appearance_entry_value_flat) -> PlayerAppearance.FLAT
-            context.getString(R.string.prefs_appearance_entry_value_spotify) -> PlayerAppearance.SPOTIFY
-            context.getString(R.string.prefs_appearance_entry_value_fullscreen) -> PlayerAppearance.FULLSCREEN
-            context.getString(R.string.prefs_appearance_entry_value_big_image) -> PlayerAppearance.BIG_IMAGE
-            context.getString(R.string.prefs_appearance_entry_value_clean) -> PlayerAppearance.CLEAN
-            context.getString(R.string.prefs_appearance_entry_value_mini) -> PlayerAppearance.MINI
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_default) -> PlayerAppearance.DEFAULT
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_flat) -> PlayerAppearance.FLAT
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_spotify) -> PlayerAppearance.SPOTIFY
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_fullscreen) -> PlayerAppearance.FULLSCREEN
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_big_image) -> PlayerAppearance.BIG_IMAGE
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_clean) -> PlayerAppearance.CLEAN
+            context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_mini) -> PlayerAppearance.MINI
             else -> throw IllegalStateException("invalid theme=$value")
         }
     }

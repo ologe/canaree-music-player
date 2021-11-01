@@ -85,7 +85,7 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()
@@ -98,7 +98,7 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()
@@ -111,7 +111,7 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.songs,
             this.songs
         ).toLowerCase()
@@ -124,7 +124,7 @@ internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()

@@ -21,7 +21,7 @@ object TutorialTapTarget {
                 .tint(context)
 
         val arrowTarget = TapTarget.forView(arrow, context.getString(R.string.tutorial_sort_by_arrow))
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_arrow_down))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_arrow_down))
                 .tint(context)
 
         TapTargetSequence(text.context as Activity)
@@ -34,7 +34,7 @@ object TutorialTapTarget {
         val context = view.context
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_search_text))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_search_text))
                 .tint(context)
         TapTargetView.showFor(view.context as Activity, target)
     }
@@ -44,7 +44,7 @@ object TutorialTapTarget {
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_offline_lyrics))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_offline_lyrics))
 
         TapTargetView.showFor(view.context as Activity, target)
     }
@@ -54,15 +54,15 @@ object TutorialTapTarget {
 
         val searchTarget = TapTarget.forView(search, context.getString(R.string.tutorial_search_lyrics))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_search))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_search))
 
         val editTarget = TapTarget.forView(edit, context.getString(R.string.tutorial_add_lyrics))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_edit))
 
         val syncLyrics = TapTarget.forView(sync, context.getString(R.string.tutorial_adjust_sync))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_sync))
+                .icon(ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_sync))
 
         TapTargetSequence(search.context as Activity)
                 .targets(editTarget, searchTarget, syncLyrics)

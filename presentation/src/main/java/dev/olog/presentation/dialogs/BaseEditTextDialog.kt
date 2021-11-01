@@ -24,7 +24,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
 
     @CallSuper
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setView(R.layout.layout_edit_text)
+        return builder.setView(dev.olog.offlinelyrics.R.layout.layout_edit_text)
     }
 
     @CallSuper

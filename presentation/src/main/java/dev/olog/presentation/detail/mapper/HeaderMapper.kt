@@ -14,7 +14,7 @@ internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()
@@ -25,7 +25,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): DisplayableHeader {
     val subtitle = if (AutoPlaylist.isAutoPlaylist(id)){
         ""
     } else {
-        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
+        resources.getQuantityString(dev.olog.shared.android.R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
     return DisplayableHeader(
@@ -53,7 +53,7 @@ internal fun Artist.toHeaderItem(resources: Resources): DisplayableHeader {
         type = R.layout.item_detail_image,
         mediaId = getMediaId(),
         title = name,
-        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
+        subtitle = resources.getQuantityString(dev.olog.shared.android.R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
     )
 }
 
@@ -64,7 +64,7 @@ internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            dev.olog.shared.android.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()

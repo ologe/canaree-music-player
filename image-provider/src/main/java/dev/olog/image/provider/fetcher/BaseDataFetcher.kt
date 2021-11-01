@@ -131,16 +131,16 @@ abstract class BaseDataFetcher(
     private fun networkSafeAction(): Boolean {
 
         val downloadMode = prefs.getString(
-            context.getString(R.string.prefs_auto_download_images_key),
-            context.getString(R.string.prefs_auto_download_images_entry_value_wifi)
+            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_key),
+            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_wifi)
         )
 
         val isWifiActive = NetworkUtils.isOnWiFi(context)
 
         return when (downloadMode) {
-            context.getString(R.string.prefs_auto_download_images_entry_value_never) -> false
-            context.getString(R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
-            context.getString(R.string.prefs_auto_download_images_entry_value_always) -> true
+            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_never) -> false
+            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
+            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_always) -> true
             else -> throw IllegalArgumentException("not supposed to happen, key not valid=$downloadMode")
         }
     }

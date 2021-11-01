@@ -15,7 +15,7 @@ import dev.olog.shared.android.extensions.asServicePendingIntent
 internal object NotificationActions {
 
     fun favorite(context: Context, isFavorite: Boolean): NotificationCompat.Action {
-        val icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
+        val icon = if (isFavorite) dev.olog.shared.android.R.drawable.vd_favorite else dev.olog.shared.android.R.drawable.vd_not_favorite
         return NotificationCompat.Action.Builder(
             icon,
             "Toggle favorite",
@@ -49,7 +49,7 @@ internal object NotificationActions {
 
     private fun trackSkipPrevious(context: Context): NotificationCompat.Action {
         return NotificationCompat.Action.Builder(
-            R.drawable.vd_skip_previous,
+            dev.olog.shared.android.R.drawable.vd_skip_previous,
             "Skip to previous",
             buildMediaPendingIntent(context, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
         ).build()
@@ -57,7 +57,7 @@ internal object NotificationActions {
 
     private fun podcastSkipPrevious(context: Context): NotificationCompat.Action {
         return NotificationCompat.Action.Builder(
-            R.drawable.vd_replay,
+            dev.olog.shared.android.R.drawable.vd_replay,
             "Replay 10 seconds",
             buildPendingIntent(context, MusicServiceCustomAction.REPLAY_10.name)
         ).build()
@@ -65,7 +65,7 @@ internal object NotificationActions {
 
     private fun trackSkipNext(context: Context): NotificationCompat.Action {
         return NotificationCompat.Action.Builder(
-            R.drawable.vd_skip_next,
+            dev.olog.shared.android.R.drawable.vd_skip_next,
             "Skip to next",
             buildMediaPendingIntent(context, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)
         ).build()
@@ -73,7 +73,7 @@ internal object NotificationActions {
 
     private fun podcastSkipNext(context: Context): NotificationCompat.Action {
         return NotificationCompat.Action.Builder(
-            R.drawable.vd_forward_30,
+            dev.olog.shared.android.R.drawable.vd_forward_30,
             "Forward 30 seconds",
             buildPendingIntent(context, MusicServiceCustomAction.FORWARD_30.name)
         ).build()

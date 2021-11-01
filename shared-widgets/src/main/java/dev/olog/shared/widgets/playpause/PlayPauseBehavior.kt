@@ -25,10 +25,10 @@ class PlayPauseBehaviorImpl(private val button: ImageButton):
 
     private val context = button.context
 
-    private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
-    private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
-    private val playIcon = ContextCompat.getDrawable(context, R.drawable.vd_playpause_play)
-    private val pauseIcon = ContextCompat.getDrawable(context, R.drawable.vd_playpause_pause)
+    private val playAnimation = context.getAnimatedVectorDrawable(dev.olog.shared.android.R.drawable.avd_playpause_play_to_pause)
+    private val pauseAnimation = context.getAnimatedVectorDrawable(dev.olog.shared.android.R.drawable.avd_playpause_pause_to_play)
+    private val playIcon = ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_playpause_play)
+    private val pauseIcon = ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.vd_playpause_pause)
 
     init {
         button.setImageDrawable(playIcon)
@@ -63,8 +63,8 @@ class PlayPauseBehaviorImpl(private val button: ImageButton):
             override fun onAnimationEnd(drawable: Drawable?) {
                 // force to set not animated drawable
                 when (drawable){
-                    playAnimation -> button.setImageResource(R.drawable.vd_playpause_pause)
-                    pauseAnimation -> button.setImageResource(R.drawable.vd_playpause_play)
+                    playAnimation -> button.setImageResource(dev.olog.shared.android.R.drawable.vd_playpause_pause)
+                    pauseAnimation -> button.setImageResource(dev.olog.shared.android.R.drawable.vd_playpause_play)
                 }
             }
         })

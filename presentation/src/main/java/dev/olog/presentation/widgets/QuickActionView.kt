@@ -42,8 +42,8 @@ class QuickActionView (
 
         when (quickAction) {
             QuickAction.NONE -> setImageDrawable(null)
-            QuickAction.PLAY -> setImageResource(R.drawable.vd_play)
-            QuickAction.SHUFFLE -> setImageResource(R.drawable.vd_shuffle)
+            QuickAction.PLAY -> setImageResource(dev.olog.shared.android.R.drawable.vd_play)
+            QuickAction.SHUFFLE -> setImageResource(dev.olog.shared.android.R.drawable.vd_shuffle)
         }
     }
 

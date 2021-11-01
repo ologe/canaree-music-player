@@ -20,7 +20,7 @@ class HeaderVisibilityScrollListener(
 
     private val toolbarHeight by lazyFast {
         val statusBarHeight = fragment.view!!.statusBar.height
-        statusBarHeight + fragment.ctx.dimen(R.dimen.toolbar)
+        statusBarHeight + fragment.ctx.dimen(dev.olog.shared.android.R.dimen.toolbar)
     }
 
     private var textWrapper: View? = null

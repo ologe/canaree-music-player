@@ -56,7 +56,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         val songs =
-            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
+            resources.getQuantityString(dev.olog.shared.android.R.plurals.common_plurals_song, this.songs, this.songs)
 
         return DisplayableAlbum(
             type = R.layout.item_related_artist,

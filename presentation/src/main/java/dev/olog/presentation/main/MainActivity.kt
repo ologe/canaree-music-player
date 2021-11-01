@@ -121,8 +121,8 @@ class MainActivity : MusicGlueActivity(),
                 this, ScrollType.Full(
                     slidingPanel = slidingPanel,
                     bottomNavigation = bottomWrapper,
-                    toolbarHeight = dimen(R.dimen.toolbar),
-                    tabLayoutHeight = dimen(R.dimen.tab),
+                    toolbarHeight = dimen(dev.olog.shared.android.R.dimen.toolbar),
+                    tabLayoutHeight = dimen(dev.olog.shared.android.R.dimen.tab),
                     realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
                 )
             )

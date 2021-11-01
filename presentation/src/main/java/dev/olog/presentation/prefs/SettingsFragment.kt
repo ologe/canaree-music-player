@@ -65,22 +65,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private val paidSettings: List<Preference> by lazyFast {
         listOf(
             // library
-            findPreference<Preference>(getString(R.string.prefs_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_show_podcasts_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_podcast_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_blacklist_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_folder_tree_view_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_library_categories_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_podcast_library_categories_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_blacklist_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key))!!,
             //audio
-            findPreference<Preference>(getString(R.string.prefs_used_equalizer_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_midnight_mode_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_cross_fade_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_gapless_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_used_equalizer_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_midnight_mode_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_cross_fade_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_gapless_key))!!,
             // ui
-            findPreference<Preference>(getString(R.string.prefs_appearance_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_adaptive_colors_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_immersive_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_quick_action_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_appearance_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_adaptive_colors_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_immersive_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_quick_action_key))!!,
+            findPreference<Preference>(getString(dev.olog.prefskeys.R.string.prefs_icon_shape_key))!!
         )
     }
 
@@ -91,15 +91,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
-        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))!!
-        blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))!!
-        iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))!!
-        deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
-        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))!!
-        autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
-        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
-        resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
+        libraryCategories = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_library_categories_key))!!
+        podcastCategories = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_podcast_library_categories_key))!!
+        blacklist = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_blacklist_key))!!
+        iconShape = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_icon_shape_key))!!
+        deleteCache = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_delete_cached_images_key))!!
+        lastFmCredentials = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_last_fm_credentials_key))!!
+        autoCreateImages = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_auto_create_images_key))!!
+        accentColorChooser = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_color_accent_key))!!
+        resetTutorial = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_reset_tutorial_key))!!
 
         val state = (act as HasBilling).billing.getBillingsState()
         val premiumEnabled = state.isPremiumEnabled()
@@ -110,7 +110,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val list = view.findViewById<RecyclerView>(R.id.recycler_view)
+        val list = view.findViewById<RecyclerView>(androidx.preference.R.id.recycler_view)
         list.layoutManager = OverScrollLinearLayoutManager(list)
     }
 
@@ -150,8 +150,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
         accentColorChooser.setOnPreferenceClickListener {
             val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
-            val key = getString(R.string.prefs_color_accent_key)
-            val defaultColor = ContextCompat.getColor(act, R.color.defaultColorAccent)
+            val key = getString(dev.olog.prefskeys.R.string.prefs_color_accent_key)
+            val defaultColor = ContextCompat.getColor(act, dev.olog.shared.android.R.color.defaultColorAccent)
 
             MaterialDialog(act)
                 .colorChooser(
@@ -186,10 +186,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
             // crash workaround, don't know if crashes because of a leak or what else
         }
         when (key) {
-            getString(R.string.prefs_folder_tree_view_key) -> {
+            getString(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
             }
-            getString(R.string.prefs_show_podcasts_key) -> {
+            getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key) -> {
                 presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
                 act.recreate()
             }
@@ -199,7 +199,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun showDeleteAllCacheDialog() {
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
-            .setMessage(R.string.are_you_sure)
+            .setMessage(dev.olog.shared.android.R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
@@ -223,7 +223,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun showResetTutorialDialog() {
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_reset_tutorial_title)
-            .setMessage(R.string.are_you_sure)
+            .setMessage(dev.olog.shared.android.R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
@@ -232,7 +232,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun invoke(dialog: MaterialDialog, color: Int) {
         val realColor = ColorPalette.getRealAccentSubColor(ctx.isDarkMode(), color)
         val prefs = PreferenceManager.getDefaultSharedPreferences(act)
-        val key = getString(R.string.prefs_color_accent_key)
+        val key = getString(dev.olog.prefskeys.R.string.prefs_color_accent_key)
         prefs.edit {
             putInt(key, realColor)
         }

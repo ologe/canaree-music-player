@@ -31,7 +31,7 @@ class RepeatButton(
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
-        setImageResource(R.drawable.vd_repeat)
+        setImageResource(dev.olog.shared.android.R.drawable.vd_repeat)
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){

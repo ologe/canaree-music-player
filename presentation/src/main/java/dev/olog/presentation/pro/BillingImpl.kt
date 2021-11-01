@@ -103,10 +103,10 @@ internal class BillingImpl @Inject constructor(
                 isPremiumState = isProBought(purchases)
             }
             BillingClient.BillingResponse.SERVICE_TIMEOUT -> {
-                activity.get()?.toast(R.string.network_timeout)
+                activity.get()?.toast(dev.olog.shared.android.R.string.network_timeout)
             }
             BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> {
-                activity.get()?.toast(R.string.common_no_internet)
+                activity.get()?.toast(dev.olog.shared.android.R.string.common_no_internet)
             }
             else -> Log.w("Billing", "billing response code=${responseCode}")
         }

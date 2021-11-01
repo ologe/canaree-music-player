@@ -114,7 +114,7 @@ class FolderTreeFragment : BaseFragment(),
 
     private val scrollListener = object : RecyclerView.OnScrollListener(){
 
-        private val toolbarHeight by lazyFast { ctx.dimen(R.dimen.toolbar) }
+        private val toolbarHeight by lazyFast { ctx.dimen(dev.olog.shared.android.R.dimen.toolbar) }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val currentTranlationY = crumbsWrapper.translationY

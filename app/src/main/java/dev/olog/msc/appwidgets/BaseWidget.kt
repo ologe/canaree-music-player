@@ -45,8 +45,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         val remoteViews = RemoteViews(context.packageName, layoutId)
 
         val playPauseIcon = if (IS_PLAYING){
-            ContextCompat.getDrawable(context, R.drawable.vd_pause_big)!!
-        } else ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!
+            ContextCompat.getDrawable(context, dev.olog.service.music.R.drawable.vd_pause_big)!!
+        } else ContextCompat.getDrawable(context, dev.olog.service.music.R.drawable.vd_play_big)!!
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
@@ -65,8 +65,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         val remoteViews = RemoteViews(context.packageName, layoutId)
 
         val playPauseIcon = if (state.isPlaying){
-            ContextCompat.getDrawable(context, R.drawable.vd_pause_big)!!
-        } else ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!
+            ContextCompat.getDrawable(context, dev.olog.service.music.R.drawable.vd_pause_big)!!
+        } else ContextCompat.getDrawable(context, dev.olog.service.music.R.drawable.vd_play_big)!!
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
@@ -141,8 +141,8 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun LastMetadata.safeMap(context: Context): LastMetadata {
-        val title = if (this.title.isBlank()) context.getString(R.string.common_placeholder_title) else this.title
-        val subtitle = if (this.subtitle.isBlank()) context.getString(R.string.common_placeholder_artist) else this.subtitle
+        val title = if (this.title.isBlank()) context.getString(dev.olog.shared.android.R.string.common_placeholder_title) else this.title
+        val subtitle = if (this.subtitle.isBlank()) context.getString(dev.olog.shared.android.R.string.common_placeholder_artist) else this.subtitle
 
         return LastMetadata(
             title,

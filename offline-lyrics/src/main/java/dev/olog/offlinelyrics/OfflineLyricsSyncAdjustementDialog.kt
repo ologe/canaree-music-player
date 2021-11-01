@@ -14,7 +14,7 @@ object OfflineLyricsSyncAdjustementDialog {
 
     @JvmStatic
     fun show(ctx: Context, currentValue: String, positiveAction: (Long) -> Unit) {
-        val themeWrapper = ContextThemeWrapper(ctx, R.style.AppTheme)
+        val themeWrapper = ContextThemeWrapper(ctx, dev.olog.shared.android.R.style.AppTheme)
         val builder = MaterialAlertDialogBuilder(themeWrapper)
             .setTitle(R.string.offline_lyrics_adjust_sync)
             .setView(R.layout.layout_edit_text_simple)

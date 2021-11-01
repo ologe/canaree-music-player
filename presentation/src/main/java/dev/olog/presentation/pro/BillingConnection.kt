@@ -35,10 +35,10 @@ internal abstract class BillingConnection(
                 Log.v("Billing", "billing connection response code=${responseCode}")
                 when (responseCode) {
                     BillingClient.BillingResponse.SERVICE_TIMEOUT -> {
-                        activity.get()?.toast(R.string.network_timeout)
+                        activity.get()?.toast(dev.olog.shared.android.R.string.network_timeout)
                     }
                     BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> {
-                        activity.get()?.toast(R.string.common_no_internet)
+                        activity.get()?.toast(dev.olog.shared.android.R.string.common_no_internet)
                     }
                 }
 

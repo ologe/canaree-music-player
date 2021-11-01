@@ -11,7 +11,7 @@ class CircularImageView (
 ) : ForegroundImageView(context, attrs){
 
     init {
-        background = ContextCompat.getDrawable(context, R.drawable.circular_corners_drawable)
+        background = ContextCompat.getDrawable(context, dev.olog.shared.android.R.drawable.circular_corners_drawable)
         clipToOutline = true
     }
 

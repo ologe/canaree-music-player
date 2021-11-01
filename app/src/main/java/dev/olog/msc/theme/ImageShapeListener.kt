@@ -11,7 +11,7 @@ import javax.inject.Inject
 internal class ImageShapeListener @Inject constructor(
     @ApplicationContext context: Context,
     prefs: SharedPreferences
-) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(R.string.prefs_icon_shape_key)) {
+) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_key)) {
 
     val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
     fun imageShape() = imageShapePublisher.value
@@ -22,12 +22,12 @@ internal class ImageShapeListener @Inject constructor(
     }
 
     override fun getValue(): ImageShape {
-        val value = prefs.getString(key, context.getString(R.string.prefs_icon_shape_rounded))
+        val value = prefs.getString(key, context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_rounded))
 
         return when (value) {
-            context.getString(R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
-            context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
-            context.getString(R.string.prefs_icon_shape_cut_corner) -> ImageShape.CUT_CORNER
+            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
+            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
+            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_cut_corner) -> ImageShape.CUT_CORNER
             else -> throw IllegalArgumentException("image shape not valid=$value")
         }
     }

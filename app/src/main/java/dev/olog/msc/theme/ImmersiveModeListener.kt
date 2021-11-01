@@ -13,7 +13,7 @@ import javax.inject.Inject
 internal class ImmersiveModeListener @Inject constructor(
     @ApplicationContext context: Context,
     prefs: SharedPreferences
-) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(R.string.prefs_immersive_key)),
+) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(dev.olog.prefskeys.R.string.prefs_immersive_key)),
     ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
     var isImmersive by mutableLazy { getValue() }

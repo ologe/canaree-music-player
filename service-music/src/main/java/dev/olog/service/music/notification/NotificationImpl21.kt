@@ -48,7 +48,7 @@ internal open class NotificationImpl21 @Inject constructor(
             .setMediaSession(mediaSession.sessionToken)
             .setShowActionsInCompactView(1, 2, 3)
 
-        builder.setSmallIcon(R.drawable.vd_bird_not_singing)
+        builder.setSmallIcon(dev.olog.shared.android.R.drawable.vd_bird_not_singing)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(
@@ -103,7 +103,7 @@ internal open class NotificationImpl21 @Inject constructor(
 
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
         builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
-        builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
+        builder.setSmallIcon(if (isPlaying) dev.olog.shared.android.R.drawable.vd_bird_singing else dev.olog.shared.android.R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
 
         if (isPlaying) {

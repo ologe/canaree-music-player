@@ -38,7 +38,7 @@ data class DisplayableAlbum(
             if (size <= 0) {
                 return ""
             }
-            return resources.getQuantityString(R.plurals.common_plurals_song, size, size)
+            return resources.getQuantityString(dev.olog.shared.android.R.plurals.common_plurals_song, size, size)
                 .toLowerCase()
         }
     }

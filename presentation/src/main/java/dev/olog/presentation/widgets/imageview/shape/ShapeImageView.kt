@@ -42,9 +42,9 @@ open class ShapeImageView(
     private val squareShapeModel: ShapeAppearanceModel
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
+        val a = context.obtainStyledAttributes(attrs, dev.olog.shared.widgets.R.styleable.RoundedCornersImageView)
         radius = a.getInt(
-            R.styleable.RoundedCornersImageView_imageViewCornerRadius,
+            dev.olog.shared.widgets.R.styleable.RoundedCornersImageView_imageViewCornerRadius,
             DEFAULT_RADIUS
         )
         a.recycle()

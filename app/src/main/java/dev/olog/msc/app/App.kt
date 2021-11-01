@@ -50,7 +50,7 @@ class App : ThemedApp(), HasAndroidInjector {
     }
 
     private fun initializeConstants() {
-        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+        PreferenceManager.setDefaultValues(this, dev.olog.presentation.R.xml.prefs, false)
     }
 
     private fun resetSleepTimer() {

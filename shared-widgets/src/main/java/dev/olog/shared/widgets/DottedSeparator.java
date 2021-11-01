@@ -21,7 +21,7 @@ public class DottedSeparator extends View {
     public DottedSeparator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        setBackgroundResource(R.drawable.dotted_line);
+        setBackgroundResource(dev.olog.shared.android.R.drawable.dotted_line);
         setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
         setAlpha(.1f);
     }
