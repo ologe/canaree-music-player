@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:7.0.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
@@ -41,13 +41,6 @@ allprojects {
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
             kotlinOptions.jvmTarget = "1.8"
-        }
-    }
-    afterEvaluate {
-        extensions.findByName('kapt')?.arguments {
-            arg("dagger.fastInit", "enabled")
-            arg("dagger.formatGeneratedSource", "disabled")
-//            arg("dagger.fullBindingGraphValidation", "ERROR")
         }
     }
 }
