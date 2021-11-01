@@ -68,6 +68,9 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
+    // features
+    implementation project(':features:library:impl')
+
     implementation lib_core.coroutines
 
     // google architecture components

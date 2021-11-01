@@ -14,3 +14,6 @@ rootProject.name = "canaree"
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer' TODO restore
 //gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 //apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+// features
+include ':features:library:api'
+include ':features:library:impl'
