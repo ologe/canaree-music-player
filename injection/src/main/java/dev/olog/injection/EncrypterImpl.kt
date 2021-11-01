@@ -17,7 +17,7 @@ class EncrypterImpl @Inject constructor(
 
     private val key by lazy {
         AesCbcWithIntegrity.generateKeyFromPassword(
-            BuildConfig.AES_PASSWORD,
+            "a", // TODO
             SALT
         )
     }

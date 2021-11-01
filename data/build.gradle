@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -13,10 +15,6 @@ if (localPropertiesFile.exists()) {
 android {
 
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -34,11 +32,7 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')

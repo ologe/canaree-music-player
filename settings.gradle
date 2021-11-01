@@ -1,3 +1,13 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
 
 rootProject.name = "canaree"

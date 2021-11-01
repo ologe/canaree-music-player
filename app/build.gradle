@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -24,15 +26,9 @@ android {
     }
 
     bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
+        language.enableSplit = true
+        density.enableSplit = true
+        abi.enableSplit = true
     }
 
     buildTypes {
@@ -54,14 +50,7 @@ android {
         checkReleaseBuilds false
         disable 'MissingTranslation'
     }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
-
 
 dependencies {
     implementation project(':app-shortcuts')

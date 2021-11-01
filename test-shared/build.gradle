@@ -1,47 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-android {
-
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    buildTypes {
-        release {
-            debuggable false
-        }
-
-        debug {
-//            debuggable false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dexOptions {
-        preDexLibraries true
-    }
-
-    useLibrary 'android.test.runner'
-
-    useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'
-
-}
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation lib_core.kotlin

@@ -1,0 +1,60 @@
+android {
+
+    compileSdk project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
+
+    defaultConfig {
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+        }
+
+        debug {
+//            debuggable false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility project.javaVersion
+        targetCompatibility project.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = project.javaVersion.toString()
+        freeCompilerArgs += project.freeCompilerArgs
+//        allWarningsAsErrors = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+}
+
+dependencies {
+    implementation lib_core.kotlin
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_android
+    testImplementation lib_core.coroutines_test
+
+    // Core library
+    testImplementation lib_test.junit
+    testImplementation lib_test.mockito
+    testImplementation lib_test.mockito_kotlin
+
+    androidTestImplementation lib_test.mockito
+    androidTestImplementation lib_test.mockito_kotlin
+    androidTestImplementation 'androidx.test:core:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+}
