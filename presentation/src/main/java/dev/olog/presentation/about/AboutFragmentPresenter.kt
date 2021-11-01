@@ -3,15 +3,19 @@ package dev.olog.presentation.about
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class AboutFragmentPresenter(
-    context: Context
-) : CoroutineScope by MainScope() {
+@HiltViewModel
+class AboutFragmentPresenter @Inject constructor(
+    @ApplicationContext context: Context
+) : ViewModel() {
 
     companion object {
         @JvmStatic
@@ -152,10 +156,6 @@ class AboutFragmentPresenter(
 //                }
 //        }
         dataLiveData.value = data
-    }
-
-    fun onCleared() {
-        cancel()
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData

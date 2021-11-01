@@ -14,6 +14,7 @@ import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
@@ -41,7 +42,7 @@ class FolderTreeFragment : BaseFragment(),
         val adapter = FolderTreeFragmentAdapter(
             lifecycle,
             viewModel,
-            activity as MediaProvider,
+            requireActivity().findInContext(),
             navigator
         )
         fab.shrink()
