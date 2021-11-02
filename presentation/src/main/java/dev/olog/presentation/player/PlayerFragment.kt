@@ -10,15 +10,18 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.base.BaseFragment
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
@@ -82,7 +85,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                     listOf(viewModel.playerControls())
                 }
             }
-            .assertBackground()
             .flowOn(Dispatchers.Default)
             .asLiveData()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)

@@ -1,19 +1,18 @@
 package dev.olog.presentation.search
 
 import android.content.Context
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.presentation.R
 import dev.olog.feature.base.DisplayableAlbum
 import dev.olog.feature.base.DisplayableHeader
 import dev.olog.feature.base.DisplayableItem
-import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.presentation.R
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -52,37 +51,32 @@ class SearchDataProvider @Inject constructor(
             } else {
                 getFiltered(query)
             }
-        }.assertBackground()
+        }
     }
 
     fun observeArtists(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
             .flatMapLatest { getArtists(it) }
-            .assertBackground()
     }
 
     fun observeAlbums(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
             .flatMapLatest { getAlbums(it) }
-            .assertBackground()
     }
 
     fun observeGenres(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
             .flatMapLatest { getGenres(it) }
-            .assertBackground()
     }
 
     fun observePlaylists(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
             .flatMapLatest { getPlaylists(it) }
-            .assertBackground()
     }
 
     fun observeFolders(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
             .flatMapLatest { getFolders(it) }
-            .assertBackground()
     }
 
     private fun getRecents(): Flow<List<DisplayableItem>> {
