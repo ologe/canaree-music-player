@@ -45,7 +45,7 @@ ext {
     fuzzywuzzy = '1.2.0'
 
 //    debug
-    leak_canary = '2.4'
+    leak_canary = '2.7'
     stetho = '1.5.1'
 
 //    firebase
