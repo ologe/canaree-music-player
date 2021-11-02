@@ -6,9 +6,9 @@ import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.base.DisplayableHeader
+import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 @ViewModelScoped

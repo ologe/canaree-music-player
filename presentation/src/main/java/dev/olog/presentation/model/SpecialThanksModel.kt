@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
 import dev.olog.core.MediaId
+import dev.olog.feature.base.BaseModel
 
 data class SpecialThanksModel(
     override val type: Int,

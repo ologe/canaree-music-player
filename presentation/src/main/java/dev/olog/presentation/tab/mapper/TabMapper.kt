@@ -3,9 +3,9 @@ package dev.olog.presentation.tab.mapper
 import android.content.res.Resources
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.base.DisplayableAlbum
+import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.DisplayableTrack
 import java.util.concurrent.TimeUnit
 
 internal fun Folder.toTabDisplayableItem(

@@ -1,4 +1,4 @@
-package dev.olog.presentation.model
+package dev.olog.feature.base
 
 import dev.olog.core.MediaId
 

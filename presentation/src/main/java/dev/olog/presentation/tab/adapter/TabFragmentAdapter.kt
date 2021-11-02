@@ -3,12 +3,11 @@ package dev.olog.presentation.tab.adapter
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
+import dev.olog.feature.base.*
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.feature.base.SetupNestedList
-import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.setGone

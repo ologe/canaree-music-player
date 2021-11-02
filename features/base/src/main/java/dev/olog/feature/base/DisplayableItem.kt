@@ -1,8 +1,7 @@
-package dev.olog.presentation.model
+package dev.olog.feature.base
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 
 sealed class DisplayableItem(

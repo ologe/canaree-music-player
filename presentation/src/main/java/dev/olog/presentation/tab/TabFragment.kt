@@ -20,9 +20,9 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.base.DisplayableAlbum
+import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter

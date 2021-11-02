@@ -10,9 +10,9 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.base.DisplayableAlbum
+import dev.olog.feature.base.DisplayableHeader
+import dev.olog.feature.base.DisplayableItem
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty

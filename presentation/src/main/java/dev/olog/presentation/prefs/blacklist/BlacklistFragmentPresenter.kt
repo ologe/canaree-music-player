@@ -6,7 +6,7 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BaseModel
+import dev.olog.feature.base.BaseModel
 import dev.olog.shared.lazyFast
 import java.util.*
 import javax.inject.Inject

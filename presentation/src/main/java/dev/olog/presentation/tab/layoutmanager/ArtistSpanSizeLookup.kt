@@ -2,7 +2,7 @@ package dev.olog.presentation.tab.layoutmanager
 
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.BaseModel
+import dev.olog.feature.base.BaseModel
 
 class ArtistSpanSizeLookup(
     private val adapter: ObservableAdapter<BaseModel>,

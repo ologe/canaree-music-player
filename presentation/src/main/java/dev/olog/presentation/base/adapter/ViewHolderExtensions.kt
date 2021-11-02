@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.base.anim.ScaleInOnTouch
 import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.model.BaseModel
+import dev.olog.feature.base.BaseModel
 
 fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
     data: ObservableAdapter<T>,

@@ -9,8 +9,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.base.DisplayableHeader
+import dev.olog.feature.base.DisplayableItem
 import javax.inject.Inject
 
 @HiltViewModel

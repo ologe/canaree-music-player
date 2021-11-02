@@ -5,8 +5,8 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.base.DisplayableHeader
+import dev.olog.feature.base.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
 import kotlinx.android.synthetic.main.item_about.view.*
 
