@@ -23,6 +23,8 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.base.DisplayableAlbum
 import dev.olog.feature.base.DisplayableItem
 import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.toTabCategory
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter

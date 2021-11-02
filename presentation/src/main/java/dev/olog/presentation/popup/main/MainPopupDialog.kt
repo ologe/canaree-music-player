@@ -18,8 +18,8 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tab.TabCategory
-import dev.olog.presentation.tab.toTabCategory
+import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.toTabCategory
 import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 

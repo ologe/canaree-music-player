@@ -1,6 +1,6 @@
 package dev.olog.presentation.model
 
-import dev.olog.presentation.tab.TabCategory
+import dev.olog.feature.library.TabCategory
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway {

@@ -1,7 +1,7 @@
 package dev.olog.presentation.model
 
 import android.content.Context
-import dev.olog.presentation.tab.TabCategory
+import dev.olog.feature.library.TabCategory
 import dev.olog.shared.android.extensions.configuration
 import dev.olog.shared.throwNotHandled
 

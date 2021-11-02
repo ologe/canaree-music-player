@@ -7,6 +7,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.library.TabCategory
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.asLiveData
 import javax.inject.Inject
