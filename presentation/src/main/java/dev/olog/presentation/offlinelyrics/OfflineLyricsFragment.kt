@@ -15,7 +15,7 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.media.MediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 

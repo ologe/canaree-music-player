@@ -12,7 +12,7 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator

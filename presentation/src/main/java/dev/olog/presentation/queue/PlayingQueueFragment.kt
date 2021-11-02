@@ -10,7 +10,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
@@ -20,7 +20,6 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

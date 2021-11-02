@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.feature.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.feature.base.HasSlidingPanel
-import dev.olog.feature.base.RestorableScroll
 import dev.olog.shared.android.extensions.findInContext
 
 abstract class BaseFragment : Fragment() {

@@ -2,25 +2,21 @@ package dev.olog.presentation.playermini
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 

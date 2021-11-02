@@ -8,7 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
