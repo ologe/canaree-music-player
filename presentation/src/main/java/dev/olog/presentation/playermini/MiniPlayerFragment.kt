@@ -94,7 +94,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
         next.setOnClickListener { media.skipToNext() }
@@ -104,7 +104,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)
