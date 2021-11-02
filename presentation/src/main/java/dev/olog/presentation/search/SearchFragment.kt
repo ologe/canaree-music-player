@@ -128,7 +128,7 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        editText.afterTextChange()
+        editText.afterTextChangeFlow()
             .debounce(200)
             .filter { it.isBlank() || it.trim().length >= 2 }
             .collectOnLifecycle(this) { viewModel.updateQuery(it) }

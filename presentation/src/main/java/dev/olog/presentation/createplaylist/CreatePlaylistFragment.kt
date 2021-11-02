@@ -79,7 +79,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        editText.afterTextChange()
+        editText.afterTextChangeFlow()
             .filter { it.isBlank() || it.trim().length >= 2 }
             .debounce(250)
             .collectOnLifecycle(this) {

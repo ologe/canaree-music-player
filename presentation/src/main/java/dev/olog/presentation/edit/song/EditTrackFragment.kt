@@ -48,7 +48,7 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launch {
-            title.afterTextChange()
+            title.afterTextChangeFlow()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
         }

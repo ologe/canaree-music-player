@@ -144,7 +144,7 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        editText.afterTextChange()
+        editText.afterTextChangeFlow()
             .debounce(200)
             .filter { it.isEmpty() || it.length >= 2 }
             .collectOnLifecycle(this) {

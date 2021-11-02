@@ -46,7 +46,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launch {
-            album.afterTextChange()
+            album.afterTextChangeFlow()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
         }
