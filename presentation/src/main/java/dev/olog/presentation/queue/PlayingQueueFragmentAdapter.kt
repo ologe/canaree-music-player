@@ -10,7 +10,7 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
-import dev.olog.presentation.model.DisplayableQueueSong
+import dev.olog.feature.base.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary

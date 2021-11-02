@@ -3,7 +3,7 @@ package dev.olog.presentation.thanks
 import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.SpecialThanksModel
+import dev.olog.feature.base.model.SpecialThanksModel
 
 class SpecialThanksPresenter (context: Context) {
 

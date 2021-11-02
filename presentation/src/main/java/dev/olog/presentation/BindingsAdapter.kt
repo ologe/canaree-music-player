@@ -11,7 +11,7 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.feature.base.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
 
 object BindingsAdapter {

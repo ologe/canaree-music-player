@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import dev.olog.image.provider.GlideApp
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.SpecialThanksModel
+import dev.olog.feature.base.model.SpecialThanksModel
 import kotlinx.android.synthetic.main.item_special_thanks.view.*
 
 class SpecialThanksFragmentAdapter(

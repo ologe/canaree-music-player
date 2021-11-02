@@ -17,7 +17,7 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.feature.base.model.DisplayableFile
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
