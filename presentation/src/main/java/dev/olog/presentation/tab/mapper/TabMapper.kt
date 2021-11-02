@@ -8,7 +8,7 @@ import dev.olog.feature.base.DisplayableItem
 import dev.olog.feature.base.DisplayableTrack
 import java.util.concurrent.TimeUnit
 
-internal fun Folder.toTabDisplayableItem(
+fun Folder.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): DisplayableItem {
@@ -20,7 +20,7 @@ internal fun Folder.toTabDisplayableItem(
     )
 }
 
-internal fun Playlist.toAutoPlaylist(): DisplayableItem {
+fun Playlist.toAutoPlaylist(): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_auto_playlist,
         mediaId = getMediaId(),
@@ -29,7 +29,7 @@ internal fun Playlist.toAutoPlaylist(): DisplayableItem {
     )
 }
 
-internal fun Playlist.toTabDisplayableItem(
+fun Playlist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): DisplayableItem {
@@ -42,7 +42,7 @@ internal fun Playlist.toTabDisplayableItem(
     )
 }
 
-internal fun Song.toTabDisplayableItem(): DisplayableItem {
+fun Song.toTabDisplayableItem(): DisplayableItem {
     return DisplayableTrack(
         type = if (isPodcast) R.layout.item_tab_podcast else R.layout.item_tab_song,
         mediaId = getMediaId(),
@@ -55,7 +55,7 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
 }
 
 
-internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem {
+fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem {
     return DisplayableAlbum(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = getMediaId(),
@@ -64,7 +64,7 @@ internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem
     )
 }
 
-internal fun Artist.toTabDisplayableItem(
+fun Artist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): DisplayableItem {
@@ -79,7 +79,7 @@ internal fun Artist.toTabDisplayableItem(
 }
 
 
-internal fun Genre.toTabDisplayableItem(
+fun Genre.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): DisplayableItem {
@@ -91,7 +91,7 @@ internal fun Genre.toTabDisplayableItem(
     )
 }
 
-internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
+fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_album_last_played,
         mediaId = getMediaId(),
@@ -100,7 +100,7 @@ internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     )
 }
 
-internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
+fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_artist_last_played,
         mediaId = getMediaId(),

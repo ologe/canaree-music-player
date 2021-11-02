@@ -8,7 +8,7 @@ import dev.olog.feature.library.TabCategory
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 
-internal object LayoutManagerFactory {
+object LayoutManagerFactory {
 
     private fun createSpanSize(
         category: TabCategory,

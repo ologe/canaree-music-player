@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class TabDataProvider @Inject constructor(
+class TabDataProvider @Inject constructor(
     @ApplicationContext context: Context,
     private val headers: TabFragmentHeaders,
     // songs

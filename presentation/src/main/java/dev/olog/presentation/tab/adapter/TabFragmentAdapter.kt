@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_tab_header.view.*
 import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.android.synthetic.main.item_tab_song.view.*
 
-internal class TabFragmentAdapter(
+class TabFragmentAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,

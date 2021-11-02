@@ -8,7 +8,7 @@ import dev.olog.feature.base.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_tab_album_last_played.view.*
 
-internal class TabFragmentNestedAdapter(
+class TabFragmentNestedAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator
 

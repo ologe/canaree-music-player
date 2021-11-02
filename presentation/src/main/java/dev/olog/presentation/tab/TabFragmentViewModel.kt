@@ -13,7 +13,7 @@ import dev.olog.shared.android.extensions.asLiveData
 import javax.inject.Inject
 
 @HiltViewModel
-internal class TabFragmentViewModel @Inject constructor(
+class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,
     private val libraryPrefs: LibraryPrefs,

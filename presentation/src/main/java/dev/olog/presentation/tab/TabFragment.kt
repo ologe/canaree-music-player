@@ -85,7 +85,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         factoryProducer = { requireParentFragment().defaultViewModelProviderFactory }
     )
 
-    internal val category: TabCategory by lazyFast {
+    val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
         MediaIdCategory.valueOf(categoryString).toTabCategory()
     }
