@@ -73,7 +73,7 @@ dependencies {
     implementation project(':shared')
 
     // features
-    implementation project(':features:library:impl')
+//    implementation project(':features:library:impl')
 
     implementation lib_core.coroutines
 
@@ -100,8 +100,6 @@ dependencies {
 
     // debug
     debugImplementation lib_debug.leak_canary_debug
-
-    debugImplementation lib_debug.stetho
 
     // firebase
     implementation lib_analytics.core
