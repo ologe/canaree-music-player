@@ -19,10 +19,8 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
@@ -72,7 +70,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
                 sidebar.onDataChanged(it)
-                restoreUpperWidgetsTranslation()
+                restoreUpperWidgets()
             }
 
         adapter.observeData(false)

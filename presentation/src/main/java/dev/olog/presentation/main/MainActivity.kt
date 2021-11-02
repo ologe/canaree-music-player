@@ -11,6 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.base.HasSlidingPanel
+import dev.olog.feature.base.RestorableScroll
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
@@ -41,7 +43,8 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
-    OnPermissionChanged {
+    OnPermissionChanged,
+    RestorableScroll {
 
     private val viewModel by viewModels<MainActivityViewModel>()
 
@@ -208,7 +211,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreUpperWidgets(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }

@@ -23,7 +23,7 @@ import dev.olog.presentation.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog

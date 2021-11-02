@@ -18,7 +18,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.repeat
 import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_big_image.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist
 import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
 import kotlinx.android.synthetic.main.player_layout_default.view.duration

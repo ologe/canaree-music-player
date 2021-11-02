@@ -6,7 +6,7 @@ import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast

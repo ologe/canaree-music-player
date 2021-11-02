@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.main.MainActivity
+import dev.olog.feature.base.HasSlidingPanel
+import dev.olog.feature.base.RestorableScroll
 import dev.olog.shared.android.extensions.findInContext
 
 abstract class BaseFragment : Fragment() {
@@ -28,8 +28,8 @@ abstract class BaseFragment : Fragment() {
         return (requireActivity().findInContext<HasSlidingPanel>()).getSlidingPanel()
     }
 
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+    fun restoreUpperWidgets(){
+        (requireActivity() as RestorableScroll).restoreUpperWidgets()
     }
 
 }

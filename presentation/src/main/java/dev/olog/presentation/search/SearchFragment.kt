@@ -25,10 +25,8 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -112,7 +110,7 @@ class SearchFragment : BaseFragment(),
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
-                restoreUpperWidgetsTranslation()
+                restoreUpperWidgets()
             }
 
         viewModel.observeAlbumsData()
