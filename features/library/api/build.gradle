@@ -6,5 +6,5 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    // TODO
+    implementation project(':core')
 }

@@ -13,5 +13,6 @@ dependencies {
     kapt lib_core.hilt_processor
     implementation lib_core.coroutines
 
+    implementation lib_x.core
     implementation lib_x.annotations
 }

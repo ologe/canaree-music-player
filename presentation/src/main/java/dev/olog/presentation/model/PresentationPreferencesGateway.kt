@@ -1,6 +1,5 @@
 package dev.olog.presentation.model
 
-import dev.olog.feature.library.TabCategory
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway {
@@ -26,16 +25,9 @@ internal interface PresentationPreferencesGateway {
     fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>
     fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
-    fun observeLibraryNewVisibility(): Flow<Boolean>
-    fun observeLibraryRecentPlayedVisibility(): Flow<Boolean>
-
     fun isAdaptiveColorEnabled(): Boolean
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
-
-    fun getSpanCount(category: TabCategory): Int
-    fun observeSpanCount(category: TabCategory): Flow<Int>
-    fun setSpanCount(category: TabCategory, spanCount: Int)
 
     fun canShowPodcasts(): Boolean
 

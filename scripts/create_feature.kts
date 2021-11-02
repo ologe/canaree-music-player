@@ -174,7 +174,7 @@ dependencies {
     // androidx
     implementation lib_x.appcompat
     implementation lib_x.material
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
 }

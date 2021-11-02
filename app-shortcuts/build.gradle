@@ -9,7 +9,6 @@ dependencies {
     implementation project(':intents')
 
     implementation lib_x.core
-    implementation lib_x.core_ktx
     implementation lib_x.appcompat
 
     implementation lib_core.coroutines

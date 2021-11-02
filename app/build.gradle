@@ -83,7 +83,7 @@ dependencies {
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.lifecycle_process
 
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.appcompat
     implementation lib_x.browser
     implementation lib_x.preference

@@ -8,8 +8,8 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.TabCategory
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
@@ -39,7 +39,7 @@ internal class TabDataProvider @Inject constructor(
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val libraryPrefs: LibraryPrefs
 ) {
 
     private val resources = context.resources
@@ -90,7 +90,7 @@ internal class TabDataProvider @Inject constructor(
     private fun getFolders(): Flow<List<DisplayableItem>> {
         return folderGateway.observeAll()
             .map { folders ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.FOLDERS)
+                val requestedSpanSize = libraryPrefs.spanCount(TabCategory.FOLDERS).get()
                 folders.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
             }
     }
@@ -98,7 +98,7 @@ internal class TabDataProvider @Inject constructor(
     private fun getGenres(): Flow<List<DisplayableItem>> {
         return genreGateway.observeAll()
             .map { genres ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.GENRES)
+                val requestedSpanSize = libraryPrefs.spanCount(TabCategory.GENRES).get()
                 genres.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
             }
     }
@@ -109,7 +109,7 @@ internal class TabDataProvider @Inject constructor(
             .startWith(headers.autoPlaylistHeader)
 
         return playlistGateway.observeAll().map { list ->
-            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PLAYLISTS)
+            val requestedSpanSize = libraryPrefs.spanCount(TabCategory.PLAYLISTS).get()
 
             list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 .toMutableList()
@@ -120,18 +120,18 @@ internal class TabDataProvider @Inject constructor(
 
     private fun getAlbums(): Flow<List<DisplayableItem>> {
         val recentlyAddedFlow = albumGateway.observeRecentlyAdded()
-            .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
+            .combine(libraryPrefs.newItemsVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
         val recentlyPlayedFlow = albumGateway.observeLastPlayed()
-            .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
+            .combine(libraryPrefs.recentPlayedVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
 
         return combine(
             albumGateway.observeAll()
                 .map { albums ->
-                    val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ALBUMS)
+                    val requestedSpanSize = libraryPrefs.spanCount(TabCategory.ALBUMS).get()
                     albums.map { it.toTabDisplayableItem(requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -147,18 +147,18 @@ internal class TabDataProvider @Inject constructor(
 
     private fun getArtists(): Flow<List<DisplayableItem>> {
         val recentlyAddedFlow = artistGateway.observeRecentlyAdded()
-            .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
+            .combine(libraryPrefs.newItemsVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
         val recentlyPlayedFlow = artistGateway.observeLastPlayed()
-            .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
+            .combine(libraryPrefs.recentPlayedVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
 
         return combine(
             artistGateway.observeAll()
                 .map { artists ->
-                    val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ARTISTS)
+                    val requestedSpanSize = libraryPrefs.spanCount(TabCategory.ARTISTS).get()
                     artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -179,7 +179,7 @@ internal class TabDataProvider @Inject constructor(
             .startWith(headers.autoPlaylistHeader)
 
         return podcastPlaylistGateway.observeAll().map { list ->
-            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_PLAYLIST)
+            val requestedSpanSize = libraryPrefs.spanCount(TabCategory.PODCASTS_PLAYLIST).get()
             list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
@@ -189,11 +189,11 @@ internal class TabDataProvider @Inject constructor(
 
     private fun getPodcastAlbums(): Flow<List<DisplayableItem>> {
         val recentlyAddedFlow = podcastAlbumGateway.observeRecentlyAdded()
-            .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
+            .combine(libraryPrefs.newItemsVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
         val recentlyPlayedFlow = podcastAlbumGateway.observeLastPlayed()
-            .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
+            .combine(libraryPrefs.recentPlayedVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
 
@@ -201,7 +201,7 @@ internal class TabDataProvider @Inject constructor(
             podcastAlbumGateway.observeAll()
                 .map { albums ->
                     val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ALBUMS)
+                        libraryPrefs.spanCount(TabCategory.PODCASTS_ALBUMS).get()
                     albums.map { it.toTabDisplayableItem(requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -217,11 +217,11 @@ internal class TabDataProvider @Inject constructor(
 
     private fun getPodcastArtists(): Flow<List<DisplayableItem>> {
         val recentlyAddedFlow = podcastArtistGateway.observeRecentlyAdded()
-            .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
+            .combine(libraryPrefs.newItemsVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
         val recentlyPlayedFlow = podcastArtistGateway.observeLastPlayed()
-            .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
+            .combine(libraryPrefs.recentPlayedVisibility.observe()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
 
@@ -229,7 +229,7 @@ internal class TabDataProvider @Inject constructor(
             podcastArtistGateway.observeAll()
                 .map { artists ->
                     val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)
+                        libraryPrefs.spanCount(TabCategory.PODCASTS_ARTISTS).get()
                     artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 },
             recentlyAddedFlow,

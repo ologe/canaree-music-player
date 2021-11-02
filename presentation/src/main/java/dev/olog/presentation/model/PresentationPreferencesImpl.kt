@@ -3,10 +3,8 @@ package dev.olog.presentation.model
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.presentation.R
-import dev.olog.feature.library.TabCategory
+import dev.olog.core.MediaIdCategory
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -224,23 +222,8 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setLibraryCategories(getDefaultLibraryCategories())
         setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
-    }
-
-    override fun observeLibraryNewVisibility(): Flow<Boolean> {
-        return preferences.observeKey(
-            context.getString(dev.olog.prefskeys.R.string.prefs_show_new_albums_artists_key),
-            true
-        )
-    }
-
-    override fun observeLibraryRecentPlayedVisibility(): Flow<Boolean> {
-        return preferences.observeKey(
-            (context.getString(dev.olog.prefskeys.R.string.prefs_show_recent_albums_artists_key)),
-            true
-        )
     }
 
     override fun observePlayerControlsVisibility(): Flow<Boolean> {
@@ -248,22 +231,7 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun isAdaptiveColorEnabled(): Boolean {
-        assertBackgroundThread()
         return preferences.getBoolean(context.getString(dev.olog.prefskeys.R.string.prefs_adaptive_colors_key), false)
-    }
-
-    override fun getSpanCount(category: TabCategory): Int {
-        return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(context, category))
-    }
-
-    override fun observeSpanCount(category: TabCategory): Flow<Int> {
-        return preferences.observeKey("${category}_span", SpanCountController.getDefaultSpan(context, category))
-    }
-
-    override fun setSpanCount(category: TabCategory, spanCount: Int) {
-        preferences.edit {
-            putInt("${category}_span", spanCount)
-        }
     }
 
     override fun canShowPodcasts(): Boolean {

@@ -1,11 +1,9 @@
-package dev.olog.presentation.model
+package dev.olog.feature.library
 
 import android.content.Context
-import dev.olog.feature.library.TabCategory
 import dev.olog.shared.android.extensions.configuration
-import dev.olog.shared.throwNotHandled
 
-internal object SpanCountController {
+object SpanCountController {
 
     const val SPAN_COUNT = 60
 
@@ -24,7 +22,7 @@ internal object SpanCountController {
             TabCategory.ARTISTS,
             TabCategory.PODCASTS_ARTISTS -> if (isTablet) 4 else 3
             TabCategory.GENRES -> if (isTablet) 4 else 3
-            else -> throwNotHandled("invalid $category")
+            else -> error("invalid $category")
         }
     }
 

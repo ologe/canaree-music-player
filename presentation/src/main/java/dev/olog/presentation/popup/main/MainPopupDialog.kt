@@ -8,18 +8,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.presentation.R
-import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.TabCategory
 import dev.olog.feature.library.toTabCategory
+import dev.olog.presentation.R
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ internal class MainPopupDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val libraryPrefs: LibraryPrefs,
 
 ) {
 
@@ -99,8 +99,8 @@ internal class MainPopupDialog @Inject constructor(
     }
 
     private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
-        val current = presentationPrefs.getSpanCount(category)
-        presentationPrefs.setSpanCount(category, spanCount)
+        val current = libraryPrefs.spanCount(category).get()
+        libraryPrefs.spanCount(category).set(spanCount)
         if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
             (view.context.findInContext<Activity>()).recreate()
         }

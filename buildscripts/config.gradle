@@ -15,5 +15,6 @@ project.ext.javaVersion = JavaVersion.VERSION_11
 
 project.ext.freeCompilerArgs = [
         "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-        "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        "-Xuse-experimental=kotlin.time.ExperimentalTime",
 ]

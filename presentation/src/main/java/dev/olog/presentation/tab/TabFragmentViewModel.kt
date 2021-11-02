@@ -7,8 +7,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.TabCategory
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.asLiveData
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ import javax.inject.Inject
 internal class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val libraryPrefs: LibraryPrefs,
 
 ) : ViewModel() {
 
@@ -46,7 +46,7 @@ internal class TabFragmentViewModel @Inject constructor(
         return appPreferencesUseCase.getAllArtistsSort()
     }
 
-    fun getSpanCount(category: TabCategory) = presentationPrefs.getSpanCount(category)
-    fun observeSpanCount(category: TabCategory) = presentationPrefs.observeSpanCount(category)
+    fun getSpanCount(category: TabCategory) = libraryPrefs.spanCount(category).get()
+    fun observeSpanCount(category: TabCategory) = libraryPrefs.spanCount(category).observe()
 
 }

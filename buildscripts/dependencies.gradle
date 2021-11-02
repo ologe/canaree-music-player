@@ -66,8 +66,7 @@ ext {
     ]
 
     lib_x = [
-            core               : "androidx.core:core:$android_x_core",
-            core_ktx           : "androidx.core:core-ktx:$android_x_core",
+            core               : "androidx.core:core-ktx:$android_x_core",
             appcompat          : "androidx.appcompat:appcompat:$android_x_appcompat",
             media              : "androidx.media:media:$android_x_media",
             recycler           : "androidx.recyclerview:recyclerview:$android_x_recycler",
