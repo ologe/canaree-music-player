@@ -1,6 +1,6 @@
 package dev.olog.presentation.prefs.blacklist
 
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.SimpleAdapter
 import dev.olog.shared.android.extensions.toggleVisibility

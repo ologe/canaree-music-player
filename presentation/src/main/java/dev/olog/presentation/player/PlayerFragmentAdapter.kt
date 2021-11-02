@@ -13,7 +13,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter

@@ -35,7 +35,7 @@
         app:layout_constraintStart_toEndOf="@+id/leftBackground"
         app:layout_constraintEnd_toStartOf="@+id/rightBackground">
 
-        <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
+        <dev.olog.feature.base.widget.ParallaxRecyclerView
             android:id="@+id/list"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -141,7 +141,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <dev.olog.presentation.widgets.fascroller.RxFastScroller
+        <dev.olog.feature.base.scroller.RxFastScroller
             android:id="@+id/fastScroller"
             android:layout_width="wrap_content"
             android:layout_height="0dp"

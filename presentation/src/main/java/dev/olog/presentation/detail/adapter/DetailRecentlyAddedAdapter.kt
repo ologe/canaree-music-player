@@ -2,7 +2,7 @@ package dev.olog.presentation.detail.adapter
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack

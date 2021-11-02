@@ -1,15 +1,18 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    api project(':features:library:api')
     implementation project(':core')
     implementation project(':features:base')
-    api project(':features:library:api')
+    implementation project(':image-provider')
+    implementation project(':media')
 
     implementation project(':shared')
     implementation project(':shared-android')
@@ -25,4 +28,6 @@ dependencies {
     implementation lib_x.core
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
+
+    implementation lib_ui.scroll_helper
 }

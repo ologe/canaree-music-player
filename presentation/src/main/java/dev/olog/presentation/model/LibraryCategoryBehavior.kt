@@ -12,16 +12,16 @@ data class LibraryCategoryBehavior(
 
     fun asString(context: Context): String {
         val stringId = when (category) {
-            MediaIdCategory.FOLDERS -> R.string.category_folders
+            MediaIdCategory.FOLDERS -> dev.olog.shared.android.R.string.category_folders
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> R.string.category_playlists
-            MediaIdCategory.SONGS -> R.string.category_songs
+            MediaIdCategory.PODCASTS_PLAYLIST -> dev.olog.shared.android.R.string.category_playlists
+            MediaIdCategory.SONGS -> dev.olog.shared.android.R.string.category_songs
             MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> R.string.category_albums
+            MediaIdCategory.PODCASTS_ALBUMS -> dev.olog.shared.android.R.string.category_albums
             MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> R.string.category_artists
-            MediaIdCategory.GENRES -> R.string.category_genres
-            MediaIdCategory.PODCASTS -> R.string.category_podcasts
+            MediaIdCategory.PODCASTS_ARTISTS -> dev.olog.shared.android.R.string.category_artists
+            MediaIdCategory.GENRES -> dev.olog.shared.android.R.string.category_genres
+            MediaIdCategory.PODCASTS -> dev.olog.shared.android.R.string.category_podcasts
             else -> 0 //will throw an exception
         }
         return context.getString(stringId)

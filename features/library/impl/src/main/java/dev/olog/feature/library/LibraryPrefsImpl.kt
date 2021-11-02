@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.Preference
 import dev.olog.core.PreferenceManager
+import dev.olog.feature.library.layout.manager.SpanCountController
 import javax.inject.Inject
 
 internal class LibraryPrefsImpl @Inject constructor(

@@ -3,7 +3,7 @@ package dev.olog.presentation.recentlyadded
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter

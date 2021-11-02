@@ -3,7 +3,7 @@ package dev.olog.presentation.playlist.chooser
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem
@@ -11,7 +11,7 @@ import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_tab_album.view.*
+import kotlinx.android.synthetic.main.item_playlist_chooser.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity

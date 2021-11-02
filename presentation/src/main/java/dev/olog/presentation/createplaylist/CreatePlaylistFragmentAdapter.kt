@@ -3,7 +3,7 @@ package dev.olog.presentation.createplaylist
 
 import android.widget.CheckBox
 import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem

@@ -13,6 +13,8 @@ androidExtensions {
 
 dependencies {
     implementation project(':core')
+    implementation project(':media')
+    implementation project(':image-provider')
 
     implementation project(':shared')
     implementation project(':shared-android')
@@ -28,4 +30,7 @@ dependencies {
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
     implementation lib_x.recycler
+    implementation lib_x.palette
+
+    implementation lib_ui.glide
 }

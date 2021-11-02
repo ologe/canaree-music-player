@@ -1,7 +1,7 @@
 package dev.olog.presentation.relatedartists
 
 import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.adapter.*

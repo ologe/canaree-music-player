@@ -22,7 +22,7 @@
         android:foreground="@drawable/mid_grey_ripple" />
 
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.feature.base.widget.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"
