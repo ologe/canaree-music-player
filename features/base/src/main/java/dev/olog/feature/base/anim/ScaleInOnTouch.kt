@@ -1,10 +1,10 @@
-package dev.olog.presentation.base.anim
+package dev.olog.feature.base.anim
 
 import android.content.Context
 import android.view.View
-import dev.olog.presentation.R
+import dev.olog.feature.base.R
 
-class ScaleMoreInOnTouch(
+class ScaleInOnTouch (
         private val view: View
 
 ) : AnimateOnTouch() {

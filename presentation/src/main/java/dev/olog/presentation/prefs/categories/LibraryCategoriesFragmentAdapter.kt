@@ -1,11 +1,11 @@
 package dev.olog.presentation.prefs.categories
 
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.SimpleAdapter
-import dev.olog.presentation.base.adapter.setOnDragListener
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.feature.base.adapter.DataBoundViewHolder
+import dev.olog.feature.base.adapter.SimpleAdapter
+import dev.olog.feature.base.adapter.setOnDragListener
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*

@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.base.drag
 
 import android.graphics.Color
 import android.view.View
@@ -8,8 +8,11 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.*
+import dev.olog.feature.base.R
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.colorSwipeBackground
+import dev.olog.shared.android.extensions.setVisible
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlin.math.hypot
 

@@ -19,7 +19,7 @@ import dev.olog.feature.base.SetupNestedList
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.DisplayableAlbum
 import dev.olog.feature.base.DisplayableItem
 import dev.olog.feature.base.DisplayableTrack

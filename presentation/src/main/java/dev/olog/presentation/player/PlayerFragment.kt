@@ -13,8 +13,8 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.base.BaseFragment
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.feature.base.drag.DragListenerImpl
+import dev.olog.feature.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

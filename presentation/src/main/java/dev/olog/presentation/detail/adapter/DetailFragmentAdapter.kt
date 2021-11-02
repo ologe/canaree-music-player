@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.feature.base.*
+import dev.olog.feature.base.adapter.*
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT

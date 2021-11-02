@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.base.adapter.*
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary

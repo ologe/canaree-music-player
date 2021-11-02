@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.base.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

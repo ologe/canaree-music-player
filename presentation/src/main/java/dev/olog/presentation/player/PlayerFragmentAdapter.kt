@@ -15,12 +15,12 @@ import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.DisplayableItem
 import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.adapter.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed

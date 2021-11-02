@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.base.drag
 
 import androidx.recyclerview.widget.RecyclerView
 

@@ -1,12 +1,12 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.base.drag
 
 import android.graphics.Canvas
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
-import kotlinx.android.synthetic.main.item_detail_song.view.*
+import dev.olog.feature.base.R
+import kotlinx.android.synthetic.main.dummy.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -96,7 +96,7 @@ class TouchHelperAdapterCallback(
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.content,
+                    viewHolder.itemView.content, // TODO test
                     dX,
                     dY,
                     actionState,

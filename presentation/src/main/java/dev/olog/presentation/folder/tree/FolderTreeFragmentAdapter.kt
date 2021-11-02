@@ -4,10 +4,10 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
+import dev.olog.feature.base.adapter.DataBoundViewHolder
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.setOnClickListener
+import dev.olog.feature.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.*

@@ -5,10 +5,10 @@ import android.widget.CheckBox
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.base.adapter.DataBoundViewHolder
+import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.feature.base.DisplayableItem
 import dev.olog.feature.base.DisplayableTrack
 import kotlinx.android.synthetic.main.item_create_playlist.view.*

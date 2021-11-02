@@ -1,8 +1,7 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.base.drag
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.IllegalStateException
 
 
 interface IDragListener {

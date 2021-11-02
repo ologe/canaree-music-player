@@ -12,9 +12,9 @@ import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.feature.base.adapter.ObservableAdapter
+import dev.olog.feature.base.drag.DragListenerImpl
+import dev.olog.feature.base.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.feature.base.SetupNestedList

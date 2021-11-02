@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab.layoutmanager
 
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.BaseModel
 
 class AlbumSpanSizeLookup(

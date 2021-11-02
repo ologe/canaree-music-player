@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.base.adapter
 
 import android.view.View
 import android.widget.ImageView
@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.feature.base.R
 import dev.olog.shared.lazyFast
 import kotlinx.android.extensions.LayoutContainer
 
