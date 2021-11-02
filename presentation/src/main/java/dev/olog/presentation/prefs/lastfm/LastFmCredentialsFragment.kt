@@ -14,10 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
+import dev.olog.core.Config
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
-import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
@@ -43,6 +43,8 @@ class LastFmCredentialsFragment : DialogFragment() {
     lateinit var getLastFmUserCredentials: GetLastFmUserCredentials
     @Inject
     lateinit var updateLastFmUserCredentials: UpdateLastFmUserCredentials
+    @Inject
+    lateinit var config: Config
 
     private var loader: ProgressDialog? = null
 
@@ -112,8 +114,8 @@ class LastFmCredentialsFragment : DialogFragment() {
             Authenticator.getMobileSession(
                 user.username,
                 user.password,
-                BuildConfig.LAST_FM_KEY,
-                BuildConfig.LAST_FM_SECRET
+                config.lastFmKey,
+                config.lastFmSecret,
             ) != null
 
         }

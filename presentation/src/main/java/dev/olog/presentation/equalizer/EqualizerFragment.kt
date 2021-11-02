@@ -141,7 +141,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
     }
 
     private fun changePreset() {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val presets = withContext(Dispatchers.IO) {
                 presenter.getPresets()
             }

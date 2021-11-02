@@ -18,7 +18,7 @@ fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit)
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return Transformations.distinctUntilChanged(this)
+    return this // TODO remove livedata
 }
 
 inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<T> {

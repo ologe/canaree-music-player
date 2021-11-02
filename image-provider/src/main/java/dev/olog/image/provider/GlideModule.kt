@@ -19,6 +19,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.image.provider.loader.AudioFileCoverLoader
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
@@ -37,10 +38,13 @@ internal class GlideModule : AppGlideModule() {
         fun lastFmFactory(): GlideImageRetrieverLoader.Factory
         fun originalFactory(): GlideOriginalImageLoader.Factory
         fun mergedFactory(): GlideMergedImageLoader.Factory
+        fun config(): Config
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
+        val component = EntryPoints.get(context.applicationContext, GlideEntryPoint::class.java)
+
+        val level = if (component.config().isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))

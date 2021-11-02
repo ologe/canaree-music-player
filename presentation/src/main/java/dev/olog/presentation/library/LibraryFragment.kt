@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
@@ -89,7 +90,7 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
             }

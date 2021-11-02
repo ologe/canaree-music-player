@@ -5,14 +5,6 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
 android {
 
     defaultConfig {
@@ -25,9 +17,6 @@ android {
                 ]
             }
         }
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     sourceSets {
@@ -48,7 +37,6 @@ dependencies {
 
     implementation lib_x.core_ktx
     implementation lib_x.preference
-    implementation lib_x.lifecycle_extensions
 
     implementation lib_utils.fuzzy
     implementation lib_network.gson

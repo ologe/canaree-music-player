@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
@@ -46,11 +47,9 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
-            artist.afterTextChange()
-                .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
-        }
+        artist.afterTextChange()
+            .map { it.isNotBlank() }
+            .collectOnLifecycle(this) { okButton.isEnabled = it }
 
         loadImage(mediaId)
 
@@ -68,7 +67,7 @@ class EditArtistFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            viewLifecycleOwner.lifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
     }

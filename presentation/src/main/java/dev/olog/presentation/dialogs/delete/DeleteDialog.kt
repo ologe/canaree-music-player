@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.delete
 
 import android.app.RecoverableSecurityException
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -53,7 +54,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             catchRecoverableSecurityException(this@DeleteDialog) {
                 tryExecute()
             }

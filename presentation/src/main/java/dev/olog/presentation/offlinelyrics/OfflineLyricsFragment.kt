@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
@@ -72,7 +73,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                launch { loadImage(it.mediaId) }
+                viewLifecycleOwner.lifecycleScope.launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
@@ -121,7 +122,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -136,7 +137,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         ctx,

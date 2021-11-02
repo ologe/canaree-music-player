@@ -4,7 +4,6 @@ import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.msc.BuildConfig
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -29,9 +28,6 @@ class App : ThemedApp() {
         appShortcuts = AppShortcuts.instance(this)
 
         BlurKit.init(this)
-        if (BuildConfig.DEBUG) {
-//            Stetho.initializeWithDefaults(this)
-        }
     }
 
     private fun initializeConstants() {

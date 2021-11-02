@@ -22,10 +22,7 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.afterTextChange
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
@@ -133,12 +130,10 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .collect { viewModel.updateQuery(it) }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .collectOnLifecycle(this) { viewModel.updateQuery(it) }
     }
 
 

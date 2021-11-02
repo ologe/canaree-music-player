@@ -1,6 +1,7 @@
 package dev.olog.presentation.dialogs.playlist.duplicates
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -44,7 +45,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)

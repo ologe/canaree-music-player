@@ -5,23 +5,6 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-android {
-
-    defaultConfig {
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-    }
-
-}
-
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
@@ -40,8 +23,8 @@ dependencies {
 
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
+    implementation lib_x.lifecycle_service
 
     implementation lib_ui.glide
 

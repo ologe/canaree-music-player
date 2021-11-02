@@ -59,12 +59,10 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
-            presenter.observePodcastProgress(progressBar.observeProgress())
-                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
-                .collect { artist.text = it }
-        }
+        presenter.observePodcastProgress(progressBar.observeProgress())
+            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+            .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
+            .collectOnLifecycle(this) { artist.text = it }
 
         media.observePlaybackState()
             .filter { it.isPlayOrPause }

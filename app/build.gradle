@@ -50,6 +50,10 @@ android {
         checkReleaseBuilds false
         disable 'MissingTranslation'
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -75,14 +79,15 @@ dependencies {
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
+    implementation lib_x.lifecycle_process
 
     implementation lib_x.core_ktx
     implementation lib_x.appcompat
     implementation lib_x.browser
     implementation lib_x.preference
+    implementation lib_x.media
 
     // dagger
     implementation lib_core.hilt

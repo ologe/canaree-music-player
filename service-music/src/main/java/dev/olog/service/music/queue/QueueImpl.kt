@@ -389,7 +389,7 @@ internal class QueueImpl @Inject constructor(
 
         val queue = playingQueue.toList() // work on a copy
 
-        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+        var maxIdInPlaylist = queue.maxByOrNull { it.idInPlaylist }?.idInPlaylist ?: 0
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
@@ -422,7 +422,7 @@ internal class QueueImpl @Inject constructor(
         val before = queue.take(currentSongPosition + 1)
         val after = queue.drop(currentSongPosition + 1)
 
-        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+        var maxIdInPlaylist = queue.maxByOrNull { it.idInPlaylist }?.idInPlaylist ?: 0
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {

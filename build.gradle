@@ -5,7 +5,6 @@ apply from: rootProject.file("buildscripts/dependencies.gradle")
 buildscript {
 
     ext {
-        kotlin_version = '1.4.0'
         google_services = '4.3.3'
         crashlytics = '2.2.1'
     }
@@ -21,7 +20,7 @@ buildscript {
         apply from: rootProject.file("buildscripts/dependencies.gradle")
 
         classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger"

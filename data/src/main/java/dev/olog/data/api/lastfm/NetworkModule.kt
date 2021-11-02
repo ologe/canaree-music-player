@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.olog.data.BuildConfig
+import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,18 +22,21 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
+    internal fun provideOkHttp(
+        @ApplicationContext context: Context,
+        config: Config,
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addNetworkInterceptor(logInterceptor())
+            .addNetworkInterceptor(logInterceptor(config))
             .addInterceptor(headerInterceptor(context))
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1, TimeUnit.SECONDS)
             .build()
     }
 
-    private fun logInterceptor(): Interceptor {
+    private fun logInterceptor(config: Config): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG) {
+        if (config.isDebug) {
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         } else {
             // disable retrofit log on release
@@ -56,9 +59,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
+    internal fun provideLastFmRetrofit(
+        client: OkHttpClient,
+        config: Config,
+    ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://ws.audioscrobbler.com/2.0/")
+            .baseUrl("http://ws.audioscrobbler.com/2.0/?api_key=${config.lastFmKey}&format=json&")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

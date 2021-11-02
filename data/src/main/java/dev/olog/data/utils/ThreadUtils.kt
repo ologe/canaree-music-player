@@ -3,7 +3,6 @@
 package dev.olog.data.utils
 
 import android.os.Looper
-import dev.olog.data.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 inline fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
 fun <T> Flow<T>.assertBackground(): Flow<T> {
+    // TODO remove
     return channelFlow {
         assertBackgroundThread()
         collect { offer(it) }
@@ -27,7 +27,5 @@ fun <T> Flow<T>.assertBackground(): Flow<T> {
 }
 
 fun assertBackgroundThread() {
-    if (/*!isTestMode &&*/ BuildConfig.DEBUG && isMainThread()) {
-        throw AssertionError("not on worker thread, current=${Thread.currentThread()}")
-    }
+    // TODO remove
 }

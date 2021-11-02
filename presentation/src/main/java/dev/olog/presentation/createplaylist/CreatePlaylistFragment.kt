@@ -75,22 +75,18 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
+        adapter.observeData(false)
+            .filter { it.isNotEmpty() }
+            .collectOnLifecycle(this) { emptyStateText.toggleVisibility(it.isEmpty(), true) }
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
-            editText.afterTextChange()
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .debounce(250)
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounce(250)
+            .collectOnLifecycle(this) {
+                viewModel.updateFilter(it)
+            }
     }
 
     override fun onResume() {

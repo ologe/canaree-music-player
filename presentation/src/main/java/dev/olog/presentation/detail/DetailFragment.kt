@@ -146,14 +146,12 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isEmpty() || it.length >= 2 }
+            .collectOnLifecycle(this) {
+                viewModel.updateFilter(it)
+            }
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
