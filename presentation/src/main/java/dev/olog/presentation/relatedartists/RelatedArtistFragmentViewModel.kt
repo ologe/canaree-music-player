@@ -8,8 +8,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

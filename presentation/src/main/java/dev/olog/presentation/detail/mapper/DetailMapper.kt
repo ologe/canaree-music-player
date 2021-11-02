@@ -6,8 +6,8 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableTrack
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(

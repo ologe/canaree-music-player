@@ -4,8 +4,8 @@ import android.content.res.Resources
 import dagger.hilt.android.scopes.ViewModelScoped
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableHeader
-import dev.olog.feature.base.DisplayableNestedListPlaceholder
+import dev.olog.feature.base.model.DisplayableHeader
+import dev.olog.feature.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 @ViewModelScoped

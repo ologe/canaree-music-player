@@ -9,8 +9,8 @@ import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(

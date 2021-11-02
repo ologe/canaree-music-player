@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.base.BaseModel
+import dev.olog.feature.base.model.BaseModel
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.*

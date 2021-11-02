@@ -7,7 +7,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(

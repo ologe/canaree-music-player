@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.feature.base.*
 import dev.olog.feature.base.adapter.*
+import dev.olog.feature.base.model.*
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R

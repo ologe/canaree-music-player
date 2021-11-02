@@ -9,8 +9,8 @@ import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
-import dev.olog.feature.base.DisplayableItem
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
 import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
 class CreatePlaylistFragmentAdapter(

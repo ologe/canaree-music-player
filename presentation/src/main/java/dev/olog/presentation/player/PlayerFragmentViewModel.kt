@@ -13,8 +13,8 @@ import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableHeader
-import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.model.DisplayableHeader
+import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers

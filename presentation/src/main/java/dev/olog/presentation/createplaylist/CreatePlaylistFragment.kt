@@ -11,7 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

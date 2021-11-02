@@ -9,9 +9,9 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableHeader
-import dev.olog.feature.base.DisplayableItem
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableHeader
+import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.presentation.R
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty

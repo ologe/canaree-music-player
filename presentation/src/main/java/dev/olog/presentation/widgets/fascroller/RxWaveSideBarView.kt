@@ -2,9 +2,9 @@ package dev.olog.presentation.widgets.fascroller
 
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableItem
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.runOnMainThread
 

@@ -7,8 +7,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableItem
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

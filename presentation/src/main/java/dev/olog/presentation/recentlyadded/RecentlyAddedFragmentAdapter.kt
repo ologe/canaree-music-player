@@ -7,8 +7,8 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
-import dev.olog.feature.base.DisplayableItem
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.adapter.*
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_recently_added.view.*

@@ -1,7 +1,7 @@
 package dev.olog.feature.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.feature.base.BaseModel
+import dev.olog.feature.base.model.BaseModel
 
 class AdapterDiffUtil<Model : BaseModel>(
     private val oldList: List<Model>,

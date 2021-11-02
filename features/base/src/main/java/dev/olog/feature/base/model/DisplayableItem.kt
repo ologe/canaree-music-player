@@ -1,4 +1,4 @@
-package dev.olog.feature.base
+package dev.olog.feature.base.model
 
 import android.content.res.Resources
 import dev.olog.core.MediaId

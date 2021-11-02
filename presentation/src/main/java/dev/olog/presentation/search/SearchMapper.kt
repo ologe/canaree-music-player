@@ -5,9 +5,9 @@ import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.feature.base.DisplayableAlbum
-import dev.olog.feature.base.DisplayableItem
-import dev.olog.feature.base.DisplayableTrack
+import dev.olog.feature.base.model.DisplayableAlbum
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
 
 internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {

@@ -2,7 +2,7 @@ package dev.olog.presentation.tab.layoutmanager
 
 import dev.olog.presentation.R
 import dev.olog.feature.base.adapter.ObservableAdapter
-import dev.olog.feature.base.BaseModel
+import dev.olog.feature.base.model.BaseModel
 
 class AlbumSpanSizeLookup(
     private val adapter: ObservableAdapter<BaseModel>,

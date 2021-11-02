@@ -16,6 +16,7 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
+import dev.olog.feature.base.model.*
 import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
