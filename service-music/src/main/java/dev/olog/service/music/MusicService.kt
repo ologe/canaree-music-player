@@ -26,6 +26,7 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
+import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -219,9 +220,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
-        return PendingIntent.getActivity(
-            this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val intent = Intent(this, Class.forName(Classes.ACTIVITY_MAIN))
+        return intent.asActivityPendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 }

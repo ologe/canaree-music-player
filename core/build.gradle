@@ -7,6 +7,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':shared')
+    implementation project(':shared-android')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

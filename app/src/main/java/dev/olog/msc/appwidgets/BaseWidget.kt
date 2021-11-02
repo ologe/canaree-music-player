@@ -19,6 +19,7 @@ import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
+import dev.olog.shared.android.extensions.asActivityPendingIntent
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -100,7 +101,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
-    private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
+    private fun buildPendingIntent(context: Context, action: String): PendingIntent {
         val intent = Intent(context, MusicService::class.java)
         intent.action = action
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -109,8 +110,7 @@ abstract class BaseWidget : AbsWidgetApp() {
     private fun buildContentIntent(context: Context): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asActivityPendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){
