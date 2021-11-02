@@ -1,4 +1,4 @@
-package dev.olog.feature.library.adapter
+package dev.olog.feature.library.tab.adapter
 
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -10,7 +10,7 @@ import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.model.*
 import dev.olog.feature.library.R
-import dev.olog.feature.library.TabFragmentViewModel
+import dev.olog.feature.library.tab.TabFragmentViewModel
 import dev.olog.media.MediaProvider
 import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.view.*

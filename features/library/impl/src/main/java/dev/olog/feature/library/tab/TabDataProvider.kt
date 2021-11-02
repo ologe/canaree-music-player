@@ -1,4 +1,4 @@
-package dev.olog.feature.library
+package dev.olog.feature.library.tab
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -8,9 +8,8 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.feature.library.mapper.toAutoPlaylist
-import dev.olog.feature.library.mapper.toTabDisplayableItem
-import dev.olog.feature.library.mapper.toTabLastPlayedDisplayableItem
+import dev.olog.feature.library.LibraryPrefs
+import dev.olog.feature.library.TabCategory
 import dev.olog.shared.doIf
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWith

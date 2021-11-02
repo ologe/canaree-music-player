@@ -1,10 +1,11 @@
-package dev.olog.feature.library
+package dev.olog.feature.library.tab
 
 import android.content.res.Resources
 import dagger.hilt.android.scopes.ViewModelScoped
 import dev.olog.core.MediaId
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.library.R
 import javax.inject.Inject
 
 @ViewModelScoped

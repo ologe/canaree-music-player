@@ -1,4 +1,4 @@
-package dev.olog.feature.library.layout.manager
+package dev.olog.feature.library.tab.layout.manager
 
 class SongSpanSizeLookup(
     requestedSpanSize: Int

@@ -8,7 +8,7 @@ import androidx.preference.PreferenceManager
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.feature.library.TabFragment
+import dev.olog.feature.library.tab.TabFragment
 import dev.olog.shared.isInBounds
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'

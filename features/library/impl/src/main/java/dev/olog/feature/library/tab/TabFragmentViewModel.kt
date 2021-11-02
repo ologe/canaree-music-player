@@ -1,4 +1,4 @@
-package dev.olog.feature.library
+package dev.olog.feature.library.tab
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.library.LibraryPrefs
+import dev.olog.feature.library.TabCategory
 import dev.olog.shared.android.extensions.asLiveData
 import javax.inject.Inject
 
