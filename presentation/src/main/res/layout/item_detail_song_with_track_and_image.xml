@@ -17,7 +17,7 @@
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal">
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.shared.widgets.ShapeImageView
             android:id="@+id/cover"
             android:layout_width="@dimen/item_song_cover_size"
             android:layout_height="@dimen/item_song_cover_size"

@@ -9,21 +9,21 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.shared.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"

@@ -16,7 +16,7 @@
         android:paddingStart="@dimen/mini_queue_margin_start"
         android:paddingEnd="@dimen/mini_queue_margin_end">
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.shared.widgets.ShapeImageView
             android:id="@+id/cover"
             android:layout_width="@dimen/item_song_cover_size"
             android:layout_height="@dimen/item_song_cover_size"

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.shape
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.graphics.*
@@ -9,15 +9,14 @@ import com.google.android.material.shape.CutCornerTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
-import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 
+// TODO use material shape
 open class ShapeImageView(
     context: Context,
     attrs: AttributeSet
@@ -43,9 +42,9 @@ open class ShapeImageView(
     private val squareShapeModel: ShapeAppearanceModel
 
     init {
-        val a = context.obtainStyledAttributes(attrs, dev.olog.shared.widgets.R.styleable.RoundedCornersImageView)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
         radius = a.getInt(
-            dev.olog.shared.widgets.R.styleable.RoundedCornersImageView_imageViewCornerRadius,
+            R.styleable.RoundedCornersImageView_imageViewCornerRadius,
             DEFAULT_RADIUS
         )
         a.recycle()
