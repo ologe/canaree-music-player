@@ -2,9 +2,9 @@ package dev.olog.presentation.widgets.bottomnavigator
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -23,6 +23,8 @@ internal class CustomBottomNavigator(
 
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    @Inject
+    lateinit var libraryPrefs: LibraryPrefs
 
     private val navigator = BottomNavigator()
 
@@ -33,7 +35,7 @@ internal class CustomBottomNavigator(
 
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
-            val libraryPage = presentationPrefs.getLastLibraryPage()
+            val libraryPage = libraryPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
             navigator.navigate(context.findInContext(), navigationPage, libraryPage)
             true
@@ -51,7 +53,7 @@ internal class CustomBottomNavigator(
 
     fun navigateToLastPage(){
         val navigationPage = presentationPrefs.getLastBottomViewPage()
-        val libraryPage = presentationPrefs.getLastLibraryPage()
+        val libraryPage = libraryPrefs.getLastLibraryPage()
         navigator.navigate(context.findInContext(), navigationPage, libraryPage)
     }
 

@@ -15,6 +15,7 @@ dependencies {
     implementation project(':core')
     implementation project(':media')
     implementation project(':image-provider')
+    implementation project(':localization')
 
     implementation project(':shared')
     implementation project(':shared-android')

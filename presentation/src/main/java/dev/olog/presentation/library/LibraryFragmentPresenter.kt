@@ -1,31 +1,31 @@
 package dev.olog.presentation.library
 
-import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.presentation.model.LibraryPage
+import dev.olog.feature.library.LibraryCategoryBehavior
+import dev.olog.feature.library.LibraryPrefs
+import dev.olog.feature.library.LibraryPage
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
 internal class LibraryFragmentPresenter @Inject constructor(
-    private val appPrefsUseCase: PresentationPreferencesGateway,
+    private val libraryPrefs: LibraryPrefs,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {
 
     fun getViewPagerLastPage(totalPages: Int, isPodcast: Boolean): Int {
         val lastPage = if (isPodcast) {
-            appPrefsUseCase.getViewPagerPodcastLastPage()
+            libraryPrefs.getViewPagerPodcastLastPage()
         } else {
-            appPrefsUseCase.getViewPagerLibraryLastPage()
+            libraryPrefs.getViewPagerLibraryLastPage()
         }
         return clamp(lastPage, 0, totalPages)
     }
 
     fun setViewPagerLastPage(page: Int, isPodcast: Boolean) {
         if (isPodcast) {
-            appPrefsUseCase.setViewPagerPodcastLastPage(page)
+            libraryPrefs.setViewPagerPodcastLastPage(page)
         } else {
-            appPrefsUseCase.setViewPagerLibraryLastPage(page)
+            libraryPrefs.setViewPagerLibraryLastPage(page)
         }
     }
 
@@ -35,17 +35,17 @@ internal class LibraryFragmentPresenter @Inject constructor(
 
     fun getCategories(isPodcast: Boolean): List<LibraryCategoryBehavior> {
         if (isPodcast) {
-            return appPrefsUseCase.getPodcastLibraryCategories()
+            return libraryPrefs.getPodcastLibraryCategories()
                 .filter { it.visible }
         }
-        return appPrefsUseCase.getLibraryCategories()
+        return libraryPrefs.getLibraryCategories()
             .filter { it.visible }
     }
 
     fun setLibraryPage(page: LibraryPage) {
-        appPrefsUseCase.setLibraryPage(page)
+        libraryPrefs.setLibraryPage(page)
     }
 
-    fun canShowPodcasts() = appPrefsUseCase.canShowPodcasts()
+    fun canShowPodcasts() = libraryPrefs.canShowPodcasts()
 
 }

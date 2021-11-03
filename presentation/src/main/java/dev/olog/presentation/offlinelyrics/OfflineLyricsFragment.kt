@@ -58,7 +58,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             if (requireActivity().packageManager.isIntentSafe(intent)) {
                 requireActivity().startActivity(intent)
             } else {
-                requireActivity().toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                requireActivity().toast(localization.R.string.common_browser_not_found)
             }
         }
     }

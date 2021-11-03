@@ -1,0 +1,15 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
+
+    defaultConfig {
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
+    }
+}

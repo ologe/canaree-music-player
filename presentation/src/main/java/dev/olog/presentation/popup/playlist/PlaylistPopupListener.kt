@@ -96,7 +96,7 @@ class PlaylistPopupListener @Inject constructor(
         val activity = activityRef.get() ?: return
 
         if (playlist.size == 0) {
-            activity.toast(dev.olog.shared.android.R.string.common_empty_list)
+            activity.toast(localization.R.string.common_empty_list)
         } else {
             mediaProvider.playFromMediaId(getMediaId(), null, null)
         }
@@ -106,7 +106,7 @@ class PlaylistPopupListener @Inject constructor(
         val activity = activityRef.get() ?: return
 
         if (playlist.size == 0) {
-            activity.toast(dev.olog.shared.android.R.string.common_empty_list)
+            activity.toast(localization.R.string.common_empty_list)
         } else {
             mediaProvider.shuffle(getMediaId(), null)
         }

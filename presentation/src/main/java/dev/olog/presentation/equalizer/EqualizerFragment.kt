@@ -110,7 +110,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         setupBandListeners { band -> BandListener(band) }
 
         powerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val text = if (isChecked) dev.olog.shared.android.R.string.common_switch_on else dev.olog.shared.android.R.string.common_switch_off
+            val text = if (isChecked) localization.R.string.common_switch_on else localization.R.string.common_switch_off
             powerSwitch.text = getString(text)
             presenter.setEqualizerEnabled(isChecked)
         }

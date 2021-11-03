@@ -141,8 +141,8 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun LastMetadata.safeMap(context: Context): LastMetadata {
-        val title = if (this.title.isBlank()) context.getString(dev.olog.shared.android.R.string.common_placeholder_title) else this.title
-        val subtitle = if (this.subtitle.isBlank()) context.getString(dev.olog.shared.android.R.string.common_placeholder_artist) else this.subtitle
+        val title = if (this.title.isBlank()) context.getString(localization.R.string.common_placeholder_title) else this.title
+        val subtitle = if (this.subtitle.isBlank()) context.getString(localization.R.string.common_placeholder_artist) else this.subtitle
 
         return LastMetadata(
             title,

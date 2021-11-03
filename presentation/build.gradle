@@ -26,6 +26,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
+    implementation project(':localization')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

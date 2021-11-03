@@ -10,4 +10,22 @@ interface LibraryPrefs : Prefs {
     val newItemsVisibility: Preference<Boolean>
     val recentPlayedVisibility: Preference<Boolean>
 
+    fun getViewPagerLibraryLastPage(): Int
+    fun setViewPagerLibraryLastPage(lastPage: Int)
+    fun getViewPagerPodcastLastPage(): Int
+    fun setViewPagerPodcastLastPage(lastPage: Int)
+
+    fun getLastLibraryPage(): LibraryPage
+    fun setLibraryPage(page: LibraryPage)
+
+    fun getLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior>
+    fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>)
+
+    fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>
+    fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>)
+
+    fun canShowPodcasts(): Boolean
+
 }

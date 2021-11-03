@@ -98,10 +98,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
         emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty) {
             if (isPodcastFragment()) {
-                val emptyText = resources.getStringArray(dev.olog.shared.android.R.array.tab_empty_podcast)
+                val emptyText = resources.getStringArray(localization.R.array.tab_empty_podcast)
                 emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
-                val emptyText = resources.getStringArray(dev.olog.shared.android.R.array.tab_empty_state)
+                val emptyText = resources.getStringArray(localization.R.array.tab_empty_state)
                 emptyStateText.text = emptyText[category.ordinal]
             }
         }

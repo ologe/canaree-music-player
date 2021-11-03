@@ -82,7 +82,7 @@ class EditTrackFragment : BaseEditItemFragment() {
             if (viewModel.fetchSongInfo(mediaId)) {
                 showLoader(R.string.edit_song_fetching_info)
             } else {
-                ctx.toast(dev.olog.shared.android.R.string.common_no_internet)
+                ctx.toast(localization.R.string.common_no_internet)
             }
         }
     }

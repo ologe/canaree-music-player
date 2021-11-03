@@ -31,7 +31,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }
@@ -45,7 +45,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }
@@ -111,7 +111,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }
@@ -125,7 +125,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }
@@ -139,7 +139,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }
@@ -162,7 +162,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {
-                activity.toast(dev.olog.shared.android.R.string.common_browser_not_found)
+                activity.toast(localization.R.string.common_browser_not_found)
             }
         }
     }

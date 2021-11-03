@@ -21,7 +21,8 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R
-import dev.olog.presentation.model.LibraryPage
+import dev.olog.feature.library.LibraryPage
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
@@ -48,6 +49,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    @Inject
+    lateinit var libraryPrefs: LibraryPrefs
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -154,7 +157,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 act.recreate()
             }
             getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key) -> {
-                presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
+                libraryPrefs.setLibraryPage(LibraryPage.TRACKS)
                 act.recreate()
             }
         }
@@ -163,7 +166,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun showDeleteAllCacheDialog() {
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
-            .setMessage(dev.olog.shared.android.R.string.are_you_sure)
+            .setMessage(localization.R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> lifecycleScope.launch { clearGlideCache() } }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
@@ -187,7 +190,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun showResetTutorialDialog() {
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_reset_tutorial_title)
-            .setMessage(dev.olog.shared.android.R.string.are_you_sure)
+            .setMessage(localization.R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()

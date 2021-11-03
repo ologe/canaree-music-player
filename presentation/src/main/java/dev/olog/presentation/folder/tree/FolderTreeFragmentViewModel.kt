@@ -164,14 +164,14 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val foldersHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
         MediaId.headerId("folder header"),
-        context.getString(dev.olog.shared.android.R.string.common_folders),
+        context.getString(localization.R.string.common_folders),
         null
     )
 
     private val tracksHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
         MediaId.headerId("track header"),
-        context.getString(dev.olog.shared.android.R.string.common_tracks),
+        context.getString(localization.R.string.common_tracks),
         null
     )
 

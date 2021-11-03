@@ -8,12 +8,17 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    api project(':features:library:api')
-    implementation project(':core')
+    // features
     implementation project(':features:base')
+    api project(':features:library:api')
+
+    // libs
+    implementation project(':core')
     implementation project(':image-provider')
     implementation project(':media')
 
+    // shared
+    implementation project(':localization')
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':shared-widgets')

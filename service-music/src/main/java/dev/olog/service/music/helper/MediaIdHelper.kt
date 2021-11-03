@@ -24,27 +24,27 @@ internal object MediaIdHelper {
             createBrowsableMediaItem(
                 context,
                 PLAYLISTS,
-                dev.olog.shared.android.R.string.common_playlists
+                localization.R.string.common_playlists
             ),
             createBrowsableMediaItem(
                 context,
                 SONGS,
-                dev.olog.shared.android.R.string.common_tracks
+                localization.R.string.common_tracks
             ),
             createBrowsableMediaItem(
                 context,
                 ALBUMS,
-                dev.olog.shared.android.R.string.common_albums
+                localization.R.string.common_albums
             ),
             createBrowsableMediaItem(
                 context,
                 ARTISTS,
-                dev.olog.shared.android.R.string.common_artists
+                localization.R.string.common_artists
             ),
             createBrowsableMediaItem(
                 context,
                 GENRES,
-                dev.olog.shared.android.R.string.common_genres
+                localization.R.string.common_genres
             )
         )
     }
@@ -52,7 +52,7 @@ internal object MediaIdHelper {
     private fun createShuffleAllMediaIem(context: Context): MediaBrowserCompat.MediaItem{
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(MediaId.shuffleId().toString())
-            .setTitle(context.getString(dev.olog.shared.android.R.string.common_shuffle))
+            .setTitle(context.getString(localization.R.string.common_shuffle))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
