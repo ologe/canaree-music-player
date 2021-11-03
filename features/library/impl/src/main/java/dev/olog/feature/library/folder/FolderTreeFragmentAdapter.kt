@@ -1,16 +1,16 @@
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.feature.base.adapter.setOnLongClickListener
 import dev.olog.feature.base.model.DisplayableFile
-import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import dev.olog.feature.library.R
+import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 class FolderTreeFragmentAdapter(
     lifecycle: Lifecycle,

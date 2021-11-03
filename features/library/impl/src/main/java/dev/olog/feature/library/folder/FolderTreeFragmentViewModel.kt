@@ -1,4 +1,4 @@
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder
 
 import android.content.Context
 import android.database.CursorIndexOutOfBoundsException
@@ -16,8 +16,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableFile
+import dev.olog.feature.library.R
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty

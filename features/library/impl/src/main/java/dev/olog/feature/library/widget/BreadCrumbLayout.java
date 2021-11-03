@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets;
+package dev.olog.feature.library.widget;
 
 import android.content.Context;
 import android.os.Environment;
@@ -21,7 +21,8 @@ import java.util.Vector;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import dev.olog.presentation.R;
+
+import dev.olog.feature.library.R;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
 import dev.olog.shared.android.utils.ThreadUtilsKt;
 

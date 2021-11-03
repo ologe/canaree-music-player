@@ -34,7 +34,7 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <dev.olog.presentation.folder.tree.AutoShrinkExtendedFab
+    <dev.olog.feature.library.folder.AutoShrinkExtendedFab
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:colorBackground">
 
-        <dev.olog.presentation.widgets.BreadCrumbLayout
+        <dev.olog.feature.library.widget.BreadCrumbLayout
             android:id="@+id/bread_crumbs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.RestorableScroll
 import dev.olog.intents.AppConstants
@@ -19,7 +20,7 @@ import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage

@@ -1,9 +1,9 @@
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.base.model.DisplayableFile
 
-internal object DiffCallbackDisplayableFile : DiffUtil.ItemCallback<DisplayableFile>() {
+object DiffCallbackDisplayableFile : DiffUtil.ItemCallback<DisplayableFile>() {
     override fun areItemsTheSame(oldItem: DisplayableFile, newItem: DisplayableFile): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }

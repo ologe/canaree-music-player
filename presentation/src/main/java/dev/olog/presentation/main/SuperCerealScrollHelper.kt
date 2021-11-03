@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragment
-import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment

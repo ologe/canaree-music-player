@@ -1,15 +1,15 @@
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.widgets.BreadCrumbLayout
+import dev.olog.feature.base.Navigator
+import dev.olog.feature.base.CanHandleOnBackPressed
+import dev.olog.feature.library.R
+import dev.olog.feature.library.widget.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
