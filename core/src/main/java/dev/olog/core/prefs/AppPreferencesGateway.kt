@@ -1,10 +1,11 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.Prefs
 import dev.olog.core.entity.UserCredentials
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
-interface AppPreferencesGateway {
+interface AppPreferencesGateway : Prefs {
 
     fun resetSleepTimer()
     fun setSleepTimer(sleepFrom: Long, sleepTime: Long)

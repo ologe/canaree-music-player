@@ -1,8 +1,9 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.Prefs
 import kotlinx.coroutines.flow.Flow
 
-interface EqualizerPreferencesGateway {
+interface EqualizerPreferencesGateway : Prefs {
 
     fun isEqualizerEnabled(): Boolean
     fun setEqualizerEnabled(enabled: Boolean)

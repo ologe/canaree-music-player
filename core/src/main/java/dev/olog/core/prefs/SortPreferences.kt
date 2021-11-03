@@ -1,11 +1,12 @@
 package dev.olog.core.prefs
 
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.Prefs
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import kotlinx.coroutines.flow.Flow
 
-interface SortPreferences: SortAll, SortDetail
+interface SortPreferences: SortAll, SortDetail, Prefs
 
 interface SortAll {
     fun getAllTracksSort(): SortEntity

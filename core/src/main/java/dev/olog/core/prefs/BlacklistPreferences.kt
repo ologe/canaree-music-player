@@ -1,6 +1,8 @@
 package dev.olog.core.prefs
 
-interface BlacklistPreferences {
+import dev.olog.core.Prefs
+
+interface BlacklistPreferences : Prefs {
     fun getBlackList(): Set<String>
     fun setBlackList(set: Set<String>)
 

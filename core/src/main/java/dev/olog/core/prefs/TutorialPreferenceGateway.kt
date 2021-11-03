@@ -1,6 +1,8 @@
 package dev.olog.core.prefs
 
-interface TutorialPreferenceGateway {
+import dev.olog.core.Prefs
+
+interface TutorialPreferenceGateway : Prefs {
 
     fun sortByTutorial(): Boolean
     fun floatingWindowTutorial(): Boolean
