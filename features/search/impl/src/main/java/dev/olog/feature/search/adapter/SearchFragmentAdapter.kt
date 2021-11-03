@@ -1,10 +1,10 @@
-package dev.olog.presentation.search.adapter
+package dev.olog.feature.search.adapter
 
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableAlbum
@@ -12,8 +12,8 @@ import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.adapter.*
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.search.SearchFragmentViewModel
+import dev.olog.feature.search.R
+import dev.olog.feature.search.SearchFragmentViewModel
 import kotlinx.android.synthetic.main.item_search_album.view.firstText
 import kotlinx.android.synthetic.main.item_search_album.view.secondText
 import kotlinx.android.synthetic.main.item_search_header.view.*

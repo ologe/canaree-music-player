@@ -9,7 +9,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.showIme
+import dev.olog.shared.widgets.extension.showIme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

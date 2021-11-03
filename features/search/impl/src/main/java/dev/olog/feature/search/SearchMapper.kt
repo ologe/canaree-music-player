@@ -1,26 +1,25 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 
-internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
+fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {
-        RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
-        RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
-        RecentSearchesTypes.ARTIST -> context.getString(R.string.search_type_artist)
-        RecentSearchesTypes.PLAYLIST -> context.getString(R.string.search_type_playlist)
-        RecentSearchesTypes.GENRE -> context.getString(R.string.search_type_genre)
-        RecentSearchesTypes.FOLDER -> context.getString(R.string.search_type_folder)
-        RecentSearchesTypes.PODCAST -> context.getString(R.string.search_type_podcast)
-        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(R.string.search_type_podcast_playlist)
-        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(R.string.search_type_podcast_album)
-        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(R.string.search_type_podcast_artist)
+        RecentSearchesTypes.SONG -> context.getString(localization.R.string.search_type_track)
+        RecentSearchesTypes.ALBUM -> context.getString(localization.R.string.search_type_album)
+        RecentSearchesTypes.ARTIST -> context.getString(localization.R.string.search_type_artist)
+        RecentSearchesTypes.PLAYLIST -> context.getString(localization.R.string.search_type_playlist)
+        RecentSearchesTypes.GENRE -> context.getString(localization.R.string.search_type_genre)
+        RecentSearchesTypes.FOLDER -> context.getString(localization.R.string.search_type_folder)
+        RecentSearchesTypes.PODCAST -> context.getString(localization.R.string.search_type_podcast)
+        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(localization.R.string.search_type_podcast_playlist)
+        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(localization.R.string.search_type_podcast_album)
+        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(localization.R.string.search_type_podcast_artist)
         else -> throw IllegalArgumentException("invalid item type $itemType")
     }
 
@@ -54,7 +53,7 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
     )
 }
 
-internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
+fun Song.toSearchDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(
         type = R.layout.item_search_song,
         mediaId = getMediaId(),
@@ -66,7 +65,7 @@ internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
     )
 }
 
-internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
+fun Album.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
         mediaId = getMediaId(),
@@ -75,7 +74,7 @@ internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
     )
 }
 
-internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
+fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_artist,
         mediaId = getMediaId(),
@@ -84,7 +83,7 @@ internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
     )
 }
 
-internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
+fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
         mediaId = getMediaId(),
@@ -93,7 +92,7 @@ internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
     )
 }
 
-internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
+fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
         mediaId = getMediaId(),
@@ -102,7 +101,7 @@ internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
     )
 }
 
-internal fun Folder.toSearchDisplayableItem(): DisplayableAlbum {
+fun Folder.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
         mediaId = getMediaId(),

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import dev.olog.presentation.R
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.queue.PlayingQueueFragment
-import dev.olog.presentation.search.SearchFragment
+import dev.olog.feature.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.getTopFragment
 

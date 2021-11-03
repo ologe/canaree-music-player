@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -12,7 +12,6 @@ import dev.olog.core.gateway.track.*
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.presentation.R
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

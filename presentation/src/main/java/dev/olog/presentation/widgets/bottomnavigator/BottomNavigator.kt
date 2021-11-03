@@ -8,7 +8,7 @@ import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.feature.library.LibraryPage
 import dev.olog.feature.queue.PlayingQueueFragment
-import dev.olog.presentation.search.SearchFragment
+import dev.olog.feature.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
 
 internal class BottomNavigator {

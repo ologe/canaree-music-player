@@ -12,7 +12,7 @@ import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.feature.base.model.DisplayableTrack
-import dev.olog.presentation.utils.hideIme
+import dev.olog.shared.widgets.extension.hideIme
 import dev.olog.feature.base.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils

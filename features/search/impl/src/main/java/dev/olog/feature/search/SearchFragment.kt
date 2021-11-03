@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.os.Bundle
 import android.view.View
@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.feature.floating.FloatingWindowHelper
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.SetupNestedList
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.search.adapter.SearchFragmentAdapter
-import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.utils.showIme
+import dev.olog.feature.search.adapter.SearchFragmentAdapter
+import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
+import dev.olog.shared.widgets.extension.hideIme
+import dev.olog.shared.widgets.extension.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
