@@ -1,7 +1,7 @@
 package dev.olog.presentation.model
 
 import dev.olog.core.Prefs
-import dev.olog.feature.library.LibraryCategoryBehavior
+import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway : Prefs {

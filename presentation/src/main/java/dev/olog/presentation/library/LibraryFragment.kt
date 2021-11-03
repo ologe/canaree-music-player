@@ -11,8 +11,8 @@ import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.library.LibraryFragmentAdapter
 import dev.olog.feature.library.LibraryFragmentPresenter
-import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.feature.base.bottom.nav.HasBottomNavigation
+import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.feature.library.LibraryPage
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.navigator.Navigator

@@ -6,7 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.CoroutineScope

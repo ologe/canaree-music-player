@@ -23,7 +23,8 @@ import dev.olog.presentation.R
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.feature.base.bottom.nav.BottomNavigationPage
+import dev.olog.feature.base.bottom.nav.HasBottomNavigation
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
