@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.dagger
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -1,9 +1,11 @@
-package dev.olog.data
+package dev.olog.data.dagger
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.Multibinds
+import dev.olog.core.AppInitializer
 import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -17,12 +19,20 @@ import dev.olog.data.repository.podcast.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.data.repository.track.*
+import okhttp3.Interceptor
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
 
+    @Multibinds
+    @ApplicationInterceptor
+    abstract fun provideApplicationInterceptors(): Set<Interceptor>
+
+    @Multibinds
+    @NetworkInterceptor
+    abstract fun provideNetworkInterceptors(): Set<Interceptor>
 
     // tracks
 

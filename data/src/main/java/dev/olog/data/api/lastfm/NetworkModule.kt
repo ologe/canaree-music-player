@@ -6,14 +6,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
+import dev.olog.data.dagger.ApplicationInterceptor
+import dev.olog.data.dagger.NetworkInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -23,29 +25,33 @@ class NetworkModule {
     @Provides
     @Singleton
     internal fun provideOkHttp(
-        @ApplicationContext context: Context,
+        @ApplicationInterceptor applicationInterceptors: Set<@JvmSuppressWildcards Interceptor>,
+        @NetworkInterceptor networkInterceptors: Set<@JvmSuppressWildcards Interceptor>,
         config: Config,
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addNetworkInterceptor(logInterceptor(config))
-            .addInterceptor(headerInterceptor(context))
-            .connectTimeout(1, TimeUnit.SECONDS)
-            .readTimeout(1, TimeUnit.SECONDS)
-            .build()
-    }
+        val builder = OkHttpClient.Builder()
 
-    private fun logInterceptor(config: Config): Interceptor {
-        val loggingInterceptor = HttpLoggingInterceptor()
+        applicationInterceptors.forEach { builder.addInterceptor(it) }
+        networkInterceptors.forEach { builder.addNetworkInterceptor(it) }
+
         if (config.isDebug) {
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        } else {
-            // disable retrofit log on release
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+            builder.addNetworkInterceptor(logInterceptor())
         }
-        return loggingInterceptor
+
+        return builder.build()
     }
 
-    private fun headerInterceptor(context: Context): Interceptor {
+    private fun logInterceptor(): Interceptor {
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+    }
+
+    @Provides
+    @IntoSet
+    @ApplicationInterceptor
+    @Singleton
+    fun provideHeaderInterceptor(@ApplicationContext context: Context): Interceptor {
         return Interceptor {
             val original = it.request()
             val request = original.newBuilder()

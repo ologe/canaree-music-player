@@ -45,6 +45,8 @@ ext {
 
 //    debug
     leak_canary = '2.7'
+    flipper = '0.117.0'
+    so_loader = '0.10.1'
 
 //    firebase
     firebase_core = '17.2.0'
@@ -88,16 +90,16 @@ ext {
     ]
 
     lib_ui = [
-            glide                   : "com.github.bumptech.glide:glide:$glide",
-            glide_processor         : "com.github.bumptech.glide:compiler:$glide",
-            scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
-            blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
-            lottie                  : "com.airbnb.android:lottie:$lottie",
-            custom_tabs             : "saschpe.android:customtabs:$custom_tabs",
-            dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
-            dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
-            color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",
-            tap_target_view         : "com.github.ologe:taptargetview:$tap_target_view"
+            glide             : "com.github.bumptech.glide:glide:$glide",
+            glide_processor   : "com.github.bumptech.glide:compiler:$glide",
+            scroll_helper     : "com.github.ologe:scroll-helper:$scroll_helper",
+            blur_kit          : "io.alterac.blurkit:blurkit:$blur_kit",
+            lottie            : "com.airbnb.android:lottie:$lottie",
+            custom_tabs       : "saschpe.android:customtabs:$custom_tabs",
+            dialogs_core      : "com.afollestad.material-dialogs:core:$material_dialogs",
+            dialogs_color     : "com.afollestad.material-dialogs:color:$material_dialogs",
+            color_desaturation: "com.github.ologe:color-desaturation:$color_desaturation",
+            tap_target_view   : "com.github.ologe:taptargetview:$tap_target_view"
     ]
 
     lib_data = [
@@ -124,6 +126,9 @@ ext {
 
     lib_debug = [
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
+            flipper_core     : "com.facebook.flipper:flipper:$flipper",
+            flipper_network  : "com.facebook.flipper:flipper-network-plugin:$flipper",
+            so_loader        : "com.facebook.soloader:soloader:$so_loader"
     ]
 
     lib_test = [

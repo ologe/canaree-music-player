@@ -100,6 +100,9 @@ dependencies {
 
     // debug
     debugImplementation lib_debug.leak_canary_debug
+    debugImplementation lib_debug.so_loader
+    debugImplementation lib_debug.flipper_core
+    debugImplementation lib_debug.flipper_network
 
     // firebase
     implementation lib_analytics.core

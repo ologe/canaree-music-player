@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.dagger
 
 import dagger.Module
 import dagger.Provides

@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.AppInitializer
 import dev.olog.core.interactor.SleepTimerUseCase
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
@@ -15,8 +16,13 @@ class App : ThemedApp() {
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
 
+    @Inject
+    lateinit var initializers: Set<@JvmSuppressWildcards AppInitializer>
+
     override fun onCreate() {
         super.onCreate()
+        initializers.forEach(AppInitializer::init)
+
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
