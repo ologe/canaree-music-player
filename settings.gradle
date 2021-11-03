@@ -27,6 +27,9 @@ include ':features:queue:impl'
 include ':features:detail:api'
 include ':features:detail:impl'
 
+include ':features:offline-lyrics:api'
+include ':features:offline-lyrics:impl'
+
 // shared
 include ':localization'
 
