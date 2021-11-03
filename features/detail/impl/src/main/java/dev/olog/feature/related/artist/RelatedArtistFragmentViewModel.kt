@@ -1,14 +1,15 @@
-package dev.olog.presentation.recentlyadded
+package dev.olog.feature.related.artist
 
+import android.content.res.Resources
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
-import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.presentation.R
+import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
+import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.detail.R
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -18,14 +19,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecentlyAddedFragmentViewModel @Inject constructor(
+class RelatedArtistFragmentViewModel @Inject constructor(
+    resources: Resources,
     savedStateHandle: SavedStateHandle,
-    useCase: ObserveRecentlyAddedUseCase,
+    useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
 
-    private val mediaId = MediaId.fromString(savedStateHandle.get<String>(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)!!)
+    private val mediaId = MediaId.fromString(savedStateHandle.get<String>(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)!!)
 
     val itemOrdinal = mediaId.category.ordinal
 
@@ -35,7 +37,7 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             useCase(mediaId)
-                .mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
+                .mapListItem { it.toRelatedArtist(resources) }
                 .flowOn(Dispatchers.IO)
                 .collect { liveData.value = it }
         }
@@ -53,17 +55,16 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-        return DisplayableTrack(
-            type = R.layout.item_recently_added,
-            mediaId = MediaId.playableItem(parentId, id),
-            title = title,
-            artist = artist,
-            album = album,
-            idInPlaylist = idInPlaylist,
-            dataModified = this.dateModified
+    private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
+        val songs =
+            resources.getQuantityString(localization.R.plurals.common_plurals_song, this.songs, this.songs)
+
+        return DisplayableAlbum(
+            type = R.layout.item_related_artist,
+            mediaId = getMediaId(),
+            title = this.name,
+            subtitle = songs
         )
     }
-
 
 }

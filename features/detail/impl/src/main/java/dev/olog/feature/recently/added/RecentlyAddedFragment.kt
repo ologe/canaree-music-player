@@ -1,4 +1,4 @@
-package dev.olog.presentation.recentlyadded
+package dev.olog.feature.recently.added
 
 import android.os.Bundle
 import android.view.View
@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.feature.detail.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
@@ -58,7 +58,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->
-                val headersArray = resources.getStringArray(R.array.recently_added_header)
+                val headersArray = resources.getStringArray(localization.R.array.recently_added_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
                 this.header.text = header
             }

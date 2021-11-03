@@ -27,8 +27,8 @@ import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
-import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
-import dev.olog.presentation.relatedartists.RelatedArtistFragment
+import dev.olog.feature.recently.added.RecentlyAddedFragment
+import dev.olog.feature.related.artist.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.extensions.findInContext

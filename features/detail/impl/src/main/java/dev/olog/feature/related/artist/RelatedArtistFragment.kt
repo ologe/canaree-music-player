@@ -1,13 +1,13 @@
-package dev.olog.presentation.relatedartists
+package dev.olog.feature.related.artist
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.feature.base.Navigator
+import dev.olog.feature.detail.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
@@ -49,7 +49,7 @@ class RelatedArtistFragment : BaseFragment() {
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->
-                val headersArray = resources.getStringArray(R.array.related_artists_header)
+                val headersArray = resources.getStringArray(localization.R.array.related_artists_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
                 this.header.text = header
             }
