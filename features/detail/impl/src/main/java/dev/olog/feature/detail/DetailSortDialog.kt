@@ -1,4 +1,4 @@
-package dev.olog.presentation.detail
+package dev.olog.feature.detail
 
 import android.view.Gravity
 import android.view.Menu
@@ -8,7 +8,6 @@ import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
-import dev.olog.presentation.R
 
 class DetailSortDialog {
 

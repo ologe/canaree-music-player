@@ -1,4 +1,4 @@
-package dev.olog.presentation.detail
+package dev.olog.feature.detail
 
 
 import android.graphics.Color
@@ -10,21 +10,21 @@ import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
+import dev.olog.feature.base.CanChangeStatusBarColor
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
-import dev.olog.presentation.detail.adapter.*
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableHeader
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.feature.detail.adapter.*
+import dev.olog.feature.detail.adapter.DetailFragmentAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import dev.olog.shared.widgets.extension.removeLightStatusBar
+import dev.olog.shared.widgets.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter

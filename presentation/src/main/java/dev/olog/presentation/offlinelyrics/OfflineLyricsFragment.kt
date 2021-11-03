@@ -18,8 +18,8 @@ import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.shared.widgets.TutorialTapTarget
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.shared.widgets.extension.removeLightStatusBar
+import dev.olog.shared.widgets.extension.setLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit

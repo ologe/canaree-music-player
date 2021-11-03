@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/detail_sort_by" />
 
-    <dev.olog.presentation.detail.widgets.SortButton
+    <dev.olog.feature.detail.widget.SortButton
         android:id="@+id/sortImage"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"

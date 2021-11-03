@@ -1,11 +1,10 @@
-package dev.olog.presentation.detail.mapper
+package dev.olog.feature.detail
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableTrack
 

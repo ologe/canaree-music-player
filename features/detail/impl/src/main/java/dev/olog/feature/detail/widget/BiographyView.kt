@@ -1,4 +1,4 @@
-package dev.olog.presentation.detail.widgets
+package dev.olog.feature.detail.widget
 
 import android.content.Context
 import android.text.TextUtils

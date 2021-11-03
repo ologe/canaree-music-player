@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.feature.base.CanChangeStatusBarColor
 import dev.olog.feature.base.HasSlidingPanel
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.shared.widgets.extension.removeLightStatusBar
+import dev.olog.shared.widgets.extension.setLightStatusBar
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow

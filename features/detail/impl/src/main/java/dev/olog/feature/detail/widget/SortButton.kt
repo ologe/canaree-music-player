@@ -1,4 +1,4 @@
-package dev.olog.presentation.detail.widgets
+package dev.olog.feature.detail.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.presentation.R
 
 internal class SortButton(
     context: Context,

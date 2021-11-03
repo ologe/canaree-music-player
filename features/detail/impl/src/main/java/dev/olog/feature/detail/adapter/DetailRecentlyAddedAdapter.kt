@@ -1,13 +1,13 @@
-package dev.olog.presentation.detail.adapter
+package dev.olog.feature.detail.adapter
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.adapter.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.feature.detail.R
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.*

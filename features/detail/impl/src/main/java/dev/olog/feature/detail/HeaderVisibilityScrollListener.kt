@@ -1,10 +1,9 @@
-package dev.olog.presentation.detail
+package dev.olog.feature.detail
 
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen

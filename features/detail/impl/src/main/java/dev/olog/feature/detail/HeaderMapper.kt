@@ -1,11 +1,9 @@
-package dev.olog.presentation.detail.mapper
+package dev.olog.feature.detail
 
 import android.content.res.Resources
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.*
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableHeader
-
 
 internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
 

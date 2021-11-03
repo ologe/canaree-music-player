@@ -1,7 +1,7 @@
-package dev.olog.presentation.detail.adapter
-
+package dev.olog.feature.detail.adapter
 
 import android.annotation.SuppressLint
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -13,19 +13,15 @@ import dev.olog.feature.base.*
 import dev.olog.feature.base.adapter.*
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.*
-import dev.olog.presentation.detail.DetailFragmentHeaders
-import dev.olog.presentation.detail.DetailFragmentViewModel
-import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
-import dev.olog.presentation.detail.DetailSortDialog
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.feature.detail.DetailFragmentHeaders
+import dev.olog.feature.detail.DetailFragmentViewModel
+import dev.olog.feature.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
+import dev.olog.feature.detail.DetailSortDialog
 import dev.olog.shared.widgets.TutorialTapTarget
-import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
@@ -39,6 +35,8 @@ import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import dev.olog.feature.detail.R
+import dev.olog.shared.android.extensions.map
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -154,7 +152,7 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
-                    .map { it?.asHtml() }
+                    .map { it?.parseAsHtml() }
                     .observe(holder, Observer { view.biography.text = it })
             }
         }

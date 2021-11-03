@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     tools:ignore="RtlSymmetry">
 
-    <dev.olog.presentation.detail.widgets.BiographyView
+    <dev.olog.feature.detail.widget.BiographyView
         android:id="@+id/biography"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

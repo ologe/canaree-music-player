@@ -1,14 +1,14 @@
-package dev.olog.presentation.detail.adapter
+package dev.olog.feature.detail.adapter
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.feature.base.BindingsAdapter
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.adapter.*
-import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_detail_album.view.*
 
-class DetailRelatedArtistsAdapter(
+class DetailSiblingsAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator
 
@@ -29,12 +29,11 @@ class DetailRelatedArtistsAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
-
         holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
-            quickAction.setId(item.mediaId)
         }
     }
 }

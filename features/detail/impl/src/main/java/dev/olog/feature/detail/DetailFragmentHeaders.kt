@@ -1,11 +1,10 @@
-package dev.olog.presentation.detail
+package dev.olog.feature.detail
 
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableNestedListPlaceholder
@@ -38,7 +37,7 @@ class DetailFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_detail_header,
             mediaId = MediaId.headerId("most played header"),
-            title = context.getString(R.string.detail_most_played),
+            title = context.getString(localization.R.string.detail_most_played),
             visible = false
         ),
         DisplayableNestedListPlaceholder(
@@ -51,7 +50,7 @@ class DetailFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_detail_header,
             mediaId = RELATED_ARTISTS_SEE_ALL,
-            title = context.getString(R.string.detail_related_artists),
+            title = context.getString(localization.R.string.detail_related_artists),
             visible = showSeeAll
         ),
         DisplayableNestedListPlaceholder(
@@ -64,9 +63,9 @@ class DetailFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_detail_header_recently_added,
             mediaId = MediaId.headerId("recently added header"),
-            title = context.getString(R.string.detail_recently_added),
+            title = context.getString(localization.R.string.detail_recently_added),
             subtitle = context.resources.getQuantityString(
-                R.plurals.detail_xx_new_songs,
+                localization.R.plurals.detail_xx_new_songs,
                 listSize,
                 listSize
             ),
@@ -90,7 +89,7 @@ class DetailFragmentHeaders @Inject constructor(
         return DisplayableHeader(
             type = R.layout.item_detail_header_albums,
             mediaId = MediaId.headerId("detail albums"),
-            title = context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
+            title = context.resources.getStringArray(localization.R.array.detail_album_header)[mediaId.source]
         )
     }
 
@@ -104,8 +103,8 @@ class DetailFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_detail_header_all_song,
             mediaId = MediaId.headerId("detail songs header"),
-            title = context.getString(R.string.detail_tracks),
-            subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
+            title = context.getString(localization.R.string.detail_tracks),
+            subtitle = context.getString(localization.R.string.detail_sort_by).toLowerCase()
         ),
         shuffle
     )

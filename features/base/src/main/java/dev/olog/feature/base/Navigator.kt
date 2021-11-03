@@ -25,4 +25,13 @@ class Navigator @Inject constructor() {
         TODO("implement")
     }
 
+    fun toRecentlyAdded(mediaId: MediaId) {
+        TODO("implement")
+
+    }
+    fun toRelatedArtists(mediaId: MediaId) {
+        TODO("implement")
+
+    }
+
 }

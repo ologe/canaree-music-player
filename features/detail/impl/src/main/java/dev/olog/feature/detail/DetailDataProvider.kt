@@ -1,4 +1,4 @@
-package dev.olog.presentation.detail
+package dev.olog.feature.detail
 
 import android.content.Context
 import dev.olog.core.MediaId
@@ -14,12 +14,10 @@ import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
-import dev.olog.presentation.R
-import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
-import dev.olog.presentation.detail.mapper.*
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
