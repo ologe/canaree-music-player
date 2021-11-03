@@ -18,6 +18,8 @@ rootProject.name = "canaree"
 include ':features:base'
 include ':features:library:api'
 include ':features:library:impl'
+include ':features:search:api'
+include ':features:search:impl'
 include ':features:queue:api'
 include ':features:queue:impl'
 
