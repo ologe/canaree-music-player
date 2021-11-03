@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab.layout.manager
+package dev.olog.feature.tab.layout.manager
 
 class PlaylistSpanSizeLookup(
     requestedSpanSize: Int

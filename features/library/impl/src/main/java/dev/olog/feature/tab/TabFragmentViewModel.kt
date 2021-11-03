@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab
+package dev.olog.feature.tab
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

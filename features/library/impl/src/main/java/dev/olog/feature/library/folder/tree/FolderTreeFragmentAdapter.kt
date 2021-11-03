@@ -1,4 +1,4 @@
-package dev.olog.feature.library.folder
+package dev.olog.feature.library.folder.tree
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider

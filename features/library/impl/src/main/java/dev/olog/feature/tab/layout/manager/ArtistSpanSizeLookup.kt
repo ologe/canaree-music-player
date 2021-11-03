@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab.layout.manager
+package dev.olog.feature.tab.layout.manager
 
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.model.BaseModel

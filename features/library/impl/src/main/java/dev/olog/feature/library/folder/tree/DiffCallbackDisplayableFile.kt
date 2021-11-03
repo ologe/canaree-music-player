@@ -1,4 +1,4 @@
-package dev.olog.feature.library.folder
+package dev.olog.feature.library.folder.tree
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.base.model.DisplayableFile

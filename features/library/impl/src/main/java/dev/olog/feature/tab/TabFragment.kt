@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab
+package dev.olog.feature.tab
 
 import android.os.Bundle
 import android.view.View
@@ -25,10 +25,10 @@ import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.scroller.WaveSideBarView
 import dev.olog.feature.library.R
 import dev.olog.feature.library.TabCategory
-import dev.olog.feature.library.tab.adapter.TabFragmentAdapter
-import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
-import dev.olog.feature.library.tab.layout.manager.AbsSpanSizeLookup
-import dev.olog.feature.library.tab.layout.manager.LayoutManagerFactory
+import dev.olog.feature.tab.adapter.TabFragmentAdapter
+import dev.olog.feature.tab.adapter.TabFragmentNestedAdapter
+import dev.olog.feature.tab.layout.manager.AbsSpanSizeLookup
+import dev.olog.feature.tab.layout.manager.LayoutManagerFactory
 import dev.olog.feature.library.toTabCategory
 import dev.olog.media.MediaProvider
 import dev.olog.shared.TextUtils

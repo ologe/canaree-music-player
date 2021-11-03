@@ -20,7 +20,7 @@ import dev.olog.feature.floating.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.feature.floating.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.feature.library.folder.FolderTreeFragment
+import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage

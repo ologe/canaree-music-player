@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab
+package dev.olog.feature.tab
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

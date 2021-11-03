@@ -1,11 +1,11 @@
-package dev.olog.feature.library.tab.layout.manager
+package dev.olog.feature.tab.layout.manager
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.model.BaseModel
 import dev.olog.feature.library.TabCategory
-import dev.olog.feature.library.tab.adapter.TabFragmentAdapter
+import dev.olog.feature.tab.adapter.TabFragmentAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 
 object LayoutManagerFactory {

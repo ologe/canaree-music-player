@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab.layout.manager
+package dev.olog.feature.tab.layout.manager
 
 import android.content.Context
 import dev.olog.feature.library.TabCategory

@@ -34,7 +34,7 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <dev.olog.feature.library.folder.AutoShrinkExtendedFab
+    <dev.olog.feature.library.folder.tree.AutoShrinkExtendedFab
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

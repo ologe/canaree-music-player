@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab
+package dev.olog.feature.tab
 
 import android.content.res.Resources
 import dev.olog.core.entity.track.*
