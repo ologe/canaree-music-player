@@ -1,13 +1,12 @@
-package dev.olog.presentation.library
+package dev.olog.feature.library
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.preference.PreferenceManager
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.Preference
 import dev.olog.feature.library.folder.FolderTreeFragment
-import dev.olog.feature.library.LibraryCategoryBehavior
 import dev.olog.feature.library.tab.TabFragment
 import dev.olog.shared.isInBounds
 
@@ -15,7 +14,8 @@ import dev.olog.shared.isInBounds
 class LibraryFragmentAdapter(
         private val context: Context,
         fragmentManager: FragmentManager,
-        private val categories : List<LibraryCategoryBehavior>
+        private val categories : List<LibraryCategoryBehavior>,
+        private val folderTreePref: Preference<Boolean>
 
 ) : FragmentPagerAdapter(fragmentManager) {
 
@@ -34,10 +34,7 @@ class LibraryFragmentAdapter(
         } else TabFragment.newInstance(category)
     }
 
-    fun showFolderAsHierarchy(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        return prefs.getBoolean(context.getString(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key), false)
-    }
+    fun showFolderAsHierarchy(): Boolean = folderTreePref.get()
 
     override fun getCount(): Int = categories.size
 

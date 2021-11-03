@@ -215,4 +215,6 @@ internal class LibraryPrefsImpl @Inject constructor(
         return preferences.getBoolean(context.getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key), true)
     }
 
+    override val useFolderTree: Preference<Boolean>
+        get() = prefs.create(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key, false)
 }

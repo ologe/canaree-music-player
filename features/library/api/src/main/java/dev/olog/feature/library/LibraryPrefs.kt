@@ -28,4 +28,6 @@ interface LibraryPrefs : Prefs {
 
     fun canShowPodcasts(): Boolean
 
+    val useFolderTree: Preference<Boolean>
+
 }

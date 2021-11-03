@@ -9,10 +9,12 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
+import dev.olog.feature.library.LibraryFragmentAdapter
 import dev.olog.feature.library.LibraryFragmentPresenter
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.feature.library.LibraryPage
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
@@ -44,6 +46,8 @@ class LibraryFragment : BaseFragment() {
     lateinit var presenter: LibraryFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var libraryPrefs: LibraryPrefs
 
     private val isPodcast by lazyFast {
         getArgument<Boolean>(
@@ -53,7 +57,10 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            context = act.applicationContext,
+            fragmentManager = childFragmentManager,
+            categories = presenter.getCategories(isPodcast),
+            folderTreePref = libraryPrefs.useFolderTree,
         )
     }
 
