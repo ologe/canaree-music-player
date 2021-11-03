@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.8">
       <module name="canaree.features.test" target="11" />
       <module name="canaree.injection" target="11" />
+      <module name="canaree.service-floating" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

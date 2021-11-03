@@ -16,9 +16,9 @@ import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.RestorableScroll
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
+import dev.olog.feature.floating.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.feature.floating.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.presentation.interfaces.*

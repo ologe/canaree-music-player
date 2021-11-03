@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.feature.floating.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.adapter.ObservableAdapter

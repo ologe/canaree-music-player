@@ -8,4 +8,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':core')
     implementation project(':localization')
+
+    implementation lib_x.annotations
+    implementation lib_x.core
 }

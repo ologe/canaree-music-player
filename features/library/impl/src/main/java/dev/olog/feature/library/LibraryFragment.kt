@@ -10,6 +10,7 @@ import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.bottom.nav.HasBottomNavigation
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage
+import dev.olog.feature.floating.FloatingWindowHelper
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.TutorialTapTarget
@@ -133,7 +134,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!) // TODO
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     private val onPageChangeListener =
