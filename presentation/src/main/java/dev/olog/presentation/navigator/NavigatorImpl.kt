@@ -24,7 +24,6 @@ import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.feature.base.HasSlidingPanel
-import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.feature.recently.added.RecentlyAddedFragment
@@ -90,20 +89,20 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toOfflineLyrics() {
-        val activity = activityRef.get() ?: return
-        if (!allowed()) {
-            return
-        }
-        activity.fragmentTransaction {
-            setReorderingAllowed(true)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(
-                android.R.id.content,
-                OfflineLyricsFragment.newInstance(),
-                OfflineLyricsFragment.TAG
-            )
-            addToBackStack(OfflineLyricsFragment.TAG)
-        }
+//        val activity = activityRef.get() ?: return TODO
+//        if (!allowed()) {
+//            return
+//        }
+//        activity.fragmentTransaction {
+//            setReorderingAllowed(true)
+//            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//            add(
+//                android.R.id.content,
+//                OfflineLyricsFragment.newInstance(),
+//                OfflineLyricsFragment.TAG
+//            )
+//            addToBackStack(OfflineLyricsFragment.TAG)
+//        }
     }
 
     override fun toEditInfoFragment(mediaId: MediaId) {

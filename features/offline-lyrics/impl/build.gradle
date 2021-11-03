@@ -23,6 +23,7 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':prefs-keys')
+    implementation project(':intents')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
@@ -31,8 +32,11 @@ dependencies {
     implementation lib_x.appcompat
     implementation lib_x.material
     implementation lib_x.core
+    implementation lib_x.browser
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
     
     implementation lib_ui.scroll_helper
+    implementation lib_ui.blur_kit
+    implementation lib_ui.custom_tabs
 }

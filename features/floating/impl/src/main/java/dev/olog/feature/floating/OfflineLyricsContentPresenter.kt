@@ -3,9 +3,9 @@ package dev.olog.feature.floating
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
-import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
-import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
+import dev.olog.feature.offline.lyrics.BaseOfflineLyricsPresenter
+import dev.olog.feature.offline.lyrics.domain.InsertOfflineLyricsUseCase
+import dev.olog.feature.offline.lyrics.domain.ObserveOfflineLyricsUseCase
 import javax.inject.Inject
 
 class OfflineLyricsContentPresenter @Inject constructor(

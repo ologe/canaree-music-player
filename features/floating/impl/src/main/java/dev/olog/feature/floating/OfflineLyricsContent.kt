@@ -6,9 +6,12 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import dev.olog.core.MediaId
 import dev.olog.feature.floating.api.Content
+import dev.olog.feature.offline.lyrics.EditLyricsDialog
+import dev.olog.feature.offline.lyrics.LyricsMode
+import dev.olog.feature.offline.lyrics.NoScrollTouchListener
+import dev.olog.feature.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.offlinelyrics.*
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
@@ -109,14 +112,14 @@ class OfflineLyricsContent(
                 content.text.text = lyrics
 
                 content.text.doOnPreDraw {
-                    if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                        val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
+                    if (type is LyricsMode.Synced && !scrollViewTouchListener.userHasControl){
+                        val scrollTo = dev.olog.feature.offline.lyrics.OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
                         content.scrollView.smoothScrollTo(0, scrollTo)
                     }
                 }
 
-                if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                    val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
+                if (type is LyricsMode.Synced && !scrollViewTouchListener.userHasControl){
+                    val scrollTo = dev.olog.feature.offline.lyrics.OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
                     content.scrollView.smoothScrollTo(0, scrollTo)
                 }
             }

@@ -28,13 +28,6 @@ inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.d
 
 inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
-inline fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
-inline fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
-
-inline fun Context.dpToPx(dp: Float): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
-}
-
 inline fun Context.toast(message: Int): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
         .apply {

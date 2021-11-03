@@ -11,12 +11,12 @@ dependencies {
     // features
     implementation project(':features:base')
     api project(':features:floating:api')
+    implementation project(':features:offline-lyrics:api')
 
     // libs
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':media')
-    implementation project(':offline-lyrics')
     
     // shared
     implementation project(':localization')

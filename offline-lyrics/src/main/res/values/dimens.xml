@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="offline_lyrics_title_size">20dp</dimen>
-    <dimen name="offline_lyrics_artist_size">14dp</dimen>
-
-</resources>

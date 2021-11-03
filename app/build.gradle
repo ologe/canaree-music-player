@@ -67,7 +67,6 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':service-music')
-    implementation project(':offline-lyrics')
     implementation project(':intents')
     implementation project(':shared')
 

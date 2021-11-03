@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.base.CanHandleOnBackPressed
+import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.RestorableScroll
 import dev.olog.intents.AppConstants
