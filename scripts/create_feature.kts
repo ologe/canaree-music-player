@@ -140,7 +140,8 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    // TODO
+    implementation project(':core')
+    implementation project(':localization')
 }
 """.trimIndent()
 }
@@ -154,19 +155,28 @@ class ImplModule : Module {
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    // features
+    implementation project(':features:base')
     api project(':${Constants.FeatureFolderName}:$moduleName:api')
 
+    // libs
     implementation project(':core')
+    implementation project(':image-provider')
+    implementation project(':media')
     
+    // shared
+    implementation project(':localization')
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
+    implementation project(':prefs-keys')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
@@ -177,6 +187,8 @@ dependencies {
     implementation lib_x.core
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
+    
+    implementation lib_ui.scroll_helper
 }
 """.trimIndent()
 }
