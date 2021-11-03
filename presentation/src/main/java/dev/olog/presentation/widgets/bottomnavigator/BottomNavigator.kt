@@ -7,7 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.feature.library.LibraryPage
-import dev.olog.presentation.queue.PlayingQueueFragment
+import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
 

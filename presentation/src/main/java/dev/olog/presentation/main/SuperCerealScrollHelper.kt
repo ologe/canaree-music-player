@@ -13,7 +13,7 @@ import dev.olog.presentation.detail.DetailFragment
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
+import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive

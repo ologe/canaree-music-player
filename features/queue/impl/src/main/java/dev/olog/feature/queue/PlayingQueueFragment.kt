@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.os.Bundle
 import android.view.View
@@ -9,13 +9,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.feature.floating.FloatingWindowHelper
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
-import dev.olog.feature.queue.PlayingQueueFragmentAdapter
-import dev.olog.feature.queue.PlayingQueueFragmentViewModel
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
