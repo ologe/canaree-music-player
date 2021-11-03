@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableQueueSong
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
@@ -7,11 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.base.adapter.*
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
+import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.DisplayableQueueSong
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swap
