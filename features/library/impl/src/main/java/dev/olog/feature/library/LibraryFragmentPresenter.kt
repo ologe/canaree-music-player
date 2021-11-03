@@ -1,13 +1,10 @@
-package dev.olog.presentation.library
+package dev.olog.feature.library
 
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.feature.library.LibraryCategoryBehavior
-import dev.olog.feature.library.LibraryPrefs
-import dev.olog.feature.library.LibraryPage
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
-internal class LibraryFragmentPresenter @Inject constructor(
+class LibraryFragmentPresenter @Inject constructor(
     private val libraryPrefs: LibraryPrefs,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {

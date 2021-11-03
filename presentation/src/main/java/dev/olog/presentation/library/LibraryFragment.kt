@@ -9,6 +9,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
+import dev.olog.feature.library.LibraryFragmentPresenter
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.feature.library.LibraryPage
@@ -40,7 +41,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
+    lateinit var presenter: LibraryFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
 
