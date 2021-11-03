@@ -5,8 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
-import dev.olog.presentation.R
-import dev.olog.presentation.widgets.StatusBarView
+import dev.olog.shared.widgets.StatusBarView
 import dev.olog.shared.mutableLazy
 import javax.inject.Inject
 

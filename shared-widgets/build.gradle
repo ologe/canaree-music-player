@@ -7,10 +7,13 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':shared-android')
     implementation project(':shared')
+    implementation project(':localization')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_x.material
     implementation lib_x.core
     implementation lib_x.palette
+
+    implementation lib_ui.tap_target_view
 }

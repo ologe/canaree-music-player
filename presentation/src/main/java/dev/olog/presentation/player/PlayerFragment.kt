@@ -16,7 +16,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tutorial.TutorialTapTarget
+import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.asLiveData

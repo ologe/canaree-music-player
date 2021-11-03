@@ -17,7 +17,7 @@ import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.tutorial.TutorialTapTarget
+import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.*

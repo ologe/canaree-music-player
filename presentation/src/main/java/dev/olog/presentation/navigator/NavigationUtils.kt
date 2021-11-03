@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.presentation.R
-import dev.olog.presentation.library.LibraryFragment
+import dev.olog.feature.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction

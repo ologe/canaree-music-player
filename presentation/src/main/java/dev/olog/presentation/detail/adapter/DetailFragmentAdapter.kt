@@ -22,7 +22,7 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tutorial.TutorialTapTarget
+import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.map
