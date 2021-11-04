@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
-import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
@@ -40,10 +39,10 @@ class MainPopupNavigator @Inject constructor(
     }
 
     private fun toBuiltInEqualizer() {
-        val activity = activityRef.get() ?: return
-
-        val instance = EqualizerFragment.newInstance()
-        instance.show(activity.supportFragmentManager, EqualizerFragment.TAG)
+//        val activity = activityRef.get() ?: return TODO
+//
+//        val instance = EqualizerFragment.newInstance()
+//        instance.show(activity.supportFragmentManager, EqualizerFragment.TAG)
     }
 
     private fun searchForEqualizer() {

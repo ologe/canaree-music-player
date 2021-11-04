@@ -3,9 +3,9 @@ package dev.olog.service.music
 import androidx.lifecycle.Lifecycle
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.feature.equalizer.IBassBoost
+import dev.olog.feature.equalizer.IEqualizer
+import dev.olog.feature.equalizer.IVirtualizer
 import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

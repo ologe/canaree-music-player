@@ -11,7 +11,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
-import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
+import dev.olog.feature.base.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {

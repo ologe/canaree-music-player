@@ -14,7 +14,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
     implementation project(':intents')
-    implementation project(':equalizer')
+    implementation project(':features:equalizer:api')
     implementation project(':localization')
 
     implementation lib_core.coroutines

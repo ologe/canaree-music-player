@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.base.TextViewDialog
+import dev.olog.feature.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.shared.widgets.extension.hideIme

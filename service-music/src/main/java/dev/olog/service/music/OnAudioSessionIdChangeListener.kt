@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.audio.AudioListener
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.feature.equalizer.IBassBoost
+import dev.olog.feature.equalizer.IEqualizer
+import dev.olog.feature.equalizer.IVirtualizer
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

@@ -30,7 +30,6 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
     implementation project(':shared')
-    implementation project(':equalizer')
     implementation project(':localization')
 
     implementation lib_core.kotlin

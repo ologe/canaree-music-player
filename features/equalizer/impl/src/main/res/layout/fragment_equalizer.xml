@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:paddingBottom="16dp"
+    android:background="?colorSurface">
+
+    <TextView
+        android:id="@+id/presetSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/powerSwitch"
+        app:layout_constraintBottom_toBottomOf="@+id/powerSwitch"
+        android:layout_marginStart="16dp"
+        app:fontFamily="sans-serif-black"
+        tools:fontFamily="sans-serif-black"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="20dp"
+        tools:text="FLAT"
+        android:drawableEnd="@drawable/vd_arrow_down"
+        android:drawableTint="?android:textColorPrimary"
+        tools:ignore="UnusedAttribute" />
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/presetSpinner"
+        app:layout_constraintBottom_toBottomOf="@+id/presetSpinner"
+        app:layout_constraintStart_toEndOf="@+id/presetSpinner"
+        android:src="@drawable/vd_delete" />
+
+    <ImageButton
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/presetSpinner"
+        app:layout_constraintBottom_toBottomOf="@+id/presetSpinner"
+        app:layout_constraintStart_toEndOf="@+id/delete"
+        android:src="@drawable/vd_add"/>
+
+    <Switch
+        android:id="@+id/powerSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:padding="16dp"
+        android:switchPadding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:checked="true"
+        tools:text="@string/common_switch_off" />
+
+    <LinearLayout
+        android:id="@+id/bands"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
+        android:orientation="horizontal"
+        android:gravity="center"
+        tools:background="@android:color/black"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <dev.olog.feature.equalizer.widget.croller.Croller
+        android:id="@+id/bassKnob"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/virtualizerKnob"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bands"
+        app:layout_constraintVertical_bias=".7"
+        app:main_circle_color="#EDEDED"
+        app:back_circle_color="#EDEDED"
+        app:indicator_color="#000"
+        app:indicator_width="10"
+        app:progress_primary_color="?android:textColorPrimary"
+        app:progress_secondary_color="@color/progressBackgroundTint"
+        app:label="Bass"
+        app:label_color="?android:textColorPrimary"
+        app:label_style="bold"
+        android:layout_marginTop="48dp"
+        app:sweep_angle="270"
+        app:start_offset="60" />
+
+    <dev.olog.feature.equalizer.widget.croller.Croller
+        android:id="@+id/virtualizerKnob"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bassKnob"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bassKnob"
+        app:layout_constraintTop_toTopOf="@+id/bassKnob"
+        app:layout_constraintVertical_bias=".7"
+        app:main_circle_color="#EDEDED"
+        app:back_circle_color="#EDEDED"
+        app:indicator_color="#000"
+        app:indicator_width="10"
+        app:progress_primary_color="?android:textColorPrimary"
+        app:progress_secondary_color="@color/progressBackgroundTint"
+        app:label="Virtualizer"
+        app:label_color="?android:textColorPrimary"
+        app:label_style="bold"
+        app:sweep_angle="270"
+        app:start_offset="60" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
