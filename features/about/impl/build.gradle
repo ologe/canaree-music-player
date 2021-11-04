@@ -33,6 +33,9 @@ dependencies {
     implementation lib_x.core
     implementation lib_x.constraint_layout
     implementation lib_x.fragments
-    
+    implementation lib_x.browser
+
     implementation lib_ui.scroll_helper
+    implementation lib_ui.custom_tabs
+    implementation lib_ui.glide
 }

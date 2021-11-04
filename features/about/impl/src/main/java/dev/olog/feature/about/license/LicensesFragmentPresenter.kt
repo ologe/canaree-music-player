@@ -1,9 +1,8 @@
-package dev.olog.presentation.license
+package dev.olog.feature.about.license
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.model.LicenseModel
+import dev.olog.feature.about.R
 
 class LicensesFragmentPresenter(private val context: Context) {
 

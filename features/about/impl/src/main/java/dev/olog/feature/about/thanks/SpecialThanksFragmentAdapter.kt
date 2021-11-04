@@ -1,4 +1,4 @@
-package dev.olog.presentation.thanks
+package dev.olog.feature.about.thanks
 
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle

@@ -1,4 +1,4 @@
-package dev.olog.presentation.navigator
+package dev.olog.feature.about.navigator
 
 import android.content.Context
 import android.content.Intent
@@ -6,10 +6,12 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
-import dev.olog.presentation.R
-import dev.olog.presentation.license.LicensesFragment
-import dev.olog.presentation.thanks.SpecialThanksFragment
-import dev.olog.presentation.translations.TranslationsFragment
+import dagger.hilt.android.scopes.ActivityScoped
+import dev.olog.feature.about.license.LicensesFragment
+import dev.olog.feature.about.thanks.SpecialThanksFragment
+import dev.olog.feature.about.translations.TranslationsFragment
+import dev.olog.feature.base.allowed
+import dev.olog.feature.base.superCerealTransition
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
@@ -18,10 +20,11 @@ import saschpe.android.customtabs.CustomTabsHelper
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class NavigatorAboutImpl @Inject internal constructor(
+@ActivityScoped // TODO change to singleton
+class NavigatorAbout @Inject constructor(
     activity: FragmentActivity
 
-) : NavigatorAbout {
+) {
 
     private val activityRef = WeakReference(activity)
 
@@ -36,7 +39,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun toHavocPage() {
+    fun toHavocPage() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {
@@ -50,7 +53,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun toLicensesFragment() {
+    fun toLicensesFragment() {
         val activity = activityRef.get() ?: return
 
         superCerealTransition(
@@ -59,7 +62,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         )
     }
 
-    override fun toChangelog() {
+    fun toChangelog() {
         val activity = activityRef.get() ?: return
 
         val customTabIntent = CustomTabsIntent.Builder()
@@ -72,7 +75,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
-    override fun toGithub() {
+    fun toGithub() {
         val activity = activityRef.get() ?: return
 
         val customTabIntent = CustomTabsIntent.Builder()
@@ -85,7 +88,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
-    override fun toSpecialThanksFragment() {
+    fun toSpecialThanksFragment() {
         val activity = activityRef.get() ?: return
 
         superCerealTransition(
@@ -94,7 +97,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         )
     }
 
-    override fun toMarket() {
+    fun toMarket() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {
@@ -102,7 +105,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun toPrivacyPolicy() {
+    fun toPrivacyPolicy() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {
@@ -116,7 +119,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun joinCommunity() {
+    fun joinCommunity() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {
@@ -130,7 +133,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun joinBeta() {
+    fun joinBeta() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {
@@ -144,7 +147,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun toTranslations() {
+    fun toTranslations() {
         val activity = activityRef.get() ?: return
 
         superCerealTransition(
@@ -153,7 +156,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         )
     }
 
-    override fun requestTranslation() {
+    fun requestTranslation() {
         val activity = activityRef.get() ?: return
 
         if (allowed()) {

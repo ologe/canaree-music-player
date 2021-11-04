@@ -1,9 +1,9 @@
-package dev.olog.presentation.translations
+package dev.olog.feature.about.translations
 
-import dev.olog.presentation.R
+import dev.olog.feature.about.R
+import dev.olog.feature.about.navigator.NavigatorAbout
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.SimpleAdapter
-import dev.olog.presentation.navigator.NavigatorAbout
 import kotlinx.android.synthetic.main.item_translations_contributor.view.*
 
 class TranslationFragmentAdapter(

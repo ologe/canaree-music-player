@@ -1,4 +1,4 @@
-package dev.olog.presentation.about
+package dev.olog.feature.about
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.Config
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
 import javax.inject.Inject
@@ -48,98 +47,73 @@ class AboutFragmentPresenter @Inject constructor(
 
     private val data = listOf(
         DisplayableHeader(
-            type = R.layout.item_about_promotion,
-            mediaId = HAVOC_ID,
-            title = context.getString(R.string.about_havoc),
-            subtitle = context.getString(R.string.about_translations_description)
-        ),
-        DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
-            title = context.getString(R.string.about_author),
+            title = context.getString(localization.R.string.about_author),
             subtitle = "Eugeniu Olog"
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = MediaId.headerId("version id"),
-            title = context.getString(R.string.about_version),
+            title = context.getString(localization.R.string.about_version),
             subtitle = config.versionName
         ),
 
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = COMMUNITY,
-            title = context.getString(R.string.about_join_community),
-            subtitle = context.getString(R.string.about_join_community_description)
+            title = context.getString(localization.R.string.about_join_community),
+            subtitle = context.getString(localization.R.string.about_join_community_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = BETA,
-            title = context.getString(R.string.about_beta),
-            subtitle = context.getString(R.string.about_beta_description)
+            title = context.getString(localization.R.string.about_beta),
+            subtitle = context.getString(localization.R.string.about_beta_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = RATE_ID,
-            title = context.getString(R.string.about_support_rate),
-            subtitle = context.getString(R.string.about_support_rate_description)
+            title = context.getString(localization.R.string.about_support_rate),
+            subtitle = context.getString(localization.R.string.about_support_rate_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = SPECIAL_THANKS_ID,
-            title = context.getString(R.string.about_special_thanks_to),
-            subtitle = context.getString(R.string.about_special_thanks_to_description)
+            title = context.getString(localization.R.string.about_special_thanks_to),
+            subtitle = context.getString(localization.R.string.about_special_thanks_to_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = TRANSLATION,
-            title = context.getString(R.string.about_translations),
-            subtitle = context.getString(R.string.about_translations_description)
+            title = context.getString(localization.R.string.about_translations),
+            subtitle = context.getString(localization.R.string.about_translations_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = CHANGELOG,
             title = "Changelog",
-            subtitle = context.getString(R.string.about_special_thanks_to_description)
+            subtitle = context.getString(localization.R.string.about_special_thanks_to_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = GITHUB,
             title = "Github repository",
-            subtitle = context.getString(R.string.about_special_thanks_to_description)
+            subtitle = context.getString(localization.R.string.about_special_thanks_to_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = THIRD_SW_ID,
-            title = context.getString(R.string.about_third_sw),
-            subtitle = context.getString(R.string.about_third_sw_description)
+            title = context.getString(localization.R.string.about_third_sw),
+            subtitle = context.getString(localization.R.string.about_third_sw_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = PRIVACY_POLICY,
-            title = context.getString(R.string.about_privacy_policy),
-            subtitle = context.getString(R.string.about_privacy_policy_description)
+            title = context.getString(localization.R.string.about_privacy_policy),
+            subtitle = context.getString(localization.R.string.about_privacy_policy_description)
         )
     )
-//
-//    private val trial = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description_trial)
-//    )
-//    private val noPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description)
-//    )
-//    private val alreadyPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.premium_already_premium)
-//    )
 
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 

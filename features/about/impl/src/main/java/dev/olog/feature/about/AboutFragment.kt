@@ -1,12 +1,11 @@
-package dev.olog.presentation.about
+package dev.olog.feature.about
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
+import dev.olog.feature.about.navigator.NavigatorAbout
 import dev.olog.feature.base.BaseFragment
-import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe

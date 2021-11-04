@@ -1,11 +1,11 @@
-package dev.olog.presentation.thanks
+package dev.olog.feature.about.thanks
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
+import dev.olog.feature.about.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.lazyFast

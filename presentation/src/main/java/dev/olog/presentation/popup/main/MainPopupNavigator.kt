@@ -5,8 +5,8 @@ import android.media.audiofx.AudioEffect
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
-import dev.olog.presentation.about.AboutFragment
-import dev.olog.presentation.navigator.superCerealTransition
+import dev.olog.feature.about.AboutFragment
+import dev.olog.feature.base.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.shared.android.extensions.toast
