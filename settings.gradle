@@ -24,6 +24,9 @@ include ':features:search:impl'
 include ':features:queue:api'
 include ':features:queue:impl'
 
+include ':features:player:api'
+include ':features:player:impl'
+
 include ':features:detail:api'
 include ':features:detail:impl'
 

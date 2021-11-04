@@ -17,6 +17,7 @@ dependencies {
     implementation project(':features:search:impl')
     implementation project(':features:floating:impl')
     implementation project(':features:detail:impl')
+    implementation project(':features:player:impl')
 
     implementation project(':app-shortcuts')
     implementation project(':core')
