@@ -33,6 +33,9 @@ include ':features:detail:impl'
 include ':features:offline-lyrics:api'
 include ':features:offline-lyrics:impl'
 
+include ':features:equalizer:api'
+include ':features:equalizer:impl'
+
 // shared
 include ':localization'
 
