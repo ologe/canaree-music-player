@@ -43,13 +43,13 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <fragment
-            android:name="dev.olog.presentation.player.PlayerFragment"
+            android:name="dev.olog.feature.player.player.PlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="@string/player_fragment_tag" />
 
         <fragment
-            android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
+            android:name="dev.olog.feature.player.mini.MiniPlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="@dimen/sliding_panel_peek"
             android:tag="@string/mini_player_fragment_tag" />

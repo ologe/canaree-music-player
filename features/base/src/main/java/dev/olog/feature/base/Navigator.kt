@@ -31,7 +31,10 @@ class Navigator @Inject constructor() {
     }
     fun toRelatedArtists(mediaId: MediaId) {
         TODO("implement")
+    }
 
+    fun toOfflineLyrics() {
+        TODO("implement")
     }
 
 }

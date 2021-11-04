@@ -35,4 +35,7 @@ dependencies {
     implementation lib_x.fragments
     
     implementation lib_ui.scroll_helper
+    implementation lib_ui.glide
+    implementation lib_ui.blur_kit
+    implementation lib_ui.lottie
 }

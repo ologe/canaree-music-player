@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dev.olog.feature.player.widget.SimpleNestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/list"
+        tools:listitem="@layout/player_layout_fullscreen"
+        tools:itemCount="1"/>
+
+</dev.olog.feature.player.widget.SimpleNestedScrollView>

@@ -29,9 +29,9 @@ import dev.olog.feature.base.bottom.nav.HasBottomNavigation
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.presentation.utils.collapse
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.shared.widgets.extension.collapse
+import dev.olog.shared.widgets.extension.expand
+import dev.olog.shared.widgets.extension.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -110,7 +110,7 @@ class MainActivity : MusicGlueActivity(),
                     bottomNavigation = bottomWrapper,
                     toolbarHeight = dimen(dev.olog.shared.android.R.dimen.toolbar),
                     tabLayoutHeight = dimen(dev.olog.shared.android.R.dimen.tab),
-                    realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
+                    realSlidingPanelPeek = dimen(dev.olog.shared.widgets.R.dimen.sliding_panel_peek)
                 )
             )
             lifecycle.addObserver(scrollHelper)

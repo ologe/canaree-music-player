@@ -2,7 +2,6 @@ package dev.olog.presentation.navigator
 
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.Lazy
 import dev.olog.core.MediaId
@@ -29,7 +28,7 @@ import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.feature.recently.added.RecentlyAddedFragment
 import dev.olog.feature.related.artist.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
-import dev.olog.presentation.utils.collapse
+import dev.olog.shared.widgets.extension.collapse
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.fragmentTransaction
 import kotlinx.coroutines.Dispatchers

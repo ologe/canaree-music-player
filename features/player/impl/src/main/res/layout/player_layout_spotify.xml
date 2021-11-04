@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/playerRoot">
+
+    <dev.olog.shared.widgets.StatusBarView
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include
+        android:id="@+id/playerToolbar"
+        layout="@layout/player_toolbar_spotify"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar" />
+
+    <include layout="@layout/layout_view_switcher_square"
+        app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/player_cover_margin_horizontal"
+        android:layout_marginEnd="@dimen/player_cover_margin_horizontal" />
+
+    <dev.olog.feature.player.widget.swipeable.SwipeableView
+        android:id="@+id/swipeableView"
+        android:elevation="20dp"
+        app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        tools:visibility="invisible"/>
+
+    <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
+    <LinearLayout
+        android:id="@+id/textWrapper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher">
+
+        <!-- title -->
+        <dev.olog.feature.player.widget.SlidingParentAutoScrollTextView
+            android:id="@+id/title"
+            tools:text="In Da Club"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_title_text_size"
+            android:textColor="?android:attr/textColorPrimary"
+            android:fontFamily="sans-serif-black"
+            tools:fontFamily="sans-serif-black"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/artist"
+            tools:text="50 Cent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_artist_text_size"
+            android:textColor="?android:attr/textColorSecondary"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- seekbar -->
+    <dev.olog.media.widget.CustomSeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textWrapper"
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        tools:progress="40"
+        tools:max="100"
+        android:layout_marginTop="8dp"/>
+
+    <!-- bookmark -->
+    <TextView
+        android:id="@+id/bookmark"
+        android:text="0:00"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="@dimen/player_bookmark_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        android:layout_marginStart="6dp"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <!-- duration -->
+    <TextView
+        android:id="@+id/duration"
+        android:text="0:00"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="@dimen/player_bookmark_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        android:layout_marginEnd="6dp"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <include
+        android:id="@+id/playerControls"
+        app:layout_constraintTop_toBottomOf="@+id/duration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/player_controls_spotify"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="@dimen/mini_queue_margin_start"
+        android:layout_marginEnd="@dimen/mini_queue_margin_end" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

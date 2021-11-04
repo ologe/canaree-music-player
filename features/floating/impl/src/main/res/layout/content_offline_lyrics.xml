@@ -143,7 +143,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/offline_lyrics_title_size"
+                    android:textSize="20dp"
                     app:layout_constraintEnd_toStartOf="@+id/edit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -161,7 +161,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="?attr/colorAccent"
-                    android:textSize="@dimen/offline_lyrics_artist_size"
+                    android:textSize="14dp"
                     tools:text="50 Cent"
                     android:layout_marginEnd="100dp"/>
 

@@ -12,6 +12,6 @@ internal abstract class FeatureLibraryModule {
 
     @Binds
     @Singleton
-    abstract fun provideLibraryPrefs(impl: LibraryPrefsImpl): LibraryPrefs
+    abstract fun providePrefs(impl: LibraryPrefsImpl): LibraryPrefs
 
 }
