@@ -19,6 +19,7 @@ dependencies {
     implementation project(':features:detail:impl')
     implementation project(':features:player:impl')
     implementation project(':features:equalizer:impl')
+    implementation project(':features:about:impl')
 
     implementation project(':app-shortcuts')
     implementation project(':core')
