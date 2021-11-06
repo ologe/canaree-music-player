@@ -20,6 +20,7 @@ dependencies {
     implementation project(':features:player:impl')
     implementation project(':features:equalizer:impl')
     implementation project(':features:about:impl')
+    implementation project(':features:playlist:impl')
 
     implementation project(':app-shortcuts')
     implementation project(':core')

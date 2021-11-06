@@ -8,39 +8,30 @@ dependencyResolutionManagement {
     }
 }
 
-include ':app', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':test-shared', ':intents', ':shared', ':shared-widgets'
+include ':app', ':core', ':presentation', ':data', ':image-provider', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music'
 
 rootProject.name = "canaree"
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer' TODO restore
 //gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 //apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+
 // features
 include ':features:base'
 
-include ':features:library:api'
-include ':features:library:impl'
-include ':features:search:api'
-include ':features:search:impl'
-include ':features:queue:api'
-include ':features:queue:impl'
-
-include ':features:player:api'
-include ':features:player:impl'
-
-include ':features:detail:api'
-include ':features:detail:impl'
-
-include ':features:offline-lyrics:api'
-include ':features:offline-lyrics:impl'
-
-include ':features:equalizer:api'
-include ':features:equalizer:impl'
-
-include ':features:floating:api'
-include ':features:floating:impl'
-
-include ':features:about:api'
-include ':features:about:impl'
+include ':features:library:api', ':features:library:impl'
+include ':features:search:api', ':features:search:impl'
+include ':features:queue:api', ':features:queue:impl'
+include ':features:player:api', ':features:player:impl'
+include ':features:detail:api', ':features:detail:impl'
+include ':features:offline-lyrics:api', ':features:offline-lyrics:impl'
+include ':features:equalizer:api', ':features:equalizer:impl'
+include ':features:floating:api', ':features:floating:impl'
+include ':features:about:api', ':features:about:impl'
+include ':features:playlist:api', ':features:playlist:impl'
 
 // shared
 include ':localization'
+include ':prefs-keys'
+include ':test-shared'
+include ':intents'
+include ':shared', ':shared-android', ':shared-widgets'
