@@ -53,8 +53,11 @@ fun main() {
     val settingsGradle = File(rootDir, "settings.${Constants.GradleFileType}")
     settingsGradle.appendText("\n\n")
     settingsGradle.appendText(
-        Constants.subModulesToCreate.joinToString(separator = "\n") {
-            "include ':${Constants.FeatureFolderName}:${moduleName}:${it.subModuleName}'"
+        Constants.subModulesToCreate.joinToString(
+            prefix = "include ",
+            separator = ", "
+        ) {
+            "':${Constants.FeatureFolderName}:${moduleName}:${it.subModuleName}'"
         }
 
     )
