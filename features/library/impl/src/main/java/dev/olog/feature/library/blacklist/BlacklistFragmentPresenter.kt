@@ -1,12 +1,12 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.library.blacklist
 
 import android.os.Environment
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.BaseModel
+import dev.olog.feature.library.R
 import dev.olog.shared.lazyFast
 import java.util.*
 import javax.inject.Inject

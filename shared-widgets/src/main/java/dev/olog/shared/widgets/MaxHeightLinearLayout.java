@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets;
+package dev.olog.shared.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,10 +6,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import dev.olog.presentation.R;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
 
-public class MaxHeightLinearLayout extends LinearLayout {
+public class MaxHeightLinearLayout extends LinearLayout { // TODO bad implementation
 
     private int maxHeightDp;
 

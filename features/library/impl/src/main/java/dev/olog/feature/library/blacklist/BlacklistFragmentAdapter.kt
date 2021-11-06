@@ -1,9 +1,9 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.library.blacklist
 
+import androidx.core.view.isVisible
 import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.SimpleAdapter
-import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*
 
 class BlacklistFragmentAdapter(
@@ -24,7 +24,7 @@ class BlacklistFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: BlacklistModel, position: Int) {
         holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            scrim.toggleVisibility(item.isBlacklisted, true)
+            scrim.isVisible = item.isBlacklisted
             firstText.text = item.title
             secondText.text = item.displayablePath
         }

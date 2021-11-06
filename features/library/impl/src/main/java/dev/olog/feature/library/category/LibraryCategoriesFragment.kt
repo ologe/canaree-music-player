@@ -1,12 +1,11 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.library.category
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
+import dev.olog.feature.base.ListDialog
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.shared.android.extensions.act
@@ -42,7 +41,11 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
+        val title = if (category == MediaIdCategory.SONGS) {
+            localization.R.string.prefs_library_categories_title
+        } else {
+            localization.R.string.prefs_podcast_library_categories_title
+        }
 
         return builder.setTitle(title)
             .setNeutralButton(localization.R.string.popup_neutral_reset, null)

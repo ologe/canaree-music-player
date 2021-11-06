@@ -5,5 +5,7 @@
     <item name="tabLayout" type="id"/>
     <item name="fab" type="id"/>
     <item name="viewPager" type="id"/>
+    <item name="recycler_view" type="id"/>
+    <item name="list" type="id"/>
 
 </resources>

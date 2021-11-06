@@ -55,8 +55,8 @@ class LastFmCredentialsFragment : DialogFragment() {
         val view: View = inflater.inflate(R.layout.fragment_credentials, null, false)
 
         val builder = MaterialAlertDialogBuilder(ctx)
-            .setTitle(R.string.prefs_last_fm_credentials_title)
-            .setMessage(R.string.prefs_last_fm_credentials_message)
+            .setTitle(localization.R.string.prefs_last_fm_credentials_title)
+            .setMessage(localization.R.string.prefs_last_fm_credentials_message)
             .setView(view)
             .setPositiveButton(R.string.credentials_button_positive, null)
             .setNegativeButton(R.string.credentials_button_negative, null)

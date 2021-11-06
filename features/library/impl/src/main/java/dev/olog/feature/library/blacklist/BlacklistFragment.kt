@@ -1,12 +1,11 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.library.blacklist
 
 import android.provider.MediaStore
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
+import dev.olog.feature.base.ListDialog
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,8 +30,8 @@ class BlacklistFragment : ListDialog() {
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder
-            .setTitle(R.string.prefs_blacklist_title)
-            .setMessage(R.string.prefs_blacklist_description)
+            .setTitle(localization.R.string.prefs_blacklist_title)
+            .setMessage(localization.R.string.prefs_blacklist_description)
             .setNegativeButton(localization.R.string.popup_negative_cancel, null)
             .setPositiveButton(localization.R.string.popup_positive_save, null)
     }
@@ -67,7 +66,7 @@ class BlacklistFragment : ListDialog() {
     }
 
     private fun showErrorMessage(){
-        activity!!.toast(R.string.prefs_blacklist_error)
+        activity!!.toast(localization.R.string.prefs_blacklist_error)
     }
 
 }
