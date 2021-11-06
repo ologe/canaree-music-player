@@ -15,28 +15,27 @@ import dev.olog.feature.base.CanHandleOnBackPressed
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.RestorableScroll
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.feature.floating.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
-import dev.olog.feature.floating.FloatingWindowHelper
-import dev.olog.presentation.R
-import dev.olog.feature.library.folder.tree.FolderTreeFragment
-import dev.olog.feature.library.library.LibraryFragment
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.feature.base.bottom.nav.HasBottomNavigation
 import dev.olog.feature.base.permission.OnPermissionChanged
 import dev.olog.feature.base.permission.Permission
-import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.feature.dialogs.rate.RateAppDialog
+import dev.olog.feature.floating.FloatingWindowHelper
+import dev.olog.feature.floating.FloatingWindowsConstants
+import dev.olog.feature.library.folder.tree.FolderTreeFragment
+import dev.olog.feature.library.library.LibraryFragment
+import dev.olog.intents.AppConstants
+import dev.olog.intents.Classes
+import dev.olog.intents.MusicServiceAction
+import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.shared.widgets.extension.collapse
-import dev.olog.shared.widgets.extension.expand
-import dev.olog.shared.widgets.extension.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.widgets.extension.collapse
+import dev.olog.shared.widgets.extension.expand
+import dev.olog.shared.widgets.extension.isExpanded
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -55,9 +54,6 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself
-
-    @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
     @Suppress("unused")
     @Inject
