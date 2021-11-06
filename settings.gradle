@@ -28,6 +28,7 @@ include ':features:equalizer:api', ':features:equalizer:impl'
 include ':features:floating:api', ':features:floating:impl'
 include ':features:about:api', ':features:about:impl'
 include ':features:playlist:api', ':features:playlist:impl'
+include ':features:edit:api', ':features:edit:impl'
 
 // shared
 include ':localization'
