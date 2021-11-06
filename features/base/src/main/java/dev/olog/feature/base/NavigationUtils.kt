@@ -1,14 +1,10 @@
-package dev.olog.presentation.navigator
+package dev.olog.feature.base
 
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import dev.olog.presentation.R
-import dev.olog.feature.library.LibraryFragment
-import dev.olog.feature.queue.PlayingQueueFragment
-import dev.olog.feature.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.getTopFragment
 
@@ -20,10 +16,10 @@ var backStackCount = mutableMapOf<String, Int>()
 private var lastRequest: Long = -1
 
 private val basicFragments = listOf(
-    LibraryFragment.TAG_TRACK,
-    LibraryFragment.TAG_PODCAST,
-    SearchFragment.TAG,
-    PlayingQueueFragment.TAG
+    "dev.olog.feature.library.LibraryFragment", // TODO fix or keep updated
+    "dev.olog.feature.library.LibraryFragment.podcast",
+    "dev.olog.feature.search.SearchFragment",
+    "dev.olog.feature.queue.PlayingQueueFragment"
 )
 
 /**

@@ -6,5 +6,6 @@
     <item name="playNextIcon" type="id"/>
     <item name="background" type="id"/>
     <item name="content" type="id"/>
+    <item name="fragmentContainer" type="id"/>
 
 </resources>
