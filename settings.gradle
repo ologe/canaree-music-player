@@ -18,6 +18,7 @@ rootProject.name = "canaree"
 // features
 include ':features:base'
 
+include ':features:splash:api', ':features:splash:impl'
 include ':features:library:api', ':features:library:impl'
 include ':features:search:api', ':features:search:impl'
 include ':features:queue:api', ':features:queue:impl'
@@ -29,6 +30,7 @@ include ':features:floating:api', ':features:floating:impl'
 include ':features:about:api', ':features:about:impl'
 include ':features:playlist:api', ':features:playlist:impl'
 include ':features:edit:api', ':features:edit:impl'
+include ':features:dialogs:api', ':features:dialogs:impl'
 
 // shared
 include ':localization'
@@ -36,5 +38,3 @@ include ':prefs-keys'
 include ':test-shared'
 include ':intents'
 include ':shared', ':shared-android', ':shared-widgets'
-
-include ':features:splash:api', ':features:splash:impl'

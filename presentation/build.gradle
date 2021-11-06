@@ -23,6 +23,7 @@ dependencies {
     implementation project(':features:about:impl')
     implementation project(':features:playlist:impl')
     implementation project(':features:edit:impl')
+    implementation project(':features:dialogs:impl')
 
     implementation project(':app-shortcuts')
     implementation project(':core')
