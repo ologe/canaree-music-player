@@ -1,4 +1,4 @@
-package dev.olog.feature.player.widget
+package dev.olog.shared.widgets.adaptive
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -30,7 +30,7 @@ import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.feature.detail.recently.added.RecentlyAddedFragment
 import dev.olog.feature.detail.related.artist.RelatedArtistFragment
-import dev.olog.presentation.splash.SplashFragment
+import dev.olog.feature.splash.SplashFragment
 import dev.olog.shared.widgets.extension.collapse
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.fragmentTransaction

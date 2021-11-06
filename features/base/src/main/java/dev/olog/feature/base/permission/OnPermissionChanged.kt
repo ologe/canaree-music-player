@@ -1,9 +1,6 @@
-package dev.olog.presentation.interfaces
+package dev.olog.feature.base.permission
 
 interface OnPermissionChanged {
     fun onPermissionGranted(permission: Permission)
 }
 
-enum class Permission {
-    STORAGE
-}

@@ -11,6 +11,7 @@ dependencies {
     // features
     implementation project(':features:base')
     api project(':features:splash:api')
+    implementation project(':features:player:api')
 
     // libs
     implementation project(':core')
@@ -35,4 +36,5 @@ dependencies {
     implementation lib_x.fragments
     
     implementation lib_ui.scroll_helper
+    implementation lib_ui.glide
 }

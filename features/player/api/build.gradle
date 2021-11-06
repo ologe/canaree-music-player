@@ -6,6 +6,19 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':features:base') // TODO not sure
+    implementation project(':image-provider')
+    implementation project(':media')
+
     implementation project(':core')
     implementation project(':localization')
+    implementation project(':shared')
+    implementation project(':shared-android')
+    implementation project(':shared-widgets')
+
+    implementation lib_x.core
+    implementation lib_x.material
+
+    implementation lib_ui.glide
+    implementation lib_ui.blur_kit
 }

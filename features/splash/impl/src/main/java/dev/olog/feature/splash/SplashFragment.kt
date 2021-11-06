@@ -1,4 +1,4 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.splash
 
 import android.content.Intent
 import android.net.Uri
@@ -8,9 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.presentation.interfaces.Permission
+import dev.olog.feature.base.permission.OnPermissionChanged
+import dev.olog.feature.base.permission.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
 import dev.olog.shared.lazyFast
@@ -103,8 +102,8 @@ class SplashFragment : Fragment() {
     private fun onStoragePermissionDenied() {
         if (Permissions.hasUserDisabledReadStorage(this)) {
             requireActivity().alertDialog {
-                setTitle(R.string.splash_storage_permission)
-                setMessage(R.string.splash_storage_permission_disabled)
+                setTitle(localization.R.string.splash_storage_permission)
+                setMessage(localization.R.string.splash_storage_permission_disabled)
                 setPositiveButton(localization.R.string.popup_positive_ok, { _, _ -> toSettings() })
                 setNegativeButton(localization.R.string.popup_negative_no, null)
             }

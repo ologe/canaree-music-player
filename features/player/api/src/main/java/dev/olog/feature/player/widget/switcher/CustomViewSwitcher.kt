@@ -17,7 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.feature.base.ripple.RippleTarget
 import dev.olog.feature.player.R
-import dev.olog.feature.player.widget.AdaptiveImageHelper
+import dev.olog.shared.widgets.adaptive.AdaptiveImageHelper
 import dev.olog.feature.player.widget.BlurredBackground
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp

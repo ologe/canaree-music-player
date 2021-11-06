@@ -1,4 +1,4 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.splash
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

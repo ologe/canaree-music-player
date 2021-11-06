@@ -9,6 +9,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.feature.base.ripple.RippleTarget
+import dev.olog.shared.widgets.adaptive.AdaptiveImageHelper
 import dev.olog.shared.widgets.ShapeImageView
 import dev.olog.shared.lazyFast
 

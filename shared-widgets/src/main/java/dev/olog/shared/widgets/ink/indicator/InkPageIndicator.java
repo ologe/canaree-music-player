@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets;
+package dev.olog.shared.widgets.ink.indicator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,7 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.Arrays;
 
-import dev.olog.presentation.R;
+import dev.olog.shared.widgets.R;
 
 
 /**
