@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.Preference
 import dev.olog.core.PreferenceManager
-import dev.olog.feature.tab.layout.manager.SpanCountController
+import dev.olog.feature.library.tab.layout.manager.SpanCountController
 import javax.inject.Inject
 
 internal class LibraryPrefsImpl @Inject constructor(

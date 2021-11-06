@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.feature.detail.detail.DetailFragment
 import dev.olog.feature.library.folder.tree.FolderTreeFragment
-import dev.olog.feature.library.LibraryFragment
+import dev.olog.feature.library.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper

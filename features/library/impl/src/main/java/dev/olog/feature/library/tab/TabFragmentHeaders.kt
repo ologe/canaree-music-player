@@ -1,4 +1,4 @@
-package dev.olog.feature.tab
+package dev.olog.feature.library.tab
 
 import android.content.res.Resources
 import dagger.hilt.android.scopes.ViewModelScoped

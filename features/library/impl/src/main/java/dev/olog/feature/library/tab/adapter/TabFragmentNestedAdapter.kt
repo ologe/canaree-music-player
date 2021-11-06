@@ -1,4 +1,4 @@
-package dev.olog.feature.tab.adapter
+package dev.olog.feature.library.tab.adapter
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.feature.base.BindingsAdapter

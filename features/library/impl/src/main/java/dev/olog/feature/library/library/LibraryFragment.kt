@@ -1,4 +1,4 @@
-package dev.olog.feature.library
+package dev.olog.feature.library.library
 
 import android.os.Bundle
 import android.view.View
@@ -11,6 +11,9 @@ import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.bottom.nav.HasBottomNavigation
 import dev.olog.feature.base.bottom.nav.BottomNavigationPage
 import dev.olog.feature.floating.FloatingWindowHelper
+import dev.olog.feature.library.LibraryPage
+import dev.olog.feature.library.LibraryPrefs
+import dev.olog.feature.library.R
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.TutorialTapTarget
