@@ -11,6 +11,11 @@ dependencies {
     // features
     implementation project(':features:base')
     api project(':features:dialogs:api')
+    implementation project(':features:detail:api')
+    implementation project(':features:edit:api')
+    implementation project(':features:playlist:api')
+    implementation project(':features:library:api')
+    implementation project(':features:about:api')
 
     // libs
     implementation project(':core')
