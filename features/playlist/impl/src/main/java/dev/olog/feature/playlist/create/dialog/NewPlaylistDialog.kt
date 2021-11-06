@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.create
+package dev.olog.feature.playlist.create.dialog
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -6,8 +6,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.dialogs.BaseEditTextDialog
+import dev.olog.feature.base.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments

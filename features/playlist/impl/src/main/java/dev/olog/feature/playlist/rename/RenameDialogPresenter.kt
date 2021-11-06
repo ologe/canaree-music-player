@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.rename
+package dev.olog.feature.playlist.rename
 
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.playlist.RenameUseCase

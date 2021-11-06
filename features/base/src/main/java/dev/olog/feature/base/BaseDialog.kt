@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs
+package dev.olog.feature.base
 
 import android.app.Activity
 import android.app.Dialog

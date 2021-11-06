@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs
+package dev.olog.feature.base
 
 import android.content.Context
 import android.view.animation.AnimationUtils
@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.presentation.R
 import dev.olog.shared.widgets.extension.showIme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

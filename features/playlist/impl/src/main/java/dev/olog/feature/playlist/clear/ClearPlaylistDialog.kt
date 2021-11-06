@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.clear
+package dev.olog.feature.playlist.clear
 
 import android.content.Context
 import androidx.core.text.parseAsHtml
@@ -6,8 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.dialogs.BaseDialog
+import dev.olog.feature.base.BaseDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -64,7 +63,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun successMessage(context: Context): String {
-        return context.getString(R.string.playlist_x_cleared, title)
+        return context.getString(localization.R.string.playlist_x_cleared, title)
     }
 
     private fun failMessage(context: Context): String {
@@ -72,7 +71,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
+        return context!!.getString(localization.R.string.remove_songs_from_playlist_y, title)
     }
 
 }

@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.duplicates
+package dev.olog.feature.playlist.duplicates
 
 import android.content.Context
 import androidx.core.text.parseAsHtml
@@ -6,8 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.dialogs.BaseDialog
+import dev.olog.feature.base.BaseDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -38,7 +37,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     private val itemTitle by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.remove_duplicates_title)
+        return builder.setTitle(localization.R.string.remove_duplicates_title)
             .setMessage(createMessage().parseAsHtml())
             .setPositiveButton(localization.R.string.popup_positive_remove, null)
             .setNegativeButton(localization.R.string.popup_negative_no, null)
@@ -62,7 +61,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     private fun successMessage(context: Context): String {
-        return context.getString(R.string.remove_duplicates_success, itemTitle)
+        return context.getString(localization.R.string.remove_duplicates_success, itemTitle)
     }
 
     private fun failMessage(context: Context): String {
@@ -70,7 +69,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_duplicates_message, itemTitle)
+        return context!!.getString(localization.R.string.remove_duplicates_message, itemTitle)
     }
 
 }

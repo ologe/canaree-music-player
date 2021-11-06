@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.duplicates
+package dev.olog.feature.playlist.duplicates
 
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.playlist.RemoveDuplicatesUseCase

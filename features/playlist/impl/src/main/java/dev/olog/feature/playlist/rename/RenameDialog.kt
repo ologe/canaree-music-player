@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.playlist.rename
+package dev.olog.feature.playlist.rename
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -6,8 +6,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.dialogs.BaseEditTextDialog
+import dev.olog.feature.base.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
@@ -42,7 +41,7 @@ class RenameDialog : BaseEditTextDialog() {
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
             .setTitle(localization.R.string.popup_rename)
-            .setPositiveButton(R.string.popup_positive_rename, null)
+            .setPositiveButton(localization.R.string.popup_positive_rename, null)
             .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
@@ -71,7 +70,7 @@ class RenameDialog : BaseEditTextDialog() {
 
     private fun successMessage(context: Context, currentValue: String): String {
         return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(localization.R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
             else -> throw IllegalStateException("not a playlist, $mediaId")
         }
     }

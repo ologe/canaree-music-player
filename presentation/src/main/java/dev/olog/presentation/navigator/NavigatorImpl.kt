@@ -13,10 +13,10 @@ import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
 import dev.olog.presentation.dialogs.play.next.PlayNextDialog
-import dev.olog.presentation.dialogs.playlist.clear.ClearPlaylistDialog
-import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
-import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
-import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
+import dev.olog.feature.playlist.clear.ClearPlaylistDialog
+import dev.olog.feature.playlist.create.dialog.NewPlaylistDialog
+import dev.olog.feature.playlist.duplicates.RemoveDuplicatesDialog
+import dev.olog.feature.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
 import dev.olog.feature.edit.EditItemDialogFactory
 import dev.olog.feature.edit.collection.EditAlbumFragment
