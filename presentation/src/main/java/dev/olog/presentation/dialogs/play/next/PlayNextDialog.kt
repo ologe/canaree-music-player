@@ -45,10 +45,10 @@ class PlayNextDialog : BaseDialog() {
     @Inject lateinit var presenter: PlayNextDialogPresenter
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_play_next)
+        return builder.setTitle(localization.R.string.popup_play_next)
             .setMessage(createMessage().asHtml())
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     private fun successMessage(context: Context): String {
@@ -58,7 +58,7 @@ class PlayNextDialog : BaseDialog() {
     }
 
     private  fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     override fun positionButtonAction(context: Context) {

@@ -45,9 +45,9 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
 
         return builder.setTitle(title)
-            .setNeutralButton(R.string.popup_neutral_reset, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-            .setPositiveButton(R.string.popup_positive_save, null)
+            .setNeutralButton(localization.R.string.popup_neutral_reset, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_save, null)
     }
 
     override fun setupRecyclerView(list: RecyclerView) {

@@ -7,7 +7,7 @@ import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.createplaylist.CreatePlaylistFragment
+import dev.olog.feature.playlist.create.CreatePlaylistFragment
 import dev.olog.feature.detail.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog

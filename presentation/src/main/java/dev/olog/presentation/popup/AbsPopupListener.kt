@@ -71,10 +71,10 @@ abstract class AbsPopupListener(
     ) = withContext(Dispatchers.Main) {
         val playlist = playlists.first { it.id == playlistId }.title
         val message = if (mediaId.isLeaf) {
-            context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
+            context.getString(localization.R.string.added_song_x_to_playlist_y, title, playlist)
         } else {
             context.resources.getQuantityString(
-                R.plurals.xx_songs_added_to_playlist_y,
+                localization.R.plurals.xx_songs_added_to_playlist_y,
                 listSize,
                 listSize,
                 playlist
@@ -84,7 +84,7 @@ abstract class AbsPopupListener(
     }
 
     private suspend fun createErrorMessage(context: Context) = withContext(Dispatchers.Main) {
-        context.toast(context.getString(R.string.popup_error_message))
+        context.toast(context.getString(localization.R.string.popup_error_message))
     }
 
     protected fun share(activity: Activity, song: Song) {
@@ -96,7 +96,7 @@ abstract class AbsPopupListener(
         grantUriPermission(activity, intent, uri)
         try {
             if (intent.resolveActivity(activity.packageManager) != null) {
-                val string = activity.getString(R.string.share_song_x, song.title)
+                val string = activity.getString(localization.R.string.share_song_x, song.title)
                 activity.startActivity(Intent.createChooser(intent, string.asHtml()))
             } else {
                 activity.toast(R.string.song_not_shareable)

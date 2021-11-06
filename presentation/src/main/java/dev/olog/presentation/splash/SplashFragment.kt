@@ -105,8 +105,8 @@ class SplashFragment : Fragment() {
             requireActivity().alertDialog {
                 setTitle(R.string.splash_storage_permission)
                 setMessage(R.string.splash_storage_permission_disabled)
-                setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })
-                setNegativeButton(R.string.popup_negative_no, null)
+                setPositiveButton(localization.R.string.popup_positive_ok, { _, _ -> toSettings() })
+                setNegativeButton(localization.R.string.popup_negative_no, null)
             }
         }
     }

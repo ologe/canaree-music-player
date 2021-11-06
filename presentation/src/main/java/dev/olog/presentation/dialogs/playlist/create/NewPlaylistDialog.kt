@@ -44,17 +44,17 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
-            .setTitle(R.string.popup_new_playlist)
-            .setPositiveButton(R.string.popup_positive_create, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setTitle(localization.R.string.popup_new_playlist)
+            .setPositiveButton(localization.R.string.popup_positive_create, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
-        editText.hint = getString(R.string.popup_new_playlist)
+        editText.hint = getString(localization.R.string.popup_new_playlist)
     }
 
     override fun provideMessageForBlank(): String {
-        return getString(R.string.popup_playlist_name_not_valid)
+        return getString(localization.R.string.popup_playlist_name_not_valid)
     }
 
     override suspend fun onItemValid(string: String) {
@@ -64,7 +64,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
             message = successMessage(act, string).toString()
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            message = getString(R.string.popup_error_message)
+            message = getString(localization.R.string.popup_error_message)
         }
         act.toast(message)
     }
@@ -72,12 +72,12 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     private fun successMessage(context: Context, currentValue: String): CharSequence {
         if (mediaId.isPlayingQueue){
-            return context.getString(R.string.queue_saved_as_playlist, currentValue)
+            return context.getString(localization.R.string.queue_saved_as_playlist, currentValue)
         }
         if (mediaId.isLeaf){
-            return context.getString(R.string.added_song_x_to_playlist_y, title, currentValue)
+            return context.getString(localization.R.string.added_song_x_to_playlist_y, title, currentValue)
         }
-        return context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
+        return context.resources.getQuantityString(localization.R.plurals.xx_songs_added_to_playlist_y,
                 listSize, listSize, currentValue)
     }
 }

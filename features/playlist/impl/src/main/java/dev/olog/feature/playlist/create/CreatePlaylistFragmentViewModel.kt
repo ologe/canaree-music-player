@@ -1,4 +1,4 @@
-package dev.olog.presentation.createplaylist
+package dev.olog.feature.playlist.create
 
 import android.util.LongSparseArray
 import androidx.core.util.contains
@@ -12,7 +12,6 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle

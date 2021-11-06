@@ -1,16 +1,16 @@
-package dev.olog.presentation.createplaylist
+package dev.olog.feature.playlist.create
 
 
 import android.widget.CheckBox
 import androidx.lifecycle.Lifecycle
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.playlist.R
 import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
 class CreatePlaylistFragmentAdapter(

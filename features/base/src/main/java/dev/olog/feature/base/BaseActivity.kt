@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.feature.base
 
 import android.content.res.Resources
 import android.os.Bundle

@@ -93,7 +93,7 @@ class EditItemViewModel @Inject constructor(
             is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
             is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
             is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
-            else -> context.toast(R.string.popup_error_message)
+            else -> context.toast(localization.R.string.popup_error_message)
         }
     }
 

@@ -33,10 +33,10 @@ class SetRingtoneDialogPresenter @Inject constructor() {
     private suspend fun requestWritingSettingsPermission(activity: FragmentActivity) =
         withContext(Dispatchers.Main) {
             MaterialAlertDialogBuilder(activity)
-                .setTitle(R.string.popup_permission)
-                .setMessage(R.string.popup_request_permission_write_settings)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                .setTitle(localization.R.string.popup_permission)
+                .setMessage(localization.R.string.popup_request_permission_write_settings)
+                .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+                .setPositiveButton(localization.R.string.popup_positive_ok) { _, _ ->
                     val packageName = activity.packageName
                     val intent = Intent(
                         Settings.ACTION_MANAGE_WRITE_SETTINGS,

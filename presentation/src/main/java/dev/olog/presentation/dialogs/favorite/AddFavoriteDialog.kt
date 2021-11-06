@@ -44,10 +44,10 @@ class AddFavoriteDialog : BaseDialog() {
     @Inject lateinit var presenter: AddFavoriteDialogPresenter
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_add_to_favorites)
+        return builder.setTitle(localization.R.string.popup_add_to_favorites)
             .setMessage(createMessage().asHtml())
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -73,7 +73,7 @@ class AddFavoriteDialog : BaseDialog() {
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {

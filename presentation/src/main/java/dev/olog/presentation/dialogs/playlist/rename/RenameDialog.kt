@@ -41,9 +41,9 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
-            .setTitle(R.string.popup_rename)
+            .setTitle(localization.R.string.popup_rename)
             .setPositiveButton(R.string.popup_positive_rename, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
@@ -52,7 +52,7 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun provideMessageForBlank(): String {
         return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> getString(R.string.popup_playlist_name_not_valid)
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> getString(localization.R.string.popup_playlist_name_not_valid)
             else -> throw IllegalArgumentException("invalid media id category $mediaId")
         }
     }
@@ -64,7 +64,7 @@ class RenameDialog : BaseEditTextDialog() {
             message = successMessage(act, string)
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            message = getString(R.string.popup_error_message)
+            message = getString(localization.R.string.popup_error_message)
         }
         act.toast(message)
     }

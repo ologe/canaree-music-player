@@ -1,4 +1,4 @@
-package dev.olog.presentation.playlist.chooser
+package dev.olog.feature.playlist.choose
 
 import android.content.Context
 import android.content.res.Resources
@@ -10,9 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.playlist.R
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

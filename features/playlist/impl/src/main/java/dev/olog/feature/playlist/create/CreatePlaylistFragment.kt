@@ -1,4 +1,4 @@
-package dev.olog.presentation.createplaylist
+package dev.olog.feature.playlist.create
 
 import android.os.Bundle
 import android.view.View
@@ -7,17 +7,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.TextViewDialog
 import dev.olog.feature.base.DrawsOnTop
 import dev.olog.feature.base.model.DisplayableTrack
-import dev.olog.shared.widgets.extension.hideIme
 import dev.olog.feature.base.scroller.WaveSideBarView
+import dev.olog.feature.playlist.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import dev.olog.shared.widgets.extension.hideIme
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -55,9 +55,9 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         viewModel.observeSelectedCount()
             .subscribe(viewLifecycleOwner) { size ->
                 val text = when (size) {
-                    0 -> getString(R.string.popup_new_playlist)
+                    0 -> getString(localization.R.string.popup_new_playlist)
                     else -> resources.getQuantityString(
-                        R.plurals.playlist_tracks_chooser_count,
+                        localization.R.plurals.playlist_tracks_chooser_count,
                         size,
                         size
                     )
@@ -102,9 +102,9 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             toast?.cancel()
 
             if (filterList.isSelected) {
-                toast = act.toast(R.string.playlist_tracks_chooser_show_only_selected)
+                toast = act.toast(localization.R.string.playlist_tracks_chooser_show_only_selected)
             } else {
-                toast = act.toast(R.string.playlist_tracks_chooser_show_all)
+                toast = act.toast(localization.R.string.playlist_tracks_chooser_show_all)
             }
         }
     }
@@ -124,12 +124,12 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun showCreateDialog() {
-        TextViewDialog(act, getString(R.string.popup_new_playlist), null)
+        TextViewDialog(act, getString(localization.R.string.popup_new_playlist), null)
             .addTextView(customizeWrapper = {
-                hint = getString(R.string.new_playlist_hint)
+                hint = getString(localization.R.string.new_playlist_hint)
             })
             .show(
-                positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
+                positiveAction = TextViewDialog.Action(getString(localization.R.string.popup_positive_ok)) {
                     val text = it[0].editableText.toString()
                     if (text.isNotBlank()){
                         viewModel.savePlaylist(text)

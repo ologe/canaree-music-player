@@ -41,10 +41,10 @@ class ClearPlaylistDialog : BaseDialog() {
     @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_clear_playlist)
+        return builder.setTitle(localization.R.string.popup_clear_playlist)
             .setMessage(createMessage().asHtml())
-            .setPositiveButton(R.string.popup_positive_delete, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_delete, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -68,7 +68,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {

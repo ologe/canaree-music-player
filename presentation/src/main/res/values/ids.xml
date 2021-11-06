@@ -2,5 +2,7 @@
 <resources>
 
     <item name="crumbsWrapper" type="id"/>
+    <item name="tabLayout" type="id"/>
+    <item name="fab" type="id"/>
 
 </resources>

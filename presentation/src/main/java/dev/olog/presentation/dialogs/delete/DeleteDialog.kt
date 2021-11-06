@@ -47,10 +47,10 @@ class DeleteDialog: BaseDialog() {
     @Inject lateinit var presenter: DeleteDialogPresenter
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_delete)
+        return builder.setTitle(localization.R.string.popup_delete)
             .setMessage(createMessage().asHtml())
-            .setPositiveButton(R.string.popup_positive_delete, null)
-            .setNegativeButton(R.string.popup_negative_no, null)
+            .setPositiveButton(localization.R.string.popup_positive_delete, null)
+            .setNegativeButton(localization.R.string.popup_negative_no, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -93,7 +93,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {

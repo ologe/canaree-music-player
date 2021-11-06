@@ -33,8 +33,8 @@ class BlacklistFragment : ListDialog() {
         return builder
             .setTitle(R.string.prefs_blacklist_title)
             .setMessage(R.string.prefs_blacklist_description)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-            .setPositiveButton(R.string.popup_positive_save, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_save, null)
     }
 
     override fun setupRecyclerView(list: RecyclerView) {

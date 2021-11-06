@@ -64,7 +64,7 @@ internal class MainPopupDialog @Inject constructor(
         if (category == MediaIdCategory.PLAYING_QUEUE) {
             popup.menu.add(
                 Menu.NONE,
-                SAVE_AS_PLAYLIST_ID, Menu.NONE, anchor.context.getString(R.string.save_as_playlist)
+                SAVE_AS_PLAYLIST_ID, Menu.NONE, anchor.context.getString(localization.R.string.save_as_playlist)
             )
         }
 

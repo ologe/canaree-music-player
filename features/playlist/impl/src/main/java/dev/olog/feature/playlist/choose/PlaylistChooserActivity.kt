@@ -1,11 +1,11 @@
-package dev.olog.presentation.playlist.chooser
+package dev.olog.feature.playlist.choose
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseActivity
+import dev.olog.feature.base.BaseActivity
+import dev.olog.feature.playlist.R
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast

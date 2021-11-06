@@ -1,8 +1,8 @@
-package dev.olog.presentation.createplaylist.mapper
+package dev.olog.feature.playlist.create
 
 import dev.olog.core.entity.track.Song
-import dev.olog.presentation.R
 import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.playlist.R
 
 internal fun Song.toDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(

@@ -167,8 +167,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(localization.R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> lifecycleScope.launch { clearGlideCache() } }
-            .setNegativeButton(R.string.popup_negative_no, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok) { _, _ -> lifecycleScope.launch { clearGlideCache() } }
+            .setNegativeButton(localization.R.string.popup_negative_no, null)
             .show()
     }
 
@@ -191,8 +191,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_reset_tutorial_title)
             .setMessage(localization.R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
-            .setNegativeButton(R.string.popup_negative_no, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
+            .setNegativeButton(localization.R.string.popup_negative_no, null)
             .show()
     }
 
