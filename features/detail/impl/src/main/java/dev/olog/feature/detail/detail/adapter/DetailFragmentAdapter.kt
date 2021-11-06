@@ -1,4 +1,4 @@
-package dev.olog.feature.detail.adapter
+package dev.olog.feature.detail.detail.adapter
 
 import android.annotation.SuppressLint
 import androidx.core.text.parseAsHtml
@@ -16,10 +16,10 @@ import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.*
-import dev.olog.feature.detail.DetailFragmentHeaders
-import dev.olog.feature.detail.DetailFragmentViewModel
-import dev.olog.feature.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
-import dev.olog.feature.detail.DetailSortDialog
+import dev.olog.feature.detail.detail.DetailFragmentHeaders
+import dev.olog.feature.detail.detail.DetailFragmentViewModel
+import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
+import dev.olog.feature.detail.detail.DetailSortDialog
 import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.subscribe

@@ -1,4 +1,4 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +8,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.detail.R
 import javax.inject.Inject
 
 @ViewModelScoped

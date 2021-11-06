@@ -1,38 +1,41 @@
-package dev.olog.feature.detail.adapter
+package dev.olog.feature.detail.recently.added
 
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.Navigator
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_recent.view.*
+import kotlinx.android.synthetic.main.item_recently_added.view.*
 
-class DetailRecentlyAddedAdapter(
+class RecentlyAddedFragmentAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator,
-    private val mediaProvider: MediaProvider
+    private val mediaProvider: MediaProvider,
+    private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
+) : ObservableAdapter<DisplayableItem>(
+    lifecycle,
     DiffCallbackDisplayableItem
-) {
+), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playRecentlyAdded(item.mediaId)
+            mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId, viewHolder.itemView)
         }
-
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
             navigator.toDialog(item.mediaId, view)
         }
-        viewHolder.elevateSongOnTouch()
+        viewHolder.elevateAlbumOnTouch()
+        viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
@@ -44,6 +47,15 @@ class DetailRecentlyAddedAdapter(
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
         }
+    }
+
+    override fun canInteractWithViewHolder(viewType: Int): Boolean {
+        return viewType == R.layout.item_recently_added
+    }
+
+    override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
+        val item = getItem(viewHolder.adapterPosition)!!
+        mediaProvider.addToPlayNext(item.mediaId)
     }
 
 }

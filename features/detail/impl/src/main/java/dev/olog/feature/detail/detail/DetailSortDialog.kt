@@ -1,6 +1,5 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
@@ -8,6 +7,7 @@ import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
+import dev.olog.feature.detail.R
 
 class DetailSortDialog {
 
@@ -60,9 +60,9 @@ class DetailSortDialog {
             SortType.ARTIST -> R.id.by_artist
             SortType.ALBUM_ARTIST -> R.id.by_album_artist
             SortType.DURATION -> R.id.by_duration
-            SortType.RECENTLY_ADDED ->R.id.by_recently_added
+            SortType.RECENTLY_ADDED -> R.id.by_recently_added
             SortType.CUSTOM -> R.id.by_custom
-            SortType.TRACK_NUMBER ->R.id.by_track_number
+            SortType.TRACK_NUMBER -> R.id.by_track_number
         }
         menu.findItem(item).isChecked = true
     }

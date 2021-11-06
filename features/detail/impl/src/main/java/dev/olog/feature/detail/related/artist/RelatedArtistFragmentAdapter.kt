@@ -1,14 +1,14 @@
-package dev.olog.feature.detail.adapter
+package dev.olog.feature.detail.related.artist
 
 import androidx.lifecycle.Lifecycle
 import dev.olog.feature.base.BindingsAdapter
 import dev.olog.feature.base.Navigator
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.feature.base.adapter.*
-import kotlinx.android.synthetic.main.item_detail_album.view.*
+import kotlinx.android.synthetic.main.item_related_artist.view.*
 
-class DetailSiblingsAdapter(
+class RelatedArtistFragmentAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator
 
@@ -16,6 +16,7 @@ class DetailSiblingsAdapter(
     lifecycle,
     DiffCallbackDisplayableItem
 ) {
+
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -29,6 +30,7 @@ class DetailSiblingsAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
+
         holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
@@ -36,4 +38,6 @@ class DetailSiblingsAdapter(
             secondText.text = item.subtitle
         }
     }
+
+
 }

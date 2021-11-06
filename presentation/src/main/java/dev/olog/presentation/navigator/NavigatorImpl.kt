@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
-import dev.olog.feature.detail.DetailFragment
+import dev.olog.feature.detail.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -28,8 +28,8 @@ import dev.olog.feature.base.createBackStackTag
 import dev.olog.feature.base.superCerealTransition
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
-import dev.olog.feature.recently.added.RecentlyAddedFragment
-import dev.olog.feature.related.artist.RelatedArtistFragment
+import dev.olog.feature.detail.recently.added.RecentlyAddedFragment
+import dev.olog.feature.detail.related.artist.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.shared.widgets.extension.collapse
 import dev.olog.shared.android.extensions.findInContext

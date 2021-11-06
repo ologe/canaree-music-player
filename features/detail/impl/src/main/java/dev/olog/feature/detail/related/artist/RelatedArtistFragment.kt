@@ -1,4 +1,4 @@
-package dev.olog.feature.related.artist
+package dev.olog.feature.detail.related.artist
 
 import android.os.Bundle
 import android.view.View

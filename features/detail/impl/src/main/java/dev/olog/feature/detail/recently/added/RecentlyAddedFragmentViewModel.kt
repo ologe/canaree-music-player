@@ -1,4 +1,4 @@
-package dev.olog.feature.recently.added
+package dev.olog.feature.detail.recently.added
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel

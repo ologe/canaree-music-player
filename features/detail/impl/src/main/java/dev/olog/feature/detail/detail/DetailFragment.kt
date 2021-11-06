@@ -1,4 +1,4 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
 
 import android.graphics.Color
@@ -18,8 +18,9 @@ import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableHeader
-import dev.olog.feature.detail.adapter.*
-import dev.olog.feature.detail.adapter.DetailFragmentAdapter
+import dev.olog.feature.detail.R
+import dev.olog.feature.detail.detail.adapter.*
+import dev.olog.feature.detail.detail.adapter.DetailFragmentAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast

@@ -1,4 +1,4 @@
-package dev.olog.feature.detail.adapter
+package dev.olog.feature.detail.detail.adapter
 
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil

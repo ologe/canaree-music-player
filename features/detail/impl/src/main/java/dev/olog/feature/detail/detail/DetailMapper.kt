@@ -1,4 +1,4 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
@@ -7,6 +7,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.detail.R
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(

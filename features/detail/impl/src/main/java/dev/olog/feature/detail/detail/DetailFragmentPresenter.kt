@@ -1,4 +1,4 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
 import androidx.lifecycle.SavedStateHandle
 import dev.olog.core.MediaId

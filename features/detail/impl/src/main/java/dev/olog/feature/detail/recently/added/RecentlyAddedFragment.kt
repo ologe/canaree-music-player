@@ -1,4 +1,4 @@
-package dev.olog.feature.recently.added
+package dev.olog.feature.detail.recently.added
 
 import android.os.Bundle
 import android.view.View

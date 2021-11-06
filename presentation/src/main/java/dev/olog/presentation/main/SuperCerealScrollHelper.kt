@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
-import dev.olog.feature.detail.DetailFragment
+import dev.olog.feature.detail.detail.DetailFragment
 import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment

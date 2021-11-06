@@ -1,4 +1,4 @@
-package dev.olog.feature.detail
+package dev.olog.feature.detail.detail
 
 import android.content.Context
 import dev.olog.core.MediaId
@@ -17,7 +17,8 @@ import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.feature.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
+import dev.olog.feature.detail.R
+import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
