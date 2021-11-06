@@ -2,13 +2,13 @@ package dev.olog.presentation.dialogs.play.next
 
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
-import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -46,7 +46,7 @@ class PlayNextDialog : BaseDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(localization.R.string.popup_play_next)
-            .setMessage(createMessage().asHtml())
+            .setMessage(createMessage().parseAsHtml())
             .setPositiveButton(localization.R.string.popup_positive_ok, null)
             .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
