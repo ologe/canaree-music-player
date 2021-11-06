@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.play.next
+package dev.olog.feature.dialogs.play.next
 
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf

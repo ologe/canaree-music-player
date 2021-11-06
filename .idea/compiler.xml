@@ -3,8 +3,6 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="canaree.equalizer" target="11" />
-      <module name="canaree.features.dialogs.api" target="11" />
-      <module name="canaree.features.dialogs.impl" target="11" />
       <module name="canaree.features.test" target="11" />
       <module name="canaree.injection" target="11" />
       <module name="canaree.offline-lyrics" target="11" />

@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.delete
+package dev.olog.feature.dialogs.delete
 
 import android.app.RecoverableSecurityException
 import android.content.Context
@@ -8,8 +8,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.presentation.R
 import dev.olog.feature.base.BaseDialog
+import dev.olog.feature.dialogs.R
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -83,10 +83,10 @@ class DeleteDialog: BaseDialog() {
 
     private fun successMessage(context: Context): String {
         return when (mediaId.category) {
-            MediaIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
-            MediaIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
+            MediaIdCategory.PLAYLISTS -> context.getString(localization.R.string.playlist_x_deleted, title)
+            MediaIdCategory.SONGS -> context.getString(localization.R.string.song_x_deleted, title)
             else -> context.resources.getQuantityString(
-                R.plurals.xx_songs_deleted_from_y,
+                localization.R.plurals.xx_songs_deleted_from_y,
                 listSize, listSize, title
             )
         }
@@ -100,9 +100,9 @@ class DeleteDialog: BaseDialog() {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
 
         return when {
-            mediaId.isAll || mediaId.isLeaf -> getString(R.string.delete_song_y, itemTitle)
-            mediaId.isPlaylist -> getString(R.string.delete_playlist_y, itemTitle)
-            else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
+            mediaId.isAll || mediaId.isLeaf -> getString(localization.R.string.delete_song_y, itemTitle)
+            mediaId.isPlaylist -> getString(localization.R.string.delete_playlist_y, itemTitle)
+            else -> context!!.resources.getQuantityString(localization.R.plurals.delete_xx_songs_from_y, listSize, listSize)
         }
     }
 

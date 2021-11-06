@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.ringtone
+package dev.olog.feature.dialogs.ringtone
 
 import android.annotation.TargetApi
 import android.content.ContentUris
@@ -11,7 +11,6 @@ import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

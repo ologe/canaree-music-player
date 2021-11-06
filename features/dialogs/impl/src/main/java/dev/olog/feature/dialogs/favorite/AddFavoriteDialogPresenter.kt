@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialogs.favorite
+package dev.olog.feature.dialogs.favorite
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.favorite.FavoriteType
