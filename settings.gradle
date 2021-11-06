@@ -36,3 +36,5 @@ include ':prefs-keys'
 include ':test-shared'
 include ':intents'
 include ':shared', ':shared-android', ':shared-widgets'
+
+include ':features:splash:api', ':features:splash:impl'

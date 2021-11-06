@@ -11,6 +11,7 @@ androidExtensions {
 }
 
 dependencies {
+    implementation project(':features:splash:impl')
     implementation project(':features:base')
     implementation project(':features:library:impl')
     implementation project(':features:queue:impl')
