@@ -16,6 +16,7 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':media')
+    implementation project(':jaudiotagger')
     
     // shared
     implementation project(':localization')
@@ -35,4 +36,5 @@ dependencies {
     implementation lib_x.fragments
     
     implementation lib_ui.scroll_helper
+    implementation lib_ui.glide
 }

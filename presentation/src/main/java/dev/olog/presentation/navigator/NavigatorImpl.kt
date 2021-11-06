@@ -18,10 +18,10 @@ import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
-import dev.olog.presentation.edit.EditItemDialogFactory
-import dev.olog.presentation.edit.album.EditAlbumFragment
-import dev.olog.presentation.edit.artist.EditArtistFragment
-import dev.olog.presentation.edit.song.EditTrackFragment
+import dev.olog.feature.edit.EditItemDialogFactory
+import dev.olog.feature.edit.collection.EditAlbumFragment
+import dev.olog.feature.edit.author.EditArtistFragment
+import dev.olog.feature.edit.track.EditTrackFragment
 import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.allowed
 import dev.olog.feature.base.createBackStackTag
