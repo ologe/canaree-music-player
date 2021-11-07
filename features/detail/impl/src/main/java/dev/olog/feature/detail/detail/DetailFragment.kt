@@ -9,19 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.CanChangeStatusBarColor
+import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
-import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableHeader
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.adapter.*
-import dev.olog.feature.detail.detail.adapter.DetailFragmentAdapter
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -70,14 +69,14 @@ class DetailFragment : BaseFragment(),
         DetailMostPlayedAdapter(
             lifecycle = lifecycle,
             onItemLongClick = ::toDialog,
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
         )
     }
     private val recentlyAddedAdapter by lazyFast {
         DetailRecentlyAddedAdapter(
             lifecycle = lifecycle,
             onItemLongClick = ::toDialog,
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
         )
     }
     private val relatedArtistAdapter by lazyFast {
@@ -103,7 +102,7 @@ class DetailFragment : BaseFragment(),
             onItemLongClick = ::toDialog,
             onRecentlyAddedClick = { detailNavigator.toRecentlyAdded(requireActivity(), it) },
             onRelatedArtistClick = { detailNavigator.toRelatedArtists(requireActivity(), it) },
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
             viewModel = viewModel,
             dragListener = this,
         )

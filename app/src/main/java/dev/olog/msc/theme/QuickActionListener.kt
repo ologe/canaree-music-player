@@ -1,40 +1,24 @@
 package dev.olog.msc.theme
 
-import android.content.Context
-import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.main.MainPrefs
 import dev.olog.shared.android.theme.QuickAction
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 internal class QuickActionListener @Inject constructor(
-    @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<QuickAction>(
-    context,
-    prefs,
-    context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_key)
-) {
+    appScope: CoroutineScope,
+    mainPrefs: MainPrefs,
+) : BaseThemeUpdater<QuickAction>(appScope, mainPrefs.quickAction) {
 
-    val quickActionPublisher by lazy { ConflatedBroadcastChannel(getValue()) }
-    fun quickAction() = quickActionPublisher.value
+    private val _flow = MutableStateFlow(mainPrefs.quickAction.get())
+    val flow: Flow<QuickAction> = _flow
+    fun quickAction() = _flow.value
 
-    override fun onPrefsChanged() {
-
-        val quickActon = getValue()
-        quickActionPublisher.offer(quickActon)
+    override fun onPrefsChanged(value: QuickAction) {
+        _flow.value = value
     }
 
-    override fun getValue(): QuickAction {
-        val value =
-            prefs.getString(key, context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_hide))
-
-
-        return when (value) {
-            context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_hide) -> QuickAction.NONE
-            context.getString(dev.olog.prefskeys.R.string.prefs_quick_action_entry_value_play) -> QuickAction.PLAY
-            else -> QuickAction.SHUFFLE
-        }
-    }
 }
 

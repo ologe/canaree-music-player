@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.shared.android.extensions.findInContext
 
 abstract class BaseFragment : Fragment() {
@@ -22,12 +21,8 @@ abstract class BaseFragment : Fragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    fun getSlidingPanel(): BottomSheetBehavior<*> {
-        return (requireActivity().findInContext<HasSlidingPanel>()).getSlidingPanel()
-    }
-
     fun restoreUpperWidgets(){
-        (requireActivity() as RestorableScroll).restoreUpperWidgets()
+        (requireActivity().findInContext<RestorableScroll>()).restoreUpperWidgets()
     }
 
 }

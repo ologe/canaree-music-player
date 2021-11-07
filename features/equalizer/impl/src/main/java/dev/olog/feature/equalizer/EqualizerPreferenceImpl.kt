@@ -19,7 +19,7 @@ class EqualizerPreferenceImpl @Inject constructor(
     }
 
     override val useCustomEqualizer: Preference<Boolean>
-        get() = preferenceManager.create(dev.olog.prefskeys.R.string.prefs_used_equalizer_key, true)
+        get() = preferenceManager.create(prefs.R.string.prefs_used_equalizer_key, true)
 
     override val equalizerEnabled: Preference<Boolean>
         get() = preferenceManager.create(EQ_ENABLED, false)

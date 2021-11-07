@@ -10,17 +10,21 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 private const val IMAGE_SIZE = 300
 
 @AndroidEntryPoint
 class WidgetColored : BaseWidget() {
 
+    @Inject
+    lateinit var appScope: CoroutineScope
+
     private var job: Job? = null
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
         job?.cancel()
-        job = GlobalScope.launch(Dispatchers.Main) {
+        job = appScope.launch {
             val bitmap = withContext(Dispatchers.IO){
                 context.getCachedBitmap(MediaId.songId(metadata.id), IMAGE_SIZE)
             } ?: return@launch

@@ -11,23 +11,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.base.BaseFragment
-import dev.olog.media.MediaProvider
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.slidingPanel
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.offline.lyrics.FeatureOfflineLyricsNavigator
 import dev.olog.feature.player.R
-import dev.olog.shared.widgets.TutorialTapTarget
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
+import dev.olog.shared.widgets.TutorialTapTarget
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
@@ -53,9 +52,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     private lateinit var layoutManager: LinearLayoutManager
-
-    private val mediaProvider by lazyFast { act as MediaProvider }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
@@ -103,12 +99,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
+        slidingPanel.addBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
+        slidingPanel.removeBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onDestroyView() {

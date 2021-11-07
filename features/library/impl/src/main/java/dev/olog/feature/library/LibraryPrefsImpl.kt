@@ -11,7 +11,7 @@ import dev.olog.feature.library.tab.layout.manager.SpanCountController
 import javax.inject.Inject
 
 internal class LibraryPrefsImpl @Inject constructor(
-    private val prefs: PreferenceManager,
+    private val preferenceManager: PreferenceManager,
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences, // TODO remove
 ) : LibraryPrefs {
@@ -55,14 +55,14 @@ internal class LibraryPrefsImpl @Inject constructor(
     }
 
     override fun spanCount(category: TabCategory): Preference<Int> {
-        return prefs.create("${category}_span", SpanCountController.getDefaultSpan(context, category))
+        return preferenceManager.create("${category}_span", SpanCountController.getDefaultSpan(context, category))
     }
 
     override val newItemsVisibility: Preference<Boolean>
-        get() = prefs.create(dev.olog.prefskeys.R.string.prefs_show_new_albums_artists_key, true)
+        get() = preferenceManager.create(prefs.R.string.prefs_show_new_albums_artists_key, true)
 
     override val recentPlayedVisibility: Preference<Boolean>
-        get() = prefs.create(dev.olog.prefskeys.R.string.prefs_show_recent_albums_artists_key, true)
+        get() = preferenceManager.create(prefs.R.string.prefs_show_recent_albums_artists_key, true)
 
     override fun getViewPagerLibraryLastPage(): Int {
         return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
@@ -214,12 +214,12 @@ internal class LibraryPrefsImpl @Inject constructor(
     }
 
     override fun canShowPodcasts(): Boolean {
-        return preferences.getBoolean(context.getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key), true)
+        return preferences.getBoolean(context.getString(prefs.R.string.prefs_show_podcasts_key), true)
     }
 
     override val useFolderTree: Preference<Boolean>
-        get() = prefs.create(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key, false)
+        get() = preferenceManager.create(prefs.R.string.prefs_folder_tree_view_key, false)
 
     override val blacklist: Preference<Set<String>>
-        get() = prefs.create(BLACKLIST, setOf())
+        get() = preferenceManager.create(BLACKLIST, setOf())
 }

@@ -2,6 +2,7 @@ package dev.olog.feature.player.player
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.main.MainPrefs
 import dev.olog.feature.player.PlayerPrefs
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val playerPrefs: PlayerPrefs
+    private val mainPrefs: MainPrefs,
+    private val playerPrefs: PlayerPrefs,
 ) {
 
     private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
@@ -28,7 +30,7 @@ internal class PlayerFragmentPresenter @Inject constructor(
         return processorPublisher.asFlow()
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
-                if (playerPrefs.adaptiveColorEnabled.get() || hasPlayerAppearance.isFlat()) {
+                if (mainPrefs.adaptiveColorEnabled.get() || hasPlayerAppearance.isFlat()) {
                     it
                 } else {
                     InvalidProcessColors
@@ -45,7 +47,7 @@ internal class PlayerFragmentPresenter @Inject constructor(
             .asFlow()
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
-                if (playerPrefs.adaptiveColorEnabled.get() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
+                if (mainPrefs.adaptiveColorEnabled.get() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
                     it
                 } else {
                     InvalidPaletteColors

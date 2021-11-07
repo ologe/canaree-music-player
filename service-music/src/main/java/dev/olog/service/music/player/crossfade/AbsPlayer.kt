@@ -120,7 +120,7 @@ internal abstract class AbsPlayer<T>(
 //        if (BuildConfig.DEBUG) {
 //            Log.e("Player", "onPlayerError $what") // TODO
 //        }
-        context.applicationContext.toast(R.string.music_player_error)
+        context.applicationContext.toast(localization.R.string.music_player_error)
     }
 
 }

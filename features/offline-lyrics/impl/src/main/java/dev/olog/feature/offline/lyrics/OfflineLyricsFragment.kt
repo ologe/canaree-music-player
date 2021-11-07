@@ -10,16 +10,16 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.image.provider.OnImageLoadingError
-import dev.olog.image.provider.getCachedBitmap
-import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.DrawsOnTop
+import dev.olog.image.provider.OnImageLoadingError
+import dev.olog.image.provider.getCachedBitmap
+import dev.olog.media.mediaProvider
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.shared.widgets.extension.removeLightStatusBar
 import dev.olog.shared.widgets.extension.setLightStatusBar
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
@@ -45,8 +45,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
-
-    private val mediaProvider by lazy { requireContext().findInContext<MediaProvider>() }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 

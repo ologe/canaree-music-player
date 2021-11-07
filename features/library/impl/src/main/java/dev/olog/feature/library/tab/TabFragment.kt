@@ -32,7 +32,7 @@ import dev.olog.feature.library.tab.layout.manager.AbsSpanSizeLookup
 import dev.olog.feature.library.tab.layout.manager.LayoutManagerFactory
 import dev.olog.feature.library.toTabCategory
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -113,7 +113,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             lifecycle = lifecycle,
             onItemClick = this::onItemClick,
             onItemLongClick = this::onItemLongClick,
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
             viewModel = viewModel,
             setupNestedList = this
         )

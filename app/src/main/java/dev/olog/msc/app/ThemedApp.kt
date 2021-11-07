@@ -3,7 +3,7 @@ package dev.olog.msc.app
 import android.app.Application
 import dev.olog.msc.theme.*
 import dev.olog.shared.android.theme.*
-import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 abstract class ThemedApp : Application(),
@@ -40,15 +40,15 @@ abstract class ThemedApp : Application(),
         return imageShapeListener.imageShape()
     }
 
-    override fun observeImageShape(): ReceiveChannel<ImageShape> {
-        return imageShapeListener.imageShapePublisher.openSubscription()
+    override fun observeImageShape(): Flow<ImageShape> {
+        return imageShapeListener.flow
     }
 
     override fun getQuickAction(): QuickAction {
         return quickActionListener.quickAction()
     }
 
-    override fun observeQuickAction(): ReceiveChannel<QuickAction> {
-        return quickActionListener.quickActionPublisher.openSubscription()
+    override fun observeQuickAction(): Flow<QuickAction> {
+        return quickActionListener.flow
     }
 }

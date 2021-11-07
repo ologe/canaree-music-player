@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.base.slidingPanel
 import dev.olog.feature.player.R
 import dev.olog.feature.player.volume.PlayerVolumeFragment
 import dev.olog.feature.player.widget.PlayerImageView
@@ -337,8 +337,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
-        if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
+        if (view.slidingPanel.isCollapsed()) return
 
         if (toNext) {
             view.next.playAnimation()
@@ -348,14 +347,12 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
-        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        val isPanelExpanded = view.slidingPanel.isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
-        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        val isPanelExpanded = view.slidingPanel.isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }
 

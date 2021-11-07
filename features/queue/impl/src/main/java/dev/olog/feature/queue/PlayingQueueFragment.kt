@@ -7,18 +7,21 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.floating.FeatureFloatingNavigator
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,7 +46,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             lifecycle = lifecycle,
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
             onItemLongClick = { mediaId, view -> dialogsNavigator.toDialog(requireActivity(), mediaId, view) },
             dragListener = this,
             viewModel = viewModel

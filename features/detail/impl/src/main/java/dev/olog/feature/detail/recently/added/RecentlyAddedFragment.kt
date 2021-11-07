@@ -6,14 +6,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.detail.R
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -44,7 +43,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         RecentlyAddedFragmentAdapter(
             lifecycle = lifecycle,
             onItemLongClick = { mediaId, view -> dialogsNavigator.toDialog(requireActivity(), mediaId, view) },
-            mediaProvider = act as MediaProvider,
+            mediaProvider = mediaProvider,
             dragListener = this
         )
     }

@@ -134,7 +134,7 @@ class MainActivity : MusicGlueActivity(),
                 floatingNavigator.startServiceIfHasPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
+            AppConstants.ACTION_CONTENT_VIEW -> getPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
@@ -178,8 +178,8 @@ class MainActivity : MusicGlueActivity(),
                     super.onBackPressed()
                     return
                 }
-                getSlidingPanel().isExpanded() -> {
-                    getSlidingPanel().collapse()
+                getPanel().isExpanded() -> {
+                    getPanel().collapse()
                     return
                 }
             }
@@ -207,7 +207,7 @@ class MainActivity : MusicGlueActivity(),
         return false
     }
 
-    override fun getSlidingPanel(): BottomSheetBehavior<*> {
+    override fun getPanel(): BottomSheetBehavior<*> {
         return BottomSheetBehavior.from(slidingPanel)
     }
 

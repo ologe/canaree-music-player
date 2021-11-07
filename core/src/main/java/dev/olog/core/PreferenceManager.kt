@@ -16,7 +16,7 @@ class PreferenceManager @Inject constructor(
     private val prefs: SharedPreferences
 ) {
 
-    fun <T: Any> createEnum(
+    fun <T: Any> createWithMapper(
         key: String,
         default: T,
         serialize: (T) -> String,

@@ -19,7 +19,7 @@ import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.floating.FeatureFloatingNavigator
 import dev.olog.feature.search.adapter.SearchFragmentAdapter
 import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -58,7 +58,7 @@ class SearchFragment : BaseFragment(),
         SearchFragmentAdapter(
             lifecycle = lifecycle,
             setupNestedList = this,
-            mediaProvider = requireActivity() as MediaProvider,
+            mediaProvider = mediaProvider,
             onItemClick = ::onItemClick,
             onItemLongClick = ::onItemLongClick,
             viewModel = viewModel

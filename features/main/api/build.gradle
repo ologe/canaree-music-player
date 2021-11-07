@@ -8,6 +8,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':core')
     implementation project(':localization')
+    implementation project(':shared-android')
 
     implementation lib_x.fragments
 }

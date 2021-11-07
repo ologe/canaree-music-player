@@ -5,8 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.feature.base.HasSlidingPanel
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.feature.base.slidingPanel
 import dev.olog.shared.android.extensions.findParentByType
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.AutoScrollTextView
@@ -15,8 +14,6 @@ class SlidingParentAutoScrollTextView(
     context: Context,
     attrs: AttributeSet
 ) : AutoScrollTextView(context, attrs) {
-
-    private val slidingPanel by lazyFast { (context.findInContext<HasSlidingPanel>()).getSlidingPanel() }
 
     private val parentList: RecyclerView? by lazyFast { findParentByType<RecyclerView>() }
 

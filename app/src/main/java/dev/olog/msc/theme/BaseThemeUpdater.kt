@@ -1,41 +1,38 @@
 package dev.olog.msc.theme
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import dev.olog.core.Preference
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 abstract class BaseThemeUpdater<T>(
-    protected val context: Context,
-    protected val prefs: SharedPreferences,
-    protected val key: String
-
-) : DefaultLifecycleObserver,
-    SharedPreferences.OnSharedPreferenceChangeListener {
-
+    private val scope: CoroutineScope,
+    private val preference: Preference<T>
+) : DefaultLifecycleObserver {
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    override fun onStart(owner: LifecycleOwner) {
-        prefs.registerOnSharedPreferenceChangeListener(this)
+    private var job by autoDisposeJob()
+
+    final override fun onStart(owner: LifecycleOwner) {
+        job = preference.observe()
+            .drop(1) // skip initial value
+            .onEach { onPrefsChanged(it) }
+            .launchIn(scope)
     }
 
-    override fun onStop(owner: LifecycleOwner) {
-        prefs.unregisterOnSharedPreferenceChangeListener(this)
+    final override fun onStop(owner: LifecycleOwner) {
+        job = null
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when (key) {
-            this.key -> onPrefsChanged()
-        }
-    }
-
-    protected abstract fun onPrefsChanged()
-
-    protected abstract fun getValue(): T
+    protected abstract fun onPrefsChanged(value: T)
 
 
 }

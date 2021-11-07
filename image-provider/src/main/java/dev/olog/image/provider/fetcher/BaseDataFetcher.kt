@@ -7,7 +7,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
-import dev.olog.image.provider.R
 import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
@@ -30,7 +29,7 @@ abstract class BaseDataFetcher(
         private var requestCounter = AtomicLong(1)
     }
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     private var hasIncremented = false
     private var hasDecremented = false
@@ -128,19 +127,20 @@ abstract class BaseDataFetcher(
         hasDecremented = true
     }
 
+    // TODO wrap into a preference
     private fun networkSafeAction(): Boolean {
 
-        val downloadMode = prefs.getString(
-            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_key),
-            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_wifi)
+        val downloadMode = sharedPreferences.getString(
+            context.getString(prefs.R.string.prefs_auto_download_images_key),
+            context.getString(prefs.R.string.prefs_auto_download_images_entry_value_wifi)
         )
 
         val isWifiActive = NetworkUtils.isOnWiFi(context)
 
         return when (downloadMode) {
-            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_never) -> false
-            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
-            context.getString(dev.olog.prefskeys.R.string.prefs_auto_download_images_entry_value_always) -> true
+            context.getString(prefs.R.string.prefs_auto_download_images_entry_value_never) -> false
+            context.getString(prefs.R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
+            context.getString(prefs.R.string.prefs_auto_download_images_entry_value_always) -> true
             else -> throw IllegalArgumentException("not supposed to happen, key not valid=$downloadMode")
         }
     }

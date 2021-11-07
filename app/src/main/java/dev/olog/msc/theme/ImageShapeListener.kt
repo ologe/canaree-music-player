@@ -1,34 +1,23 @@
 package dev.olog.msc.theme
 
-import android.content.Context
-import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.main.MainPrefs
 import dev.olog.shared.android.theme.ImageShape
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
-    @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_key)) {
+    appScope: CoroutineScope,
+    mainPrefs: MainPrefs,
+) : BaseThemeUpdater<ImageShape>(appScope, mainPrefs.imageShape) {
 
-    val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
-    fun imageShape() = imageShapePublisher.value
+    private val _flow = MutableStateFlow(mainPrefs.imageShape.get())
+    val flow: Flow<ImageShape> = _flow
+    fun imageShape() = _flow.value
 
-    override fun onPrefsChanged() {
-        val imageShape = getValue()
-        imageShapePublisher.offer(imageShape)
-    }
-
-    override fun getValue(): ImageShape {
-        val value = prefs.getString(key, context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_rounded))
-
-        return when (value) {
-            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
-            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
-            context.getString(dev.olog.prefskeys.R.string.prefs_icon_shape_cut_corner) -> ImageShape.CUT_CORNER
-            else -> throw IllegalArgumentException("image shape not valid=$value")
-        }
+    override fun onPrefsChanged(value: ImageShape) {
+        _flow.value = value
     }
 
 }

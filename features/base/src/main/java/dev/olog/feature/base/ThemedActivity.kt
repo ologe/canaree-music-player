@@ -16,8 +16,8 @@ interface ThemedActivity {
     }
 
     private fun getAccentStyle(context: Context): Int {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val color = prefs.getInt(context.getString(dev.olog.prefskeys.R.string.prefs_color_accent_key), ContextCompat.getColor(context, dev.olog.shared.android.R.color.defaultColorAccent))
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val color = sharedPreferences.getInt(context.getString(prefs.R.string.prefs_color_accent_key), ContextCompat.getColor(context, dev.olog.shared.android.R.color.defaultColorAccent))
         return when (color){
             getColorResource(context, dev.olog.shared.android.R.color.md_red_A100) -> dev.olog.shared.android.R.style.ThemeAccentRed100
             getColorResource(context, dev.olog.shared.android.R.color.md_red_A200) -> dev.olog.shared.android.R.style.ThemeAccentRed200

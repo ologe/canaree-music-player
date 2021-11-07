@@ -23,6 +23,7 @@ import dev.olog.feature.library.LibraryPage
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.blacklist.BlacklistFragment
 import dev.olog.feature.library.category.LibraryCategoriesFragment
+import dev.olog.feature.main.MainPrefs
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.R
@@ -48,6 +49,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var libraryPrefs: LibraryPrefs
+    @Inject
+    lateinit var mainPrefs: MainPrefs
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -61,15 +64,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_library_categories_key))!!
-        podcastCategories = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_podcast_library_categories_key))!!
-        blacklist = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_blacklist_key))!!
-        iconShape = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_icon_shape_key))!!
-        deleteCache = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_delete_cached_images_key))!!
-        lastFmCredentials = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_last_fm_credentials_key))!!
-        autoCreateImages = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_auto_create_images_key))!!
-        accentColorChooser = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_color_accent_key))!!
-        resetTutorial = preferenceScreen.findPreference(getString(dev.olog.prefskeys.R.string.prefs_reset_tutorial_key))!!
+        libraryCategories = preferenceScreen.findPreference(getString(prefs.R.string.prefs_library_categories_key))!!
+        podcastCategories = preferenceScreen.findPreference(getString(prefs.R.string.prefs_podcast_library_categories_key))!!
+        blacklist = preferenceScreen.findPreference(getString(prefs.R.string.prefs_blacklist_key))!!
+        iconShape = preferenceScreen.findPreference(getString(prefs.R.string.prefs_icon_shape_key))!!
+        deleteCache = preferenceScreen.findPreference(getString(prefs.R.string.prefs_delete_cached_images_key))!!
+        lastFmCredentials = preferenceScreen.findPreference(getString(prefs.R.string.prefs_last_fm_credentials_key))!!
+        autoCreateImages = preferenceScreen.findPreference(getString(prefs.R.string.prefs_auto_create_images_key))!!
+        accentColorChooser = preferenceScreen.findPreference(getString(prefs.R.string.prefs_color_accent_key))!!
+        resetTutorial = preferenceScreen.findPreference(getString(prefs.R.string.prefs_reset_tutorial_key))!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,15 +116,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         accentColorChooser.setOnPreferenceClickListener {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
-            val key = getString(dev.olog.prefskeys.R.string.prefs_color_accent_key)
-            val defaultColor = ContextCompat.getColor(act, dev.olog.shared.android.R.color.defaultColorAccent)
-
             MaterialDialog(act)
                 .colorChooser(
                     colors = ColorPalette.getAccentColors(ctx.isDarkMode()),
                     subColors = ColorPalette.getAccentColorsSub(ctx.isDarkMode()),
-                    initialSelection = prefs.getInt(key, defaultColor),
+                    initialSelection = mainPrefs.accentColor.get(),
                     selection = this
                 ).show()
             true
@@ -144,16 +143,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         resetTutorial.onPreferenceClickListener = null
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
-        if (context == null) {
-            return
-            // crash workaround, don't know if crashes because of a leak or what else
-        }
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            getString(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key) -> {
+            getString(prefs.R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
             }
-            getString(dev.olog.prefskeys.R.string.prefs_show_podcasts_key) -> {
+            getString(prefs.R.string.prefs_show_podcasts_key) -> {
                 libraryPrefs.setLibraryPage(LibraryPage.TRACKS)
                 act.recreate()
             }
@@ -195,11 +190,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun invoke(dialog: MaterialDialog, color: Int) {
         val realColor = ColorPalette.getRealAccentSubColor(ctx.isDarkMode(), color)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(act)
-        val key = getString(dev.olog.prefskeys.R.string.prefs_color_accent_key)
-        prefs.edit {
-            putInt(key, realColor)
-        }
+        mainPrefs.accentColor.set(realColor)
         act.recreate()
     }
 }

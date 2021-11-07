@@ -39,7 +39,7 @@ class LibraryFragmentAdapter(
 
     override fun getCount(): Int = categories.size
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return categories[position].asString(context)
     }
 

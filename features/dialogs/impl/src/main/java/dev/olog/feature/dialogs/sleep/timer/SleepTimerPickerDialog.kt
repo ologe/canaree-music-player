@@ -100,10 +100,10 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                         hmsPicker.minutes,
                         hmsPicker.seconds
                     )
-                    act.toast(R.string.sleep_timer_set)
+                    act.toast(localization.R.string.sleep_timer_set)
                     dismiss()
                 } else {
-                    act.toast(R.string.sleep_timer_can_not_be_set)
+                    act.toast(localization.R.string.sleep_timer_can_not_be_set)
                 }
             }
         }
@@ -121,7 +121,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
     private fun toggleButtons(isCountDown: Boolean) {
         val okText = if (isCountDown) {
-            R.string.scroll_hms_picker_stop
+            localization.R.string.scroll_hms_picker_stop
         } else android.R.string.ok
 
         okButton.setText(okText)

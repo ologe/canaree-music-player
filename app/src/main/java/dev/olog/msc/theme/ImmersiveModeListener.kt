@@ -1,31 +1,28 @@
 package dev.olog.msc.theme
 
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.main.MainPrefs
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.shared.widgets.StatusBarView
-import dev.olog.shared.mutableLazy
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(
     @ApplicationContext context: Context,
-    prefs: SharedPreferences
-) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(dev.olog.prefskeys.R.string.prefs_immersive_key)),
+    appScope: CoroutineScope,
+    mainPrefs: MainPrefs,
+) : BaseThemeUpdater<Boolean>(appScope, mainPrefs.immersiveMode),
     ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
-    var isImmersive by mutableLazy { getValue() }
+    var isImmersive: Boolean = mainPrefs.immersiveMode.get()
         private set
 
-    override fun onPrefsChanged() {
+    override fun onPrefsChanged(value: Boolean) {
         StatusBarView.viewHeight = -1
-        isImmersive = getValue()
+        isImmersive = value
         currentActivity?.recreate()
-    }
-
-    override fun getValue(): Boolean {
-        return prefs.getBoolean(key, false)
     }
 
 }

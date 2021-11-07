@@ -13,6 +13,8 @@ import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import dev.olog.msc.BuildConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import javax.inject.Singleton
 
 @Module
@@ -46,6 +48,10 @@ abstract class CoreModule {
             lastFmKey = BuildConfig.LAST_FM_KEY,
             lastFmSecret = BuildConfig.LAST_FM_SECRET,
         )
+
+        @Provides
+        @Singleton // TODO check how to improve
+        fun provideAppScope(): CoroutineScope = MainScope()
 
     }
 
