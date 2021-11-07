@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.prefs.lastfm
+package dev.olog.feature.lastm.fm
 
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -16,9 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
 import dev.olog.core.Config
 import dev.olog.core.entity.UserCredentials
-import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
-import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
-import dev.olog.presentation.R
+import dev.olog.feature.last.fm.R
+import dev.olog.feature.lastm.fm.domain.GetLastFmUserCredentials
+import dev.olog.feature.lastm.fm.domain.UpdateLastFmUserCredentials
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
@@ -58,8 +58,8 @@ class LastFmCredentialsFragment : DialogFragment() {
             .setTitle(localization.R.string.prefs_last_fm_credentials_title)
             .setMessage(localization.R.string.prefs_last_fm_credentials_message)
             .setView(view)
-            .setPositiveButton(R.string.credentials_button_positive, null)
-            .setNegativeButton(R.string.credentials_button_negative, null)
+            .setPositiveButton(localization.R.string.credentials_button_positive, null)
+            .setNegativeButton(localization.R.string.credentials_button_negative, null)
 
         val userName = view.findViewById<EditText>(R.id.username)
         val password = view.findViewById<EditText>(R.id.password)

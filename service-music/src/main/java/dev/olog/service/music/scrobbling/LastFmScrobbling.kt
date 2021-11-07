@@ -2,7 +2,7 @@ package dev.olog.service.music.scrobbling
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.interactor.ObserveLastFmUserCredentials
+import dev.olog.feature.lastm.fm.domain.ObserveLastFmUserCredentials
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import kotlinx.coroutines.CoroutineScope
@@ -28,7 +28,7 @@ internal class LastFmScrobbling @Inject constructor(
         launch {
             observeLastFmUserCredentials()
                 .filter { it.username.isNotBlank() }
-                .collect { lastFmService::tryAuthenticate }
+                .collect { lastFmService.tryAuthenticate(it) }
         }
     }
 

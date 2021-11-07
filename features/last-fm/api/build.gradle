@@ -2,10 +2,14 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':core')
     implementation project(':localization')
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 }

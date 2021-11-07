@@ -26,7 +26,7 @@ import dev.olog.feature.library.LibraryPrefs
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.feature.library.blacklist.BlacklistFragment
 import dev.olog.feature.library.category.LibraryCategoriesFragment
-import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
+import dev.olog.feature.lastm.fm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import kotlinx.coroutines.Dispatchers

@@ -1,18 +1,18 @@
-package dev.olog.core.interactor.lastfm
+package dev.olog.feature.lastm.fm.domain
 
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.feature.lastm.fm.LastFmPrefs
 import javax.inject.Inject
 
 class GetLastFmUserCredentials @Inject constructor(
-    private val gateway: AppPreferencesGateway,
+    private val prefs: LastFmPrefs,
     private val lastFmEncrypter: IEncrypter
 
 ) {
 
     fun execute(): UserCredentials {
-        return decryptUser(gateway.getLastFmCredentials())
+        return decryptUser(prefs.credentials.get())
     }
 
     private fun decryptUser(user: UserCredentials): UserCredentials {

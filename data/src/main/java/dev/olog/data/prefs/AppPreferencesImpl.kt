@@ -5,9 +5,7 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.flow.Flow
@@ -26,10 +24,6 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val SLEEP_TIME = "$TAG.SLEEP_TIME"
         private const val SLEEP_FROM = "$TAG.FROM_WHEN"
-
-
-        private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME_2"
-        private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD_2"
 
         private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER_2"
     }
@@ -111,36 +105,6 @@ class AppPreferencesImpl @Inject constructor(
                 context.getString(dev.olog.prefskeys.R.string.prefs_appearance_key),
                 context.getString(dev.olog.prefskeys.R.string.prefs_appearance_entry_value_default)
             )
-        }
-    }
-
-    /*
-            Must be encrypted
-         */
-    override fun getLastFmCredentials(): UserCredentials {
-        return UserCredentials(
-            preferences.getString(LAST_FM_USERNAME, "")!!,
-            preferences.getString(LAST_FM_PASSWORD, "")!!
-        )
-    }
-
-    /*
-        Must be encrypted
-     */
-    override fun observeLastFmCredentials(): Flow<UserCredentials> {
-        return preferences.observeKey(LAST_FM_USERNAME, "")
-            .map { username ->
-                UserCredentials(username, preferences.getString(LAST_FM_PASSWORD, "")!!)
-            }
-    }
-
-    /*
-        Must be encrypted
-     */
-    override fun setLastFmCredentials(user: UserCredentials) {
-        preferences.edit {
-            putString(LAST_FM_USERNAME, user.username)
-            putString(LAST_FM_PASSWORD, user.password)
         }
     }
 

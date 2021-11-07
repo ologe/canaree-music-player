@@ -1,21 +1,21 @@
-package dev.olog.core.interactor
+package dev.olog.feature.lastm.fm.domain
 
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.base.FlowUseCase
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.feature.lastm.fm.LastFmPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ObserveLastFmUserCredentials @Inject constructor(
-    private val gateway: AppPreferencesGateway,
+    private val prefs: LastFmPrefs,
     private val lastFmEncrypter: IEncrypter
 
 ) : FlowUseCase<UserCredentials>() {
 
     override fun buildUseCase(): Flow<UserCredentials> {
-        return gateway.observeLastFmCredentials()
+        return prefs.credentials.observe()
             .map { decryptUser(it) }
     }
 

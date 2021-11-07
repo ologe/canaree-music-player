@@ -15,6 +15,7 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':intents')
     implementation project(':features:equalizer:api')
+    implementation project(':features:last-fm:api')
     implementation project(':localization')
 
     implementation lib_core.coroutines

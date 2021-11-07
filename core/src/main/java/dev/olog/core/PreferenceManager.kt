@@ -7,6 +7,7 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,6 +18,15 @@ class PreferenceManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val prefs: SharedPreferences
 ) {
+
+    fun <T1 : Any, T2 : Any, R : Any> createComposed(
+        keyDefault1: Pair<String, T1>,
+        keyDefault2: Pair<String, T2>,
+        serialize: (R) -> Pair<T1, T2>,
+        deserialize: (T1, T2) -> R,
+    ): Preference<R> {
+        return prefs.composedPreference2(keyDefault1, keyDefault2,  serialize, deserialize)
+    }
 
     fun <T : Any> create(key: String, default: T): Preference<T> {
         return prefs.preference(key, default)
@@ -33,6 +43,23 @@ class PreferenceManager @Inject constructor(
         return PreferenceImpl(this, key, default)
     }
 
+    private fun <T1 : Any, T2 : Any, R : Any> SharedPreferences.composedPreference2(
+        keyDefault1: Pair<String, T1>,
+        keyDefault2: Pair<String, T2>,
+        serialize: (R) -> Pair<T1, T2>,
+        deserialize: (T1, T2) -> R,
+    ): Preference<R> {
+        val pref1 = preference(keyDefault1.first, keyDefault1.second)
+        val pref2 = preference(keyDefault2.first, keyDefault2.second)
+        return ComposedPreference2Impl(
+            pref1 = pref1,
+            pref2 = pref2,
+            default1 = keyDefault1.second,
+            default2 = keyDefault2.second,
+            serialize = serialize,
+            deserialize = deserialize
+        )
+    }
 
 }
 
@@ -98,4 +125,35 @@ private class PreferenceImpl<T : Any>(
         }
     }
 
+}
+
+private class ComposedPreference2Impl<T1 : Any, T2 : Any, R : Any>(
+    private val pref1: Preference<T1>,
+    private val pref2: Preference<T2>,
+    private val default1: T1,
+    private val default2: T2,
+    private val serialize: (R) -> Pair<T1, T2>,
+    private val deserialize: (T1, T2) -> R,
+) : Preference<R> {
+
+    override fun get(): R {
+        return deserialize(pref1.get(), pref2.get())
+    }
+
+    override fun set(value: R) {
+        val (t1, t2) = serialize(value)
+        pref1.set(t1)
+        pref2.set(t2)
+    }
+
+    override fun observe(): Flow<R> {
+        return pref1.observe().combine(pref2.observe()) { t1, t2 ->
+            deserialize(t1, t2)
+        }
+    }
+
+    override fun reset() {
+        pref1.set(default1)
+        pref2.set(default2)
+    }
 }
