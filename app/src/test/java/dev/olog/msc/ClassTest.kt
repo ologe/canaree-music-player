@@ -3,7 +3,7 @@ package dev.olog.msc
 import dev.olog.appshortcuts.ShortcutsActivity
 import dev.olog.service.music.MusicService
 import dev.olog.msc.appwidgets.WidgetColored
-import dev.olog.presentation.main.MainActivity
+import dev.olog.msc.main.MainActivity
 import dev.olog.feature.playlist.choose.PlaylistChooserActivity
 import dev.olog.intents.Classes
 import org.junit.Assert

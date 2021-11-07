@@ -36,7 +36,7 @@
 
         <!--main activity-->
         <activity
-            android:name="dev.olog.presentation.main.MainActivity"
+            android:name=".main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             tools:ignore="UnusedAttribute"

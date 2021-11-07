@@ -25,6 +25,7 @@ dependencies {
     implementation project(':features:edit:impl')
     implementation project(':features:dialogs:impl')
     implementation project(':features:last-fm:impl')
+    implementation project(':features:main:api')
 
     implementation project(':app-shortcuts')
     implementation project(':core')

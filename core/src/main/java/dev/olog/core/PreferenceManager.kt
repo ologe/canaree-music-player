@@ -5,10 +5,7 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration
@@ -19,38 +16,27 @@ class PreferenceManager @Inject constructor(
     private val prefs: SharedPreferences
 ) {
 
+    fun <T: Any> createEnum(
+        key: String,
+        default: T,
+        serialize: (T) -> String,
+        deserialize: (String) -> T,
+    ): Preference<T> {
+        return EnumPreferenceImpl(
+            pref = prefs.preference(key, serialize(default)),
+            serialize = serialize,
+            deserialize = deserialize
+        )
+    }
+
     fun <T1 : Any, T2 : Any, R : Any> createComposed(
         keyDefault1: Pair<String, T1>,
         keyDefault2: Pair<String, T2>,
         serialize: (R) -> Pair<T1, T2>,
         deserialize: (T1, T2) -> R,
     ): Preference<R> {
-        return prefs.composedPreference2(keyDefault1, keyDefault2,  serialize, deserialize)
-    }
-
-    fun <T : Any> create(key: String, default: T): Preference<T> {
-        return prefs.preference(key, default)
-    }
-
-    fun <T : Any> create(@StringRes keyRes: Int, default: T): Preference<T> {
-        return prefs.preference(context.getString(keyRes), default)
-    }
-
-    private fun <T : Any> SharedPreferences.preference(
-        key: String,
-        default: T
-    ): Preference<T> {
-        return PreferenceImpl(this, key, default)
-    }
-
-    private fun <T1 : Any, T2 : Any, R : Any> SharedPreferences.composedPreference2(
-        keyDefault1: Pair<String, T1>,
-        keyDefault2: Pair<String, T2>,
-        serialize: (R) -> Pair<T1, T2>,
-        deserialize: (T1, T2) -> R,
-    ): Preference<R> {
-        val pref1 = preference(keyDefault1.first, keyDefault1.second)
-        val pref2 = preference(keyDefault2.first, keyDefault2.second)
+        val pref1 = prefs.preference(keyDefault1.first, keyDefault1.second)
+        val pref2 = prefs.preference(keyDefault2.first, keyDefault2.second)
         return ComposedPreference2Impl(
             pref1 = pref1,
             pref2 = pref2,
@@ -58,6 +44,32 @@ class PreferenceManager @Inject constructor(
             default2 = keyDefault2.second,
             serialize = serialize,
             deserialize = deserialize
+        )
+    }
+
+    fun <T : Any> create(key: String, default: T): Preference<T> {
+        return PreferenceImpl(
+            preferences = prefs,
+            key = key,
+            default = default
+        )
+    }
+
+    fun <T : Any> create(@StringRes keyRes: Int, default: T): Preference<T> {
+        return create(
+            key = context.getString(keyRes),
+            default = default
+        )
+    }
+
+    private fun <T : Any> SharedPreferences.preference(
+        key: String,
+        default: T
+    ): Preference<T> {
+        return PreferenceImpl(
+            preferences = this,
+            key = key,
+            default = default
         )
     }
 
@@ -155,5 +167,24 @@ private class ComposedPreference2Impl<T1 : Any, T2 : Any, R : Any>(
     override fun reset() {
         pref1.set(default1)
         pref2.set(default2)
+    }
+}
+
+private class EnumPreferenceImpl<T : Any>(
+    private val pref: Preference<String>,
+    private val serialize: (T) -> String,
+    private val deserialize: (String) -> T,
+) : Preference<T> {
+
+    override fun get(): T = deserialize(pref.get())
+
+    override fun set(value: T) {
+        pref.set(serialize(value))
+    }
+
+    override fun observe(): Flow<T> = pref.observe().map { deserialize(it) }
+
+    override fun reset() {
+        pref.reset()
     }
 }

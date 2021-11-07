@@ -18,6 +18,7 @@ rootProject.name = "canaree"
 // features
 include ':features:base'
 
+include ':features:main:api' // no impl here, is in :app
 include ':features:splash:api', ':features:splash:impl'
 include ':features:library:api', ':features:library:impl'
 include ':features:search:api', ':features:search:impl'

@@ -70,6 +70,15 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
+    implementation project(':features:base')
+    implementation project(':features:main:api')
+    implementation project(':features:library:impl')
+    implementation project(':features:search:impl')
+    implementation project(':features:queue:impl')
+    implementation project(':features:detail:impl')
+    implementation project(':features:dialogs:impl')
+    implementation project(':features:last-fm:impl')
+
     // features
 //    implementation project(':features:library:impl')
 
@@ -86,15 +95,20 @@ dependencies {
     implementation lib_x.browser
     implementation lib_x.preference
     implementation lib_x.media
+    implementation lib_x.material
+    implementation lib_x.fragments
 
     // dagger
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
+    implementation lib_ui.scroll_helper
+    implementation lib_ui.dialogs_core
+    implementation lib_ui.dialogs_color
+    implementation lib_ui.color_desaturation
+    implementation lib_ui.glide
 
     // debug
     debugImplementation lib_debug.leak_canary_debug
