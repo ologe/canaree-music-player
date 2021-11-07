@@ -1,6 +1,5 @@
 package dev.olog.data.repository.podcast
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
@@ -22,6 +21,7 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import dev.olog.feature.library.LibraryPrefs
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -29,12 +29,12 @@ import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
+    appScope: CoroutineScope,
     sortPrefs: SortPreferences,
     libraryPrefs: LibraryPrefs,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
+) : BaseRepository<Song, Id>(appScope, context, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, libraryPrefs,

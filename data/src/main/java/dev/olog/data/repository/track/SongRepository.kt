@@ -1,6 +1,5 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
@@ -19,6 +18,7 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
 import dev.olog.feature.library.LibraryPrefs
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -26,11 +26,11 @@ import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
+    appScope: CoroutineScope,
     sortPrefs: SortPreferences,
     libraryPrefs: LibraryPrefs,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
+) : BaseRepository<Song, Id>(appScope, context, schedulers), SongGateway {
 
     private val queries = TrackQueries(
         contentResolver, libraryPrefs,

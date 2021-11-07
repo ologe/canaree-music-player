@@ -1,6 +1,5 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -26,6 +25,7 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.feature.library.LibraryPrefs
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -35,13 +35,13 @@ import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
+    appScope: CoroutineScope,
     sortPrefs: SortPreferences,
     libraryPrefs: LibraryPrefs,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
+) : BaseRepository<Folder, Path>(appScope, context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, libraryPrefs, sortPrefs)
 

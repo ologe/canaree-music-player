@@ -8,8 +8,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
 import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -19,17 +18,16 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
+    private val appScope: CoroutineScope,
     private val context: Context,
-    protected val contentResolver: ContentResolver,
     private val schedulers: Schedulers
 ) : BaseGateway<T, Param> {
 
+    protected val contentResolver: ContentResolver = context.contentResolver
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 
     protected fun firstQuery() {
-        GlobalScope.launch(schedulers.io) {
-            assertBackgroundThread()
-
+        appScope.launch(schedulers.io) {
             do {
                 delay(200)
             } while (!PermissionsUtils.canReadStorage(context))
@@ -39,16 +37,14 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver(schedulers.io) { channel.offer(queryAll()) }
+                DataObserver(appScope, schedulers.io) { channel.offer(queryAll()) }
             )
             channel.offer(queryAll())
         }
     }
 
     override fun getAll(): List<T> {
-//        assertBackgroundThread()
-        return channel.valueOrNull
-            ?: queryAll() // fallback to normal query if channel never emitted
+        return channel.valueOrNull ?: queryAll() // fallback to normal query if channel never emitted
     }
 
     override fun observeAll(): Flow<List<T>> {
@@ -66,7 +62,7 @@ internal abstract class BaseRepository<T, Param>(
                 offer(action())
             }
 
-            val observer = DataObserver(schedulers.io) {
+            val observer = DataObserver(appScope, schedulers.io) {
                 if (!isClosedForSend) {
                     offer(action())
                 }
