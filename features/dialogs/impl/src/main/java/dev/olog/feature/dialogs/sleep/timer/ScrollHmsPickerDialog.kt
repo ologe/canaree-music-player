@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer
+package dev.olog.feature.dialogs.sleep.timer
 
 import android.content.DialogInterface
 import android.graphics.Color
@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import dev.olog.presentation.R
+import dev.olog.feature.dialogs.R
 
 open class ScrollHmsPickerDialog : DialogFragment() {
     interface HmsPickHandler {

@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer
+package dev.olog.feature.dialogs.sleep.timer
 
 import android.content.Context
 import android.content.DialogInterface

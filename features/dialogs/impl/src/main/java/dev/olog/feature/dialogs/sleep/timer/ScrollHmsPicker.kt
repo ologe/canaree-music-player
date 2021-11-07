@@ -1,4 +1,4 @@
-package dev.olog.presentation.sleeptimer
+package dev.olog.feature.dialogs.sleep.timer
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import dev.olog.presentation.R
+import dev.olog.feature.dialogs.R
 
 class ScrollHmsPicker (
         context: Context,
