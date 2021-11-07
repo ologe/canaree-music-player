@@ -23,7 +23,6 @@ class AboutFragmentAdapter(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutFragmentPresenter.HAVOC_ID -> navigator.toHavocPage()
                 AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
                 AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
                 AboutFragmentPresenter.RATE_ID -> navigator.toMarket()

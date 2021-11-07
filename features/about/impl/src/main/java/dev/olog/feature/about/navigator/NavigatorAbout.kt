@@ -39,20 +39,6 @@ class NavigatorAbout @Inject constructor(
         }
     }
 
-    fun toHavocPage() {
-        val activity = activityRef.get() ?: return
-
-        if (allowed()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://play.google.com/store/apps/details?id=dev.olog.havoc")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(localization.R.string.common_browser_not_found)
-            }
-        }
-    }
-
     fun toLicensesFragment() {
         val activity = activityRef.get() ?: return
 

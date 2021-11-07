@@ -20,8 +20,6 @@ class AboutFragmentPresenter @Inject constructor(
 
     companion object {
         @JvmStatic
-        val HAVOC_ID = MediaId.headerId("havoc id")
-        @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
         @JvmStatic
         val THIRD_SW_ID = MediaId.headerId("third sw")
@@ -118,18 +116,6 @@ class AboutFragmentPresenter @Inject constructor(
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 
     init {
-//        launch {
-//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-//                when {
-//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-//                    state.isTrial -> listOf(havoc, trial) + (data)
-//                    else -> listOf(havoc, noPro) + (data)
-//                }
-//            }.flowOn(Dispatchers.Default)
-//                .collect {
-//                    dataLiveData.value = it
-//                }
-//        }
         dataLiveData.value = data
     }
 
