@@ -9,8 +9,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.data.utils.assertBackground
+import dev.olog.feature.library.LibraryPrefs
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 internal class FolderNavigatorRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val blacklistGateway: BlacklistPreferences,
+    private val libraryPrefs: LibraryPrefs,
     private val folderGateway: FolderGateway
 ) : FolderNavigatorGateway {
 
@@ -41,7 +41,7 @@ internal class FolderNavigatorRepository @Inject constructor(
     }
 
     private fun queryFileChildren(file: File): List<FileType> {
-        val blacklisted = blacklistGateway.getBlackList()
+        val blacklisted = libraryPrefs.blacklist.get()
         val children = file.listFiles()
             ?.asSequence()
             ?.filter { it.isDirectory && !it.name.startsWith(".") }

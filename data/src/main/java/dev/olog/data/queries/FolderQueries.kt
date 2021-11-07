@@ -6,15 +6,15 @@ import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.base.Path
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.feature.library.LibraryPrefs
 
 @Suppress("DEPRECATION")
 internal class FolderQueries(
     private val contentResolver: ContentResolver,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     sortPrefs: SortPreferences
-) : BaseQueries(blacklistPrefs, sortPrefs, false) {
+) : BaseQueries(libraryPrefs, sortPrefs, false) {
 
     fun getAll(includeBlackListed: Boolean): Cursor {
         val (blacklist, params) = notBlacklisted()

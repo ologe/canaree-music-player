@@ -4,8 +4,8 @@ import android.os.Environment
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.feature.base.model.BaseModel
+import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.R
 import dev.olog.shared.lazyFast
 import java.util.*
@@ -13,11 +13,11 @@ import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
     folderGateway: FolderGateway,
-    private val appPreferencesUseCase: BlacklistPreferences
+    private val libraryPrefs: LibraryPrefs
 ) {
 
     val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
+        val blacklisted = libraryPrefs.blacklist.get().map { it.toLowerCase(Locale.getDefault()) }
         folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
     }
 
@@ -35,7 +35,7 @@ class BlacklistFragmentPresenter @Inject constructor(
         val blacklisted = data.filter { it.isBlacklisted }
             .map { it.path }
             .toSet()
-        appPreferencesUseCase.setBlackList(blacklisted)
+        libraryPrefs.blacklist.set(blacklisted)
     }
 
 

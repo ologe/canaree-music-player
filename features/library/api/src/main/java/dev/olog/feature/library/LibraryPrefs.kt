@@ -30,4 +30,6 @@ interface LibraryPrefs : Prefs {
 
     val useFolderTree: Preference<Boolean>
 
+    val blacklist: Preference<Set<String>>
+
 }

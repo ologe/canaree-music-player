@@ -7,16 +7,16 @@ import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.feature.library.LibraryPrefs
 
 @Suppress("DEPRECATION")
 internal class TrackQueries(
     private val contentResolver: ContentResolver,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     sortPrefs: SortPreferences,
     isPodcast: Boolean
-) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
+) : BaseQueries(libraryPrefs, sortPrefs, isPodcast) {
 
     fun getAll(): Cursor {
         val (blacklist, params) = notBlacklisted()

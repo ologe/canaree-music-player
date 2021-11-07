@@ -10,7 +10,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.prefs.*
-import dev.olog.data.prefs.*
+import dev.olog.data.prefs.AppPreferencesImpl
+import dev.olog.data.prefs.EqualizerPreferenceImpl
+import dev.olog.data.prefs.MusicPreferencesImpl
+import dev.olog.data.prefs.TutorialPreferenceImpl
 import dev.olog.data.prefs.sort.AppSortingImpl
 import javax.inject.Singleton
 
@@ -37,10 +40,6 @@ abstract class PreferenceModule {
     @Binds
     @Singleton
     internal abstract fun provideSortPreferences(impl: AppSortingImpl): SortPreferences
-
-    @Binds
-    @Singleton
-    internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
 
     companion object {
         @Provides

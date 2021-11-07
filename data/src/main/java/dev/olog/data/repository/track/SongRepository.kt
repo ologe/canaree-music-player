@@ -6,12 +6,11 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
 import android.util.Log
-import dev.olog.contentresolversql.querySql
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.mapper.toSong
@@ -19,6 +18,7 @@ import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
+import dev.olog.feature.library.LibraryPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -28,12 +28,12 @@ internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     schedulers: Schedulers
 ) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
 
     private val queries = TrackQueries(
-        contentResolver, blacklistPrefs,
+        contentResolver, libraryPrefs,
         sortPrefs, false
     )
 

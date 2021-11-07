@@ -4,15 +4,14 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.GenreMostPlayedDao
@@ -27,6 +26,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.feature.library.LibraryPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -37,13 +37,13 @@ internal class GenreRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
     schedulers: Schedulers
 ) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
 
-    private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
+    private val queries = GenreQueries(contentResolver, libraryPrefs, sortPrefs)
 
     init {
         firstQuery()

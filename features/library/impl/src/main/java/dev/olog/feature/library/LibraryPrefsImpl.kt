@@ -50,6 +50,8 @@ internal class LibraryPrefsImpl @Inject constructor(
             "$TAG.CATEGORY_PODCAST_ALBUM_VISIBILITY"
         private const val CATEGORY_PODCAST_ARTIST_VISIBILITY =
             "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
+
+        private const val BLACKLIST = "$TAG.BLACKLIST"
     }
 
     override fun spanCount(category: TabCategory): Preference<Int> {
@@ -217,4 +219,7 @@ internal class LibraryPrefsImpl @Inject constructor(
 
     override val useFolderTree: Preference<Boolean>
         get() = prefs.create(dev.olog.prefskeys.R.string.prefs_folder_tree_view_key, false)
+
+    override val blacklist: Preference<Set<String>>
+        get() = prefs.create(BLACKLIST, setOf())
 }

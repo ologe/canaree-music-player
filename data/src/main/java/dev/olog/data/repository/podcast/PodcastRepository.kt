@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.PodcastPositionDao
@@ -22,6 +21,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
+import dev.olog.feature.library.LibraryPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -31,13 +31,13 @@ internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers
 ) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
-        context.contentResolver, blacklistPrefs,
+        context.contentResolver, libraryPrefs,
         sortPrefs, true
     )
 

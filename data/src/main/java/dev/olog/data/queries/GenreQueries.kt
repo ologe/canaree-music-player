@@ -6,15 +6,15 @@ import android.provider.MediaStore.Audio.Genres.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.feature.library.LibraryPrefs
 
 @Suppress("DEPRECATION")
 internal class GenreQueries(
     private val contentResolver: ContentResolver,
-    blacklistPrefs: BlacklistPreferences,
+    libraryPrefs: LibraryPrefs,
     sortPrefs: SortPreferences
-) : BaseQueries(blacklistPrefs, sortPrefs, false) {
+) : BaseQueries(libraryPrefs, sortPrefs, false) {
 
     fun getAll(): Cursor {
 
