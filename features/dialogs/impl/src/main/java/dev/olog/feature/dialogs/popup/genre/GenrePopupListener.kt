@@ -2,8 +2,10 @@ package dev.olog.feature.dialogs.popup.genre
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
@@ -24,8 +26,8 @@ class GenrePopupListener @Inject constructor(
     private val playlistNavigator: FeaturePlaylistNavigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
-
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var genre: Genre
@@ -64,7 +66,7 @@ class GenrePopupListener @Inject constructor(
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(activity, dialogsNavigator, getMediaId(), song!!)
             R.id.addHomeScreen -> {
-//                AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), genre.name) TODO
+                appShortcuts.addDetailShortcut(getMediaId(), genre.name)
             }
         }
 

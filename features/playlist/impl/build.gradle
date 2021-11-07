@@ -16,7 +16,8 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':media')
-    
+    implementation project(':app-shortcuts')
+
     // shared
     implementation project(':localization')
     implementation project(':shared')

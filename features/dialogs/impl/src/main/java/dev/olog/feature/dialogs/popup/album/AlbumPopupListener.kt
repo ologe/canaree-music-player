@@ -2,6 +2,7 @@ package dev.olog.feature.dialogs.popup.album
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
@@ -10,11 +11,11 @@ import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.dialogs.R
-import dev.olog.media.MediaProvider
 import dev.olog.feature.dialogs.popup.AbsPopup
 import dev.olog.feature.dialogs.popup.AbsPopupListener
 import dev.olog.feature.edit.FeatureInfoNavigator
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
+import dev.olog.media.MediaProvider
 import javax.inject.Inject
 
 class AlbumPopupListener @Inject constructor(
@@ -25,8 +26,8 @@ class AlbumPopupListener @Inject constructor(
     private val playlistNavigator: FeaturePlaylistNavigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
-
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var album: Album
@@ -65,7 +66,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(activity, dialogsNavigator, getMediaId(), song!!)
             R.id.addHomeScreen -> {
-//                AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), album.title) TODO inject
+                appShortcuts.addDetailShortcut(getMediaId(), album.title)
             }
         }
 

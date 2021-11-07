@@ -12,7 +12,8 @@ import javax.inject.Inject
 @HiltAndroidApp
 class App : ThemedApp() {
 
-    private lateinit var appShortcuts: AppShortcuts
+    @Inject
+    lateinit var appShortcuts: AppShortcuts
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -32,8 +33,7 @@ class App : ThemedApp() {
     }
 
     private fun initializeComponents() {
-        appShortcuts = AppShortcuts.instance(this)
-
+        appShortcuts.init()
         BlurKit.init(this)
     }
 

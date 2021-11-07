@@ -2,6 +2,7 @@ package dev.olog.feature.dialogs.popup.artist
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
@@ -25,8 +26,8 @@ class ArtistPopupListener @Inject constructor(
     private val playlistNavigator: FeaturePlaylistNavigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
-
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var artist: Artist
@@ -65,7 +66,7 @@ class ArtistPopupListener @Inject constructor(
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(activity, dialogsNavigator, getMediaId(), song!!)
             R.id.addHomeScreen -> {
-//                AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), artist.name) TODO
+                appShortcuts.addDetailShortcut(getMediaId(), artist.name)
             }
         }
 
