@@ -63,7 +63,6 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':media')
     implementation project(':prefs-keys')
-    implementation project(':presentation')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':service-music')

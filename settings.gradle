@@ -8,7 +8,7 @@ dependencyResolutionManagement {
     }
 }
 
-include ':app', ':core', ':presentation', ':data', ':image-provider', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music'
+include ':app', ':core', ':data', ':image-provider', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music'
 
 rootProject.name = "canaree"
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer' TODO restore
