@@ -8,19 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.feature.base.permission.OnPermissionChanged
-import dev.olog.feature.base.permission.Permission
-import dev.olog.shared.android.Permissions
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.shared.android.extensions.alertDialog
+import dev.olog.shared.android.permission.OnPermissionChanged
+import dev.olog.shared.android.permission.Permission
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
     companion object {
         @JvmStatic
         val TAG = SplashFragment::class.java.name
     }
+
+    @Inject
+    lateinit var permissionManager: PermissionManager
 
     private val adapter by lazyFast {
         SplashFragmentViewPagerAdapter(
@@ -58,8 +64,8 @@ class SplashFragment : Fragment() {
     }
 
     private fun requestStoragePermission() {
-        if (!Permissions.canReadStorage(requireContext())) {
-            Permissions.requestReadStorage(this)
+        if (!permissionManager.hasPermission(Permission.Storage)) {
+            permissionManager.requestPermissions(this, Permission.Storage)
         } else {
             onStoragePermissionGranted()
         }
@@ -70,8 +76,8 @@ class SplashFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (Permissions.checkWriteCode(requestCode)) {
-            if (Permissions.canReadStorage(requireContext())) {
+        if (permissionManager.checkPermissionRequestCode(requestCode)) {
+            if (permissionManager.hasPermission(Permission.Storage)) {
                 onStoragePermissionGranted()
             } else {
                 onStoragePermissionDenied()
@@ -87,11 +93,11 @@ class SplashFragment : Fragment() {
             .remove(this)
             .commitAllowingStateLoss()
 
-        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.Storage)
     }
 
     private fun onStoragePermissionDenied() {
-        if (Permissions.hasUserDisabledReadStorage(this)) {
+        if (permissionManager.hasUserDisabledPermission(this, Permission.Storage)) {
             requireActivity().alertDialog {
                 setTitle(localization.R.string.splash_storage_permission)
                 setMessage(localization.R.string.splash_storage_permission_disabled)

@@ -1,4 +1,4 @@
-package dev.olog.feature.base.permission
+package dev.olog.shared.android.permission
 
 interface OnPermissionChanged {
     fun onPermissionGranted(permission: Permission)

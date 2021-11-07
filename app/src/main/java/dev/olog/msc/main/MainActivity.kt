@@ -17,8 +17,8 @@ import dev.olog.feature.base.HasSlidingPanel
 import dev.olog.feature.base.RestorableScroll
 import dev.olog.feature.main.BottomNavigationPage
 import dev.olog.feature.main.HasBottomNavigation
-import dev.olog.feature.base.permission.OnPermissionChanged
-import dev.olog.feature.base.permission.Permission
+import dev.olog.shared.android.permission.OnPermissionChanged
+import dev.olog.shared.android.permission.Permission
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.dialogs.rate.RateAppDialog
 import dev.olog.feature.floating.FeatureFloatingNavigator
@@ -98,7 +98,7 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
-        Permission.STORAGE -> {
+        Permission.Storage -> {
             navigateToLastPage()
             connect()
         }

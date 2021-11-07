@@ -19,19 +19,20 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.android.permission.Permission
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
-    private val onConnectionChanged: OnConnectionChanged
+    private val onConnectionChanged: OnConnectionChanged,
+    private val permissionManager: PermissionManager,
 ) : CoroutineScope by MainScope(),
     IMediaControllerCallback,
     IMediaConnectionCallback {
@@ -58,7 +59,7 @@ class MediaExposer(
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
 
     fun connect() {
-        if (!Permissions.canReadStorage(context)) {
+        if (!permissionManager.hasPermission(Permission.Storage)) {
             Log.w("MediaExposer", "Storage permission is not granted")
             return
         }

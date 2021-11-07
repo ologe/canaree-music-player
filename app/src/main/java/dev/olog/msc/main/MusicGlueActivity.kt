@@ -8,8 +8,10 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.feature.base.BaseActivity
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
@@ -17,18 +19,24 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
-import dev.olog.feature.base.BaseActivity
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
+@AndroidEntryPoint
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
     OnConnectionChanged {
 
+    @Inject
+    lateinit var permissionManager: PermissionManager
+
     private val mediaExposer by lazyFast {
         MediaExposer(
-            this,
-            this
+            context = this,
+            onConnectionChanged = this,
+            permissionManager = permissionManager
         )
     }
 

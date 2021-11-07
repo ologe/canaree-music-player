@@ -11,25 +11,27 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
+import dev.olog.media.model.PlayerMetadata
+import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
 import javax.inject.Inject
 
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    lifecycleOwner: LifecycleOwner
-
+    lifecycleOwner: LifecycleOwner,
+    private val permissionManager: PermissionManager
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            context,
-            this
+            context = context,
+            onConnectionChanged = this,
+            permissionManager = permissionManager
         )
     }
     private var mediaController: MediaControllerCompat? = null
