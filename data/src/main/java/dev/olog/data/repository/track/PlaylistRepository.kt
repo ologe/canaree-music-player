@@ -43,8 +43,6 @@ internal class PlaylistRepository @Inject constructor(
     private val playlistDao: PlaylistDao
 ) : PlaylistGateway, PlaylistOperations by helper {
 
-    private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
-
     override fun getAll(): List<Playlist> {
         populatePlaylistTables()
         assertBackgroundThread()
@@ -118,11 +116,10 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
         return listOf(
-            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
-            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
-            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2])
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, context.getString(localization.R.string.common_last_added)),
+            createAutoPlaylist(AutoPlaylist.FAVORITE.id, context.getString(localization.R.string.common_favorites)),
+            createAutoPlaylist(AutoPlaylist.HISTORY.id, context.getString(localization.R.string.common_history))
         )
     }
 

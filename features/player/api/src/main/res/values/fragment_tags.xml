@@ -2,7 +2,6 @@
 <resources>
 
     <string name="player_fragment_tag" translatable="false">dev.olog.msc.PlayerFragment</string>
-    <string name="player_queue_fragment_tag" translatable="false">dev.olog.msc.PlayerQueueFragment</string>
     <string name="mini_player_fragment_tag" translatable="false">dev.olog.msc.MiniPlayerFragment</string>
 
 </resources>

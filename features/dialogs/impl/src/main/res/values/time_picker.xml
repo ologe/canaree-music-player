@@ -81,9 +81,7 @@
     <string name="scroll_hms_picker_minutes_label">M</string>
     <string name="scroll_hms_picker_seconds_label">S</string>
 
-    <string name="scroll_hms_picker_stop">Stop</string>
-    <string name="sleep_timer_set">Timer set</string>
-    <string name="sleep_timer_can_not_be_set">Time must be more than 0 seconds</string>
+
 
     <string-array name="array_0to59">
         <item>00</item>

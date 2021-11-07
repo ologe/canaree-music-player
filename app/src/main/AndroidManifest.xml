@@ -105,7 +105,7 @@
         <!--widget -->
         <receiver
             android:name=".appwidgets.WidgetColored"
-            android:label="@string/app_widget_default"
+            android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

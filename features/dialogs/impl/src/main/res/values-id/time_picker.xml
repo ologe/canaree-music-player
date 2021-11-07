@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- use dp instead of sp to avoid UI not fully shown
-   if users use big system font size-->
-    <string name="scroll_hms_picker_stop">Berhenti</string>
-    <string name="sleep_timer_set">Set waktu</string>
-    <string name="sleep_timer_can_not_be_set">Waktu harus lebih dari 0 detik</string>
+
 </resources>

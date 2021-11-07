@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="music_error_empty_queue">Δεν βρέθηκε μουσική</string>
+    <string name="music_player_error">Σφάλμα αναπαραγωγής</string>
+
+</resources>

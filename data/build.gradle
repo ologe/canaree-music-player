@@ -28,6 +28,7 @@ dependencies {
     implementation project(':core')
     implementation project(':shared')
     implementation project(':prefs-keys')
+    implementation project(':localization')
     implementation project(':features:search:api')
     implementation project(':features:library:api')
     implementation project(':features:equalizer:api')

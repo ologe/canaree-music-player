@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- use dp instead of sp to avoid UI not fully shown
-   if users use big system font size-->
-    <string name="scroll_hms_picker_stop">停止</string>
-    <string name="sleep_timer_set">设置计时器</string>
-    <string name="sleep_timer_can_not_be_set">时间必须大于0秒</string>
+
 </resources>

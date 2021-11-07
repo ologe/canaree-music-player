@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="music_error_empty_queue">Could not find music</string>
+    <string name="music_player_error">Player error</string>
+
+</resources>

@@ -62,18 +62,18 @@ class AppShortcuts @Inject constructor(
     }
 
     private fun onAddedSuccess(context: Context) {
-        Toast.makeText(context, R.string.app_shortcut_added_to_home_screen, Toast.LENGTH_SHORT)
+        Toast.makeText(context, localization.R.string.app_shortcut_added_to_home_screen, Toast.LENGTH_SHORT)
             .show()
     }
 
     private fun onAddedNotSupported(context: Context) {
-        Toast.makeText(context, R.string.app_shortcut_add_to_home_screen_not_supported, Toast.LENGTH_SHORT)
+        Toast.makeText(context, localization.R.string.app_shortcut_add_to_home_screen_not_supported, Toast.LENGTH_SHORT)
             .show()
     }
 
     private fun search(): ShortcutInfoCompat {
         return ShortcutInfoCompat.Builder(context, Shortcuts.SEARCH)
-            .setShortLabel(context.getString(R.string.shortcut_search))
+            .setShortLabel(context.getString(localization.R.string.shortcut_search))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_search))
             .setIntent(createSearchIntent())
             .build()
@@ -81,7 +81,7 @@ class AppShortcuts @Inject constructor(
 
     private fun play(): ShortcutInfoCompat {
         return ShortcutInfoCompat.Builder(context, Shortcuts.PLAY)
-            .setShortLabel(context.getString(R.string.shortcut_play))
+            .setShortLabel(context.getString(localization.R.string.shortcut_play))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_play))
             .setIntent(createPlayIntent())
             .build()
@@ -89,7 +89,7 @@ class AppShortcuts @Inject constructor(
 
     private fun shuffle(): ShortcutInfoCompat {
         return ShortcutInfoCompat.Builder(context, Shortcuts.SHUFFLE)
-            .setShortLabel(context.getString(R.string.shortcut_shuffle))
+            .setShortLabel(context.getString(localization.R.string.shortcut_shuffle))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_shuffle))
             .setIntent(createShuffleIntent())
             .build()
@@ -97,7 +97,7 @@ class AppShortcuts @Inject constructor(
 
     private fun playlistChooser(): ShortcutInfoCompat {
         return ShortcutInfoCompat.Builder(context, Shortcuts.PLAYLIST_CHOOSER)
-            .setShortLabel(context.getString(R.string.shortcut_playlist_chooser))
+            .setShortLabel(context.getString(localization.R.string.shortcut_playlist_chooser))
             .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_playlist_add))
             .setIntent(createPlaylistChooserIntent())
             .build()
