@@ -7,14 +7,14 @@ import androidx.annotation.RequiresApi
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
 internal class EqualizerImpl28 @Inject constructor(
     gateway: EqualizerGateway,
-    prefs: EqualizerPreferencesGateway
+    prefs: EqualizerPrefs
 ) : AbsEqualizer(gateway, prefs),
     IEqualizerInternal,
     CoroutineScope by MainScope() {
@@ -72,7 +72,7 @@ internal class EqualizerImpl28 @Inject constructor(
         launch {
             release()
             dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
-                enabled = prefs.isEqualizerEnabled()
+                enabled = prefs.equalizerEnabled.get()
             }
         }
     }
@@ -96,7 +96,7 @@ internal class EqualizerImpl28 @Inject constructor(
         }
 
         dynamicProcessing?.enabled = enabled
-        prefs.setEqualizerEnabled(enabled)
+        prefs.equalizerEnabled.set(enabled)
     }
 
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
@@ -105,7 +105,7 @@ internal class EqualizerImpl28 @Inject constructor(
         }
 
         updateCurrentPresetIfCustom()
-        prefs.setCurrentPresetId(preset.id)
+        prefs.currentPresetId.set(preset.id)
         dynamicProcessing?.let {
             preset.bands.forEachIndexed { index, equalizerBand ->
                 val eq = it.getPreEqBandByChannelIndex(0, index)

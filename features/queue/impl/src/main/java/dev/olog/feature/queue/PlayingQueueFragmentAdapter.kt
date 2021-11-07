@@ -1,13 +1,14 @@
 package dev.olog.feature.queue
 
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.feature.base.adapter.*
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.DisplayableQueueSong
@@ -19,10 +20,9 @@ import kotlinx.android.synthetic.main.item_playing_queue.view.*
 class PlayingQueueFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
+    private val onItemLongClick: (MediaId, View) -> Unit,
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
-
 ) : ObservableAdapter<DisplayableQueueSong>(
     lifecycle,
     DiffCallbackPlayingQueue
@@ -36,7 +36,7 @@ class PlayingQueueFragmentAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            onItemLongClick(item.mediaId, viewHolder.itemView)
         }
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
         viewHolder.elevateSongOnTouch()

@@ -2,11 +2,11 @@ package dev.olog.feature.equalizer.impl.bass.boost
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
-    private val equalizerPrefsUseCase: EqualizerPreferencesGateway
+    private val equalizerPrefs: EqualizerPrefs
 
 ) : IBassBoostInternal {
 
@@ -40,7 +40,7 @@ class BassBoostImpl @Inject constructor(
             bassBoost?.setStrength(value.toShort())?.also {
                 val currentProperties = bassBoost?.properties?.toString()
                 if (!currentProperties.isNullOrBlank()){
-                    equalizerPrefsUseCase.saveBassBoostSettings(currentProperties)
+                    equalizerPrefs.bassBoostSettings.set(currentProperties)
                 }
             }
         }
@@ -61,8 +61,8 @@ class BassBoostImpl @Inject constructor(
 
         try {
             bassBoost = BassBoost(0, audioSessionId).apply {
-                enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-                val lastProperties = equalizerPrefsUseCase.getBassBoostSettings()
+                enabled = equalizerPrefs.equalizerEnabled.get()
+                val lastProperties = equalizerPrefs.bassBoostSettings.get()
                 if (lastProperties.isNotBlank()) {
                     properties = BassBoost.Settings(lastProperties)
                 }

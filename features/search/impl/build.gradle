@@ -11,7 +11,9 @@ dependencies {
     // features
     implementation project(':features:base')
     api project(':features:search:api')
-    api project(':features:floating:api')
+    implementation project(':features:floating:api')
+    implementation project(':features:detail:api')
+    implementation project(':features:dialogs:api')
 
     // libs
     implementation project(':core')

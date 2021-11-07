@@ -19,16 +19,17 @@ import dev.olog.feature.main.BottomNavigationPage
 import dev.olog.feature.main.HasBottomNavigation
 import dev.olog.feature.base.permission.OnPermissionChanged
 import dev.olog.feature.base.permission.Permission
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.dialogs.rate.RateAppDialog
-import dev.olog.feature.floating.FloatingWindowHelper
+import dev.olog.feature.floating.FeatureFloatingNavigator
 import dev.olog.feature.floating.FloatingWindowsConstants
 import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.feature.library.library.LibraryFragment
+import dev.olog.feature.splash.FeatureSplashNavigator
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.msc.R
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -52,9 +53,13 @@ class MainActivity : MusicGlueActivity(),
     private val viewModel by viewModels<MainActivityViewModel>()
 
     @Inject
-    lateinit var navigator: Navigator
-    // handles lifecycle itself
+    lateinit var splashNavigator: FeatureSplashNavigator
+    @Inject
+    lateinit var floatingNavigator: FeatureFloatingNavigator
+    @Inject
+    lateinit var detailNavigator: FeatureDetailNavigator
 
+    // handles lifecycle itself
     @Suppress("unused")
     @Inject
     lateinit var statusBarColorBehavior: StatusBarColorBehavior
@@ -83,7 +88,7 @@ class MainActivity : MusicGlueActivity(),
 
         when {
             viewModel.isFirstAccess() -> {
-                navigator.toFirstAccess()
+                splashNavigator.toFirstAccess(this)
                 return
             }
             savedInstanceState == null -> navigateToLastPage()
@@ -126,7 +131,7 @@ class MainActivity : MusicGlueActivity(),
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+                floatingNavigator.startServiceIfHasPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
@@ -140,7 +145,7 @@ class MainActivity : MusicGlueActivity(),
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId)
+                    detailNavigator.toDetailFragment(this@MainActivity, mediaId)
                 }
             }
             Intent.ACTION_VIEW -> {
@@ -155,11 +160,10 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
-            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+        if (floatingNavigator.handleOnActivityResult(this, requestCode, resultCode, data)) {
+            return
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onBackPressed() {

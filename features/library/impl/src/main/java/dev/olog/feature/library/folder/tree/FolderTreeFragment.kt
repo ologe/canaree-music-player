@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.CanHandleOnBackPressed
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.library.R
 import dev.olog.feature.library.widget.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -34,15 +34,16 @@ class FolderTreeFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+
     private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle,
-            viewModel,
-            requireActivity().findInContext(),
-            navigator
+            lifecycle = lifecycle,
+            viewModel = viewModel,
+            mediaProvider = requireActivity().findInContext(),
+            onItemLongClick = { mediaId, v -> dialogNavigator.toDialog(requireActivity(), mediaId, v) }
         )
         fab.shrink()
 

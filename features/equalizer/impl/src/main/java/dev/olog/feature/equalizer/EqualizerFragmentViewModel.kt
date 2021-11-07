@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -21,7 +20,7 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,
     private val virtualizer: IVirtualizer,
-    private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
+    private val equalizerPrefs: EqualizerPrefs,
     private val equalizerGateway: EqualizerGateway
 ) : ViewModel() {
 
@@ -49,13 +48,13 @@ internal class EqualizerFragmentViewModel @Inject constructor(
 
     fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 
-    fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()
+    fun isEqualizerEnabled(): Boolean = equalizerPrefs.equalizerEnabled.get()
 
     fun setEqualizerEnabled(enabled: Boolean) {
         equalizer.setEnabled(enabled)
         virtualizer.setEnabled(enabled)
         bassBoost.setEnabled(enabled)
-        equalizerPrefsUseCase.setEqualizerEnabled(enabled)
+        equalizerPrefs.equalizerEnabled.set(enabled)
     }
 
     fun getBassStrength(): Int = bassBoost.getStrength()
@@ -76,7 +75,7 @@ internal class EqualizerFragmentViewModel @Inject constructor(
 
     fun deleteCurrentPreset() = viewModelScope.launch(Dispatchers.IO) {
         val currentPreset = currentPresetLiveData.value!!
-        equalizerPrefsUseCase.setCurrentPresetId(0)
+        equalizerPrefs.currentPresetId.set(0)
         equalizerGateway.deletePreset(currentPreset)
     }
 

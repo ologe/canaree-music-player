@@ -1,21 +1,22 @@
 package dev.olog.feature.detail.recently.added
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.media.MediaProvider
+import dev.olog.core.MediaId
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
-import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
+import dev.olog.media.MediaProvider
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
     lifecycle: Lifecycle,
-    private val navigator: Navigator,
+    private val onItemLongClick: (MediaId, View) -> Unit,
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
 
@@ -29,10 +30,10 @@ class RecentlyAddedFragmentAdapter(
             mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            onItemLongClick(item.mediaId, viewHolder.itemView)
         }
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item.mediaId, view)
+            onItemLongClick(item.mediaId, view)
         }
         viewHolder.elevateAlbumOnTouch()
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)

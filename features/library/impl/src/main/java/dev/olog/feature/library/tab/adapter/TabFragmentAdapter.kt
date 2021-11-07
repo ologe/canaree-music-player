@@ -1,11 +1,11 @@
 package dev.olog.feature.library.tab.adapter
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.model.*
@@ -22,11 +22,11 @@ import kotlinx.android.synthetic.main.item_tab_song.view.*
 
 class TabFragmentAdapter(
     lifecycle: Lifecycle,
-    private val navigator: Navigator,
+    private val onItemClick: (MediaId) -> Unit,
+    private val onItemLongClick: (MediaId, View) -> Unit,
     private val mediaProvider: MediaProvider,
     private val viewModel: TabFragmentViewModel,
     private val setupNestedList: SetupNestedList
-
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
     DiffCallbackDisplayableItem
@@ -46,7 +46,7 @@ class TabFragmentAdapter(
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.elevateSongOnTouch()
             }
@@ -57,7 +57,7 @@ class TabFragmentAdapter(
                     onItemClick(item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.elevateAlbumOnTouch()
             }
@@ -76,7 +76,7 @@ class TabFragmentAdapter(
             val sort = viewModel.getAllTracksSortOrder(item.mediaId)
             mediaProvider.playFromMediaId(item.mediaId, null, sort)
         } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(item.mediaId)
+            onItemClick(item.mediaId)
         }
     }
 

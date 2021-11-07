@@ -9,57 +9,46 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.base.BindingsAdapter
+import dev.olog.feature.base.HasSlidingPanel
+import dev.olog.feature.base.adapter.*
+import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.drag.TouchableAdapter
+import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.feature.base.model.DisplayableTrack
+import dev.olog.feature.player.R
+import dev.olog.feature.player.volume.PlayerVolumeFragment
+import dev.olog.feature.player.widget.PlayerImageView
+import dev.olog.feature.player.widget.swipeable.SwipeableView
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
-import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.drag.IDragListener
-import dev.olog.feature.base.drag.TouchableAdapter
-import dev.olog.feature.base.HasSlidingPanel
-import dev.olog.feature.base.Navigator
-import dev.olog.feature.base.model.DisplayableItem
-import dev.olog.feature.base.model.DisplayableTrack
-import dev.olog.feature.base.adapter.*
-import dev.olog.feature.player.R
-import dev.olog.feature.player.volume.PlayerVolumeFragment
-import dev.olog.feature.player.widget.PlayerImageView
-import dev.olog.shared.widgets.StatusBarView
-import dev.olog.feature.player.widget.swipeable.SwipeableView
 import dev.olog.presentation.player.rotate
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.swap
+import dev.olog.shared.widgets.StatusBarView
 import dev.olog.shared.widgets.extension.isCollapsed
 import dev.olog.shared.widgets.extension.isExpanded
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.repeat
-import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
-import kotlinx.android.synthetic.main.player_layout_default.view.duration
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
-import kotlinx.android.synthetic.main.player_layout_default.view.title
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
-import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
-import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.flow.filter
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter,
     private val musicPrefs: MusicPreferencesGateway,
     private val dragListener: IDragListener,
-    private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
-
+    private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior,
+    private val onItemLongClick: (MediaId, View) -> Unit,
+    private val goToOfflineLyrics: () -> Unit,
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
     DiffCallbackDisplayableItem
@@ -83,10 +72,10 @@ internal class PlayerFragmentAdapter(
                     mediaProvider.skipToQueueItem(item.idInPlaylist)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    onItemLongClick(item.mediaId, view)
                 }
                 viewHolder.elevateAlbumOnTouch()
 
@@ -104,7 +93,7 @@ internal class PlayerFragmentAdapter(
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
                         val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
-                        navigator.toDialog(mediaId, view)
+                        onItemLongClick(mediaId, view)
                     } catch (ex: NullPointerException){
                         ex.printStackTrace()
                     }
@@ -154,7 +143,7 @@ internal class PlayerFragmentAdapter(
             view.favorite.toggleFavorite()
             mediaProvider.togglePlayerFavorite()
         }
-        view.lyrics.setOnClickListener { navigator.toOfflineLyrics() }
+        view.lyrics.setOnClickListener { goToOfflineLyrics() }
         view.next.setOnClickListener { mediaProvider.skipToNext() }
         view.playPause.setOnClickListener { mediaProvider.playPause() }
         view.previous.setOnClickListener { mediaProvider.skipToPrevious() }

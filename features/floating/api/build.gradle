@@ -11,4 +11,5 @@ dependencies {
 
     implementation lib_x.annotations
     implementation lib_x.core
+    implementation lib_x.fragments
 }

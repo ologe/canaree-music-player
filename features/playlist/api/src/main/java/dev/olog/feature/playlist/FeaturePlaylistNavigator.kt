@@ -2,8 +2,14 @@ package dev.olog.feature.playlist
 
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
+import dev.olog.core.entity.PlaylistType
 
 interface FeaturePlaylistNavigator {
+
+    fun toChooseTracksForPlaylistFragment(
+        activity: FragmentActivity,
+        type: PlaylistType
+    )
 
     fun toCreatePlaylistDialog(
         activity: FragmentActivity,

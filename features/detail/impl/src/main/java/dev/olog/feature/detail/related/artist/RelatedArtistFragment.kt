@@ -6,8 +6,9 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.detail.R
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
@@ -34,8 +35,17 @@ class RelatedArtistFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    lateinit var detailNavigator: FeatureDetailNavigator
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+
+    private val adapter by lazyFast {
+        RelatedArtistFragmentAdapter(
+            lifecycle = lifecycle,
+            onItemClick = { detailNavigator.toDetailFragment(requireActivity(), it) },
+            onItemLongClick = { mediaId, view -> dialogNavigator.toDialog(requireActivity(), mediaId, view) }
+        )
+    }
 
     private val viewModel by viewModels<RelatedArtistFragmentViewModel>()
 

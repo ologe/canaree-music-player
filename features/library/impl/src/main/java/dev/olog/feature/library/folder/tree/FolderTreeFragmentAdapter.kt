@@ -1,9 +1,10 @@
 package dev.olog.feature.library.folder.tree
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.adapter.setOnClickListener
@@ -16,8 +17,7 @@ class FolderTreeFragmentAdapter(
     lifecycle: Lifecycle,
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator
-
+    private val onItemLongClick: (MediaId, View) -> Unit,
 ) : ObservableAdapter<DisplayableFile>(lifecycle, DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -42,7 +42,7 @@ class FolderTreeFragmentAdapter(
                     }
                     if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
-                            navigator.toDialog(mediaId, view)
+                            onItemLongClick(mediaId, view)
                         }
                     }
                 }

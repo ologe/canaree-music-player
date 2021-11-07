@@ -16,6 +16,8 @@ dependencies {
     implementation project(':features:playlist:api')
     implementation project(':features:library:api')
     implementation project(':features:about:api')
+    implementation project(':features:equalizer:api')
+    implementation project(':features:main:api')
 
     // libs
     implementation project(':core')

@@ -2,11 +2,11 @@ package dev.olog.feature.equalizer.impl.virtualizer
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.Virtualizer
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(
-    private val equalizerPrefsUseCase: EqualizerPreferencesGateway
+    private val equalizerPrefs: EqualizerPrefs
 
 ) : IVirtualizerInternal {
 
@@ -41,7 +41,7 @@ class VirtualizerImpl @Inject constructor(
             virtualizer?.setStrength(value.toShort())?.also {
                 val currentProperties = virtualizer?.properties?.toString()
                 if (!currentProperties.isNullOrBlank()) {
-                    equalizerPrefsUseCase.saveVirtualizerSettings(currentProperties)
+                    equalizerPrefs.virtualizerSettings.set(currentProperties)
                 }
             }
         }
@@ -62,8 +62,8 @@ class VirtualizerImpl @Inject constructor(
 
         try {
             virtualizer = Virtualizer(0, audioSessionId).apply {
-                enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-                val lastProperties = equalizerPrefsUseCase.getVirtualizerSettings()
+                enabled = equalizerPrefs.equalizerEnabled.get()
+                val lastProperties = equalizerPrefs.virtualizerSettings.get()
                 if (lastProperties.isNotBlank()) {
                     properties = Virtualizer.Settings(lastProperties)
                 }

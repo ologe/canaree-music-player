@@ -1,10 +1,11 @@
 package dev.olog.feature.detail.detail.adapter
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.detail.R
@@ -12,9 +13,8 @@ import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 class DetailMostPlayedAdapter(
     lifecycle: Lifecycle,
-    private val navigator: Navigator,
+    private val onItemLongClick: (MediaId, View) -> Unit,
     private val mediaProvider: MediaProvider
-
 ) : ObservableAdapter<DisplayableTrack>(
     lifecycle,
     DiffCallbackMostPlayed
@@ -26,11 +26,11 @@ class DetailMostPlayedAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            onItemLongClick(item.mediaId, viewHolder.itemView)
         }
 
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item.mediaId, view)
+            onItemLongClick(item.mediaId, view)
         }
         viewHolder.elevateSongOnTouch()
     }

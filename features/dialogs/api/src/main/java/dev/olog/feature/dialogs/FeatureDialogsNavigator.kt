@@ -1,9 +1,25 @@
 package dev.olog.feature.dialogs
 
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 
 interface FeatureDialogsNavigator {
+
+    fun toDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        anchor: View
+    )
+
+    fun toMainPopup(
+        activity: FragmentActivity,
+        anchor: View,
+        category: MediaIdCategory?
+    )
+
+    fun toSleepTimer(activity: FragmentActivity)
 
     fun toSetRingtoneDialog(
         activity: FragmentActivity,

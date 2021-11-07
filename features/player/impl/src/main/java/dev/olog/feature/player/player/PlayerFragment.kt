@@ -11,10 +11,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.feature.offline.lyrics.FeatureOfflineLyricsNavigator
 import dev.olog.feature.player.R
 import dev.olog.shared.widgets.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -42,10 +43,14 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
-    @Inject
-    lateinit var navigator: Navigator
 
-    @Inject lateinit var musicPrefs: MusicPreferencesGateway
+    @Inject
+    lateinit var musicPrefs: MusicPreferencesGateway
+    @Inject
+    lateinit var offlineLyricsNavigator: FeatureOfflineLyricsNavigator
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -56,9 +61,15 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, requireActivity().findInContext(),
-            navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            lifecycle = lifecycle,
+            mediaProvider = requireActivity().findInContext(),
+            viewModel = viewModel,
+            presenter = presenter,
+            musicPrefs = musicPrefs,
+            dragListener = this,
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance()),
+            goToOfflineLyrics = { offlineLyricsNavigator.toOfflineLyrics(requireActivity()) },
+            onItemLongClick = { mediaId, v -> dialogNavigator.toDialog(requireActivity(), mediaId, v) }
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)

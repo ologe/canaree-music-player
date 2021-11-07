@@ -7,13 +7,13 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
-import dev.olog.feature.main.HasBottomNavigation
-import dev.olog.feature.main.BottomNavigationPage
-import dev.olog.feature.floating.FloatingWindowHelper
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.feature.floating.FeatureFloatingNavigator
 import dev.olog.feature.library.LibraryPage
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.R
+import dev.olog.feature.main.BottomNavigationPage
+import dev.olog.feature.main.HasBottomNavigation
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.TutorialTapTarget
@@ -43,9 +43,11 @@ class LibraryFragment : BaseFragment() {
     @Inject
     lateinit var presenter: LibraryFragmentPresenter
     @Inject
-    lateinit var navigator: Navigator
-    @Inject
     lateinit var libraryPrefs: LibraryPrefs
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+    @Inject
+    lateinit var floatingNavigator: FeatureFloatingNavigator
 
     private val isPodcast by lazyFast {
         getArgument<Boolean>(
@@ -106,7 +108,7 @@ class LibraryFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
+        more.setOnClickListener { dialogNavigator.toMainPopup(requireActivity(), it, createMediaId()) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
@@ -137,7 +139,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        floatingNavigator.startService(requireActivity())
     }
 
     private val onPageChangeListener =

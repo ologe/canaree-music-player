@@ -2,7 +2,11 @@ package dev.olog.feature.playlist
 
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
+import dev.olog.core.entity.PlaylistType
+import dev.olog.feature.base.createBackStackTag
+import dev.olog.feature.base.superCerealTransition
 import dev.olog.feature.playlist.clear.ClearPlaylistDialog
+import dev.olog.feature.playlist.create.CreatePlaylistFragment
 import dev.olog.feature.playlist.create.dialog.NewPlaylistDialog
 import dev.olog.feature.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.feature.playlist.rename.RenameDialog
@@ -11,6 +15,18 @@ import javax.inject.Inject
 class FeaturePlaylistNavigatorImpl @Inject constructor(
 
 ) : FeaturePlaylistNavigator {
+
+    override fun toChooseTracksForPlaylistFragment(
+        activity: FragmentActivity,
+        type: PlaylistType
+    ) {
+        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
+        superCerealTransition(
+            activity = activity,
+            fragment = CreatePlaylistFragment.newInstance(type),
+            tag = newTag
+        )
+    }
 
     override fun toCreatePlaylistDialog(
         activity: FragmentActivity,

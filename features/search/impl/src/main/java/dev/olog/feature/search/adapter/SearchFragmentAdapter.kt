@@ -1,10 +1,11 @@
 package dev.olog.feature.search.adapter
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BindingsAdapter
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableAlbum
@@ -23,9 +24,9 @@ class SearchFragmentAdapter(
     lifecycle: Lifecycle,
     private val setupNestedList: SetupNestedList,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
+    private val onItemClick: (MediaId) -> Unit,
+    private val onItemLongClick: (MediaId, View) -> Unit,
     private val viewModel: SearchFragmentViewModel
-
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
     DiffCallbackDisplayableItem
@@ -48,10 +49,10 @@ class SearchFragmentAdapter(
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    onItemLongClick(item.mediaId, view)
                 }
 
             }
@@ -67,11 +68,11 @@ class SearchFragmentAdapter(
                     if (item is DisplayableTrack) {
                         mediaProvider.playFromMediaId(item.mediaId, null, null)
                     } else {
-                        navigator.toDetailFragment(item.mediaId)
+                        onItemClick(item.mediaId)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.clear, this) { item, _, _ ->
                     viewModel.deleteFromRecent(item.mediaId)

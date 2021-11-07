@@ -49,6 +49,14 @@ abstract class EqualizerModule {
     @Singleton
     internal abstract fun provideVirtualizerInternal(impl: VirtualizerImpl): IVirtualizerInternal
 
+    @Binds
+    @Singleton
+    abstract fun provideNavigator(impl: FeatureEqualizerNavigatorImpl): FeatureEqualizerNavigator
+
+    @Binds
+    @Singleton
+    internal abstract fun providePrefs(impl: EqualizerPreferenceImpl): EqualizerPrefs
+
     companion object {
 
         @Provides

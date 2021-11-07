@@ -1,7 +1,6 @@
 package dev.olog.feature.floating
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,18 +9,21 @@ import android.provider.Settings
 import androidx.annotation.CheckResult
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import javax.inject.Inject
 
-object FloatingWindowHelper {
+class FeatureFloatingNavigatorImpl @Inject constructor(
 
-    // TODO improve/test
-    private val clazz = Class.forName("dev.olog.feature.floating.FloatingWindowService")
+) : FeatureFloatingNavigator {
 
-    const val REQUEST_CODE_HOVER_PERMISSION = 1000
+    companion object {
+        private const val REQUEST_CODE_HOVER_PERMISSION = 1000
+    }
 
     @SuppressLint("NewApi")
-    fun startServiceOrRequestOverlayPermission(activity: Activity){
+    override fun startService(activity: FragmentActivity) {
         if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, clazz)
+            val intent = Intent(activity, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(activity, intent)
         } else {
             val intent = createIntentToRequestOverlayPermission(activity)
@@ -31,12 +33,24 @@ object FloatingWindowHelper {
         }
     }
 
-    @SuppressLint("NewApi")
-    fun startServiceIfHasOverlayPermission(activity: Activity){
+    override fun startServiceIfHasPermission(activity: FragmentActivity) {
         if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, clazz)
+            val intent = Intent(activity, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(activity, intent)
         }
+    }
+
+    override fun handleOnActivityResult(
+        activity: FragmentActivity,
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ): Boolean {
+        if (requestCode == REQUEST_CODE_HOVER_PERMISSION) {
+            startServiceIfHasPermission(activity)
+            return true
+        }
+        return false
     }
 
     @CheckResult
@@ -55,8 +69,8 @@ object FloatingWindowHelper {
     @CheckResult
     private fun createIntentToRequestOverlayPermission(context: Context): Intent {
         return Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:${context.packageName}")
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:${context.packageName}")
         )
     }
 

@@ -17,17 +17,24 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.about.FeatureAboutNavigator
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.dialogs.R
+import dev.olog.feature.equalizer.FeatureEqualizerNavigator
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.TabCategory
 import dev.olog.feature.library.toTabCategory
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
-internal class MainPopupDialog @Inject constructor(
+class MainPopupDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val aboutNavigator: FeatureAboutNavigator,
+    private val playlistNavigator: FeaturePlaylistNavigator,
+    private val dialogsNavigator: FeatureDialogsNavigator,
+    private val equalizerNavigator: FeatureEqualizerNavigator,
+    private val featureMainNavigator: FeatureMainNavigator,
     private val gateway: SortPreferences,
     private val libraryPrefs: LibraryPrefs,
 ) {
@@ -44,7 +51,6 @@ internal class MainPopupDialog @Inject constructor(
     fun show(
         activity: FragmentActivity,
         anchor: View,
-        navigator: FeaturePlaylistNavigator,
         category: MediaIdCategory?
     ) {
         val popup = PopupMenu(anchor.context, anchor)
@@ -78,15 +84,15 @@ internal class MainPopupDialog @Inject constructor(
             when (it.itemId) {
                 R.id.about -> aboutNavigator.toAboutActivity(activity)
                 R.id.equalizer -> {
-//                    popupNavigator.toEqualizer() TODO
+                    equalizerNavigator.toEqualizer(activity)
                 }
                 R.id.settings -> {
-//                    popupNavigator.toSettingsActivity() TODO
+                    featureMainNavigator.toSettings(activity)
                 }
                 R.id.sleepTimer -> {
-//                    popupNavigator.toSleepTimer() TODO
+                    dialogsNavigator.toSleepTimer(activity)
                 }
-                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
+                SAVE_AS_PLAYLIST_ID -> playlistNavigator.toCreatePlaylistDialog(
                     activity = activity,
                     mediaId = MediaId.playingQueueId,
                     listSize = -1,

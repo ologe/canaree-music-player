@@ -4,7 +4,7 @@ import android.media.audiofx.AudioEffect
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import dev.olog.feature.equalizer.impl.audio.effect.NormalizedEqualizer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -13,8 +13,7 @@ import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
     gateway: EqualizerGateway,
-    prefs: EqualizerPreferencesGateway
-
+    prefs: EqualizerPrefs
 ) : AbsEqualizer(gateway, prefs),
     IEqualizerInternal,
     CoroutineScope by MainScope() {
@@ -44,7 +43,7 @@ internal class EqualizerImpl @Inject constructor(
             release()
             try {
                 equalizer = NormalizedEqualizer(0, audioSessionId).apply {
-                    enabled = prefs.isEqualizerEnabled()
+                    enabled = prefs.equalizerEnabled.get()
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
@@ -68,12 +67,12 @@ internal class EqualizerImpl @Inject constructor(
         safeAction {
             equalizer?.enabled = enabled
         }
-        prefs.setEqualizerEnabled(enabled)
+        prefs.equalizerEnabled.set(enabled)
     }
 
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
         updateCurrentPresetIfCustom()
-        prefs.setCurrentPresetId(preset.id)
+        prefs.currentPresetId.set(preset.id)
         safeAction {
             equalizer?.let {
                 updatePresetInternal(preset)

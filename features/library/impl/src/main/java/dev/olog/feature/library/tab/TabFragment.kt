@@ -16,13 +16,14 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.model.DisplayableAlbum
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.feature.base.scroller.WaveSideBarView
+import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.library.R
 import dev.olog.feature.library.TabCategory
 import dev.olog.feature.library.tab.adapter.TabFragmentAdapter
@@ -30,6 +31,7 @@ import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.feature.library.tab.layout.manager.AbsSpanSizeLookup
 import dev.olog.feature.library.tab.layout.manager.LayoutManagerFactory
 import dev.olog.feature.library.toTabCategory
+import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.media.MediaProvider
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
@@ -53,31 +55,47 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var detailNavigator: FeatureDetailNavigator
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+    @Inject
+    lateinit var playlistNavigator: FeaturePlaylistNavigator
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = lifecycle,
+            onItemClick = this::onItemClick,
+            onItemLongClick = this::onItemLongClick,
         )
     }
     private val lastArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = lifecycle,
+            onItemClick = this::onItemClick,
+            onItemLongClick = this::onItemLongClick,
         )
     }
     private val newAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = lifecycle,
+            onItemClick = this::onItemClick,
+            onItemLongClick = this::onItemLongClick,
         )
     }
     private val newArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = lifecycle,
+            onItemClick = this::onItemClick,
+            onItemLongClick = this::onItemLongClick,
         )
+    }
+
+    private fun onItemClick(mediaId: MediaId) {
+        detailNavigator.toDetailFragment(requireActivity(), mediaId)
+    }
+
+    private fun onItemLongClick(mediaId: MediaId, view: View) {
+        dialogNavigator.toDialog(requireActivity(), mediaId, view)
     }
 
     private val viewModel by viewModels<TabFragmentViewModel>(
@@ -91,7 +109,14 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(
+            lifecycle = lifecycle,
+            onItemClick = this::onItemClick,
+            onItemLongClick = this::onItemLongClick,
+            mediaProvider = act as MediaProvider,
+            viewModel = viewModel,
+            setupNestedList = this
+        )
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
@@ -223,8 +248,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         fab.setOnClickListener {
             val type =
                 if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
-            navigator.toChooseTracksForPlaylistFragment(type)
-
+            playlistNavigator.toChooseTracksForPlaylistFragment(requireActivity(), type)
         }
     }
 

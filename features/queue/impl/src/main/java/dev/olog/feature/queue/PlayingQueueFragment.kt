@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
-import dev.olog.feature.floating.FloatingWindowHelper
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.feature.floating.FeatureFloatingNavigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -36,15 +36,17 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var dialogsNavigator: FeatureDialogsNavigator
+    @Inject
+    lateinit var floatingNavigator: FeatureFloatingNavigator
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
-            lifecycle,
-            act as MediaProvider,
-            navigator,
-            this,
-            viewModel
+            lifecycle = lifecycle,
+            mediaProvider = act as MediaProvider,
+            onItemLongClick = { mediaId, view -> dialogsNavigator.toDialog(requireActivity(), mediaId, view) },
+            dragListener = this,
+            viewModel = viewModel
         )
     }
 
@@ -81,7 +83,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
+        more.setOnClickListener { dialogsNavigator.toMainPopup(requireActivity(), it, MediaIdCategory.PLAYING_QUEUE) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
@@ -97,7 +99,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        floatingNavigator.startService(requireActivity())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

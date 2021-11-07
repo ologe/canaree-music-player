@@ -8,21 +8,23 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.MediaProvider
-import dev.olog.feature.floating.FloatingWindowHelper
+import dev.olog.core.MediaId
 import dev.olog.feature.base.BaseFragment
-import dev.olog.feature.base.Navigator
+import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
-import dev.olog.feature.base.SetupNestedList
+import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
+import dev.olog.feature.floating.FeatureFloatingNavigator
 import dev.olog.feature.search.adapter.SearchFragmentAdapter
 import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.shared.widgets.extension.hideIme
-import dev.olog.shared.widgets.extension.showIme
+import dev.olog.media.MediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import dev.olog.shared.widgets.extension.hideIme
+import dev.olog.shared.widgets.extension.showIme
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -43,57 +45,77 @@ class SearchFragment : BaseFragment(),
         }
     }
 
+    @Inject
+    lateinit var detailNavigator: FeatureDetailNavigator
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
+    @Inject
+    lateinit var floatingNavigator: FeatureFloatingNavigator
+
     private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
-            lifecycle,
-            this,
-            requireActivity() as MediaProvider,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            setupNestedList = this,
+            mediaProvider = requireActivity() as MediaProvider,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
     private val artistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
     private val genreAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
     private val playlistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
 
     private val folderAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = lifecycle,
+            onItemClick = ::onItemClick,
+            onItemLongClick = ::onItemLongClick,
+            viewModel = viewModel
         )
     }
+
+    private fun onItemClick(mediaId: MediaId) {
+        detailNavigator.toDetailFragment(requireActivity(), mediaId)
+    }
+
+    private fun onItemLongClick(mediaId: MediaId, view: View) {
+        dialogNavigator.toDialog(requireActivity(), mediaId, view)
+    }
+
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
-    @Inject
-    lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -167,7 +189,7 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        more.setOnClickListener { dialogNavigator.toMainPopup(requireActivity(), it, null) }
     }
 
     override fun onPause() {
@@ -184,7 +206,7 @@ class SearchFragment : BaseFragment(),
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        floatingNavigator.startService(requireActivity())
     }
 
 

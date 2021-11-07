@@ -2,14 +2,14 @@ package dev.olog.feature.equalizer.impl.equalizer
 
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 abstract class AbsEqualizer(
     protected val gateway: EqualizerGateway,
-    protected val prefs: EqualizerPreferencesGateway
+    protected val prefs: EqualizerPrefs
 ) : IEqualizerInternal {
 
     override fun getPresets(): List<EqualizerPreset> = gateway.getPresets()

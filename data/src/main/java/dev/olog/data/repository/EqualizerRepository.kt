@@ -4,7 +4,7 @@ import android.os.Build
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.EqualizerPrefs
 import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
     private val equalizerDao: EqualizerPresetsDao,
-    private val prefs: EqualizerPreferencesGateway
+    private val prefs: EqualizerPrefs
 
 ) : EqualizerGateway {
 
@@ -38,12 +38,12 @@ internal class EqualizerRepository @Inject constructor(
     }
 
     override fun getCurrentPreset(): EqualizerPreset {
-        val currentPresetId = prefs.getCurrentPresetId()
+        val currentPresetId = prefs.currentPresetId.get()
         return equalizerDao.getPresetById(currentPresetId).toDomain()
     }
 
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
-        return prefs.observeCurrentPresetId()
+        return prefs.currentPresetId.observe()
             .flatMapLatest { equalizerDao.observePresetById(it) }
             .map { it.toDomain() }
             .distinctUntilChanged()

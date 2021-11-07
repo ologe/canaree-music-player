@@ -30,6 +30,7 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':features:search:api')
     implementation project(':features:library:api')
+    implementation project(':features:equalizer:api')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android

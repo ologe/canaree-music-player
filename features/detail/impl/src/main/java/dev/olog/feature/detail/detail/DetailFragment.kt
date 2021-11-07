@@ -12,15 +12,16 @@ import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.CanChangeStatusBarColor
-import dev.olog.feature.base.Navigator
 import dev.olog.feature.base.adapter.ObservableAdapter
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.SetupNestedList
 import dev.olog.feature.base.model.DisplayableHeader
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.adapter.*
 import dev.olog.feature.detail.detail.adapter.DetailFragmentAdapter
+import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -54,7 +55,9 @@ class DetailFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var detailNavigator: FeatureDetailNavigator
+    @Inject
+    lateinit var dialogNavigator: FeatureDialogsNavigator
 
     private val viewModel by viewModels<DetailFragmentViewModel>()
 
@@ -64,28 +67,54 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(
+            lifecycle = lifecycle,
+            onItemLongClick = ::toDialog,
+            mediaProvider = act as MediaProvider,
+        )
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(
+            lifecycle = lifecycle,
+            onItemLongClick = ::toDialog,
+            mediaProvider = act as MediaProvider,
+        )
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(lifecycle, navigator)
+        DetailRelatedArtistsAdapter(
+            lifecycle = lifecycle,
+            onItemClick = ::toDetail,
+            onItemLongClick = ::toDialog,
+        )
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(lifecycle, navigator)
+        DetailSiblingsAdapter(
+            lifecycle = lifecycle,
+            onItemClick = ::toDetail,
+            onItemLongClick = ::toDialog,
+        )
     }
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            lifecycle,
-            mediaId,
-            this,
-            navigator,
-            act as MediaProvider,
-            viewModel,
-            this
+            lifecycle = lifecycle,
+            mediaId = mediaId,
+            setupNestedList = this,
+            onItemLongClick = ::toDialog,
+            onRecentlyAddedClick = { detailNavigator.toRecentlyAdded(requireActivity(), it) },
+            onRelatedArtistClick = { detailNavigator.toRelatedArtists(requireActivity(), it) },
+            mediaProvider = act as MediaProvider,
+            viewModel = viewModel,
+            dragListener = this,
         )
+    }
+
+    private fun toDetail(mediaId: MediaId) {
+        detailNavigator.toDetailFragment(requireActivity(), mediaId)
+    }
+
+    private fun toDialog(mediaId: MediaId, view: View) {
+        dialogNavigator.toDialog(requireActivity(), mediaId, view)
     }
 
     private val recyclerOnScrollListener by lazyFast {
@@ -199,7 +228,7 @@ class DetailFragment : BaseFragment(),
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
         back.setOnClickListener { act.onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
+        more.setOnClickListener { dialogNavigator.toDialog(requireActivity(), viewModel.mediaId, more) }
         filter.setOnClickListener {
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }

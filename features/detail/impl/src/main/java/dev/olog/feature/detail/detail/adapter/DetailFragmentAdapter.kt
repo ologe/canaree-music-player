@@ -1,6 +1,7 @@
 package dev.olog.feature.detail.detail.adapter
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.core.text.parseAsHtml
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -42,7 +43,9 @@ internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaId: MediaId,
     private val setupNestedList: SetupNestedList,
-    private val navigator: Navigator,
+    private val onItemLongClick: (MediaId, View) -> Unit,
+    private val onRecentlyAddedClick: (MediaId) -> Unit,
+    private val onRelatedArtistClick: (MediaId) -> Unit,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
@@ -72,10 +75,10 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    onItemLongClick(item.mediaId, view)
                 }
 
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
@@ -88,16 +91,14 @@ internal class DetailFragmentAdapter(
 
             R.layout.item_detail_header_recently_added -> {
                 viewHolder.setOnClickListener(R.id.seeMore, this) { _, _, _ ->
-                    navigator.toRecentlyAdded(mediaId)
+                    onRecentlyAddedClick(mediaId)
                 }
             }
             R.layout.item_detail_header -> {
 
                 viewHolder.setOnClickListener(R.id.seeMore, this) { item, _, _ ->
                     when (item.mediaId) {
-                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(
-                            mediaId
-                        )
+                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> onRelatedArtistClick(mediaId)
                     }
                 }
             }
