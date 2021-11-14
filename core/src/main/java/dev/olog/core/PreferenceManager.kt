@@ -121,6 +121,14 @@ private class PreferenceImpl<T : Any>(
         set(default)
     }
 
+    override fun delete() {
+        preferences.edit(commit = true) {
+            remove(key)
+        }
+    }
+
+    override fun exists(): Boolean = preferences.contains(key)
+
     @Suppress("UNCHECKED_CAST")
     private fun getItem(key: String, default: T): T {
         return when (default) {
@@ -168,6 +176,13 @@ private class ComposedPreference2Impl<T1 : Any, T2 : Any, R : Any>(
         pref1.set(default1)
         pref2.set(default2)
     }
+
+    override fun delete() {
+        pref1.delete()
+        pref2.delete()
+    }
+
+    override fun exists(): Boolean = pref1.exists() || pref2.exists()
 }
 
 private class EnumPreferenceImpl<T : Any>(
@@ -187,4 +202,10 @@ private class EnumPreferenceImpl<T : Any>(
     override fun reset() {
         pref.reset()
     }
+
+    override fun delete() {
+        pref.delete()
+    }
+
+    override fun exists(): Boolean = pref.exists()
 }

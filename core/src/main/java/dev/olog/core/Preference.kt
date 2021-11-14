@@ -8,5 +8,7 @@ interface Preference<T> {
     fun set(value: T)
     fun observe(): Flow<T>
     fun reset()
+    fun delete()
+    fun exists(): Boolean
 
 }
