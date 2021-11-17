@@ -3,8 +3,8 @@ package dev.olog.feature.library.tab
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.library.LibraryPrefs
@@ -16,6 +16,7 @@ import javax.inject.Inject
 class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,
+    private val songGateway: SongGateway,
     private val libraryPrefs: LibraryPrefs,
 
     ) : ViewModel() {
@@ -31,18 +32,18 @@ class TabFragmentViewModel @Inject constructor(
         return liveData
     }
 
-    fun getAllTracksSortOrder(mediaId: MediaId): SortEntity? {
-        if (mediaId.isAnyPodcast) {
+    fun getAllTracksSortOrder(isPodcast: Boolean): Sort? {
+        if (isPodcast) {
             return null
         }
-        return appPreferencesUseCase.getAllTracksSort()
+        return songGateway.sort
     }
 
-    fun getAllAlbumsSortOrder(): SortEntity {
+    fun getAllAlbumsSortOrder(): Sort {
         return appPreferencesUseCase.getAllAlbumsSort()
     }
 
-    fun getAllArtistsSortOrder(): SortEntity {
+    fun getAllArtistsSortOrder(): Sort {
         return appPreferencesUseCase.getAllArtistsSort()
     }
 

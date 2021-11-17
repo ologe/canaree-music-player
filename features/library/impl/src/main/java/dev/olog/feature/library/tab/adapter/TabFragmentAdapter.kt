@@ -73,7 +73,7 @@ class TabFragmentAdapter(
 
     private fun onItemClick(item: DisplayableItem){
         if (item is DisplayableTrack){
-            val sort = viewModel.getAllTracksSortOrder(item.mediaId)
+            val sort = viewModel.getAllTracksSortOrder(item.mediaId.isAnyPodcast)
             mediaProvider.playFromMediaId(item.mediaId, null, sort)
         } else if (item is DisplayableAlbum){
             onItemClick(item.mediaId)

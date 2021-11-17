@@ -303,7 +303,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         return when (category) {
             TabCategory.SONGS -> {
                 require(item is DisplayableTrack)
-                val sortOrder = viewModel.getAllTracksSortOrder(MediaId.songId(-1))!!
+                val sortOrder = viewModel.getAllTracksSortOrder(false)!!
                 when (sortOrder.type) {
                     SortType.ARTIST -> item.artist
                     SortType.ALBUM -> item.album
