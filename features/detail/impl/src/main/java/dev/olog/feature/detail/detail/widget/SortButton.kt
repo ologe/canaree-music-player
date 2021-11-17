@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 
 internal class SortButton(
@@ -12,7 +12,7 @@ internal class SortButton(
     attrs: AttributeSet
 ) : AppCompatImageButton(context, attrs) {
 
-    fun update(sortEntity: SortEntity) {
+    fun update(sortEntity: Sort) {
         if (sortEntity.type == SortType.CUSTOM) {
             setImageResource(dev.olog.shared.android.R.drawable.vd_remove)
         } else {

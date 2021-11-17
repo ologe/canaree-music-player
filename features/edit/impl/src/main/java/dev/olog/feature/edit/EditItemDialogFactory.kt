@@ -4,7 +4,7 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.shared.android.extensions.toast
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class EditItemDialogFactory @Inject constructor(
     @ApplicationContext private val context: Context,
     private val getSongUseCase: SongGateway,
-    private val getPodcastUseCase: PodcastGateway,
+    private val getPodcastUseCase: PodcastEpisodeGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {

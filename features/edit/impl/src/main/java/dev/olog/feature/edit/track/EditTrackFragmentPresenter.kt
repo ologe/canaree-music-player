@@ -6,13 +6,13 @@ import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val lastFmGateway: ImageRetrieverGateway
 
 ) {

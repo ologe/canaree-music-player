@@ -15,7 +15,7 @@ import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
@@ -43,7 +43,7 @@ internal abstract class RecentSearchesDao {
         playlistList: PlaylistGateway,
         genreList: GenreGateway,
         folderList: FolderGateway,
-        podcastList: PodcastGateway,
+        podcastList: PodcastEpisodeGateway,
         podcastPlaylistList: PodcastPlaylistGateway,
         podcastAlbumList: PodcastAlbumGateway,
         podcastArtistList: PodcastArtistGateway

@@ -7,7 +7,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import java.io.InputStream
@@ -16,7 +16,7 @@ import javax.inject.Inject
 internal class GlideOriginalImageLoader(
     private val context: Context,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastEpisodeGateway
 
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -53,7 +53,7 @@ internal class GlideOriginalImageLoader(
     class Factory @Inject constructor(
         @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
-        private val podcastGateway: PodcastGateway
+        private val podcastGateway: PodcastEpisodeGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {

@@ -1,6 +1,6 @@
 package dev.olog.core.entity.sort
 
-data class SortEntity(
+data class Sort(
     val type: SortType,
     val arranging: SortArranging
 )

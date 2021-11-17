@@ -3,7 +3,7 @@ package dev.olog.feature.playlist.create.dialog
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
@@ -16,7 +16,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val playingQueueGateway: PlayingQueueGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val songGateway: SongGateway
 
 ) {

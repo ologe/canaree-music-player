@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
@@ -131,7 +131,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
 
-    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
+    fun detailSortDataUseCase(mediaId: MediaId, action: (Sort) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)
         action(sortOrder)
     }
@@ -169,7 +169,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         presenter.removeFromPlaylist(item)
     }
 
-    fun observeSorting(): Flow<SortEntity> {
+    fun observeSorting(): Flow<Sort> {
         return observeSortOrderUseCase(mediaId)
     }
 

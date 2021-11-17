@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.feature.base.model.DisplayableItem
@@ -33,7 +33,7 @@ class TabDataProvider @Inject constructor(
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     private val libraryPrefs: LibraryPrefs

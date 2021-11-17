@@ -5,7 +5,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
@@ -34,7 +34,7 @@ internal class QueueImpl @Inject constructor(
     private val queueMediaSession: MediaSessionQueue,
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastEpisodeGateway
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
 

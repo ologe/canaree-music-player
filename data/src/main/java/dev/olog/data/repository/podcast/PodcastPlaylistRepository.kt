@@ -10,9 +10,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.data.R
 import dev.olog.data.db.dao.HistoryDao
 import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.entities.PodcastPlaylistEntity
@@ -28,7 +27,7 @@ import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val favoriteGateway: FavoriteGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     private val historyDao: HistoryDao,

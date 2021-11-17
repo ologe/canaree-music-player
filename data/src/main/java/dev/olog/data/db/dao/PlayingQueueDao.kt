@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
@@ -77,7 +77,7 @@ internal abstract class PlayingQueueDao {
 
     fun observeAllAsSongs(
         songGateway: SongGateway,
-        podcastGateway: PodcastGateway
+        podcastGateway: PodcastEpisodeGateway
     ): Flow<List<PlayingQueueSong>> {
         return this.observeAllImpl()
             .map {

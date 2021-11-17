@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
@@ -76,7 +76,7 @@ internal abstract class HistoryDao {
         }
     }
 
-    fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
+    fun getPodcasts(podcastGateway: PodcastEpisodeGateway): List<Song> {
         assertBackgroundThread()
         val historyList = getAllPodcastsImpl()
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
@@ -95,7 +95,7 @@ internal abstract class HistoryDao {
             }.assertBackground()
     }
 
-    fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePodcasts(podcastGateway: PodcastEpisodeGateway): Flow<List<Song>> {
         return observeAllPodcastsImpl()
             .map { historyList ->
                 val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }

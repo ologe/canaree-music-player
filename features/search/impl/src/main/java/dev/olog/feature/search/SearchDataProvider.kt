@@ -6,7 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.feature.base.model.DisplayableAlbum
@@ -29,7 +29,7 @@ class SearchDataProvider @Inject constructor(
     private val genreGateway: GenreGateway,
     // podcasts
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     // recent

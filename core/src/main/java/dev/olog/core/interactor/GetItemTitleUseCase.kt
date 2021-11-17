@@ -4,7 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
@@ -21,7 +21,7 @@ class GetItemTitleUseCase @Inject constructor(
     private val getGenreUseCase: GenreGateway,
 
     private val getPodcastPlaylistUseCase: PodcastPlaylistGateway,
-    private val getPodcastUseCase: PodcastGateway,
+    private val getPodcastUseCase: PodcastEpisodeGateway,
     private val getPodcastAlbumUseCase: PodcastAlbumGateway,
     private val getPodcastArtistUseCase: PodcastArtistGateway
 

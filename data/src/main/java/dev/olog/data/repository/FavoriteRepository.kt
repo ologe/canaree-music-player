@@ -5,7 +5,7 @@ import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
 import dev.olog.data.utils.assertBackground
@@ -19,7 +19,7 @@ import javax.inject.Inject
 internal class FavoriteRepository @Inject constructor(
     private val favoriteDao: FavoriteDao,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastEpisodeGateway
 
 ) : FavoriteGateway {
 

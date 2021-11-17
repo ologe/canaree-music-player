@@ -3,7 +3,7 @@ package dev.olog.data.repository
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.dao.PlayingQueueDao
@@ -15,7 +15,7 @@ import javax.inject.Inject
 internal class PlayingQueueRepository @Inject constructor(
     private val playingQueueDao: PlayingQueueDao,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastEpisodeGateway
 
 ) : PlayingQueueGateway {
 

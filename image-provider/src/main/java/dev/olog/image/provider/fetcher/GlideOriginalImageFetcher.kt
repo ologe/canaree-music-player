@@ -6,7 +6,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +21,7 @@ class GlideOriginalImageFetcher(
     private val context: Context,
     private val mediaId: MediaId,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastEpisodeGateway
 
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 

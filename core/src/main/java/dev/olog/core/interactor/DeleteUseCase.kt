@@ -1,7 +1,7 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class DeleteUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val songGateway: SongGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 

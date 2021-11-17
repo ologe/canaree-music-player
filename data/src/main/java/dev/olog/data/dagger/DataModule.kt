@@ -8,7 +8,7 @@ import dagger.multibindings.Multibinds
 import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.repository.*
@@ -66,7 +66,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun providePodcsatRepository(repository: PodcastRepository): PodcastGateway
+    internal abstract fun providePodcsatRepository(repository: PodcastEpisodeRepository): PodcastEpisodeGateway
     @Binds
     @Singleton
     internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository): PodcastAlbumGateway

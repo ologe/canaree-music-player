@@ -4,7 +4,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.gateway.base.Id
 
-interface PodcastGateway :
+interface PodcastEpisodeGateway :
     BaseGateway<Song, Id> {
 
     suspend fun deleteSingle(id: Id)

@@ -6,7 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.feature.dialogs.popup.album.AlbumPopup
@@ -24,7 +24,7 @@ class PopupMenuFactory @Inject constructor(
     private val getAlbumUseCase: AlbumGateway,
     private val getArtistUseCase: ArtistGateway,
     private val getGenreUseCase: GenreGateway,
-    private val getPodcastUseCase: PodcastGateway,
+    private val getPodcastUseCase: PodcastEpisodeGateway,
     private val getPodcastPlaylistUseCase: PodcastPlaylistGateway,
     private val getPodcastAlbumUseCase: PodcastAlbumGateway,
     private val getPodcastArtistUseCase: PodcastArtistGateway,

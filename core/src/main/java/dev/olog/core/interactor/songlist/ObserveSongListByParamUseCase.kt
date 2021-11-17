@@ -5,7 +5,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
@@ -21,7 +21,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
+    private val podcastGateway: PodcastEpisodeGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 

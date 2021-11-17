@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class CreatePlaylistFragmentViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getAllSongsUseCase: SongGateway,
-    private val getAllPodcastsUseCase: PodcastGateway,
+    private val getAllPodcastsUseCase: PodcastEpisodeGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
