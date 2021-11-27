@@ -3,13 +3,10 @@ package dev.olog.msc.settings
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
@@ -98,7 +95,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         blacklist.setOnPreferenceClickListener {
             act.fragmentTransaction {
                 setReorderingAllowed(true)
-                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
+                add(BlacklistFragment(), BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             }
             true

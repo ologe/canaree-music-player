@@ -9,8 +9,6 @@ dependencies {
     implementation lib_core.coroutines_android
     implementation lib_core.coroutines_test
 
-    implementation lib_test.livedata
-
     implementation lib_test.junit
 //    implementation lib_test.mockito
 //    implementation lib_test.mockito_kotlin

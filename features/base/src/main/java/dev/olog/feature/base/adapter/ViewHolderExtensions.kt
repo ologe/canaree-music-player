@@ -5,10 +5,10 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.base.model.BaseModel
 import dev.olog.feature.base.anim.ScaleInOnTouch
 import dev.olog.feature.base.anim.ScaleMoreInOnTouch
 import dev.olog.feature.base.drag.IDragListener
+import dev.olog.feature.base.model.BaseModel
 
 fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
     data: ObservableAdapter<T>,
