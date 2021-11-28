@@ -10,14 +10,9 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.service.music.state.MusicServiceMetadata
-import dev.olog.test.shared.MainCoroutineRule
-import org.junit.Rule
 import org.junit.Test
 
 class MusicServiceMetadataTest {
-
-    @get:Rule
-    var coroutinesMainDispatcherRule = MainCoroutineRule()
 
     private val context = mock<Context>()
     private val mediaSession = mock<MediaSessionCompat>()
