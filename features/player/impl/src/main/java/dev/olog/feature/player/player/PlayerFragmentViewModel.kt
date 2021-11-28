@@ -50,10 +50,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
+    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrThrow()
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.trySend(trackId)
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(

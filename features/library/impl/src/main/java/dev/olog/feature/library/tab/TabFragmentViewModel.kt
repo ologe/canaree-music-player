@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.sort.Sort
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.library.LibraryPrefs
 import dev.olog.feature.library.TabCategory
@@ -15,8 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
-    private val appPreferencesUseCase: SortPreferences,
     private val songGateway: SongGateway,
+    private val artistGateway: ArtistGateway,
+    private val albumGateway: AlbumGateway,
     private val libraryPrefs: LibraryPrefs,
 
     ) : ViewModel() {
@@ -40,11 +42,11 @@ class TabFragmentViewModel @Inject constructor(
     }
 
     fun getAllAlbumsSortOrder(): Sort {
-        return appPreferencesUseCase.getAllAlbumsSort()
+        return albumGateway.sort
     }
 
     fun getAllArtistsSortOrder(): Sort {
-        return appPreferencesUseCase.getAllArtistsSort()
+        return artistGateway.sort
     }
 
     fun getSpanCount(category: TabCategory) = libraryPrefs.spanCount(category).get()

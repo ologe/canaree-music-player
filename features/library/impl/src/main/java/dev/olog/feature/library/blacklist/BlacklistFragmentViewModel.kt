@@ -1,11 +1,8 @@
 package dev.olog.feature.library.blacklist
 
-import android.content.Context
-import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.track.FolderGateway
@@ -19,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BlacklistFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     folderGateway: FolderGateway,
     private val blacklistGateway: BlacklistGateway,
 ) : ViewModel() {
@@ -73,7 +69,6 @@ class BlacklistFragmentViewModel @Inject constructor(
             .map(::File)
 
         blacklistGateway.setBlacklist(toBlacklist)
-        notifyMediaStore()
         _events.emit(Event.Dismiss)
     }
 
@@ -81,13 +76,6 @@ class BlacklistFragmentViewModel @Inject constructor(
         _items.value = _items.value.map {
             if (item == it) it.copy(isBlacklisted = !it.isBlacklisted) else it
         }
-    }
-
-    private fun notifyMediaStore() {
-        val contentResolver = context.contentResolver
-        contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-        contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-        contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
     }
 
 }

@@ -90,7 +90,7 @@ abstract class BaseOfflineLyricsPresenter(
         syncJob = GlobalScope.launch {
             currentTrackIdPublisher.asFlow()
                 .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
-                .collect { syncAdjustmentPublisher.offer(it) }
+                .collect { syncAdjustmentPublisher.trySend(it) }
         }
     }
 
@@ -123,7 +123,7 @@ abstract class BaseOfflineLyricsPresenter(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.offer(LyricsMode.Normal(noSyncDefaultSpan(lyrics)))
+            lyricsPublisher.trySend(LyricsMode.Normal(noSyncDefaultSpan(lyrics)))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -146,7 +146,7 @@ abstract class BaseOfflineLyricsPresenter(
                     defaultSpan(this, 0, textOnly.length)
                 }
             }
-            lyricsPublisher.offer(LyricsMode.Synced(result))
+            lyricsPublisher.trySend(LyricsMode.Synced(result))
         }
     }
 
@@ -192,7 +192,7 @@ abstract class BaseOfflineLyricsPresenter(
     }
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.trySend(trackId)
     }
 
     fun getLyrics(): String {

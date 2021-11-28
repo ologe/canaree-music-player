@@ -109,7 +109,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
 
         try {
-            currentDirectory.offer(current.parentFile!!)
+            currentDirectory.trySend(current.parentFile!!)
             return true
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -119,7 +119,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun nextFolder(file: File) {
         require(file.isDirectory)
-        currentDirectory.offer(file)
+        currentDirectory.trySend(file)
     }
 
     fun updateDefaultFolder() {

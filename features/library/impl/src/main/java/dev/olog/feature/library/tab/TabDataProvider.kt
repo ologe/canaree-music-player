@@ -3,7 +3,7 @@ package dev.olog.feature.library.tab
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -35,7 +35,7 @@ class TabDataProvider @Inject constructor(
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastEpisodeGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastArtistGateway: PodcastAuthorGateway,
     private val libraryPrefs: LibraryPrefs
 ) {
 
