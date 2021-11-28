@@ -32,7 +32,6 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
         artist = artist,
         album = album,
         idInPlaylist = idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 
@@ -63,7 +62,6 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
         artist = this.artist,
         album = this.album,
         idInPlaylist = position,
-        dataModified = this.dateModified
     )
 }
 
@@ -75,7 +73,6 @@ internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableT
         artist = this.artist,
         album = this.album,
         idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 

@@ -12,6 +12,5 @@ internal fun Song.toDisplayableItem(): DisplayableTrack {
         artist = this.artist,
         album = this.album,
         idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }

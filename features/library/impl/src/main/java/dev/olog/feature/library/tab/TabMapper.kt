@@ -50,7 +50,6 @@ fun Song.toTabDisplayableItem(): DisplayableItem {
         artist = artist,
         album = album,
         idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration).toInt() else this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 
