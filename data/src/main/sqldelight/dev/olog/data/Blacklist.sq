@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS blacklist (
+    directory TEXT NOT NULL,
+    PRIMARY KEY(directory)
+);
+
+deleteAll:
+DELETE FROM blacklist;
+
+insert:
+INSERT INTO blacklist
+VALUES ?;
+
+selectAll:
+SELECT * FROM blacklist;
+
+-- TODO migrate?, see BlacklistMigration

@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS history(
+    playable_id INTEGER PRIMARY KEY NOT NULL,
+    date_added INTEGER NOT NULL
+);
+
+selectAllSongs:
+SELECT songs_view.*
+FROM history
+    JOIN songs_view ON history.playable_id = songs_view.id
+ORDER BY history.date_added DESC;
+
+selectAllPodcastEpisodes:
+SELECT podcast_episodes_view.*
+FROM history
+    JOIN podcast_episodes_view ON history.playable_id = podcast_episodes_view.id
+ORDER BY history.date_added DESC;
+
+insert:
+INSERT OR REPLACE INTO history VALUES ?;

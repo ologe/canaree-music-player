@@ -1,0 +1,9 @@
+selectAllSongs:
+SELECT *
+FROM songs_view
+ORDER BY date_added DESC, lower(title) COLLATE LOCALIZED ASC;
+
+selectAllPodcastEpisodes:
+SELECT *
+FROM podcast_episodes_view
+ORDER BY date_added DESC, lower(title) COLLATE LOCALIZED ASC;

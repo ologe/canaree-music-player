@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS indexed_playables (
+    id INTEGER NOT NULL,
+    author_id INTEGER NOT NULL,
+    collection_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    author TEXT NOT NULL,
+    album_artist TEXT NOT NULL,
+    collection TEXT NOT NULL,
+    duration INTEGER NOT NULL,
+    date_added INTEGER NOT NULL,
+    directory TEXT NOT NULL,
+    path TEXT NOT NULL,
+    disc_number INTEGER AS Int NOT NULL,
+    track_number INTEGER AS Int NOT NULL,
+    is_podcast INTEGER AS Boolean NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE INDEX indexed_playables_id_index ON indexed_playables (id);
+CREATE INDEX indexed_playables_author_id_index ON indexed_playables (author_id);
+CREATE INDEX indexed_playables_collection_id_index ON indexed_playables (collection_id);
+CREATE INDEX indexed_playables_is_podcast_index ON indexed_playables (is_podcast);
+-- TODO index also title, author, collection?
+
+insert:
+INSERT INTO indexed_playables VALUES ?;
+
+deleteAll:
+DELETE FROM indexed_playables;
+
+deleteOne:
+DELETE FROM indexed_playables WHERE id = ?;
+
+selectAll:
+SELECT * FROM indexed_playables;
