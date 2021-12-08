@@ -30,7 +30,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as song`() {
-        queries.replace(Playing_item(1L))
+        queries.replace(playable_id = 1L)
 
         val actual = queries.select().executeAsOne()
 
@@ -39,7 +39,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as podcast episode`() {
-        queries.replace(Playing_item(2L))
+        queries.replace(playable_id = 2L)
         val actual = queries.select().executeAsOne()
 
         Assert.assertEquals(podcastEpisodes, actual)
@@ -47,9 +47,9 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as song should be null when blacklisted`() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
         indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = false))
-        queries.replace(Playing_item(3L))
+        queries.replace(playable_id = 3L)
 
         val actual = queries.select().executeAsOneOrNull()
 
@@ -58,9 +58,9 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as podcast episode should be null when blacklisted`() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
         indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = true))
-        queries.replace(Playing_item(3L))
+        queries.replace(playable_id = 3L)
         val actual = queries.select().executeAsOneOrNull()
 
         Assert.assertEquals(null, actual)
