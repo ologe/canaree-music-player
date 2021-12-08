@@ -2,8 +2,11 @@ CREATE TABLE playing_item (
     playable_id INTEGER NOT NULL PRIMARY KEY
 );
 
-replace:
-INSERT OR REPLACE INTO playing_item VALUES ?;
+delete:
+DELETE FROM playing_item;
+
+insert:
+INSERT OR REPLACE INTO playing_item VALUES (?);
 
 select:
 SELECT *
@@ -14,5 +17,4 @@ FROM (
     SELECT *
     FROM podcast_episodes_view
 )
-WHERE id IN (SELECT playing_item.playable_id FROM playing_item)
-LIMIT 1;
+WHERE id IN (SELECT playing_item.playable_id FROM playing_item);
