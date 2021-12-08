@@ -30,8 +30,9 @@ ext {
     tap_target_view = '2.0.0'
 
 //    data
-    room = '2.3.0'
-    sql_content_resolver = '1.2.1'
+    room = '2.3.0' // TODO remove
+    sql_content_resolver = '1.2.1' // TODO remove
+    sql_delight = '1.5.3'
 
 //    network
     ok_http = '4.9.2'
@@ -51,6 +52,13 @@ ext {
 //    firebase
     firebase_core = '17.2.0'
     firebase_crashlytics = '17.2.1'
+
+//    test
+    junit = '4.13.2'
+    mockito = '3.12.4'
+    mockito_kotlin = '2.2.0'
+    robolectric = '4.7'
+    flow_observer = '1.6.0'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
@@ -108,6 +116,8 @@ ext {
             room_ktx            : "androidx.room:room-ktx:$room",
             room_processor      : "androidx.room:room-compiler:$room",
             room_test           : "androidx.room:room-testing:$room",
+            sql_delight         : "com.squareup.sqldelight:android-driver:$sql_delight",
+            sql_delight_test    : "com.squareup.sqldelight:sqlite-driver:$sql_delight",
     ]
 
     lib_utils = [
@@ -132,10 +142,11 @@ ext {
     ]
 
     lib_test = [
-            junit         : "junit:junit:4.13",
-            mockito       : "org.mockito:mockito-inline:3.12.4",
-            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            robolectric   : "org.robolectric:robolectric:4.7"
+            junit         : "junit:junit:$junit",
+            mockito       : "org.mockito:mockito-inline:$mockito",
+            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin",
+            robolectric   : "org.robolectric:robolectric:$robolectric",
+            flow_observer : "com.github.ologe:flow-test-observer:$flow_observer",
     ]
 
 }
