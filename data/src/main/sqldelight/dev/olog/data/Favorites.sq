@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS favorites(
+    playable_id INTEGER PRIMARY KEY NOT NULL,
+    is_podcast INTEGER AS Boolean NOT NULL
+);
+
+selectCurrentFavorite:
+SELECT favorites.*
+FROM playing_item
+    JOIN favorites ON playing_item.playable_id = favorites.playable_id;
+
+addPlayingItemToFavorites:
+INSERT OR REPLACE INTO favorites
+SELECT playing_item.playable_id, all_playables_view.is_podcast
+FROM playing_item
+    JOIN all_playables_view ON playing_item.playable_id = all_playables_view.id;
+
+removePlayingItemFromFavorites:
+DELETE FROM favorites
+WHERE favorites.playable_id IN (SELECT playing_item.playable_id FROM playing_item);
+
+selectAllSongs:
+SELECT songs_view.*
+FROM favorites
+    JOIN songs_view ON favorites.playable_id = songs_view.id;
+
+selectAllPodcastEpisodes:
+SELECT podcast_episodes_view.*
+FROM favorites
+    JOIN podcast_episodes_view ON favorites.playable_id = podcast_episodes_view.id;
+
+clear:
+DELETE FROM favorites WHERE is_podcast = ?;
+
+insert:
+INSERT OR REPLACE INTO favorites
+VALUES (
+    :id,
+    (SELECT is_podcast FROM all_playables_view WHERE id = :id)
+);
+
+delete:
+DELETE FROM favorites WHERE playable_id = ?;
+
+isFavorite:
+SELECT * FROM favorites WHERE playable_id = ?;
+

@@ -1,136 +1,101 @@
 package dev.olog.data.repository
 
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.entity.favorite.FavoriteStateEntity
+import dev.olog.core.entity.favorite.FavoriteEnum.FAVORITE
+import dev.olog.core.entity.favorite.FavoriteEnum.NOT_FAVORITE
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.data.FavoritesQueries
+import dev.olog.data.extension.mapToFlowList
+import dev.olog.data.extension.mapToFlowOneOrNull
+import dev.olog.data.playable.Podcast_episodes_view
+import dev.olog.data.playable.Songs_view
+import dev.olog.data.playable.toDomain
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
-    private val favoriteDao: FavoriteDao,
-    private val songGateway: SongGateway,
-    private val podcastGateway: PodcastEpisodeGateway
-
+    private val schedulers: Schedulers,
+    private val queries: FavoritesQueries,
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
-
-    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
-        .asFlow()
-        .map { it.enum }
-
-    override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
-        favoriteStatePublisher.offer(state)
-    }
-
-    override fun getTracks(): List<Song> {
-        assertBackgroundThread()
-        val historyList = favoriteDao.getAllTracksImpl()
-        val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-        return historyList.mapNotNull { id -> songList[id]?.get(0) }
-    }
-
-    override fun getPodcasts(): List<Song> {
-        assertBackgroundThread()
-        val historyList = favoriteDao.getAllPodcastsImpl()
-        val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-        return historyList.mapNotNull { id -> songList[id]?.get(0) }
-    }
-
-    override fun observeTracks(): Flow<List<Song>> {
-        return favoriteDao.observeAllTracksImpl()
-            .map { favorites ->
-                val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-                favorites.mapNotNull { id -> songs[id]?.get(0) }
-                    .sortedBy { it.title }
-            }.assertBackground()
-    }
-
-    override fun observePodcasts(): Flow<List<Song>> {
-        return favoriteDao.observeAllPodcastsImpl()
-            .map { favorites ->
-                val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
-                favorites.mapNotNull { id -> podcast[id]?.get(0) }
-                    .sortedBy { it.title }
-            }.assertBackground()
-    }
-
-    override suspend fun addSingle(type: FavoriteType, songId: Long) {
-        favoriteDao.addToFavoriteSingle(type, songId)
-        val id = favoriteStatePublisher.value.songId
-        if (songId == id) {
-            updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
-            )
-        }
-    }
-
-    override suspend fun addGroup(type: FavoriteType, songListId: List<Long>) {
-        favoriteDao.addToFavorite(type, songListId)
-        val songId = favoriteStatePublisher.value.songId
-        if (songListId.contains(songId)) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type))
-        }
-    }
-
-    override suspend fun deleteSingle(type: FavoriteType, songId: Long) {
-        favoriteDao.removeFromFavorite(type, listOf(songId))
-        val id = favoriteStatePublisher.value.songId
-        if (songId == id) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
-        }
-    }
-
-    override suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>) {
-        favoriteDao.removeFromFavorite(type, songListId)
-        val songId = favoriteStatePublisher.value.songId
-        if (songListId.contains(songId)) {
-            updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
-            )
-        }
-    }
-
-    override suspend fun deleteAll(type: FavoriteType) {
-        favoriteDao.deleteTracks()
-        val songId = favoriteStatePublisher.value.songId
-        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
-    }
-
-    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
-        return favoriteDao.isFavorite(songId) != null
-    }
-
-    override suspend fun toggleFavorite() {
-        assertBackgroundThread()
-
-        val value = favoriteStatePublisher.valueOrNull ?: return
-        val id = value.songId
-        val state = value.enum
-        val type = value.favoriteType
-
-        when (state) {
-            FavoriteEnum.NOT_FAVORITE -> {
-                updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type)
-                )
-                favoriteDao.addToFavoriteSingle(type, id)
+    override fun observeToggleFavorite(): Flow<FavoriteEnum> {
+        return queries.selectCurrentFavorite()
+            .mapToFlowOneOrNull(schedulers.io)
+            .map {
+                if (it != null) FAVORITE else NOT_FAVORITE
             }
-            FavoriteEnum.FAVORITE -> {
-                updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
-                )
-                favoriteDao.removeFromFavorite(type, listOf(id))
+    }
+
+    override fun getSongs(): List<Song> {
+        return queries.selectAllSongs()
+            .executeAsList()
+            .map(Songs_view::toDomain)
+    }
+
+    override fun getPodcastEpisodes(): List<Song> {
+        return queries.selectAllPodcastEpisodes()
+            .executeAsList()
+            .map(Podcast_episodes_view::toDomain)
+    }
+
+    override fun observeSongs(): Flow<List<Song>> {
+        return queries.selectAllSongs()
+            .mapToFlowList(schedulers.io)
+            .mapListItem(Songs_view::toDomain)
+    }
+
+    override fun observePodcastEpisodes(): Flow<List<Song>> {
+        return queries.selectAllPodcastEpisodes()
+            .mapToFlowList(schedulers.io)
+            .mapListItem(Podcast_episodes_view::toDomain)
+    }
+
+    override suspend fun addSingle(playableId: Long) = withContext(schedulers.io) {
+        queries.insert(playableId)
+    }
+
+    override suspend fun addGroup(playableIds: List<Long>) = withContext(schedulers.io) {
+        queries.transaction {
+            for (id in playableIds) {
+                queries.insert(id)
+            }
+        }
+    }
+
+    override suspend fun deleteSingle(playableId: Long) = withContext(schedulers.io) {
+        queries.delete(playableId)
+    }
+
+    override suspend fun deleteGroup(playableIds: List<Long>) = withContext(schedulers.io) {
+        queries.transaction {
+            for (id in playableIds) {
+                queries.delete(id)
+            }
+        }
+    }
+
+    override suspend fun deleteAll(type: FavoriteType) = withContext(schedulers.io) {
+        queries.clear(type.isPodcast())
+    }
+
+    override suspend fun isFavorite(playableId: Long): Boolean {
+        return queries.isFavorite(playableId)
+            .executeAsOneOrNull() != null
+    }
+
+    override suspend fun toggleFavorite() = withContext(schedulers.io) {
+        queries.transaction {
+            val current = queries.selectCurrentFavorite().executeAsOneOrNull()
+            if (current != null) {
+                queries.removePlayingItemFromFavorites()
+            } else {
+                queries.addPlayingItemToFavorites()
             }
         }
     }
