@@ -1,8 +1,7 @@
-package dev.olog.data
+package dev.olog.data.sort
 
 import dev.olog.core.entity.sort.SortDirection
-import dev.olog.data.sort.SortTable
-import dev.olog.data.sort.SortTypeEntity
+import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test
 

@@ -1,0 +1,128 @@
+CREATE TABLE sort_constraints (
+    table_name TEXT NOT NULL CHECK (
+        table_name IN (
+            'folders', 'playlists', 'songs', 'artists', 'albums', 'genres',
+            'podcast_playlists', 'podcast_episodes', 'podcast_authors', 'podcast_collections',
+            'folders_songs', 'playlists_songs', 'artists_songs', 'albums_songs', 'genres_songs',
+            'podcast_playlists_episodes', 'podcast_authors_episodes', 'podcast_collections_episodes'
+        )),
+    column_name TEXT NOT NULL CHECK (
+        column_name IN (
+            'title',
+            'author',
+            'collection',
+            'album_artist',
+            'duration',
+            'date_added',
+            'track_number',
+            'custom'
+        )
+    ),
+    PRIMARY KEY (table_name, column_name)
+);
+
+INSERT OR FAIL INTO sort_constraints VALUES
+('folders', 'title'),
+('genres', 'title'),
+('playlists', 'title'),
+('podcast_playlists', 'title');
+
+INSERT OR FAIL INTO sort_constraints VALUES
+--artist
+('artists', 'author'),
+--podcast
+('podcast_authors', 'author');
+
+INSERT OR FAIL INTO sort_constraints VALUES
+--albums
+('albums', 'collection'),
+('albums', 'author'),
+--podcast
+('podcast_collections', 'collection'),
+('podcast_collections', 'author');
+
+INSERT OR FAIL INTO sort_constraints VALUES
+--songs
+('songs', 'title'),
+('songs', 'author'),
+('songs', 'collection'),
+('songs', 'duration'),
+('songs', 'date_added'),
+--podcast
+('podcast_episodes', 'title'),
+('podcast_episodes', 'author'),
+('podcast_episodes', 'collection'),
+('podcast_episodes', 'duration'),
+('podcast_episodes', 'date_added');
+
+--folders songs
+INSERT OR FAIL INTO sort_constraints VALUES
+('folders_songs', 'title'),
+('folders_songs', 'author'),
+('folders_songs', 'collection'),
+('folders_songs', 'album_artist'),
+('folders_songs', 'duration'),
+('folders_songs', 'date_added'),
+('folders_songs', 'track_number'); -- some users uses folder as albums
+
+--genres songs
+INSERT OR FAIL INTO sort_constraints VALUES
+('genres_songs', 'title'),
+('genres_songs', 'author'),
+('genres_songs', 'collection'),
+('genres_songs', 'album_artist'),
+('genres_songs', 'duration'),
+('genres_songs', 'date_added');
+
+--playlist playables
+INSERT OR FAIL INTO sort_constraints VALUES
+--songs
+('playlists_songs', 'title'),
+('playlists_songs', 'author'),
+('playlists_songs', 'collection'),
+('playlists_songs', 'album_artist'),
+('playlists_songs', 'duration'),
+('playlists_songs', 'date_added'),
+('playlists_songs', 'custom'),
+--playlists
+('podcast_playlists_episodes', 'title'),
+('podcast_playlists_episodes', 'author'),
+('podcast_playlists_episodes', 'collection'),
+('podcast_playlists_episodes', 'album_artist'),
+('podcast_playlists_episodes', 'duration'),
+('podcast_playlists_episodes', 'date_added'),
+('podcast_playlists_episodes', 'custom');
+
+--author playables
+INSERT OR FAIL INTO sort_constraints VALUES
+--songs
+('artists_songs', 'title'),
+('artists_songs', 'collection'),
+('artists_songs', 'album_artist'),
+('artists_songs', 'duration'),
+('artists_songs', 'date_added'),
+('artists_songs', 'track_number'),
+--playlists
+('podcast_authors_episodes', 'title'),
+('podcast_authors_episodes', 'collection'),
+('podcast_authors_episodes', 'album_artist'),
+('podcast_authors_episodes', 'duration'),
+('podcast_authors_episodes', 'date_added'),
+('podcast_authors_episodes', 'track_number');
+
+--collection playables
+INSERT OR FAIL INTO sort_constraints VALUES
+--songs
+('albums_songs', 'title'),
+('albums_songs', 'author'),
+('albums_songs', 'album_artist'),
+('albums_songs', 'duration'),
+('albums_songs', 'date_added'),
+('albums_songs', 'track_number'),
+--playlists
+('podcast_collections_episodes', 'title'),
+('podcast_collections_episodes', 'author'),
+('podcast_collections_episodes', 'album_artist'),
+('podcast_collections_episodes', 'duration'),
+('podcast_collections_episodes', 'date_added'),
+('podcast_collections_episodes', 'track_number');

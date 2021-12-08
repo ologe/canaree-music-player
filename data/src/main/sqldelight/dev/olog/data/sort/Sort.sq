@@ -1,0 +1,41 @@
+import dev.olog.core.entity.sort.SortDirection;
+import dev.olog.data.sort.SortTable;
+import dev.olog.data.sort.SortTypeEntity;
+
+CREATE TABLE IF NOT EXISTS sort (
+    table_name TEXT AS SortTable NOT NULL PRIMARY KEY,
+    column_name TEXT AS SortTypeEntity NOT NULL,
+    direction TEXT AS SortDirection NOT NULL CHECK (direction IN ('asc', 'desc')),
+    FOREIGN KEY (table_name, column_name) REFERENCES sort_constraints(table_name, column_name)
+);
+
+INSERT INTO sort (table_name, column_name, direction)
+VALUES
+    --all songs
+    ('folders', 'title', 'asc'),
+    ('playlists', 'title', 'asc'),
+    ('songs', 'title', 'asc'),
+    ('artists', 'author', 'asc'),
+    ('albums', 'collection', 'asc'),
+    ('genres', 'title', 'asc'),
+    --all podcasts
+    ('podcast_playlists', 'title', 'asc'),
+    ('podcast_episodes', 'title', 'asc'),
+    ('podcast_authors', 'author', 'asc'),
+    ('podcast_collections', 'collection', 'asc'),
+    --songs
+    ('folders_songs', 'title', 'asc'),
+    ('playlists_songs', 'custom', 'asc'),
+    ('artists_songs', 'title', 'asc'),
+    ('albums_songs', 'title', 'asc'),
+    ('genres_songs', 'title', 'asc'),
+    --podcasts
+    ('podcast_playlists_episodes', 'custom', 'asc'),
+    ('podcast_authors_episodes', 'title', 'asc'),
+    ('podcast_collections_episodes', 'title', 'asc');
+
+-- songs
+replace:
+REPLACE INTO sort VALUES ?;
+select:
+SELECT * FROM sort WHERE table_name = ?;
