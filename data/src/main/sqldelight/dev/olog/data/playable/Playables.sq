@@ -1,0 +1,9 @@
+CREATE VIEW all_playables_view AS
+SELECT *
+FROM (
+    SELECT *
+    FROM songs_view
+    UNION
+    SELECT *
+    FROM podcast_episodes_view
+);

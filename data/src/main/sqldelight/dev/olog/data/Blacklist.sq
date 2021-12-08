@@ -8,9 +8,7 @@ DELETE FROM blacklist;
 
 insert:
 INSERT INTO blacklist
-VALUES ?;
+VALUES (?);
 
 selectAll:
 SELECT * FROM blacklist;
-
--- TODO migrate?, see BlacklistMigration

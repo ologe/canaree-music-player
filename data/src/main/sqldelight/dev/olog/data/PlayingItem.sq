@@ -10,11 +10,5 @@ INSERT OR REPLACE INTO playing_item VALUES (?);
 
 select:
 SELECT *
-FROM (
-    SELECT *
-    FROM songs_view
-    UNION
-    SELECT *
-    FROM podcast_episodes_view
-)
+FROM all_playables_view
 WHERE id IN (SELECT playing_item.playable_id FROM playing_item);
