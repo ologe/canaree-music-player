@@ -1,6 +1,5 @@
 package dev.olog.data.playable
 
-import dev.olog.data.Blacklist
 import dev.olog.data.IndexedPlayables
 import dev.olog.data.TestDatabase
 import org.junit.Assert
@@ -16,7 +15,7 @@ class SongsQueriesTest {
 
     @Test
     fun `test selectAll, should return non blacklisted and non podcast`() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
 
         val expected = listOf(
             IndexedPlayables(id = 1, is_podcast = false, directory = "no"),
