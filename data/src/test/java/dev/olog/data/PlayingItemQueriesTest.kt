@@ -1,5 +1,6 @@
 package dev.olog.data
 
+import dev.olog.data.repository.replace
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -13,13 +14,13 @@ class PlayingItemQueriesTest {
 
     companion object {
         private val song = IndexedPlayables(id = 1, is_podcast = false)
-        private val podcastEpisodes = IndexedPlayables(id = 2, is_podcast = true)
+        private val podcastEpisode = IndexedPlayables(id = 2, is_podcast = true)
     }
 
     @Before
     fun setup() {
         indexedQueries.insert(song)
-        indexedQueries.insert(podcastEpisodes)
+        indexedQueries.insert(podcastEpisode)
     }
 
     @Test
@@ -42,7 +43,7 @@ class PlayingItemQueriesTest {
         queries.replace(playable_id = 2L)
         val actual = queries.select().executeAsOne()
 
-        Assert.assertEquals(podcastEpisodes, actual)
+        Assert.assertEquals(podcastEpisode, actual)
     }
 
     @Test
@@ -64,6 +65,16 @@ class PlayingItemQueriesTest {
         val actual = queries.select().executeAsOneOrNull()
 
         Assert.assertEquals(null, actual)
+    }
+
+    @Test
+    fun `test replace, should be only one item`() {
+        queries.replace(1L)
+        queries.replace(2L)
+
+        val actual = queries.select().executeAsOne()
+
+        Assert.assertEquals(podcastEpisode, actual)
     }
 
 }

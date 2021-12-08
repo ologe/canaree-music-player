@@ -13,7 +13,7 @@ class LastAddedQueriesTest {
 
     @Before
     fun setup() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
         
         val data = listOf(
             AndroidIndexedPlayables(id = 1, title = "", is_podcast = false, date_added = 50),

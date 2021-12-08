@@ -16,7 +16,7 @@ class PodcastEpisodesQueriesTest {
 
     @Test
     fun `test selectAll, should return non blacklisted and non podcast`() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
 
         val expected = listOf(
             IndexedPlayables(id = 1, is_podcast = true, directory = "no"),

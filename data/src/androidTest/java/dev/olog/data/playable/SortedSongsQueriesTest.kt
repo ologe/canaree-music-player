@@ -1,12 +1,15 @@
 package dev.olog.data.playable
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.PlayableSort
+import dev.olog.core.entity.sort.Sort
+import dev.olog.core.entity.sort.SortDirection
 import dev.olog.core.entity.sort.SortType
 import dev.olog.data.AndroidIndexedPlayables
 import dev.olog.data.AndroidTestDatabase
 import dev.olog.data.Blacklist
 import dev.olog.data.insertGroup
+import dev.olog.data.sort.SortDao
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -18,12 +21,12 @@ internal class SortedSongsQueriesTest {
     private val db = AndroidTestDatabase()
     private val indexedQueries = db.indexedPlayablesQueries
     private val blacklistQueries = db.blacklistQueries
-    private val sortQueries = db.sortQueries
+    private val sortQueries = SortDao(db.sortQueries)
     private val queries = db.songsQueries
 
     @Before
     fun setup() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
         // item to be filtered, blacklisted and podcast
         indexedQueries.insert(AndroidIndexedPlayables(id = 1000, is_podcast = false, directory = "yes"))
         indexedQueries.insert(AndroidIndexedPlayables(id = 1001, is_podcast = true, directory = "no"))
@@ -102,12 +105,12 @@ internal class SortedSongsQueriesTest {
         )
 
         // when ascending
-        sortQueries.replaceSongsSort(SortType.TITLE, SortArranging.ASCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Title, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.title })
 
         // when descending
-        sortQueries.replaceSongsSort(SortType.TITLE, SortArranging.DESCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Title, SortDirection.DESCENDING))
         val actualDesc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.title })
     }
@@ -127,7 +130,7 @@ internal class SortedSongsQueriesTest {
             "<unknown>" to "êtitle",
         )
 
-        sortQueries.replaceSongsSort(SortType.ARTIST, SortArranging.ASCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Author, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expectedAsc, actualAsc.map { it.author to it.title })
 
@@ -144,7 +147,7 @@ internal class SortedSongsQueriesTest {
             "<unknown>" to "ėspace",
         )
 
-        sortQueries.replaceSongsSort(SortType.ARTIST, SortArranging.DESCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Author, SortDirection.DESCENDING))
         val actualDesc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expectedDesc, actualDesc.map { it.author to it.title })
     }
@@ -163,7 +166,7 @@ internal class SortedSongsQueriesTest {
             "<unknown>" to "ėspace",
             "<unknown>" to "êtitle",
         )
-        sortQueries.replaceSongsSort(SortType.ALBUM, SortArranging.ASCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Collection, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expectedAsc, actualAsc.map { it.collection to it.title })
 
@@ -179,7 +182,7 @@ internal class SortedSongsQueriesTest {
             "<unknown>" to "êtitle",
             "<unknown>" to "ėspace",
         )
-        sortQueries.replaceSongsSort(SortType.ALBUM, SortArranging.DESCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Collection, SortDirection.DESCENDING))
         val actualDesc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expectedDesc, actualDesc.map { it.collection to it.title })
     }
@@ -196,12 +199,12 @@ internal class SortedSongsQueriesTest {
             50L to "random",
             50L to "zzz",
         )
-        sortQueries.replaceSongsSort(SortType.DURATION, SortArranging.ASCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Duration, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.duration to it.title })
 
         // when descending
-        sortQueries.replaceSongsSort(SortType.DURATION, SortArranging.DESCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.Duration, SortDirection.DESCENDING))
         val actualDesc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.duration to it.title })
     }
@@ -218,12 +221,12 @@ internal class SortedSongsQueriesTest {
             15L to "àtitle",
             15L to "êtitle",
         )
-        sortQueries.replaceSongsSort(SortType.RECENTLY_ADDED, SortArranging.ASCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.DateAdded, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.date_added to it.title })
 
         // when descending
-        sortQueries.replaceSongsSort(SortType.RECENTLY_ADDED, SortArranging.DESCENDING)
+        sortQueries.setSongsSort(Sort(PlayableSort.DateAdded, SortDirection.DESCENDING))
         val actualDesc = queries.selectAllSorted().executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.date_added to it.title })
     }

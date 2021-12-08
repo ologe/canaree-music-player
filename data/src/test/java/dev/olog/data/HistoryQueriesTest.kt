@@ -14,7 +14,7 @@ class HistoryQueriesTest {
 
     @Before
     fun setup() {
-        blacklistQueries.insert(Blacklist("yes"))
+        blacklistQueries.insert("yes")
 
         val data = listOf(
             IndexedPlayables(id = 1, is_podcast = false),

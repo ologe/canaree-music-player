@@ -1,0 +1,10 @@
+selectAll:
+SELECT * FROM songs_view;
+
+selectAllSorted:
+SELECT * FROM sorted_songs_view;
+
+selectById:
+SELECT * FROM songs_view WHERE id = ?;
+selectByCollectionId:
+SELECT * FROM songs_view WHERE collection_id = ? LIMIT 1;

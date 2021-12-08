@@ -14,8 +14,8 @@ class BlacklistQueriesTest {
         Assert.assertEquals(emptyList<Blacklist>(), blacklistQueries.selectAll().executeAsList())
 
         // insert 2 values
-        blacklistQueries.insert(Blacklist("path1"))
-        blacklistQueries.insert(Blacklist("path2"))
+        blacklistQueries.insert("path1")
+        blacklistQueries.insert("path2")
 
         // have to contains these 2 paths
         Assert.assertEquals(

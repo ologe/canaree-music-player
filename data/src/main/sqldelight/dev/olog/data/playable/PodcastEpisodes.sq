@@ -1,0 +1,11 @@
+selectAll:
+SELECT * FROM podcast_episodes_view;
+
+selectAllSorted:
+SELECT * FROM sorted_podcast_episodes_view;
+
+selectById:
+SELECT * FROM podcast_episodes_view WHERE id = ?;
+
+selectByCollectionId:
+SELECT * FROM podcast_episodes_view WHERE collection_id = ? LIMIT 1;
