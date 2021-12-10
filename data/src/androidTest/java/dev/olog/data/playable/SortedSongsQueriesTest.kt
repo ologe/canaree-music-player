@@ -93,7 +93,7 @@ internal class SortedSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByTitleAscending() {
+    fun testObserveAllSortedByTitle() {
         // ignore accents
         val expected = listOf(
             "âspace",
@@ -116,7 +116,7 @@ internal class SortedSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByAuthorAscending() {
+    fun testObserveAllSortedByAuthor() {
         // when ascending
         val expectedAsc = listOf(
             // ignore accents
@@ -153,7 +153,7 @@ internal class SortedSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByCollectionAscending() {
+    fun testObserveAllSortedByCollection() {
         // when ascending
         val expectedAsc = listOf(
             // second sort on title when same collection
@@ -188,7 +188,7 @@ internal class SortedSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByDurationAscending() {
+    fun testObserveAllSortedByDuration() {
         // when ascending
         val expected = listOf(
             15L to "âspace",
@@ -210,7 +210,7 @@ internal class SortedSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByRecentlyAddedAscending() {
+    fun testObserveAllSortedByRecentlyAdded() {
         // when ascending
         val expected = listOf(
             // descending, second sort title ascending

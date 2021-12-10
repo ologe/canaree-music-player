@@ -88,7 +88,7 @@ class SortedPodcastEpisodesQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByTitleAscending() {
+    fun testObserveAllSortedByTitle() {
         // ignore accents
         val expected = listOf(
             "âspace",
@@ -111,7 +111,7 @@ class SortedPodcastEpisodesQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByAuthorAscending() {
+    fun testObserveAllSortedByAuthor() {
         // when ascending
         val expectedAsc = listOf(
             // ignore accents
@@ -148,7 +148,7 @@ class SortedPodcastEpisodesQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByCollectionAscending() {
+    fun testObserveAllSortedByCollection() {
         // when ascending
         val expectedAsc = listOf(
             // second sort on title when same collection
@@ -183,7 +183,7 @@ class SortedPodcastEpisodesQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByDurationAscending() {
+    fun testObserveAllSortedByDuration() {
         // when ascending
         val expected = listOf(
             15L to "âspace",
@@ -205,7 +205,7 @@ class SortedPodcastEpisodesQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByRecentlyAddedAscending() {
+    fun testObserveAllSortedByRecentlyAdded() {
         // when ascending
         val expected = listOf(
             // descending, second sort title ascending
