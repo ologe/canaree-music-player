@@ -1,0 +1,56 @@
+selectAll:
+SELECT * FROM artists_view;
+
+selectAllSorted:
+SELECT * FROM artists_view_sorted;
+
+selectById:
+SELECT * FROM artists_view WHERE id = ?;
+
+selectTracksByIdSorted:
+SELECT songs_view.*
+FROM songs_view
+    LEFT JOIN sort ON TRUE
+WHERE author_id = ? AND sort.table_name = 'artists_songs'
+ORDER BY
+-- title
+CASE WHEN sort.column_name = 'title' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'title' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC,
+-- author, then title
+CASE WHEN sort.column_name = 'author' AND author = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'asc' THEN lower(author) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'desc' THEN lower(author) END COLLATE LOCALIZED DESC,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC,
+-- collection, then title
+CASE WHEN sort.column_name = 'collection' AND collection = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'asc' THEN lower(collection) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower(collection) END COLLATE LOCALIZED DESC,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC,
+-- duration, then title
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN lower(duration) END ASC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN lower(duration) END DESC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC,
+-- recently added, then title
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN lower(date_added) END DESC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN lower(date_added) END ASC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC;
+
+selectRecentlyAdded:
+SELECT *
+FROM artists_view
+WHERE strftime('%s','now') - date_added < 1209600 -- two weeks in seconds, keep in sync with others
+ORDER BY date_added DESC;
+
+selectRecentlyPlayed:
+SELECT artists_view.*
+FROM artists_view JOIN recently_played_artists
+    ON artists_view.id = recently_played_artists.id
+ORDER BY recently_played_artists.date_played DESC
+LIMIT 10;
+
+insertRecentlyPlayed:
+INSERT OR REPLACE INTO recently_played_artists VALUES (?, ?);
