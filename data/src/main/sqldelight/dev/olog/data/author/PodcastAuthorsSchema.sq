@@ -1,0 +1,21 @@
+CREATE VIEW podcast_authors_view AS
+SELECT DISTINCT author_id AS id, author AS name, count(*) AS episodes, podcast_episodes_view.date_added, directory
+FROM podcast_episodes_view
+GROUP BY author_id;
+
+CREATE VIEW sorted_podcast_authors_view AS
+SELECT podcast_authors_view.*
+FROM podcast_authors_view
+    LEFT JOIN sort ON TRUE
+WHERE sort.table_name = 'podcast_authors' --see SortEntity
+ORDER BY
+-- author
+CASE WHEN name = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE LOCALIZED DESC;
+
+CREATE TABLE IF NOT EXISTS recently_played_podcast_authors (
+    id INTEGER NOT NULL,
+    date_played INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);

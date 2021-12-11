@@ -3,8 +3,7 @@ SELECT DISTINCT author_id AS id, author AS name, count(*) AS songs, songs_view.d
 FROM songs_view
 GROUP BY author_id;
 
-
-CREATE VIEW artists_view_sorted AS
+CREATE VIEW sorted_artists_view AS
 SELECT artists_view.*
 FROM artists_view
     LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working

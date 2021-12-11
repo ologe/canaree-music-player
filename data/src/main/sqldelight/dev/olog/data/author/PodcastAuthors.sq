@@ -1,17 +1,17 @@
 selectAll:
-SELECT * FROM artists_view;
+SELECT * FROM podcast_authors_view;
 
 selectAllSorted:
-SELECT * FROM sorted_artists_view;
+SELECT * FROM sorted_podcast_authors_view;
 
 selectById:
-SELECT * FROM artists_view WHERE id = ?;
+SELECT * FROM podcast_authors_view WHERE id = ?;
 
 selectTracksByIdSorted:
-SELECT songs_view.*
-FROM songs_view
+SELECT podcast_episodes_view.*
+FROM podcast_episodes_view
     LEFT JOIN sort ON TRUE
-WHERE author_id = ? AND sort.table_name = 'artists_songs'
+WHERE author_id = ? AND sort.table_name = 'podcast_authors_episodes'
 ORDER BY
 -- collection, then title
 CASE WHEN sort.column_name = 'collection' AND collection = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
@@ -40,16 +40,16 @@ CASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC;
 
 selectRecentlyAdded:
 SELECT *
-FROM artists_view
+FROM podcast_authors_view
 WHERE strftime('%s','now') - date_added < 1209600 -- two weeks in seconds, keep in sync with others
 ORDER BY date_added DESC;
 
 selectRecentlyPlayed:
-SELECT artists_view.*
-FROM artists_view JOIN recently_played_artists
-    ON artists_view.id = recently_played_artists.id
-ORDER BY recently_played_artists.date_played DESC
-LIMIT 10;
+SELECT podcast_authors_view.*
+FROM podcast_authors_view JOIN recently_played_podcast_authors
+    ON podcast_authors_view.id = recently_played_podcast_authors.id
+ORDER BY recently_played_podcast_authors.date_played DESC
+LIMIT 10; -- keep in sync with others
 
 insertRecentlyPlayed:
-INSERT OR REPLACE INTO recently_played_artists VALUES (?, ?);
+REPLACE INTO recently_played_podcast_authors VALUES (?, ?);

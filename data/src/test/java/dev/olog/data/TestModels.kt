@@ -3,6 +3,7 @@
 package dev.olog.data
 
 import dev.olog.data.author.Artists_view
+import dev.olog.data.author.Podcast_authors_view
 import dev.olog.data.index.Indexed_playables
 
 fun IndexedPlayables(
@@ -47,6 +48,20 @@ fun ArtistView(
     id = id,
     name = name,
     songs = songs,
+    dateAdded = dateAdded,
+    directory = directory
+)
+
+fun PodcastAuthorView(
+    id: Long,
+    episodes: Long,
+    name: String = "",
+    dateAdded: Long = 0,
+    directory: String = "",
+) = Podcast_authors_view(
+    id = id,
+    name = name,
+    episodes = episodes,
     dateAdded = dateAdded,
     directory = directory
 )
