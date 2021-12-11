@@ -1,4 +1,4 @@
-CREATE TABLE sort_constraints (
+CREATE TABLE IF NOT EXISTS sort_constraints (
     table_name TEXT NOT NULL CHECK (
         table_name IN (
             'folders', 'playlists', 'songs', 'artists', 'albums', 'genres',

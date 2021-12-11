@@ -1,4 +1,4 @@
-CREATE TABLE playing_item (
+CREATE TABLE IF NOT EXISTS playing_item (
     playable_id INTEGER NOT NULL PRIMARY KEY
 );
 
