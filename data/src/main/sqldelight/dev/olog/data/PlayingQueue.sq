@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS playing_queue(
+    playable_id INTEGER NOT NULL PRIMARY KEY,
+    play_order INTEGER AS Int NOT NULL
+);
+
+selectAll:
+SELECT all_playables_view.*, play_order
+FROM playing_queue
+    JOIN all_playables_view ON playing_queue.playable_id = all_playables_view.id
+ORDER BY play_order;
+
+deleteAll:
+DELETE FROM playing_queue;
+
+test:
+SELECT *
+FROM playing_queue;
+
+insert:
+INSERT OR FAIL INTO playing_queue VALUES (?, ?);
