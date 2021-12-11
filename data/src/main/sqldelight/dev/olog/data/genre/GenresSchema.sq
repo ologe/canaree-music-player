@@ -1,0 +1,30 @@
+-- show genre taking into account blacklist
+CREATE VIEW genres_view AS
+SELECT DISTINCT indexed_genres.id, indexed_genres.name, count(*) AS songs
+FROM indexed_genres
+    JOIN indexed_genres_playables ON indexed_genres.id = indexed_genres_playables.genre_id
+    JOIN songs_view ON songs_view.id = indexed_genres_playables.song_id
+GROUP BY indexed_genres.id
+HAVING count(*) > 0;
+
+CREATE VIEW sorted_genres_view AS
+SELECT genres_view.*
+FROM genres_view
+    LEFT JOIN sort ON TRUE
+WHERE sort.table_name = 'genres'
+ORDER BY
+-- title
+CASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE LOCALIZED DESC;
+
+CREATE TABLE IF NOT EXISTS most_played_genre (
+    song_id INTEGER NOT NULL,
+    genre_id INTEGER NOT NULL,
+    counter INTEGER NOT NULL,
+    PRIMARY KEY (song_id, genre_id)
+);
+
+CREATE VIEW genres_playables_view AS
+SELECT indexed_genres_playables.genre_id, songs_view.*
+FROM indexed_genres_playables
+    JOIN songs_view ON songs_view.id = indexed_genres_playables.song_id;
