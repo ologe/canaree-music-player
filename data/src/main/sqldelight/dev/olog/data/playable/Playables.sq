@@ -7,3 +7,6 @@ FROM (
     SELECT *
     FROM podcast_episodes_view
 );
+
+selectAll:
+SELECT * FROM all_playables_view;
