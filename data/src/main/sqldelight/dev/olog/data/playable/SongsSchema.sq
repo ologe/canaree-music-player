@@ -25,7 +25,7 @@ CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower
 -- duration, then title
 CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN duration END ASC,
 CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN duration END DESC,
--- recently added, then title
+-- date added, then title
 CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN date_added END DESC,
 CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN date_added END ASC,
 
