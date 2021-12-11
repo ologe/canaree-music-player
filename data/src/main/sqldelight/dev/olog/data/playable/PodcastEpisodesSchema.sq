@@ -23,11 +23,11 @@ CASE WHEN sort.column_name = 'collection' AND collection = '<unknown>' THEN -1 E
 CASE WHEN sort.column_name = 'collection' AND sort.direction = 'asc' THEN lower(collection) END COLLATE LOCALIZED ASC,
 CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower(collection) END COLLATE LOCALIZED DESC,
 -- duration, then title
-CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN lower(duration) END ASC,
-CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN lower(duration) END DESC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN duration END ASC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN duration END DESC,
 -- recently added, then title
-CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN lower(date_added) END DESC,
-CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN lower(date_added) END ASC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN date_added END DESC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN date_added END ASC,
 
 -- default, and second sort
 -- also, CASE WHEN sort.column_name = 'title' AND sort.direction = 'asc'
