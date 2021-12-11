@@ -5,6 +5,7 @@ import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortDirection
 import dev.olog.data.AndroidIndexedPlayables
 import dev.olog.data.AndroidTestDatabase
+import dev.olog.data.IndexedPodcastEpisodes
 import dev.olog.data.insertGroup
 import dev.olog.data.sort.SortDao
 import org.junit.Assert
@@ -27,64 +28,7 @@ class SortedPodcastEpisodesQueriesTest {
         indexedQueries.insert(AndroidIndexedPlayables(id = 1001, is_podcast = false, directory = "no"))
         indexedQueries.insert(AndroidIndexedPlayables(id = 1002, is_podcast = false, directory = "yes"))
 
-        // insert data
-        val data = listOf(
-            AndroidIndexedPlayables(
-                id = 1,
-                title = "àtitle",
-                author = "azz",
-                collection = "íttt",
-                is_podcast = true,
-                duration = 20,
-                date_added = 15
-            ),
-            AndroidIndexedPlayables(
-                id = 2,
-                title = "âspace",
-                author = "äaa",
-                collection = "ïhello",
-                is_podcast = true,
-                duration = 15,
-                date_added = 40,
-            ),
-            AndroidIndexedPlayables(
-                id = 3,
-                title = "êtitle",
-                author = "<unknown>",
-                collection = "<unknown>",
-                is_podcast = true,
-                duration = 50,
-                date_added = 15,
-            ),
-            AndroidIndexedPlayables(
-                id = 4,
-                title = "ėspace",
-                author = "<unknown>",
-                collection = "<unknown>",
-                is_podcast = true,
-                duration = 50,
-                date_added = 40
-            ),
-            AndroidIndexedPlayables(
-                id = 5,
-                title = "zzz",
-                author = "zee",
-                collection = "def",
-                is_podcast = true,
-                duration = 50,
-                date_added = 25
-            ),
-            AndroidIndexedPlayables(
-                id = 6,
-                title = "random",
-                author = "zee",
-                collection = "def",
-                is_podcast = true,
-                duration = 50,
-                date_added = 40
-            ),
-        )
-        indexedQueries.insertGroup(data)
+        indexedQueries.insertGroup(IndexedPodcastEpisodes)
     }
 
     @Test
