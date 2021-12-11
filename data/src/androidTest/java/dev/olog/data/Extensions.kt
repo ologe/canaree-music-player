@@ -19,3 +19,15 @@ fun IndexedGenresQueries.insertPlayableGroup(data: List<Indexed_genres_playables
         insertPlayable(item)
     }
 }
+
+fun IndexedPlaylistsQueries.insertGroup(data: List<Indexed_playlists>) {
+    for (item in data) {
+        insert(item)
+    }
+}
+
+fun IndexedPlaylistsQueries.insertPlayableGroup(data: List<Indexed_playlists_playables>) {
+    for (item in data) {
+        insertPlayable(item)
+    }
+}

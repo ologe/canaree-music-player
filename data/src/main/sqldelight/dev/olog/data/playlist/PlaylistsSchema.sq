@@ -1,0 +1,29 @@
+-- show playlist taking into account blacklist
+CREATE VIEW playlists_view AS
+SELECT DISTINCT indexed_playlists.id, indexed_playlists.title, count(*) AS songs
+FROM indexed_playlists
+    JOIN indexed_playlists_playables ON indexed_playlists.id = indexed_playlists_playables.playlist_id
+    JOIN songs_view ON songs_view.id = indexed_playlists_playables.playable_id
+GROUP BY indexed_playlists.id;
+
+CREATE VIEW sorted_playlists_view AS
+SELECT playlists_view.*
+FROM playlists_view
+    LEFT JOIN sort ON TRUE
+WHERE sort.table_name = 'playlists'
+ORDER BY
+-- title
+CASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC;
+
+CREATE VIEW playlists_playables_view AS
+SELECT indexed_playlists_playables.playlist_id, indexed_playlists_playables.play_order, songs_view.*
+FROM indexed_playlists_playables
+    JOIN songs_view ON songs_view.id = indexed_playlists_playables.playable_id;
+
+CREATE TABLE IF NOT EXISTS most_played_playlist (
+    playable_id INTEGER NOT NULL,
+    playlist_id INTEGER NOT NULL,
+    counter INTEGER NOT NULL,
+    PRIMARY KEY (playable_id, playlist_id)
+);
