@@ -22,14 +22,14 @@ CREATE INDEX indexed_playables_collection_id_index ON indexed_playables (collect
 CREATE INDEX indexed_playables_is_podcast_index ON indexed_playables (is_podcast);
 -- TODO index also title, author, collection?
 
+selectAll:
+SELECT * FROM indexed_playables;
+
 insert:
 INSERT INTO indexed_playables VALUES ?;
 
-deleteAll:
-DELETE FROM indexed_playables;
-
-deleteOne:
+delete:
 DELETE FROM indexed_playables WHERE id = ?;
 
-selectAll:
-SELECT * FROM indexed_playables;
+deleteAll:
+DELETE FROM indexed_playables;

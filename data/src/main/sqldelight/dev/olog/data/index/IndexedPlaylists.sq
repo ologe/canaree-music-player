@@ -1,0 +1,45 @@
+CREATE TABLE IF NOT EXISTS indexed_playlists(
+    id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE IF NOT EXISTS indexed_playlists_playables(
+    playlist_id INTEGER NOT NULL,
+    playable_id INTEGER NOT NULL,
+    play_order INTEGER NOT NULL,
+    PRIMARY KEY(playlist_id, playable_id)
+);
+
+-- auto playlists
+INSERT OR REPLACE INTO indexed_playlists VALUES (-1, 'last_added');
+INSERT OR REPLACE INTO indexed_playlists VALUES (-2, 'favorites');
+INSERT OR REPLACE INTO indexed_playlists VALUES (-3, 'history');
+INSERT OR REPLACE INTO indexed_playlists VALUES (-4, 'podcast_last_added');
+INSERT OR REPLACE INTO indexed_playlists VALUES (-5, 'podcast_favorites');
+INSERT OR REPLACE INTO indexed_playlists VALUES (-6, 'podcast_history');
+
+selectAll:
+SELECT * FROM indexed_playlists
+ORDER BY id;
+
+insert:
+INSERT INTO indexed_playlists VALUES ?;
+
+delete:
+DELETE FROM indexed_playlists WHERE id NOT IN (-1, -2, -3, -4, -5, -6) AND id = ?;
+
+deleteAll:
+DELETE FROM indexed_playlists WHERE id NOT IN (-1, -2, -3, -4, -5, -6);
+
+selectAllPlayables:
+SELECT * FROM indexed_playlists_playables;
+
+insertPlayable:
+INSERT INTO indexed_playlists_playables VALUES ?;
+
+deletePlayable:
+DELETE FROM indexed_playlists_playables WHERE playlist_id = ? AND playable_id = ?;
+
+deleteAllPlayables:
+DELETE FROM indexed_playlists_playables;

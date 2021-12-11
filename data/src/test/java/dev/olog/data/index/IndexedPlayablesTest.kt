@@ -8,35 +8,35 @@ import org.junit.Test
 class IndexedPlayablesTest {
 
     private val db = TestDatabase()
-    private val indexedQueries = db.indexedPlayablesQueries
+    private val queries = db.indexedPlayablesQueries
 
 
     @Test
-    fun `test insertOne`() {
+    fun `test insert`() {
         val song = IndexedPlayables(id = 1, is_podcast = false)
         val podcast = IndexedPlayables(id = 2, is_podcast = true)
 
         // when
-        indexedQueries.insert(song)
-        indexedQueries.insert(podcast)
+        queries.insert(song)
+        queries.insert(podcast)
 
         // then
         Assert.assertEquals(
             listOf(song, podcast),
-            indexedQueries.selectAll().executeAsList()
+            queries.selectAll().executeAsList()
         )
     }
 
     @Test
-    fun `test insertOne fail on same id`() {
+    fun `test insert fail on same id`() {
         var exception: Throwable? = null
         try {
             val song = IndexedPlayables(id = 1, is_podcast = false)
             val podcast = IndexedPlayables(id = 1, is_podcast = true)
 
             // when
-            indexedQueries.insert(song)
-            indexedQueries.insert(podcast)
+            queries.insert(song)
+            queries.insert(podcast)
         } catch (ex: Throwable) {
             exception = ex
         }
@@ -45,19 +45,19 @@ class IndexedPlayablesTest {
     }
 
     @Test
-    fun `test deleteOne`() {
+    fun `test delete`() {
         val song = IndexedPlayables(id = 1, is_podcast = false)
         val podcast = IndexedPlayables(id = 2, is_podcast = true)
-        indexedQueries.insert(song)
-        indexedQueries.insert(podcast)
+        queries.insert(song)
+        queries.insert(podcast)
 
         // when
-        indexedQueries.deleteOne(id = 1)
+        queries.delete(id = 1)
 
         // then
         Assert.assertEquals(
             listOf(podcast),
-            indexedQueries.selectAll().executeAsList()
+            queries.selectAll().executeAsList()
         )
     }
 
@@ -65,16 +65,16 @@ class IndexedPlayablesTest {
     fun `test deleteAll`() {
         val song = IndexedPlayables(id = 1, is_podcast = false)
         val podcast = IndexedPlayables(id = 2, is_podcast = true)
-        indexedQueries.insert(song)
-        indexedQueries.insert(podcast)
+        queries.insert(song)
+        queries.insert(podcast)
 
         // when
-        indexedQueries.deleteAll()
+        queries.deleteAll()
 
         // then
         Assert.assertEquals(
             emptyList<Indexed_playables>(),
-            indexedQueries.selectAll().executeAsList()
+            queries.selectAll().executeAsList()
         )
     }
 

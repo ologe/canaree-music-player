@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS indexed_genres(
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE IF NOT EXISTS indexed_genres_playables(
+    genre_id INTEGER NOT NULL,
+    song_id INTEGER NOT NULL,
+    PRIMARY KEY(genre_id, song_id)
+);
+
+selectAll:
+SELECT * FROM indexed_genres;
+
+insert:
+INSERT INTO indexed_genres VALUES ?;
+
+delete:
+DELETE FROM indexed_genres WHERE id = ?;
+
+deleteAll:
+DELETE FROM indexed_genres;
+
+selectAllPlayables:
+SELECT * FROM indexed_genres_playables;
+
+insertPlayable:
+INSERT INTO indexed_genres_playables VALUES ?;
+
+deletePlayable:
+DELETE FROM indexed_genres_playables WHERE genre_id = ? AND song_id = ?;
+
+deleteAllPlayables:
+DELETE FROM indexed_genres_playables;
