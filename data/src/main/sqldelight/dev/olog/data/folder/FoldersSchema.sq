@@ -1,0 +1,21 @@
+CREATE VIEW folders_view AS
+SELECT DISTINCT directory, count(*) AS songs, date_added
+FROM songs_view
+GROUP BY directory;
+
+CREATE VIEW sorted_folders_view AS
+SELECT folders_view.*
+FROM folders_view
+    LEFT JOIN sort ON TRUE
+WHERE sort.table_name = 'folders' --see SortEntity
+ORDER BY
+-- title
+CASE WHEN sort.direction = 'asc' THEN lower(directory) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.direction = 'desc' THEN lower(directory) END COLLATE LOCALIZED DESC;
+
+CREATE TABLE IF NOT EXISTS most_player_folder (
+    song_id INTEGER NOT NULL,
+    directory TEXT NOT NULL,
+    counter INTEGER NOT NULL,
+    PRIMARY KEY (song_id, directory)
+);

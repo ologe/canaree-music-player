@@ -5,6 +5,8 @@ package dev.olog.data
 import dev.olog.data.author.Artists_view
 import dev.olog.data.author.Podcast_authors_view
 import dev.olog.data.collection.Albums_view
+import dev.olog.data.collection.Podcast_collections_view
+import dev.olog.data.folder.Folders_view
 import dev.olog.data.index.Indexed_playables
 
 fun IndexedPlayables(
@@ -83,4 +85,32 @@ fun AlbumView(
     songs = songs,
     dateAdded = dateAdded,
     directory = directory
+)
+
+fun PodcastCollectionView(
+    id: Long,
+    songs: Long,
+    author_id: Long = 0,
+    name: String = "",
+    author: String = "",
+    dateAdded: Long = 0,
+    directory: String = "",
+) = Podcast_collections_view(
+    id = id,
+    author_id = author_id,
+    title = name,
+    author = author,
+    songs = songs,
+    dateAdded = dateAdded,
+    directory = directory
+)
+
+fun FolderView(
+    directory: String,
+    songs: Long,
+    dateAdded: Long = 0,
+) = Folders_view(
+    directory = directory,
+    songs = songs,
+    date_added = dateAdded
 )
