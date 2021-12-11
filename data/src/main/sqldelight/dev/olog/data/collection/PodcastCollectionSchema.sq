@@ -1,0 +1,25 @@
+CREATE VIEW podcast_collections_view AS
+SELECT DISTINCT collection_id AS id, author_id, collection AS title, author, count(*) AS episodes, directory, date_added
+FROM podcast_episodes_view
+GROUP BY collection_id;
+
+CREATE VIEW sorted_podcast_collections_view AS
+SELECT podcast_collections_view.*
+FROM podcast_collections_view
+    LEFT JOIN sort ON TRUE
+WHERE sort.table_name = 'podcast_collections' --see SortEntity
+ORDER BY
+-- title (album title)
+CASE WHEN sort.column_name = 'collection' AND title = '<unknown>' THEN -1 END,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC,
+-- author
+CASE WHEN sort.column_name = 'author' AND author = '<unknown>' THEN -1 END,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'asc' THEN lower(author) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'desc' THEN lower(author) END COLLATE LOCALIZED DESC;
+
+CREATE TABLE IF NOT EXISTS recently_played_podcast_collections (
+    id INTEGER NOT NULL,
+    date_played INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
