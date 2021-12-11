@@ -1,0 +1,81 @@
+selectAll:
+SELECT * FROM podcast_playlists_view;
+
+selectAllSorted:
+SELECT * FROM sorted_podcast_playlists_view;
+
+selectById:
+SELECT * FROM podcast_playlists_view WHERE id = ?;
+
+selectTracksByIdSorted:
+SELECT podcast_playlists_playables_view.*
+FROM podcast_playlists_playables_view
+    LEFT JOIN sort ON TRUE
+WHERE podcast_playlists_playables_view.playlist_id = :playlist_id AND sort.table_name = 'podcast_playlists_episodes'
+ORDER BY
+-- custom (play order), then title
+CASE WHEN sort.column_name = 'custom' AND sort.direction = 'asc' THEN play_order END ASC,
+CASE WHEN sort.column_name = 'custom' AND sort.direction = 'desc' THEN play_order END DESC,
+-- author, then title
+CASE WHEN sort.column_name = 'author' AND author = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'asc' THEN lower(author) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'author' AND sort.direction = 'desc' THEN lower(author) END COLLATE LOCALIZED DESC,
+-- album, then title
+CASE WHEN sort.column_name = 'collection' AND collection = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'asc' THEN lower(collection) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'collection' AND sort.direction = 'desc' THEN lower(collection) END COLLATE LOCALIZED DESC,
+-- album artist, then title
+CASE WHEN sort.column_name = 'album_artist' AND album_artist = '<unknown>' THEN -1 END, -- when unknown move last TODO test performance
+CASE WHEN sort.column_name = 'album_artist' AND sort.direction = 'asc' THEN lower(album_artist) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.column_name = 'album_artist' AND sort.direction = 'desc' THEN lower(album_artist) END COLLATE LOCALIZED DESC,
+-- duration, then title
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'asc' THEN duration END ASC,
+CASE WHEN sort.column_name = 'duration' AND sort.direction = 'desc' THEN duration END DESC,
+-- date added, then title
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'asc' THEN date_added END DESC,
+CASE WHEN sort.column_name = 'date_added' AND sort.direction = 'desc' THEN date_added END ASC,
+
+-- default, and second sort
+-- also, CASE WHEN sort.column_name = 'title' AND sort.direction = 'asc'
+CASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE LOCALIZED ASC,
+CASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE LOCALIZED DESC;
+
+selectMostPlayed:
+SELECT songs_view.*, counter
+FROM songs_view
+    JOIN most_played_podcast_playlist ON songs_view.id = most_played_podcast_playlist.playable_id
+WHERE most_played_podcast_playlist.counter >= 5 AND most_played_podcast_playlist.playlist_id = ?
+ORDER BY counter DESC, lower(title) COLLATE LOCALIZED DESC
+LIMIT 10;
+
+incrementMostPlayed: --increment counter by 1
+REPLACE INTO most_played_podcast_playlist VALUES (
+    :songId,
+    :playlistId,
+    COALESCE((SELECT counter FROM most_played_podcast_playlist WHERE playable_id = :songId AND playlist_id = :playlistId), 0) + 1
+);
+
+selectRecentlyAddedSongs:
+SELECT *
+FROM podcast_playlists_playables_view
+WHERE playlist_id = ? AND strftime('%s','now') - date_added < 1209600 -- two weeks in seconds, keep in sync with others
+ORDER BY date_added DESC;
+
+selectRelatedArtists:
+SELECT DISTINCT podcast_playlists_playables_view.author_id, podcast_playlists_playables_view.author, podcast_playlists_playables_view.album_artist, count(*) AS songs
+FROM podcast_playlists_playables_view
+WHERE playlist_id = :playlist_id
+GROUP BY author_id
+ORDER BY lower(author) COLLATE LOCALIZED ASC;
+
+selectSiblings:
+SELECT *
+FROM podcast_playlists_view
+WHERE id != ?
+ORDER BY lower(title) COLLATE LOCALIZED ASC;
+
+-- TODO test below
+updatePlaylistName:
+UPDATE indexed_playlists
+SET title = ?
+WHERE id = ?;

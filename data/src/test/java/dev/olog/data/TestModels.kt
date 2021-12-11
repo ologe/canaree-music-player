@@ -10,6 +10,7 @@ import dev.olog.data.folder.Folders_view
 import dev.olog.data.genre.Genres_view
 import dev.olog.data.index.Indexed_playables
 import dev.olog.data.playlist.Playlists_view
+import dev.olog.data.playlist.Podcast_playlists_view
 
 fun IndexedPlayables(
     id: Long,
@@ -132,6 +133,16 @@ fun PlaylistView(
     title: String = "",
     songs: Long = 0
 ) = Playlists_view(
+    id = id,
+    title = title,
+    songs = songs
+)
+
+fun PodcastPlaylistView(
+    id: Long,
+    title: String = "",
+    songs: Long = 0
+) = Podcast_playlists_view(
     id = id,
     title = title,
     songs = songs
