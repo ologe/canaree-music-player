@@ -11,7 +11,7 @@ import java.util.*
 class LastFmArtistQueriesTest {
 
     private val db = TestDatabase()
-    private val queries = db.lastFmArtistQueriesQueries
+    private val queries = db.lastFmArtistQueries
 
     @Test
     fun `less than last month should be still valid`() {
