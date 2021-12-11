@@ -40,6 +40,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 1,
         author_id = 1000,
+        collection_id = 2000,
         title = "àtitle",
         author = "azz",
         album_artist = "azz2",
@@ -53,6 +54,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 2,
         author_id = 1000,
+        collection_id = 2000,
         title = "âspace",
         author = "äaa",
         album_artist = "äaa2",
@@ -66,6 +68,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 3,
         author_id = 1000,
+        collection_id = 2000,
         title = "êtitle",
         author = "<unknown>",
         album_artist = "<unknown>",
@@ -79,6 +82,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 4,
         author_id = 1000,
+        collection_id = 2000,
         title = "ėspace",
         author = "<unknown>",
         album_artist = "<unknown>",
@@ -92,6 +96,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 5,
         author_id = 1000,
+        collection_id = 2000,
         title = "zzz",
         author = "zee",
         album_artist = "zee2",
@@ -105,6 +110,7 @@ val IndexedSongs = listOf(
     AndroidIndexedPlayables(
         id = 6,
         author_id = 1000,
+        collection_id = 2000,
         title = "random",
         author = "zee",
         album_artist = "zee2",
