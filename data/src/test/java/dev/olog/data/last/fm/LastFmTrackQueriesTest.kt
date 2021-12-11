@@ -11,7 +11,7 @@ import java.util.*
 class LastFmTrackQueriesTest {
 
     private val db = TestDatabase()
-    private val queries = db.lastFmTrackQueriesQueries
+    private val queries = db.lastFmTrackQueries
 
     @Test
     fun `less than last month should be still valid`() {
