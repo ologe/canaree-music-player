@@ -74,13 +74,6 @@ FROM playlists_view
 WHERE id != ?
 ORDER BY lower(title) COLLATE LOCALIZED ASC;
 
-
--- TODO test below
-updatePlaylistName:
-UPDATE indexed_playlists
-SET title = ?
-WHERE id = ?;
-
 insert:
 INSERT INTO indexed_playlists_playables
 VALUES (
