@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS last_fm_artist (
+    id INTEGER NOT NULL PRIMARY KEY,
+    image_url TEXT NOT NULL,
+    added TEXT NOT NULL,
+    mbid TEXT NOT NULL,
+    wiki TEXT NOT NULL
+);
+
+selectById:
+SELECT *
+FROM last_fm_artist
+WHERE id = ? AND added BETWEEN date('now', '-1 month') AND date('now');
+
+insert:
+INSERT OR REPLACE INTO last_fm_artist VALUES ?;
+
+delete:
+DELETE FROM last_fm_artist WHERE id = ?;

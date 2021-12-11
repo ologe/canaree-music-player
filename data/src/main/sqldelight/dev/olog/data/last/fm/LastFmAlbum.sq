@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS last_fm_album (
+    id INTEGER NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    added TEXT NOT NULL,
+    mbid TEXT NOT NULL,
+    wiki TEXT NOT NULL
+);
+
+selectById:
+SELECT *
+FROM last_fm_album
+WHERE id = ? AND added BETWEEN date('now', '-1 month') AND date('now');
+
+insert:
+INSERT OR REPLACE INTO last_fm_album VALUES ?;
+
+delete:
+DELETE FROM last_fm_album WHERE id = ?;
