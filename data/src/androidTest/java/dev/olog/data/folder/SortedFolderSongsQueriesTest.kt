@@ -185,7 +185,7 @@ internal class SortedFolderSongsQueriesTest {
     }
 
     @Test
-    fun testObserveAllSortedByRecentlyAdded() {
+    fun testObserveAllSortedByDateAdded() {
         // when ascending
         val expected = listOf(
             // descending, second sort title ascending
