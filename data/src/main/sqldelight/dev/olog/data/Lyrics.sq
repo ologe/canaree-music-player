@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS lyrics(
     playable_id INTEGER NOT NULL PRIMARY KEY,
-    text TEXT NOT NULL
+    text TEXT NOT NULL,
+    sync_ms INTEGER NOT NULL
 );
 
 selectById:
@@ -8,5 +9,19 @@ SELECT *
 FROM lyrics
 WHERE playable_id = ?;
 
-insert:
-INSERT OR REPLACE INTO lyrics VALUES (?, ?);
+insertText:
+INSERT OR REPLACE INTO lyrics VALUES (
+    :id,
+    :text,
+    COALESCE((SELECT sync_ms FROM lyrics WHERE playable_id = :id), 0)
+);
+
+insertSync:
+INSERT OR REPLACE INTO lyrics VALUES (
+    :id,
+    COALESCE((SELECT text FROM lyrics WHERE playable_id = :id), ''),
+    :sync
+);
+
+initDefault:
+INSERT OR IGNORE INTO lyrics VALUES (?, '', 0);
