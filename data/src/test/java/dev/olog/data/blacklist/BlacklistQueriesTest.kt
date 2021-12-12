@@ -1,5 +1,7 @@
-package dev.olog.data
+package dev.olog.data.blacklist
 
+import dev.olog.data.Blacklist
+import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test
 
