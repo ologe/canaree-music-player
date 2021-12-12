@@ -20,7 +20,9 @@ fun <T : Any> QueryList(vararg values: T): Query<T> {
 
 @Suppress("TestFunctionName")
 fun <T : Any> QueryOne(value: T): Query<T> {
-    return mock { on { executeAsOne() } doReturn value }
+    return mock {
+        on { executeAsOne() } doReturn value
+    }
 }
 
 @Suppress("TestFunctionName")

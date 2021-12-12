@@ -243,6 +243,56 @@ class AlbumRepositoryTest {
     }
 
     @Test
+    fun `test observeSiblings`() = runTest {
+        val query = QueryOneOrNull(AlbumView(id = 1, author_id = 2, songs = 3))
+        whenever(queries.selectById(1)).thenReturn(query)
+
+        val artistAlbumsQuery = QueryList(
+            AlbumView(id = 1, songs = 2),
+            AlbumView(id = 2, songs = 4),
+            AlbumView(id = 3, songs = 3),
+        )
+        whenever(queries.selectArtistAlbums(2)).thenReturn(artistAlbumsQuery)
+
+        sut.observeSiblings(1).test(this) {
+            assertValue(listOf(
+                Album(id = 2, artistId = 0, title = "", artist = "", songs = 4, isPodcast = false, directory = ""),
+                Album(id = 3, artistId = 0, title = "", artist = "", songs = 3, isPodcast = false, directory = ""),
+            ))
+        }
+    }
+
+    @Test
+    fun `test observeSiblings, should be null when item is missing`() = runTest {
+        val query = QueryOneOrNull<Albums_view>(null)
+        whenever(queries.selectById(1)).thenReturn(query)
+
+        sut.observeSiblings(1).test(this) {
+            assertNoValues()
+        }
+    }
+
+    @Test
+    fun `test observeArtistsAlbums`() = runTest {
+        val query = QueryList(AlbumView(id = 1, songs = 2))
+        whenever(queries.selectArtistAlbums(1)).thenReturn(query)
+
+        val expected = Album(
+            id = 1,
+            songs = 2,
+            artistId = 0,
+            title = "",
+            artist = "",
+            directory = "",
+            isPodcast = false
+        )
+
+        sut.observeArtistsAlbums(1).test(this) {
+            assertValue(listOf(expected))
+        }
+    }
+
+    @Test
     fun `test getSort`() {
         val sort = Sort(CollectionSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
