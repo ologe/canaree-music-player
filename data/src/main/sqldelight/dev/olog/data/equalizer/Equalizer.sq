@@ -1,0 +1,68 @@
+CREATE TABLE IF NOT EXISTS equalizer_preset(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    custom INTEGER AS Boolean NOT NULL,
+    api_level INTEGER AS Int
+);
+
+CREATE TABLE IF NOT EXISTS equalizer_preset_value(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    gain REAL AS Float NOT NULL,
+    frequency REAL AS Float NOT NULL,
+    preset_id INTEGER NOT NULL,
+    FOREIGN KEY (preset_id) REFERENCES equalizer_preset(id)
+);
+
+selectDefaultPresetsApi28:
+SELECT *
+FROM equalizer_preset
+WHERE api_level = 28
+ORDER BY id;
+
+selectDefaultPresetsPreApi28:
+SELECT *
+FROM equalizer_preset
+WHERE api_level = 0
+ORDER BY id;
+
+selectPresetValues:
+SELECT *
+FROM equalizer_preset_value
+WHERE preset_id = ?
+ORDER BY frequency;
+
+selectCustomPresets:
+SELECT *
+FROM equalizer_preset
+WHERE custom = 1
+ORDER BY id;
+
+selectPresetById:
+SELECT *
+FROM equalizer_preset
+WHERE id = ?;
+
+insertPreset:
+INSERT OR FAIL INTO equalizer_preset(name, custom) VALUES (?, 1);
+
+selectLastInsertedRowId:
+SELECT last_insert_rowid();
+
+insertPresetValue:
+INSERT OR FAIL INTO equalizer_preset_value(preset_id, gain, frequency) VALUES (?, ?, ?);
+
+updatePreset:
+UPDATE equalizer_preset
+SET name = ?
+WHERE id = ?;
+
+updatePresetValue:
+UPDATE equalizer_preset_value
+SET gain = ?, frequency = ?
+WHERE id = ?;
+
+deletePreset:
+DELETE FROM equalizer_preset WHERE id = ?;
+
+deletePresetValues:
+DELETE FROM equalizer_preset_value WHERE preset_id = ?;

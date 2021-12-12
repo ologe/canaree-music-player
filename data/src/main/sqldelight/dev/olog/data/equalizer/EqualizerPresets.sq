@@ -1,0 +1,73 @@
+-- pre api 28, from system
+
+-- Normal
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (21, 'Normal', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 60.0, 21);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 230.0, 21);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 910.0, 21);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 3600.0, 21);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 14000.0, 21);
+
+-- Classical
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (22, 'Classical', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 60.0, 22);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 230.0, 22);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-2.0, 910.0, 22);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (4.0, 3600.0, 22);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (4.0, 14000.0, 22);
+
+-- Flat
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (23, 'Flat', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 60.0, 23);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 230.0, 23);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 910.0, 23);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 3600.0, 23);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 14000.0, 23);
+
+-- Folk
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (24, 'Folk', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 60.0, 24);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 230.0, 24);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 910.0, 24);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (2.0, 3600.0, 24);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-1.0, 14000.0, 24);
+
+-- Heavy Metal
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (25, 'Heavy Metal', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (4.0, 60.0, 25);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (1.0, 230.0, 25);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (9.0, 910.0, 25);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 3600.0, 25);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 14000.0, 25);
+
+-- Hip Hop
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (26, 'Hip Hop', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 60.0, 26);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 230.0, 26);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (0.0, 910.0, 26);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (1.0, 3600.0, 26);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 14000.0, 26);
+
+-- Jazz
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (27, 'Jazz', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (4.0, 60.0, 27);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (2.0, 230.0, 27);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-2.0, 910.0, 27);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (2.0, 3600.0, 27);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 14000.0, 27);
+
+-- Pop
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (28, 'Pop', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-1.0, 60.0, 28);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (2.0, 230.0, 28);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 910.0, 28);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (1.0, 3600.0, 28);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-2.0, 14000.0, 28);
+
+-- Rock
+INSERT OR FAIL INTO equalizer_preset(id, name, custom, api_level) VALUES (29, 'Rock', 0, 0);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 60.0, 29);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 230.0, 29);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (-1.0, 910.0, 29);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (3.0, 3600.0, 29);
+INSERT OR FAIL INTO equalizer_preset_value(gain, frequency, preset_id) VALUES (5.0, 14000.0, 29);
