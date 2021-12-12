@@ -1,0 +1,124 @@
+package dev.olog.data.genre
+
+import dev.olog.core.entity.MostPlayedSong
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
+import dev.olog.data.GenreView
+import org.junit.Assert
+import org.junit.Test
+
+class GenreMapperTest {
+
+    @Test
+    fun `test genre toDomain`() {
+        val actual = GenreView(id = 1, name = "name", 2).toDomain()
+        val expected = Genre(id = 1, name = "name", songs = 2)
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test SelectMostPlayed toDomain`() {
+        val actual = SelectMostPlayed(
+            id = 1,
+            author_id = 2,
+            collection_id = 3,
+            title = "title",
+            author = "author",
+            album_artist = "album_artist",
+            collection = "collection",
+            duration = 4,
+            date_added = 5,
+            directory = "directory",
+            path = "path",
+            disc_number = 6,
+            track_number = 7,
+            is_podcast = false,
+            counter = 100
+        ).toDomain()
+
+        val expected = MostPlayedSong(
+            song = Song(
+                id = 1,
+                artistId = 2,
+                albumId = 3,
+                title = "title",
+                artist = "author",
+                albumArtist = "album_artist",
+                album = "collection",
+                duration = 4,
+                dateAdded = 5,
+                directory = "directory",
+                path = "path",
+                discNumber = 6,
+                trackNumber = 7,
+                isPodcast = false,
+                idInPlaylist = 0,
+            ),
+            counter = 100,
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test SelectRelatedArtists toDomain`() {
+        val actual = SelectRelatedArtists(
+            author_id = 1,
+            author = "author",
+            album_artist = "album_artist",
+            songs = 2
+        ).toDomain()
+
+        val expected = Artist(
+            id = 1,
+            name = "author",
+            songs = 2,
+            isPodcast = false,
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test genre playables view toDomain`() {
+        val actual = Genres_playables_view(
+            genre_id = 1,
+            id = 2,
+            author_id = 3,
+            collection_id = 4,
+            title = "title",
+            author = "author",
+            album_artist = "album_artist",
+            collection = "collection",
+            duration = 5,
+            date_added = 6,
+            directory = "directory",
+            path = "path",
+            disc_number = 7,
+            track_number = 8,
+            is_podcast = false
+        ).toDomain()
+
+        val expected = Song(
+            id = 2,
+            artistId = 3,
+            albumId = 4,
+            title = "title",
+            artist = "author",
+            albumArtist = "album_artist",
+            album = "collection",
+            duration = 5,
+            dateAdded = 6,
+            directory = "directory",
+            path = "path",
+            discNumber = 7,
+            trackNumber = 8,
+            isPodcast = false,
+            idInPlaylist = 0,
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
+
+}
