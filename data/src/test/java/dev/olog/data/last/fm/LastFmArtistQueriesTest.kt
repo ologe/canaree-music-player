@@ -1,7 +1,7 @@
 package dev.olog.data.last.fm
 
+import dev.olog.core.DateTimeFactory
 import dev.olog.data.TestDatabase
-import dev.olog.data.utils.DateFactory
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
@@ -26,7 +26,7 @@ class LastFmArtistQueriesTest {
         val item = Last_fm_artist(
             id = 1,
             image_url = "image",
-            added = DateFactory.millisToFormattedDate(Date.from(instant).time),
+            added = DateTimeFactory().millisToFormattedDate(Date.from(instant).time),
             mbid = "mbid",
             wiki = "wiki"
         )
@@ -54,7 +54,7 @@ class LastFmArtistQueriesTest {
         val item = Last_fm_artist(
             id = 1,
             image_url = "image",
-            added = DateFactory.millisToFormattedDate(Date.from(instant).time),
+            added = DateTimeFactory().millisToFormattedDate(Date.from(instant).time),
             mbid = "mbid",
             wiki = "wiki"
         )

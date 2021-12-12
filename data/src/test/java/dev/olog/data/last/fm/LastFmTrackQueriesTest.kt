@@ -1,7 +1,7 @@
 package dev.olog.data.last.fm
 
+import dev.olog.core.DateTimeFactory
 import dev.olog.data.TestDatabase
-import dev.olog.data.utils.DateFactory
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
@@ -29,7 +29,7 @@ class LastFmTrackQueriesTest {
             artist = "artist",
             album = "album",
             image_url = "image_url",
-            added = DateFactory.millisToFormattedDate(Date.from(instant).time),
+            added = DateTimeFactory().millisToFormattedDate(Date.from(instant).time),
             mbid = "mbid",
             artist_mbid = "artist_mbid",
             album_mbid = "album_mbid",
@@ -61,7 +61,7 @@ class LastFmTrackQueriesTest {
             artist = "artist",
             album = "album",
             image_url = "image_url",
-            added = DateFactory.millisToFormattedDate(Date.from(instant).time),
+            added = DateTimeFactory().millisToFormattedDate(Date.from(instant).time),
             mbid = "mbid",
             artist_mbid = "artist_mbid",
             album_mbid = "album_mbid",
