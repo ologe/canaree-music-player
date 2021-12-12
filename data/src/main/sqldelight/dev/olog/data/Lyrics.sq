@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS lyrics(
+    playable_id INTEGER NOT NULL PRIMARY KEY,
+    text TEXT NOT NULL
+);
+
+selectById:
+SELECT *
+FROM lyrics
+WHERE playable_id = ?;
+
+insert:
+INSERT OR REPLACE INTO lyrics VALUES (?, ?);
