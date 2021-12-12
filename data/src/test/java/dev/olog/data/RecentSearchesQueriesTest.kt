@@ -166,7 +166,7 @@ class RecentSearchesQueriesTest {
         Assert.assertEquals(expectedInsert, actualInsert)
 
         // delete single
-        queries.delete("1", songId(1).recentSearchType())
+        queries.delete("1", songId(1).category.recentSearchType())
 
         val actualDeleteSingle = queries.selectAll().executeAsList()
         val expectedDeleteSingle = listOf(
