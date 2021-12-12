@@ -44,9 +44,9 @@ class EditArtistFragmentViewModel @Inject constructor(
         return DisplayableArtist(
             id = this.id,
             title = this.name,
-            albumArtist = this.albumArtist,
             songs = this.songs,
-            isPodcast = this.isPodcast
+            isPodcast = this.isPodcast,
+            albumArtist = "" // TODO
         )
     }
 

@@ -5,7 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -17,7 +17,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
-import java.lang.RuntimeException
 
 class GlideMergedImageFetcher(
     private val context: Context,
@@ -75,7 +74,7 @@ class GlideMergedImageFetcher(
     }
 
     private suspend fun makePlaylistImage(playlistId: Long): InputStream? {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)){
+        if (Playlist.isAutoPlaylist(playlistId)){
             return null
         }
 

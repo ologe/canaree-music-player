@@ -1,5 +1,6 @@
 package dev.olog.feature.player.mini
 
+import dev.olog.core.gateway.PlayingItemGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.flow.Flow
@@ -9,8 +10,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MiniPlayerFragmentPresenter @Inject constructor(
-    private val musicPrefsUseCase: MusicPreferencesGateway
-
+    musicPrefsUseCase: MusicPreferencesGateway,
+    private val playingItemGateway: PlayingItemGateway,
 ) {
 
     var showTimeLeft = false
@@ -24,7 +25,7 @@ class MiniPlayerFragmentPresenter @Inject constructor(
         .observeSkipToPreviousVisibility()
         .asLiveData()
 
-    fun getMetadata() = musicPrefsUseCase.getLastMetadata()
+    fun getMetadata() = playingItemGateway.get()
 
     fun startShowingLeftTime(show: Boolean, duration: Long) {
         showTimeLeft = show

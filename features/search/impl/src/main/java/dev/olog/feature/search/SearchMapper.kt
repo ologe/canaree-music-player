@@ -1,7 +1,7 @@
 package dev.olog.feature.search
 
 import android.content.Context
-import dev.olog.core.RecentSearchesTypes
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
 import dev.olog.feature.base.model.DisplayableAlbum
@@ -9,28 +9,27 @@ import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 
 fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
-    val subtitle = when (this.itemType) {
-        RecentSearchesTypes.SONG -> context.getString(localization.R.string.search_type_track)
-        RecentSearchesTypes.ALBUM -> context.getString(localization.R.string.search_type_album)
-        RecentSearchesTypes.ARTIST -> context.getString(localization.R.string.search_type_artist)
-        RecentSearchesTypes.PLAYLIST -> context.getString(localization.R.string.search_type_playlist)
-        RecentSearchesTypes.GENRE -> context.getString(localization.R.string.search_type_genre)
-        RecentSearchesTypes.FOLDER -> context.getString(localization.R.string.search_type_folder)
-        RecentSearchesTypes.PODCAST -> context.getString(localization.R.string.search_type_podcast)
-        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(localization.R.string.search_type_podcast_playlist)
-        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(localization.R.string.search_type_podcast_album)
-        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(localization.R.string.search_type_podcast_artist)
-        else -> throw IllegalArgumentException("invalid item type $itemType")
+    val subtitle = when (mediaId.category) {
+        MediaIdCategory.SONGS -> context.getString(localization.R.string.search_type_track)
+        MediaIdCategory.ALBUMS -> context.getString(localization.R.string.search_type_album)
+        MediaIdCategory.ARTISTS -> context.getString(localization.R.string.search_type_artist)
+        MediaIdCategory.PLAYLISTS -> context.getString(localization.R.string.search_type_playlist)
+        MediaIdCategory.GENRES -> context.getString(localization.R.string.search_type_genre)
+        MediaIdCategory.FOLDERS -> context.getString(localization.R.string.search_type_folder)
+        MediaIdCategory.PODCASTS -> context.getString(localization.R.string.search_type_podcast)
+        MediaIdCategory.PODCASTS_PLAYLIST -> context.getString(localization.R.string.search_type_podcast_playlist)
+        MediaIdCategory.PODCASTS_ALBUMS -> context.getString(localization.R.string.search_type_podcast_album)
+        MediaIdCategory.PODCASTS_ARTISTS -> context.getString(localization.R.string.search_type_podcast_artist)
+        else -> throw IllegalArgumentException("invalid media id $mediaId")
     }
 
-    val isPlayable =
-        this.itemType == RecentSearchesTypes.SONG || this.itemType == RecentSearchesTypes.PODCAST
+    val isPlayable = mediaId.isLeaf
 
-    val layout = when (this.itemType) {
-        RecentSearchesTypes.ARTIST,
-        RecentSearchesTypes.PODCAST_ARTIST -> R.layout.item_search_recent_artist
-        RecentSearchesTypes.ALBUM,
-        RecentSearchesTypes.PODCAST_ALBUM -> R.layout.item_search_recent_album
+    val layout = when (mediaId.category) {
+        MediaIdCategory.ARTISTS,
+        MediaIdCategory.PODCASTS_ARTISTS -> R.layout.item_search_recent_artist
+        MediaIdCategory.ALBUMS,
+        MediaIdCategory.PODCASTS_ALBUMS -> R.layout.item_search_recent_album
         else -> R.layout.item_search_recent
     }
 

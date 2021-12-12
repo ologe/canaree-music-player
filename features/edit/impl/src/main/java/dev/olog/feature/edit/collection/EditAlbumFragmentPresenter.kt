@@ -6,7 +6,7 @@ import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastCollectionGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastAlbumGateway: PodcastCollectionGateway,
     private val lastFmGateway: ImageRetrieverGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 
@@ -27,15 +27,8 @@ class EditAlbumFragmentPresenter @Inject constructor(
         } else {
             albumGateway.getByParam(mediaId.categoryId)!!
         }
-        return Album(
-            id = album.id,
-            artistId = album.artistId,
-            albumArtist = album.albumArtist,
-            title = album.title,
+        return album.copy(
             artist = if (album.artist == MediaStore.UNKNOWN_STRING) "" else album.artist,
-            hasSameNameAsFolder = album.hasSameNameAsFolder,
-            songs = album.songs,
-            isPodcast = album.isPodcast
         )
     }
 

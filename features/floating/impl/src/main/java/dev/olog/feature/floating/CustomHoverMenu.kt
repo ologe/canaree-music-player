@@ -1,17 +1,18 @@
 package dev.olog.feature.floating
 
 import android.app.Service
+import android.provider.MediaStore
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.gateway.PlayingItemGateway
 import dev.olog.feature.floating.api.HoverMenu
 import dev.olog.feature.floating.api.view.TabView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -22,7 +23,7 @@ class CustomHoverMenu @Inject constructor(
     private val service: Service,
     lifecycleOwner: LifecycleOwner,
     musicServiceBinder: MusicGlueService,
-    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val playingItemGateway: PlayingItemGateway,
     offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
 ) : HoverMenu(), DefaultLifecycleObserver {
@@ -53,11 +54,15 @@ class CustomHoverMenu @Inject constructor(
     fun startObserving(){
         disposable?.cancel()
         disposable = GlobalScope.launch(Dispatchers.Main) {
-            musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.isNotEmpty() }
+            playingItemGateway.observe()
+                .filterNotNull()
                 .flowOn(Dispatchers.Default)
                 .collect {
-                    item = it.description
+                    val description = when (it.artist) {
+                        MediaStore.UNKNOWN_STRING -> it.artist
+                        else -> "${it.title} ${it.artist}"
+                    }
+                    item = description
                 }
         }
     }

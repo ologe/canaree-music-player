@@ -9,14 +9,17 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
-import dev.olog.core.interactor.sort.SetSortOrderUseCase
+import dev.olog.core.interactor.sort.SetDetailSortUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.feature.base.model.DisplayableItem
 import dev.olog.feature.base.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +27,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
-    private val setSortOrderUseCase: SetSortOrderUseCase,
+    private val setSortOrderUseCase: SetDetailSortUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
@@ -131,26 +134,27 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
 
-    fun detailSortDataUseCase(mediaId: MediaId, action: (Sort) -> Unit) {
+    fun detailSortDataUseCase(mediaId: MediaId, action: (Sort<SortType>) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)
         action(sortOrder)
     }
 
-    fun observeSortOrder(action: (SortType) -> Unit) {
+    fun observeSortOrder(action: (Sort<SortType>) -> Unit) {
         val sortEntity = getSortOrderUseCase(mediaId)
-        action(sortEntity.type)
+        action(sortEntity)
     }
 
     fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
-        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
+        val sortEntity = getSortOrderUseCase(mediaId)
+        setSortOrderUseCase(mediaId, sortEntity.copy(type = sortType))
     }
 
     fun toggleSortArranging() {
         if (mediaId.category == MediaIdCategory.PLAYLISTS &&
-            getSortOrderUseCase(mediaId).type == SortType.CUSTOM){
+            getSortOrderUseCase(mediaId).type.serialized == "custom") { // TODO improve
             return
         }
-        toggleSortArrangingUseCase(mediaId.category)
+        toggleSortArrangingUseCase(mediaId)
     }
 
     fun addMove(from: Int, to: Int){
@@ -169,7 +173,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         presenter.removeFromPlaylist(item)
     }
 
-    fun observeSorting(): Flow<Sort> {
+    fun observeSorting(): Flow<Sort<SortType>> {
         return observeSortOrderUseCase(mediaId)
     }
 

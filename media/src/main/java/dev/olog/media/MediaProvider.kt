@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.Sort
+import dev.olog.core.entity.sort.SortType
 import dev.olog.media.model.*
 import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,7 @@ interface MediaProvider {
     // moved to a background thread
     fun observeQueue(): Flow<List<PlayerItem>>
 
-    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: Sort?)
+    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: Sort<SortType>?)
     fun playMostPlayed(mediaId: MediaId)
     fun playRecentlyAdded(mediaId: MediaId)
 

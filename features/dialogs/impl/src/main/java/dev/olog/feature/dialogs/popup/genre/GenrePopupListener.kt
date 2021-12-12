@@ -50,7 +50,7 @@ class GenrePopupListener @Inject constructor(
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.size, genre.name)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.songs, genre.name)
 
         when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -75,7 +75,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), genre.size, genre.name)
+            playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), genre.songs, genre.name)
         } else {
             playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), -1, song!!.title)
         }
@@ -91,7 +91,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            dialogsNavigator.toPlayLater(activity, getMediaId(), genre.size, genre.name)
+            dialogsNavigator.toPlayLater(activity, getMediaId(), genre.songs, genre.name)
         } else {
             dialogsNavigator.toPlayLater(activity, getMediaId(), -1, song!!.title)
         }
@@ -99,7 +99,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun playNext() {
         if (song == null) {
-            dialogsNavigator.toPlayNext(activity, getMediaId(), genre.size, genre.name)
+            dialogsNavigator.toPlayNext(activity, getMediaId(), genre.songs, genre.name)
         } else {
             dialogsNavigator.toPlayNext(activity, getMediaId(), -1, song!!.title)
         }
@@ -108,7 +108,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun addToFavorite() {
         if (song == null) {
-            dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), genre.size, genre.name)
+            dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), genre.songs, genre.name)
         } else {
             dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), -1, song!!.title)
         }
@@ -116,7 +116,7 @@ class GenrePopupListener @Inject constructor(
 
     private fun delete() {
         if (song == null) {
-            dialogsNavigator.toDeleteDialog(activity, getMediaId(), genre.size, genre.name)
+            dialogsNavigator.toDeleteDialog(activity, getMediaId(), genre.songs, genre.name)
         } else {
             dialogsNavigator.toDeleteDialog(activity, getMediaId(), -1, song!!.title)
         }

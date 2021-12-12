@@ -9,24 +9,26 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.feature.base.*
-import dev.olog.feature.base.adapter.*
-import dev.olog.media.MediaProvider
+import dev.olog.core.entity.track.Playlist
 import dev.olog.feature.base.BindingsAdapter
+import dev.olog.feature.base.SetupNestedList
+import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.feature.base.drag.TouchableAdapter
 import dev.olog.feature.base.model.*
+import dev.olog.feature.detail.R
 import dev.olog.feature.detail.detail.DetailFragmentHeaders
 import dev.olog.feature.detail.detail.DetailFragmentViewModel
 import dev.olog.feature.detail.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.feature.detail.detail.DetailSortDialog
-import dev.olog.shared.widgets.TutorialTapTarget
+import dev.olog.media.MediaProvider
 import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
+import dev.olog.shared.widgets.TutorialTapTarget
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
@@ -36,8 +38,6 @@ import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
-import dev.olog.feature.detail.R
-import dev.olog.shared.android.extensions.map
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -243,9 +243,7 @@ internal class DetailFragmentAdapter(
         get() {
             if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
                 val playlistId = mediaId.resolveId
-                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
-                    playlistId
-                )
+                return !Playlist.isLastAdded(playlistId) || !Playlist.isAutoPlaylist(playlistId)
             }
             return false
         }

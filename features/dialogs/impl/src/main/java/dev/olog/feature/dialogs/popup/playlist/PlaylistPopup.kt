@@ -1,7 +1,6 @@
 package dev.olog.feature.dialogs.popup.playlist
 
 import android.view.View
-import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.feature.dialogs.R
@@ -28,12 +27,12 @@ class PlaylistPopup(
         setOnMenuItemClickListener(listener)
 
         if (song == null) {
-            if (AutoPlaylist.isAutoPlaylist(playlist.id)) {
+            if (Playlist.isAutoPlaylist(playlist.id)) {
                 menu.removeItem(R.id.rename)
                 menu.removeItem(R.id.delete)
                 menu.removeItem(R.id.removeDuplicates)
             }
-            if (playlist.id == AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlist.id)) {
+            if (Playlist.isAutoPlaylist(playlist.id) || !Playlist.isAutoPlaylist(playlist.id)) {
                 menu.removeItem(R.id.clear)
             }
             if (playlist.size < 1) {
@@ -45,7 +44,7 @@ class PlaylistPopup(
                 menu.removeItem(R.id.playNext)
             }
         } else {
-            if (playlist.id == AutoPlaylist.FAVORITE.id) {
+            if (Playlist.isFavorite(playlist.id)) {
                 menu.removeItem(R.id.addToFavorite)
             }
         }

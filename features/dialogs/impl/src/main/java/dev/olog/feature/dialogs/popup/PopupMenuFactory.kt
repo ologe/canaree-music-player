@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastCollectionGateway
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -26,7 +26,7 @@ class PopupMenuFactory @Inject constructor(
     private val getGenreUseCase: GenreGateway,
     private val getPodcastUseCase: PodcastEpisodeGateway,
     private val getPodcastPlaylistUseCase: PodcastPlaylistGateway,
-    private val getPodcastAlbumUseCase: PodcastAlbumGateway,
+    private val getPodcastAlbumUseCase: PodcastCollectionGateway,
     private val getPodcastArtistUseCase: PodcastAuthorGateway,
     private val listenerFactory: MenuListenerFactory
 

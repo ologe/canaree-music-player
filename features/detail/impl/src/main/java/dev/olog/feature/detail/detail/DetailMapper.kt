@@ -2,7 +2,6 @@ package dev.olog.feature.detail.detail
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.feature.base.model.DisplayableAlbum
@@ -37,15 +36,16 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
 
 @Suppress("NOTHING_TO_INLINE")
 private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+    // TODO
     return when {
         parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
-        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
+        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType.serialized == "custom" -> {
             val playlistId = parentId.categoryValue.toLong()
-            if (AutoPlaylist.isAutoPlaylist(playlistId)) {
+            if (Playlist.isAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
-        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
+        parentId.isFolder && sortType.serialized == "track_number" -> R.layout.item_detail_song_with_track_and_image
         else -> R.layout.item_detail_song
     }
 }
@@ -83,8 +83,8 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
         title = title,
         subtitle = resources.getQuantityString(
             localization.R.plurals.common_plurals_song,
-            this.size,
-            this.size
+            this.songs,
+            this.songs
         ).toLowerCase()
     )
 }
@@ -122,8 +122,8 @@ internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         title = name,
         subtitle = resources.getQuantityString(
             localization.R.plurals.common_plurals_song,
-            this.size,
-            this.size
+            this.songs,
+            this.songs
         ).toLowerCase()
     )
 }

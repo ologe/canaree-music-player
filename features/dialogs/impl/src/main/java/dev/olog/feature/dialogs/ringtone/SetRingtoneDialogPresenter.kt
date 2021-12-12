@@ -46,6 +46,7 @@ class SetRingtoneDialogPresenter @Inject constructor() {
         }
 
     private fun setRingtone(activity: FragmentActivity, mediaId: MediaId): Boolean {
+        // TODO remove
         val songId = mediaId.leaf!!
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, songId)
 

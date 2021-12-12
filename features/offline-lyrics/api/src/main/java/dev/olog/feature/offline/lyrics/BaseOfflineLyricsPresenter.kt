@@ -11,7 +11,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.feature.offline.lyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.feature.offline.lyrics.domain.ObserveOfflineLyricsUseCase
@@ -215,7 +214,7 @@ abstract class BaseOfflineLyricsPresenter(
         }
         insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
-            insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+            insertUseCase(currentTrackIdPublisher.value, lyrics)
         }
     }
 

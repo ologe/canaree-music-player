@@ -91,7 +91,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         return DisplayableQueueSong(
             type = R.layout.item_playing_queue,
-            mediaId = mediaId,
+            mediaId = song.getMediaId(),
             title = song.title,
             artist = song.artist,
             album = song.album,

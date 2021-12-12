@@ -2,8 +2,8 @@ package dev.olog.feature.detail.detail
 
 import androidx.lifecycle.SavedStateHandle
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.track.Playlist
 import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway
@@ -24,8 +24,8 @@ class DetailFragmentPresenter @Inject constructor(
         mediaId.assertPlaylist()
         val playlistId = mediaId.categoryId
         val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
-        if (playlistId == AutoPlaylist.FAVORITE.id){
-            // favorites use songId instead of idInPlaylist
+        if (Playlist.isFavorite(playlistId)){
+            // favorites use songId instead of idInPlaylist TODO refactor
             removeFromPlaylistUseCase(
                 RemoveFromPlaylistUseCase.Input(
                     playlistId, item.mediaId.leaf!!, playlistType

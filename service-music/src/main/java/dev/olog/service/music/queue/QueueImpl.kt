@@ -8,7 +8,6 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
@@ -94,10 +93,9 @@ internal class QueueImpl @Inject constructor(
             assertBackgroundThread()
 
             val request = songList.map {
-                UpdatePlayingQueueUseCaseRequest(
-                    it.mediaId,
-                    it.id,
-                    it.idInPlaylist
+                UpdatePlayingQueueUseCase.Request(
+                    playableId = it.id,
+                    playOrder = it.idInPlaylist
                 )
             }
             yield()

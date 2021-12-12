@@ -25,7 +25,6 @@ class EditArtistFragmentPresenter @Inject constructor(
         return Artist(
             id = artist.id,
             name = artist.name,
-            albumArtist = artist.albumArtist,
             songs = artist.songs,
             isPodcast = artist.isPodcast
         )

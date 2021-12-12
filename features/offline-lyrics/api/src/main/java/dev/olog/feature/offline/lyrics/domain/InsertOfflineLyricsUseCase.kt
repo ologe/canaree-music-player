@@ -1,6 +1,5 @@
 package dev.olog.feature.offline.lyrics.domain
 
-import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -17,12 +16,12 @@ class InsertOfflineLyricsUseCase @Inject constructor(
 
 )  {
 
-    suspend operator fun invoke(offlineLyrics: OfflineLyrics) = withContext(Dispatchers.IO){
-        val song = songGateway.getByParam(offlineLyrics.trackId)
+    suspend operator fun invoke(playableId: Long, text: String) = withContext(Dispatchers.IO){
+        val song = songGateway.getByParam(playableId)
         if (song != null){
-            saveLyricsOnMetadata(song, offlineLyrics.lyrics)
+            saveLyricsOnMetadata(song, text)
         }
-        gateway.saveLyrics(offlineLyrics)
+        gateway.saveLyrics(playableId, text)
     }
 
     suspend fun saveLyricsOnMetadata(song: Song, lyrics: String) {

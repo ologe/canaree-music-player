@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastCollectionGateway
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -30,7 +30,7 @@ class SearchDataProvider @Inject constructor(
     // podcasts
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastEpisodeGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastAlbumGateway: PodcastCollectionGateway,
     private val podcastArtistGateway: PodcastAuthorGateway,
     // recent
     private val recentSearchesGateway: RecentSearchesGateway

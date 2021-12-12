@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastCollectionGateway
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -37,7 +37,7 @@ internal class DetailDataProvider @Inject constructor(
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastAlbumGateway: PodcastCollectionGateway,
     private val podcastArtistGateway: PodcastAuthorGateway,
 
     private val recentlyAddedUseCase: ObserveRecentlyAddedUseCase,

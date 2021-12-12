@@ -51,7 +51,7 @@ class FolderPopupListener @Inject constructor(
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), folder.size, folder.title)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), folder.songs, folder.title)
 
         when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -77,7 +77,7 @@ class FolderPopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), folder.size, folder.title)
+            playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), folder.songs, folder.title)
         } else {
             playlistNavigator.toCreatePlaylistDialog(activity, getMediaId(), -1, song!!.title)
         }
@@ -93,7 +93,7 @@ class FolderPopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            dialogsNavigator.toPlayLater(activity, getMediaId(), folder.size, folder.title)
+            dialogsNavigator.toPlayLater(activity, getMediaId(), folder.songs, folder.title)
         } else {
             dialogsNavigator.toPlayLater(activity, getMediaId(), -1, song!!.title)
         }
@@ -101,7 +101,7 @@ class FolderPopupListener @Inject constructor(
 
     private fun playNext() {
         if (song == null) {
-            dialogsNavigator.toPlayNext(activity, getMediaId(), folder.size, folder.title)
+            dialogsNavigator.toPlayNext(activity, getMediaId(), folder.songs, folder.title)
         } else {
             dialogsNavigator.toPlayNext(activity, getMediaId(), -1, song!!.title)
         }
@@ -110,7 +110,7 @@ class FolderPopupListener @Inject constructor(
 
     private fun addToFavorite() {
         if (song == null) {
-            dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), folder.size, folder.title)
+            dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), folder.songs, folder.title)
         } else {
             dialogsNavigator.toAddToFavoriteDialog(activity, getMediaId(), -1, song!!.title)
         }
@@ -118,7 +118,7 @@ class FolderPopupListener @Inject constructor(
 
     private fun delete() {
         if (song == null) {
-            dialogsNavigator.toDeleteDialog(activity, getMediaId(), folder.size, folder.title)
+            dialogsNavigator.toDeleteDialog(activity, getMediaId(), folder.songs, folder.title)
         } else {
             dialogsNavigator.toDeleteDialog(activity, getMediaId(), -1, song!!.title)
         }
