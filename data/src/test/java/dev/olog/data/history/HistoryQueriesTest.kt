@@ -1,5 +1,8 @@
-package dev.olog.data
+package dev.olog.data.history
 
+import dev.olog.data.History
+import dev.olog.data.IndexedPlayables
+import dev.olog.data.TestDatabase
 import dev.olog.data.index.Indexed_playables
 import org.junit.Assert
 import org.junit.Before
