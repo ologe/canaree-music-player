@@ -1,15 +1,15 @@
-package dev.olog.data
+package dev.olog.data.recent.search
 
 import dev.olog.core.MediaId.Companion.createCategoryValue
 import dev.olog.core.MediaId.Companion.podcastId
 import dev.olog.core.MediaId.Companion.songId
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.data.IndexedPlayables
+import dev.olog.data.TestDatabase
 import dev.olog.data.index.Indexed_genres
 import dev.olog.data.index.Indexed_genres_playables
 import dev.olog.data.index.Indexed_playlists
 import dev.olog.data.index.Indexed_playlists_playables
-import dev.olog.data.recent.search.insert
-import dev.olog.data.recent.search.recentSearchType
 import dev.olog.data.recentSearches.SelectAll
 import org.junit.Assert
 import org.junit.Test
