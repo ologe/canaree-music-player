@@ -10,8 +10,6 @@ import dev.olog.data.Database
 @InstallIn(SingletonComponent::class)
 internal class QueriesModule {
 
-    // region indexed
-
     @Provides
     fun provideIndexedPlayables(db: Database) = db.indexedPlayablesQueries
 
@@ -21,7 +19,8 @@ internal class QueriesModule {
     @Provides
     fun provideIndexedPlaylists(db: Database) = db.indexedPlaylistsQueries
 
-    // endregion
+    @Provides
+    fun providePlayingQueue(db: Database) = db.playingQueueQueries
 
     @Provides
     fun provideBlacklist(db: Database) = db.blacklistQueries
@@ -70,5 +69,26 @@ internal class QueriesModule {
 
     @Provides
     fun providePlayingItem(db: Database) = db.playingItemQueries
+
+    @Provides
+    fun provideLastFmTrack(db: Database) = db.lastFmTrackQueries
+
+    @Provides
+    fun provideLastFmAlbum(db: Database) = db.lastFmAlbumQueries
+
+    @Provides
+    fun provideLastFmArtist(db: Database) = db.lastFmArtistQueries
+
+    @Provides
+    fun provideRecentSearches(db: Database) = db.recentSearchesQueries
+
+    @Provides
+    fun provideLyrics(db: Database) = db.lyricsQueries
+
+    @Provides
+    fun providePodcastPosition(db: Database) = db.podcastPositionQueries
+
+    @Provides
+    fun provideEqualizer(db: Database) = db.equalizerQueries
 
 }

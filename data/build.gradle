@@ -2,31 +2,46 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.squareup.sqldelight'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 android {
 
-    defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"
-                ]
-            }
+    sourceSets {
+        main.java.srcDirs += [
+                'src/main/sqldelight', // sql files
+                'build/generated/sqldelight/code/Database/debug' // generated code
+        ]
+    }
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/licenses/ASM'
+        exclude 'win32-x86/attach_hotspot_windows.dll'
+        exclude 'win32-x86-64/attach_hotspot_windows.dll'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
         }
     }
 
-    sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+}
+
+sqldelight {
+    Database {
+        dialect = "sqlite:3.24"
+        // verifyMigrations = true todo enable
     }
 }
 
 dependencies {
     implementation project(':core')
     implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':prefs-keys')
     implementation project(':localization')
     implementation project(':features:search:api')
@@ -50,8 +65,10 @@ dependencies {
     implementation lib_network.ok_http_interceptor
 
     implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
 
+    implementation lib_data.sql_delight
+    testImplementation lib_data.sql_delight_test
+
+    // TODO delete
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 }

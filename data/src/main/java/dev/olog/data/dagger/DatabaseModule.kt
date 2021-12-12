@@ -1,103 +1,25 @@
 package dev.olog.data.dagger
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.olog.data.db.dao.*
+import dev.olog.data.Database
+import dev.olog.data.DatabaseFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
+internal class DatabaseModule {
 
     @Provides
-    internal fun provideFavoritedDao(db: AppDatabase): FavoriteDao {
-        return db.favoriteDao()
-    }
-
-    @Provides
-    internal fun provideLastFmDao(db: AppDatabase): LastFmDao {
-        return db.lastFmDao()
-    }
-
-    @Provides
-    internal fun provideEqualizerPresetDao(db: AppDatabase): EqualizerPresetsDao {
-        return db.equalizerPresetsDao()
-    }
-
-    @Provides
-    internal fun provideOfflineLyricsDao(db: AppDatabase): OfflineLyricsDao {
-        return db.offlineLyricsDao()
-    }
-
-    @Provides
-    internal fun provideLyricsSyncDao(db: AppDatabase): LyricsSyncAdjustmentDao {
-        return db.lyricsSyncAdjustmentDao()
-    }
-
-    @Provides
-    internal fun providePlayingQueueDao(db: AppDatabase): PlayingQueueDao {
-        return db.playingQueueDao()
-    }
-
-    @Provides
-    internal fun providePlaylistDao(db: AppDatabase): PlaylistDao {
-        return db.playlistDao()
-    }
-
-    @Provides
-    internal fun providePodcastPlaylistDao(db: AppDatabase): PodcastPlaylistDao {
-        return db.podcastPlaylistDao()
-    }
-
-    @Provides
-    internal fun provideHistoryDao(db: AppDatabase): HistoryDao {
-        return db.historyDao()
-    }
-
-    @Provides
-    internal fun provideRecentDao(db: AppDatabase): RecentSearchesDao {
-        return db.recentSearchesDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedAlbumsDao(db: AppDatabase): LastPlayedAlbumDao {
-        return db.lastPlayedAlbumDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedPodcastAlbumsDao(db: AppDatabase): LastPlayedPodcastAlbumDao {
-        return db.lastPlayedPodcastAlbumDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedArtistsDao(db: AppDatabase): LastPlayedArtistDao {
-        return db.lastPlayedArtistDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedPodcastArtistsDao(db: AppDatabase): LastPlayedPodcastArtistDao {
-        return db.lastPlayedPodcastArtistDao()
-    }
-
-    @Provides
-    internal fun provideFolderMostPlayedDao(db: AppDatabase): FolderMostPlayedDao {
-        return db.folderMostPlayedDao()
-    }
-
-    @Provides
-    internal fun providePlaylistMostPlayedDao(db: AppDatabase): PlaylistMostPlayedDao {
-        return db.playlistMostPlayedDao()
-    }
-
-    @Provides
-    internal fun provideGenreMostPlayedDao(db: AppDatabase): GenreMostPlayedDao {
-        return db.genreMostPlayedDao()
-    }
-
-    @Provides
-    internal fun providePodcastPositionDao(db: AppDatabase): PodcastPositionDao {
-        return db.podcastPositionDao()
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): Database {
+        return DatabaseFactory.createAndroid(context)
     }
 
 }
