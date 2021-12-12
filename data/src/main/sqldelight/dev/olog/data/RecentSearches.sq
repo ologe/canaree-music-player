@@ -1,0 +1,64 @@
+import dev.olog.core.MediaId;
+
+CREATE TABLE IF NOT EXISTS recent_searches(
+    item_id TEXT NOT NULL,
+    type INTEGER AS Int NOT NULL,
+    insertion_time INTEGER NOT NULL,
+    media_id TEXT AS MediaId NOT NULL,
+    PRIMARY KEY (item_id, type)
+);
+
+selectAll:
+SELECT recent_searches.media_id, all_items.title
+FROM recent_searches JOIN (
+    -- folder
+    SELECT directory AS item_id, 0 AS type, directory AS title
+    FROM folders_view
+    -- playlist
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 1 AS type, title AS title
+    FROM playlists_view
+    -- songs
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 2 AS type, title AS title
+    FROM songs_view
+    -- albums
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 3 AS type, title AS title
+    FROM albums_view
+    -- artists
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 4 AS type, name AS title
+    FROM artists_view
+    -- genres
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 5 AS type, name AS title
+    FROM genres_view
+    -- podcast playlist
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 6 AS type, title AS title
+    FROM podcast_playlists_view
+    -- podcast episodes
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 7 AS type, title AS title
+    FROM podcast_episodes_view
+    -- podcast collection
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 8 AS type, title AS title
+    FROM podcast_collections_view
+    -- podcast author
+    UNION ALL
+    SELECT CAST(id AS TEXT) AS item_id, 9 AS type, name AS title
+    FROM podcast_authors_view
+) AS all_items ON recent_searches.item_id = all_items.item_id AND recent_searches.type = all_items.type
+ORDER BY insertion_time DESC
+LIMIT 50;
+
+insert:
+INSERT OR REPLACE INTO recent_searches VALUES (?, ?, ?, ?);
+
+delete:
+DELETE FROM recent_searches WHERE item_id = ? AND type = ?;
+
+deleteAll:
+DELETE FROM recent_searches;
