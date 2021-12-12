@@ -1,4 +1,4 @@
-package dev.olog.core.gateway.track
+package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.sort.AuthorDetailSort
 import dev.olog.core.entity.sort.AuthorSort
@@ -7,7 +7,7 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.gateway.base.*
 import kotlinx.coroutines.flow.Flow
 
-interface ArtistGateway :
+interface PodcastAuthorGateway :
     BaseGateway<Artist, Id>,
     ChildHasTracks<Id>,
     HasRecentlyAdded<Artist>,
