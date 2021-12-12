@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS podcast_position(
+    podcast_id INTEGER NOT NULL PRIMARY KEY,
+    position INTEGER NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO podcast_position VALUES (?, ?);
+
+selectById:
+SELECT * FROM podcast_position WHERE podcast_id = ?;
