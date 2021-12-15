@@ -1,0 +1,8 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+dependencies {
+    implementation project(':data')
+}

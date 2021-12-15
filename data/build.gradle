@@ -66,6 +66,9 @@ dependencies {
     implementation lib_data.sql_content_resolver
 
     implementation lib_data.sql_delight
+
+    testImplementation project(':core:testing')
+    testImplementation project(':data:testing')
     testImplementation lib_data.sql_delight_test
 
     // TODO delete
