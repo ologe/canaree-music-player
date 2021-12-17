@@ -1,7 +1,7 @@
 ext {
 //    core
-    kotlin = '1.6.0'
-    coroutines = '1.6.0-RC'
+    kotlin = '1.6.10'
+    coroutines = '1.6.0-RC3'
     dagger = '2.40'
 
 //    android x
