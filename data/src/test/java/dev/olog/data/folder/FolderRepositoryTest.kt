@@ -272,18 +272,18 @@ class FolderRepositoryTest {
     }
 
     @Test
-    fun `test observeSiblings, should be null when item is missing`() = runTest {
-        val query = QueryOneOrNull<Folders_view>(null)
-        whenever(queries.selectById("dir")).thenReturn(query)
+    fun `test observeSiblings`() = runTest {
+        val query = QueryList(FolderView(directory = "dir", songs = 0))
+        whenever(queries.selectSiblings("dir")).thenReturn(query)
 
         sut.observeSiblings("dir").test(this) {
-            assertNoValues()
+            assertValue(listOf(Folder(directory = "dir", songs = 0)))
         }
     }
 
     @Test
     fun `test getAllBlacklistedIncluded`() = runTest {
-        val query = QueryOneOrNull(SelectAllBlacklistedIncluded(directory = "dir", songs = 2, date_added = 100))
+        val query = QueryList(SelectAllBlacklistedIncluded(directory = "dir", songs = 2, date_added = 100))
         whenever(queries.selectAllBlacklistedIncluded()).thenReturn(query)
 
         val actual = sut.getAllBlacklistedIncluded()
@@ -291,7 +291,7 @@ class FolderRepositoryTest {
             directory = "dir",
             songs = 2
         )
-        Assert.assertEquals(expected, actual)
+        Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test

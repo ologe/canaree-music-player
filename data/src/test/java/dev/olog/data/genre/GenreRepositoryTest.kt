@@ -328,12 +328,12 @@ class GenreRepositoryTest {
     }
 
     @Test
-    fun `test observeSiblings, should be null when item is missing`() = runTest {
-        val query = QueryOneOrNull<Genres_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+    fun `test observeSiblings`() = runTest {
+        val query = QueryList(GenreView(id = 1L))
+        whenever(queries.selectSiblings(1)).thenReturn(query)
 
         sut.observeSiblings(1).test(this) {
-            assertNoValues()
+            assertValue(listOf(Genre(id = 1, name = "", songs = 0)))
         }
     }
 
