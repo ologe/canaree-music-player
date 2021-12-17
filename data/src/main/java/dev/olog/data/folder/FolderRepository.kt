@@ -97,11 +97,11 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
-        return queries.selectAllBlacklistedIncluded { directory, songs, date_added ->
-            Folders_view(directory = directory, songs = songs, date_added = date_added)
-        }
+        return queries.selectAllBlacklistedIncluded()
             .executeAsList()
-            .map(Folders_view::toDomain)
+            .map {
+                Folder(directory = it.directory, songs = it.songs.toInt())
+            }
     }
 
     override fun getSort(): Sort<GenericSort> {
