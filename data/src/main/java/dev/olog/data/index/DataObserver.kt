@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.index
 
 import android.database.ContentObserver
 import android.os.Handler
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 internal class DataObserver(
     private val appScope: CoroutineScope,
     private val scheduler: CoroutineDispatcher,
-    private val onUpdate: () -> Unit
+    private val onUpdate: suspend () -> Unit
 ) : ContentObserver(Handler(Looper.getMainLooper())) {
 
     private var disposable by autoDisposeJob()
