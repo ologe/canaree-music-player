@@ -28,10 +28,10 @@ class SortedPlaylistQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val playlists = listOf(
-            Indexed_playlists(id = 1, title = "abc"),
-            Indexed_playlists(id = 3, title = "äaa"),
-            Indexed_playlists(id = 2, title = "zzz"),
-            Indexed_playlists(id = 4, title = "blacklisted"),
+            Indexed_playlists(id = 1, title = "abc", path = ""),
+            Indexed_playlists(id = 3, title = "äaa", path = ""),
+            Indexed_playlists(id = 2, title = "zzz", path = ""),
+            Indexed_playlists(id = 4, title = "blacklisted", path = ""),
         )
         indexedPlaylistsQueries.insertGroup(playlists)
 
@@ -51,12 +51,12 @@ class SortedPlaylistQueriesTest {
         indexedPlayablesQueries.insertGroup(playables)
 
         val playlistPlayables = listOf(
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 3, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 2, playable_id = 1, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 6, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 7, play_order = 0),
+            Indexed_playlists_playables(id = 1, playlist_id = 1, playable_id = 3, play_order = 0),
+            Indexed_playlists_playables(id = 2, playlist_id = 1, playable_id = 2, play_order = 0),
+            Indexed_playlists_playables(id = 3, playlist_id = 2, playable_id = 1, play_order = 0),
+            Indexed_playlists_playables(id = 4, playlist_id = 3, playable_id = 2, play_order = 0),
+            Indexed_playlists_playables(id = 5, playlist_id = 3, playable_id = 6, play_order = 0),
+            Indexed_playlists_playables(id = 6, playlist_id = 3, playable_id = 7, play_order = 0),
         )
         indexedPlaylistsQueries.insertPlayableGroup(playlistPlayables)
     }
@@ -67,9 +67,9 @@ class SortedPlaylistQueriesTest {
         sortQueries.setPlaylistsSort(Sort(GenericSort.Title, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         val expected = listOf(
-            Playlists_view(3, "äaa", 1),
-            Playlists_view(1, "abc", 2),
-            Playlists_view(2, "zzz", 1),
+            Playlists_view(3, "äaa", 1, ""),
+            Playlists_view(1, "abc", 2, ""),
+            Playlists_view(2, "zzz", 1, ""),
         )
         Assert.assertEquals(expected, actualAsc)
 
@@ -93,8 +93,8 @@ class SortedPlaylistQueriesTest {
     fun testSelectSiblings() {
         val actual = queries.selectSiblings(1).executeAsList()
         val expected = listOf(
-            Playlists_view(3, "äaa", 1),
-            Playlists_view(2, "zzz", 1),
+            Playlists_view(3, "äaa", 1, ""),
+            Playlists_view(2, "zzz", 1, ""),
         )
         Assert.assertEquals(expected, actual)
     }
@@ -120,17 +120,17 @@ class SortedPlaylistQueriesTest {
 
         indexedPlaylistsQueries.deleteAllPlayables()
         val playlistPlayables = listOf(
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 1, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 3, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 4, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 5, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 6, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 7, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 8, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 9, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 10, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 11, play_order = 0),
+            Indexed_playlists_playables(id = 10, playlist_id = 1, playable_id = 1, play_order = 0),
+            Indexed_playlists_playables(id = 20, playlist_id = 1, playable_id = 2, play_order = 0),
+            Indexed_playlists_playables(id = 30, playlist_id = 1, playable_id = 3, play_order = 0),
+            Indexed_playlists_playables(id = 40, playlist_id = 1, playable_id = 4, play_order = 0),
+            Indexed_playlists_playables(id = 50, playlist_id = 1, playable_id = 5, play_order = 0),
+            Indexed_playlists_playables(id = 60, playlist_id = 1, playable_id = 6, play_order = 0),
+            Indexed_playlists_playables(id = 70, playlist_id = 1, playable_id = 7, play_order = 0),
+            Indexed_playlists_playables(id = 80, playlist_id = 1, playable_id = 8, play_order = 0),
+            Indexed_playlists_playables(id = 90, playlist_id = 1, playable_id = 9, play_order = 0),
+            Indexed_playlists_playables(id = 100, playlist_id = 1, playable_id = 10, play_order = 0),
+            Indexed_playlists_playables(id = 110, playlist_id = 1, playable_id = 11, play_order = 0),
         )
         indexedPlaylistsQueries.insertPlayableGroup(playlistPlayables)
 
