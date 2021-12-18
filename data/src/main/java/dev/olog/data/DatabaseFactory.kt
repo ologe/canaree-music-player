@@ -1,14 +1,11 @@
 package dev.olog.data
 
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
-import dev.olog.data.Database
 import dev.olog.data.dagger.RecentSearchesAdapter
 import dev.olog.data.dagger.SortAdapter
-import dev.olog.data.extension.ContentValues
 
 object DatabaseFactory {
 
@@ -45,30 +42,6 @@ object DatabaseFactory {
             for (pragma in pragmas) {
                 db.query(pragma).use { it.moveToFirst() }
             }
-        }
-
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            updateAutoPlaylist(db, -1, context.getString(localization.R.string.common_last_added))
-            updateAutoPlaylist(db, -2, context.getString(localization.R.string.common_favorites))
-            updateAutoPlaylist(db, -3, context.getString(localization.R.string.common_history))
-            updateAutoPlaylist(db, -4, context.getString(localization.R.string.common_last_added))
-            updateAutoPlaylist(db, -5, context.getString(localization.R.string.common_favorites))
-            updateAutoPlaylist(db, -6, context.getString(localization.R.string.common_history))
-        }
-
-        private fun updateAutoPlaylist(
-            db: SupportSQLiteDatabase,
-            id: Long,
-            name: String,
-        ) {
-            db.update(
-                "indexed_playlists",
-                SQLiteDatabase.CONFLICT_FAIL,
-                ContentValues("title" to name),
-                "id = ?",
-                arrayOf(id)
-            )
         }
 
     }
