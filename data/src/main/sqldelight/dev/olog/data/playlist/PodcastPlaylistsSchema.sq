@@ -1,6 +1,6 @@
 -- show playlist taking into account blacklist
 CREATE VIEW podcast_playlists_view AS
-SELECT DISTINCT indexed_playlists.id, indexed_playlists.title, count(*) AS songs
+SELECT DISTINCT indexed_playlists.id, indexed_playlists.title, count(*) AS songs, indexed_playlists.path
 FROM indexed_playlists
     JOIN indexed_playlists_playables ON indexed_playlists.id = indexed_playlists_playables.playlist_id
     JOIN podcast_episodes_view ON podcast_episodes_view.id = indexed_playlists_playables.playable_id
