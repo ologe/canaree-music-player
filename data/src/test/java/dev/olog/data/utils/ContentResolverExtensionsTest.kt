@@ -240,30 +240,35 @@ class ContentResolverExtensionsTest {
     fun `test mapToIndexedPlaylist`() {
         val cursor = MatrixCursor(
             BaseColumns._ID,
-            MediaStore.Audio.Playlists.NAME
+            MediaStore.Audio.Playlists.NAME,
+            MediaStore.Audio.Playlists.DATA,
         )
 
         // valid
         cursor.newRow(
             BaseColumns._ID to 1L,
-            MediaStore.Audio.Playlists.NAME to "Some playlist 1"
+            MediaStore.Audio.Playlists.NAME to "Some playlist 1",
+            MediaStore.Audio.Playlists.DATA to "path 1",
         )
 
         // valid, should be capitalized
         cursor.newRow(
             BaseColumns._ID to 2L,
-            MediaStore.Audio.Playlists.NAME to "some playlist 2"
+            MediaStore.Audio.Playlists.NAME to "some playlist 2",
+            MediaStore.Audio.Playlists.DATA to "path 2",
         )
 
         // missing id, should be skipped
         cursor.newRow(
             BaseColumns._ID to null,
-            MediaStore.Audio.Playlists.NAME to "playlist 3"
+            MediaStore.Audio.Playlists.NAME to "playlist 3",
+            MediaStore.Audio.Playlists.DATA to "path 3",
         )
         // missing name, should be skipped
         cursor.newRow(
             BaseColumns._ID to 3L,
-            MediaStore.Audio.Playlists.NAME to null
+            MediaStore.Audio.Playlists.NAME to null,
+            MediaStore.Audio.Playlists.DATA to "path 4",
         )
 
         val actual = cursor.mapToIndexedPlaylist()
@@ -271,10 +276,12 @@ class ContentResolverExtensionsTest {
             Indexed_playlists(
                 id = 1,
                 title = "Some playlist 1",
+                path = "path 1"
             ),
             Indexed_playlists(
                 id = 2,
                 title = "Some playlist 2",
+                path = "path 2"
             ),
         )
         Assert.assertEquals(expected, actual)
@@ -285,34 +292,44 @@ class ContentResolverExtensionsTest {
     @Test
     fun `test mapToIndexedPlaylistPlayable`() {
         val cursor = MatrixCursor(
+            BaseColumns._ID,
             MediaStore.Audio.Playlists.Members.AUDIO_ID,
             MediaStore.Audio.Playlists.Members.PLAY_ORDER,
         )
 
         // valid
         cursor.newRow(
-            MediaStore.Audio.Playlists.Members.AUDIO_ID to 1,
+            BaseColumns._ID to 1,
+            MediaStore.Audio.Playlists.Members.AUDIO_ID to 10,
             MediaStore.Audio.Playlists.Members.PLAY_ORDER to 100,
         )
         // valid
         cursor.newRow(
-            MediaStore.Audio.Playlists.Members.AUDIO_ID to 2,
+            BaseColumns._ID to 2,
+            MediaStore.Audio.Playlists.Members.AUDIO_ID to 20,
             MediaStore.Audio.Playlists.Members.PLAY_ORDER to 200,
         )
-        // null id, should be
+        // null id, should be skipped
         cursor.newRow(
+            BaseColumns._ID to null,
+            MediaStore.Audio.Playlists.Members.AUDIO_ID to 30
+        )
+        // null audio id, should be skipped
+        cursor.newRow(
+            BaseColumns._ID to 4,
             MediaStore.Audio.Playlists.Members.AUDIO_ID to null
         )
         // null play order, should be skipped
         cursor.newRow(
-            MediaStore.Audio.Playlists.Members.AUDIO_ID to 3,
+            BaseColumns._ID to 5,
+            MediaStore.Audio.Playlists.Members.AUDIO_ID to 50,
             MediaStore.Audio.Playlists.Members.PLAY_ORDER to null,
         )
 
-        val actual = cursor.mapToIndexedPlaylistPlayable(10)
+        val actual = cursor.mapToIndexedPlaylistPlayable(1000)
         val expected = listOf(
-            Indexed_playlists_playables(playlist_id = 10, playable_id = 1, play_order = 100),
-            Indexed_playlists_playables(playlist_id = 10, playable_id = 2, play_order = 200),
+            Indexed_playlists_playables(id = 1, playlist_id = 1000, playable_id = 10, play_order = 100),
+            Indexed_playlists_playables(id = 2, playlist_id = 1000, playable_id = 20, play_order = 200),
         )
 
         Assert.assertEquals(expected, actual)

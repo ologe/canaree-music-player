@@ -65,10 +65,10 @@ class RecentSearchesQueriesTest {
         indexedGenreQueries.insert(Indexed_genres(GENRE_ID, "genre"))
         indexedGenreQueries.insertPlayable(Indexed_genres_playables(GENRE_ID, SONG_ID))
 
-        indexedPlaylistQueries.insert(Indexed_playlists(PLAYLIST_ID, "playlist"))
-        indexedPlaylistQueries.insert(Indexed_playlists(PODCAST_PLAYLIST_ID, "podcast playlist"))
-        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(PLAYLIST_ID, SONG_ID, 0))
-        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(PODCAST_PLAYLIST_ID, PODCAST_ID, 0))
+        indexedPlaylistQueries.insert(Indexed_playlists(PLAYLIST_ID, "playlist", ""))
+        indexedPlaylistQueries.insert(Indexed_playlists(PODCAST_PLAYLIST_ID, "podcast playlist", ""))
+        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(1, PLAYLIST_ID, SONG_ID, 0))
+        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(2, PODCAST_PLAYLIST_ID, PODCAST_ID, 0))
 
         queries.insert(
             mediaId = createCategoryValue(FOLDERS, FOLDER_ID),

@@ -12,6 +12,7 @@ import dev.olog.data.index.Indexed_playables
 import dev.olog.data.playlist.Playlists_view
 import dev.olog.data.playlist.Podcast_playlists_view
 
+// TODO move to :data:tesing
 fun IndexedPlayables(
     id: Long,
     is_podcast: Boolean,
@@ -135,7 +136,8 @@ fun PlaylistView(
 ) = Playlists_view(
     id = id,
     title = title,
-    songs = songs
+    songs = songs,
+    path = ""
 )
 
 fun PodcastPlaylistView(
@@ -145,5 +147,6 @@ fun PodcastPlaylistView(
 ) = Podcast_playlists_view(
     id = id,
     title = title,
-    songs = songs
+    songs = songs,
+    path = "",
 )
