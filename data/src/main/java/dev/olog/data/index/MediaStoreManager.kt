@@ -37,7 +37,10 @@ internal class MediaStoreManager @Inject constructor(
         }
 
         val PLAYLISTS_QUERY = """
-SELECT ${BaseColumns._ID}, ${MediaStore.Audio.PlaylistsColumns.NAME}
+SELECT 
+    ${BaseColumns._ID}, 
+    ${MediaStore.Audio.PlaylistsColumns.NAME},
+    ${MediaStore.Audio.PlaylistsColumns.DATA}
 FROM $playlistsUri
         """
 
