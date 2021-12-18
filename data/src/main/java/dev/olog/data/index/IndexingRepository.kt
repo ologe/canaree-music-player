@@ -11,6 +11,7 @@ import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -65,6 +66,7 @@ internal class IndexingRepository @Inject constructor(
                 }
             }
 
+            yield()
             genrePlayablesObservers.forEach { contentResolver.unregisterContentObserver(it) }
             genrePlayablesObservers.clear()
 
@@ -98,6 +100,7 @@ internal class IndexingRepository @Inject constructor(
                 }
             }
 
+            yield()
             playlistPlayablesObservers.forEach { contentResolver.unregisterContentObserver(it) }
             playlistPlayablesObservers.clear()
 
