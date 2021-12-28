@@ -1,9 +1,8 @@
 package dev.olog.data.history
 
-import dev.olog.data.History
-import dev.olog.testing.IndexedPlayables
 import dev.olog.data.TestDatabase
 import dev.olog.data.index.Indexed_playables
+import dev.olog.testing.IndexedPlayables
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -36,9 +35,9 @@ class HistoryQueriesTest {
     fun `test selectAllSongs`() {
         Assert.assertEquals(emptyList<Indexed_playables>(), queries.selectAllSongs().executeAsList())
 
-        queries.insert(History(1, 50))
-        queries.insert(History(3, 100))
-        queries.insert(History(4, 200))  // should be filtered
+        queries.insert(1, 50)
+        queries.insert(3, 100)
+        queries.insert(4, 200)  // should be filtered
 
         Assert.assertEquals(
             listOf(
@@ -53,9 +52,9 @@ class HistoryQueriesTest {
     fun `test selectAllPodcastEpisodes`() {
         Assert.assertEquals(emptyList<Indexed_playables>(), queries.selectAllPodcastEpisodes().executeAsList())
 
-        queries.insert(History(5, 50))
-        queries.insert(History(6, 100))
-        queries.insert(History(8, 200)) // should be filtered
+        queries.insert(5, 50)
+        queries.insert(6, 100)
+        queries.insert(8, 200) // should be filtered
 
         Assert.assertEquals(
             listOf(
