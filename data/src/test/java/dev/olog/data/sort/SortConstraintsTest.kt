@@ -1,6 +1,6 @@
 package dev.olog.data.sort
 
-import dev.olog.core.entity.sort.*
+import dev.olog.core.sort.*
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test

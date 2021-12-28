@@ -1,6 +1,6 @@
 @file:Suppress("TestFunctionName")
 
-package dev.olog.data
+package dev.olog.testing
 
 import dev.olog.data.author.Artists_view
 import dev.olog.data.author.Podcast_authors_view
@@ -12,7 +12,6 @@ import dev.olog.data.index.Indexed_playables
 import dev.olog.data.playlist.Playlists_view
 import dev.olog.data.playlist.Podcast_playlists_view
 
-// TODO move to :data:tesing
 fun IndexedPlayables(
     id: Long,
     is_podcast: Boolean,

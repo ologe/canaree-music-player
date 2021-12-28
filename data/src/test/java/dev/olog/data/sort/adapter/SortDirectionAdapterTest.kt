@@ -1,6 +1,6 @@
 package dev.olog.data.sort.adapter
 
-import dev.olog.core.entity.sort.SortDirection
+import dev.olog.core.sort.SortDirection
 import org.junit.Assert
 import org.junit.Test
 

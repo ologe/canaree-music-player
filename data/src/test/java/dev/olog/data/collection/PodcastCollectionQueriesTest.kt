@@ -1,7 +1,7 @@
 package dev.olog.data.collection
 
-import dev.olog.data.PodcastCollectionView
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.PodcastCollectionView
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.QueriesConstants
 import dev.olog.data.QueriesConstants.recentlyAddedMaxTime
 import dev.olog.data.TestDatabase

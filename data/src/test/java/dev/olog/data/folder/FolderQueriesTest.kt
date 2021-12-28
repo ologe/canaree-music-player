@@ -1,7 +1,7 @@
 package dev.olog.data.folder
 
-import dev.olog.data.FolderView
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.FolderView
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.QueriesConstants
 import dev.olog.data.QueriesConstants.recentlyAddedMaxTime
 import dev.olog.data.TestDatabase

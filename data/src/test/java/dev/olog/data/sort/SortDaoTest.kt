@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.core.entity.sort.*
-import dev.olog.core.entity.sort.Sort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.*
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test

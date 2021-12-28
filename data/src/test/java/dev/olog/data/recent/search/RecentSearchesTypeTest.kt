@@ -21,9 +21,7 @@ class RecentSearchesTypeTest {
             MediaIdCategory.PODCASTS_ARTISTS to 9,
         )
 
-        val values = MediaIdCategory.values()
-            .toList() - MediaIdCategory.HEADER - MediaIdCategory.PLAYING_QUEUE
-        for (item in values) {
+        for (item in MediaIdCategory.values()) {
             Assert.assertEquals(map[item], item.recentSearchType())
         }
     }

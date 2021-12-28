@@ -1,6 +1,6 @@
 package dev.olog.data.sort.mapper
 
-import dev.olog.core.entity.sort.GenreDetailSort
+import dev.olog.core.sort.GenreDetailSort
 import dev.olog.data.sort.SortTypeEntity
 import org.junit.Assert
 import org.junit.Test

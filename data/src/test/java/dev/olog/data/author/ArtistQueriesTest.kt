@@ -1,7 +1,7 @@
 package dev.olog.data.author
 
-import dev.olog.data.ArtistView
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.ArtistView
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.QueriesConstants
 import dev.olog.data.QueriesConstants.recentlyAddedMaxTime
 import dev.olog.data.TestDatabase

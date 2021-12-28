@@ -3,6 +3,8 @@ package dev.olog.data.playlist
 import dev.olog.data.*
 import dev.olog.data.index.Indexed_playlists
 import dev.olog.data.index.Indexed_playlists_playables
+import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.PlaylistView
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

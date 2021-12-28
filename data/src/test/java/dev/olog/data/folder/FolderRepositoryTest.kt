@@ -3,16 +3,17 @@ package dev.olog.data.folder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.*
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.sort.*
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Song
-import dev.olog.data.ArtistView
-import dev.olog.data.FolderView
-import dev.olog.data.IndexedPlayables
+import dev.olog.core.entity.id.FolderIdentifier
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.sort.FolderDetailSort
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
+import dev.olog.testing.ArtistView
+import dev.olog.testing.FolderView
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.QueryOneOrNull
@@ -45,8 +46,8 @@ class FolderRepositoryTest {
         val query = QueryList(FolderView(directory = "dir", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
-        val actual = sut.getAll()
-        val expected = Folder(
+        val actual = sut.getAll(FolderIdentifier.Path())
+        val expected = MediaStoreFolder(
             directory = "dir",
             songs = 2,
         )
@@ -59,12 +60,12 @@ class FolderRepositoryTest {
         val query = QueryList(FolderView(directory = "dir", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
-        val expected = Folder(
+        val expected = MediaStoreFolder(
             directory = "dir",
             songs = 2,
         )
 
-        sut.observeAll().test(this) {
+        sut.observeAll(FolderIdentifier.Path()).test(this) {
             assertValue(listOf(expected))
         }
     }
@@ -74,8 +75,8 @@ class FolderRepositoryTest {
         val query = QueryOneOrNull(FolderView(directory = "dir", songs = 2))
         whenever(queries.selectById("dir")).thenReturn(query)
 
-        val actual = sut.getByParam("dir")
-        val expected = Folder(
+        val actual = sut.getById(FolderIdentifier.Path("dir"))
+        val expected = MediaStoreFolder(
             directory = "dir",
             songs = 2,
         )
@@ -88,7 +89,7 @@ class FolderRepositoryTest {
         val query = QueryOneOrNull<Folders_view>(null)
         whenever(queries.selectById("dir")).thenReturn(query)
 
-        val actual = sut.getByParam("dir")
+        val actual = sut.getById(FolderIdentifier.Path("dir"))
         Assert.assertEquals(null, actual)
     }
 
@@ -97,12 +98,12 @@ class FolderRepositoryTest {
         val query = QueryOneOrNull(FolderView(directory = "dir", songs = 2))
         whenever(queries.selectById("dir")).thenReturn(query)
 
-        val expected = Folder(
+        val expected = MediaStoreFolder(
             directory = "dir",
             songs = 2,
         )
 
-        sut.observeByParam("dir").test(this) {
+        sut.observeById(FolderIdentifier.Path("dir")).test(this) {
             assertValue(expected)
         }
     }
@@ -112,7 +113,7 @@ class FolderRepositoryTest {
         val query = QueryOneOrNull<Folders_view>(null)
         whenever(queries.selectById("dir")).thenReturn(query)
 
-        sut.observeByParam("dir").test(this) {
+        sut.observeById(FolderIdentifier.Path("dir")).test(this) {
             assertValue(null)
         }
     }
@@ -122,24 +123,8 @@ class FolderRepositoryTest {
         val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
         whenever(queries.selectTracksByIdSorted("dir")).thenReturn(query)
 
-        val actual = sut.getTrackListByParam("dir")
-        val expected = Song(
-            id = 1,
-            artistId = 0,
-            albumId = 0,
-            title = "",
-            artist = "",
-            albumArtist = "",
-            album = "",
-            duration = 0,
-            dateAdded = 0,
-            directory = "",
-            path = "",
-            discNumber = 0,
-            trackNumber = 0,
-            idInPlaylist = 0,
-            isPodcast = false
-        )
+        val actual = sut.getPlayablesById(FolderIdentifier.Path("dir"))
+        val expected = MediaStoreSong(id = 1)
 
         Assert.assertEquals(listOf(expected), actual)
     }
@@ -149,25 +134,9 @@ class FolderRepositoryTest {
         val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
         whenever(queries.selectTracksByIdSorted("dir")).thenReturn(query)
 
-        val expected = Song(
-            id = 1,
-            artistId = 0,
-            albumId = 0,
-            title = "",
-            artist = "",
-            albumArtist = "",
-            album = "",
-            duration = 0,
-            dateAdded = 0,
-            directory = "",
-            path = "",
-            discNumber = 0,
-            trackNumber = 0,
-            idInPlaylist = 0,
-            isPodcast = false
-        )
+        val expected = MediaStoreSong(id = 1)
 
-        sut.observeTrackListByParam("dir").test(this) {
+        sut.observePlayablesById(FolderIdentifier.Path("dir")).test(this) {
             assertValue(listOf(expected))
         }
     }
@@ -195,39 +164,18 @@ class FolderRepositoryTest {
         whenever(queries.selectMostPlayed("dir")).thenReturn(query)
 
         val expected = MostPlayedSong(
-            Song(
-                id = 1,
-                artistId = 0,
-                albumId = 0,
-                title = "",
-                artist = "",
-                albumArtist = "",
-                album = "",
-                duration = 0,
-                dateAdded = 0,
-                directory = "",
-                path = "",
-                discNumber = 0,
-                trackNumber = 0,
-                idInPlaylist = 0,
-                isPodcast = false
-            ),
+            MediaStoreSong(id = 1),
             counter = 100
         )
 
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, "dir")
-        sut.observeMostPlayed(mediaId).test(this) {
+        sut.observeMostPlayed(FolderIdentifier.Path("dir")).test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test insertMostPlayed`() = runTest {
-        val mediaId = MediaId.playableItem(
-            parentId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, "dir"),
-            songId = 1
-        )
-        sut.insertMostPlayed(mediaId)
+        sut.insertMostPlayed(FolderIdentifier.Path("dir"), PlayableIdentifier.MediaStore(1, false))
         verify(queries).incrementMostPlayed(1, "dir")
     }
 
@@ -236,25 +184,9 @@ class FolderRepositoryTest {
         val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
         whenever(queries.selectRecentlyAddedSongs("dir")).thenReturn(query)
 
-        val expected = Song(
-            id = 1,
-            artistId = 0,
-            albumId = 0,
-            title = "",
-            artist = "",
-            albumArtist = "",
-            album = "",
-            duration = 0,
-            dateAdded = 0,
-            directory = "",
-            path = "",
-            discNumber = 0,
-            trackNumber = 0,
-            idInPlaylist = 0,
-            isPodcast = false
-        )
+        val expected = MediaStoreSong(id = 1)
 
-        sut.observeRecentlyAddedSongs("dir").test(this) {
+        sut.observeRecentlyAddedPlayablesById(FolderIdentifier.Path("dir")).test(this) {
             assertValue(listOf(expected))
         }
     }
@@ -264,9 +196,9 @@ class FolderRepositoryTest {
         val query = QueryList(ArtistView(id = 1, songs = 2))
         whenever(queries.selectRelatedArtists("dir")).thenReturn(query)
 
-        sut.observeRelatedArtists("dir").test(this) {
+        sut.observeRelatedArtistsById(FolderIdentifier.Path("dir")).test(this) {
             assertValue(listOf(
-                Artist(id = 1, name = "", songs = 2, isPodcast = false)
+                MediaStoreArtist(id = 1, songs = 2)
             ))
         }
     }
@@ -276,8 +208,8 @@ class FolderRepositoryTest {
         val query = QueryList(FolderView(directory = "dir", songs = 0))
         whenever(queries.selectSiblings("dir")).thenReturn(query)
 
-        sut.observeSiblings("dir").test(this) {
-            assertValue(listOf(Folder(directory = "dir", songs = 0)))
+        sut.observeSiblingsById(FolderIdentifier.Path("dir")).test(this) {
+            assertValue(listOf(MediaStoreFolder(directory = "dir", songs = 0)))
         }
     }
 
@@ -287,7 +219,7 @@ class FolderRepositoryTest {
         whenever(queries.selectAllBlacklistedIncluded()).thenReturn(query)
 
         val actual = sut.getAllBlacklistedIncluded()
-        val expected = Folder(
+        val expected = MediaStoreFolder(
             directory = "dir",
             songs = 2
         )
@@ -299,13 +231,13 @@ class FolderRepositoryTest {
         val sort = Sort(GenericSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getFoldersSortQuery()).thenReturn(query)
-        Assert.assertEquals(sort, sut.getSort())
+        Assert.assertEquals(sort, sut.getSort(FolderIdentifier.Path()))
     }
 
     @Test
     fun `test setSort`() {
         val sort = Sort(GenericSort.Title, SortDirection.ASCENDING)
-        sut.setSort(sort)
+        sut.setSort(FolderIdentifier.Path(), sort)
         verify(sortDao).setFoldersSort(sort)
     }
 
@@ -314,7 +246,7 @@ class FolderRepositoryTest {
         val sort = Sort(FolderDetailSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getDetailFoldersSortQuery()).thenReturn(query)
-        Assert.assertEquals(sort, sut.getDetailSort())
+        Assert.assertEquals(sort, sut.getDetailSort(FolderIdentifier.Path()))
     }
 
     @Test
@@ -323,7 +255,7 @@ class FolderRepositoryTest {
         val query = QueryOne(sort)
         whenever(sortDao.getDetailFoldersSortQuery()).thenReturn(query)
 
-        sut.observeDetailSort().test(this) {
+        sut.observeDetailSort(FolderIdentifier.Path()).test(this) {
             assertValue(sort)
         }
     }
@@ -331,7 +263,7 @@ class FolderRepositoryTest {
     @Test
     fun `test setDetailSort`() {
         val sort = Sort(FolderDetailSort.Title, SortDirection.ASCENDING)
-        sut.setDetailSort(sort)
+        sut.setDetailSort(FolderIdentifier.Path(), sort)
         verify(sortDao).setDetailFoldersSort(sort)
     }
     

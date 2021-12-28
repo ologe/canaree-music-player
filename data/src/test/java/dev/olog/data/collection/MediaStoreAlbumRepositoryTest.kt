@@ -4,14 +4,14 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.DateTimeFactory
-import dev.olog.core.entity.sort.CollectionDetailSort
-import dev.olog.core.entity.sort.CollectionSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.sort.SortDirection
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Song
-import dev.olog.data.IndexedPlayables
-import dev.olog.data.PodcastCollectionView
+import dev.olog.core.MediaStoreAlbum
+import dev.olog.core.MediaStoreSong
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.sort.CollectionDetailSort
+import dev.olog.core.sort.CollectionSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.QueryOneOrNull
@@ -19,17 +19,19 @@ import dev.olog.data.extensions.mockTransacter
 import dev.olog.data.sort.SortDao
 import dev.olog.flow.test.observer.test
 import dev.olog.test.shared.TestSchedulers
+import dev.olog.testing.AlbumView
+import dev.olog.testing.IndexedPlayables
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class PodcastCollectionRepositoryTest {
+class MediaStoreAlbumRepositoryTest {
 
-    private val queries = mock<PodcastCollectionQueries>()
+    private val queries = mock<AlbumsQueries>()
     private val sortDao = mock<SortDao>()
     private val dateTimeFactory = mock<DateTimeFactory>()
-    private val sut = PodcastCollectionRepository(
+    private val sut = MediaStoreAlbumRepository(
         schedulers = TestSchedulers(),
         queries = queries,
         sortDao = sortDao,
@@ -43,18 +45,13 @@ class PodcastCollectionRepositoryTest {
 
     @Test
     fun `test getAll`() {
-        val query = QueryList(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryList(AlbumView(id = 1, songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = sut.getAll()
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
-            songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
+            songs = 2
         )
 
         Assert.assertEquals(listOf(expected), actual)
@@ -62,17 +59,12 @@ class PodcastCollectionRepositoryTest {
 
     @Test
     fun `test observeAll`() = runTest {
-        val query = QueryList(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryList(AlbumView(id = 1, songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
-            songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
+            songs = 2
         )
 
         sut.observeAll().test(this) {
@@ -82,18 +74,13 @@ class PodcastCollectionRepositoryTest {
 
     @Test
     fun `test getByParam`() {
-        val query = QueryOneOrNull(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryOneOrNull(AlbumView(id = 1, songs = 2))
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val actual = sut.getByParam(1)
-        val expected = Album(
+        val actual = sut.getById(CollectionIdentifier.MediaStore(1, false))
+        val expected = MediaStoreAlbum(
             id = 1,
-            songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
+            songs = 2
         )
 
         Assert.assertEquals(expected, actual)
@@ -101,111 +88,69 @@ class PodcastCollectionRepositoryTest {
 
     @Test
     fun `test getByParam, missing item should return null`() {
-        val query = QueryOneOrNull<Podcast_collections_view>(null)
+        val query = QueryOneOrNull<Albums_view>(null)
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val actual = sut.getByParam(1)
+        val actual = sut.getById(CollectionIdentifier.MediaStore(1, false))
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
-        val query = QueryOneOrNull(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryOneOrNull(AlbumView(id = 1, songs = 2))
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
             songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
         )
 
-        sut.observeByParam(1).test(this) {
+        sut.observeById(CollectionIdentifier.MediaStore(1, false)).test(this) {
             assertValue(expected)
         }
     }
 
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
-        val query = QueryOneOrNull<Podcast_collections_view>(null)
+        val query = QueryOneOrNull<Albums_view>(null)
         whenever(queries.selectById(1)).thenReturn(query)
 
-        sut.observeByParam(1).test(this) {
+        sut.observeById(CollectionIdentifier.MediaStore(1, false)).test(this) {
             assertValue(null)
         }
     }
 
     @Test
     fun `test getTrackListByParam`() {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = true))
+        val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
         whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
 
-        val actual = sut.getTrackListByParam(1)
-        val expected = Song(
-            id = 1,
-            artistId = 0,
-            albumId = 0,
-            title = "",
-            artist = "",
-            albumArtist = "",
-            album = "",
-            duration = 0,
-            dateAdded = 0,
-            directory = "",
-            path = "",
-            discNumber = 0,
-            trackNumber = 0,
-            idInPlaylist = 0,
-            isPodcast = true
-        )
+        val actual = sut.getPlayablesById(CollectionIdentifier.MediaStore(1, false))
+        val expected = MediaStoreSong(id = 1)
 
         Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
     fun `test observeTrackListByParam`() = runTest {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = true))
+        val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
         whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
 
-        val expected = Song(
-            id = 1,
-            artistId = 0,
-            albumId = 0,
-            title = "",
-            artist = "",
-            albumArtist = "",
-            album = "",
-            duration = 0,
-            dateAdded = 0,
-            directory = "",
-            path = "",
-            discNumber = 0,
-            trackNumber = 0,
-            idInPlaylist = 0,
-            isPodcast = true
-        )
+        val expected = MediaStoreSong(id = 1)
 
-        sut.observeTrackListByParam(1).test(this) {
+        sut.observePlayablesById(CollectionIdentifier.MediaStore(1, false)).test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test observeRecentlyPlayed`() = runTest {
-        val query = QueryList(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryList(AlbumView(id = 1, songs = 2))
         whenever(queries.selectRecentlyPlayed()).thenReturn(query)
 
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
             songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
         )
 
         sut.observeRecentlyPlayed().test(this) {
@@ -217,24 +162,19 @@ class PodcastCollectionRepositoryTest {
     fun `test addRecentlyPlayed`() = runTest {
         whenever(dateTimeFactory.currentTimeMillis()).thenReturn(100)
 
-        sut.addRecentlyPlayed(10)
+        sut.addToRecentlyPlayed(CollectionIdentifier.MediaStore(10, false))
 
         verify(queries).insertRecentlyPlayed(10, 100)
     }
 
     @Test
     fun `test observeRecentlyAdded`() = runTest {
-        val query = QueryList(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryList(AlbumView(id = 1, songs = 2))
         whenever(queries.selectRecentlyAdded()).thenReturn(query)
 
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
             songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
         )
 
         sut.observeRecentlyAdded().test(this) {
@@ -244,50 +184,45 @@ class PodcastCollectionRepositoryTest {
 
     @Test
     fun `test observeSiblings`() = runTest {
-        val query = QueryOneOrNull(PodcastCollectionView(id = 1, author_id = 2, songs = 3))
+        val query = QueryOneOrNull(AlbumView(id = 1, author_id = 2, songs = 3))
         whenever(queries.selectById(1)).thenReturn(query)
 
         val artistAlbumsQuery = QueryList(
-            PodcastCollectionView(id = 1, songs = 2),
-            PodcastCollectionView(id = 2, songs = 4),
-            PodcastCollectionView(id = 3, songs = 3),
+            AlbumView(id = 1, songs = 2),
+            AlbumView(id = 2, songs = 4),
+            AlbumView(id = 3, songs = 3),
         )
         whenever(queries.selectArtistAlbums(2)).thenReturn(artistAlbumsQuery)
 
-        sut.observeSiblings(1).test(this) {
+        sut.observeSiblingsById(CollectionIdentifier.MediaStore(1, false)).test(this) {
             assertValue(listOf(
-                Album(id = 2, artistId = 0, title = "", artist = "", songs = 4, isPodcast = true, directory = ""),
-                Album(id = 3, artistId = 0, title = "", artist = "", songs = 3, isPodcast = true, directory = ""),
+                MediaStoreAlbum(id = 2, songs = 4),
+                MediaStoreAlbum(id = 3, songs = 3),
             ))
         }
     }
 
     @Test
     fun `test observeSiblings, should be null when item is missing`() = runTest {
-        val query = QueryOneOrNull<Podcast_collections_view>(null)
+        val query = QueryOneOrNull<Albums_view>(null)
         whenever(queries.selectById(1)).thenReturn(query)
 
-        sut.observeSiblings(1).test(this) {
+        sut.observeSiblingsById(CollectionIdentifier.MediaStore(1, false)).test(this) {
             assertNoValues()
         }
     }
 
     @Test
     fun `test observeArtistsAlbums`() = runTest {
-        val query = QueryList(PodcastCollectionView(id = 1, songs = 2))
+        val query = QueryList(AlbumView(id = 1, songs = 2))
         whenever(queries.selectArtistAlbums(1)).thenReturn(query)
 
-        val expected = Album(
+        val expected = MediaStoreAlbum(
             id = 1,
             songs = 2,
-            artistId = 0,
-            title = "",
-            artist = "",
-            directory = "",
-            isPodcast = true
         )
 
-        sut.observeArtistsAlbums(1).test(this) {
+        sut.observeArtistsAlbums(AuthorIdentifier.MediaStore(1, false)).test(this) {
             assertValue(listOf(expected))
         }
     }
@@ -296,7 +231,7 @@ class PodcastCollectionRepositoryTest {
     fun `test getSort`() {
         val sort = Sort(CollectionSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
-        whenever(sortDao.getPodcastCollectionsSortQuery()).thenReturn(query)
+        whenever(sortDao.getAlbumsSortQuery()).thenReturn(query)
         Assert.assertEquals(sort, sut.getSort())
     }
 
@@ -304,14 +239,14 @@ class PodcastCollectionRepositoryTest {
     fun `test setSort`() {
         val sort = Sort(CollectionSort.Title, SortDirection.ASCENDING)
         sut.setSort(sort)
-        verify(sortDao).setPodcastCollectionsSort(sort)
+        verify(sortDao).setAlbumsSort(sort)
     }
 
     @Test
     fun `test getDetailSort`() {
         val sort = Sort(CollectionDetailSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
-        whenever(sortDao.getDetailPodcastCollectionsSortQuery()).thenReturn(query)
+        whenever(sortDao.getDetailAlbumsSortQuery()).thenReturn(query)
         Assert.assertEquals(sort, sut.getDetailSort())
     }
 
@@ -319,7 +254,7 @@ class PodcastCollectionRepositoryTest {
     fun `test observeDetailSort`() = runTest {
         val sort = Sort(CollectionDetailSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
-        whenever(sortDao.getDetailPodcastCollectionsSortQuery()).thenReturn(query)
+        whenever(sortDao.getDetailAlbumsSortQuery()).thenReturn(query)
 
         sut.observeDetailSort().test(this) {
             assertValue(sort)
@@ -330,7 +265,8 @@ class PodcastCollectionRepositoryTest {
     fun `test setDetailSort`() {
         val sort = Sort(CollectionDetailSort.Title, SortDirection.ASCENDING)
         sut.setDetailSort(sort)
-        verify(sortDao).setDetailPodcastCollectionsSort(sort)
+        verify(sortDao).setDetailAlbumsSort(sort)
     }
+
 
 }

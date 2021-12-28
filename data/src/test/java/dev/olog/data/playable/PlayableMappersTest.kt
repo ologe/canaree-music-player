@@ -1,6 +1,9 @@
 package dev.olog.data.playable
 
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.playable.Song
 import dev.olog.data.index.Indexed_playables
 import org.junit.Assert
 import org.junit.Test
@@ -27,9 +30,9 @@ class PlayableMappersTest {
         ).toDomain()
 
         val expected = Song(
-            id = 1,
-            artistId = 2,
-            albumId = 3,
+            id = PlayableIdentifier.MediaStore(1, false),
+            artistId = AuthorIdentifier.MediaStore(2, false),
+            albumId = CollectionIdentifier.MediaStore(3, false),
             title = "title",
             artist = "author",
             albumArtist = "album_artist",
@@ -40,7 +43,6 @@ class PlayableMappersTest {
             path = "path",
             discNumber = 100,
             trackNumber = 200,
-            isPodcast = false,
             idInPlaylist = 0,
         )
 

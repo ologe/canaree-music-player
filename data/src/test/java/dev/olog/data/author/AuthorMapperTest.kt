@@ -1,6 +1,7 @@
 package dev.olog.data.author
 
-import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.author.Artist
 import org.junit.Assert
 import org.junit.Test
 
@@ -17,10 +18,9 @@ class AuthorMapperTest {
         ).toDomain()
 
         val expected = Artist(
-            id = 1,
+            id = AuthorIdentifier.MediaStore(1, false),
             name = "name",
             songs = 2,
-            isPodcast = false
         )
 
         Assert.assertEquals(expected, actual)
@@ -37,10 +37,9 @@ class AuthorMapperTest {
         ).toDomain()
 
         val expected = Artist(
-            id = 1,
+            id = AuthorIdentifier.MediaStore(1, true),
             name = "name",
             songs = 2,
-            isPodcast = true
         )
 
         Assert.assertEquals(expected, actual)

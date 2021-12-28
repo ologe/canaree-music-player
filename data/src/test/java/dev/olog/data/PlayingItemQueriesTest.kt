@@ -1,6 +1,8 @@
 package dev.olog.data
 
+import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.data.repository.replace
+import dev.olog.testing.IndexedPlayables
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -31,7 +33,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as song`() {
-        queries.replace(playable_id = 1L)
+        queries.replace(id = PlayableIdentifier.MediaStore(1, false))
 
         val actual = queries.select().executeAsOne()
 
@@ -40,7 +42,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as podcast episode`() {
-        queries.replace(playable_id = 2L)
+        queries.replace(id = PlayableIdentifier.MediaStore(2, false))
         val actual = queries.select().executeAsOne()
 
         Assert.assertEquals(podcastEpisode, actual)
@@ -50,7 +52,7 @@ class PlayingItemQueriesTest {
     fun `test playing item as song should be null when blacklisted`() {
         blacklistQueries.insert("yes")
         indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = false))
-        queries.replace(playable_id = 3L)
+        queries.replace(id = PlayableIdentifier.MediaStore(3, false))
 
         val actual = queries.select().executeAsOneOrNull()
 
@@ -61,7 +63,7 @@ class PlayingItemQueriesTest {
     fun `test playing item as podcast episode should be null when blacklisted`() {
         blacklistQueries.insert("yes")
         indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = true))
-        queries.replace(playable_id = 3L)
+        queries.replace(id = PlayableIdentifier.MediaStore(3, true))
         val actual = queries.select().executeAsOneOrNull()
 
         Assert.assertEquals(null, actual)
@@ -69,8 +71,8 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test replace, should be only one item`() {
-        queries.replace(1L)
-        queries.replace(2L)
+        queries.replace(PlayableIdentifier.MediaStore(1, false))
+        queries.replace(PlayableIdentifier.MediaStore(2, false))
 
         val actual = queries.select().executeAsOne()
 

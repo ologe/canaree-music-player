@@ -1,8 +1,11 @@
 package dev.olog.data
 
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.entity.id.PlaylistIdentifier
 import dev.olog.data.playable.Podcast_episodes_view
 import dev.olog.data.playable.Songs_view
 import dev.olog.data.repository.replace
+import dev.olog.testing.IndexedPlayables
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -64,7 +67,7 @@ class FavoritesQueriesTest {
         Assert.assertEquals(null, queries.selectCurrentFavorite().executeAsOneOrNull())
 
         // test song
-        playingItemQueries.replace(1L)
+        playingItemQueries.replace(PlayableIdentifier.MediaStore(1L, false))
         queries.addPlayingItemToFavorites()
 
         val actualSong = queries.selectCurrentFavorite().executeAsOne()
@@ -73,7 +76,7 @@ class FavoritesQueriesTest {
         Assert.assertEquals(expectedSong, actualSong)
 
         // test podcast
-        playingItemQueries.replace(4L)
+        playingItemQueries.replace(PlayableIdentifier.MediaStore(4L, true))
         queries.addPlayingItemToFavorites()
 
         val actualPodcast = queries.selectCurrentFavorite().executeAsOne()

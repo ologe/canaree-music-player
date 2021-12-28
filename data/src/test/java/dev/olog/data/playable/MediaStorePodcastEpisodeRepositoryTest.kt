@@ -1,18 +1,20 @@
 package dev.olog.data.playable
 
-import com.nhaarman.mockitokotlin2.*
-import dev.olog.core.EMPTY
-import dev.olog.core.entity.sort.PlayableSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.sort.SortDirection
-import dev.olog.core.entity.track.Song
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import dev.olog.core.MediaStorePodcastEpisode
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.sort.PlayableSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
 import dev.olog.data.PodcastPositionQueries
 import dev.olog.data.Podcast_position
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.QueryOneOrNull
 import dev.olog.data.extensions.mockTransacter
-import dev.olog.data.index.IndexedPlayablesQueries
 import dev.olog.data.index.Indexed_playables
 import dev.olog.data.sort.SortDao
 import dev.olog.flow.test.observer.test
@@ -22,23 +24,18 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.net.URI
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-class PodcastEpisodeRepositoryTest {
+class MediaStorePodcastEpisodeRepositoryTest {
 
     private val queries = mock<PodcastEpisodesQueries>()
     private val sortDao = mock<SortDao>()
-    private val indexedPlayablesQueries = mock<IndexedPlayablesQueries>()
-    private val playableOperations = mock<PlayableOperations>()
     private val podcastPositionQueries = mock<PodcastPositionQueries>()
-    private val repo = PodcastEpisodeRepository(
+    private val repo = MediaStorePodcastEpisodeRepository(
         schedulers = TestSchedulers(),
         queries = queries,
         sortDao = sortDao,
-        indexedPlayablesQueries = indexedPlayablesQueries,
-        playableOperations = playableOperations,
         podcastPositionQueries = podcastPositionQueries,
     )
 
@@ -50,15 +47,15 @@ class PodcastEpisodeRepositoryTest {
     @Test
     fun `test getAll`() {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L),
-            emptyIndexedPlayables().copy(id = 2L),
+            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = 2L, is_podcast = true),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = repo.getAll()
         val expected = listOf(
-            Song.EMPTY.copy(id = 1L),
-            Song.EMPTY.copy(id = 2L),
+            MediaStorePodcastEpisode(id = 1L),
+            MediaStorePodcastEpisode(id = 2L),
         )
 
         Assert.assertEquals(expected, actual)
@@ -67,14 +64,14 @@ class PodcastEpisodeRepositoryTest {
     @Test
     fun `test observeAll`() = runTest {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L),
-            emptyIndexedPlayables().copy(id = 2L),
+            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = 2L, is_podcast = true),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = listOf(
-            Song.EMPTY.copy(id = 1L),
-            Song.EMPTY.copy(id = 2L),
+            MediaStorePodcastEpisode(id = 1L),
+            MediaStorePodcastEpisode(id = 2L),
         )
 
         repo.observeAll().test(this) {
@@ -85,12 +82,12 @@ class PodcastEpisodeRepositoryTest {
     @Test
     fun `test getByParam`() {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L),
+            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
         )
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val actual = repo.getByParam(1)
-        val expected = Song.EMPTY.copy(id = 1L)
+        val actual = repo.getById(PlayableIdentifier.MediaStore(1, true))
+        val expected = MediaStorePodcastEpisode(id = 1L)
 
         Assert.assertEquals(expected, actual)
     }
@@ -100,20 +97,20 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull<Indexed_playables>(null)
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val actual = repo.getByParam(1)
+        val actual = repo.getById(PlayableIdentifier.MediaStore(1, true))
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L),
+            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
         )
         whenever(queries.selectById(1)).thenReturn(query)
 
-        val expected = Song.EMPTY.copy(id = 1L)
+        val expected = MediaStorePodcastEpisode(id = 1L)
 
-        repo.observeByParam(1).test(this) {
+        repo.observeById(PlayableIdentifier.MediaStore(1, true)).test(this) {
             assertValue(expected)
         }
     }
@@ -123,7 +120,7 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull<Indexed_playables>(null)
         whenever(queries.selectById(1)).thenReturn(query)
 
-        repo.observeByParam(1).test(this) {
+        repo.observeById(PlayableIdentifier.MediaStore(1, true)).test(this) {
             assertValue(null)
         }
     }
@@ -131,12 +128,12 @@ class PodcastEpisodeRepositoryTest {
     @Test
     fun `test getByAlbumId`() {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(collection_id = 1L),
+            emptyIndexedPlayables().copy(collection_id = 1L, is_podcast = true),
         )
         whenever(queries.selectByCollectionId(1)).thenReturn(query)
 
-        val actual = repo.getByCollectionId(1)
-        val expected = Song.EMPTY.copy(albumId = 1L)
+        val actual = repo.getByCollectionId(CollectionIdentifier.MediaStore(1, true))
+        val expected = MediaStorePodcastEpisode(collectionId = 1L)
 
         Assert.assertEquals(expected, actual)
     }
@@ -146,79 +143,7 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull<Indexed_playables>(null)
         whenever(queries.selectByCollectionId(1)).thenReturn(query)
 
-        val actual = repo.getByCollectionId(1)
-        Assert.assertEquals(null, actual)
-    }
-
-    @Test
-    fun `test deleteSingle`() = runTest {
-        val playable = Song.EMPTY.copy(id = 1)
-        val query = QueryOneOrNull(emptyIndexedPlayables().copy(id = 1))
-        whenever(queries.selectById(1)).thenReturn(query)
-        whenever(playableOperations.delete(playable)).thenReturn(2)
-
-        repo.deleteSingle(1)
-
-        verify(playableOperations).delete(playable)
-        verify(indexedPlayablesQueries).delete(2)
-    }
-
-    @Test
-    fun `test deleteSingle, missing item`() = runTest {
-        val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
-        whenever(playableOperations.delete(null)).thenReturn(null)
-
-        repo.deleteSingle(1)
-
-        verify(playableOperations, never()).delete(any())
-        verify(indexedPlayablesQueries, never()).delete(any())
-    }
-
-    @Test
-    fun `test deleteGroup`() = runTest {
-        val playables = listOf(
-            Song.EMPTY.copy(id = 1),
-            Song.EMPTY.copy(id = 2),
-            Song.EMPTY.copy(id = 3),
-        )
-        val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1),
-            emptyIndexedPlayables().copy(id = 2),
-        )
-        whenever(queries.selectById(1)).thenReturn(query)
-        whenever(playableOperations.delete(playables[0])).thenReturn(10)
-        whenever(playableOperations.delete(playables[1])).thenReturn(null) // should be skipped
-        whenever(playableOperations.delete(playables[2])).thenReturn(20)
-
-        repo.deleteGroup(playables)
-
-        verify(playableOperations).delete(playables[0])
-        verify(playableOperations).delete(playables[1])
-        verify(playableOperations).delete(playables[2])
-        verify(indexedPlayablesQueries).delete(10)
-        verify(indexedPlayablesQueries).delete(20)
-    }
-
-    @Test
-    fun `test getByUri`() {
-        val uri = URI.create("canaree:track:id")
-        whenever(playableOperations.getByUri(uri)).thenReturn(1)
-        val query = QueryOneOrNull(emptyIndexedPlayables().copy(id = 1))
-        whenever(queries.selectById(1)).thenReturn(query)
-
-        val actual = repo.getByUri(uri)
-        val expected = Song.EMPTY.copy(id = 1L)
-
-        Assert.assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `test getByUri, missing item`() {
-        val uri = URI.create("canaree:track:id")
-        whenever(playableOperations.getByUri(uri)).thenReturn(null)
-
-        val actual = repo.getByUri(uri)
+        val actual = repo.getByCollectionId(CollectionIdentifier.MediaStore(1, true))
         Assert.assertEquals(null, actual)
     }
 
@@ -241,7 +166,7 @@ class PodcastEpisodeRepositoryTest {
 
     @Test
     fun `test saveCurrentPosition`() {
-        repo.saveCurrentPosition(1, 10)
+        repo.saveCurrentPosition(PlayableIdentifier.MediaStore(1, true), 10)
         verify(podcastPositionQueries).insert(1L, 10L)
     }
 
@@ -252,7 +177,7 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull(Podcast_position(1, bookmark))
         whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(1, duration)
+        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
         Assert.assertEquals(bookmark, actual)
     }
 
@@ -262,7 +187,7 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull(Podcast_position(1, -1))
         whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(1, duration)
+        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
         Assert.assertEquals(0, actual)
     }
 
@@ -273,7 +198,7 @@ class PodcastEpisodeRepositoryTest {
         val query = QueryOneOrNull(Podcast_position(1, bookmark))
         whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(1, duration)
+        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
         Assert.assertEquals(0L, actual)
     }
 

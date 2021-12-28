@@ -1,7 +1,6 @@
 package dev.olog.data.playable
 
-import dev.olog.data.Blacklist
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test

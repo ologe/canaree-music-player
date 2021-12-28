@@ -1,8 +1,12 @@
 package dev.olog.data.folder
 
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.entity.id.FolderIdentifier
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.folder.Folder
+import dev.olog.core.playable.Song
 import org.junit.Assert
 import org.junit.Test
 
@@ -10,8 +14,16 @@ class FolderMapperTest {
 
     @Test
     fun `test folder toDomain`() {
-        val actual = Folders_view("dir", 2, 100).toDomain()
-        val expected = Folder("dir", 2)
+        val actual = Folders_view(
+            directory = "dir",
+            songs = 2,
+            date_added = 100
+        ).toDomain()
+        val expected = Folder(
+            id = FolderIdentifier.Path("dir"),
+            directory = "dir",
+            songs = 2
+        )
         Assert.assertEquals(expected, actual)
     }
 
@@ -37,9 +49,9 @@ class FolderMapperTest {
 
         val expected = MostPlayedSong(
             song = Song(
-                id = 1,
-                artistId = 2,
-                albumId = 3,
+                id = PlayableIdentifier.MediaStore(1, false),
+                artistId = AuthorIdentifier.MediaStore(2, false),
+                albumId = CollectionIdentifier.MediaStore(3, false),
                 title = "title",
                 artist = "author",
                 albumArtist = "album_artist",
@@ -50,7 +62,6 @@ class FolderMapperTest {
                 path = "path",
                 discNumber = 6,
                 trackNumber = 7,
-                isPodcast = false,
                 idInPlaylist = 0,
             ),
             counter = 100,

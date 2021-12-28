@@ -4,11 +4,11 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.EMPTY
+import dev.olog.core.MediaStoreSong
 import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
+import dev.olog.core.playable.PlayableGateway
 import dev.olog.data.PlayingQueueQueries
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.mockTransacter
@@ -29,12 +29,12 @@ class PlayingQueueRepositoryTest {
 
     private val permissionManager = mock<PermissionManager>()
     private val queries = mock<PlayingQueueQueries>()
-    private val songGateway = mock<SongGateway>()
+    private val playableGateway = mock<PlayableGateway>()
     private val sut = PlayingQueueRepository(
         schedulers = TestSchedulers(),
         permissionManager = permissionManager,
         queries = queries,
-        songGateway = songGateway,
+        playableGateway = playableGateway,
     )
 
     @Before
@@ -58,14 +58,14 @@ class PlayingQueueRepositoryTest {
         val queueQuery = QueryList(emptyList<SelectAll>())
         whenever(queries.selectAll()).thenReturn(queueQuery)
 
-        val song1 = Song.EMPTY.copy(id = 1)
-        val song2 = Song.EMPTY.copy(id = 2)
-        whenever(songGateway.getAll()).thenReturnList(song1, song2)
+        val song1 = MediaStoreSong(id = 1)
+        val song2 = MediaStoreSong(id = 2)
+        whenever(playableGateway.getAll(PlayableIdentifier.MediaStore(false))).thenReturnList(song1, song2)
 
         val actual = sut.getAll()
         val expected = listOf(
-            PlayingQueueSong.EMPTY.copy(song = song1, playOrder = 0),
-            PlayingQueueSong.EMPTY.copy(song = song2, playOrder = 1),
+            PlayingQueueSong(song = song1, playOrder = 0),
+            PlayingQueueSong(song = song2, playOrder = 1),
         )
         Assert.assertEquals(expected, actual)
     }
@@ -82,8 +82,8 @@ class PlayingQueueRepositoryTest {
 
         val actual = sut.getAll()
         val expected = listOf(
-            PlayingQueueSong.EMPTY.copy(song = Song.EMPTY.copy(id = 1), playOrder = 10),
-            PlayingQueueSong.EMPTY.copy(song = Song.EMPTY.copy(id = 2), playOrder = 20),
+            PlayingQueueSong(song = MediaStoreSong(id = 1), playOrder = 10),
+            PlayingQueueSong(song = MediaStoreSong(id = 2), playOrder = 20),
         )
         Assert.assertEquals(expected, actual)
     }
@@ -99,8 +99,8 @@ class PlayingQueueRepositoryTest {
         whenever(queries.selectAll()).thenReturn(queueQuery)
 
         val expected = listOf(
-            PlayingQueueSong.EMPTY.copy(song = Song.EMPTY.copy(id = 1), playOrder = 10),
-            PlayingQueueSong.EMPTY.copy(song = Song.EMPTY.copy(id = 2), playOrder = 20),
+            PlayingQueueSong(song = MediaStoreSong(id = 1), playOrder = 10),
+            PlayingQueueSong(song = MediaStoreSong(id = 2), playOrder = 20),
         )
 
         sut.observeAll().test(this) {

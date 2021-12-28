@@ -1,7 +1,7 @@
 package dev.olog.data.sort.mapper
 
-import dev.olog.core.entity.sort.AuthorDetailSort
-import dev.olog.core.entity.sort.AuthorSort
+import dev.olog.core.sort.AuthorDetailSort
+import dev.olog.core.sort.AuthorSort
 import dev.olog.data.sort.SortTypeEntity
 import org.junit.Assert
 import org.junit.Test

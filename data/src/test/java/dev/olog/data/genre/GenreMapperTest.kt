@@ -1,10 +1,14 @@
 package dev.olog.data.genre
 
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
-import dev.olog.data.GenreView
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.entity.id.GenreIdentifier
+import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.author.Artist
+import dev.olog.core.genre.Genre
+import dev.olog.core.playable.Song
+import dev.olog.testing.GenreView
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,8 +16,17 @@ class GenreMapperTest {
 
     @Test
     fun `test genre toDomain`() {
-        val actual = GenreView(id = 1, name = "name", 2).toDomain()
-        val expected = Genre(id = 1, name = "name", songs = 2)
+        val actual = GenreView(
+            id = 1,
+            name = "name",
+            2
+        ).toDomain()
+
+        val expected = Genre(
+            id = GenreIdentifier.MediaStore(1),
+            name = "name",
+            songs = 2
+        )
         Assert.assertEquals(expected, actual)
     }
 
@@ -39,9 +52,9 @@ class GenreMapperTest {
 
         val expected = MostPlayedSong(
             song = Song(
-                id = 1,
-                artistId = 2,
-                albumId = 3,
+                id = PlayableIdentifier.MediaStore(1, false),
+                artistId = AuthorIdentifier.MediaStore(2, false),
+                albumId = CollectionIdentifier.MediaStore(3, false),
                 title = "title",
                 artist = "author",
                 albumArtist = "album_artist",
@@ -52,7 +65,6 @@ class GenreMapperTest {
                 path = "path",
                 discNumber = 6,
                 trackNumber = 7,
-                isPodcast = false,
                 idInPlaylist = 0,
             ),
             counter = 100,
@@ -71,10 +83,9 @@ class GenreMapperTest {
         ).toDomain()
 
         val expected = Artist(
-            id = 1,
+            id = AuthorIdentifier.MediaStore(1, false),
             name = "author",
             songs = 2,
-            isPodcast = false,
         )
 
         Assert.assertEquals(expected, actual)
@@ -101,9 +112,9 @@ class GenreMapperTest {
         ).toDomain()
 
         val expected = Song(
-            id = 2,
-            artistId = 3,
-            albumId = 4,
+            id = PlayableIdentifier.MediaStore(2, false),
+            artistId = AuthorIdentifier.MediaStore(3, false),
+            albumId = CollectionIdentifier.MediaStore(4, false),
             title = "title",
             artist = "author",
             albumArtist = "album_artist",
@@ -114,7 +125,6 @@ class GenreMapperTest {
             path = "path",
             discNumber = 7,
             trackNumber = 8,
-            isPodcast = false,
             idInPlaylist = 0,
         )
 

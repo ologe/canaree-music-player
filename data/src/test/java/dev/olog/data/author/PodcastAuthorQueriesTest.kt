@@ -2,6 +2,8 @@ package dev.olog.data.author
 
 import dev.olog.data.*
 import dev.olog.data.QueriesConstants.recentlyAddedMaxTime
+import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.PodcastAuthorView
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

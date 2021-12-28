@@ -1,6 +1,6 @@
 package dev.olog.data.playing.queue
 
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.TestDatabase
 import dev.olog.data.playingQueue.SelectAll
 import org.junit.Assert

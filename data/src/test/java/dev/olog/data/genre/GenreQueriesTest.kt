@@ -1,7 +1,7 @@
 package dev.olog.data.genre
 
-import dev.olog.data.GenreView
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.GenreView
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.QueriesConstants
 import dev.olog.data.TestDatabase
 import dev.olog.data.index.Indexed_genres

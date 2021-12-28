@@ -1,6 +1,8 @@
 package dev.olog.data.collection
 
-import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.entity.id.CollectionIdentifier
+import dev.olog.core.collection.Album
 import org.junit.Assert
 import org.junit.Test
 
@@ -19,13 +21,12 @@ class CollectionMapperTest {
         ).toDomain()
 
         val expected = Album(
-            id = 1,
-            artistId = 2,
+            id = CollectionIdentifier.MediaStore(1, false),
+            artistId = AuthorIdentifier.MediaStore(2, false),
             title = "title",
             artist = "author",
             songs = 3,
             directory = "dir",
-            isPodcast = false,
         )
 
         Assert.assertEquals(expected, actual)
@@ -44,13 +45,12 @@ class CollectionMapperTest {
         ).toDomain()
 
         val expected = Album(
-            id = 1,
-            artistId = 2,
+            id = CollectionIdentifier.MediaStore(1, true),
+            artistId = AuthorIdentifier.MediaStore(2, true),
             title = "title",
             artist = "author",
             songs = 3,
             directory = "dir",
-            isPodcast = true,
         )
 
         Assert.assertEquals(expected, actual)

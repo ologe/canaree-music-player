@@ -1,6 +1,6 @@
 package dev.olog.data.index
 
-import dev.olog.data.IndexedPlayables
+import dev.olog.testing.IndexedPlayables
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test
