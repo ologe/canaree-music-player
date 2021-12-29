@@ -3,6 +3,7 @@ package dev.olog.data.utils
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.data.index.*
+import dev.olog.testing.IndexedPlaylistTracks
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -106,9 +107,9 @@ class ContentResolverExtensionsTest {
         val actual = cursor.mapToIndexedPlayables()
         val expected = listOf(
             Indexed_playables(
-                id = 1L,
-                author_id = 2L,
-                collection_id = 3L,
+                id = "1",
+                author_id = "2",
+                collection_id = "3",
                 title = "title",
                 author = "artist",
                 album_artist = "album_artist",
@@ -122,9 +123,9 @@ class ContentResolverExtensionsTest {
                 is_podcast = true,
             ),
             Indexed_playables(
-                id = 10L,
-                author_id = 20L,
-                collection_id = 30L,
+                id = "10",
+                author_id = "20",
+                collection_id = "30",
                 title = "another title",
                 author = "another artist",
                 album_artist = "another album_artist",
@@ -138,9 +139,9 @@ class ContentResolverExtensionsTest {
                 is_podcast = false,
             ),
             Indexed_playables(
-                id = 100L,
-                author_id = 200L,
-                collection_id = 300L,
+                id = "100",
+                author_id = "200",
+                collection_id = "300",
                 title = "another title 2",
                 author = "another artist 2",
                 album_artist = "another album_artist 2",
@@ -193,11 +194,11 @@ class ContentResolverExtensionsTest {
         val actual = cursor.mapToIndexedGenres()
         val expected = listOf(
             Indexed_genres(
-                id = 1,
+                id = "1",
                 name = "Some genre 1"
             ),
             Indexed_genres(
-                id = 2,
+                id = "2",
                 name = "Some genre 2"
             ),
         )
@@ -227,8 +228,8 @@ class ContentResolverExtensionsTest {
 
         val actual = cursor.mapToIndexedGenrePlayable(10)
         val expected = listOf(
-            Indexed_genres_playables(10, 1),
-            Indexed_genres_playables(10, 2),
+            Indexed_genres_playables("10", "1"),
+            Indexed_genres_playables("10", "2"),
         )
 
         Assert.assertEquals(expected, actual)
@@ -274,12 +275,12 @@ class ContentResolverExtensionsTest {
         val actual = cursor.mapToIndexedPlaylist()
         val expected = listOf(
             Indexed_playlists(
-                id = 1,
+                id = "1",
                 title = "Some playlist 1",
                 path = "path 1"
             ),
             Indexed_playlists(
-                id = 2,
+                id = "2",
                 title = "Some playlist 2",
                 path = "path 2"
             ),
@@ -328,8 +329,8 @@ class ContentResolverExtensionsTest {
 
         val actual = cursor.mapToIndexedPlaylistPlayable(1000)
         val expected = listOf(
-            Indexed_playlists_playables(id = 1, playlist_id = 1000, playable_id = 10, play_order = 100),
-            Indexed_playlists_playables(id = 2, playlist_id = 1000, playable_id = 20, play_order = 200),
+            IndexedPlaylistTracks(id = "1", playlistId = "1000", playableId = "10", playOrder = 100),
+            IndexedPlaylistTracks(id = "2", playlistId = "1000", playableId = "20", playOrder = 200),
         )
 
         Assert.assertEquals(expected, actual)

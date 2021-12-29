@@ -1,6 +1,6 @@
 package dev.olog.data.playable
 
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test
@@ -18,14 +18,14 @@ class SongsQueriesTest {
         blacklistQueries.insert("yes")
 
         val expected = listOf(
-            IndexedPlayables(id = 1, is_podcast = false, directory = "no"),
-            IndexedPlayables(id = 2, is_podcast = false, directory = "no")
+            IndexedTrack(id = "1", is_podcast = false, directory = "no"),
+            IndexedTrack(id = "2", is_podcast = false, directory = "no")
         )
         indexedQueries.insert(expected[0])
         indexedQueries.insert(expected[1])
-        indexedQueries.insert(IndexedPlayables(id = 1000, is_podcast = false, directory = "yes"))
-        indexedQueries.insert(IndexedPlayables(id = 1001, is_podcast = true, directory = "no"))
-        indexedQueries.insert(IndexedPlayables(id = 1002, is_podcast = true, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1000", is_podcast = false, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1001", is_podcast = true, directory = "no"))
+        indexedQueries.insert(IndexedTrack(id = "1002", is_podcast = true, directory = "yes"))
 
         // when
         val actual = queries.selectAll().executeAsList()
@@ -36,11 +36,11 @@ class SongsQueriesTest {
 
     @Test
     fun `test selectById`() {
-        val song = IndexedPlayables(id = 1, is_podcast = false)
+        val song = IndexedTrack(id = "1", is_podcast = false)
         indexedQueries.insert(song)
 
         // when
-        val actual = queries.selectById(id = 1).executeAsOne()
+        val actual = queries.selectById(id = "1").executeAsOne()
 
         // then
         Assert.assertEquals(song, actual)
@@ -48,11 +48,11 @@ class SongsQueriesTest {
 
     @Test
     fun `test selectById, should be null when item is missing`() {
-        val song = IndexedPlayables(id = 1, is_podcast = false)
+        val song = IndexedTrack(id = "1", is_podcast = false)
         indexedQueries.insert(song)
 
         // when
-        val actual = queries.selectById(id = 2).executeAsOneOrNull()
+        val actual = queries.selectById(id = "2").executeAsOneOrNull()
 
         // then
         Assert.assertEquals(null, actual)
@@ -60,11 +60,11 @@ class SongsQueriesTest {
 
     @Test
     fun `test selectByCollectionId`() {
-        val song = IndexedPlayables(id = 1, collection_id = 2, is_podcast = false)
+        val song = IndexedTrack(id = "1", collection_id = "2", is_podcast = false)
         indexedQueries.insert(song)
 
         // when
-        val actual = queries.selectByCollectionId(collection_id = 2).executeAsOne()
+        val actual = queries.selectByCollectionId(collection_id = "2").executeAsOne()
 
         // then
         Assert.assertEquals(song, actual)
@@ -72,11 +72,11 @@ class SongsQueriesTest {
 
     @Test
     fun `test selectByCollectionId, should be null when item is missing`() {
-        val song = IndexedPlayables(id = 1, collection_id = 3, is_podcast = false)
+        val song = IndexedTrack(id = "1", collection_id = "3", is_podcast = false)
         indexedQueries.insert(song)
 
         // when
-        val actual = queries.selectByCollectionId(collection_id = 2).executeAsOneOrNull()
+        val actual = queries.selectByCollectionId(collection_id = "2").executeAsOneOrNull()
 
         // then
         Assert.assertEquals(null, actual)

@@ -1,6 +1,6 @@
 package dev.olog.data.index
 
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.TestDatabase
 import org.junit.Assert
 import org.junit.Test
@@ -13,8 +13,8 @@ class IndexedPlayablesTest {
 
     @Test
     fun `test insert`() {
-        val song = IndexedPlayables(id = 1, is_podcast = false)
-        val podcast = IndexedPlayables(id = 2, is_podcast = true)
+        val song = IndexedTrack(id = "1", is_podcast = false)
+        val podcast = IndexedTrack(id = "2", is_podcast = true)
 
         // when
         queries.insert(song)
@@ -31,8 +31,8 @@ class IndexedPlayablesTest {
     fun `test insert fail on same id`() {
         var exception: Throwable? = null
         try {
-            val song = IndexedPlayables(id = 1, is_podcast = false)
-            val podcast = IndexedPlayables(id = 1, is_podcast = true)
+            val song = IndexedTrack(id = "1", is_podcast = false)
+            val podcast = IndexedTrack(id = "1", is_podcast = true)
 
             // when
             queries.insert(song)
@@ -46,13 +46,13 @@ class IndexedPlayablesTest {
 
     @Test
     fun `test delete`() {
-        val song = IndexedPlayables(id = 1, is_podcast = false)
-        val podcast = IndexedPlayables(id = 2, is_podcast = true)
+        val song = IndexedTrack(id = "1", is_podcast = false)
+        val podcast = IndexedTrack(id = "2", is_podcast = true)
         queries.insert(song)
         queries.insert(podcast)
 
         // when
-        queries.delete(id = 1)
+        queries.delete(id = "1")
 
         // then
         Assert.assertEquals(
@@ -63,8 +63,8 @@ class IndexedPlayablesTest {
 
     @Test
     fun `test deleteAll`() {
-        val song = IndexedPlayables(id = 1, is_podcast = false)
-        val podcast = IndexedPlayables(id = 2, is_podcast = true)
+        val song = IndexedTrack(id = "1", is_podcast = false)
+        val podcast = IndexedTrack(id = "2", is_podcast = true)
         queries.insert(song)
         queries.insert(podcast)
 

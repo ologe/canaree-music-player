@@ -1,11 +1,13 @@
 package dev.olog.data.folder
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dev.olog.core.entity.sort.*
-import dev.olog.data.AndroidIndexedPlayables
+import dev.olog.core.sort.FolderDetailSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.AndroidTestDatabase
-import dev.olog.data.IndexedSongs
 import dev.olog.data.insertGroup
+import dev.olog.testing.IndexedSongs
 import dev.olog.data.sort.SortDao
 import org.junit.Assert
 import org.junit.Before
@@ -25,9 +27,9 @@ internal class SortedFolderSongsQueriesTest {
     fun setup() {
         blacklistQueries.insert("yes")
         // item to be filtered, blacklisted and podcast
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1000, is_podcast = false, directory = "yes"))
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1001, is_podcast = true, directory = "no"))
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1002, is_podcast = true, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1000", is_podcast = false, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1001", is_podcast = true, directory = "no"))
+        indexedQueries.insert(IndexedTrack(id = "1002", is_podcast = true, directory = "yes"))
 
         indexedQueries.insertGroup(IndexedSongs.map { it.copy(directory = "directory") })
     }

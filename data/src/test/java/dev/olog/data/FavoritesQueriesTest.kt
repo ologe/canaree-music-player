@@ -1,11 +1,9 @@
 package dev.olog.data
 
-import dev.olog.core.entity.id.PlayableIdentifier
-import dev.olog.core.entity.id.PlaylistIdentifier
 import dev.olog.data.playable.Podcast_episodes_view
 import dev.olog.data.playable.Songs_view
 import dev.olog.data.repository.replace
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -19,15 +17,15 @@ class FavoritesQueriesTest {
 
     companion object {
         private val songs = listOf(
-            IndexedPlayables(id = 1, is_podcast = false),
-            IndexedPlayables(id = 2, is_podcast = false),
-            IndexedPlayables(id = 3, is_podcast = false),
+            IndexedTrack(id = "1", is_podcast = false),
+            IndexedTrack(id = "2", is_podcast = false),
+            IndexedTrack(id = "3", is_podcast = false),
         )
 
         private val podcasts = listOf(
-            IndexedPlayables(id = 4, is_podcast = true),
-            IndexedPlayables(id = 5, is_podcast = true),
-            IndexedPlayables(id = 6, is_podcast = true),
+            IndexedTrack(id = "4", is_podcast = true),
+            IndexedTrack(id = "5", is_podcast = true),
+            IndexedTrack(id = "6", is_podcast = true),
         )
     }
 
@@ -35,8 +33,8 @@ class FavoritesQueriesTest {
     fun setup() {
         // blacklist
         blacklistQueries.insert("yes")
-        indexedQueries.insert(IndexedPlayables(id = 1000, is_podcast = false))
-        indexedQueries.insert(IndexedPlayables(id = 1001, is_podcast = true))
+        indexedQueries.insert(IndexedTrack(id = "1000", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "1001", is_podcast = true))
 
         for (playable in songs + podcasts) {
             indexedQueries.insert(playable)
@@ -67,20 +65,20 @@ class FavoritesQueriesTest {
         Assert.assertEquals(null, queries.selectCurrentFavorite().executeAsOneOrNull())
 
         // test song
-        playingItemQueries.replace(PlayableIdentifier.MediaStore(1L, false))
+        playingItemQueries.replace("1")
         queries.addPlayingItemToFavorites()
 
         val actualSong = queries.selectCurrentFavorite().executeAsOne()
-        val expectedSong = Favorites(1L, false)
+        val expectedSong = Favorites("1", false)
 
         Assert.assertEquals(expectedSong, actualSong)
 
         // test podcast
-        playingItemQueries.replace(PlayableIdentifier.MediaStore(4L, true))
+        playingItemQueries.replace("4")
         queries.addPlayingItemToFavorites()
 
         val actualPodcast = queries.selectCurrentFavorite().executeAsOne()
-        val expectedPodcast = Favorites(4L, true)
+        val expectedPodcast = Favorites("4", true)
 
         Assert.assertEquals(expectedPodcast, actualPodcast)
 
@@ -146,12 +144,12 @@ class FavoritesQueriesTest {
 
     @Test
     fun `test isFavorite`() {
-        Assert.assertEquals(null, queries.isFavorite(1L).executeAsOneOrNull())
+        Assert.assertEquals(null, queries.isFavorite("1").executeAsOneOrNull())
 
-        queries.insert(1)
+        queries.insert("1")
 
-        val actual = queries.isFavorite(1).executeAsOne()
-        val expected = Favorites(1L, false)
+        val actual = queries.isFavorite("1").executeAsOne()
+        val expected = Favorites("1", false)
 
         Assert.assertEquals(expected, actual)
     }

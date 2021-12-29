@@ -6,7 +6,6 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.DateTimeFactory
 import dev.olog.core.MediaStorePodcastAuthor
 import dev.olog.core.MediaStorePodcastEpisode
-import dev.olog.core.entity.id.AuthorIdentifier
 import dev.olog.core.sort.AuthorDetailSort
 import dev.olog.core.sort.AuthorSort
 import dev.olog.core.sort.Sort
@@ -18,7 +17,7 @@ import dev.olog.data.extensions.mockTransacter
 import dev.olog.data.sort.SortDao
 import dev.olog.flow.test.observer.test
 import dev.olog.test.shared.TestSchedulers
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import dev.olog.testing.PodcastAuthorView
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -44,12 +43,12 @@ class MediaStorePodcastAuthorRepositoryTest {
 
     @Test
     fun `test getAll`() {
-        val query = QueryList(PodcastAuthorView(id = 1, episodes = 2))
+        val query = QueryList(PodcastAuthorView(id = "1", episodes = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = sut.getAll()
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -58,11 +57,11 @@ class MediaStorePodcastAuthorRepositoryTest {
 
     @Test
     fun `test observeAll`() = runTest {
-        val query = QueryList(PodcastAuthorView(id = 1, episodes = 2))
+        val query = QueryList(PodcastAuthorView(id = "1", episodes = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -73,12 +72,12 @@ class MediaStorePodcastAuthorRepositoryTest {
 
     @Test
     fun `test getByParam`() {
-        val query = QueryOneOrNull(PodcastAuthorView(id = 1, episodes = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(PodcastAuthorView(id = "1", episodes = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(AuthorIdentifier.MediaStore(1, true))
+        val actual = sut.getById("1")
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -88,23 +87,23 @@ class MediaStorePodcastAuthorRepositoryTest {
     @Test
     fun `test getByParam, missing item should return null`() {
         val query = QueryOneOrNull<Podcast_authors_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(AuthorIdentifier.MediaStore(1, true))
+        val actual = sut.getById("1")
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
-        val query = QueryOneOrNull(PodcastAuthorView(id = 1, episodes = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(PodcastAuthorView(id = "1", episodes = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
-        sut.observeById(AuthorIdentifier.MediaStore(1, true)).test(this) {
+        sut.observeById("1").test(this) {
             assertValue(expected)
         }
     }
@@ -112,43 +111,43 @@ class MediaStorePodcastAuthorRepositoryTest {
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
         val query = QueryOneOrNull<Podcast_authors_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        sut.observeById(AuthorIdentifier.MediaStore(1, true)).test(this) {
+        sut.observeById("1").test(this) {
             assertValue(null)
         }
     }
 
     @Test
     fun `test getTrackListByParam`() {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = true))
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        val query = QueryList(IndexedTrack(id = "1", is_podcast = true))
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val actual = sut.getPlayablesById(AuthorIdentifier.MediaStore(1, true))
-        val expected = MediaStorePodcastEpisode(id = 1)
+        val actual = sut.getTracksById("1")
+        val expected = MediaStorePodcastEpisode(id = "1")
 
         Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
     fun `test observeTrackListByParam`() = runTest {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = true))
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        val query = QueryList(IndexedTrack(id = "1", is_podcast = true))
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val expected = MediaStorePodcastEpisode(id = 1)
+        val expected = MediaStorePodcastEpisode(id = "1")
 
-        sut.observePlayablesById(AuthorIdentifier.MediaStore(1, true)).test(this) {
+        sut.observeTracksById("1").test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test observeRecentlyPlayed`() = runTest {
-        val query = QueryList(PodcastAuthorView(id = 1, episodes = 2))
+        val query = QueryList(PodcastAuthorView(id = "1", episodes = 2))
         whenever(queries.selectRecentlyPlayed()).thenReturn(query)
 
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -161,18 +160,18 @@ class MediaStorePodcastAuthorRepositoryTest {
     fun `test addRecentlyPlayed`() = runTest {
         whenever(dateTimeFactory.currentTimeMillis()).thenReturn(100)
 
-        sut.addToRecentlyPlayed(AuthorIdentifier.MediaStore(10, true))
+        sut.addToRecentlyPlayed("10")
 
-        verify(queries).insertRecentlyPlayed(10, 100)
+        verify(queries).insertRecentlyPlayed("10", 100)
     }
 
     @Test
     fun `test observeRecentlyAdded`() = runTest {
-        val query = QueryList(PodcastAuthorView(id = 1, episodes = 2))
+        val query = QueryList(PodcastAuthorView(id = "1", episodes = 2))
         whenever(queries.selectRecentlyAdded()).thenReturn(query)
 
         val expected = MediaStorePodcastAuthor(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 

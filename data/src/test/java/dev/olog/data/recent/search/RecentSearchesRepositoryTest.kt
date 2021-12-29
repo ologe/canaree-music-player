@@ -1,20 +1,5 @@
 package dev.olog.data.recent.search
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.DateTimeFactory
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.SearchResult
-import dev.olog.data.RecentSearchesQueries
-import dev.olog.data.extensions.QueryList
-import dev.olog.data.recentSearches.SelectAll
-import dev.olog.flow.test.observer.test
-import dev.olog.test.shared.TestSchedulers
-import kotlinx.coroutines.test.runTest
-import org.junit.Test
-
 class RecentSearchesRepositoryTest {
 
 //    private val queries = mock<RecentSearchesQueries>()

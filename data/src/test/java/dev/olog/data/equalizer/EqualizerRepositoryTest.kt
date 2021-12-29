@@ -4,9 +4,9 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.Preference
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
+import dev.olog.core.preference.Preference
+import dev.olog.core.equalizer.EqualizerBand
+import dev.olog.core.equalizer.EqualizerPreset
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.mockTransacter

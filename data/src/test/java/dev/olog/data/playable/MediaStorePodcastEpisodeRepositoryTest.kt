@@ -4,11 +4,10 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.MediaStorePodcastEpisode
-import dev.olog.core.entity.id.CollectionIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
-import dev.olog.core.sort.PlayableSort
+import dev.olog.core.sort.TrackSort
 import dev.olog.core.sort.Sort
 import dev.olog.core.sort.SortDirection
+import dev.olog.core.track.Song
 import dev.olog.data.PodcastPositionQueries
 import dev.olog.data.Podcast_position
 import dev.olog.data.extensions.QueryList
@@ -47,15 +46,15 @@ class MediaStorePodcastEpisodeRepositoryTest {
     @Test
     fun `test getAll`() {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
-            emptyIndexedPlayables().copy(id = 2L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = "1", is_podcast = true),
+            emptyIndexedPlayables().copy(id = "2", is_podcast = true),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = repo.getAll()
         val expected = listOf(
-            MediaStorePodcastEpisode(id = 1L),
-            MediaStorePodcastEpisode(id = 2L),
+            MediaStorePodcastEpisode(id = "1"),
+            MediaStorePodcastEpisode(id = "2"),
         )
 
         Assert.assertEquals(expected, actual)
@@ -64,14 +63,14 @@ class MediaStorePodcastEpisodeRepositoryTest {
     @Test
     fun `test observeAll`() = runTest {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
-            emptyIndexedPlayables().copy(id = 2L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = "1", is_podcast = true),
+            emptyIndexedPlayables().copy(id = "2", is_podcast = true),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = listOf(
-            MediaStorePodcastEpisode(id = 1L),
-            MediaStorePodcastEpisode(id = 2L),
+            MediaStorePodcastEpisode(id = "1"),
+            MediaStorePodcastEpisode(id = "2"),
         )
 
         repo.observeAll().test(this) {
@@ -82,12 +81,12 @@ class MediaStorePodcastEpisodeRepositoryTest {
     @Test
     fun `test getByParam`() {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = "1", is_podcast = true),
         )
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getById(PlayableIdentifier.MediaStore(1, true))
-        val expected = MediaStorePodcastEpisode(id = 1L)
+        val actual = repo.getById("1")
+        val expected = MediaStorePodcastEpisode(id = "1")
 
         Assert.assertEquals(expected, actual)
     }
@@ -95,22 +94,22 @@ class MediaStorePodcastEpisodeRepositoryTest {
     @Test
     fun `test getByParam, missing item should return null`() {
         val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getById(PlayableIdentifier.MediaStore(1, true))
+        val actual = repo.getById("1")
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L, is_podcast = true),
+            emptyIndexedPlayables().copy(id = "1", is_podcast = true),
         )
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val expected = MediaStorePodcastEpisode(id = 1L)
+        val expected = MediaStorePodcastEpisode(id = "1")
 
-        repo.observeById(PlayableIdentifier.MediaStore(1, true)).test(this) {
+        repo.observeById("1").test(this) {
             assertValue(expected)
         }
     }
@@ -118,38 +117,38 @@ class MediaStorePodcastEpisodeRepositoryTest {
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
         val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        repo.observeById(PlayableIdentifier.MediaStore(1, true)).test(this) {
+        repo.observeById("1").test(this) {
             assertValue(null)
         }
     }
 
     @Test
-    fun `test getByAlbumId`() {
-        val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(collection_id = 1L, is_podcast = true),
+    fun `test getByCollectionId`() {
+        val query = QueryList(
+            emptyIndexedPlayables().copy(collection_id = "1", is_podcast = true),
         )
-        whenever(queries.selectByCollectionId(1)).thenReturn(query)
+        whenever(queries.selectByCollectionId("1")).thenReturn(query)
 
-        val actual = repo.getByCollectionId(CollectionIdentifier.MediaStore(1, true))
-        val expected = MediaStorePodcastEpisode(collectionId = 1L)
+        val actual = repo.getByCollectionId("1")
+        val expected = MediaStorePodcastEpisode(collectionId = "1")
 
-        Assert.assertEquals(expected, actual)
+        Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
-    fun `test getByAlbumId, missing item should return null`() {
-        val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectByCollectionId(1)).thenReturn(query)
+    fun `test getByCollectionId, missing item should return empty list`() {
+        val query = QueryList<Indexed_playables>(emptyList())
+        whenever(queries.selectByCollectionId("1")).thenReturn(query)
 
-        val actual = repo.getByCollectionId(CollectionIdentifier.MediaStore(1, true))
-        Assert.assertEquals(null, actual)
+        val actual = repo.getByCollectionId("1")
+        Assert.assertEquals(emptyList<Song>(), actual)
     }
 
     @Test
     fun `test getSort`() {
-        val sort = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val sort = Sort(TrackSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getPodcastEpisodesSort()).thenReturn(query)
 
@@ -159,35 +158,35 @@ class MediaStorePodcastEpisodeRepositoryTest {
 
     @Test
     fun `test setSort`() {
-        val sort = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val sort = Sort(TrackSort.Title, SortDirection.ASCENDING)
         repo.setSort(sort)
         verify(sortDao).setPodcastEpisodesSort(sort)
     }
 
     @Test
     fun `test saveCurrentPosition`() {
-        repo.saveCurrentPosition(PlayableIdentifier.MediaStore(1, true), 10)
-        verify(podcastPositionQueries).insert(1L, 10L)
+        repo.saveCurrentPosition("1", 10)
+        verify(podcastPositionQueries).insert("1", 10L)
     }
 
     @Test
     fun `test getCurrentPosition`() {
         val bookmark = 1.minutes.inWholeMilliseconds
         val duration = 2.minutes.inWholeMilliseconds
-        val query = QueryOneOrNull(Podcast_position(1, bookmark))
-        whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(Podcast_position("1", bookmark))
+        whenever(podcastPositionQueries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
+        val actual = repo.getCurrentPosition("1", duration)
         Assert.assertEquals(bookmark, actual)
     }
 
     @Test
     fun `test getCurrentPosition, should coerce to 0 when less than 0`() {
         val duration = 2.minutes.inWholeMilliseconds
-        val query = QueryOneOrNull(Podcast_position(1, -1))
-        whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(Podcast_position("1", -1))
+        whenever(podcastPositionQueries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
+        val actual = repo.getCurrentPosition("1", duration)
         Assert.assertEquals(0, actual)
     }
 
@@ -195,10 +194,10 @@ class MediaStorePodcastEpisodeRepositoryTest {
     fun `test getCurrentPosition, restart is less than 5 seconds to finish`() {
         val duration = 2.minutes.inWholeMilliseconds
         val bookmark = duration - 4.seconds.inWholeMilliseconds
-        val query = QueryOneOrNull(Podcast_position(1, bookmark))
-        whenever(podcastPositionQueries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(Podcast_position("1", bookmark))
+        whenever(podcastPositionQueries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getCurrentPosition(PlayableIdentifier.MediaStore(1, true), duration)
+        val actual = repo.getCurrentPosition("1", duration)
         Assert.assertEquals(0L, actual)
     }
 

@@ -6,13 +6,12 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.DateTimeFactory
 import dev.olog.core.MediaStoreArtist
 import dev.olog.core.MediaStoreSong
-import dev.olog.core.entity.id.AuthorIdentifier
 import dev.olog.core.sort.AuthorDetailSort
 import dev.olog.core.sort.AuthorSort
 import dev.olog.core.sort.Sort
 import dev.olog.core.sort.SortDirection
 import dev.olog.testing.ArtistView
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.QueryOneOrNull
@@ -44,12 +43,12 @@ class MediaStoreArtistRepositoryTest {
 
     @Test
     fun `test getAll`() {
-        val query = QueryList(ArtistView(id = 1, songs = 2))
+        val query = QueryList(ArtistView(id = "1", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = sut.getAll()
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -58,11 +57,11 @@ class MediaStoreArtistRepositoryTest {
 
     @Test
     fun `test observeAll`() = runTest {
-        val query = QueryList(ArtistView(id = 1, songs = 2))
+        val query = QueryList(ArtistView(id = "1", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -73,12 +72,12 @@ class MediaStoreArtistRepositoryTest {
 
     @Test
     fun `test getByParam`() {
-        val query = QueryOneOrNull(ArtistView(id = 1, songs = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(ArtistView(id = "1", songs = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(AuthorIdentifier.MediaStore(1, false))
+        val actual = sut.getById("1")
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -88,23 +87,23 @@ class MediaStoreArtistRepositoryTest {
     @Test
     fun `test getByParam, missing item should return null`() {
         val query = QueryOneOrNull<Artists_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(AuthorIdentifier.MediaStore(1, false))
+        val actual = sut.getById("1")
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
-        val query = QueryOneOrNull(ArtistView(id = 1, songs = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(ArtistView(id = "1", songs = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
-        sut.observeById(AuthorIdentifier.MediaStore(1, false)).test(this) {
+        sut.observeById("1").test(this) {
             assertValue(expected)
         }
     }
@@ -112,43 +111,43 @@ class MediaStoreArtistRepositoryTest {
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
         val query = QueryOneOrNull<Artists_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        sut.observeById(AuthorIdentifier.MediaStore(1, false)).test(this) {
+        sut.observeById("1").test(this) {
             assertValue(null)
         }
     }
 
     @Test
     fun `test getTrackListByParam`() {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        val query = QueryList(IndexedTrack(id = "1", is_podcast = false))
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val actual = sut.getPlayablesById(AuthorIdentifier.MediaStore(1, false))
-        val expected = MediaStoreSong(id = 1)
+        val actual = sut.getTracksById("1")
+        val expected = MediaStoreSong(id = "1")
 
         Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
     fun `test observeTrackListByParam`() = runTest {
-        val query = QueryList(IndexedPlayables(id = 1, is_podcast = false))
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        val query = QueryList(IndexedTrack(id = "1", is_podcast = false))
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val expected = MediaStoreSong(id = 1)
+        val expected = MediaStoreSong(id = "1")
 
-        sut.observePlayablesById(AuthorIdentifier.MediaStore(1, false)).test(this) {
+        sut.observeTracksById("1").test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test observeRecentlyPlayed`() = runTest {
-        val query = QueryList(ArtistView(id = 1, songs = 2))
+        val query = QueryList(ArtistView(id = "1", songs = 2))
         whenever(queries.selectRecentlyPlayed()).thenReturn(query)
 
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -161,18 +160,18 @@ class MediaStoreArtistRepositoryTest {
     fun `test addRecentlyPlayed`() = runTest {
         whenever(dateTimeFactory.currentTimeMillis()).thenReturn(100)
 
-        sut.addToRecentlyPlayed(AuthorIdentifier.MediaStore(10, false))
+        sut.addToRecentlyPlayed("10")
 
-        verify(queries).insertRecentlyPlayed(10, 100)
+        verify(queries).insertRecentlyPlayed("10", 100)
     }
 
     @Test
     fun `test observeRecentlyAdded`() = runTest {
-        val query = QueryList(ArtistView(id = 1, songs = 2))
+        val query = QueryList(ArtistView(id = "1", songs = 2))
         whenever(queries.selectRecentlyAdded()).thenReturn(query)
 
         val expected = MediaStoreArtist(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 

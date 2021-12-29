@@ -5,10 +5,11 @@ import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.MediaStoreSong
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.id.PlayableIdentifier
-import dev.olog.core.interactor.UpdatePlayingQueueUseCase
-import dev.olog.core.playable.PlayableGateway
+import dev.olog.core.MediaStoreType
+import dev.olog.core.MediaUri
+import dev.olog.core.queue.PlayingQueueSong
+import dev.olog.core.queue.UpdatePlayingQueueUseCase
+import dev.olog.core.track.TrackGateway
 import dev.olog.data.PlayingQueueQueries
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.mockTransacter
@@ -29,7 +30,7 @@ class PlayingQueueRepositoryTest {
 
     private val permissionManager = mock<PermissionManager>()
     private val queries = mock<PlayingQueueQueries>()
-    private val playableGateway = mock<PlayableGateway>()
+    private val playableGateway = mock<TrackGateway>()
     private val sut = PlayingQueueRepository(
         schedulers = TestSchedulers(),
         permissionManager = permissionManager,
@@ -58,9 +59,9 @@ class PlayingQueueRepositoryTest {
         val queueQuery = QueryList(emptyList<SelectAll>())
         whenever(queries.selectAll()).thenReturn(queueQuery)
 
-        val song1 = MediaStoreSong(id = 1)
-        val song2 = MediaStoreSong(id = 2)
-        whenever(playableGateway.getAll(PlayableIdentifier.MediaStore(false))).thenReturnList(song1, song2)
+        val song1 = MediaStoreSong(id = "1")
+        val song2 = MediaStoreSong(id = "2")
+        whenever(playableGateway.getAll(MediaStoreType.Song)).thenReturnList(song1, song2)
 
         val actual = sut.getAll()
         val expected = listOf(
@@ -75,15 +76,15 @@ class PlayingQueueRepositoryTest {
         whenever(permissionManager.hasPermission(Permission.Storage))
             .thenReturn(true)
         val queueQuery = QueryList(
-            emptySelectAll().copy(id = 1, play_order = 10),
-            emptySelectAll().copy(id = 2, play_order = 20),
+            emptySelectAll().copy(id = "1", play_order = 10),
+            emptySelectAll().copy(id = "2", play_order = 20),
         )
         whenever(queries.selectAll()).thenReturn(queueQuery)
 
         val actual = sut.getAll()
         val expected = listOf(
-            PlayingQueueSong(song = MediaStoreSong(id = 1), playOrder = 10),
-            PlayingQueueSong(song = MediaStoreSong(id = 2), playOrder = 20),
+            PlayingQueueSong(song = MediaStoreSong(id = "1"), playOrder = 10),
+            PlayingQueueSong(song = MediaStoreSong(id = "2"), playOrder = 20),
         )
         Assert.assertEquals(expected, actual)
     }
@@ -93,14 +94,14 @@ class PlayingQueueRepositoryTest {
         whenever(permissionManager.awaitPermission(Permission.Storage)).thenReturn(Unit)
 
         val queueQuery = QueryList(
-            emptySelectAll().copy(id = 1, play_order = 10),
-            emptySelectAll().copy(id = 2, play_order = 20),
+            emptySelectAll().copy(id = "1", play_order = 10),
+            emptySelectAll().copy(id = "2", play_order = 20),
         )
         whenever(queries.selectAll()).thenReturn(queueQuery)
 
         val expected = listOf(
-            PlayingQueueSong(song = MediaStoreSong(id = 1), playOrder = 10),
-            PlayingQueueSong(song = MediaStoreSong(id = 2), playOrder = 20),
+            PlayingQueueSong(song = MediaStoreSong(id = "1"), playOrder = 10),
+            PlayingQueueSong(song = MediaStoreSong(id = "2"), playOrder = 20),
         )
 
         sut.observeAll().test(this) {
@@ -117,8 +118,14 @@ class PlayingQueueRepositoryTest {
     @Test
     fun `test update`() = runTest {
         val request = listOf(
-            UpdatePlayingQueueUseCase.Request(1, 10),
-            UpdatePlayingQueueUseCase.Request(2, 20),
+            UpdatePlayingQueueUseCase.Request(
+                uri = MediaUri(MediaUri.Source.MediaStore, MediaUri.Category.Track, "1", false),
+                playOrder = 10
+            ),
+            UpdatePlayingQueueUseCase.Request(
+                uri = MediaUri(MediaUri.Source.MediaStore, MediaUri.Category.Track, "2", false),
+                20
+            ),
         )
 
         sut.update(request)
@@ -126,8 +133,8 @@ class PlayingQueueRepositoryTest {
         val inOrder = inOrder(queries)
         inOrder.verify(queries).transaction(any(), any())
         inOrder.verify(queries).deleteAll()
-        inOrder.verify(queries).insert(1, 10)
-        inOrder.verify(queries).insert(2, 20)
+        inOrder.verify(queries).insert("1", 10)
+        inOrder.verify(queries).insert("2", 20)
     }
 
 }

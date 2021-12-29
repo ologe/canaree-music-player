@@ -1,12 +1,9 @@
 package dev.olog.data.folder
 
+import dev.olog.core.MediaUri
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.id.AuthorIdentifier
-import dev.olog.core.entity.id.CollectionIdentifier
-import dev.olog.core.entity.id.FolderIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.core.folder.Folder
-import dev.olog.core.playable.Song
+import dev.olog.core.track.Song
 import org.junit.Assert
 import org.junit.Test
 
@@ -20,7 +17,12 @@ class FolderMapperTest {
             date_added = 100
         ).toDomain()
         val expected = Folder(
-            id = FolderIdentifier.Path("dir"),
+            uri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Folder,
+                id = "dir",
+                isPodcast = false
+            ),
             directory = "dir",
             songs = 2
         )
@@ -30,9 +32,9 @@ class FolderMapperTest {
     @Test
     fun `test SelectMostPlayed toDomain`() {
         val actual = SelectMostPlayed(
-            id = 1,
-            author_id = 2,
-            collection_id = 3,
+            id = "1",
+            author_id = "2",
+            collection_id = "3",
             title = "title",
             author = "author",
             album_artist = "album_artist",
@@ -49,9 +51,24 @@ class FolderMapperTest {
 
         val expected = MostPlayedSong(
             song = Song(
-                id = PlayableIdentifier.MediaStore(1, false),
-                artistId = AuthorIdentifier.MediaStore(2, false),
-                albumId = CollectionIdentifier.MediaStore(3, false),
+                uri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Track,
+                    id = "1",
+                    isPodcast = false,
+                ),
+                artistUri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Author,
+                    id = "2",
+                    isPodcast = false,
+                ),
+                albumUri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Collection,
+                    id = "3",
+                    isPodcast = false,
+                ),
                 title = "title",
                 artist = "author",
                 albumArtist = "album_artist",

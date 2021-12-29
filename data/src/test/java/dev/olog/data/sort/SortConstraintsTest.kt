@@ -16,13 +16,13 @@ class SortConstraintsTest {
             // all songs
             SortTable.Folders to GenericSort.values().map { it.serialized },
             SortTable.Playlists to GenericSort.values().map { it.serialized },
-            SortTable.Songs to PlayableSort.values().map { it.serialized },
+            SortTable.Songs to TrackSort.values().map { it.serialized },
             SortTable.Artists to AuthorSort.values().map { it.serialized },
             SortTable.Albums to CollectionSort.values().map { it.serialized },
             SortTable.Genres to GenericSort.values().map { it.serialized },
             // all podcasts
             SortTable.PodcastPlaylists to GenericSort.values().map { it.serialized },
-            SortTable.PodcastEpisodes to PlayableSort.values().map { it.serialized },
+            SortTable.PodcastEpisodes to TrackSort.values().map { it.serialized },
             SortTable.PodcastCollections to CollectionSort.values().map { it.serialized },
             SortTable.PodcastAuthors to AuthorSort.values().map { it.serialized },
             // songs

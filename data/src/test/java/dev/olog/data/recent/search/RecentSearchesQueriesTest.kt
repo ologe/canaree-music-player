@@ -1,19 +1,5 @@
 package dev.olog.data.recent.search
 
-import dev.olog.core.MediaId.Companion.createCategoryValue
-import dev.olog.core.MediaId.Companion.podcastId
-import dev.olog.core.MediaId.Companion.songId
-import dev.olog.core.MediaIdCategory.*
-import dev.olog.testing.IndexedPlayables
-import dev.olog.data.TestDatabase
-import dev.olog.data.index.Indexed_genres
-import dev.olog.data.index.Indexed_genres_playables
-import dev.olog.data.index.Indexed_playlists
-import dev.olog.data.index.Indexed_playlists_playables
-import dev.olog.data.recentSearches.SelectAll
-import org.junit.Assert
-import org.junit.Test
-
 class RecentSearchesQueriesTest {
 
 //    private val db = TestDatabase()
@@ -67,8 +53,8 @@ class RecentSearchesQueriesTest {
 //
 //        indexedPlaylistQueries.insert(Indexed_playlists(PLAYLIST_ID, "playlist", ""))
 //        indexedPlaylistQueries.insert(Indexed_playlists(PODCAST_PLAYLIST_ID, "podcast playlist", ""))
-//        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(1, PLAYLIST_ID, SONG_ID, 0))
-//        indexedPlaylistQueries.insertPlayable(Indexed_playlists_playables(2, PODCAST_PLAYLIST_ID, PODCAST_ID, 0))
+//        indexedPlaylistQueries.insertPlayable(IndexedPlaylistTracks(1, PLAYLIST_ID, SONG_ID, 0))
+//        indexedPlaylistQueries.insertPlayable(IndexedPlaylistTracks(2, PODCAST_PLAYLIST_ID, PODCAST_ID, 0))
 //
 //        queries.insert(
 //            mediaId = createCategoryValue(FOLDERS, FOLDER_ID),

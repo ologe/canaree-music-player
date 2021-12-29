@@ -1,9 +1,9 @@
 package dev.olog.data.collection
 
-import dev.olog.core.entity.sort.CollectionSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.sort.SortDirection
-import dev.olog.data.AndroidIndexedPlayables
+import dev.olog.core.sort.CollectionSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.AndroidTestDatabase
 import dev.olog.data.insertGroup
 import dev.olog.data.sort.SortDao
@@ -23,13 +23,13 @@ class SortedAlbumQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val items = listOf(
-            AndroidIndexedPlayables(id = 1, collection_id = 1, collection = "abc", author = "abc2", is_podcast = false),
-            AndroidIndexedPlayables(id = 2, collection_id = 1, collection = "abc", author = "abc2", is_podcast = false),
-            AndroidIndexedPlayables(id = 3, collection_id = 2, collection = "äaa", author = "äaa2", is_podcast = false),
-            AndroidIndexedPlayables(id = 4, collection_id = 3, collection = "<unknown>", author = "<unknown>", is_podcast = false),
-            AndroidIndexedPlayables(id = 5, collection_id = 4, collection = "zzz", author = "zzz2", is_podcast = false),
+            IndexedTrack(id = "1", collection_id = "1", collection = "abc", author = "abc2", is_podcast = false),
+            IndexedTrack(id = "2", collection_id = "1", collection = "abc", author = "abc2", is_podcast = false),
+            IndexedTrack(id = "3", collection_id = "2", collection = "äaa", author = "äaa2", is_podcast = false),
+            IndexedTrack(id = "4", collection_id = "3", collection = "<unknown>", author = "<unknown>", is_podcast = false),
+            IndexedTrack(id = "5", collection_id = "4", collection = "zzz", author = "zzz2", is_podcast = false),
             // filtered
-            AndroidIndexedPlayables(id = 100L, collection_id = 1000, is_podcast = false, directory = "dir"),
+            IndexedTrack(id = "100", collection_id = "1000", is_podcast = false, directory = "dir"),
         )
 
         indexedQueries.insertGroup(items)
@@ -62,13 +62,13 @@ class SortedAlbumQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val items = listOf(
-            AndroidIndexedPlayables(id = 1, collection_id = 1, collection = "abc", author = "abc2", is_podcast = false),
-            AndroidIndexedPlayables(id = 2, collection_id = 1, collection = "abc", author = "abc2", is_podcast = false),
-            AndroidIndexedPlayables(id = 3, collection_id = 2, collection = "äaa", author = "äaa2", is_podcast = false),
-            AndroidIndexedPlayables(id = 4, collection_id = 3, collection = "<unknown>", author = "<unknown>", is_podcast = false),
-            AndroidIndexedPlayables(id = 5, collection_id = 4, collection = "zzz", author = "zzz2", is_podcast = false),
+            IndexedTrack(id = "1", collection_id = "1", collection = "abc", author = "abc2", is_podcast = false),
+            IndexedTrack(id = "2", collection_id = "1", collection = "abc", author = "abc2", is_podcast = false),
+            IndexedTrack(id = "3", collection_id = "2", collection = "äaa", author = "äaa2", is_podcast = false),
+            IndexedTrack(id = "4", collection_id = "3", collection = "<unknown>", author = "<unknown>", is_podcast = false),
+            IndexedTrack(id = "5", collection_id = "4", collection = "zzz", author = "zzz2", is_podcast = false),
             // filtered
-            AndroidIndexedPlayables(id = 100L, collection_id = 1000, is_podcast = false, directory = "dir"),
+            IndexedTrack(id = "100", collection_id = "1000", is_podcast = false, directory = "dir"),
         )
 
         indexedQueries.insertGroup(items)
@@ -99,15 +99,15 @@ class SortedAlbumQueriesTest {
     @Test
     fun testSelectArtistAlbums() {
         val items = listOf(
-            AndroidIndexedPlayables(id = 10_000, is_podcast = false, author_id = 123, collection_id = 1, collection = "abc"),
-            AndroidIndexedPlayables(id = 10_001, is_podcast = false, author_id = 123, collection_id = 2, collection = "def"),
-            AndroidIndexedPlayables(id = 10_002, is_podcast = false, author_id = 123, collection_id = 3, collection = "def"),
+            IndexedTrack(id = "10000", is_podcast = false, author_id = "123", collection_id = "1", collection = "abc"),
+            IndexedTrack(id = "10001", is_podcast = false, author_id = "123", collection_id = "2", collection = "def"),
+            IndexedTrack(id = "10002", is_podcast = false, author_id = "123", collection_id = "3", collection = "def"),
         )
         indexedQueries.insertGroup(items)
 
-        val actual = queries.selectArtistAlbums(123).executeAsList()
+        val actual = queries.selectArtistAlbums("123").executeAsList()
 
-        val expected = listOf(1L, 2L, 3L)
+        val expected = listOf("1", "2", "3")
         Assert.assertEquals(expected, actual.map { it.id })
     }
 

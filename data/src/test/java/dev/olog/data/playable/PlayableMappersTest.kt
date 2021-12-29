@@ -1,9 +1,7 @@
 package dev.olog.data.playable
 
-import dev.olog.core.entity.id.AuthorIdentifier
-import dev.olog.core.entity.id.CollectionIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
-import dev.olog.core.playable.Song
+import dev.olog.core.MediaUri
+import dev.olog.core.track.Song
 import dev.olog.data.index.Indexed_playables
 import org.junit.Assert
 import org.junit.Test
@@ -13,9 +11,9 @@ class PlayableMappersTest {
     @Test
     fun `test toDomain`() {
         val actual = Indexed_playables(
-            id = 1,
-            author_id = 2,
-            collection_id = 3,
+            id = "1",
+            author_id = "2",
+            collection_id = "3",
             title = "title",
             author = "author",
             album_artist = "album_artist",
@@ -30,9 +28,24 @@ class PlayableMappersTest {
         ).toDomain()
 
         val expected = Song(
-            id = PlayableIdentifier.MediaStore(1, false),
-            artistId = AuthorIdentifier.MediaStore(2, false),
-            albumId = CollectionIdentifier.MediaStore(3, false),
+            uri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Track,
+                id = "1",
+                isPodcast = false,
+            ),
+            artistUri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Author,
+                id = "2",
+                isPodcast = false,
+            ),
+            albumUri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Collection,
+                id = "3",
+                isPodcast = false,
+            ),
             title = "title",
             artist = "author",
             albumArtist = "album_artist",

@@ -1,6 +1,6 @@
 package dev.olog.data.author
 
-import dev.olog.core.entity.id.AuthorIdentifier
+import dev.olog.core.MediaUri
 import dev.olog.core.author.Artist
 import org.junit.Assert
 import org.junit.Test
@@ -10,7 +10,7 @@ class AuthorMapperTest {
     @Test
     fun `test artists view toDomain`() {
         val actual = Artists_view(
-            id = 1,
+            id = "1",
             name = "name",
             songs = 2,
             dateAdded = 100,
@@ -18,7 +18,12 @@ class AuthorMapperTest {
         ).toDomain()
 
         val expected = Artist(
-            id = AuthorIdentifier.MediaStore(1, false),
+            uri = MediaUri(
+                MediaUri.Source.MediaStore,
+                MediaUri.Category.Author,
+                "1",
+                isPodcast = false,
+            ),
             name = "name",
             songs = 2,
         )
@@ -29,7 +34,7 @@ class AuthorMapperTest {
     @Test
     fun `test podcast author view toDomain`() {
         val actual = Podcast_authors_view(
-            id = 1,
+            id = "1",
             name = "name",
             episodes = 2,
             dateAdded = 100,
@@ -37,7 +42,12 @@ class AuthorMapperTest {
         ).toDomain()
 
         val expected = Artist(
-            id = AuthorIdentifier.MediaStore(1, true),
+            uri = MediaUri(
+                MediaUri.Source.MediaStore,
+                MediaUri.Category.Author,
+                "1",
+                isPodcast = true,
+            ),
             name = "name",
             songs = 2,
         )

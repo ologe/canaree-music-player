@@ -1,9 +1,9 @@
 package dev.olog.data.folder
 
-import dev.olog.core.entity.sort.GenericSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.sort.SortDirection
-import dev.olog.data.AndroidIndexedPlayables
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.AndroidTestDatabase
 import dev.olog.data.insertGroup
 import dev.olog.data.sort.SortDao
@@ -23,12 +23,12 @@ class SortedFolderQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val items = listOf(
-            AndroidIndexedPlayables(id = 1, directory = "abc", is_podcast = false),
-            AndroidIndexedPlayables(id = 2, directory = "abc", is_podcast = false),
-            AndroidIndexedPlayables(id = 3, directory = "äaa", is_podcast = false),
-            AndroidIndexedPlayables(id = 5, directory = "zzz", is_podcast = false),
+            IndexedTrack(id = "1", directory = "abc", is_podcast = false),
+            IndexedTrack(id = "2", directory = "abc", is_podcast = false),
+            IndexedTrack(id = "3", directory = "äaa", is_podcast = false),
+            IndexedTrack(id = "5", directory = "zzz", is_podcast = false),
             // filtered
-            AndroidIndexedPlayables(id = 100L, directory = "dir", is_podcast = false),
+            IndexedTrack(id = "100", directory = "dir", is_podcast = false),
         )
 
         indexedQueries.insertGroup(items)
@@ -57,9 +57,9 @@ class SortedFolderQueriesTest {
     @Test
     fun testSelectRelatedArtists() {
         val items = listOf(
-            AndroidIndexedPlayables(id = 100, is_podcast = false, directory = "relatedArtists", author_id = 1, author = "author1"),
-            AndroidIndexedPlayables(id = 101, is_podcast = false, directory = "relatedArtists", author_id = 2, author = "author2"),
-            AndroidIndexedPlayables(id = 102, is_podcast = false, directory = "relatedArtists", author_id = 3, author = "author3"),
+            IndexedTrack(id = "100", is_podcast = false, directory = "relatedArtists", author_id = "1", author = "author1"),
+            IndexedTrack(id = "101", is_podcast = false, directory = "relatedArtists", author_id = "2", author = "author2"),
+            IndexedTrack(id = "102", is_podcast = false, directory = "relatedArtists", author_id = "3", author = "author3"),
         )
         indexedQueries.insertGroup(items)
 
@@ -77,12 +77,12 @@ class SortedFolderQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val items = listOf(
-            AndroidIndexedPlayables(id = 1, directory = "abc", is_podcast = false),
-            AndroidIndexedPlayables(id = 2, directory = "def", is_podcast = false),
-            AndroidIndexedPlayables(id = 3, directory = "def", is_podcast = false),
-            AndroidIndexedPlayables(id = 5, directory = "ghi", is_podcast = false),
+            IndexedTrack(id = "1", directory = "abc", is_podcast = false),
+            IndexedTrack(id = "2", directory = "def", is_podcast = false),
+            IndexedTrack(id = "3", directory = "def", is_podcast = false),
+            IndexedTrack(id = "5", directory = "ghi", is_podcast = false),
             // filtered
-            AndroidIndexedPlayables(id = 100L, directory = "dir", is_podcast = false),
+            IndexedTrack(id = "100", directory = "dir", is_podcast = false),
         )
 
         indexedQueries.insertGroup(items)
@@ -100,12 +100,12 @@ class SortedFolderQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val items = listOf(
-            AndroidIndexedPlayables(id = 1, directory = "abc", is_podcast = false),
-            AndroidIndexedPlayables(id = 2, directory = "def", is_podcast = false),
-            AndroidIndexedPlayables(id = 3, directory = "def", is_podcast = false),
-            AndroidIndexedPlayables(id = 5, directory = "ghi", is_podcast = false),
+            IndexedTrack(id = "1", directory = "abc", is_podcast = false),
+            IndexedTrack(id = "2", directory = "def", is_podcast = false),
+            IndexedTrack(id = "3", directory = "def", is_podcast = false),
+            IndexedTrack(id = "5", directory = "ghi", is_podcast = false),
             // not filtered here
-            AndroidIndexedPlayables(id = 100L, directory = "dir", is_podcast = false),
+            IndexedTrack(id = "100", directory = "dir", is_podcast = false),
         )
 
         indexedQueries.insertGroup(items)
@@ -126,60 +126,60 @@ class SortedFolderQueriesTest {
 
         // insert songs
         val items = listOf(
-            AndroidIndexedPlayables(1L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(2L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(3L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(4L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(5L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(6L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(7L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(8L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(9L, is_podcast = false, directory = "abc"),
-            AndroidIndexedPlayables(10L, is_podcast = false, directory = "abc"),
+            IndexedTrack("1", is_podcast = false, directory = "abc"),
+            IndexedTrack("2", is_podcast = false, directory = "abc"),
+            IndexedTrack("3", is_podcast = false, directory = "abc"),
+            IndexedTrack("4", is_podcast = false, directory = "abc"),
+            IndexedTrack("5", is_podcast = false, directory = "abc"),
+            IndexedTrack("6", is_podcast = false, directory = "abc"),
+            IndexedTrack("7", is_podcast = false, directory = "abc"),
+            IndexedTrack("8", is_podcast = false, directory = "abc"),
+            IndexedTrack("9", is_podcast = false, directory = "abc"),
+            IndexedTrack("10", is_podcast = false, directory = "abc"),
             // below will be filtered
-            AndroidIndexedPlayables(id = 100, is_podcast = false, directory = "random dir"),
-            AndroidIndexedPlayables(id = 101, is_podcast = false, directory = "dir"),
-            AndroidIndexedPlayables(id = 102, is_podcast = true),
+            IndexedTrack(id = "100", is_podcast = false, directory = "random dir"),
+            IndexedTrack(id = "101", is_podcast = false, directory = "dir"),
+            IndexedTrack(id = "102", is_podcast = true),
         )
         indexedQueries.insertGroup(items)
 
         // insert most played
-        repeat(10) { queries.incrementMostPlayed(100L, dir = "random dir") }
-        repeat(20) { queries.incrementMostPlayed(10L, dir = "abc") }
-        repeat(8) { queries.incrementMostPlayed(8L, dir = "abc") }
-        repeat(4) { queries.incrementMostPlayed(2L, dir = "abc") } // not present, at least 5
+        repeat(10) { queries.incrementMostPlayed("100", dir = "random dir") }
+        repeat(20) { queries.incrementMostPlayed("10", dir = "abc") }
+        repeat(8) { queries.incrementMostPlayed("8", dir = "abc") }
+        repeat(4) { queries.incrementMostPlayed("2", dir = "abc") } // not present, at least 5
 
         // test skip less than 5 items
         Assert.assertEquals(
             listOf(
-                10L to 20L,
-                8L to 8L,
+                "10" to 20L,
+                "8" to 8L,
             ),
             queries.selectMostPlayed("abc").executeAsList().map { it.id to it.counter }
         )
 
-        repeat(10) { queries.incrementMostPlayed(9L, dir = "abc") }
-        repeat(50) { queries.incrementMostPlayed(4L, dir = "abc") }
-        repeat(19) { queries.incrementMostPlayed(3L, dir = "abc") }
-        repeat(18) { queries.incrementMostPlayed(8L, dir = "abc") }
-        repeat(15) { queries.incrementMostPlayed(1L, dir = "abc") }
-        repeat(14) { queries.incrementMostPlayed(2L, dir = "abc") }
-        repeat(13) { queries.incrementMostPlayed(7L, dir = "abc") }
-        repeat(9) { queries.incrementMostPlayed(6L, dir = "abc") }
-        repeat(5) { queries.incrementMostPlayed(5L, dir = "abc") }
+        repeat(10) { queries.incrementMostPlayed("9", dir = "abc") }
+        repeat(50) { queries.incrementMostPlayed("4", dir = "abc") }
+        repeat(19) { queries.incrementMostPlayed("3", dir = "abc") }
+        repeat(18) { queries.incrementMostPlayed("8", dir = "abc") }
+        repeat(15) { queries.incrementMostPlayed("1", dir = "abc") }
+        repeat(14) { queries.incrementMostPlayed("2", dir = "abc") }
+        repeat(13) { queries.incrementMostPlayed("7", dir = "abc") }
+        repeat(9) { queries.incrementMostPlayed("6", dir = "abc") }
+        repeat(5) { queries.incrementMostPlayed("5", dir = "abc") }
 
         Assert.assertEquals(
             listOf(
-                4L to 50L,
-                8L to 26L,
-                10L to 20L,
-                3L to 19L,
-                2L to 18L,
-                1L to 15L,
-                7L to 13L,
-                9L to 10L,
-                6L to 9L,
-                5L to 5L,
+                "4" to 50L,
+                "8" to 26L,
+                "10" to 20L,
+                "3" to 19L,
+                "2" to 18L,
+                "1" to 15L,
+                "7" to 13L,
+                "9" to 10L,
+                "6" to 9L,
+                "5" to 5L,
             ),
             queries.selectMostPlayed("abc").executeAsList().map { it.id to it.counter }
         )

@@ -92,15 +92,15 @@ class SortDaoTest {
     @Test
     fun `test getSongsSort`() {
         val actual = dao.getSongsSort().executeAsOne()
-        val expected = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val expected = Sort(TrackSort.Title, SortDirection.ASCENDING)
         Assert.assertEquals(expected, actual)
 
-        verify(queries).select(eq(SortTable.Songs), any<(SortTable, SortTypeEntity, SortDirection) -> PlayableSort>())
+        verify(queries).select(eq(SortTable.Songs), any<(SortTable, SortTypeEntity, SortDirection) -> TrackSort>())
     }
 
     @Test
     fun `test setSongsSort`() {
-        dao.setSongsSort(Sort(PlayableSort.Title, SortDirection.ASCENDING))
+        dao.setSongsSort(Sort(TrackSort.Title, SortDirection.ASCENDING))
         verify(queries).replace(EntitySort(SortTable.Songs, SortTypeEntity.Title, SortDirection.ASCENDING))
     }
 
@@ -251,15 +251,15 @@ class SortDaoTest {
     @Test
     fun `test getPodcastEpisodesSort`() {
         val actual = dao.getPodcastEpisodesSort().executeAsOne()
-        val expected = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val expected = Sort(TrackSort.Title, SortDirection.ASCENDING)
         Assert.assertEquals(expected, actual)
 
-        verify(queries).select(eq(SortTable.PodcastEpisodes), any<(SortTable, SortTypeEntity, SortDirection) -> PlayableSort>())
+        verify(queries).select(eq(SortTable.PodcastEpisodes), any<(SortTable, SortTypeEntity, SortDirection) -> TrackSort>())
     }
 
     @Test
     fun `test setPodcastEpisodesSort`() {
-        dao.setPodcastEpisodesSort(Sort(PlayableSort.Title, SortDirection.ASCENDING))
+        dao.setPodcastEpisodesSort(Sort(TrackSort.Title, SortDirection.ASCENDING))
         verify(queries).replace(EntitySort(SortTable.PodcastEpisodes, SortTypeEntity.Title, SortDirection.ASCENDING))
     }
 

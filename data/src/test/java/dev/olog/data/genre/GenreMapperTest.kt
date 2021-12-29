@@ -1,13 +1,11 @@
 package dev.olog.data.genre
 
+import dev.olog.core.MediaStoreGenreUri
+import dev.olog.core.MediaUri
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.id.AuthorIdentifier
-import dev.olog.core.entity.id.CollectionIdentifier
-import dev.olog.core.entity.id.GenreIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.core.author.Artist
 import dev.olog.core.genre.Genre
-import dev.olog.core.playable.Song
+import dev.olog.core.track.Song
 import dev.olog.testing.GenreView
 import org.junit.Assert
 import org.junit.Test
@@ -17,13 +15,13 @@ class GenreMapperTest {
     @Test
     fun `test genre toDomain`() {
         val actual = GenreView(
-            id = 1,
+            id = "1",
             name = "name",
             2
         ).toDomain()
 
         val expected = Genre(
-            id = GenreIdentifier.MediaStore(1),
+            uri = MediaStoreGenreUri(1),
             name = "name",
             songs = 2
         )
@@ -33,9 +31,9 @@ class GenreMapperTest {
     @Test
     fun `test SelectMostPlayed toDomain`() {
         val actual = SelectMostPlayed(
-            id = 1,
-            author_id = 2,
-            collection_id = 3,
+            id = "1",
+            author_id = "2",
+            collection_id = "3",
             title = "title",
             author = "author",
             album_artist = "album_artist",
@@ -52,9 +50,24 @@ class GenreMapperTest {
 
         val expected = MostPlayedSong(
             song = Song(
-                id = PlayableIdentifier.MediaStore(1, false),
-                artistId = AuthorIdentifier.MediaStore(2, false),
-                albumId = CollectionIdentifier.MediaStore(3, false),
+                uri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Track,
+                    id = "1",
+                    isPodcast = false,
+                ),
+                artistUri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Author,
+                    id = "2",
+                    isPodcast = false,
+                ),
+                albumUri = MediaUri(
+                    source = MediaUri.Source.MediaStore,
+                    category = MediaUri.Category.Collection,
+                    id = "3",
+                    isPodcast = false,
+                ),
                 title = "title",
                 artist = "author",
                 albumArtist = "album_artist",
@@ -76,14 +89,19 @@ class GenreMapperTest {
     @Test
     fun `test SelectRelatedArtists toDomain`() {
         val actual = SelectRelatedArtists(
-            author_id = 1,
+            author_id = "1",
             author = "author",
             album_artist = "album_artist",
             songs = 2
         ).toDomain()
 
         val expected = Artist(
-            id = AuthorIdentifier.MediaStore(1, false),
+            uri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Author,
+                id = "1",
+                isPodcast = false
+            ),
             name = "author",
             songs = 2,
         )
@@ -94,10 +112,10 @@ class GenreMapperTest {
     @Test
     fun `test genre playables view toDomain`() {
         val actual = Genres_playables_view(
-            genre_id = 1,
-            id = 2,
-            author_id = 3,
-            collection_id = 4,
+            genre_id = "1",
+            id = "2",
+            author_id = "3",
+            collection_id = "4",
             title = "title",
             author = "author",
             album_artist = "album_artist",
@@ -112,9 +130,24 @@ class GenreMapperTest {
         ).toDomain()
 
         val expected = Song(
-            id = PlayableIdentifier.MediaStore(2, false),
-            artistId = AuthorIdentifier.MediaStore(3, false),
-            albumId = CollectionIdentifier.MediaStore(4, false),
+            uri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Track,
+                id = "2",
+                isPodcast = false,
+            ),
+            artistUri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Author,
+                id = "3",
+                isPodcast = false,
+            ),
+            albumUri = MediaUri(
+                source = MediaUri.Source.MediaStore,
+                category = MediaUri.Category.Collection,
+                id = "4",
+                isPodcast = false,
+            ),
             title = "title",
             artist = "author",
             albumArtist = "album_artist",

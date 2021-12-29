@@ -2,7 +2,7 @@ package dev.olog.data.history
 
 import dev.olog.data.TestDatabase
 import dev.olog.data.index.Indexed_playables
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -19,14 +19,14 @@ class HistoryQueriesTest {
         blacklistQueries.insert("yes")
 
         val data = listOf(
-            IndexedPlayables(id = 1, is_podcast = false),
-            IndexedPlayables(id = 2, is_podcast = false),
-            IndexedPlayables(id = 3, is_podcast = false),
-            IndexedPlayables(id = 4, is_podcast = false, directory = "yes"),
-            IndexedPlayables(id = 5, is_podcast = true),
-            IndexedPlayables(id = 6, is_podcast = true),
-            IndexedPlayables(id = 7, is_podcast = true),
-            IndexedPlayables(id = 8, is_podcast = true, directory = "yes"),
+            IndexedTrack(id = "1", is_podcast = false),
+            IndexedTrack(id = "2", is_podcast = false),
+            IndexedTrack(id = "3", is_podcast = false),
+            IndexedTrack(id = "4", is_podcast = false, directory = "yes"),
+            IndexedTrack(id = "5", is_podcast = true),
+            IndexedTrack(id = "6", is_podcast = true),
+            IndexedTrack(id = "7", is_podcast = true),
+            IndexedTrack(id = "8", is_podcast = true, directory = "yes"),
         )
         data.forEach { indexedQueries.insert(it) }
     }
@@ -35,14 +35,14 @@ class HistoryQueriesTest {
     fun `test selectAllSongs`() {
         Assert.assertEquals(emptyList<Indexed_playables>(), queries.selectAllSongs().executeAsList())
 
-        queries.insert(1, 50)
-        queries.insert(3, 100)
-        queries.insert(4, 200)  // should be filtered
+        queries.insert("1", 50)
+        queries.insert("3", 100)
+        queries.insert("4", 200)  // should be filtered
 
         Assert.assertEquals(
             listOf(
-                IndexedPlayables(id = 3, is_podcast = false),
-                IndexedPlayables(id = 1, is_podcast = false),
+                IndexedTrack(id = "3", is_podcast = false),
+                IndexedTrack(id = "1", is_podcast = false),
             ),
             queries.selectAllSongs().executeAsList()
         )
@@ -52,14 +52,14 @@ class HistoryQueriesTest {
     fun `test selectAllPodcastEpisodes`() {
         Assert.assertEquals(emptyList<Indexed_playables>(), queries.selectAllPodcastEpisodes().executeAsList())
 
-        queries.insert(5, 50)
-        queries.insert(6, 100)
-        queries.insert(8, 200) // should be filtered
+        queries.insert("5", 50)
+        queries.insert("6", 100)
+        queries.insert("8", 200) // should be filtered
 
         Assert.assertEquals(
             listOf(
-                IndexedPlayables(id = 6, is_podcast = true),
-                IndexedPlayables(id = 5, is_podcast = true),
+                IndexedTrack(id = "6", is_podcast = true),
+                IndexedTrack(id = "5", is_podcast = true),
             ),
             queries.selectAllPodcastEpisodes().executeAsList()
         )

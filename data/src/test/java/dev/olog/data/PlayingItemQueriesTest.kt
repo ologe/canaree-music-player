@@ -1,8 +1,7 @@
 package dev.olog.data
 
-import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.data.repository.replace
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -15,8 +14,8 @@ class PlayingItemQueriesTest {
     private val queries = db.playingItemQueries
 
     companion object {
-        private val song = IndexedPlayables(id = 1, is_podcast = false)
-        private val podcastEpisode = IndexedPlayables(id = 2, is_podcast = true)
+        private val song = IndexedTrack(id = "1", is_podcast = false)
+        private val podcastEpisode = IndexedTrack(id = "2", is_podcast = true)
     }
 
     @Before
@@ -33,7 +32,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as song`() {
-        queries.replace(id = PlayableIdentifier.MediaStore(1, false))
+        queries.replace(id = "1")
 
         val actual = queries.select().executeAsOne()
 
@@ -42,7 +41,7 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test playing item as podcast episode`() {
-        queries.replace(id = PlayableIdentifier.MediaStore(2, false))
+        queries.replace(id = "2")
         val actual = queries.select().executeAsOne()
 
         Assert.assertEquals(podcastEpisode, actual)
@@ -51,8 +50,8 @@ class PlayingItemQueriesTest {
     @Test
     fun `test playing item as song should be null when blacklisted`() {
         blacklistQueries.insert("yes")
-        indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = false))
-        queries.replace(id = PlayableIdentifier.MediaStore(3, false))
+        indexedQueries.insert(IndexedTrack("3", directory = "yes", is_podcast = false))
+        queries.replace(id = "3")
 
         val actual = queries.select().executeAsOneOrNull()
 
@@ -62,8 +61,8 @@ class PlayingItemQueriesTest {
     @Test
     fun `test playing item as podcast episode should be null when blacklisted`() {
         blacklistQueries.insert("yes")
-        indexedQueries.insert(IndexedPlayables(3L, directory = "yes", is_podcast = true))
-        queries.replace(id = PlayableIdentifier.MediaStore(3, true))
+        indexedQueries.insert(IndexedTrack("3", directory = "yes", is_podcast = true))
+        queries.replace(id = "3")
         val actual = queries.select().executeAsOneOrNull()
 
         Assert.assertEquals(null, actual)
@@ -71,8 +70,8 @@ class PlayingItemQueriesTest {
 
     @Test
     fun `test replace, should be only one item`() {
-        queries.replace(PlayableIdentifier.MediaStore(1, false))
-        queries.replace(PlayableIdentifier.MediaStore(2, false))
+        queries.replace("1")
+        queries.replace("2")
 
         val actual = queries.select().executeAsOne()
 

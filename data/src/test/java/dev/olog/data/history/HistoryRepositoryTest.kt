@@ -6,12 +6,12 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.DateTimeFactory
 import dev.olog.core.MediaStorePodcastEpisode
 import dev.olog.core.MediaStoreSong
-import dev.olog.core.entity.id.PlayableIdentifier
+import dev.olog.core.MediaUri
 import dev.olog.data.HistoryQueries
 import dev.olog.data.extensions.QueryList
 import dev.olog.flow.test.observer.test
 import dev.olog.test.shared.TestSchedulers
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -28,32 +28,32 @@ class HistoryRepositoryTest {
 
     @Test
     fun `test getSongs`() {
-        val query = QueryList(IndexedPlayables(1, false))
+        val query = QueryList(IndexedTrack("1", false))
         whenever(queries.selectAllSongs()).thenReturn(query)
 
         val actual = sut.getSongs()
-        val expected = MediaStoreSong(id = 1L)
+        val expected = MediaStoreSong(id = "1")
 
         Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
     fun `test getPodcastEpisodes`() {
-        val query = QueryList(IndexedPlayables(1, true))
+        val query = QueryList(IndexedTrack("1", true))
         whenever(queries.selectAllPodcastEpisodes()).thenReturn(query)
 
         val actual = sut.getPodcastEpisodes()
-        val expected = MediaStorePodcastEpisode(id = 1L)
+        val expected = MediaStorePodcastEpisode(id = "1")
 
         Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
     fun `test observeSongs`() = runTest {
-        val query = QueryList(IndexedPlayables(1, false))
+        val query = QueryList(IndexedTrack("1", false))
         whenever(queries.selectAllSongs()).thenReturn(query)
 
-        val expected = MediaStoreSong(id = 1L)
+        val expected = MediaStoreSong(id = "1")
         sut.observeSongs().test(this) {
             assertValue(listOf(expected))
         }
@@ -61,10 +61,10 @@ class HistoryRepositoryTest {
 
     @Test
     fun `test observePodcastEpisodes`() = runTest {
-        val query = QueryList(IndexedPlayables(1, true))
+        val query = QueryList(IndexedTrack("1", true))
         whenever(queries.selectAllPodcastEpisodes()).thenReturn(query)
 
-        val expected = MediaStorePodcastEpisode(id = 1L)
+        val expected = MediaStorePodcastEpisode(id = "1")
         sut.observePodcastEpisodes().test(this) {
             assertValue(listOf(expected))
         }
@@ -74,9 +74,9 @@ class HistoryRepositoryTest {
     fun `test insert`() = runTest {
         whenever(dateTimeFactory.currentTimeMillis()).thenReturn(100)
 
-        sut.insert(PlayableIdentifier.MediaStore(1, true))
+        sut.insert(MediaUri(MediaUri.Source.MediaStore, MediaUri.Category.Track, "1", false))
 
-        verify(queries).insert(1, 100)
+        verify(queries).insert("1", 100)
     }
 
 }

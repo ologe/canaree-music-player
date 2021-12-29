@@ -1,15 +1,16 @@
 package dev.olog.data.playlist
 
-import dev.olog.core.entity.sort.GenericSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.sort.SortDirection
-import dev.olog.data.AndroidIndexedPlayables
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.AndroidTestDatabase
 import dev.olog.data.index.Indexed_playlists
 import dev.olog.data.index.Indexed_playlists_playables
 import dev.olog.data.insertGroup
 import dev.olog.data.insertPlayableGroup
 import dev.olog.data.sort.SortDao
+import dev.olog.testing.IndexedPlaylistTracks
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -28,35 +29,35 @@ class SortedPodcastPlaylistQueriesTest {
         blacklistQueries.insert(directory = "dir")
 
         val playlists = listOf(
-            Indexed_playlists(id = 1, title = "abc"),
-            Indexed_playlists(id = 3, title = "äaa"),
-            Indexed_playlists(id = 2, title = "zzz"),
-            Indexed_playlists(id = 4, title = "blacklisted"),
+            Indexed_playlists(id = "1", title = "abc", path = ""),
+            Indexed_playlists(id = "3", title = "äaa", path = ""),
+            Indexed_playlists(id = "2", title = "zzz", path = ""),
+            Indexed_playlists(id = "4", title = "blacklisted", path = ""),
         )
         indexedPlaylistsQueries.insertGroup(playlists)
 
         val playables = listOf(
-            AndroidIndexedPlayables(1, is_podcast = true),
-            AndroidIndexedPlayables(2, is_podcast = true, author_id = 1, author = "author1"),
-            AndroidIndexedPlayables(3, is_podcast = true, author_id = 2, author = "author2"),
-            AndroidIndexedPlayables(4, is_podcast = true),
-            AndroidIndexedPlayables(5, is_podcast = true),
+            IndexedTrack("1", is_podcast = true),
+            IndexedTrack("2", is_podcast = true, author_id = "1", author = "author1"),
+            IndexedTrack("3", is_podcast = true, author_id = "2", author = "author2"),
+            IndexedTrack("4", is_podcast = true),
+            IndexedTrack("5", is_podcast = true),
             // below should be filtered
-            AndroidIndexedPlayables(6, is_podcast = true, directory = "dir"),
-            AndroidIndexedPlayables(7, is_podcast = false),
-            AndroidIndexedPlayables(8, is_podcast = false),
-            AndroidIndexedPlayables(9, is_podcast = false),
-            AndroidIndexedPlayables(10, is_podcast = false),
+            IndexedTrack("6", is_podcast = true, directory = "dir"),
+            IndexedTrack("7", is_podcast = false),
+            IndexedTrack("8", is_podcast = false),
+            IndexedTrack("9", is_podcast = false),
+            IndexedTrack("10", is_podcast = false),
         )
         indexedPlayablesQueries.insertGroup(playables)
 
         val playlistPlayables = listOf(
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 3, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 2, playable_id = 1, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 6, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 3, playable_id = 7, play_order = 0),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "3"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "2"),
+            IndexedPlaylistTracks(playlistId = "2", playableId = "1"),
+            IndexedPlaylistTracks(playlistId = "3", playableId = "2"),
+            IndexedPlaylistTracks(playlistId = "3", playableId = "6"),
+            IndexedPlaylistTracks(playlistId = "3", playableId = "7"),
         )
         indexedPlaylistsQueries.insertPlayableGroup(playlistPlayables)
     }
@@ -67,9 +68,9 @@ class SortedPodcastPlaylistQueriesTest {
         sortQueries.setPodcastPlaylistsSort(Sort(GenericSort.Title, SortDirection.ASCENDING))
         val actualAsc = queries.selectAllSorted().executeAsList()
         val expected = listOf(
-            Podcast_playlists_view(3, "äaa", 1),
-            Podcast_playlists_view(1, "abc", 2),
-            Podcast_playlists_view(2, "zzz", 1),
+            Podcast_playlists_view(id = "3", title = "äaa", songs = 1, path = ""),
+            Podcast_playlists_view(id = "1", title = "abc", songs = 2, path = ""),
+            Podcast_playlists_view(id = "2", title = "zzz", songs = 1, path = ""),
         )
         Assert.assertEquals(expected, actualAsc)
 
@@ -81,7 +82,7 @@ class SortedPodcastPlaylistQueriesTest {
 
     @Test
     fun testSelectRelatedArtists() {
-        val actual = queries.selectRelatedArtists(1).executeAsList()
+        val actual = queries.selectRelatedArtists("1").executeAsList()
         val expected = listOf(
             "author1",
             "author2",
@@ -91,10 +92,10 @@ class SortedPodcastPlaylistQueriesTest {
 
     @Test
     fun testSelectSiblings() {
-        val actual = queries.selectSiblings(1).executeAsList()
+        val actual = queries.selectSiblings("1").executeAsList()
         val expected = listOf(
-            Podcast_playlists_view(3, "äaa", 1),
-            Podcast_playlists_view(2, "zzz", 1),
+            Podcast_playlists_view(id = "3", title = "äaa", songs = 1, path = ""),
+            Podcast_playlists_view(id = "2", title = "zzz", songs = 1, path = ""),
         )
         Assert.assertEquals(expected, actual)
     }
@@ -103,34 +104,34 @@ class SortedPodcastPlaylistQueriesTest {
     fun testSelectMostPlayed() {
         indexedPlayablesQueries.deleteAll()
         val playables = listOf(
-            AndroidIndexedPlayables(1, is_podcast = false),
-            AndroidIndexedPlayables(2, is_podcast = false),
-            AndroidIndexedPlayables(3, is_podcast = false),
-            AndroidIndexedPlayables(4, is_podcast = false),
-            AndroidIndexedPlayables(5, is_podcast = false),
-            AndroidIndexedPlayables(6, is_podcast = false),
-            AndroidIndexedPlayables(7, is_podcast = false),
-            AndroidIndexedPlayables(8, is_podcast = false),
-            AndroidIndexedPlayables(9, is_podcast = false),
-            AndroidIndexedPlayables(10, is_podcast = false),
-            AndroidIndexedPlayables(11, is_podcast = false),
-            AndroidIndexedPlayables(12, is_podcast = false),
+            IndexedTrack("1", is_podcast = false),
+            IndexedTrack("2", is_podcast = false),
+            IndexedTrack("3", is_podcast = false),
+            IndexedTrack("4", is_podcast = false),
+            IndexedTrack("5", is_podcast = false),
+            IndexedTrack("6", is_podcast = false),
+            IndexedTrack("7", is_podcast = false),
+            IndexedTrack("8", is_podcast = false),
+            IndexedTrack("9", is_podcast = false),
+            IndexedTrack("10", is_podcast = false),
+            IndexedTrack("11", is_podcast = false),
+            IndexedTrack("12", is_podcast = false),
         )
         indexedPlayablesQueries.insertGroup(playables)
 
         indexedPlaylistsQueries.deleteAllPlayables()
         val playlistPlayables = listOf(
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 1, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 2, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 3, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 4, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 5, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 6, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 7, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 8, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 9, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 10, play_order = 0),
-            Indexed_playlists_playables(playlist_id = 1, playable_id = 11, play_order = 0),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "1"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "2"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "3"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "4"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "5"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "6"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "7"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "8"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "9"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "10"),
+            IndexedPlaylistTracks(playlistId = "1", playableId = "11"),
         )
         indexedPlaylistsQueries.insertPlayableGroup(playlistPlayables)
 
@@ -144,8 +145,8 @@ class SortedPodcastPlaylistQueriesTest {
         // test skip less than 5 items
         Assert.assertEquals(
             listOf(
-                10L to 20L,
-                8L to 8L,
+                "10" to 20L,
+                "8" to 8L,
             ),
             queries.selectMostPlayed(1).executeAsList().map { it.id to it.counter }
         )
@@ -162,16 +163,16 @@ class SortedPodcastPlaylistQueriesTest {
 
         Assert.assertEquals(
             listOf(
-                4L to 50L,
-                8L to 26L,
-                10L to 20L,
-                3L to 19L,
-                2L to 18L,
-                1L to 15L,
-                7L to 13L,
-                9L to 10L,
-                6L to 9L,
-                5L to 5L,
+                "4" to 50L,
+                "8" to 26L,
+                "10" to 20L,
+                "3" to 19L,
+                "2" to 18L,
+                "1" to 15L,
+                "7" to 13L,
+                "9" to 10L,
+                "6" to 9L,
+                "5" to 5L,
             ),
             queries.selectMostPlayed(1).executeAsList().map { it.id to it.counter }
         )

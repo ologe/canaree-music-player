@@ -1,6 +1,6 @@
 package dev.olog.data.sort.mapper
 
-import dev.olog.core.sort.PlayableSort
+import dev.olog.core.sort.TrackSort
 import dev.olog.data.sort.SortTypeEntity
 import org.junit.Assert
 import org.junit.Test
@@ -10,14 +10,14 @@ class PlayableSortMapperTest {
     @Test
     fun `test all toEntity`() {
         val map = mapOf(
-            PlayableSort.Title to SortTypeEntity.Title,
-            PlayableSort.Author to SortTypeEntity.Author,
-            PlayableSort.Collection to SortTypeEntity.Collection,
-            PlayableSort.Duration to SortTypeEntity.Duration,
-            PlayableSort.DateAdded to SortTypeEntity.DateAdded,
+            TrackSort.Title to SortTypeEntity.Title,
+            TrackSort.Author to SortTypeEntity.Author,
+            TrackSort.Collection to SortTypeEntity.Collection,
+            TrackSort.Duration to SortTypeEntity.Duration,
+            TrackSort.DateAdded to SortTypeEntity.DateAdded,
         )
 
-        for (value in PlayableSort.values()) {
+        for (value in TrackSort.values()) {
             Assert.assertEquals(map[value], value.toEntity())
         }
     }
@@ -25,11 +25,11 @@ class PlayableSortMapperTest {
     @Test
     fun `test all toDetailPlaylistSort`() {
         val map = mapOf(
-            SortTypeEntity.Title to PlayableSort.Title,
-            SortTypeEntity.Author to PlayableSort.Author,
-            SortTypeEntity.Collection to PlayableSort.Collection,
-            SortTypeEntity.Duration to PlayableSort.Duration,
-            SortTypeEntity.DateAdded to PlayableSort.DateAdded,
+            SortTypeEntity.Title to TrackSort.Title,
+            SortTypeEntity.Author to TrackSort.Author,
+            SortTypeEntity.Collection to TrackSort.Collection,
+            SortTypeEntity.Duration to TrackSort.Duration,
+            SortTypeEntity.DateAdded to TrackSort.DateAdded,
         )
 
         for (item in SortTypeEntity.values()) {

@@ -12,8 +12,8 @@ class IndexedGenresTest {
 
     @Test
     fun `test insert`() {
-        val item1 = Indexed_genres(id = 1, name = "genre1")
-        val item2 = Indexed_genres(id = 2, name = "genre2")
+        val item1 = Indexed_genres(id = "1", name = "genre1")
+        val item2 = Indexed_genres(id = "2", name = "genre2")
 
         // when
         queries.insert(item1)
@@ -30,8 +30,8 @@ class IndexedGenresTest {
     fun `test insert fail on same id`() {
         var exception: Throwable? = null
         try {
-            val item1 = Indexed_genres(id = 1, name = "genre1")
-            val item2 = Indexed_genres(id = 1, name = "genre2")
+            val item1 = Indexed_genres(id = "1", name = "genre1")
+            val item2 = Indexed_genres(id = "1", name = "genre2")
 
             // when
             queries.insert(item1)
@@ -45,13 +45,13 @@ class IndexedGenresTest {
 
     @Test
     fun `test delete`() {
-        val item1 = Indexed_genres(id = 1, name = "genre1")
-        val item2 = Indexed_genres(id = 2, name = "genre2")
+        val item1 = Indexed_genres(id = "1", name = "genre1")
+        val item2 = Indexed_genres(id = "2", name = "genre2")
         queries.insert(item1)
         queries.insert(item2)
 
         // when
-        queries.delete(id = 1)
+        queries.delete(id = "1")
 
         // then
         Assert.assertEquals(
@@ -62,8 +62,8 @@ class IndexedGenresTest {
 
     @Test
     fun `test deleteAll`() {
-        val item1 = Indexed_genres(id = 1, name = "genre1")
-        val item2 = Indexed_genres(id = 2, name = "genre2")
+        val item1 = Indexed_genres(id = "1", name = "genre1")
+        val item2 = Indexed_genres(id = "2", name = "genre2")
         queries.insert(item1)
         queries.insert(item2)
 
@@ -79,8 +79,8 @@ class IndexedGenresTest {
 
     @Test
     fun `test insertPlayable`() {
-        val item1 = Indexed_genres_playables(1, 10)
-        val item2 = Indexed_genres_playables(2, 20)
+        val item1 = Indexed_genres_playables("1", "10")
+        val item2 = Indexed_genres_playables("2", "20")
 
         // when
         queries.insertPlayable(item1)
@@ -97,8 +97,8 @@ class IndexedGenresTest {
     fun `test insertPlayable fail on same primary key`() {
         var exception: Throwable? = null
         try {
-            val item1 = Indexed_genres_playables(1, 10)
-            val item2 = Indexed_genres_playables(1, 10)
+            val item1 = Indexed_genres_playables("1", "10")
+            val item2 = Indexed_genres_playables("1", "10")
 
             // when
             queries.insertPlayable(item1)
@@ -112,13 +112,13 @@ class IndexedGenresTest {
 
     @Test
     fun `test deletePlayable`() {
-        val item1 = Indexed_genres_playables(1, 10)
-        val item2 = Indexed_genres_playables(2, 20)
+        val item1 = Indexed_genres_playables("1", "10")
+        val item2 = Indexed_genres_playables("2", "20")
         queries.insertPlayable(item1)
         queries.insertPlayable(item2)
 
         // when
-        queries.deletePlayable(1, 10)
+        queries.deletePlayable("1", "10")
 
         // then
         Assert.assertEquals(
@@ -129,8 +129,8 @@ class IndexedGenresTest {
 
     @Test
     fun `test deletePlayableAll`() {
-        val item1 = Indexed_genres_playables(1, 10)
-        val item2 = Indexed_genres_playables(2, 20)
+        val item1 = Indexed_genres_playables("1", "10")
+        val item2 = Indexed_genres_playables("2", "20")
         queries.insertPlayable(item1)
         queries.insertPlayable(item2)
 

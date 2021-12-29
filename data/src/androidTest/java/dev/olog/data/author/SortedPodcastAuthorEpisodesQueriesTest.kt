@@ -1,9 +1,13 @@
 package dev.olog.data.author
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dev.olog.core.entity.sort.*
+import dev.olog.core.sort.AuthorDetailSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.sort.SortDirection
 import dev.olog.data.*
 import dev.olog.data.sort.SortDao
+import dev.olog.testing.IndexedTrack
+import dev.olog.testing.IndexedPodcastEpisodes
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,17 +26,17 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
     fun setup() {
         blacklistQueries.insert("yes")
         // item to be filtered, blacklisted and podcast
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1000, is_podcast = true, directory = "yes"))
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1001, is_podcast = false, directory = "no"))
-        indexedQueries.insert(AndroidIndexedPlayables(id = 1002, is_podcast = false, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1000", is_podcast = true, directory = "yes"))
+        indexedQueries.insert(IndexedTrack(id = "1001", is_podcast = false, directory = "no"))
+        indexedQueries.insert(IndexedTrack(id = "1002", is_podcast = false, directory = "yes"))
 
         // insert data
         indexedQueries.insertGroup(IndexedPodcastEpisodes)
 
         // should be filtered because of id
-        val filtered = AndroidIndexedPlayables(
-            id = 7,
-            author_id = 1,
+        val filtered = IndexedTrack(
+            id = "7",
+            author_id = "1",
             title = "",
             album_artist = "",
             collection = "",
@@ -57,12 +61,12 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
 
         // when ascending
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Title, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.title })
 
         // when descending
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Title, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.title })
     }
 
@@ -81,7 +85,7 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             "<unknown>" to "êtitle",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Collection, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expectedAsc, actualAsc.map { it.collection to it.title })
 
         // when descending
@@ -97,7 +101,7 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             "<unknown>" to "ėspace",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Collection, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expectedDesc, actualDesc.map { it.collection to it.title })
     }
 
@@ -116,7 +120,7 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             "<unknown>" to "êtitle",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.AlbumArtist, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expectedAsc, actualAsc.map { it.album_artist to it.title })
 
         // when descending
@@ -132,7 +136,7 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             "<unknown>" to "ėspace",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.AlbumArtist, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expectedDesc, actualDesc.map { it.album_artist to it.title })
     }
 
@@ -149,12 +153,12 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             50L to "zzz",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Duration, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.duration to it.title })
 
         // when descending
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.Duration, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.duration to it.title })
     }
 
@@ -171,12 +175,12 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
             15L to "êtitle",
         )
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.DateAdded, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected, actualAsc.map { it.date_added to it.title })
 
         // when descending
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.DateAdded, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected.reversed(), actualDesc.map { it.date_added to it.title })
     }
 
@@ -193,12 +197,12 @@ internal class SortedPodcastAuthorEpisodesQueriesTest {
         )
 
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.TrackNumber, SortDirection.ASCENDING))
-        val actualAsc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualAsc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected, actualAsc.map { Triple(it.disc_number, it.track_number, it.title) })
 
         // when descending
         sortQueries.setDetailPodcastAuthorsSort(Sort(AuthorDetailSort.TrackNumber, SortDirection.DESCENDING))
-        val actualDesc = queries.selectTracksByIdSorted(author_id = 1000).executeAsList()
+        val actualDesc = queries.selectTracksByIdSorted(author_id = "1000").executeAsList()
         Assert.assertEquals(expected.asReversed(), actualDesc.map { Triple(it.disc_number, it.track_number, it.title) })
     }
 

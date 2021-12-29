@@ -3,12 +3,8 @@ package dev.olog.data.genre
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.MediaStoreArtist
-import dev.olog.core.MediaStoreGenre
-import dev.olog.core.MediaStoreSong
+import dev.olog.core.*
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.id.GenreIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
 import dev.olog.core.sort.GenericSort
 import dev.olog.core.sort.GenreDetailSort
 import dev.olog.core.sort.Sort
@@ -43,12 +39,12 @@ class GenreRepositoryTest {
 
     @Test
     fun `test getAll`() {
-        val query = QueryList(GenreView(id = 1, songs = 2))
+        val query = QueryList(GenreView(id = "1", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
-        val actual = sut.getAll(GenreIdentifier.MediaStore())
+        val actual = sut.getAll()
         val expected = MediaStoreGenre(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
@@ -57,27 +53,27 @@ class GenreRepositoryTest {
 
     @Test
     fun `test observeAll`() = runTest {
-        val query = QueryList(GenreView(id = 1, songs = 2))
+        val query = QueryList(GenreView(id = "1", songs = 2))
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = MediaStoreGenre(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
-        sut.observeAll(GenreIdentifier.MediaStore()).test(this) {
+        sut.observeAll().test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test getByParam`() {
-        val query = QueryOneOrNull(GenreView(id = 1, songs = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(GenreView(id = "1", songs = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(GenreIdentifier.MediaStore(1))
+        val actual = sut.getById(MediaStoreGenreUri(1))
         val expected = MediaStoreGenre(
-            id = 1,
+            id = "1",
             songs = 2,
             name = "",
         )
@@ -88,23 +84,23 @@ class GenreRepositoryTest {
     @Test
     fun `test getByParam, missing item should return null`() {
         val query = QueryOneOrNull<Genres_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = sut.getById(GenreIdentifier.MediaStore(1))
+        val actual = sut.getById(MediaStoreGenreUri(1))
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
-        val query = QueryOneOrNull(GenreView(id = 1, songs = 2))
-        whenever(queries.selectById(1)).thenReturn(query)
+        val query = QueryOneOrNull(GenreView(id = "1", songs = 2))
+        whenever(queries.selectById("1")).thenReturn(query)
 
         val expected = MediaStoreGenre(
-            id = 1,
+            id = "1",
             songs = 2,
         )
 
-        sut.observeById(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeById(MediaStoreGenreUri(1)).test(this) {
             assertValue(expected)
         }
     }
@@ -112,9 +108,9 @@ class GenreRepositoryTest {
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
         val query = QueryOneOrNull<Genres_view>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        sut.observeById(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeById(MediaStoreGenreUri(1)).test(this) {
             assertValue(null)
         }
     }
@@ -122,9 +118,9 @@ class GenreRepositoryTest {
     @Test
     fun `test getTrackListByParam`() {
         val item = Genres_playables_view(
-            id = 2,
-            author_id = 0,
-            collection_id = 0,
+            id = "2",
+            author_id = "",
+            collection_id = "",
             title = "",
             author = "",
             album_artist = "",
@@ -136,13 +132,13 @@ class GenreRepositoryTest {
             disc_number = 0,
             track_number = 0,
             is_podcast = false,
-            genre_id = 1
+            genre_id = "1"
         )
         val query = QueryList(item)
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val actual = sut.getPlayablesById(GenreIdentifier.MediaStore(1))
-        val expected = MediaStoreSong(id = 2)
+        val actual = sut.getTracksById(MediaStoreGenreUri(1))
+        val expected = MediaStoreSong(id = "2")
 
         Assert.assertEquals(listOf(expected), actual)
     }
@@ -150,9 +146,9 @@ class GenreRepositoryTest {
     @Test
     fun `test observeTrackListByParam`() = runTest {
         val item = Genres_playables_view(
-            id = 2,
-            author_id = 0,
-            collection_id = 0,
+            id = "2",
+            author_id = "",
+            collection_id = "",
             title = "",
             author = "",
             album_artist = "",
@@ -164,14 +160,14 @@ class GenreRepositoryTest {
             disc_number = 0,
             track_number = 0,
             is_podcast = false,
-            genre_id = 1
+            genre_id = "1"
         )
         val query = QueryList(item)
-        whenever(queries.selectTracksByIdSorted(1)).thenReturn(query)
+        whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val expected = MediaStoreSong(id = 2)
+        val expected = MediaStoreSong(id = "2")
 
-        sut.observePlayablesById(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeTracksById(MediaStoreGenreUri(1)).test(this) {
             assertValue(listOf(expected))
         }
     }
@@ -179,9 +175,9 @@ class GenreRepositoryTest {
     @Test
     fun `test observeMostPlayed`() = runTest {
         val item = SelectMostPlayed(
-            id = 2,
-            author_id = 0,
-            collection_id = 0,
+            id = "2",
+            author_id = "",
+            collection_id = "",
             title = "",
             author = "",
             album_artist = "",
@@ -196,30 +192,33 @@ class GenreRepositoryTest {
             counter = 100
         )
         val query = QueryList(item)
-        whenever(queries.selectMostPlayed(1)).thenReturn(query)
+        whenever(queries.selectMostPlayed("1")).thenReturn(query)
 
         val expected = MostPlayedSong(
-            song = MediaStoreSong(id = 2),
+            song = MediaStoreSong(id = "2"),
             counter = 100
         )
 
-        sut.observeMostPlayed(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeMostPlayed(MediaStoreGenreUri(1)).test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test insertMostPlayed`() = runTest {
-        sut.insertMostPlayed(GenreIdentifier.MediaStore(1), PlayableIdentifier.MediaStore(2, false))
-        verify(queries).incrementMostPlayed(2, 1)
+        sut.insertMostPlayed(
+            uri = MediaStoreGenreUri(1),
+            trackUri = MediaUri(MediaUri.Source.MediaStore, MediaUri.Category.Track, "2", false),
+        )
+        verify(queries).incrementMostPlayed(songId = "2", genreId = "1")
     }
 
     @Test
     fun `test observeRecentlyAddedSongs`() = runTest {
         val item = Genres_playables_view(
-            id = 2,
-            author_id = 0,
-            collection_id = 0,
+            id = "2",
+            author_id = "",
+            collection_id = "",
             title = "",
             author = "",
             album_artist = "",
@@ -231,37 +230,37 @@ class GenreRepositoryTest {
             disc_number = 0,
             track_number = 0,
             is_podcast = false,
-            genre_id = 1
+            genre_id = "1"
         )
         val query = QueryList(item)
-        whenever(queries.selectRecentlyAddedSongs(1)).thenReturn(query)
+        whenever(queries.selectRecentlyAddedSongs("1")).thenReturn(query)
 
-        val expected = MediaStoreSong(id = 2)
+        val expected = MediaStoreSong(id = "2")
 
-        sut.observeRecentlyAddedPlayablesById(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeRecentlyAddedTracksById(MediaStoreGenreUri(1)).test(this) {
             assertValue(listOf(expected))
         }
     }
 
     @Test
     fun `test observeRelatedArtists`() = runTest {
-        val query = QueryList(SelectRelatedArtists(author_id = 1, songs = 2, author = "", album_artist = ""))
-        whenever(queries.selectRelatedArtists(1)).thenReturn(query)
+        val query = QueryList(SelectRelatedArtists(author_id = "1", songs = 2, author = "", album_artist = ""))
+        whenever(queries.selectRelatedArtists("1")).thenReturn(query)
 
-        sut.observeRelatedArtistsById(GenreIdentifier.MediaStore(1)).test(this) {
+        sut.observeRelatedArtistsById(MediaStoreGenreUri(1)).test(this) {
             assertValue(listOf(
-                MediaStoreArtist(id = 1, songs = 2)
+                MediaStoreArtist(id = "1", songs = 2)
             ))
         }
     }
 
     @Test
     fun `test observeSiblings`() = runTest {
-        val query = QueryList(GenreView(id = 1L))
-        whenever(queries.selectSiblings(1)).thenReturn(query)
+        val query = QueryList(GenreView(id = "1"))
+        whenever(queries.selectSiblings("1")).thenReturn(query)
 
-        sut.observeSiblingsById(GenreIdentifier.MediaStore(1)).test(this) {
-            assertValue(listOf(MediaStoreGenre(id = 1)))
+        sut.observeSiblingsById(MediaStoreGenreUri(1)).test(this) {
+            assertValue(listOf(MediaStoreGenre(id = "1")))
         }
     }
 
@@ -270,13 +269,13 @@ class GenreRepositoryTest {
         val sort = Sort(GenericSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getGenresSortQuery()).thenReturn(query)
-        Assert.assertEquals(sort, sut.getSort(GenreIdentifier.MediaStore()))
+        Assert.assertEquals(sort, sut.getSort())
     }
 
     @Test
     fun `test setSort`() {
         val sort = Sort(GenericSort.Title, SortDirection.ASCENDING)
-        sut.setSort(GenreIdentifier.MediaStore(), sort)
+        sut.setSort(sort)
         verify(sortDao).setGenresSort(sort)
     }
 
@@ -285,7 +284,7 @@ class GenreRepositoryTest {
         val sort = Sort(GenreDetailSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getDetailGenresSortQuery()).thenReturn(query)
-        Assert.assertEquals(sort, sut.getDetailSort(GenreIdentifier.MediaStore()))
+        Assert.assertEquals(sort, sut.getDetailSort())
     }
 
     @Test
@@ -294,7 +293,7 @@ class GenreRepositoryTest {
         val query = QueryOne(sort)
         whenever(sortDao.getDetailGenresSortQuery()).thenReturn(query)
 
-        sut.observeDetailSort(GenreIdentifier.MediaStore()).test(this) {
+        sut.observeDetailSort().test(this) {
             assertValue(sort)
         }
     }
@@ -302,7 +301,7 @@ class GenreRepositoryTest {
     @Test
     fun `test setDetailSort`() {
         val sort = Sort(GenreDetailSort.Title, SortDirection.ASCENDING)
-        sut.setDetailSort(GenreIdentifier.MediaStore(), sort)
+        sut.setDetailSort(sort)
         verify(sortDao).setDetailGenresSort(sort)
     }
     

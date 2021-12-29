@@ -4,11 +4,10 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.MediaStoreSong
-import dev.olog.core.entity.id.CollectionIdentifier
-import dev.olog.core.entity.id.PlayableIdentifier
-import dev.olog.core.sort.PlayableSort
+import dev.olog.core.sort.TrackSort
 import dev.olog.core.sort.Sort
 import dev.olog.core.sort.SortDirection
+import dev.olog.core.track.Song
 import dev.olog.data.extensions.QueryList
 import dev.olog.data.extensions.QueryOne
 import dev.olog.data.extensions.QueryOneOrNull
@@ -41,15 +40,15 @@ class MediaStoreSongRepositoryTest {
     @Test
     fun `test getAll`() {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L),
-            emptyIndexedPlayables().copy(id = 2L),
+            emptyIndexedPlayables().copy(id = "1"),
+            emptyIndexedPlayables().copy(id = "2"),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val actual = repo.getAll()
         val expected = listOf(
-            MediaStoreSong(id = 1L),
-            MediaStoreSong(id = 2L),
+            MediaStoreSong(id = "1"),
+            MediaStoreSong(id = "2"),
         )
 
         Assert.assertEquals(expected, actual)
@@ -58,14 +57,14 @@ class MediaStoreSongRepositoryTest {
     @Test
     fun `test observeAll`() = runTest {
         val query = QueryList(
-            emptyIndexedPlayables().copy(id = 1L),
-            emptyIndexedPlayables().copy(id = 2L),
+            emptyIndexedPlayables().copy(id = "1"),
+            emptyIndexedPlayables().copy(id = "2"),
         )
         whenever(queries.selectAllSorted()).thenReturn(query)
 
         val expected = listOf(
-            MediaStoreSong(id = 1L),
-            MediaStoreSong(id = 2L),
+            MediaStoreSong(id = "1"),
+            MediaStoreSong(id = "2"),
         )
 
         repo.observeAll().test(this) {
@@ -76,12 +75,12 @@ class MediaStoreSongRepositoryTest {
     @Test
     fun `test getByParam`() {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L),
+            emptyIndexedPlayables().copy(id = "1"),
         )
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getById(PlayableIdentifier.MediaStore(1, false))
-        val expected = MediaStoreSong(id = 1L)
+        val actual = repo.getById("1")
+        val expected = MediaStoreSong(id = "1")
 
         Assert.assertEquals(expected, actual)
     }
@@ -89,22 +88,22 @@ class MediaStoreSongRepositoryTest {
     @Test
     fun `test getByParam, missing item should return null`() {
         val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val actual = repo.getById(PlayableIdentifier.MediaStore(1, false))
+        val actual = repo.getById("1")
         Assert.assertEquals(null, actual)
     }
 
     @Test
     fun `test observeByParam`() = runTest {
         val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(id = 1L),
+            emptyIndexedPlayables().copy(id = "1"),
         )
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        val expected = MediaStoreSong(id = 1L)
+        val expected = MediaStoreSong(id = "1")
 
-        repo.observeById(PlayableIdentifier.MediaStore(1, false)).test(this) {
+        repo.observeById("1").test(this) {
             assertValue(expected)
         }
     }
@@ -112,38 +111,38 @@ class MediaStoreSongRepositoryTest {
     @Test
     fun `test observeByParam, missing item should return null`() = runTest {
         val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectById(1)).thenReturn(query)
+        whenever(queries.selectById("1")).thenReturn(query)
 
-        repo.observeById(PlayableIdentifier.MediaStore(1, false)).test(this) {
+        repo.observeById("1").test(this) {
             assertValue(null)
         }
     }
 
     @Test
-    fun `test getByAlbumId`() {
-        val query = QueryOneOrNull(
-            emptyIndexedPlayables().copy(collection_id = 1L),
+    fun `test getByCollectionId`() {
+        val query = QueryList(
+            emptyIndexedPlayables().copy(collection_id = "1"),
         )
-        whenever(queries.selectByCollectionId(1)).thenReturn(query)
+        whenever(queries.selectByCollectionId("1")).thenReturn(query)
 
-        val actual = repo.getByAlbumId(CollectionIdentifier.MediaStore(1, false))
-        val expected = MediaStoreSong(collectionId = 1L)
+        val actual = repo.getByCollectionId("1")
+        val expected = MediaStoreSong(collectionId = "1")
 
-        Assert.assertEquals(expected, actual)
+        Assert.assertEquals(listOf(expected), actual)
     }
 
     @Test
-    fun `test getByAlbumId, missing item should return null`() {
-        val query = QueryOneOrNull<Indexed_playables>(null)
-        whenever(queries.selectByCollectionId(1)).thenReturn(query)
+    fun `test getByCollectionId, missing item should return emptyl list`() {
+        val query = QueryList<Indexed_playables>(emptyList())
+        whenever(queries.selectByCollectionId("1")).thenReturn(query)
 
-        val actual = repo.getByAlbumId(CollectionIdentifier.MediaStore(1, false))
-        Assert.assertEquals(null, actual)
+        val actual = repo.getByCollectionId("1")
+        Assert.assertEquals(emptyList<Song>(), actual)
     }
 
     @Test
     fun `test getSort`() {
-        val sort = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val sort = Sort(TrackSort.Title, SortDirection.ASCENDING)
         val query = QueryOne(sort)
         whenever(sortDao.getSongsSort()).thenReturn(query)
 
@@ -153,7 +152,7 @@ class MediaStoreSongRepositoryTest {
 
     @Test
     fun `test setSort`() {
-        val sort = Sort(PlayableSort.Title, SortDirection.ASCENDING)
+        val sort = Sort(TrackSort.Title, SortDirection.ASCENDING)
         repo.setSort(sort)
         verify(sortDao).setSongsSort(sort)
     }

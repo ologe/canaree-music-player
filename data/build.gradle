@@ -71,6 +71,6 @@ dependencies {
     testImplementation project(':data:testing')
     testImplementation lib_data.sql_delight_test
 
-    // TODO delete
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation project(':core:testing')
+    androidTestImplementation project(':data:testing')
 }

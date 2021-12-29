@@ -1,7 +1,7 @@
 package dev.olog.data.folder
 
 import dev.olog.testing.FolderView
-import dev.olog.testing.IndexedPlayables
+import dev.olog.testing.IndexedTrack
 import dev.olog.data.QueriesConstants
 import dev.olog.data.QueriesConstants.recentlyAddedMaxTime
 import dev.olog.data.TestDatabase
@@ -21,14 +21,14 @@ class FolderQueriesTest {
     fun setup() {
         blacklistQueries.insert("dir")
 
-        indexedQueries.insert(IndexedPlayables(id = 100, directory = "dir1", is_podcast = false))
-        indexedQueries.insert(IndexedPlayables(id = 101, directory = "dir1", is_podcast = false))
-        indexedQueries.insert(IndexedPlayables(id = 102, directory = "dir1", is_podcast = false))
-        indexedQueries.insert(IndexedPlayables(id = 103, directory = "dir2", is_podcast = false))
-        indexedQueries.insert(IndexedPlayables(id = 104, directory = "dir2", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "100", directory = "dir1", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "101", directory = "dir1", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "102", directory = "dir1", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "103", directory = "dir2", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "104", directory = "dir2", is_podcast = false))
         // below should be filtered
-        indexedQueries.insert(IndexedPlayables(id = 105, directory = "dir", is_podcast = true))
-        indexedQueries.insert(IndexedPlayables(id = 106, directory = "dir", is_podcast = false))
+        indexedQueries.insert(IndexedTrack(id = "105", directory = "dir", is_podcast = true))
+        indexedQueries.insert(IndexedTrack(id = "106", directory = "dir", is_podcast = false))
     }
 
     @Test
@@ -56,9 +56,9 @@ class FolderQueriesTest {
 
     @Test
     fun `test selectRecentlyAddedSongs`() {
-        fun song(songId: Long, dateAdded: Long, directory: String) = IndexedPlayables(
-            id = songId,
-            collection_id = 0,
+        fun song(songId: Long, dateAdded: Long, directory: String) = IndexedTrack(
+            id = songId.toString(),
+            collection_id = "",
             date_added = dateAdded,
             is_podcast = false,
             directory = directory
@@ -76,7 +76,7 @@ class FolderQueriesTest {
         indexedQueries.insert(song(songId = 6, directory = "dir", dateAdded = unixTimestamp))
 
         val actual = queries.selectRecentlyAddedSongs("dir10").executeAsList()
-        val expected = listOf(1L, 3L, 2L)
+        val expected = listOf("1", "3", "2")
         Assert.assertEquals(expected, actual.map { it.id })
     }
 
