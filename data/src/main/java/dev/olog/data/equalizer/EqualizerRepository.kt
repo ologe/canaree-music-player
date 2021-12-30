@@ -1,8 +1,8 @@
 package dev.olog.data.equalizer
 
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
-import dev.olog.core.gateway.EqualizerGateway
+import dev.olog.core.equalizer.EqualizerBand
+import dev.olog.core.equalizer.EqualizerPreset
+import dev.olog.core.equalizer.EqualizerGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.feature.equalizer.EqualizerPrefs
 import dev.olog.shared.android.BuildVersion
@@ -33,6 +33,7 @@ internal class EqualizerRepository @Inject constructor(
     }
 
     override fun getCurrentPreset(): EqualizerPreset {
+        // TODO handle when can't find preset, remember below api 28 start from 20
         val currentPresetId = prefs.currentPresetId.get()
         val presetValues = queries.selectPresetValues(currentPresetId).executeAsList()
         val preset =  queries.selectPresetById(currentPresetId).executeAsOne()

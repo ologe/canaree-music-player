@@ -1,7 +1,7 @@
 package dev.olog.data.equalizer
 
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
+import dev.olog.core.equalizer.EqualizerBand
+import dev.olog.core.equalizer.EqualizerPreset
 
 internal fun EqualizerQueries.selectPresets(
     query: () -> List<Equalizer_preset>
