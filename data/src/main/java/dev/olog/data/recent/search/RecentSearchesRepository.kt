@@ -1,10 +1,10 @@
 package dev.olog.data.recent.search
 
 import dev.olog.core.DateTimeFactory
-import dev.olog.core.MediaId
-import dev.olog.core.entity.SearchResult
-import dev.olog.core.gateway.RecentSearchesGateway
+import dev.olog.core.MediaUri
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.core.search.RecentSearchesGateway
+import dev.olog.core.search.SearchResult
 import dev.olog.data.RecentSearchesQueries
 import dev.olog.data.extension.mapToFlowList
 import dev.olog.shared.mapListItem
@@ -23,25 +23,21 @@ internal class RecentSearchesRepository @Inject constructor(
             .mapToFlowList(schedulers.io)
             .mapListItem {
                 SearchResult(
-                    mediaId = it.media_id,
+                    uri = it.media_uri,
                     title = it.title
                 )
             }
     }
 
-    override suspend fun insert(mediaId: MediaId) = withContext(schedulers.io) {
+    override suspend fun insert(uri: MediaUri) = withContext(schedulers.io) {
         queries.insert(
-            mediaId = mediaId,
+            uri = uri,
             insertion_time = dateTimeFactory.currentTimeMillis()
         )
     }
 
-    override suspend fun delete(mediaId: MediaId) = withContext(schedulers.io) {
-        val itemId = when {
-            mediaId.isLeaf -> mediaId.leaf!!.toString()
-            else -> mediaId.categoryValue
-        }
-        queries.delete(itemId, mediaId.category.recentSearchType())
+    override suspend fun delete(uri: MediaUri) = withContext(schedulers.io) {
+        queries.delete(uri)
     }
 
     override suspend fun deleteAll() = withContext(schedulers.io) {
