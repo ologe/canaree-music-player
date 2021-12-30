@@ -1,9 +1,10 @@
 package dev.olog.data.playing.queue
 
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCase
+import dev.olog.core.MediaStoreType
+import dev.olog.core.queue.PlayingQueueSong
+import dev.olog.core.queue.PlayingQueueGateway
+import dev.olog.core.queue.UpdatePlayingQueueUseCase
+import dev.olog.core.track.TrackGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.PlayingQueueQueries
 import dev.olog.data.extension.mapToFlowList
@@ -21,7 +22,7 @@ internal class PlayingQueueRepository @Inject constructor(
     private val schedulers: Schedulers,
     private val permissionManager: PermissionManager,
     private val queries: PlayingQueueQueries,
-    private val songGateway: SongGateway,
+    private val playableGateway: TrackGateway,
 ) : PlayingQueueGateway {
 
     override fun getAll(): List<PlayingQueueSong> {
@@ -30,10 +31,15 @@ internal class PlayingQueueRepository @Inject constructor(
                 .executeAsList()
                 .map(SelectAll::toDomain)
                 .takeIf { it.isNotEmpty() }
-                ?: songGateway.getAll()
-                    .mapIndexed { index, song -> PlayingQueueSong(song, index) }
+                ?: getDefaultQueue()
         }
         return emptyList()
+    }
+
+    private fun getDefaultQueue(): List<PlayingQueueSong> {
+        return playableGateway
+            .getAll(MediaStoreType.Song)
+            .mapIndexed { index, song -> PlayingQueueSong(song, index) }
     }
 
     override fun observeAll(): Flow<List<PlayingQueueSong>> = flow {
@@ -51,7 +57,7 @@ internal class PlayingQueueRepository @Inject constructor(
             queries.deleteAll()
             list.forEach {
                 queries.insert(
-                    playable_id = it.playableId,
+                    playable_id = it.uri.id,
                     play_order = it.playOrder
                 )
             }

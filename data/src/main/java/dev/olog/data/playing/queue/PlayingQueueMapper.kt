@@ -1,14 +1,30 @@
 package dev.olog.data.playing.queue
 
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.core.MediaUri
+import dev.olog.core.queue.PlayingQueueSong
+import dev.olog.core.track.Song
 import dev.olog.data.playingQueue.SelectAll
 
 internal fun SelectAll.toDomain() = PlayingQueueSong(
     song = Song(
-        id = id,
-        artistId = author_id,
-        albumId = collection_id,
+        uri = MediaUri(
+            source = MediaUri.Source.MediaStore,
+            category = MediaUri.Category.Track,
+            id = id,
+            isPodcast = is_podcast,
+        ),
+        artistUri = MediaUri(
+            source = MediaUri.Source.MediaStore,
+            category = MediaUri.Category.Author,
+            id = author_id,
+            isPodcast = is_podcast,
+        ),
+        albumUri = MediaUri(
+            source = MediaUri.Source.MediaStore,
+            category = MediaUri.Category.Collection,
+            id = collection_id,
+            isPodcast = is_podcast,
+        ),
         title = title,
         artist = author,
         albumArtist = album_artist,
@@ -20,7 +36,6 @@ internal fun SelectAll.toDomain() = PlayingQueueSong(
         discNumber = disc_number,
         trackNumber = track_number,
         idInPlaylist = 0, // TODO remove
-        isPodcast = is_podcast,
     ),
     playOrder = play_order,
 )
