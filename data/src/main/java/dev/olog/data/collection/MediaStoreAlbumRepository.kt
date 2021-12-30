@@ -1,14 +1,13 @@
 package dev.olog.data.collection
 
 import dev.olog.core.DateTimeFactory
-import dev.olog.core.entity.sort.CollectionDetailSort
-import dev.olog.core.entity.sort.CollectionSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.collection.Album
+import dev.olog.core.MediaUri
+import dev.olog.core.track.Song
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.core.sort.CollectionDetailSort
+import dev.olog.core.sort.CollectionSort
+import dev.olog.core.sort.Sort
 import dev.olog.data.extension.mapToFlowList
 import dev.olog.data.extension.mapToFlowOne
 import dev.olog.data.extension.mapToFlowOneOrNull
@@ -24,96 +23,99 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class AlbumRepository @Inject constructor(
+internal class MediaStoreAlbumRepository @Inject constructor(
     private val schedulers: Schedulers,
     private val queries: AlbumsQueries,
     private val sortDao: SortDao,
     private val dateTimeFactory: DateTimeFactory,
-) : AlbumGateway {
+) {
 
-    override fun getAll(): List<Album> {
+    fun getAll(): List<Album> {
         return queries.selectAllSorted()
             .executeAsList()
             .map(Albums_view::toDomain)
     }
 
-    override fun observeAll(): Flow<List<Album>> {
+    fun observeAll(): Flow<List<Album>> {
         return queries.selectAllSorted()
             .mapToFlowList(schedulers.io)
             .mapListItem(Albums_view::toDomain)
     }
 
-    override fun getByParam(param: Id): Album? {
-        return queries.selectById(param)
+    fun getById(id: String): Album? {
+        return queries.selectById(id)
             .executeAsOneOrNull()
             ?.toDomain()
     }
 
-    override fun observeByParam(param: Id): Flow<Album?> {
-        return queries.selectById(param)
+    fun observeById(id: String): Flow<Album?> {
+        return queries.selectById(id)
             .mapToFlowOneOrNull(schedulers.io)
             .map { it?.toDomain() }
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
-        return queries.selectTracksByIdSorted(param)
+    fun getTracksById(id: String): List<Song> {
+        return queries.selectTracksByIdSorted(id)
             .executeAsList()
             .map(Songs_view::toDomain)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return queries.selectTracksByIdSorted(param)
+    fun observeTracksById(id: String): Flow<List<Song>> {
+        return queries.selectTracksByIdSorted(id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Songs_view::toDomain)
     }
 
-    override fun observeRecentlyPlayed(): Flow<List<Album>> {
+    fun observeRecentlyPlayed(): Flow<List<Album>> {
         return queries.selectRecentlyPlayed()
             .mapToFlowList(schedulers.io)
             .mapListItem(Albums_view::toDomain)
     }
 
-    override suspend fun addRecentlyPlayed(id: Id) = withContext(schedulers.io) {
-        queries.insertRecentlyPlayed(id, dateTimeFactory.currentTimeMillis())
+    suspend fun addToRecentlyPlayed(id: String) = withContext(schedulers.io) {
+        queries.insertRecentlyPlayed(
+            id = id,
+            date_played = dateTimeFactory.currentTimeMillis()
+        )
     }
 
-    override fun observeRecentlyAdded(): Flow<List<Album>> {
+    fun observeRecentlyAdded(): Flow<List<Album>> {
         return queries.selectRecentlyAdded()
             .mapToFlowList(schedulers.io)
             .mapListItem(Albums_view::toDomain)
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Album>> {
-        return observeByParam(param)
+    fun observeSiblingsById(id: String): Flow<List<Album>> {
+        return observeById(id)
             .filterNotNull()
-            .flatMapLatest { observeArtistsAlbums(it.artistId) }
-            .filterListItem { it.id != param }
+            .flatMapLatest { observeArtistsAlbums(it.artistUri.id) }
+            .filterListItem { it.uri.id != id }
     }
 
-    override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
+    fun observeArtistsAlbums(artistId: String): Flow<List<Album>> {
         return queries.selectArtistAlbums(artistId)
             .mapToFlowList(schedulers.io)
             .mapListItem(Albums_view::toDomain)
     }
 
-    override fun getSort(): Sort<CollectionSort> {
+    fun getSort(): Sort<CollectionSort> {
         return sortDao.getAlbumsSortQuery().executeAsOne()
     }
 
-    override fun setSort(sort: Sort<CollectionSort>) {
+    fun setSort(sort: Sort<CollectionSort>) {
         sortDao.setAlbumsSort(sort)
     }
 
-    override fun getDetailSort(): Sort<CollectionDetailSort> {
+    fun getDetailSort(): Sort<CollectionDetailSort> {
         return sortDao.getDetailAlbumsSortQuery().executeAsOne()
     }
 
-    override fun observeDetailSort(): Flow<Sort<CollectionDetailSort>> {
+    fun observeDetailSort(): Flow<Sort<CollectionDetailSort>> {
         return sortDao.getDetailAlbumsSortQuery()
             .mapToFlowOne(schedulers.io)
     }
 
-    override fun setDetailSort(sort: Sort<CollectionDetailSort>) {
+    fun setDetailSort(sort: Sort<CollectionDetailSort>) {
         sortDao.setDetailAlbumsSort(sort)
     }
 
