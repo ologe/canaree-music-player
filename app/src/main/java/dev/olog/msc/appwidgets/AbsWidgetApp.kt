@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
+import dev.olog.core.MediaUri
 import dev.olog.intents.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
@@ -28,11 +29,10 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds?.isNotEmpty() == true){
 
-                    val id = intent.getLongExtra(WidgetConstants.ARGUMENT_SONG_ID, 0)
+                    val mediaUri = MediaUri(intent.getStringExtra(WidgetConstants.ARGUMENT_MEDIA_URI)!!)
                     val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)!!
                     val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)!!
-                    metadata =
-                        WidgetMetadata(id, title, subtitle)
+                    metadata = WidgetMetadata(mediaUri, title, subtitle)
                     onMetadataChanged(context, metadata!!, appWidgetIds)
                 }
             }

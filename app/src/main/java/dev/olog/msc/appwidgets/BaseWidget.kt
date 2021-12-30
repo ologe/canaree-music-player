@@ -8,18 +8,19 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.msc.R
-import dev.olog.core.entity.LastMetadata
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.MusicService
-import dev.olog.msc.main.MainActivity
-import dev.olog.shared.android.palette.ImageProcessorResult
-import dev.olog.shared.android.extensions.asServicePendingIntent
-import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
+import dev.olog.core.MediaUri
+import dev.olog.core.track.Song
+import dev.olog.core.gateway.PlayingItemGateway
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
+import dev.olog.msc.R
+import dev.olog.msc.main.MainActivity
+import dev.olog.service.music.MusicService
 import dev.olog.shared.android.extensions.asActivityPendingIntent
+import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.android.palette.ImageProcessorResult
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -29,7 +30,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var playingItemGateway: PlayingItemGateway
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -56,8 +58,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-        val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
-        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
+        val metadata = playingItemGateway.get().safeMap(context)
+        onMetadataChanged(context, metadata, appWidgetIds, remoteViews)
     }
 
     override fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray) {
@@ -140,22 +142,14 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews)
     }
 
-    private fun LastMetadata.safeMap(context: Context): LastMetadata {
-        val title = if (this.title.isBlank()) context.getString(localization.R.string.common_placeholder_title) else this.title
-        val subtitle = if (this.subtitle.isBlank()) context.getString(localization.R.string.common_placeholder_artist) else this.subtitle
+    private fun Song?.safeMap(context: Context): WidgetMetadata {
+        val title = this?.title.orEmpty()
+        val subtitle = this?.artist.orEmpty()
 
-        return LastMetadata(
-            title,
-            subtitle,
-            this.id
-        )
-    }
-
-    private fun LastMetadata.toWidgetMetadata(): WidgetMetadata {
         return WidgetMetadata(
-            this.id,
-            this.title,
-            this.subtitle
+            uri = this?.uri ?: MediaUri("mediastore:track:unknown"),
+            title = if (title.isBlank()) context.getString(localization.R.string.common_placeholder_title) else title,
+            subtitle = if (subtitle.isBlank()) context.getString(localization.R.string.common_placeholder_artist) else subtitle,
         )
     }
 
