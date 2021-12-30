@@ -1,21 +1,18 @@
 package dev.olog.data.genre
 
-import dev.olog.core.MediaId
+import dev.olog.core.author.Artist
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.sort.GenreDetailSort
-import dev.olog.core.entity.sort.GenericSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.genre.Genre
+import dev.olog.core.genre.GenreGateway
+import dev.olog.core.MediaUri
+import dev.olog.core.track.Song
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.GenreDetailSort
+import dev.olog.core.sort.Sort
 import dev.olog.data.extension.mapToFlowList
 import dev.olog.data.extension.mapToFlowOne
 import dev.olog.data.extension.mapToFlowOneOrNull
-import dev.olog.data.playable.Songs_view
-import dev.olog.data.playable.toDomain
 import dev.olog.data.sort.SortDao
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
@@ -40,56 +37,57 @@ internal class GenreRepository @Inject constructor(
             .mapListItem(Genres_view::toDomain)
     }
 
-    override fun getByParam(param: Id): Genre? {
-        return queries.selectById(param)
+    override fun getById(uri: MediaUri): Genre? {
+        return queries.selectById(uri.id)
             .executeAsOneOrNull()
             ?.toDomain()
     }
 
-    override fun observeByParam(param: Id): Flow<Genre?> {
-        return queries.selectById(param)
+    override fun observeById(uri: MediaUri): Flow<Genre?> {
+        return queries.selectById(uri.id)
             .mapToFlowOneOrNull(schedulers.io)
             .map { it?.toDomain() }
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
-        return queries.selectTracksByIdSorted(param)
+    override fun getTracksById(uri: MediaUri): List<Song> {
+        return queries.selectTracksByIdSorted(uri.id)
             .executeAsList()
             .map(Genres_playables_view::toDomain)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return queries.selectTracksByIdSorted(param)
+    override fun observeTracksById(uri: MediaUri): Flow<List<Song>> {
+        return queries.selectTracksByIdSorted(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Genres_playables_view::toDomain)
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<MostPlayedSong>> {
-        return queries.selectMostPlayed(mediaId.categoryId)
+    override fun observeMostPlayed(uri: MediaUri): Flow<List<MostPlayedSong>> {
+        return queries.selectMostPlayed(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(SelectMostPlayed::toDomain)
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
-        val songId = mediaId.leaf!!
-        val genreId = mediaId.categoryId
-        queries.incrementMostPlayed(songId, genreId)
+    override suspend fun insertMostPlayed(uri: MediaUri, trackUri: MediaUri) {
+        queries.incrementMostPlayed(
+            genreId = uri.id,
+            songId = trackUri.id,
+        )
     }
 
-    override fun observeRecentlyAddedSongs(param: Id): Flow<List<Song>> {
-        return queries.selectRecentlyAddedSongs(param)
+    override fun observeRecentlyAddedTracksById(uri: MediaUri): Flow<List<Song>> {
+        return queries.selectRecentlyAddedSongs(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Genres_playables_view::toDomain)
     }
 
-    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
-        return queries.selectRelatedArtists(params)
+    override fun observeRelatedArtistsById(uri: MediaUri): Flow<List<Artist>> {
+        return queries.selectRelatedArtists(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(SelectRelatedArtists::toDomain)
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Genre>> {
-        return queries.selectSiblings(param)
+    override fun observeSiblingsById(uri: MediaUri): Flow<List<Genre>> {
+        return queries.selectSiblings(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Genres_view::toDomain)
     }
