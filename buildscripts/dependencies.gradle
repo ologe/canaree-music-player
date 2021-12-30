@@ -3,6 +3,7 @@ ext {
     kotlin = '1.6.10'
     coroutines = '1.6.0-RC3'
     dagger = '2.40'
+    desugaring = '1.1.5'
 
 //    android x
     android_x_core = '1.7.0'
@@ -73,6 +74,7 @@ ext {
             coroutines_test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             hilt              : "com.google.dagger:hilt-android:$dagger",
             hilt_processor    : "com.google.dagger:hilt-compiler:$dagger",
+            desugaring        : "com.android.tools:desugar_jdk_libs:$desugaring"
     ]
 
     lib_x = [
