@@ -1,15 +1,16 @@
 package dev.olog.data.folder
 
-import dev.olog.core.MediaId
+import dev.olog.core.MediaStoreFolderUri
+import dev.olog.core.author.Artist
 import dev.olog.core.entity.MostPlayedSong
-import dev.olog.core.entity.sort.FolderDetailSort
-import dev.olog.core.entity.sort.GenericSort
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.folder.Folder
+import dev.olog.core.folder.FolderGateway
+import dev.olog.core.MediaUri
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.core.sort.FolderDetailSort
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.Sort
+import dev.olog.core.track.Song
 import dev.olog.data.author.Artists_view
 import dev.olog.data.author.toDomain
 import dev.olog.data.extension.mapToFlowList
@@ -42,56 +43,60 @@ internal class FolderRepository @Inject constructor(
             .mapListItem(Folders_view::toDomain)
     }
 
-    override fun getByParam(param: String): Folder? {
-        return queries.selectById(param)
+    override fun getById(uri: MediaUri): Folder? {
+        return queries.selectById(uri.id)
             .executeAsOneOrNull()
             ?.toDomain()
     }
 
-    override fun observeByParam(param: String): Flow<Folder?> {
-        return queries.selectById(param)
+    override fun observeById(uri: MediaUri): Flow<Folder?> {
+        return queries.selectById(uri.id)
             .mapToFlowOneOrNull(schedulers.io)
             .map { it?.toDomain() }
     }
 
-    override fun getTrackListByParam(param: String): List<Song> {
-        return queries.selectTracksByIdSorted(param)
+    override fun getTracksById(uri: MediaUri): List<Song> {
+        return queries.selectTracksByIdSorted(uri.id)
             .executeAsList()
             .map(Songs_view::toDomain)
     }
 
-    override fun observeTrackListByParam(param: String): Flow<List<Song>> {
-        return queries.selectTracksByIdSorted(param)
+    override fun observeTracksById(uri: MediaUri): Flow<List<Song>> {
+        return queries.selectTracksByIdSorted(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Songs_view::toDomain)
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<MostPlayedSong>> {
-        return queries.selectMostPlayed(mediaId.categoryValue)
+    override fun observeMostPlayed(uri: MediaUri): Flow<List<MostPlayedSong>> {
+        return queries.selectMostPlayed(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(SelectMostPlayed::toDomain)
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) = withContext(schedulers.io) {
-        val songId = mediaId.leaf!!
-        val dir = mediaId.categoryValue
-        queries.incrementMostPlayed(songId, dir)
+    override suspend fun insertMostPlayed(
+        uri: MediaUri,
+        trackUri: MediaUri,
+    ) = withContext(schedulers.io) {
+        queries.incrementMostPlayed(
+            id = trackUri.id,
+            dir = uri.id,
+        )
     }
 
-    override fun observeRecentlyAddedSongs(param: String): Flow<List<Song>> {
-        return queries.selectRecentlyAddedSongs(param)
+    override fun observeRecentlyAddedTracksById(uri: MediaUri): Flow<List<Song>> {
+        return queries.selectRecentlyAddedSongs(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Songs_view::toDomain)
     }
 
-    override fun observeRelatedArtists(params: String): Flow<List<Artist>> {
-        return queries.selectRelatedArtists(params)
+    override fun observeRelatedArtistsById(uri: MediaUri): Flow<List<Artist>> {
+        return queries.selectRelatedArtists(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Artists_view::toDomain)
     }
 
-    override fun observeSiblings(param: String): Flow<List<Folder>> {
-        return queries.selectSiblings(param)
+    override fun observeSiblingsById(uri: MediaUri): Flow<List<Folder>> {
+        return queries.selectSiblings(uri.id)
             .mapToFlowList(schedulers.io)
             .mapListItem(Folders_view::toDomain)
     }
@@ -100,7 +105,11 @@ internal class FolderRepository @Inject constructor(
         return queries.selectAllBlacklistedIncluded()
             .executeAsList()
             .map {
-                Folder(directory = it.directory, songs = it.songs.toInt())
+                Folder(
+                    uri = MediaStoreFolderUri(directory = it.directory),
+                    directory = it.directory,
+                    songs = it.songs.toInt()
+                )
             }
     }
 
