@@ -123,7 +123,7 @@ class MediaStorePodcastCollectionRepositoryTest {
         val query = QueryList(IndexedTrack(id = "1", is_podcast = true))
         whenever(queries.selectTracksByIdSorted("1")).thenReturn(query)
 
-        val actual = sut.getPlayablesById("1")
+        val actual = sut.getTracksById("1")
         val expected = MediaStorePodcastEpisode(id = "1")
 
         Assert.assertEquals(listOf(expected), actual)
@@ -136,7 +136,7 @@ class MediaStorePodcastCollectionRepositoryTest {
 
         val expected = MediaStorePodcastEpisode(id = "1")
 
-        sut.observePlayablesById("1").test(this) {
+        sut.observeTracksById("1").test(this) {
             assertValue(listOf(expected))
         }
     }

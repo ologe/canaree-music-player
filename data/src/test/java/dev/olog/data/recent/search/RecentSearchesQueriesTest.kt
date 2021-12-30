@@ -2,7 +2,7 @@ package dev.olog.data.recent.search
 
 class RecentSearchesQueriesTest {
 
-//    private val db = TestDatabase()
+//    private val db = TestDatabase() todo
 //    private val indexedPlayableQueries = db.indexedPlayablesQueries
 //    private val indexedGenreQueries = db.indexedGenresQueries
 //    private val indexedPlaylistQueries = db.indexedPlaylistsQueries

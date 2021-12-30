@@ -1,6 +1,7 @@
 package dev.olog.data
 
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import dev.olog.data.db.DatabaseFactory
 
 class TestDatabase private constructor() {
 
