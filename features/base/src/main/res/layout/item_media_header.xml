@@ -20,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <dev.olog.shared.widgets.DottedSeparator
+        android:id="@+id/divider"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -23,6 +23,7 @@
             android:gravity="center"
             android:text="@string/common_tracks"
             android:textAppearance="@style/Header.Main"
+            android:textColor="@color/header_text_color_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/more" />
@@ -34,8 +35,8 @@
             android:layout_marginStart="12dp"
             android:gravity="center"
             android:text="@string/common_podcasts"
-            android:textColor="?android:textColorSecondary"
             android:textAppearance="@style/Header.Main"
+            android:textColor="@color/header_text_color_selector"
             app:layout_constraintBottom_toBottomOf="@+id/tracks"
             app:layout_constraintStart_toEndOf="@+id/tracks"
             app:layout_constraintTop_toTopOf="@+id/more" />

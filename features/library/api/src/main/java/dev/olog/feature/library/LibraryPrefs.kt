@@ -1,14 +1,19 @@
 package dev.olog.feature.library
 
-import dev.olog.core.Preference
-import dev.olog.core.Prefs
+import dev.olog.core.MediaStoreType
+import dev.olog.core.MediaUri
+import dev.olog.core.preference.Preference
+import dev.olog.core.preference.Prefs
 
 interface LibraryPrefs : Prefs {
 
-    fun spanCount(category: TabCategory): Preference<Int>
+    fun spanCount(
+        category: MediaUri.Category,
+        type: MediaStoreType,
+    ): Preference<Int>
 
-    val newItemsVisibility: Preference<Boolean>
-    val recentPlayedVisibility: Preference<Boolean>
+    val recentlyAddedVisibility: Preference<Boolean>
+    val recentlyPlayedVisibility: Preference<Boolean>
 
     fun getViewPagerLibraryLastPage(): Int
     fun setViewPagerLibraryLastPage(lastPage: Int)

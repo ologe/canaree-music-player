@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_tab_song"
+        tools:listitem="@layout/item_media_song"
         android:scrollbars="none"/>
 
     <View
@@ -36,12 +36,26 @@
         android:id="@+id/sidebar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_max="420dp"
-        app:layout_constraintTop_toTopOf="parent"
         tools:layout_marginBottom="0dp"
         tools:layout_marginTop="0dp" />
+
+    <dev.olog.feature.base.scroller.RxFastScroller
+        android:id="@+id/fastScroller"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:paddingStart="16dp"
+        app:bubbleColor="?colorAccent"
+        app:handleColor="?colorControlNormal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:trackColor="@android:color/transparent" />
 
     <TextView
         android:id="@+id/emptyStateText"

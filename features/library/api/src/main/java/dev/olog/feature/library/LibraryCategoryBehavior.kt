@@ -1,27 +1,29 @@
 package dev.olog.feature.library
 
 import android.content.Context
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaUri
 
 data class LibraryCategoryBehavior(
-    val category: MediaIdCategory,
+    val category: MediaUri.Category,
     var visible: Boolean,
-    var order: Int
+    var order: Int,
+    private val isPodcast: Boolean,
 ) {
 
     fun asString(context: Context): String {
         val stringId = when (category) {
-            MediaIdCategory.FOLDERS -> localization.R.string.category_folders
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> localization.R.string.category_playlists
-            MediaIdCategory.SONGS -> localization.R.string.category_songs
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> localization.R.string.category_albums
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> localization.R.string.category_artists
-            MediaIdCategory.GENRES -> localization.R.string.category_genres
-            MediaIdCategory.PODCASTS -> localization.R.string.category_podcasts
-            else -> 0 //will throw an exception
+            MediaUri.Category.Folder -> localization.R.string.category_folders
+            MediaUri.Category.Playlist -> localization.R.string.category_playlists
+            MediaUri.Category.Collection -> localization.R.string.category_albums
+            MediaUri.Category.Author -> localization.R.string.category_artists
+            MediaUri.Category.Genre -> localization.R.string.category_genres
+            MediaUri.Category.Track -> {
+                if (isPodcast) {
+                    localization.R.string.category_podcasts
+                } else {
+                    localization.R.string.category_songs
+                }
+            }
         }
         return context.getString(stringId)
     }
