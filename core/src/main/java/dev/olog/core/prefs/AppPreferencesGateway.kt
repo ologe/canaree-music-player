@@ -1,7 +1,7 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.Prefs
-import kotlinx.coroutines.flow.Flow
+import dev.olog.core.preference.Preference
+import dev.olog.core.preference.Prefs
 import java.io.File
 
 interface AppPreferencesGateway : Prefs {
@@ -13,9 +13,7 @@ interface AppPreferencesGateway : Prefs {
 
     fun canAutoCreateImages(): Boolean
 
-    fun observeDefaultMusicFolder(): Flow<File>
-    fun getDefaultMusicFolder(): File
-    fun setDefaultMusicFolder(file: File)
+    val defaultMusicFolder: Preference<File>
 
     fun setDefault()
 }

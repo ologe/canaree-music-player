@@ -1,20 +1,20 @@
 package dev.olog.core.gateway
 
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.base.Id
+import dev.olog.core.MediaUri
+import dev.olog.core.last.fm.LastFmAlbum
+import dev.olog.core.last.fm.LastFmArtist
+import dev.olog.core.last.fm.LastFmTrack
 
 interface ImageRetrieverGateway {
-    suspend fun mustFetchTrack(trackId: Id): Boolean
-    suspend fun getTrack(trackId: Id): LastFmTrack?
-    suspend fun deleteTrack(trackId: Id)
+    suspend fun mustFetchTrack(uri: MediaUri): Boolean
+    suspend fun getTrack(uri: MediaUri): LastFmTrack?
+    suspend fun deleteTrack(uri: MediaUri)
 
-    suspend fun mustFetchAlbum(albumId: Id): Boolean
-    suspend fun getAlbum(albumId: Id): LastFmAlbum?
-    suspend fun deleteAlbum(albumId: Id)
+    suspend fun mustFetchAlbum(uri: MediaUri): Boolean
+    suspend fun getAlbum(uri: MediaUri): LastFmAlbum?
+    suspend fun deleteAlbum(uri: MediaUri)
 
-    suspend fun mustFetchArtist(artistId: Id): Boolean
-    suspend fun getArtist(artistId: Id): LastFmArtist?
-    suspend fun deleteArtist(artistId: Id)
+    suspend fun mustFetchArtist(uri: MediaUri): Boolean
+    suspend fun getArtist(uri: MediaUri): LastFmArtist?
+    suspend fun deleteArtist(uri: MediaUri)
 } 

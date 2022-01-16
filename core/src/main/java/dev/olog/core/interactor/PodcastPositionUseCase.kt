@@ -1,18 +1,19 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
+import dev.olog.core.MediaUri
+import dev.olog.core.track.TrackGateway
 import javax.inject.Inject
 
 class PodcastPositionUseCase @Inject constructor(
-        private val gateway: PodcastEpisodeGateway
+    private val gateway: TrackGateway,
 ) {
 
-    fun get(podcastId: Long, duration: Long): Long{
-        return gateway.getCurrentPosition(podcastId, duration)
+    fun get(uri: MediaUri, duration: Long): Long {
+        return gateway.getPodcastCurrentPosition(uri, duration)
     }
 
-    fun set(podcastId: Long, position: Long){
-        gateway.saveCurrentPosition(podcastId, position)
+    fun set(uri: MediaUri, position: Long) {
+        gateway.savePodcastCurrentPosition(uri, position)
     }
 
 }

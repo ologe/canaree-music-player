@@ -1,6 +1,5 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.entity.LastMetadata
 import kotlinx.coroutines.flow.Flow
 
 interface MusicPreferencesGateway {
@@ -21,10 +20,6 @@ interface MusicPreferencesGateway {
     fun observeSkipToNextVisibility(): Flow<Boolean>
 
     fun isMidnightMode() : Flow<Boolean>
-
-    fun getLastMetadata(): LastMetadata
-    fun setLastMetadata(metadata: LastMetadata)
-    fun observeLastMetadata(): Flow<LastMetadata>
 
     fun setDefault()
 

@@ -1,41 +1,23 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.MediaId
-import dev.olog.core.gateway.podcast.PodcastEpisodeGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.core.MediaUri
+import dev.olog.core.track.TrackGateway
+import dev.olog.core.playlist.PlaylistGateway
 import javax.inject.Inject
 
 class DeleteUseCase @Inject constructor(
+    private val playableGateway: TrackGateway,
     private val playlistGateway: PlaylistGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastEpisodeGateway,
-    private val songGateway: SongGateway,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
-
+    private val tracksByCategoryIdUseCase: GetTracksByCategoryUseCase,
 ) {
 
-    suspend operator fun invoke(mediaId: MediaId) {
-        if (mediaId.isLeaf && mediaId.isPodcast) {
-            return podcastGateway.deleteSingle(mediaId.resolveId)
-        }
-
-        if (mediaId.isLeaf) {
-            return songGateway.deleteSingle(mediaId.resolveId)
-        }
-
-        return when {
-            mediaId.isPodcastPlaylist -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
-            mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryId)
+    suspend operator fun invoke(uri: MediaUri) {
+        when (uri.category) {
+            MediaUri.Category.Track -> playableGateway.delete(listOf(uri))
+            MediaUri.Category.Playlist -> playlistGateway.delete(uri)
             else -> {
-                val songList = getSongListByParamUseCase(mediaId)
-                if (mediaId.isAnyPodcast){
-                    podcastGateway.deleteGroup(songList)
-                } else {
-                    songGateway.deleteGroup(songList)
-                }
+                val uris = tracksByCategoryIdUseCase(uri).map { it.uri }
+                playableGateway.delete(uris)
             }
         }
     }

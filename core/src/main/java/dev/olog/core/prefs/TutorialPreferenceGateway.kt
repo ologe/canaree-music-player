@@ -1,6 +1,6 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.Prefs
+import dev.olog.core.preference.Prefs
 
 interface TutorialPreferenceGateway : Prefs {
 
