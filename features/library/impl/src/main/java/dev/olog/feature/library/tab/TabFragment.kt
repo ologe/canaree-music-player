@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaStoreType
 import dev.olog.core.MediaUri
-import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.scroller.WaveSideBarView
 import dev.olog.feature.library.R
@@ -67,7 +66,7 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val requestedSpanSize = viewModel.spanCount().get()
-        val gridLayoutManager = TabFragmentLayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
+        val gridLayoutManager = TabFragmentLayoutManagerFactory.get(list, category, requestedSpanSize)
         list.layoutManager = gridLayoutManager
         list.adapter = adapter
         list.setHasFixedSize(true)

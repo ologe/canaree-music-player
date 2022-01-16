@@ -1,5 +1,6 @@
 package dev.olog.feature.library.category
 
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.base.adapter.DataBoundViewHolder
 import dev.olog.feature.base.adapter.SimpleAdapter
 import dev.olog.feature.base.adapter.setOnDragListener
@@ -42,11 +43,11 @@ class LibraryCategoriesFragmentAdapter (
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_library_categories
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_library_categories
     }
 
-    override fun onMoved(from: Int, to: Int) {
+    override fun onMoved(viewHolder: RecyclerView.ViewHolder, from: Int, to: Int) {
         job?.cancel()
         job = GlobalScope.launch {
             delay(200)
@@ -55,5 +56,25 @@ class LibraryCategoriesFragmentAdapter (
 
         dataSet.swap(from, to)
         notifyItemMoved(from, to)
+    }
+
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+
+    }
+
+    override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
+
+    }
+
+    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
+
+    }
+
+    override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
+
+    }
+
+    override fun onClearView(viewHolder: RecyclerView.ViewHolder) {
+
     }
 }

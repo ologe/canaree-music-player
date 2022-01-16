@@ -4,40 +4,40 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaUri
 import dev.olog.feature.base.adapter.*
 import dev.olog.feature.base.adapter.media.MediaListItem
+import dev.olog.feature.base.adapter.media.ShuffleAdapter
 
 class TabFragmentAdapter(
     adapters: List<RecyclerView.Adapter<RecyclerView.ViewHolder>>
 ) : CustomConcatAdapter(
-    concatConfig(isolateViewTypes = false),
+    concatConfig(),
     adapters
 ) {
 
     fun submitMain(category: MediaUri.Category, data: List<MediaListItem>) {
-        val adapter = delegate.firstByType<MediaListItemAdapter>()
+        val adapter = firstByType<TabFragmentMediaAdapter>()
         adapter.submitList(data)
 
         when (category) {
-            MediaUri.Category.Track -> delegate.findByType<ShuffleAdapter>()?.show = data.isNotEmpty()
-            MediaUri.Category.Playlist -> delegate.findByType<TextHeaderAdapter>()?.show = data.isNotEmpty()
+            MediaUri.Category.Track -> findByType<ShuffleAdapter>()?.show = data.isNotEmpty()
+            MediaUri.Category.Playlist -> requireHeaderOf(adapter).show = data.isNotEmpty()
             else -> {}
         }
     }
 
     fun submitAutoPlaylist(data: List<MediaListItem>) {
-        val adapter = delegate.firstByType<TabFragmentAutoPlaylistAdapter>()
+        val adapter = firstByType<TabFragmentAutoPlaylistAdapter>()
         adapter.submitList(data)
     }
 
     fun submitRecent(added: List<MediaListItem>, played: List<MediaListItem>) {
-        val addedAdapter = delegate.firstByType<TabFragmentRecentlyAddedAdapter>()
+        val addedAdapter = firstByType<TabFragmentRecentlyAddedAdapter>()
         addedAdapter.submitList(added)
 
-        val playedAdapter = delegate.firstByType<TabFragmentRecentlyPlayedAdapter>()
+        val playedAdapter = firstByType<TabFragmentRecentlyPlayedAdapter>()
         playedAdapter.submitList(played)
 
-        val adapter = delegate.firstByType<MediaListItemAdapter>()
-        val allHeaderAdapter = delegate.requireHeaderOf(adapter)
-        allHeaderAdapter.show = added.isNotEmpty() || played.isNotEmpty()
+        val adapter = requireHeaderOf(firstByType<TabFragmentMediaAdapter>())
+        adapter.show = added.isNotEmpty() || played.isNotEmpty()
     }
 
     fun indexOf(predicate: (MediaListItem) -> Boolean): Int {

@@ -49,7 +49,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     override fun setupRecyclerView(list: RecyclerView) {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(list, 0)
+//        setupDragListener(list, 0) todo
     }
 
     override fun positiveAction() {

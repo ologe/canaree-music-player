@@ -5,10 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaStoreType
 import dev.olog.core.MediaUri
-import dev.olog.feature.base.adapter.MediaListItemAdapter
-import dev.olog.feature.base.adapter.ShuffleAdapter
 import dev.olog.feature.base.adapter.TextHeaderAdapter
-import dev.olog.feature.base.adapter.media.ItemDirection
+import dev.olog.feature.base.adapter.media.ShuffleAdapter
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.media.MediaProvider
@@ -40,7 +38,7 @@ class TabFragmentAdapterFactory @Inject constructor(
 
     private fun folderAdapter(): List<RecyclerView.Adapter<RecyclerView.ViewHolder>> {
         return listOf(
-            MediaListItemAdapter(
+            TabFragmentMediaAdapter(
                 onItemClick = ::onItemClick,
                 onItemLongClick = ::onItemLongClick,
             )
@@ -55,10 +53,9 @@ class TabFragmentAdapterFactory @Inject constructor(
                 onItemLongClick = ::onItemLongClick,
             ),
             TextHeaderAdapter(activity.getString(R.string.tab_all_playlists)),
-            MediaListItemAdapter(
+            TabFragmentMediaAdapter(
                 onItemClick = ::onItemClick,
                 onItemLongClick = ::onItemLongClick,
-                direction = ItemDirection.Horizontal(activity),
             )
         )
     }
@@ -69,13 +66,13 @@ class TabFragmentAdapterFactory @Inject constructor(
         when (type) {
             MediaStoreType.Song -> {
                 result += ShuffleAdapter { mediaProvider.playFromMediaId(MediaUri.ShuffleAll) }
-                result += MediaListItemAdapter(
+                result += TabFragmentMediaAdapter(
                     onItemClick = ::onItemClick,
                     onItemLongClick = ::onItemLongClick,
                 )
             }
             MediaStoreType.Podcast -> {
-                result += MediaListItemAdapter(
+                result += TabFragmentMediaAdapter(
                     onItemClick = ::onItemClick,
                     onItemLongClick = ::onItemLongClick,
                 )
@@ -101,7 +98,7 @@ class TabFragmentAdapterFactory @Inject constructor(
         )
 
         result += TextHeaderAdapter(activity.getString(R.string.tab_all_artists)) // TODO podcast localisation
-        result += MediaListItemAdapter(
+        result += TabFragmentMediaAdapter(
             onItemClick = ::onItemClick,
             onItemLongClick = ::onItemLongClick,
         )
@@ -125,7 +122,7 @@ class TabFragmentAdapterFactory @Inject constructor(
         )
 
         result += TextHeaderAdapter(activity.getString(R.string.tab_all_albums)) // TODO podcast localisation
-        result += MediaListItemAdapter(
+        result += TabFragmentMediaAdapter(
             onItemClick = ::onItemClick,
             onItemLongClick = ::onItemLongClick,
         )
@@ -135,7 +132,7 @@ class TabFragmentAdapterFactory @Inject constructor(
 
     private fun genreAdapter(): List<RecyclerView.Adapter<RecyclerView.ViewHolder>> {
         return listOf(
-            MediaListItemAdapter(
+            TabFragmentMediaAdapter(
                 onItemClick = ::onItemClick,
                 onItemLongClick = ::onItemLongClick,
             )

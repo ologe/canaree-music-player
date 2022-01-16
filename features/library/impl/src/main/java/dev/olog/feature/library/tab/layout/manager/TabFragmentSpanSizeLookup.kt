@@ -2,23 +2,15 @@ package dev.olog.feature.library.tab.layout.manager
 
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaUri
-import dev.olog.feature.base.R
 import dev.olog.shared.android.extensions.configuration
 
 class TabFragmentSpanSizeLookup(
-    private val adapter: RecyclerView.Adapter<*>,
     var requestedSpanSize: Int,
     private val category: MediaUri.Category,
 ) : GridLayoutManager.SpanSizeLookup() {
 
     companion object {
-
-        private val fullRowViewTypes = arrayOf(
-            R.layout.item_horizontal_list,
-            R.layout.item_media_header,
-        )
 
         const val SPAN_COUNT = 60
 
@@ -48,8 +40,8 @@ class TabFragmentSpanSizeLookup(
     }
 
     private fun getCollectionSpanSize(position: Int): Int {
-        if (adapter.getItemViewType(position) in fullRowViewTypes) {
-            return SPAN_COUNT
+        when (position) {
+            in 0..4 -> return SPAN_COUNT
         }
 
         return SPAN_COUNT / requestedSpanSize

@@ -11,12 +11,10 @@ object TabFragmentLayoutManagerFactory {
     fun get(
         recyclerView: RecyclerView,
         category: MediaUri.Category,
-        adapter: RecyclerView.Adapter<*>,
         requestedSpanSize: Int
     ): GridLayoutManager {
         val spanSizeLookup = TabFragmentSpanSizeLookup(
             category = category,
-            adapter = adapter,
             requestedSpanSize = requestedSpanSize
         )
         val layoutManager = OverScrollGridLayoutManager(recyclerView, TabFragmentSpanSizeLookup.SPAN_COUNT)
