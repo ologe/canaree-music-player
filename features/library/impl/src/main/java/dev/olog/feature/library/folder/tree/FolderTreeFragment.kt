@@ -7,13 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.base.BaseFragment
 import dev.olog.feature.base.CanHandleOnBackPressed
+import dev.olog.feature.base.adapter.TextHeaderAdapter
 import dev.olog.feature.dialogs.FeatureDialogsNavigator
 import dev.olog.feature.library.R
+import dev.olog.feature.library.folder.tree.adapter.FolderTreeFragmentAdapter
+import dev.olog.feature.library.folder.tree.adapter.FolderTreeFragmentBackAdapter
+import dev.olog.feature.library.folder.tree.adapter.FolderTreeFragmentItemAdapter
 import dev.olog.feature.library.widget.BreadCrumbLayout
+import dev.olog.media.mediaProvider
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.extensions.collectOnLifecycle
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
@@ -27,7 +32,6 @@ class FolderTreeFragment : BaseFragment(),
 
     companion object {
 
-        @JvmStatic
         fun newInstance(): FolderTreeFragment {
             return FolderTreeFragment()
         }
@@ -40,10 +44,26 @@ class FolderTreeFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle = lifecycle,
-            viewModel = viewModel,
-            mediaProvider = requireActivity().findInContext(),
-            onItemLongClick = { mediaId, v -> dialogNavigator.toDialog(requireActivity(), mediaId, v) }
+            FolderTreeFragmentBackAdapter { viewModel.popFolder() },
+            TextHeaderAdapter(getString(localization.R.string.common_folders)),
+            FolderTreeFragmentItemAdapter(
+                onItemClick = { viewModel.nextFolder(it.toFile()) },
+                onItemLongClick = { _, _ -> },
+            ),
+            TextHeaderAdapter(getString(localization.R.string.common_tracks)),
+            FolderTreeFragmentItemAdapter(
+                onItemClick = {
+                    val uri = viewModel.createMediaId(it) ?: return@FolderTreeFragmentItemAdapter
+                    mediaProvider.playFromMediaId(uri)
+                },
+                onItemLongClick = { item, v ->
+                    dialogNavigator.toDialog(
+                        activity = requireActivity(),
+                        uri = viewModel.createMediaId(item) ?: return@FolderTreeFragmentItemAdapter,
+                        anchor = v
+                    )
+                },
+            ),
         )
         fab.shrink()
 
@@ -55,40 +75,38 @@ class FolderTreeFragment : BaseFragment(),
         fastScroller.showBubble(false)
 
         viewModel.observeCurrentDirectoryFileName()
-            .subscribe(viewLifecycleOwner) {
+            .collectOnLifecycle(this) {
                 bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+                adapter.submitCurrentFile(it)
             }
 
-        viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.data()
+            .collectOnLifecycle(this) { (folders, tracks) ->
+                adapter.submit(folders, tracks)
+        }
 
         viewModel.observeCurrentFolderIsDefaultFolder()
-            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
+            .collectOnLifecycle(this) { isDefaultFolder ->
                 if (isDefaultFolder){
                     fab.hide()
                 } else {
                     fab.show()
                 }
             }
+
+        fab.setOnClickListener { onFabClick() }
     }
 
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
         list.addOnScrollListener(scrollListener)
-        fab.setOnClickListener { onFabClick() }
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
         list.removeOnScrollListener(scrollListener)
-        fab.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
     }
 
     private fun onFabClick(){

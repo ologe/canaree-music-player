@@ -3,13 +3,14 @@ package dev.olog.feature.library.blacklist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.gateway.BlacklistGateway
-import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.folder.Folder
+import dev.olog.core.blacklist.BlacklistGateway
+import dev.olog.core.folder.FolderGateway
 import dev.olog.shared.launchUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -33,8 +34,8 @@ class BlacklistFragmentViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val blacklisted = blacklistGateway.getBlacklist()
-                .map { it.path.lowercase() }
+            val blacklisted = blacklistGateway.observeBlacklist().first()
+                .map { it.path.lowercase() } // TODO why lowercase?
             val data = folderGateway.getAllBlacklistedIncluded()
                 .map { it.toDisplayableItem(blacklisted) }
             _items.value = data
@@ -43,10 +44,10 @@ class BlacklistFragmentViewModel @Inject constructor(
 
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
         return BlacklistModel(
-            mediaId = getMediaId(),
+            uri = uri,
             title = this.title,
-            path = this.path,
-            isBlacklisted = blacklisted.contains(this.path.lowercase())
+            path = this.directory,
+            isBlacklisted = blacklisted.contains(this.directory.lowercase())
         )
     }
 

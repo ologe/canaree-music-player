@@ -37,7 +37,7 @@ class BlacklistFragmentAdapter(
     override fun onBindViewHolder(holder: SimpleViewHolder, position: Int) {
         val item = getItem(position)
         holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.uri)
             scrim.isVisible = item.isBlacklisted
             firstText.text = item.title
             secondText.text = item.displayablePath

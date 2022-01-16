@@ -1,35 +1,33 @@
 package dev.olog.feature.library.category
 
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaStoreType
 import dev.olog.feature.library.LibraryCategoryBehavior
 import dev.olog.feature.library.LibraryPrefs
 import javax.inject.Inject
 
 internal class LibraryCategoriesFragmentPresenter @Inject constructor(
-        private val libraryPrefs: LibraryPrefs
-){
+    private val libraryPrefs: LibraryPrefs
+) {
 
-    fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior>{
-        if (category == MediaIdCategory.PODCASTS){
-            return libraryPrefs.getDefaultPodcastLibraryCategories()
+    fun getDefaultDataSet(type: MediaStoreType): List<LibraryCategoryBehavior> {
+        return when (type) {
+            MediaStoreType.Podcast -> libraryPrefs.getDefaultPodcastLibraryCategories()
+            MediaStoreType.Song -> libraryPrefs.getDefaultLibraryCategories()
         }
-        return libraryPrefs.getDefaultLibraryCategories()
     }
 
-    fun getDataSet(category: MediaIdCategory) : List<LibraryCategoryBehavior> {
-        if (category == MediaIdCategory.PODCASTS){
-            return libraryPrefs.getPodcastLibraryCategories()
+    fun getDataSet(type: MediaStoreType): List<LibraryCategoryBehavior> {
+        return when (type) {
+            MediaStoreType.Podcast -> libraryPrefs.getPodcastLibraryCategories()
+            MediaStoreType.Song -> libraryPrefs.getLibraryCategories()
         }
-        return libraryPrefs.getLibraryCategories()
     }
 
-    fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>){
-        if (category == MediaIdCategory.PODCASTS){
-            libraryPrefs.setPodcastLibraryCategories(list)
-        } else {
-            libraryPrefs.setLibraryCategories(list)
+    fun setDataSet(type: MediaStoreType, list: List<LibraryCategoryBehavior>) {
+        return when (type) {
+            MediaStoreType.Podcast -> libraryPrefs.setPodcastLibraryCategories(list)
+            MediaStoreType.Song -> libraryPrefs.setLibraryCategories(list)
         }
-
     }
 
 }

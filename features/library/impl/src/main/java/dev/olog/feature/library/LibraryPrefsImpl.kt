@@ -4,10 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.Preference
-import dev.olog.core.PreferenceManager
-import dev.olog.feature.library.tab.layout.manager.SpanCountController
+import dev.olog.core.MediaStoreType
+import dev.olog.core.MediaUri
+import dev.olog.core.preference.Preference
+import dev.olog.core.preference.PreferenceManager
+import dev.olog.feature.library.tab.layout.manager.TabFragmentSpanSizeLookup
 import javax.inject.Inject
 
 internal class LibraryPrefsImpl @Inject constructor(
@@ -52,14 +53,17 @@ internal class LibraryPrefsImpl @Inject constructor(
             "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
     }
 
-    override fun spanCount(category: TabCategory): Preference<Int> {
-        return preferenceManager.create("${category}_span", SpanCountController.getDefaultSpan(context, category))
+    override fun spanCount(
+        category: MediaUri.Category,
+        type: MediaStoreType,
+    ): Preference<Int> {
+        return preferenceManager.create("${category}_span_${type}", TabFragmentSpanSizeLookup.getDefaultSpanSize(context, category))
     }
 
-    override val newItemsVisibility: Preference<Boolean>
+    override val recentlyAddedVisibility: Preference<Boolean>
         get() = preferenceManager.create(prefs.R.string.prefs_show_new_albums_artists_key, true)
 
-    override val recentPlayedVisibility: Preference<Boolean>
+    override val recentlyPlayedVisibility: Preference<Boolean>
         get() = preferenceManager.create(prefs.R.string.prefs_show_recent_albums_artists_key, true)
 
     override fun getViewPagerLibraryLastPage(): Int {
@@ -92,67 +96,85 @@ internal class LibraryPrefsImpl @Inject constructor(
     override fun getLibraryCategories(): List<LibraryCategoryBehavior> {
         return listOf(
             LibraryCategoryBehavior(
-                MediaIdCategory.FOLDERS,
-                preferences.getBoolean(CATEGORY_FOLDER_VISIBILITY, true),
-                preferences.getInt(CATEGORY_FOLDER_ORDER, 0)
+                category = MediaUri.Category.Folder,
+                visible = preferences.getBoolean(CATEGORY_FOLDER_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_FOLDER_ORDER, 0),
+                isPodcast = false,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PLAYLISTS,
-                preferences.getBoolean(CATEGORY_PLAYLIST_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PLAYLIST_ORDER, 1)
+                category = MediaUri.Category.Playlist,
+                visible = preferences.getBoolean(CATEGORY_PLAYLIST_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_PLAYLIST_ORDER, 1),
+                isPodcast = false,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.SONGS,
-                preferences.getBoolean(CATEGORY_SONG_VISIBILITY, true),
-                preferences.getInt(CATEGORY_SONG_ORDER, 2)
+                category = MediaUri.Category.Track,
+                visible = preferences.getBoolean(CATEGORY_SONG_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_SONG_ORDER, 2),
+                isPodcast = false,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.ALBUMS,
-                preferences.getBoolean(CATEGORY_ALBUM_VISIBILITY, true),
-                preferences.getInt(CATEGORY_ALBUM_ORDER, 3)
+                category = MediaUri.Category.Collection,
+                visible = preferences.getBoolean(CATEGORY_ALBUM_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_ALBUM_ORDER, 3),
+                isPodcast = false,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.ARTISTS,
-                preferences.getBoolean(CATEGORY_ARTIST_VISIBILITY, true),
-                preferences.getInt(CATEGORY_ARTIST_ORDER, 4)
+                category = MediaUri.Category.Author,
+                visible = preferences.getBoolean(CATEGORY_ARTIST_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_ARTIST_ORDER, 4),
+                isPodcast = false,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.GENRES,
-                preferences.getBoolean(CATEGORY_GENRE_VISIBILITY, true),
-                preferences.getInt(CATEGORY_GENRE_ORDER, 5)
+                category = MediaUri.Category.Genre,
+                visible = preferences.getBoolean(CATEGORY_GENRE_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_GENRE_ORDER, 5),
+                isPodcast = false,
             )
         ).sortedBy { it.order }
     }
 
     override fun getDefaultLibraryCategories(): List<LibraryCategoryBehavior> {
-        return MediaIdCategory.values()
-            .take(6)
-            .mapIndexed { index, category -> LibraryCategoryBehavior(category, true, index) }
+        return listOf(
+            MediaUri.Category.Folder,
+            MediaUri.Category.Playlist,
+            MediaUri.Category.Track,
+            MediaUri.Category.Collection,
+            MediaUri.Category.Author,
+            MediaUri.Category.Genre,
+        ).mapIndexed { index, category ->
+            LibraryCategoryBehavior(
+                category = category,
+                visible = true,
+                order = index,
+                isPodcast = false
+            )
+        }
     }
 
     override fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>) {
         preferences.edit {
-            val folder = behavior.first { it.category == MediaIdCategory.FOLDERS }
+            val folder = behavior.first { it.category == MediaUri.Category.Folder }
             putInt(CATEGORY_FOLDER_ORDER, folder.order)
             putBoolean(CATEGORY_FOLDER_VISIBILITY, folder.visible)
 
-            val playlist = behavior.first { it.category == MediaIdCategory.PLAYLISTS }
+            val playlist = behavior.first { it.category == MediaUri.Category.Playlist }
             putInt(CATEGORY_PLAYLIST_ORDER, playlist.order)
             putBoolean(CATEGORY_PLAYLIST_VISIBILITY, playlist.visible)
 
-            val song = behavior.first { it.category == MediaIdCategory.SONGS }
+            val song = behavior.first { it.category == MediaUri.Category.Track }
             putInt(CATEGORY_SONG_ORDER, song.order)
             putBoolean(CATEGORY_SONG_VISIBILITY, song.visible)
 
-            val album = behavior.first { it.category == MediaIdCategory.ALBUMS }
+            val album = behavior.first { it.category == MediaUri.Category.Collection }
             putInt(CATEGORY_ALBUM_ORDER, album.order)
             putBoolean(CATEGORY_ALBUM_VISIBILITY, album.visible)
 
-            val artist = behavior.first { it.category == MediaIdCategory.ARTISTS }
+            val artist = behavior.first { it.category == MediaUri.Category.Author }
             putInt(CATEGORY_ARTIST_ORDER, artist.order)
             putBoolean(CATEGORY_ARTIST_VISIBILITY, artist.visible)
 
-            val genre = behavior.first { it.category == MediaIdCategory.GENRES }
+            val genre = behavior.first { it.category == MediaUri.Category.Genre }
             putInt(CATEGORY_GENRE_ORDER, genre.order)
             putBoolean(CATEGORY_GENRE_VISIBILITY, genre.visible)
         }
@@ -161,51 +183,64 @@ internal class LibraryPrefsImpl @Inject constructor(
     override fun getPodcastLibraryCategories(): List<LibraryCategoryBehavior> {
         return listOf(
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS_PLAYLIST,
-                preferences.getBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PODCAST_PLAYLIST_ORDER, 0)
+                category = MediaUri.Category.Playlist,
+                visible = preferences.getBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_PODCAST_PLAYLIST_ORDER, 0),
+                isPodcast = true,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS,
-                preferences.getBoolean(CATEGORY_PODCAST_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PODCAST_ORDER, 1)
+                category = MediaUri.Category.Track,
+                visible = preferences.getBoolean(CATEGORY_PODCAST_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_PODCAST_ORDER, 1),
+                isPodcast = true,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS_ALBUMS,
-                preferences.getBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PODCAST_ALBUM_ORDER, 2)
+                category = MediaUri.Category.Collection,
+                visible = preferences.getBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, true),
+                order = preferences.getInt(CATEGORY_PODCAST_ALBUM_ORDER, 2),
+                isPodcast = true,
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS_ARTISTS,
+                MediaUri.Category.Author,
                 preferences.getBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PODCAST_ARTIST_ORDER, 3)
+                preferences.getInt(CATEGORY_PODCAST_ARTIST_ORDER, 3),
+                isPodcast = true,
             )
         ).sortedBy { it.order }
     }
 
     override fun getDefaultPodcastLibraryCategories(): List<LibraryCategoryBehavior> {
-        return MediaIdCategory.values()
-            .drop(6)
-            .take(4)
-            .mapIndexed { index, category -> LibraryCategoryBehavior(category, true, index) }
+        return listOf(
+            MediaUri.Category.Playlist,
+            MediaUri.Category.Track,
+            MediaUri.Category.Collection,
+            MediaUri.Category.Author,
+        ).mapIndexed { index, category ->
+            LibraryCategoryBehavior(
+                category = category,
+                visible = true,
+                order = index,
+                isPodcast = true
+            )
+        }
     }
 
     override fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>) {
         preferences.edit {
 
-            val playlist = behavior.first { it.category == MediaIdCategory.PODCASTS_PLAYLIST }
+            val playlist = behavior.first { it.category == MediaUri.Category.Playlist }
             putInt(CATEGORY_PODCAST_PLAYLIST_ORDER, playlist.order)
             putBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, playlist.visible)
 
-            val song = behavior.first { it.category == MediaIdCategory.PODCASTS }
+            val song = behavior.first { it.category == MediaUri.Category.Track }
             putInt(CATEGORY_PODCAST_ORDER, song.order)
             putBoolean(CATEGORY_PODCAST_VISIBILITY, song.visible)
 
-            val album = behavior.first { it.category == MediaIdCategory.PODCASTS_ALBUMS }
+            val album = behavior.first { it.category == MediaUri.Category.Collection }
             putInt(CATEGORY_PODCAST_ALBUM_ORDER, album.order)
             putBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, album.visible)
 
-            val artist = behavior.first { it.category == MediaIdCategory.PODCASTS_ARTISTS }
+            val artist = behavior.first { it.category == MediaUri.Category.Author }
             putInt(CATEGORY_PODCAST_ARTIST_ORDER, artist.order)
             putBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, artist.visible)
         }

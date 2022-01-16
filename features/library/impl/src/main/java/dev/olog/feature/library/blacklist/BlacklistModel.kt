@@ -1,10 +1,10 @@
 package dev.olog.feature.library.blacklist
 
 import android.os.Environment
-import dev.olog.core.MediaId
+import dev.olog.core.MediaUri
 
 data class BlacklistModel(
-    val mediaId: MediaId,
+    val uri: MediaUri,
     val title: String,
     val path: String,
     val isBlacklisted: Boolean

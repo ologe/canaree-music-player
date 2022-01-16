@@ -1,55 +1,113 @@
 package dev.olog.feature.library.tab
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.entity.sort.Sort
-import dev.olog.core.gateway.track.AlbumGateway
-import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.feature.base.model.DisplayableItem
+import dev.olog.core.MediaStoreType
+import dev.olog.core.MediaUri
+import dev.olog.core.author.AuthorGateway
+import dev.olog.core.collection.CollectionGateway
+import dev.olog.core.folder.FolderGateway
+import dev.olog.core.genre.GenreGateway
+import dev.olog.core.playlist.PlaylistGateway
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.core.sort.AuthorSort
+import dev.olog.core.sort.CollectionSort
+import dev.olog.core.sort.GenericSort
+import dev.olog.core.sort.TrackSort
+import dev.olog.core.track.TrackGateway
+import dev.olog.feature.base.adapter.media.MediaListItem
 import dev.olog.feature.library.LibraryPrefs
-import dev.olog.feature.library.TabCategory
-import dev.olog.shared.android.extensions.asLiveData
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class TabFragmentViewModel @Inject constructor(
-    private val dataProvider: TabDataProvider,
-    private val songGateway: SongGateway,
-    private val artistGateway: ArtistGateway,
-    private val albumGateway: AlbumGateway,
+    private val dataProvider: TabFragmentDataProvider,
+    private val playableGateway: TrackGateway,
+    private val authorGateway: AuthorGateway,
+    private val collectionGateway: CollectionGateway,
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val genreGateway: GenreGateway,
     private val libraryPrefs: LibraryPrefs,
+    savedStateHandle: SavedStateHandle,
+    schedulers: Schedulers,
+) : ViewModel() {
 
-    ) : ViewModel() {
+    private val category = savedStateHandle.get<MediaUri.Category>(TabFragment.CATEGORY)!!
+    private val type = savedStateHandle.get<MediaStoreType>(TabFragment.TYPE)!!
 
-    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> =
-        mutableMapOf()
+    val data: Flow<List<MediaListItem>>
+        get() = dataProvider.get(category, type)
 
-    fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
-        var liveData = liveDataMap[category]
-        if (liveData == null) {
-            liveData = dataProvider.get(category).asLiveData()
+    val recentlyAdded: Flow<List<MediaListItem>>
+        get() = dataProvider.recentlyAdded(category, type)
+
+    val recentlyPlayed: Flow<List<MediaListItem>>
+        get() = dataProvider.recentlyPlayed(category, type)
+
+    val autoPlaylists: Flow<List<MediaListItem>>
+        get() = dataProvider.autoPlaylists(category, type)
+
+    fun spanCount() = libraryPrefs.spanCount(category, type)
+
+    fun getCurrentSorting(item: MediaListItem): String {
+        return when (category) {
+            MediaUri.Category.Folder -> getSortingForFolder(item as MediaListItem.Collection)
+            MediaUri.Category.Playlist -> getSortingForPlaylist(item as MediaListItem.Collection)
+            MediaUri.Category.Track -> getSortingForTracks(item as MediaListItem.Track)
+            MediaUri.Category.Author -> getSortingForAuthor(item as MediaListItem.Author)
+            MediaUri.Category.Collection -> getSortingForCollection(item as MediaListItem.Collection)
+            MediaUri.Category.Genre -> getSortingForGenre(item as MediaListItem.Collection)
         }
-        return liveData
     }
 
-    fun getAllTracksSortOrder(isPodcast: Boolean): Sort? {
-        if (isPodcast) {
-            return null
+    private fun getSortingForTracks(item: MediaListItem.Track): String {
+        val sort = playableGateway.getSort(type)
+        return when (sort.type) {
+            TrackSort.Title -> item.title
+            TrackSort.Author -> item.author
+            TrackSort.Collection -> item.collection
+            TrackSort.Duration,
+            TrackSort.DateAdded -> error("invalid ${sort.type} for item ${item.uri}")
         }
-        return songGateway.sort
     }
 
-    fun getAllAlbumsSortOrder(): Sort {
-        return albumGateway.sort
+    private fun getSortingForAuthor(item: MediaListItem.Author): String {
+        val sort = authorGateway.getSort(type)
+        return when (sort.type) {
+            AuthorSort.Name -> item.title
+        }
     }
 
-    fun getAllArtistsSortOrder(): Sort {
-        return artistGateway.sort
+    private fun getSortingForCollection(item: MediaListItem.Collection): String {
+        val sort = collectionGateway.getSort(type)
+        return when (sort.type) {
+            CollectionSort.Title -> item.title
+            CollectionSort.Author -> item.subtitle
+        }
     }
 
-    fun getSpanCount(category: TabCategory) = libraryPrefs.spanCount(category).get()
-    fun observeSpanCount(category: TabCategory) = libraryPrefs.spanCount(category).observe()
+    private fun getSortingForFolder(item: MediaListItem.Collection): String {
+        val sort = folderGateway.getSort()
+        return when (sort.type) {
+            GenericSort.Title -> item.title
+        }
+    }
+
+    private fun getSortingForGenre(item: MediaListItem.Collection): String {
+        val sort = genreGateway.getSort()
+        return when (sort.type) {
+            GenericSort.Title -> item.title
+        }
+    }
+
+    private fun getSortingForPlaylist(item: MediaListItem.Collection): String {
+        val sort = playlistGateway.getSort(type)
+        return when (sort.type) {
+            GenericSort.Title -> item.title
+        }
+    }
 
 }

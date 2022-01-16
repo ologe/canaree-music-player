@@ -4,11 +4,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaStoreType
 import dev.olog.feature.base.ListDialog
 import dev.olog.feature.base.drag.DragListenerImpl
 import dev.olog.feature.base.drag.IDragListener
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
@@ -17,14 +18,11 @@ import javax.inject.Inject
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {
-        const val TAG = "LibraryCategoriesFragment"
-        const val TYPE = "$TAG.TYPE"
+        const val CATEGORY = "category"
 
         @JvmStatic
-        fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
-            return LibraryCategoriesFragment().withArguments(
-                TYPE to category.ordinal
-            )
+        fun newInstance(category: MediaStoreType): LibraryCategoriesFragment {
+            return LibraryCategoriesFragment().withArguments(CATEGORY to category)
         }
     }
 
@@ -34,17 +32,12 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
     }
 
-    private val category by lazyFast {
-        MediaIdCategory.values()[arguments!!.getInt(
-            TYPE
-        )]
-    }
+    private val category by lazyFast { getArgument<MediaStoreType>(CATEGORY) }
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        val title = if (category == MediaIdCategory.SONGS) {
-            localization.R.string.prefs_library_categories_title
-        } else {
-            localization.R.string.prefs_podcast_library_categories_title
+        val title = when (category) {
+            MediaStoreType.Song -> localization.R.string.prefs_library_categories_title
+            MediaStoreType.Podcast -> localization.R.string.prefs_podcast_library_categories_title
         }
 
         return builder.setTitle(title)
