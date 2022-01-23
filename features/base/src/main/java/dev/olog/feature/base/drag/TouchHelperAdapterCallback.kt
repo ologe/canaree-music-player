@@ -20,7 +20,7 @@ class TouchHelperAdapterCallback(
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
-), CoroutineScope by MainScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -28,6 +28,7 @@ class TouchHelperAdapterCallback(
         private const val SWIPE_DURATION = DEFAULT_SWIPE_ANIMATION_DURATION.toLong() - 50
     }
 
+    private val scope: CoroutineScope = MainScope()
     private val animationsController = TouchHelperAnimationController()
 
     override fun onMove(
@@ -35,10 +36,8 @@ class TouchHelperAdapterCallback(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType) &&
-            adapter.canInteractWithViewHolder(target.itemViewType)
-        ) {
-            adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
+        if (isInteractable(viewHolder) && isInteractable(target)) {
+            adapter.onMoved(viewHolder, viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
         }
         return false
@@ -48,39 +47,47 @@ class TouchHelperAdapterCallback(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
+        if (isInteractable(viewHolder)) {
             return super.getSwipeDirs(recyclerView, viewHolder)
         }
         return 0
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
-            when (direction) {
-                ItemTouchHelper.RIGHT -> {
-                    launch {
-                        adapter.onSwipedRight(viewHolder)
-                        delay(SWIPE_DURATION)
-                        adapter.afterSwipeRight(viewHolder)
-                    }
+        if (!isInteractable(viewHolder)) {
+            return
+        }
+
+        when (direction) {
+            ItemTouchHelper.RIGHT -> {
+                scope.launch {
+                    adapter.onSwipedRight(viewHolder)
+                    delay(SWIPE_DURATION)
+                    adapter.afterSwipeRight(viewHolder)
                 }
-                ItemTouchHelper.LEFT -> {
-                    launch {
-                        adapter.onSwipedLeft(viewHolder)
-                        delay(SWIPE_DURATION)
-                        adapter.afterSwipeLeft(viewHolder)
-                    }
+            }
+            ItemTouchHelper.LEFT -> {
+                scope.launch {
+                    adapter.onSwipedLeft(viewHolder)
+                    delay(SWIPE_DURATION)
+                    adapter.afterSwipeLeft(viewHolder)
                 }
             }
         }
     }
 
     override fun onChildDraw(
-        canvas: Canvas, recyclerView: RecyclerView,
+        canvas: Canvas,
+        recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
     ) {
+        if (!isInteractable(viewHolder)) {
+            return
+        }
 
         when (actionState) {
             ItemTouchHelper.ACTION_STATE_SWIPE -> {
@@ -147,11 +154,18 @@ class TouchHelperAdapterCallback(
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        if (!isInteractable(viewHolder)) {
+            return
+        }
         getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
         getDefaultUIUtil().clearView(viewHolder.itemView)
-        adapter.onClearView()
+        adapter.onClearView(viewHolder)
     }
 
+    private fun isInteractable(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder.bindingAdapter is DraggableAdapter<*, *, *> &&
+            adapter.canInteractWithViewHolder(viewHolder)
+    }
 
     override fun isLongPressDragEnabled(): Boolean = false
 
