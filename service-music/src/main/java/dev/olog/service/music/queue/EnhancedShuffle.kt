@@ -1,6 +1,7 @@
 package dev.olog.service.music.queue
 
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.MediaUri
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -17,7 +18,7 @@ internal class EnhancedShuffle @Inject constructor(
     /**
      * lastListened[listening_now, ,.., listened_long_ago]
      */
-    private var lastListened = mutableListOf<Long>()
+    private var lastListened = mutableListOf<MediaUri>()
 
     init {
         playerLifecycle.addListener(this)
@@ -25,8 +26,8 @@ internal class EnhancedShuffle @Inject constructor(
 
     override fun onMetadataChanged(metadata: MetadataEntity) {
         val mediaEntity = metadata.entity
-        lastListened.removeFirst { it == mediaEntity.id }
-        lastListened.add(0, mediaEntity.id)
+        lastListened.removeFirst { it == mediaEntity.uri }
+        lastListened.add(0, mediaEntity.uri)
     }
 
     /*
@@ -55,8 +56,8 @@ internal class EnhancedShuffle @Inject constructor(
 
         val shuffled = list.shuffled().toMutableList()
 
-        for (l in currentLastListened.reversed()) {
-            val index = shuffled.indexOfFirst { it.id == l }
+        for (uri in currentLastListened.reversed()) {
+            val index = shuffled.indexOfFirst { it.uri == uri }
             if (index in 0 until shuffled.size) {
                 val item = shuffled[index]
                 shuffled.removeAt(index)
