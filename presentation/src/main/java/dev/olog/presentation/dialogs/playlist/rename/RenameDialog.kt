@@ -1,19 +1,20 @@
 package dev.olog.presentation.dialogs.playlist.rename
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class RenameDialog : BaseEditTextDialog() {
 
     companion object {
@@ -24,18 +25,16 @@ class RenameDialog : BaseEditTextDialog() {
         @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    @Inject lateinit var presenter: RenameDialogPresenter
+    private val viewModel by viewModels<RenameDialogViewModel>()
 
-    private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
-    }
-    private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
+    private val mediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
+    private val itemTitle by argument<String>(ARGUMENTS_ITEM_TITLE)
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
@@ -58,7 +57,7 @@ class RenameDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(mediaId, string)
             message = successMessage(act, string)
         } catch (ex: Throwable) {
             ex.printStackTrace()

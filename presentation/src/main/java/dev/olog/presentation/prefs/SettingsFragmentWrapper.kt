@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
 import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
 
+// TODO still needed?
 class SettingsFragmentWrapper : Fragment() {
 
     companion object {

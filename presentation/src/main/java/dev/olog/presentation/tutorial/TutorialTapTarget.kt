@@ -10,6 +10,7 @@ import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorBackground
+import dev.olog.shared.android.extensions.findInContext
 
 object TutorialTapTarget {
 
@@ -24,7 +25,7 @@ object TutorialTapTarget {
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_arrow_down))
                 .tint(context)
 
-        TapTargetSequence(text.context as Activity)
+        TapTargetSequence(text.context.findInContext<Activity>())
                 .targets(textTarget, arrowTarget)
                 .start()
 
@@ -36,7 +37,7 @@ object TutorialTapTarget {
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_search_text))
                 .tint(context)
-        TapTargetView.showFor(view.context as Activity, target)
+        TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }
 
     fun lyrics(view: View){
@@ -46,7 +47,7 @@ object TutorialTapTarget {
                 .tint(context)
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_offline_lyrics))
 
-        TapTargetView.showFor(view.context as Activity, target)
+        TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }
 
     fun addLyrics(search: View, edit: View, sync: View){
@@ -64,7 +65,7 @@ object TutorialTapTarget {
                 .tint(context)
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_sync))
 
-        TapTargetSequence(search.context as Activity)
+        TapTargetSequence(search.context.findInContext<Activity>())
                 .targets(editTarget, searchTarget, syncLyrics)
                 .start()
     }

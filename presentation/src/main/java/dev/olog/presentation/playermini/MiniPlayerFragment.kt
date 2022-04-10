@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
-import dev.olog.media.model.PlayerState
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
+import dev.olog.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.expand
@@ -20,10 +21,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
-import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
@@ -31,22 +31,22 @@ class MiniPlayerFragment : BaseFragment(){
         private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
-    @Inject lateinit var presenter: MiniPlayerFragmentPresenter
+    private val viewModel by viewModels<MiniPlayerFragmentViewModel>()
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
+    private val media by lazyFast { requireActivity().findInContext<MediaProvider>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
-        val lastMetadata = presenter.getMetadata()
+        val lastMetadata = viewModel.getMetadata()
         title.text = lastMetadata.title
         artist.text = lastMetadata.subtitle
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.title
-                    presenter.startShowingLeftTime(it.isPodcast, it.duration)
+                    viewModel.startShowingLeftTime(it.isPodcast, it.duration)
                     if (!it.isPodcast){
                         artist.text = it.artist
                     }
@@ -59,7 +59,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
         launch {
-            presenter.observePodcastProgress(progressBar.observeProgress())
+            viewModel.observePodcastProgress(progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
                 .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
                 .collect { artist.text = it }
@@ -82,12 +82,12 @@ class MiniPlayerFragment : BaseFragment(){
             .map { it.state == PlayerState.SKIP_TO_NEXT }
             .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
-        presenter.skipToNextVisibility
+        viewModel.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
                     next.updateVisibility(it)
                 }
 
-        presenter.skipToPreviousVisibility
+        viewModel.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
                     previous.updateVisibility(it)
                 }

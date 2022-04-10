@@ -1,8 +1,7 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -15,7 +14,6 @@ import javax.inject.Inject
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val billing: IBilling,
-    private val prefsGateway: AppPreferencesGateway,
     private val presentationPrefs: PresentationPreferencesGateway
 ) {
 

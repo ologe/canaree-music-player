@@ -1,9 +1,7 @@
 package dev.olog.presentation.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -16,13 +14,16 @@ import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: MediaId,
+    handle: SavedStateHandle,
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -32,6 +33,8 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : ViewModel() {
+
+    val mediaId: MediaId = handle[DetailFragment.ARGUMENTS_MEDIA_ID]!!
 
     companion object {
         const val NESTED_SPAN_COUNT = 4
@@ -118,10 +121,6 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData
     fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
     fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
@@ -158,14 +157,14 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     fun processMove() = viewModelScope.launch {
         if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(moveList)
+            presenter.moveInPlaylist(mediaId, moveList)
         }
         moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(item)
+        presenter.removeFromPlaylist(mediaId, item)
     }
 
     fun observeSorting(): Flow<SortEntity> {

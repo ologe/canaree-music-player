@@ -3,8 +3,8 @@ package dev.olog.presentation.edit.domain
 import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject

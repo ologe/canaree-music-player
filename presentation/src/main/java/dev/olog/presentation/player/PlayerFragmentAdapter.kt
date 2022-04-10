@@ -35,19 +35,8 @@ import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.repeat
-import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_big_image.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
-import kotlinx.android.synthetic.main.player_layout_default.view.duration
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
-import kotlinx.android.synthetic.main.player_layout_default.view.title
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
-import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
-import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.flow.filter
 
 internal class PlayerFragmentAdapter(
@@ -213,7 +202,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context as FragmentActivity).fragmentTransaction {
+            (view.context.findInContext<FragmentActivity>()).fragmentTransaction {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,
@@ -348,7 +337,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
@@ -359,13 +348,13 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }

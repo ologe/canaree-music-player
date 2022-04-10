@@ -1,18 +1,20 @@
 package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddFavoriteDialog : BaseDialog() {
 
     companion object {
@@ -24,21 +26,18 @@ class AddFavoriteDialog : BaseDialog() {
         @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): AddFavoriteDialog {
             return AddFavoriteDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
-        MediaId.fromString(mediaId)
-    }
-    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
-    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+    private val mediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
+    private val title by argument<String>(ARGUMENTS_ITEM_TITLE)
+    private val listSize by argument<Int>(ARGUMENTS_LIST_SIZE)
 
-    @Inject lateinit var presenter: AddFavoriteDialogPresenter
+    private val viewModel by viewModels<AddFavoriteDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_add_to_favorites)
@@ -51,7 +50,7 @@ class AddFavoriteDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                presenter.execute(mediaId)
+                viewModel.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

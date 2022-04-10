@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -21,6 +22,7 @@ android {
 
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
+        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
     bundle {
@@ -60,8 +62,6 @@ android {
 //    kotlinOptions.allWarningsAsErrors = true
 }
 
-apply from: '../kapt.gradle'
-
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -69,7 +69,6 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':injection')
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
@@ -95,14 +94,13 @@ dependencies {
     implementation lib_x.preference
 
     // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
+
+    implementation lib_utils.aes_crypto
 
     // debug
     debugImplementation lib_debug.leak_canary_debug

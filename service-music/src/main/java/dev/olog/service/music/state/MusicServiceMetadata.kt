@@ -8,27 +8,29 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.bumptech.glide.request.target.Target
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.injection.dagger.PerService
+import dev.olog.intents.Classes
+import dev.olog.intents.MusicConstants
+import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicConstants
-import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,

@@ -4,6 +4,7 @@ package dev.olog.shared.android.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Color
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -126,4 +127,15 @@ fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
         return outValue.resourceId
     }
     return -1
+}
+
+inline fun <reified T : Any> Context.findInContext(): T {
+    var context: Context = this
+    while (context is ContextWrapper) {
+        if (context is T) {
+            return context
+        }
+        context = context.baseContext
+    }
+    error("$this does not implement ${T::class.java}")
 }

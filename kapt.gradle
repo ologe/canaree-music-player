@@ -1,8 +1,0 @@
-kapt {
-    useBuildCache = true
-    correctErrorTypes = true
-
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
-}

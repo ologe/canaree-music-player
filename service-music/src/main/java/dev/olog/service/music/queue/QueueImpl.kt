@@ -11,7 +11,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity

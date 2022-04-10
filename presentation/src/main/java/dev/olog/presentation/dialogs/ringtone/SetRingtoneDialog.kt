@@ -1,18 +1,21 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {
 
     companion object {
@@ -24,14 +27,17 @@ class SetRingtoneDialog : BaseDialog() {
         @JvmStatic
         fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_TITLE to title,
                     ARGUMENTS_ARTIST to artist
             )
         }
     }
 
-    @Inject lateinit var presenter: SetRingtoneDialogPresenter
+    private val mediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
+    private val title by argument<String>(ARGUMENTS_TITLE)
+    private val artist by argument<String>(ARGUMENTS_ARTIST)
+    private val viewModel by viewModels<SetRingtoneDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_set_as_ringtone)
@@ -44,8 +50,7 @@ class SetRingtoneDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
-                presenter.execute(act, mediaId)
+                viewModel.execute(act, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()
@@ -72,8 +77,8 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     private fun generateItemDescription(): String{
-        var title = arguments!!.getString(ARGUMENTS_TITLE)!!
-        val artist = arguments!!.getString(ARGUMENTS_ARTIST)
+        var title = this.title
+        val artist = this.artist
         if (artist != AppConstants.UNKNOWN){
             title += " $artist"
         }

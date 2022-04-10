@@ -6,8 +6,8 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway

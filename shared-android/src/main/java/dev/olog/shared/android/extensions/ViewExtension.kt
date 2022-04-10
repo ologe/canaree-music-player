@@ -42,6 +42,7 @@ inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }
 
+// TODO is not recursive
 inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     forEach {
         if (it is ViewGroup) {

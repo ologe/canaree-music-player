@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*

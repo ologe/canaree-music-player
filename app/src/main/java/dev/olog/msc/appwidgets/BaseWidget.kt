@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
@@ -109,8 +110,12 @@ abstract class BaseWidget : AbsWidgetApp() {
     private fun buildContentIntent(context: Context): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        var flags = PendingIntent.FLAG_UPDATE_CURRENT
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags = flags or PendingIntent.FLAG_IMMUTABLE
+        }
+        return PendingIntent.getActivity(context, 0, intent, flags)
     }
 
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){
