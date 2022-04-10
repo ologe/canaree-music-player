@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.widget.RemoteViews
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
@@ -12,7 +13,8 @@ import kotlinx.coroutines.*
 
 private const val IMAGE_SIZE = 300
 
-open class WidgetColored : BaseWidget() {
+@AndroidEntryPoint
+class WidgetColored : BaseWidget() {
 
     private var job: Job? = null
 

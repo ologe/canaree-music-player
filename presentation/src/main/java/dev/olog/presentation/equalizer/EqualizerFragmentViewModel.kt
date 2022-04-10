@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
@@ -11,13 +12,13 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 internal class EqualizerFragmentViewModel @Inject constructor(
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,
@@ -43,10 +44,6 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     }
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 

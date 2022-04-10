@@ -17,11 +17,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
         classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
     }
 
 
@@ -59,9 +60,9 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdkVersion = 21
-    targetSdkVersion = 30
-    compileSdkVersion = 30
-    buildToolsVersion = '30.0.2'
+    targetSdkVersion = 31
+    compileSdkVersion = 31
+    buildToolsVersion = '30.0.3'
 
     /*  version code
         999 - for old compatibility

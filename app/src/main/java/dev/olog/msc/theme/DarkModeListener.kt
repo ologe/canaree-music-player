@@ -3,7 +3,7 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R

@@ -2,20 +2,14 @@ package dev.olog.presentation.about.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import dev.olog.presentation.about.AboutFragment
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.presentation.navigator.NavigatorAboutImpl
-import dev.olog.presentation.translations.TranslationsFragment
 
 @Module
+@InstallIn(ActivityComponent::class)
 abstract class AboutFragmentModule {
-
-    @ContributesAndroidInjector
-    abstract fun provideAboutFragment(): AboutFragment
-
-    @ContributesAndroidInjector
-    abstract fun provideTranslationFragment(): TranslationsFragment
 
     @Binds
     abstract fun provideNavigatorAbout(navigatorImpl: NavigatorAboutImpl): NavigatorAbout

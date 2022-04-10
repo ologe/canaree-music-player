@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_about.view.*
 class AboutFragmentAdapter(
     lifecycle: Lifecycle,
     private val navigator: NavigatorAbout,
-    private val presenter: AboutFragmentPresenter
+    private val viewModel: AboutFragmentViewModel
 
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
@@ -26,17 +26,17 @@ class AboutFragmentAdapter(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutFragmentPresenter.HAVOC_ID -> navigator.toHavocPage()
-                AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
-                AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentPresenter.BUY_PRO -> presenter.buyPro()
-                AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
-                AboutFragmentPresenter.BETA -> navigator.joinBeta()
-                AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
-                AboutFragmentPresenter.GITHUB -> navigator.toGithub()
-                AboutFragmentPresenter.TRANSLATION -> navigator.toTranslations()
+                AboutFragmentViewModel.HAVOC_ID -> navigator.toHavocPage()
+                AboutFragmentViewModel.THIRD_SW_ID -> navigator.toLicensesFragment()
+                AboutFragmentViewModel.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
+                AboutFragmentViewModel.RATE_ID -> navigator.toMarket()
+                AboutFragmentViewModel.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
+                AboutFragmentViewModel.BUY_PRO -> viewModel.buyPro()
+                AboutFragmentViewModel.COMMUNITY -> navigator.joinCommunity()
+                AboutFragmentViewModel.BETA -> navigator.joinBeta()
+                AboutFragmentViewModel.CHANGELOG -> navigator.toChangelog()
+                AboutFragmentViewModel.GITHUB -> navigator.toGithub()
+                AboutFragmentViewModel.TRANSLATION -> navigator.toTranslations()
             }
         }
     }
@@ -44,7 +44,7 @@ class AboutFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableHeader)
         holder.itemView.apply {
-            if (item.mediaId == AboutFragmentPresenter.BUY_PRO) {
+            if (item.mediaId == AboutFragmentViewModel.BUY_PRO) {
                 title.setTextColor(ColorStateList.valueOf(context.colorAccent()))
             }
             title.text = item.title

@@ -1,8 +1,8 @@
 package dev.olog.presentation.search
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway

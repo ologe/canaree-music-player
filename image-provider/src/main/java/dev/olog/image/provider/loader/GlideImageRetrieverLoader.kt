@@ -5,8 +5,8 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
@@ -14,7 +14,7 @@ import dev.olog.image.provider.fetcher.GlideSongFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
-internal class GlideImageRetrieverLoader(
+class GlideImageRetrieverLoader(
     private val context: Context,
     private val imageRetrieverGateway: ImageRetrieverGateway
 ) : ModelLoader<MediaId, InputStream> {

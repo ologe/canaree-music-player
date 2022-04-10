@@ -1,18 +1,20 @@
 package dev.olog.presentation.dialogs.playlist.create
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewPlaylistDialog : BaseEditTextDialog() {
 
     companion object {
@@ -24,21 +26,18 @@ class NewPlaylistDialog : BaseEditTextDialog() {
         @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): NewPlaylistDialog {
             return NewPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    @Inject lateinit var presenter: NewPlaylistDialogPresenter
+    private val viewModel by viewModels<NewPlaylistDialogViewModel>()
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
-        MediaId.fromString(mediaId)
-    }
-    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
-    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+    private val mediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
+    private val title by argument<String>(ARGUMENTS_ITEM_TITLE)
+    private val listSize by argument<Int>(ARGUMENTS_LIST_SIZE)
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
@@ -58,7 +57,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(mediaId, string)
             message = successMessage(act, string).toString()
         } catch (ex: Throwable) {
             ex.printStackTrace()

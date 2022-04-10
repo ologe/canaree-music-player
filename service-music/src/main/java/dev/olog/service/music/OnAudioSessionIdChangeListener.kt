@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.exoplayer2.audio.AudioListener
+import com.google.android.exoplayer2.Player
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.shared.android.ServiceLifecycle
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     private val virtualizer: IVirtualizer,
     private val bassBoost: IBassBoost
 
-) : AudioListener,
+) : Player.Listener,
     DefaultLifecycleObserver,
     CoroutineScope by MainScope() {
 
@@ -40,7 +40,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         job?.cancel()
     }
 
-    override fun onAudioSessionId(audioSessionId: Int) {
+    override fun onAudioSessionIdChanged(audioSessionId: Int) {
         job?.cancel()
         job = launch {
             delay(DELAY)

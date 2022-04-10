@@ -2,7 +2,9 @@ package dev.olog.presentation.edit.album
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
@@ -10,13 +12,12 @@ import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditAlbumFragment : BaseEditItemFragment() {
 
     companion object {
@@ -26,20 +27,14 @@ class EditAlbumFragment : BaseEditItemFragment() {
         @JvmStatic
         fun newInstance(mediaId: MediaId): EditAlbumFragment {
             return EditAlbumFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString())
+                    ARGUMENTS_MEDIA_ID to mediaId
+            )
         }
     }
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory)
-    }
-    private val editItemViewModel by lazyFast {
-        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
-    }
-    private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
-    }
+    private val viewModel by viewModels<EditAlbumFragmentViewModel>()
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
+    private val mediaId: MediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

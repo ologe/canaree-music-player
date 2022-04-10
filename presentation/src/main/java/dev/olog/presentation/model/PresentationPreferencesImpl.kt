@@ -3,8 +3,8 @@ package dev.olog.presentation.model
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.android.utils.assertBackgroundThread

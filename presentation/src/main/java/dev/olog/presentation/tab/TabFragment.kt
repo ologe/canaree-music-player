@@ -5,16 +5,16 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
-import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabFragment : BaseFragment(), SetupNestedList {
 
     companion object {
@@ -46,51 +47,47 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
-            return TabFragment().withArguments(ARGUMENTS_SOURCE to category.toString())
+            return TabFragment().withArguments(
+                ARGUMENTS_SOURCE to category
+            )
         }
     }
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             navigator
         )
     }
     private val lastArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             navigator
         )
     }
     private val newAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             navigator
         )
     }
     private val newArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             navigator
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by activityViewModels<TabFragmentViewModel>()
 
-    internal val category: TabCategory by lazyFast {
-        val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
-        MediaIdCategory.valueOf(categoryString).toTabCategory()
-    }
+    internal val source by argument<MediaIdCategory>(ARGUMENTS_SOURCE)
+    private val category by lazyFast { source.toTabCategory() }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(viewLifecycleOwner.lifecycle, navigator, requireContext().findInContext(), viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

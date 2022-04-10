@@ -2,6 +2,7 @@ package dev.olog.presentation.tab
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 internal class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,

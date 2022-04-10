@@ -3,16 +3,17 @@ package dev.olog.service.music
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
@@ -34,6 +35,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     companion object {
@@ -62,7 +64,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var noisy: Noisy
 
     override fun onCreate() {
-        inject()
         super.onCreate()
         setupObservers()
         setupMediaSession()
@@ -220,9 +221,13 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
+        var flags = PendingIntent.FLAG_CANCEL_CURRENT
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags = flags or PendingIntent.FLAG_IMMUTABLE
+        }
         return PendingIntent.getActivity(
             this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
+            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), flags
         )
     }
 }

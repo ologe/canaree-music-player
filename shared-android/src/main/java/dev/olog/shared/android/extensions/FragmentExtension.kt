@@ -18,7 +18,19 @@ inline val Fragment.ctx : Context
 inline val Fragment.act : FragmentActivity
     get() = activity!!
 
-@Suppress("UNCHECKED_CAST")
-inline fun <T> Fragment.getArgument(key: String): T {
-    return arguments!!.get(key) as T
+@Suppress("UNCHECKED_CAST", "ObjectPropertyName")
+fun <T : Any> Fragment.argument(key: String): Lazy<T> {
+    return object : Lazy<T> {
+        private var _value: T? = null
+
+        override val value: T
+            get() {
+                if (_value == null) {
+                    _value = requireArguments().get(key) as T
+                }
+                return _value!!
+            }
+
+        override fun isInitialized(): Boolean = _value != null
+    }
 }

@@ -40,7 +40,8 @@
             android:name="dev.olog.presentation.main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            tools:ignore="UnusedAttribute">
+            tools:ignore="UnusedAttribute"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,7 +94,9 @@
         </service>
 
         <!--media button receiver-->
-        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+        <receiver
+            android:name="androidx.media.session.MediaButtonReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -112,7 +115,8 @@
         <!--widget -->
         <receiver
             android:name=".appwidgets.WidgetColored"
-            android:label="@string/app_widget_default">
+            android:label="@string/app_widget_default"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

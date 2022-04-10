@@ -1,18 +1,21 @@
 package dev.olog.presentation.prefs.categories
 
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -22,22 +25,17 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         @JvmStatic
         fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
             return LibraryCategoriesFragment().withArguments(
-                TYPE to category.ordinal
+                TYPE to category
             )
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryCategoriesFragmentPresenter
+    private val viewModel by viewModels<LibraryCategoriesFragmentViewModel>()
     private val adapter by lazyFast {
-        LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
+        LibraryCategoriesFragmentAdapter(viewModel.getDataSet(category), this)
     }
 
-    private val category by lazyFast {
-        MediaIdCategory.values()[arguments!!.getInt(
-            TYPE
-        )]
-    }
+    private val category by argument<MediaIdCategory>(TYPE)
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
@@ -55,13 +53,13 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     override fun positiveAction() {
-        presenter.setDataSet(category, adapter.getData())
+        viewModel.setDataSet(category, adapter.getData())
         act.recreate()
         dismiss()
     }
 
     override fun neutralAction() {
-        val defaultData = presenter.getDefaultDataSet(category)
+        val defaultData = viewModel.getDefaultDataSet(category)
         adapter.updateDataSet(defaultData)
     }
 

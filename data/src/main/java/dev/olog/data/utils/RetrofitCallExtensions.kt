@@ -36,7 +36,7 @@ internal suspend fun <T> safeNetworkCall(
             yield()
         }
     } catch (ex: Throwable) {
-        ex.printStackTrace()
+//        ex.printStackTrace()
     }
     return null
 }

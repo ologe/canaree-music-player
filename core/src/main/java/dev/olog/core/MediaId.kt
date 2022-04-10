@@ -1,5 +1,8 @@
 package dev.olog.core
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 enum class MediaIdCategory {
     FOLDERS,
     PLAYLISTS,
@@ -17,11 +20,12 @@ enum class MediaIdCategory {
     PLAYING_QUEUE
 }
 
+@Parcelize
 class MediaId private constructor(
     val category: MediaIdCategory,
     val categoryValue: String,
     val leaf: Long? = null
-) {
+): Parcelable {
 
     val source : Int = category.ordinal
 

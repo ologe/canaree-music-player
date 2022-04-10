@@ -13,6 +13,7 @@ import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
@@ -88,7 +89,7 @@ class SplashFragment : Fragment() {
             .remove(this)
             .commitAllowingStateLoss()
 
-        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+        (requireActivity().findInContext<OnPermissionChanged>()).onPermissionGranted(Permission.STORAGE)
 
 //        ExplainTrialDialog.show(requireContext()) {
 //            requireActivity().supportFragmentManager

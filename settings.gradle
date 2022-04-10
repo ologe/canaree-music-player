@@ -1,5 +1,6 @@
-include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
+include ':app', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
 
+rootProject.name = 'canaree'
 gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
-apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
