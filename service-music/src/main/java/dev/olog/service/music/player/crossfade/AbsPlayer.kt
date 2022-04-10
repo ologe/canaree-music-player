@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.DefaultRenderersFactory
-import dev.olog.service.music.BuildConfig
+import dev.olog.core.Config
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
@@ -23,8 +23,8 @@ internal abstract class AbsPlayer<T>(
     private val context: Context,
     lifecycle: Lifecycle,
     private val mediaSourceFactory: ISourceFactory<T>,
-    volume: IMaxAllowedPlayerVolume
-
+    volume: IMaxAllowedPlayerVolume,
+    protected val config: Config,
 ) : IPlayerDelegate<T>,
     Player.Listener,
     DefaultLifecycleObserver {
@@ -120,7 +120,7 @@ internal abstract class AbsPlayer<T>(
         }
         error.printStackTrace()
 
-        if (BuildConfig.DEBUG) {
+        if (config.isDebug) {
             Log.e("Player", "onPlayerError $what")
         }
         context.applicationContext.toast(R.string.music_player_error)

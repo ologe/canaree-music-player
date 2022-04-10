@@ -7,7 +7,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -224,7 +223,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setLibraryCategories(getDefaultLibraryCategories())
         setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
     }
@@ -248,7 +246,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun isAdaptiveColorEnabled(): Boolean {
-        assertBackgroundThread()
         return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 

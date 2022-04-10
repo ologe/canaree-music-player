@@ -2,7 +2,6 @@ package dev.olog.service.music.player.crossfade
 
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.interfaces.IPlayerDelegate
-import dev.olog.shared.android.utils.assertMainThread
 import javax.inject.Inject
 
 private enum class CurrentPlayer {
@@ -23,8 +22,6 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
     private var current = CurrentPlayer.PLAYER_NOT_SET
 
     override fun prepare(mediaEntity: PlayerMediaEntity, bookmark: Long){
-        assertMainThread()
-
         val player = getNextPlayer()
         player?.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
     }
@@ -35,7 +32,6 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
     }
 
     override fun play(mediaEntity: PlayerMediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
-        assertMainThread()
         val player = getNextPlayer()
         player?.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
         if (!isTrackEnded){

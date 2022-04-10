@@ -15,9 +15,6 @@ android {
 
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     //kotlinOptions.allWarningsAsErrors = true

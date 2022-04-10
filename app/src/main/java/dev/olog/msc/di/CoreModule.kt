@@ -11,7 +11,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
+import dev.olog.msc.BuildConfig
 import dev.olog.msc.todo.EncrypterImpl
 
 @Module
@@ -40,6 +42,17 @@ abstract class CoreModule {
         fun provideNotificationManager(instance: Application): NotificationManager {
             return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         }
+
+        @Provides
+        fun provideConfig() = Config(
+            isDebug = BuildConfig.DEBUG,
+            versionName = BuildConfig.VERSION_NAME,
+            versionCode = BuildConfig.VERSION_CODE,
+            aesPassword = BuildConfig.AES_PASSWORD,
+            lastFmKey = BuildConfig.LAST_FM_KEY,
+            lastFmSecret = BuildConfig.LAST_FM_SECRET,
+        )
+
     }
 
 }

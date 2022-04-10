@@ -20,8 +20,6 @@ import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -49,8 +47,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onPrepareInternal(forced: Boolean){
-        assertMainThread()
-
         if (queue.isEmpty() || forced){
             val track = queue.prepare()
             Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
@@ -63,7 +59,6 @@ internal class MediaSessionCallback @Inject constructor(
     private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
         retrieveDataJob?.cancel()
         retrieveDataJob = launch {
-            assertBackgroundThread()
             val entity = retrieve()
             if (entity != null) {
                 withContext(Dispatchers.Main) {

@@ -8,7 +8,6 @@ import dev.olog.data.db.dao.HistoryDao
 import dev.olog.data.db.dao.PlaylistDao
 import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,16 +22,12 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
 
     override suspend fun createPlaylist(playlistName: String): Long {
-        assertBackgroundThread()
-
         return playlistDao.createPlaylist(
             PlaylistEntity(name = playlistName, size = 0)
         )
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
-        assertBackgroundThread()
-
         var maxIdInPlaylist = (playlistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PlaylistTrackEntity(
@@ -56,8 +51,6 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
-        assertBackgroundThread()
-
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             removeFromAutoPlaylist(playlistId, idInPlaylist)
         } else {

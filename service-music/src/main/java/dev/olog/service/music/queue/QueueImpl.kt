@@ -17,8 +17,6 @@ import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
 import kotlinx.coroutines.*
@@ -93,8 +91,6 @@ internal class QueueImpl @Inject constructor(
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueJob?.cancel()
         savePlayingQueueJob = launch {
-            assertBackgroundThread()
-
             val request = songList.map {
                 UpdatePlayingQueueUseCaseRequest(
                     it.mediaId,
@@ -121,8 +117,6 @@ internal class QueueImpl @Inject constructor(
         immediate: Boolean
     ) {
         launch {
-            assertBackgroundThread()
-
             val safePosition = ensurePosition(list, currentPosition)
             val miniQueue = list.asSequence()
                 .drop(safePosition + 1)
@@ -140,8 +134,6 @@ internal class QueueImpl @Inject constructor(
 
     @CheckResult
     fun getSongById(idInPlaylist: Int): MediaEntity? {
-        assertMainThread()
-
         if (isEmpty()){
             return null
         }
@@ -158,8 +150,6 @@ internal class QueueImpl @Inject constructor(
 
     @CheckResult
     fun getNextSong(trackEnded: Boolean): MediaEntity? {
-        assertMainThread()
-
         if (isEmpty()){
             return null
         }
@@ -185,8 +175,6 @@ internal class QueueImpl @Inject constructor(
 
     @CheckResult
     fun getPreviousSong(playerBookmark: Long): MediaEntity? {
-        assertMainThread()
-
         if (isEmpty()){
             return null
         }
@@ -231,8 +219,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     fun shuffle() {
-        assertMainThread()
-
         if (isEmpty()){
             return
         }
@@ -254,8 +240,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     fun sort() {
-        assertMainThread()
-
         if (isEmpty()){
             return
         }
@@ -272,7 +256,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     fun onRepeatModeChanged() {
-        assertMainThread()
         if (isEmpty()){
             return
         }
@@ -299,8 +282,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     fun handleSwap(from: Int, to: Int) {
-        assertMainThread()
-
         if (isEmpty()){
             return
         }
@@ -328,8 +309,6 @@ internal class QueueImpl @Inject constructor(
      * moves the item so it can be played after current song
      */
     fun handleMoveRelative(position: Int) {
-        assertMainThread()
-
         if (isEmpty()){
             return
         }
@@ -344,8 +323,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     fun handleRemove(position: Int) {
-        assertMainThread()
-
         if (isEmpty()){
             return
         }
@@ -383,8 +360,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
-        assertBackgroundThread()
-
         if (isEmpty()){
             return
         }
@@ -413,8 +388,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
-        assertBackgroundThread()
-
         if (isEmpty()){
             return
         }

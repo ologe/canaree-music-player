@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -54,7 +53,6 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         // LIBRARY -> folder tree
         @Suppress("DEPRECATION")
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
@@ -81,7 +79,6 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun canAutoCreateImages(): Boolean {
-        assertBackgroundThread()
         return preferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
     }
 
