@@ -29,9 +29,9 @@ fun View.setHeight(@Px heightPx: Int) {
     layoutParams = params
 }
 
-fun View.setWidth(@Px heightPx: Int) {
+fun View.setWidth(@Px widthPx: Int) {
     val params = this.layoutParams as? ViewGroup.MarginLayoutParams ?: return
-    params.width = heightPx
+    params.width = widthPx
     layoutParams = params
 }
 
