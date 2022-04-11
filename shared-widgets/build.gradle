@@ -2,10 +2,6 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
 android {
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
     //kotlinOptions.allWarningsAsErrors = true
 }
 
