@@ -11,7 +11,6 @@ import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
-import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
@@ -34,7 +33,6 @@ internal class AudioFocusBehavior @Inject constructor(
     private var currentFocus = FocusState.NONE
 
     fun requestFocus(): Boolean {
-        assertMainThread()
 
         val focus = requestFocusInternal()
         currentFocus = when (focus) {
@@ -51,7 +49,6 @@ internal class AudioFocusBehavior @Inject constructor(
 
     fun abandonFocus() {
         Log.v(TAG, "release focus")
-        assertMainThread()
 
         currentFocus = FocusState.NONE
         AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
@@ -77,7 +74,6 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        assertMainThread()
         onAudioFocusChangeInternal(AudioFocusType.get(focusChange))
     }
 

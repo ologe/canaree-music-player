@@ -57,6 +57,10 @@ android {
         disable 'MissingTranslation'
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
 //    dynamicFeatures = [":feature_stylize"]
 
 //    kotlinOptions.allWarningsAsErrors = true

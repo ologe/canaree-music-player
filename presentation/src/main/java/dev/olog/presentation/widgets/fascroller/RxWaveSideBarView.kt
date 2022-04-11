@@ -6,7 +6,6 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.utils.runOnMainThread
 
 class RxWaveSideBarView(
         context: Context,
@@ -49,10 +48,8 @@ class RxWaveSideBarView(
     }
 
     private fun updateLetters(letters: List<String>){
-        runOnMainThread {
-            this.mLetters = letters
-            invalidate()
-        }
+        this.mLetters = letters
+        invalidate()
     }
 
 }

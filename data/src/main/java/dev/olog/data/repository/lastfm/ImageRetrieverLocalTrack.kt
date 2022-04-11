@@ -6,7 +6,6 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
-import dev.olog.data.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class ImageRetrieverLocalTrack @Inject constructor(
@@ -19,7 +18,6 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
     }
 
     fun mustFetch(trackId: Id): Boolean {
-        assertBackgroundThread()
         return lastFmDao.getTrack(trackId) == null
     }
 
@@ -29,14 +27,12 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
 
     fun cache(model: LastFmTrack) {
         Log.v(TAG, "cache ${model.id}")
-        assertBackgroundThread()
         val entity = model.toModel()
         lastFmDao.insertTrack(entity)
     }
 
     fun delete(trackId: Long) {
         Log.v(TAG, "delete $trackId")
-        assertBackgroundThread()
         lastFmDao.deleteTrack(trackId)
     }
 

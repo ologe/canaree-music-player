@@ -9,8 +9,6 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -68,7 +66,6 @@ internal abstract class HistoryDao {
     abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
     fun getTracks(songGateway: SongGateway): List<Song> {
-        assertBackgroundThread()
         val historyList = getAllTracksImpl()
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->
@@ -77,7 +74,6 @@ internal abstract class HistoryDao {
     }
 
     fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
-        assertBackgroundThread()
         val historyList = getAllPodcastsImpl()
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { entity ->
@@ -92,7 +88,7 @@ internal abstract class HistoryDao {
                 historyList.mapNotNull { entity ->
                     songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }
-            }.assertBackground()
+            }
     }
 
     fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
@@ -102,7 +98,7 @@ internal abstract class HistoryDao {
                 historyList.mapNotNull { entity ->
                     songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }
-            }.assertBackground()
+            }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

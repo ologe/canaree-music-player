@@ -22,7 +22,6 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dis
         awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
     }
     return flow
-        .assertBackground()
         .flowOn(dispatcher)
 }
 

@@ -17,8 +17,6 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -41,8 +39,6 @@ internal class QueueManager @Inject constructor(
 ) : IQueue {
 
     override fun prepare(): PlayerMediaEntity? {
-        assertMainThread()
-
         val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
 
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
@@ -72,8 +68,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getSongListByParamUseCase(mediaId).asSequence()
@@ -100,8 +94,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getRecentlyAddedUseCase(mediaId).first()
@@ -125,8 +117,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val songId = mediaId.leaf ?: -1L
 
         val songList = getMostPlayedSongsUseCase(mediaId).first()
@@ -150,8 +140,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         var songList = getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
@@ -176,8 +164,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity? {
-        assertBackgroundThread()
-
         val song = songGateway.getByUri(uri) ?: return null
         val mediaEntity = song.toMediaEntity(0, song.getMediaId())
         val songList = listOf(mediaEntity)
@@ -271,8 +257,6 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity? {
-        assertMainThread()
-
         val mediaEntity = queueImpl.getSongById(idInPlaylist.toInt()) ?: return null
         return mediaEntity.toPlayerMediaEntity(
             queueImpl.currentPositionInQueue(),

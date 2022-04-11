@@ -19,7 +19,6 @@ import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.shared.TextUtils
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.networkCall
 import dev.olog.data.utils.safeNetworkCall
 import javax.inject.Inject
@@ -47,7 +46,6 @@ internal class ImageRetrieverRepository @Inject constructor(
 
     // track
     override suspend fun mustFetchTrack(trackId: Id): Boolean {
-        assertBackgroundThread()
         val mustFetch = localTrack.mustFetch(trackId)
         Log.v(TAG, "must fetch track id=$trackId -> $mustFetch")
         return mustFetch
@@ -55,7 +53,6 @@ internal class ImageRetrieverRepository @Inject constructor(
 
     override suspend fun getTrack(trackId: Id): LastFmTrack? = coroutineScope {
         Log.v(TAG, "get track id=$trackId")
-        assertBackgroundThread()
         val cached = localTrack.getCached(trackId)
         if (cached != null) {
             Log.v(TAG, "found in cache id=$trackId")
@@ -154,13 +151,11 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     override suspend fun deleteTrack(trackId: Id) {
-        assertBackgroundThread()
         localTrack.delete(trackId)
     }
 
     // album
     override suspend fun mustFetchAlbum(albumId: Id): Boolean {
-        assertBackgroundThread()
         val mustFetch = localAlbum.mustFetch(albumId)
         Log.v(TAG, "must fetch album id=$albumId -> $mustFetch")
         return mustFetch
@@ -168,7 +163,6 @@ internal class ImageRetrieverRepository @Inject constructor(
 
     override suspend fun getAlbum(albumId: Id): LastFmAlbum? = coroutineScope {
         Log.v(TAG, "get album id=$albumId")
-        assertBackgroundThread()
         val album = albumGateway.getByParam(albumId) ?: return@coroutineScope null
         if (album.hasSameNameAsFolder) {
             Log.v(TAG, "id=$albumId has same name as folder, skip")
@@ -257,13 +251,11 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     override suspend fun deleteAlbum(albumId: Id) {
-        assertBackgroundThread()
         localAlbum.delete(albumId)
     }
 
     // artist
     override suspend fun mustFetchArtist(artistId: Id): Boolean {
-        assertBackgroundThread()
         val mustFetch = localArtist.mustFetch(artistId)
         Log.v(TAG, "must fetch artist id=$artistId -> $mustFetch")
         return mustFetch
@@ -271,7 +263,6 @@ internal class ImageRetrieverRepository @Inject constructor(
 
     override suspend fun getArtist(artistId: Id): LastFmArtist? = coroutineScope {
         Log.v(TAG, "get artist id=$artistId")
-        assertBackgroundThread()
         val cached = localArtist.getCached(artistId)
         if (cached != null) {
             Log.v(TAG, "found in cache id=$artistId")
@@ -326,7 +317,6 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     override suspend fun deleteArtist(artistId: Id) {
-        assertBackgroundThread()
         localArtist.delete(artistId)
     }
 }

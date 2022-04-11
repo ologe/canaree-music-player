@@ -19,6 +19,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.image.provider.loader.AudioFileCoverLoader
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
@@ -37,10 +38,16 @@ class GlideModule : AppGlideModule() {
         fun lastFmFactory(): GlideImageRetrieverLoader.Factory
         fun originalFactory(): GlideOriginalImageLoader.Factory
         fun mergedFactory(): GlideMergedImageLoader.Factory
+        fun config(): Config
     }
 
-    override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
+    override fun applyOptions(
+        context: Context,
+        builder: GlideBuilder
+    ) {
+        val component = component(context)
+        val config = component.config()
+        val level = if (config.isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))
@@ -61,7 +68,7 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        val component = EntryPoints.get(context, Component::class.java)
+        val component = component(context)
 
         registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
@@ -71,5 +78,9 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun isManifestParsingEnabled(): Boolean = false
+
+    private fun component(context: Context): Component {
+        return EntryPoints.get(context, Component::class.java)
+    }
 
 }

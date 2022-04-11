@@ -26,8 +26,6 @@ import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -47,7 +45,6 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun getAll(): List<Playlist> {
         populatePlaylistTables()
-        assertBackgroundThread()
         val result = playlistDao.getAllPlaylists()
         return result.map { it.toDomain() }
     }
@@ -57,11 +54,9 @@ internal class PlaylistRepository @Inject constructor(
             .onStart { populatePlaylistTables() }
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
     }
 
     override fun getByParam(param: Id): Playlist? {
-        assertBackgroundThread()
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
         } else {
@@ -78,11 +73,9 @@ internal class PlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
@@ -93,7 +86,6 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
         }
         // TODO sort
         return playlistDao.observePlaylistTracks(param, songGateway)
@@ -118,7 +110,6 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
         return listOf(
             createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
             createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
@@ -134,11 +125,9 @@ internal class PlaylistRepository @Inject constructor(
         val folderPath = mediaId.categoryId
         return mostPlayedDao.getAll(folderPath, songGateway)
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
-        assertBackgroundThread()
         mostPlayedDao.insertOne(
             PlaylistMostPlayedEntity(
                 0,
@@ -152,7 +141,6 @@ internal class PlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
