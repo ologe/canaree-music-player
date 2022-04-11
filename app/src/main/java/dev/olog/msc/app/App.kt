@@ -3,7 +3,6 @@ package dev.olog.msc.app
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.Config
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
@@ -16,9 +15,6 @@ class App : ThemedApp() {
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
-
-    @Inject
-    lateinit var config: Config
 
     override fun onCreate() {
         super.onCreate()
@@ -33,9 +29,6 @@ class App : ThemedApp() {
         appShortcuts = AppShortcuts.instance(this)
 
         BlurKit.init(this)
-        if (config.isDebug) {
-//            Stetho.initializeWithDefaults(this)
-        }
     }
 
     private fun initializeConstants() {

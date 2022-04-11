@@ -45,7 +45,6 @@ ext {
 
 //    debug
     leak_canary = '2.8.1'
-    stetho = '1.5.1'
 
 //    firebase
     firebase_core = '17.2.0'
@@ -126,7 +125,6 @@ ext {
 
     lib_debug = [
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
-            stetho           : "com.facebook.stetho:stetho:$stetho",
     ]
 
     lib_test = [
