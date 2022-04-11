@@ -49,6 +49,7 @@ abstract class CoreModule {
             versionName = BuildConfig.VERSION_NAME,
             versionCode = BuildConfig.VERSION_CODE,
             aesPassword = BuildConfig.AES_PASSWORD,
+            lastFmBaseUrl = "http://ws.audioscrobbler.com/2.0/",
             lastFmKey = BuildConfig.LAST_FM_KEY,
             lastFmSecret = BuildConfig.LAST_FM_SECRET,
         )

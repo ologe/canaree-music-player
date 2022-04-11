@@ -1,10 +1,8 @@
 package dev.olog.data.api.lastfm
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
@@ -23,14 +21,12 @@ object NetworkModule {
     @Provides
     @Singleton
     internal fun provideOkHttp(
-        @ApplicationContext context: Context,
+        lastFmInterceptor: LastFmInterceptor,
         config: Config,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor(config))
-            .addInterceptor(headerInterceptor(context))
-            .connectTimeout(1, TimeUnit.SECONDS)
-            .readTimeout(1, TimeUnit.SECONDS)
+            .addInterceptor(lastFmInterceptor)
             .build()
     }
 
@@ -46,19 +42,6 @@ object NetworkModule {
         return loggingInterceptor
     }
 
-    @JvmStatic
-    private fun headerInterceptor(context: Context): Interceptor {
-        return Interceptor {
-            val original = it.request()
-            val request = original.newBuilder()
-                .header("User-Agent", context.packageName)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .method(original.method, original.body)
-                .build()
-            it.proceed(request)
-        }
-    }
-
     @Provides
     @Singleton
     internal fun provideLastFmRetrofit(
@@ -66,7 +49,7 @@ object NetworkModule {
         config: Config,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://ws.audioscrobbler.com/2.0/?api_key=${config.lastFmKey}&format=json&")
+            .baseUrl(config.lastFmBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
