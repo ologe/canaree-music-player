@@ -24,13 +24,13 @@ inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
 }
 
 fun View.setHeight(@Px heightPx: Int) {
-    val params = this.layoutParams as? ViewGroup.MarginLayoutParams ?: return
+    val params = this.layoutParams ?: return
     params.height = heightPx
     layoutParams = params
 }
 
 fun View.setWidth(@Px widthPx: Int) {
-    val params = this.layoutParams as? ViewGroup.MarginLayoutParams ?: return
+    val params = this.layoutParams ?: return
     params.width = widthPx
     layoutParams = params
 }
