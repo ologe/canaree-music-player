@@ -26,11 +26,8 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
-import dev.olog.presentation.pro.HasBilling
-import dev.olog.presentation.utils.forEach
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -62,28 +59,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
-    private val paidSettings: List<Preference> by lazyFast {
-        listOf(
-            // library
-            findPreference<Preference>(getString(R.string.prefs_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_show_podcasts_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_podcast_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_blacklist_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_folder_tree_view_key))!!,
-            //audio
-            findPreference<Preference>(getString(R.string.prefs_used_equalizer_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_midnight_mode_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_cross_fade_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_gapless_key))!!,
-            // ui
-            findPreference<Preference>(getString(R.string.prefs_appearance_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_adaptive_colors_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_immersive_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_quick_action_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!
-        )
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
@@ -95,12 +70,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
         accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
-
-        val state = (act as HasBilling).billing.getBillingsState()
-        val premiumEnabled = state.isPremiumEnabled()
-        preferenceScreen.forEach {
-            it.isEnabled = premiumEnabled || !paidSettings.contains(it)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

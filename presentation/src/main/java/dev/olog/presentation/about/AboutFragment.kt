@@ -7,7 +7,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.presentation.pro.IBilling
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
@@ -25,8 +24,7 @@ class AboutFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: NavigatorAbout
-    @Inject
-    lateinit var billing: IBilling
+
     private val viewModel by viewModels<AboutFragmentViewModel>()
     private val adapter by lazyFast {
         AboutFragmentAdapter(viewLifecycleOwner.lifecycle, navigator, viewModel)
