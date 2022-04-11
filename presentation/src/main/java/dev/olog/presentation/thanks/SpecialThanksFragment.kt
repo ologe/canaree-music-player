@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import kotlinx.android.synthetic.main.fragment_special_thanks.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 
@@ -43,7 +42,7 @@ class SpecialThanksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {

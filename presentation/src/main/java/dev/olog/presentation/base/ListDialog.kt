@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.ctx
 
 abstract class ListDialog : DialogFragment() {
 
@@ -17,7 +16,7 @@ abstract class ListDialog : DialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(provideLayoutId(), null, false)
 
-        val builder = MaterialAlertDialogBuilder(ctx)
+        val builder = MaterialAlertDialogBuilder(requireContext())
             .setView(view)
 
         setupBuilder(builder)

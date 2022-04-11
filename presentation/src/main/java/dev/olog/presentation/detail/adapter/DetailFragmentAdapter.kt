@@ -2,6 +2,8 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import androidx.core.text.parseAsHtml
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -23,11 +25,9 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
@@ -154,7 +154,7 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
-                    .map { it?.asHtml() }
+                    .map { it?.parseAsHtml() }
                     .observe(holder, Observer { view.biography.text = it })
             }
         }
@@ -228,7 +228,7 @@ internal class DetailFragmentAdapter(
                 holder.itemView.apply {
                     title.text = item.title
                     subtitle?.text = item.subtitle
-                    seeMore?.toggleVisibility(item.visible, true)
+                    seeMore?.isVisible = item.visible
                 }
             }
             R.layout.item_detail_header_all_song -> {

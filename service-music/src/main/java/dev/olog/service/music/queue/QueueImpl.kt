@@ -11,13 +11,12 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.clamp
+import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.shared.swap
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
@@ -209,7 +208,7 @@ internal class QueueImpl @Inject constructor(
     @Contract(pure = true)
     @CheckResult
     private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
-        return clamp(position, 0, list.lastIndex)
+        return position.coerceIn(0, list.lastIndex)
     }
 
     @Contract(pure = true)

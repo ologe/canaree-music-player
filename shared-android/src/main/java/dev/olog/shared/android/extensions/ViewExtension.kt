@@ -5,38 +5,8 @@ package dev.olog.shared.android.extensions
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.annotation.Px
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
-
-
-fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
-    if (visible) {
-        this.visibility = View.VISIBLE
-    } else {
-        if (gone) {
-            this.visibility = View.GONE
-        } else {
-            this.visibility = View.INVISIBLE
-        }
-    }
-}
-
-inline fun View.setGone() {
-    this.visibility = View.GONE
-}
-
-inline fun View.setVisible() {
-    this.visibility = View.VISIBLE
-}
-
-inline fun View.setInvisible() {
-    this.visibility = View.INVISIBLE
-}
 
 inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
@@ -54,26 +24,14 @@ inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
 }
 
 fun View.setHeight(@Px heightPx: Int) {
-    val params = this.layoutParams
-    when (params) {
-        is FrameLayout.LayoutParams -> params.height = heightPx
-        is LinearLayout.LayoutParams -> params.height = heightPx
-        is RelativeLayout.LayoutParams -> params.height = heightPx
-        is CoordinatorLayout.LayoutParams -> params.height = heightPx
-        is ConstraintLayout.LayoutParams -> params.height = heightPx
-    }
+    val params = this.layoutParams ?: return
+    params.height = heightPx
     layoutParams = params
 }
 
-fun View.setWidth(@Px heightPx: Int) {
-    val params = this.layoutParams
-    when (params) {
-        is FrameLayout.LayoutParams -> params.width = heightPx
-        is LinearLayout.LayoutParams -> params.width = heightPx
-        is RelativeLayout.LayoutParams -> params.width = heightPx
-        is CoordinatorLayout.LayoutParams -> params.width = heightPx
-        is ConstraintLayout.LayoutParams -> params.width = heightPx
-    }
+fun View.setWidth(@Px widthPx: Int) {
+    val params = this.layoutParams ?: return
+    params.width = widthPx
     layoutParams = params
 }
 

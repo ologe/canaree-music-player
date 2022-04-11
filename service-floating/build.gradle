@@ -5,13 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
     //kotlinOptions.allWarningsAsErrors = true
-
 }
 
 dependencies {
@@ -29,7 +23,7 @@ dependencies {
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions

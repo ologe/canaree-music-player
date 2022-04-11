@@ -22,9 +22,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.view.isVisible
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.setGone
-import dev.olog.shared.android.extensions.setVisible
 
 
 /**
@@ -52,7 +51,7 @@ internal class ShadeView constructor(
         currentAnimation?.cancel()
         currentAnimation = ObjectAnimator.ofFloat(this, "alpha", 1.0f).apply {
             duration = FADE_DURATION
-            doOnStart { setVisible() }
+            doOnStart { isVisible = true }
         }
         currentAnimation!!.start()
     }
@@ -63,7 +62,7 @@ internal class ShadeView constructor(
 
         currentAnimation = ObjectAnimator.ofFloat(this, "alpha", 0.0f).apply {
             duration = FADE_DURATION
-            doOnEnd { setGone() }
+            doOnEnd { isVisible = false }
         }
         currentAnimation!!.start()
     }

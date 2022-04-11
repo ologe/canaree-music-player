@@ -1,4 +1,24 @@
-include ':app', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
+include ':app'
+include ':core'
+include ':data'
+
+include ':service-music'
+include ':service-floating'
+
+include ':presentation'
+include ':offline-lyrics'
+include ':equalizer'
+include ':media'
+include ':app-shortcuts'
+include ':image-provider'
+include ':jaudiotagger'
+
+include ':test-shared'
+include ':intents'
+include ':prefs-keys'
+include ':shared'
+include ':shared-widgets'
+include ':shared-android'
 
 rootProject.name = 'canaree'
 gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'

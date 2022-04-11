@@ -33,7 +33,7 @@ public class MaxHeightLinearLayout extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int maxHeightPx = ContextExtensionKt.dpToPx(getContext(), maxHeightDp);
+        int maxHeightPx = ContextExtensionKt.dip(getContext(), maxHeightDp);
         heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(maxHeightPx, View.MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

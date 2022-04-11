@@ -9,7 +9,6 @@ import android.widget.Button
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.flowInterval
@@ -102,10 +101,10 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                         hmsPicker.minutes,
                         hmsPicker.seconds
                     )
-                    act.toast(R.string.sleep_timer_set)
+                    toast(R.string.sleep_timer_set)
                     dismiss()
                 } else {
-                    act.toast(R.string.sleep_timer_can_not_be_set)
+                    toast(R.string.sleep_timer_can_not_be_set)
                 }
             }
         }

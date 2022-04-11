@@ -17,7 +17,6 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -42,11 +41,9 @@ internal class QueueManager @Inject constructor(
         val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
 
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
-        val currentPosition = clamp(
-            playingQueue.indexOfFirst { it.idInPlaylist == lastPlayedId },
-            0,
-            playingQueue.lastIndex
-        )
+        val currentPosition = playingQueue
+            .indexOfFirst { it.idInPlaylist == lastPlayedId }
+            .coerceIn(0, playingQueue.lastIndex)
 
         val result = playingQueue.getOrNull(currentPosition) ?: return null
 
@@ -248,11 +245,9 @@ internal class QueueManager @Inject constructor(
         if (shuffleMode.isEnabled() || songId == -1L) {
             return 0
         } else {
-            return clamp(
-                songList.indexOfFirst { it.id == songId },
-                0,
-                songList.lastIndex
-            )
+            return songList
+                .indexOfFirst { it.id == songId }
+                .coerceIn(0, songList.lastIndex)
         }
     }
 
@@ -293,10 +288,10 @@ internal class QueueManager @Inject constructor(
     private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long  {
         if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            return clamp(bookmark, 0L, mediaEntity.duration)
+            return bookmark.coerceIn(0L, mediaEntity.duration)
         } else {
             val bookmark = musicPreferencesUseCase.getBookmark().toInt()
-            return clamp(bookmark.toLong(), 0L, mediaEntity.duration)
+            return bookmark.toLong().coerceIn(0L, mediaEntity.duration)
         }
     }
 
@@ -306,7 +301,7 @@ internal class QueueManager @Inject constructor(
     ): Long = withContext(Dispatchers.Default) {
         if (mediaEntity?.isPodcast == true) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            clamp(bookmark, 0L, mediaEntity.duration)
+            bookmark.coerceIn(0L, mediaEntity.duration)
         } else {
             default
         }

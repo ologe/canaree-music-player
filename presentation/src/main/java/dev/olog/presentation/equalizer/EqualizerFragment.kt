@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
@@ -12,9 +13,7 @@ import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*
@@ -51,7 +50,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
 
         viewModel.observePreset()
             .subscribe(viewLifecycleOwner) { preset ->
-                delete.toggleVisibility(preset.isCustom, true)
+                delete.isVisible = preset.isCustom
 
                 presetSpinner.text = preset.name
 
@@ -114,7 +113,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
         delete.setOnClickListener { viewModel.deleteCurrentPreset() }
         save.setOnClickListener {
             // create new preset
-            TextViewDialog(ctx, "Save preset", null)
+            TextViewDialog(requireContext(), "Save preset", null)
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
                     val title = it[0].text.toString()
@@ -141,7 +140,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             val presets = withContext(Dispatchers.IO) {
                 viewModel.getPresets()
             }
-            val popup = PopupMenu(ctx, presetSpinner)
+            val popup = PopupMenu(requireContext(), presetSpinner)
             popup.inflate(R.menu.empty)
             for (preset in presets) {
                 popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)

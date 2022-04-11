@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -51,7 +51,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private val mediaProvider: MediaProvider
         get() = requireContext().findInContext()
 
-    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
+    private val scrollViewTouchListener by lazyFast {
+        NoScrollTouchListener(requireContext()) { mediaProvider.playPause() }
+    }
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
@@ -89,7 +91,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         presenter.observeLyrics()
             .subscribe(viewLifecycleOwner) { (lyrics, type) ->
-                emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                emptyState.isVisible = lyrics.isEmpty()
                 text.text = lyrics
 
                 text.doOnPreDraw {
@@ -123,14 +125,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         super.onResume()
         edit.setOnClickListener {
             launch {
-                EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
+                EditLyricsDialog.show(requireContext(), presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
             }
         }
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
         search.setOnClickListener { searchLyrics() }
-        act.window.removeLightStatusBar()
+        requireActivity().window.removeLightStatusBar()
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
@@ -140,7 +142,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
-                        ctx,
+                        requireContext(),
                         presenter.getSyncAdjustment()
                     ) {
                         presenter.updateSyncAdjustment(it)
@@ -164,7 +166,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         edit.setOnClickListener(null)
         back.setOnClickListener(null)
         search.setOnClickListener(null)
-        act.window.setLightStatusBar()
+        requireActivity().window.setLightStatusBar()
 
         fakeNext.setOnTouchListener(null)
         fakePrev.setOnTouchListener(null)
@@ -193,13 +195,13 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private fun searchLyrics() {
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
-            .setToolbarColor(ctx.colorSurface())
+            .setToolbarColor(requireContext().colorSurface())
             .build()
-        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+        CustomTabsHelper.addKeepAliveExtra(requireContext(), customTabIntent.intent)
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, callback)
+        CustomTabsHelper.openCustomTab(requireContext(), customTabIntent, uri, callback)
     }
 
 

@@ -4,11 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.lazyFast
@@ -39,7 +39,7 @@ class QuickActionView (
 
     private fun setImage() {
         val quickAction = hasQuickAction.getQuickAction()
-        toggleVisibility(quickAction != QuickAction.NONE, true)
+        isVisible = quickAction != QuickAction.NONE
 
         when (quickAction) {
             QuickAction.NONE -> setImageDrawable(null)

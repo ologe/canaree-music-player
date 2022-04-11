@@ -12,7 +12,6 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
 import dev.olog.shared.lazyFast
-import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
@@ -132,7 +131,7 @@ private enum class AudioFocusType {
                 AudioManager.AUDIOFOCUS_LOSS -> LOSS
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> LOSS_TRANSIENT
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> LOSS_TRANSIENT_CAN_DUCK
-                else -> throwNotHandled("focus=$focus")
+                else -> error("focus=$focus")
             }
         }
     }
