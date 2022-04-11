@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -43,8 +42,6 @@ class LibraryFragment : BaseFragment() {
     private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
 
     private val isPodcast by argument<Boolean>(IS_PODCAST)
 
@@ -144,10 +141,6 @@ class LibraryFragment : BaseFragment() {
 
             override fun onPageSelected(position: Int) {
                 viewModel.setViewPagerLastPage(position, isPodcast)
-                pagerAdapter.getCategoryAtPosition(position)?.let {
-                    trackerFacade.trackScreen(it.toString(), null)
-                }
-
             }
         }
 
