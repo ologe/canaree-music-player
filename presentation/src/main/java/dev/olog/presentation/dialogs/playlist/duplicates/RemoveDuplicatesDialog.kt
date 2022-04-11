@@ -1,14 +1,13 @@
 package dev.olog.presentation.dialogs.playlist.duplicates
 
 import android.content.Context
+import androidx.core.text.parseAsHtml
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
-import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -39,7 +38,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.remove_duplicates_title)
-            .setMessage(createMessage().asHtml())
+            .setMessage(createMessage().parseAsHtml())
             .setPositiveButton(R.string.popup_positive_remove, null)
             .setNegativeButton(R.string.popup_negative_no, null)
     }
@@ -49,12 +48,12 @@ class RemoveDuplicatesDialog: BaseDialog() {
             var message: String
             try {
                 viewModel.execute(mediaId)
-                message = successMessage(act)
+                message = successMessage(requireContext())
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(act)
+                message = failMessage(requireContext())
             }
-            act.toast(message)
+            toast(message)
             dismiss()
 
         }

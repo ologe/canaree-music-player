@@ -3,8 +3,10 @@ package dev.olog.presentation.player
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -202,7 +204,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context.findInContext<FragmentActivity>()).fragmentTransaction {
+            (view.context.findInContext<FragmentActivity>()).supportFragmentManager.commit {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,
@@ -267,7 +269,7 @@ internal class PlayerFragmentAdapter(
             .subscribe(holder) { visible ->
                 view.findViewById<View>(R.id.playerControls)
                     ?.findViewById<View>(R.id.player)
-                    ?.toggleVisibility(visible, true)
+                    ?.isVisible = visible
             }
 
 
@@ -308,7 +310,7 @@ internal class PlayerFragmentAdapter(
 
         val isPodcast = metadata.isPodcast
         val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
-        playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
+        playerControlsRoot.podcast_controls.isVisible = isPodcast
     }
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {

@@ -13,6 +13,6 @@ dependencies {
     implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_x.material
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.palette
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -106,7 +107,7 @@ class OfflineLyricsContent(
 
         presenter.observeLyrics()
             .subscribe(this) { (lyrics, type) ->
-                content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                content.emptyState.isVisible = lyrics.isEmpty()
                 content.text.text = lyrics
 
                 content.text.doOnPreDraw {

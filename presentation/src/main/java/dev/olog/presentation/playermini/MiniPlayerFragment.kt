@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +38,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
-            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
+            view.isVisible = it.getBoolean(BUNDLE_IS_VISIBLE)
         }
         val lastMetadata = viewModel.getMetadata()
         title.text = lastMetadata.title
@@ -97,7 +98,7 @@ class MiniPlayerFragment : BaseFragment(){
         super.onResume()
         getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
-        view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
+        view?.isVisible = !getSlidingPanel().isExpanded()
         next.setOnClickListener { media.skipToNext() }
         playPause.setOnClickListener { media.playPause() }
         previous.setOnClickListener { media.skipToPrevious() }
@@ -142,7 +143,7 @@ class MiniPlayerFragment : BaseFragment(){
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
-            view?.toggleVisibility(slideOffset <= .8f, true)
+            view?.isVisible = slideOffset <= .8f
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {

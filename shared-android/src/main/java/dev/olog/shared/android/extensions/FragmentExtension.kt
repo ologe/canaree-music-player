@@ -2,21 +2,22 @@
 
 package dev.olog.shared.android.extensions
 
-import android.content.Context
+import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
 inline fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
     arguments = bundleOf(*params)
     return this
 }
 
-inline val Fragment.ctx : Context
-    get() = context!!
+inline fun Fragment.dip(value: Int): Int = requireContext().dip(value)
+inline fun Fragment.dip(value: Float): Int = requireContext().dip(value)
+inline fun Fragment.dimen(@DimenRes resId: Int): Int = requireContext().dimen(resId)
 
-inline val Fragment.act : FragmentActivity
-    get() = activity!!
+inline fun Fragment.toast(@StringRes resId: Int) = requireContext().toast(resId)
+inline fun Fragment.toast(message: CharSequence) = requireContext().toast(message)
 
 @Suppress("UNCHECKED_CAST", "ObjectPropertyName")
 fun <T : Any> Fragment.argument(key: String): Lazy<T> {

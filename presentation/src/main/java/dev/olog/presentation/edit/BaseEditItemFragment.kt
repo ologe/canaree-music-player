@@ -12,7 +12,6 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.shared.android.extensions.ctx
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -28,11 +27,11 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
     protected fun loadImage(mediaId: MediaId) {
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
-        GlideApp.with(ctx).clear(image)
+        GlideApp.with(this).clear(image)
 
-        GlideApp.with(ctx)
+        GlideApp.with(this)
             .load(mediaId)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .placeholder(CoverUtils.getGradient(requireContext(), mediaId))
             .override(500)
             .priority(Priority.IMMEDIATE)
             .into(image)

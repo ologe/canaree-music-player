@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
@@ -47,7 +48,7 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
+            requireContext().applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
         )
     }
 
@@ -73,7 +74,7 @@ class LibraryFragment : BaseFragment() {
         viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
         viewPager.offscreenPageLimit = 5
 
-        pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
+        pagerEmptyState.isVisible = pagerAdapter.isEmpty()
 
         val selectedView: TextView = if (!isPodcast) tracks else podcasts
         val unselectedView: TextView = if (!isPodcast) podcasts else tracks
@@ -81,7 +82,7 @@ class LibraryFragment : BaseFragment() {
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
         if (!viewModel.canShowPodcasts()){
-            podcasts.setGone()
+            podcasts.isVisible = false
         }
 
         if (viewModel.showFloatingWindowTutorialIfNeverShown()) {

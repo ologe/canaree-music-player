@@ -2,12 +2,12 @@ package dev.olog.presentation.queue
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -15,7 +15,9 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +63,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)
-            emptyStateText.toggleVisibility(it.isEmpty(), true)
+            emptyStateText.isVisible = it.isEmpty()
         }
 
         launch {
@@ -76,7 +78,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
                 .collect { position ->
                     layoutManager.scrollToPositionWithOffset(
                         position,
-                        ctx.dip(20)
+                        dip(20)
                     )
                 }
         }

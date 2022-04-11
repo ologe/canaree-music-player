@@ -26,6 +26,6 @@ dependencies {
     // mandatory for glide 4.9.0 or below compatibility
     kapt lib_ui.androidSupportAnnotation
 
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.preference
 }

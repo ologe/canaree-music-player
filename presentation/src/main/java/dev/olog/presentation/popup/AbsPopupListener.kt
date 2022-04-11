@@ -12,7 +12,6 @@ import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
@@ -21,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.net.Uri
+import androidx.core.text.parseAsHtml
 
 abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
@@ -97,7 +97,7 @@ abstract class AbsPopupListener(
         try {
             if (intent.resolveActivity(activity.packageManager) != null) {
                 val string = activity.getString(R.string.share_song_x, song.title)
-                activity.startActivity(Intent.createChooser(intent, string.asHtml()))
+                activity.startActivity(Intent.createChooser(intent, string.parseAsHtml()))
             } else {
                 activity.toast(R.string.song_not_shareable)
             }

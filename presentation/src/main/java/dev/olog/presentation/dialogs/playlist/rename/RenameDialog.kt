@@ -9,7 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -58,12 +57,12 @@ class RenameDialog : BaseEditTextDialog() {
         var message: String
         try {
             viewModel.execute(mediaId, string)
-            message = successMessage(act, string)
+            message = successMessage(requireContext(), string)
         } catch (ex: Throwable) {
             ex.printStackTrace()
             message = getString(R.string.popup_error_message)
         }
-        act.toast(message)
+        toast(message)
     }
 
     private fun successMessage(context: Context, currentValue: String): String {

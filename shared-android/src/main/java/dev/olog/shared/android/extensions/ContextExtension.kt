@@ -12,36 +12,29 @@ import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.R
 import dev.olog.shared.android.utils.isOreo
 
-inline fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
+fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!
 }
 
-//returns dip(dp) dimension value in pixels
-inline fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
-inline fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
-inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
+fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
-inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
+fun Context.dimen(@DimenRes resId: Int): Int = resources.getDimensionPixelSize(resId)
 
-inline fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
-inline fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
-
-inline fun Context.dpToPx(dp: Float): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
-}
-
-inline fun Context.toast(message: Int): Toast = Toast
-        .makeText(this, message, Toast.LENGTH_SHORT)
+fun Context.toast(@StringRes resId: Int): Toast = Toast
+        .makeText(this, resId, Toast.LENGTH_SHORT)
         .apply {
             show()
         }
 
-inline fun Context.toast(message: CharSequence): Toast = Toast
+fun Context.toast(message: CharSequence): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
         .apply {
             show()

@@ -5,7 +5,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.android.extensions.dpToPx
+import dev.olog.shared.android.extensions.dip
 import kotlinx.coroutines.*
 
 class BlurShadowHelper(
@@ -16,7 +16,7 @@ class BlurShadowHelper(
         private const val BRIGHTNESS = -25f
         private const val SATURATION = 1.3f
         private const val TOP_OFFSET = 2.2f
-        private const val PADDING = 22f
+        private const val PADDING = 22
     }
 
     private var job: Job? = null
@@ -27,7 +27,7 @@ class BlurShadowHelper(
             cropToPadding = false
             scaleType = ImageView.ScaleType.CENTER_CROP
 
-            val padding = context.dpToPx(PADDING)
+            val padding = context.dip(PADDING)
             setPadding(padding, padding, padding, padding)
         }
     }
@@ -55,7 +55,7 @@ class BlurShadowHelper(
         val blur = BlurShadow.blur(
             view,
             view.width,
-            view.height - view.context.dpToPx(TOP_OFFSET)
+            view.height - view.context.dip(TOP_OFFSET)
         )
         //brightness -255..255 -25 is default
         val colorMatrix = ColorMatrix(

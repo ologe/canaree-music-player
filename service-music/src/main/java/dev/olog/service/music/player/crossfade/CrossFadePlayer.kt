@@ -9,14 +9,13 @@ import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.Config
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.shared.clamp
+import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -81,7 +80,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             { crossfade, gapless ->
                 if (gapless){
                     // force song preloading
-                    clamp(crossfade, MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
+                    crossfade.coerceIn(MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
                 } else {
                     crossfade
                 }
@@ -257,7 +256,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         val min: Float
             get() {
                 if (gapless && crossfade <= MAX_CROSSFADE_FOR_GAPLESS){
-                    return clamp(maxVolumeAllowed * 0.75f, 0f, maxVolumeAllowed)
+                    return (maxVolumeAllowed * 0.75f).coerceIn(0f, maxVolumeAllowed)
                 }
                 return 0f
             }

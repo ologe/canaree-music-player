@@ -130,7 +130,7 @@ class DetailFragment : BaseFragment(),
         viewModel.observeSongs()
             .subscribe(viewLifecycleOwner) { list ->
                 if (list.isEmpty()) {
-                    act.onBackPressed()
+                    requireActivity().onBackPressed()
                 } else {
                     adapter.updateDataSet(list)
                     restoreUpperWidgetsTranslation()
@@ -197,10 +197,10 @@ class DetailFragment : BaseFragment(),
         super.onResume()
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
         filter.setOnClickListener {
-            searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
+            searchWrapper.isVisible = !searchWrapper.isVisible
         }
     }
 
@@ -239,7 +239,7 @@ class DetailFragment : BaseFragment(),
         if (requireContext().isTablet){
             return
         }
-        act.window.removeLightStatusBar()
+        requireActivity().window.removeLightStatusBar()
     }
 
     private fun setLightStatusBar() {
@@ -255,7 +255,7 @@ class DetailFragment : BaseFragment(),
             return
         }
 
-        act.window.setLightStatusBar()
+        requireActivity().window.setLightStatusBar()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail

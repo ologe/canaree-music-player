@@ -21,5 +21,4 @@ dependencies {
     implementation lib_x.appcompat
     implementation lib_x.material
     implementation lib_x.core
-    implementation lib_x.core_ktx
 }

@@ -3,6 +3,7 @@ package dev.olog.presentation.navigator
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.Lazy
 import dev.olog.core.MediaId
@@ -32,7 +33,6 @@ import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.fragmentTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toFirstAccess() {
         val activity = activityRef.get() ?: return
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
         }
     }
@@ -94,7 +94,7 @@ class NavigatorImpl @Inject internal constructor(
         if (!allowed()) {
             return
         }
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             add(
