@@ -17,8 +17,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
 class SplashTutorialFragment : Fragment(),
@@ -36,8 +35,7 @@ class SplashTutorialFragment : Fragment(),
         viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
 
         swipeableView.isTouching()
-            .asLiveData()
-            .subscribe(this) {
+            .collectOnViewLifecycle(this) {
                 viewPager.isSwipeEnabled = !it
             }
 

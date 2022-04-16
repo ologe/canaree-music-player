@@ -23,14 +23,13 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -132,12 +131,12 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .collect { viewModel.updateQuery(it) }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .collectOnViewLifecycle(this) {
+                viewModel.updateQuery(it)
+            }
     }
 
 

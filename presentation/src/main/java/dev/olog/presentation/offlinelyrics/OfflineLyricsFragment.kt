@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
@@ -72,10 +71,10 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
 
         mediaProvider.observeMetadata()
-            .subscribe(viewLifecycleOwner) {
+            .collectOnViewLifecycle(this) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                launch { loadImage(it.mediaId) }
+                loadImage(it.mediaId)
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
@@ -108,8 +107,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         view.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { accent ->
+            .collectOnViewLifecycle(this) { accent ->
                 subHeader.animateTextColor(accent)
                 edit.animateBackgroundColor(accent)
             }
@@ -124,7 +122,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            launch {
+            launchWhenResumed {
                 EditLyricsDialog.show(requireContext(), presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -139,7 +137,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
-            launch {
+            launchWhenResumed {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         requireContext(),

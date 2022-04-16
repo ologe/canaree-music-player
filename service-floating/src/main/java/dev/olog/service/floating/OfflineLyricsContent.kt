@@ -10,13 +10,15 @@ import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.animateBackgroundColor
+import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.shared.android.extensions.collectOnLifecycle
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -31,7 +33,7 @@ class OfflineLyricsContent(
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(context) { glueService.playPause() } }
 
-    private suspend fun loadImage(mediaId: MediaId) {
+    private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO) {
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
             val blurred = BlurKit.getInstance().blur(original, 20)
@@ -65,16 +67,15 @@ class OfflineLyricsContent(
 
         content.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(this, {
+            .collectOnLifecycle(this) {
                 content.edit.animateBackgroundColor(it)
                 content.subHeader.animateTextColor(it)
-            })
+            }
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .collectOnLifecycle(this) {
                 presenter.updateCurrentTrackId(it.id)
-                GlobalScope.launch { loadImage(it.mediaId) }
+                loadImage(it.mediaId)
                 content.header.text = it.title
                 content.subHeader.text = it.artist
                 content.seekBar.max = it.duration.toInt()

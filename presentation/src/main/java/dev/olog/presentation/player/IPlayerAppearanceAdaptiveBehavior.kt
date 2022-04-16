@@ -9,8 +9,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
 import kotlinx.android.synthetic.main.player_controls_default.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.more
 import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
 import kotlinx.android.synthetic.main.player_layout_default.view.title
 import kotlinx.android.synthetic.main.player_layout_spotify.view.*
@@ -41,8 +41,7 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
 
         presenter.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
+            .collectOnLifecycle(viewHolder) { accent ->
                 val first = makeFirstColor(view.context, accent)
                 val second = makeSecondColor(view.context, accent)
                 val third = view.context.colorBackground()
@@ -81,8 +80,7 @@ internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveB
 
         presenter.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
+            .collectOnLifecycle(viewHolder) { accent ->
                 view.artist.apply { animateTextColor(accent) }
                 view.shuffle.updateSelectedColor(accent)
                 view.repeat.updateSelectedColor(accent)
@@ -100,8 +98,7 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
         val view = viewHolder.itemView
 
         presenter.observeProcessorColors()
-            .asLiveData()
-            .subscribe(viewHolder) { colors ->
+            .collectOnLifecycle(viewHolder) { colors ->
                 view.title.apply {
                     animateTextColor(colors.primaryText)
                     animateBackgroundColor(colors.background)
@@ -114,8 +111,7 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
 
         presenter.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
+            .collectOnLifecycle(viewHolder) { accent ->
                 view.seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
@@ -133,8 +129,7 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
 
         presenter.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
+            .collectOnLifecycle(viewHolder) { accent ->
                 view.seekBar.apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
@@ -154,8 +149,7 @@ internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior 
 
         presenter.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
+            .collectOnLifecycle(viewHolder) { accent ->
                 view.artist.apply { animateTextColor(accent) }
                 view.shuffle.updateSelectedColor(accent)
                 view.repeat.updateSelectedColor(accent)

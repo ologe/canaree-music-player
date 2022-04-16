@@ -25,10 +25,8 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -142,14 +140,12 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isEmpty() || it.length >= 2 }
+            .collectOnViewLifecycle(this) {
+                viewModel.updateFilter(it)
+            }
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

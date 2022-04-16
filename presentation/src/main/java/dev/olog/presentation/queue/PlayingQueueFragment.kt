@@ -15,6 +15,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
@@ -22,7 +23,6 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,22 +66,20 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             emptyStateText.isVisible = it.isEmpty()
         }
 
-        launch {
-            adapter.observeData(false)
-                .take(1)
-                .map {
-                    val idInPlaylist = viewModel.getLastIdInPlaylist()
-                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
-                }
-                .filter { it != RecyclerView.NO_POSITION } // filter only valid position
-                .flowOn(Dispatchers.Default)
-                .collect { position ->
-                    layoutManager.scrollToPositionWithOffset(
-                        position,
-                        dip(20)
-                    )
-                }
-        }
+        adapter.observeData(false)
+            .take(1)
+            .map {
+                val idInPlaylist = viewModel.getLastIdInPlaylist()
+                it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+            }
+            .filter { it != RecyclerView.NO_POSITION } // filter only valid position
+            .flowOn(Dispatchers.Default)
+            .collectOnViewLifecycle(this) { position ->
+                layoutManager.scrollToPositionWithOffset(
+                    position,
+                    dip(20)
+                )
+            }
     }
 
     override fun onResume() {

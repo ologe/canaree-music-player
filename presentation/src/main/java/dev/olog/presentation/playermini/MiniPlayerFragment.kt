@@ -18,10 +18,8 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @Keep
 @AndroidEntryPoint
@@ -45,7 +43,7 @@ class MiniPlayerFragment : BaseFragment(){
         artist.text = lastMetadata.subtitle
 
         media.observeMetadata()
-                .subscribe(viewLifecycleOwner) {
+                .collectOnViewLifecycle(this) {
                     title.text = it.title
                     viewModel.startShowingLeftTime(it.isPodcast, it.duration)
                     if (!it.isPodcast){
@@ -59,12 +57,12 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
-            viewModel.observePodcastProgress(progressBar.observeProgress())
-                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
-                .collect { artist.text = it }
-        }
+        viewModel.observePodcastProgress(progressBar.observeProgress())
+            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+            .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
+            .collectOnViewLifecycle(this) {
+                artist.text = it
+            }
 
         media.observePlaybackState()
             .filter { it.isPlayOrPause }

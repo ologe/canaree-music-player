@@ -6,8 +6,13 @@ import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 
-inline fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
+inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
     arguments = bundleOf(*params)
     return this
 }
@@ -34,4 +39,24 @@ fun <T : Any> Fragment.argument(key: String): Lazy<T> {
 
         override fun isInitialized(): Boolean = _value != null
     }
+}
+
+inline fun <T : Any> Flow<T>.collectOnViewLifecycle(
+    fragment: Fragment,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+    collect: FlowCollector<T>,
+) {
+    return collectOnLifecycle(
+        owner = fragment.viewLifecycleOwner,
+        minActiveState = minActiveState,
+        collect = collect
+    )
+}
+
+fun Fragment.launchWhenStarted(block: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launchWhenStarted(block)
+}
+
+fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }

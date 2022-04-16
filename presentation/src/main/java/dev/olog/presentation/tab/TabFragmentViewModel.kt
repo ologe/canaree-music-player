@@ -1,6 +1,5 @@
 package dev.olog.presentation.tab
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
@@ -8,9 +7,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.extensions.asLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,17 +18,11 @@ internal class TabFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> =
-        mutableMapOf()
+    private val dataMap = mutableMapOf<TabCategory, Flow<List<DisplayableItem>>>()
 
-    @Suppress("UNNECESSARY_NOT_NULL_ASSERTION") // kotlin compiler error
-    suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
-        return withContext(Dispatchers.Default) {
-            var liveData = liveDataMap[category]
-            if (liveData == null) {
-                liveData = dataProvider.get(category).asLiveData()
-            }
-            liveData!!
+    fun observeData(category: TabCategory): Flow<List<DisplayableItem>> {
+        return dataMap.getOrPut(category) {
+            dataProvider.get(category)
         }
     }
 
