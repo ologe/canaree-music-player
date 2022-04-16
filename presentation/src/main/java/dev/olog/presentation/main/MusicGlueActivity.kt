@@ -90,7 +90,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    override fun observeMetadata(): Flow<PlayerMetadata> = mediaExposer.observeMetadata()
 
     override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
         mediaExposer.observePlaybackState()

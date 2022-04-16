@@ -19,6 +19,7 @@ import dev.olog.media.skipToPrevious
 import dev.olog.shared.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ServiceScoped
@@ -68,7 +69,7 @@ class MusicGlueService @Inject constructor(
     }
 
     fun observePlaybackState(): LiveData<PlayerPlaybackState> = mediaExposer.observePlaybackState()
-    fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    fun observeMetadata(): Flow<PlayerMetadata> = mediaExposer.observeMetadata()
 
     fun playPause() {
         mediaController?.playPause()

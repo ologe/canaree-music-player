@@ -140,17 +140,17 @@ internal class MusicNotificationManager @Inject constructor(
 
     private fun onNextMetadata(metadata: MediaEntity) {
         Log.v(TAG, "on next metadata=${metadata.title}")
-        publisher.offer(Event.Metadata(metadata))
+        publisher.trySend(Event.Metadata(metadata))
     }
 
     private fun onNextState(playbackState: PlaybackStateCompat) {
         Log.v(TAG, "on next state")
-        publisher.offer(Event.State(playbackState))
+        publisher.trySend(Event.State(playbackState))
     }
 
     private fun onNextFavorite(isFavorite: Boolean) {
         Log.v(TAG, "on next favorite $isFavorite")
-        publisher.offer(Event.Favorite(isFavorite))
+        publisher.trySend(Event.Favorite(isFavorite))
     }
 
     private fun stopForeground() {

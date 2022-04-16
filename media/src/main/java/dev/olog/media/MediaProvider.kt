@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MediaProvider {
 
-    fun observeMetadata(): LiveData<PlayerMetadata>
+    fun observeMetadata(): Flow<PlayerMetadata>
     fun observePlaybackState(): LiveData<PlayerPlaybackState>
     fun observeRepeat(): LiveData<PlayerRepeatMode>
     fun observeShuffle(): LiveData<PlayerShuffleMode>

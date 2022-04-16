@@ -18,9 +18,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +32,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
+    private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
 
     private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
 
@@ -46,10 +44,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
+    fun getCurrentTrackId(): Long? = currentTrackIdPublisher.value
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.value = trackId
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(

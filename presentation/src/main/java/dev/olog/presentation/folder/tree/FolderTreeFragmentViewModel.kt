@@ -18,7 +18,7 @@ import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
@@ -105,7 +105,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
 
         try {
-            currentDirectory.offer(current.parentFile!!)
+            currentDirectory.trySend(current.parentFile!!)
             return true
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -115,7 +115,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun nextFolder(file: File) {
         require(file.isDirectory)
-        currentDirectory.offer(file)
+        currentDirectory.trySend(file)
     }
 
     fun updateDefaultFolder() {

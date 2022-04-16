@@ -34,7 +34,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             playingQueueGateway.observeAll().distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.offer(it) }
+                .collect { queueLiveData.trySend(it) }
         }
 
         viewModelScope.launch {
@@ -60,7 +60,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
             val currentList = queueLiveData.value.toMutableList()
             currentList.removeAt(position)
 
-            queueLiveData.offer(currentList)
+            queueLiveData.trySend(currentList)
         }
 
     /**
@@ -73,7 +73,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
                 currentList.swap(from, to)
             }
 
-            queueLiveData.offer(currentList)
+            queueLiveData.trySend(currentList)
         }
 
     private fun PlayingQueueSong.toDisplayableItem(
