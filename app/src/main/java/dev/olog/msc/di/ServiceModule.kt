@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
+import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.ServiceScope
 import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.shared.android.extensions.findInContext
 
@@ -17,5 +19,9 @@ class ServiceModule {
     @Provides
     @ServiceLifecycle
     fun provideServiceLifecycle(service: Service): Lifecycle = (service.findInContext<LifecycleOwner>()).lifecycle
+
+    @Provides
+    @ServiceScoped
+    fun provideServiceScope(@ServiceLifecycle lifecycle: Lifecycle): ServiceScope = ServiceScope(lifecycle)
 
 }
