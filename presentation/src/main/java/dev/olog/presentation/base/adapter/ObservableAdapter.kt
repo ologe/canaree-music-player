@@ -15,7 +15,6 @@ abstract class ObservableAdapter<T : BaseModel>(
     itemCallback: DiffUtil.ItemCallback<T>,
 ) : ListAdapter<T, DataBoundViewHolder>(itemCallback) {
 
-    // todo test
     fun observeChanges(): Flow<List<T>> {
         val flow = MutableStateFlow(currentList)
 
