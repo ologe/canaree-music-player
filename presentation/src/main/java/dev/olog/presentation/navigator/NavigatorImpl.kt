@@ -4,6 +4,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -33,7 +34,6 @@ import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -134,7 +134,7 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()) {
-            GlobalScope.launch {
+            activity.lifecycleScope.launch {
                 val popup = popupFactory.get().create(anchor, mediaId)
                 withContext(Dispatchers.Main) {
                     popup.show()

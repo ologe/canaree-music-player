@@ -1,15 +1,15 @@
 package dev.olog.data.repository
 
 import android.os.Build
+import dev.olog.core.ApplicationScope
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -19,16 +19,17 @@ import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
     private val equalizerDao: EqualizerPresetsDao,
-    private val prefs: EqualizerPreferencesGateway
-
+    private val prefs: EqualizerPreferencesGateway,
+    private val applicationScope: ApplicationScope,
+    private val schedulers: Schedulers,
 ) : EqualizerGateway {
 
     init {
-        GlobalScope.launch(Dispatchers.IO) {
+        applicationScope.launch(schedulers.io) {
             if (equalizerDao.getPresets().isEmpty()) {
                 // called only first time
                 val presets = createDefaultPresets()
-                GlobalScope.launch { equalizerDao.insertPresets(presets) }
+                equalizerDao.insertPresets(presets)
             }
         }
     }

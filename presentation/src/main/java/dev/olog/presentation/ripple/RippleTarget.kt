@@ -8,10 +8,12 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
+import dev.olog.shared.android.extensions.coroutineScope
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 class RippleTarget(
     imageView: ImageView,
@@ -21,24 +23,16 @@ class RippleTarget(
 
 ) : DrawableImageViewTarget(imageView) {
 
-    private var job: Job? = null
-
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
-            job?.cancel()
-            job = GlobalScope.launch(Dispatchers.Default) {
+            view.coroutineScope.launch {
                 generateRipple(drawable)
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        job?.cancel()
-    }
-
-    private suspend fun generateRipple(drawable: Drawable) {
+    private suspend fun generateRipple(drawable: Drawable) = with(Dispatchers.Default) {
         val bitmap = drawable.toBitmap()
         yield()
         val palette = generatePalette(bitmap)
@@ -46,12 +40,9 @@ class RippleTarget(
         onGenerated(palette)
     }
 
-    private suspend fun generatePalette(bitmap: Bitmap) =
-        suspendCoroutine<Palette?> { continuation ->
-            Palette.from(bitmap).clearFilters().generate {
-                continuation.resume(it)
-            }
-        }
+    private fun generatePalette(bitmap: Bitmap): Palette {
+        return Palette.from(bitmap).clearFilters().generate()
+    }
 
     private suspend fun onGenerated(palette: Palette?) = withContext(Dispatchers.Main) {
         if (view is ForegroundImageView) {

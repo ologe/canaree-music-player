@@ -17,7 +17,6 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.android.utils.isOreo
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -31,7 +30,7 @@ internal class MusicNotificationManager @Inject constructor(
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: IPlayerLifecycle,
-    serviceScope: ServiceScope,
+    private val serviceScope: ServiceScope,
 ) : DefaultLifecycleObserver {
 
     companion object {
@@ -113,7 +112,7 @@ internal class MusicNotificationManager @Inject constructor(
             issueNotification(state)
         } else {
             // post delayed
-            publishJob = GlobalScope.launch {
+            publishJob = serviceScope.launch {
                 delay(delay)
                 issueNotification(state)
             }
