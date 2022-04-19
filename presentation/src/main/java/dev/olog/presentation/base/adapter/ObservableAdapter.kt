@@ -59,11 +59,6 @@ abstract class ObservableAdapter<T : BaseModel>(
         holder.onDisappear()
     }
 
-    override fun onViewRecycled(holder: DataBoundViewHolder) {
-        super.onViewRecycled(holder)
-        holder.onRecycled()
-    }
-
     fun indexOf(predicate: (T) -> Boolean): Int {
         return currentList.indexOfFirst(predicate)
     }
