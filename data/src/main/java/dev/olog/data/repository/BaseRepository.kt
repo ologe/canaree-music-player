@@ -36,9 +36,9 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver(schedulers.io) { channel.offer(queryAll()) }
+                DataObserver(schedulers.io) { channel.trySend(queryAll()) }
             )
-            channel.offer(queryAll())
+            channel.trySend(queryAll())
         }
     }
 
@@ -60,12 +60,12 @@ internal abstract class BaseRepository<T, Param>(
         val flow: Flow<R> = channelFlow {
 
             if (!isClosedForSend) {
-                offer(action())
+                trySend(action())
             }
 
             val observer = DataObserver(schedulers.io) {
                 if (!isClosedForSend) {
-                    offer(action())
+                    trySend(action())
                 }
             }
 

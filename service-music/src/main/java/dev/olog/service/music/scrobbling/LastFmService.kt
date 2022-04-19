@@ -6,10 +6,14 @@ import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.Config
+import dev.olog.core.ServiceScope
 import dev.olog.core.entity.UserCredentials
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
@@ -18,7 +22,9 @@ import javax.inject.Inject
 
 internal class LastFmService @Inject constructor(
     private val config: Config,
-): CoroutineScope by CustomScope(Dispatchers.IO) {
+    private val schedulers: Schedulers,
+    private val serviceScope: ServiceScope,
+) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -30,11 +36,11 @@ internal class LastFmService @Inject constructor(
     private var scrobbleJob: Job? = null
 
     init {
-        Caller.getInstance().userAgent = "dev.olog.msc"
+        Caller.getInstance().userAgent = config.appId
         Caller.getInstance().logger.level = Level.OFF
     }
 
-    fun tryAuthenticate(credentials: UserCredentials) {
+    suspend fun tryAuthenticate(credentials: UserCredentials) = withContext(schedulers.io) {
         try {
             session = Authenticator.getMobileSession(
                 credentials.username,
@@ -48,17 +54,13 @@ internal class LastFmService @Inject constructor(
         }
     }
 
-    fun dispose(){
-        scrobbleJob?.cancel()
-    }
-
     fun scrobble(entity: MediaEntity){
         if (session == null || userCredentials == null){
             return
         }
 
         scrobbleJob?.cancel()
-        scrobbleJob = launch {
+        scrobbleJob = serviceScope.launch {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()
             Track.scrobble(scrobbleData, session)

@@ -21,10 +21,8 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
@@ -43,10 +41,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            viewModel
-        )
+        CreatePlaylistFragmentAdapter(viewModel = viewModel)
     }
 
     private var toast: Toast? = null
@@ -72,27 +67,20 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
+                emptyStateText.isVisible = it.isEmpty()
                 sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.isVisible = it.isEmpty() }
-        }
-
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
-            editText.afterTextChange()
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .debounce(250)
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounce(250)
+            .collectOnViewLifecycle(this) {
+                viewModel.updateFilter(it)
+            }
     }
 
     override fun onResume() {

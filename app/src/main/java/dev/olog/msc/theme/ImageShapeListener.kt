@@ -18,7 +18,7 @@ internal class ImageShapeListener @Inject constructor(
 
     override fun onPrefsChanged() {
         val imageShape = getValue()
-        imageShapePublisher.offer(imageShape)
+        imageShapePublisher.trySend(imageShape)
     }
 
     override fun getValue(): ImageShape {

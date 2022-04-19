@@ -13,13 +13,14 @@ import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*
 
 @AndroidEntryPoint
-internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by MainScope() {
+internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
         const val TAG = "EqualizerFragment"
@@ -68,7 +69,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             }
     }
 
-    private fun animateBar(bar: BoxedVertical, gain: Float) = launch {
+    private fun animateBar(bar: BoxedVertical, gain: Float) = launchWhenResumed {
         var duration = 150f
         val timeDelta = 16f
         val progressDelta = (gain - bar.value) * (timeDelta / duration)
@@ -136,7 +137,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     }
 
     private fun changePreset() {
-        launch {
+        launchWhenResumed {
             val presets = withContext(Dispatchers.IO) {
                 viewModel.getPresets()
             }

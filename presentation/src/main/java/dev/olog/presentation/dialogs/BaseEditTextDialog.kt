@@ -9,10 +9,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
-import kotlinx.coroutines.Dispatchers
+import dev.olog.shared.android.extensions.launchWhenResumed
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 abstract class BaseEditTextDialog : BaseDialog() {
 
@@ -34,7 +33,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         setupEditText(editTextLayout, editText)
 
         showJeyboardJob?.cancel()
-        showJeyboardJob = launch {
+        showJeyboardJob = launchWhenResumed {
             delay(500)
             editText.showIme()
         }
@@ -49,7 +48,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         } else if (!isStringValid(string)) {
             showError(provideMessageForInvalid())
         } else {
-            launch(Dispatchers.Main) {
+            launchWhenResumed {
                 onItemValid(string)
                 dismiss()
             }
@@ -73,7 +72,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.isErrorEnabled = true
 
         errorJob?.cancel()
-        errorJob = launch(Dispatchers.Main) {
+        errorJob = launchWhenResumed {
             delay(2000)
             editTextLayout.isErrorEnabled = false
         }

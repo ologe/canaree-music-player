@@ -28,7 +28,7 @@ internal class FavoriteRepository @Inject constructor(
         .map { it.enum }
 
     override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
-        favoriteStatePublisher.offer(state)
+        favoriteStatePublisher.trySend(state)
     }
 
     override fun getTracks(): List<Song> {

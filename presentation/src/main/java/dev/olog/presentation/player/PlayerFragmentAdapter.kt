@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -31,18 +30,20 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.collectOnLifecycle
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 internal class PlayerFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
@@ -51,10 +52,7 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -93,12 +91,9 @@ internal class PlayerFragmentAdapter(
                 setupListeners(viewHolder)
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
-                    try {
-                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
-                        navigator.toDialog(mediaId, view)
-                    } catch (ex: NullPointerException){
-                        ex.printStackTrace()
-                    }
+                    val id = viewModel.getCurrentTrackId() ?: return@setOnClickListener
+                    val mediaId = MediaId.songId(id)
+                    navigator.toDialog(mediaId, view)
                 }
                 viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
@@ -116,19 +111,23 @@ internal class PlayerFragmentAdapter(
             val view = holder.itemView
             view.imageSwitcher?.let {
                 it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .collectOnLifecycle(holder) {
+                        presenter.updateProcessorColors(it)
+                    }
                 it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .collectOnLifecycle(holder) {
+                        presenter.updatePaletteColors(it)
+                    }
             }
             view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
                 it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .collectOnLifecycle(holder) {
+                        presenter.updateProcessorColors(it)
+                    }
                 it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .collectOnLifecycle(holder) {
+                        presenter.updatePaletteColors(it)
+                    }
             }
 
             bindPlayerControls(holder, view)
@@ -193,7 +192,7 @@ internal class PlayerFragmentAdapter(
         }
 
         mediaProvider.observeMetadata()
-            .subscribe(holder) {
+            .collectOnLifecycle(holder) {
                 viewModel.updateCurrentTrackId(it.id)
 
                 updateMetadata(view, it)
@@ -215,10 +214,10 @@ internal class PlayerFragmentAdapter(
         }
 
         mediaProvider.observePlaybackState()
-            .subscribe(holder) { onPlaybackStateChanged(view, it) }
+            .collectOnLifecycle(holder) { onPlaybackStateChanged(view, it) }
 
         mediaProvider.observePlaybackState()
-            .subscribe(holder) { view.seekBar.onStateChanged(it) }
+            .collectOnLifecycle(holder) { view.seekBar.onStateChanged(it) }
 
         mediaProvider.observeRepeat()
             .subscribe(holder, view.repeat::cycle)
@@ -249,15 +248,19 @@ internal class PlayerFragmentAdapter(
         })
 
         viewModel.onFavoriteStateChanged
-            .subscribe(holder, view.favorite::onNextState)
+            .subscribe(holder) {
+                view.favorite.onNextState(it)
+            }
 
         viewModel.skipToNextVisibility
-            .asLiveData()
-            .subscribe(holder, view.next::updateVisibility)
+            .collectOnLifecycle(holder) {
+                view.next.updateVisibility(it)
+            }
 
         viewModel.skipToPreviousVisibility
-            .asLiveData()
-            .subscribe(holder, view.previous::updateVisibility)
+            .collectOnLifecycle(holder) {
+                view.previous.updateVisibility(it)
+            }
 
         presenter.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen()
@@ -265,8 +268,7 @@ internal class PlayerFragmentAdapter(
                     && !playerAppearance.isSpotify()
                     && !playerAppearance.isBigImage()
             }
-            .asLiveData()
-            .subscribe(holder) { visible ->
+            .collectOnLifecycle(holder) { visible ->
                 view.findViewById<View>(R.id.playerControls)
                     ?.findViewById<View>(R.id.player)
                     ?.isVisible = visible
@@ -276,7 +278,7 @@ internal class PlayerFragmentAdapter(
         mediaProvider.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .subscribe(holder) {
+            .collectOnLifecycle(holder) {
                 animateSkipTo(view, it)
             }
 
@@ -284,7 +286,7 @@ internal class PlayerFragmentAdapter(
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(holder) { state ->
+            .collectOnLifecycle(holder) { state ->
                 when (state) {
                     PlayerState.PLAYING -> playAnimation(view)
                     PlayerState.PAUSED -> pauseAnimation(view)
@@ -380,8 +382,7 @@ internal class PlayerFragmentAdapter(
         val realFrom = from - 1
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
+        swap(from, to)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
@@ -390,8 +391,7 @@ internal class PlayerFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        dataSet.removeAt(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
+        removeAt(viewHolder.adapterPosition)
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

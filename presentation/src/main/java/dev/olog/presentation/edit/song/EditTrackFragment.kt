@@ -43,11 +43,9 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
-            title.afterTextChange()
-                .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
-        }
+        title.afterTextChange()
+            .map { it.isNotBlank() }
+            .collectOnViewLifecycle(this) { okButton.isEnabled = it }
 
         loadImage(mediaId)
 
@@ -71,7 +69,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            launchWhenResumed { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {

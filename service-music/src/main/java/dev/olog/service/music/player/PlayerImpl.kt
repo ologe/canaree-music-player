@@ -4,18 +4,20 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.android.ServiceLifecycle
+import dev.olog.core.ServiceScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
-import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import dev.olog.service.music.state.MusicServicePlaybackState
+import dev.olog.shared.android.ServiceLifecycle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -27,12 +29,11 @@ internal class PlayerImpl @Inject constructor(
     private val audioFocus : AudioFocusBehavior,
     private val playerDelegate: IPlayerDelegate<PlayerMediaEntity>,
     musicPrefsUseCase: MusicPreferencesGateway,
-    private val playerVolume: IMaxAllowedPlayerVolume
-
+    private val playerVolume: IMaxAllowedPlayerVolume,
+    serviceScope: ServiceScope,
 ) : IPlayer,
     DefaultLifecycleObserver,
-    IPlayerLifecycle,
-    CoroutineScope by MainScope() {
+    IPlayerLifecycle {
 
     private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
@@ -41,30 +42,25 @@ internal class PlayerImpl @Inject constructor(
     init {
         lifecycle.addObserver(this)
 
-        launch {
-            // TODO combine with max allowed volume changes
-            musicPrefsUseCase.observeVolume()
-                .flowOn(Dispatchers.Default)
-                .collect { volume ->
-                    val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
-                    playerDelegate.setVolume(newVolume)
-                }
-        }
+        // TODO combine with max allowed volume changes
+        musicPrefsUseCase.observeVolume()
+            .flowOn(Dispatchers.Default)
+            .onEach { volume ->
+                val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
+                playerDelegate.setVolume(newVolume)
+            }.launchIn(serviceScope)
 
-        launch {
-            musicPrefsUseCase.observePlaybackSpeed()
-                .collect {
-                    currentSpeed = it
-                    playerDelegate.setPlaybackSpeed(it)
-                    playerState.updatePlaybackSpeed(it)
-                }
-        }
+        musicPrefsUseCase.observePlaybackSpeed()
+            .onEach {
+                currentSpeed = it
+                playerDelegate.setPlaybackSpeed(it)
+                playerState.updatePlaybackSpeed(it)
+            }.launchIn(serviceScope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {

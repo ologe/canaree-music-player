@@ -3,7 +3,7 @@
 buildscript { 
 
     ext {
-        kotlin_version = '1.4.0'
+        kotlin_version = '1.6.20'
         google_services = '4.3.3'
         crashlytics = '2.2.1'
     }

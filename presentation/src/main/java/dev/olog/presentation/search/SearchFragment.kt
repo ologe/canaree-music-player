@@ -5,6 +5,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,14 +24,13 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,47 +52,41 @@ class SearchFragment : BaseFragment(),
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            this,
-            requireActivity().findInContext(),
-            navigator,
-            viewModel
+            setupNestedList = this,
+            mediaProvider = requireActivity().findInContext(),
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator,
-            viewModel
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val artistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator,
-            viewModel
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val genreAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator,
-            viewModel
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val playlistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator,
-            viewModel
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
 
     private val folderAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator,
-            viewModel
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
@@ -108,36 +102,36 @@ class SearchFragment : BaseFragment(),
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
                 restoreUpperWidgetsTranslation()
             }
 
         viewModel.observeAlbumsData()
-            .subscribe(viewLifecycleOwner, albumAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, albumAdapter::submitList)
 
         viewModel.observeArtistsData()
-            .subscribe(viewLifecycleOwner, artistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, artistAdapter::submitList)
 
         viewModel.observePlaylistsData()
-            .subscribe(viewLifecycleOwner, playlistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, playlistAdapter::submitList)
 
         viewModel.observeFoldersData()
-            .subscribe(viewLifecycleOwner, folderAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, folderAdapter::submitList)
 
         viewModel.observeGenresData()
-            .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, genreAdapter::submitList)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .collect { viewModel.updateQuery(it) }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .collectOnViewLifecycle(this) {
+                viewModel.updateQuery(it)
+            }
     }
 
 

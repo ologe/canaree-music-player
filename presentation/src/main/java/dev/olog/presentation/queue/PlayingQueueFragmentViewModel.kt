@@ -1,7 +1,5 @@
 package dev.olog.presentation.queue
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +10,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,41 +23,34 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
 
-    private val data = MutableLiveData<List<DisplayableQueueSong>>()
+    private val queueLiveData = MutableStateFlow<List<PlayingQueueSong>?>(null)
 
-    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
+    val data: Flow<List<DisplayableQueueSong>> = combine(
+        queueLiveData.filterNotNull(),
+        musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged()
+    ) { queue, idInPlaylist ->
+        val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+        queue.mapIndexed { index, item ->
+            item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
+        }
+    }
 
     init {
         viewModelScope.launch {
             playingQueueGateway.observeAll().distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.offer(it) }
-        }
-
-        viewModelScope.launch {
-            queueLiveData.asFlow()
-                .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
-                { queue, idInPlaylist ->
-                    val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
-                    queue.mapIndexed { index, item ->
-                        item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
-                    }
-                }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    data.value = it
-                }
+                .collect { queueLiveData.value = it }
         }
     }
 
-    fun observeData(): LiveData<List<DisplayableQueueSong>> = data
+    fun observeData(): Flow<List<DisplayableQueueSong>> = data
 
     fun recalculatePositionsAfterRemove(position: Int) =
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.toMutableList()
+            val currentList = queueLiveData.value.orEmpty().toMutableList()
             currentList.removeAt(position)
 
-            queueLiveData.offer(currentList)
+            queueLiveData.value = currentList
         }
 
     /**
@@ -68,12 +58,12 @@ class PlayingQueueFragmentViewModel @Inject constructor(
      */
     fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value
+            val currentList = queueLiveData.value.orEmpty()
             for ((from, to) in moves) {
                 currentList.swap(from, to)
             }
 
-            queueLiveData.offer(currentList)
+            queueLiveData.value = currentList
         }
 
     private fun PlayingQueueSong.toDisplayableItem(

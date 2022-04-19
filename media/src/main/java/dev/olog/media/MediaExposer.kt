@@ -22,18 +22,18 @@ import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import java.lang.IllegalStateException
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class MediaExposer(
     private val context: Context,
-    private val onConnectionChanged: OnConnectionChanged
-) : CoroutineScope by MainScope(),
-    IMediaControllerCallback,
+    private val onConnectionChanged: OnConnectionChanged,
+    private val scope: CoroutineScope,
+) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
@@ -51,8 +51,8 @@ class MediaExposer(
 
     private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
 
-    private val metadataPublisher = MutableLiveData<PlayerMetadata>()
-    private val statePublisher = MutableLiveData<PlayerPlaybackState>()
+    private val metadataPublisher = MutableStateFlow<PlayerMetadata?>(null)
+    private val statePublisher = MutableStateFlow<PlayerPlaybackState?>(null)
     private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
     private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
@@ -63,7 +63,7 @@ class MediaExposer(
             return
         }
         job?.cancel()
-        job = launch {
+        job = scope.launch {
             for (state in connectionPublisher.openSubscription()) {
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
@@ -108,7 +108,7 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.offer(state)
+        connectionPublisher.trySend(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
@@ -135,17 +135,15 @@ class MediaExposer(
         if (queue == null) {
             return
         }
-        launch(Dispatchers.Default) {
+        scope.launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.offer(result)
+            queuePublisher.trySend(result)
         }
     }
 
-    fun observeMetadata(): LiveData<PlayerMetadata> = metadataPublisher
-        .distinctUntilChanged()
+    fun observeMetadata(): Flow<PlayerMetadata> = metadataPublisher.filterNotNull()
 
-    fun observePlaybackState(): LiveData<PlayerPlaybackState> = statePublisher
-        .distinctUntilChanged()
+    fun observePlaybackState(): Flow<PlayerPlaybackState> = statePublisher.filterNotNull()
 
     fun observeRepeat(): LiveData<PlayerRepeatMode> = repeatModePublisher
         .distinctUntilChanged()

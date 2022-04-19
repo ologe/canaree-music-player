@@ -8,6 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.intents.MusicServiceAction
@@ -19,19 +20,17 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
-    OnConnectionChanged,
-    CoroutineScope by MainScope() {
+    OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            this,
-            this
+            context = this,
+            onConnectionChanged = this,
+            scope = lifecycleScope,
         )
     }
 
@@ -90,10 +89,9 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    override fun observeMetadata(): Flow<PlayerMetadata> = mediaExposer.observeMetadata()
 
-    override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
-        mediaExposer.observePlaybackState()
+    override fun observePlaybackState(): Flow<PlayerPlaybackState> = mediaExposer.observePlaybackState()
 
     override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
 

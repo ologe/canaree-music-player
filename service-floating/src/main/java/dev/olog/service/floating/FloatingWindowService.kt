@@ -36,8 +36,6 @@ class FloatingWindowService : BaseFloatingService() {
         hoverView.collapse()
 
         hoverView.addOnExpandAndCollapseListener(onExpansionListener)
-        notification.startObserving()
-        hoverMenu.startObserving()
     }
 
     override fun onHoverMenuExitingByUserRequest() {

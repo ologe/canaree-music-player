@@ -42,11 +42,9 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
-            album.afterTextChange()
-                .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
-        }
+        album.afterTextChange()
+            .map { it.isNotBlank() }
+            .collectOnViewLifecycle(this) { okButton.isEnabled = it }
 
         loadImage(mediaId)
 
@@ -66,7 +64,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            launchWhenResumed { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
     }

@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,11 +20,11 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
@@ -56,9 +55,13 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            viewLifecycleOwner.lifecycle, requireContext().findInContext(),
-            navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            mediaProvider = requireContext().findInContext(),
+            navigator = navigator,
+            viewModel = viewModel,
+            presenter = presenter,
+            musicPrefs = musicPrefs,
+            dragListener = this,
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -66,7 +69,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
@@ -86,8 +89,9 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                 }
             }
             .flowOn(Dispatchers.Default)
-            .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .collectOnViewLifecycle(this) {
+                adapter.submitList(it)
+            }
     }
 
     override fun onResume() {

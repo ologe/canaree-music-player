@@ -11,10 +11,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.ApplicationScope
 import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.todo.EncrypterImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,6 +26,10 @@ abstract class CoreModule {
     abstract fun provideEncrypter(impl: EncrypterImpl): IEncrypter
 
     companion object {
+
+        @Provides
+        @Singleton
+        fun provideApplicationScope(): ApplicationScope = ApplicationScope()
 
         @Provides
         internal fun provideResources(instance: Application): Resources = instance.resources
@@ -46,6 +52,7 @@ abstract class CoreModule {
         @Provides
         fun provideConfig() = Config(
             isDebug = BuildConfig.DEBUG,
+            appId = BuildConfig.APPLICATION_ID,
             versionName = BuildConfig.VERSION_NAME,
             versionCode = BuildConfig.VERSION_CODE,
             aesPassword = BuildConfig.AES_PASSWORD,

@@ -18,12 +18,15 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LastFmCredentialsFragment : DialogFragment(), CoroutineScope by MainScope() {
+class LastFmCredentialsFragment : DialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
@@ -66,7 +69,7 @@ class LastFmCredentialsFragment : DialogFragment(), CoroutineScope by MainScope(
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = launch {
+            job = launchWhenResumed {
 
                 val user = UserCredentials(
                     userName.text.toString(),

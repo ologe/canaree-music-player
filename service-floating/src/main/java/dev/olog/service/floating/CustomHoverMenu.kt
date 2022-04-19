@@ -4,24 +4,21 @@ import android.app.Service
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.ServiceScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import dev.olog.shared.android.ServiceLifecycle
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
     private val service: Service,
+    private val serviceScope: ServiceScope,
     @ServiceLifecycle lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -38,8 +35,6 @@ class CustomHoverMenu @Inject constructor(
     private val videoContent = VideoContent(lifecycle, service)
     private val offlineLyricsContent = OfflineLyricsContent(service, musicServiceBinder, offlineLyricsContentPresenter)
 
-    private var disposable: Job? = null
-
     private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {
             if (it.content is WebViewContent){
@@ -49,23 +44,14 @@ class CustomHoverMenu @Inject constructor(
     })
 
     init {
-        lifecycle.addObserver(this)
+        startObserving()
     }
 
-    fun startObserving(){
-        disposable?.cancel()
-        disposable = GlobalScope.launch(Dispatchers.Main) {
-            musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.isNotEmpty() }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    item = it.description
-                }
-        }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
+    private fun startObserving(){
+        musicPreferencesUseCase.observeLastMetadata()
+            .filter { it.isNotEmpty() }
+            .onEach { item = it.description }
+            .launchIn(serviceScope)
     }
 
     private val lyricsSection = Section(

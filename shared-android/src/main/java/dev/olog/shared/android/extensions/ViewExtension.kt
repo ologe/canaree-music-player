@@ -7,6 +7,11 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import androidx.annotation.Px
 import androidx.core.view.*
+import dev.olog.shared.android.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlin.coroutines.CoroutineContext
 
 inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
@@ -91,4 +96,31 @@ fun<T> ViewGroup.map(action: (View) -> T): List<T> {
         result.add(action(it))
     }
     return result
+}
+
+val View.coroutineScope: CoroutineScope
+    get() {
+        require(isAttachedToWindow)
+        var scope = getTag(R.id.view_scope) as CoroutineScope?
+        if (scope == null) {
+            scope = ViewScope(this).also {
+                setTag(R.id.view_scope, it)
+            }
+        }
+        return scope
+    }
+
+class ViewScope(private val view: View) : CoroutineScope {
+
+    init {
+        view.doOnDetach {
+            delegate.cancel()
+            view.setTag(R.id.view_scope, null)
+        }
+    }
+
+    private val delegate = MainScope()
+
+    override val coroutineContext: CoroutineContext
+        get() = delegate.coroutineContext
 }

@@ -4,8 +4,8 @@ package dev.olog.presentation.detail.adapter
 import android.annotation.SuppressLint
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +25,10 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.collectOnLifecycle
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.exhaustive
-import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
@@ -41,7 +40,6 @@ import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaId: MediaId,
     private val setupNestedList: SetupNestedList,
     private val navigator: Navigator,
@@ -49,10 +47,10 @@ internal class DetailFragmentAdapter(
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
 ) : ObservableAdapter<DisplayableItem>(
-    lifecycle, DiffCallbackDetailDisplayableItem
+    DiffCallbackDetailDisplayableItem
 ), TouchableAdapter {
 
-    private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
+    private val headers by lazy { indexOf { it is DisplayableTrack } }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -136,9 +134,8 @@ internal class DetailFragmentAdapter(
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
-                adapter.observeData(false)
-                    .asLiveData()
-                    .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
+                adapter.observeChanges()
+                    .collectOnLifecycle(holder) { updateNestedSpanCount(layoutManager, it.size) }
             }
             R.layout.item_detail_header_all_song -> {
                 val sortText = holder.itemView.sort
@@ -265,17 +262,15 @@ internal class DetailFragmentAdapter(
     override fun onMoved(from: Int, to: Int) {
         val realFrom = from - headers
         val realTo = to - headers
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
+        swap(from, to)
         viewModel.addMove(realFrom, realTo)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
-        viewModel.removeFromPlaylist(item!!)
+        removeAt(position)
+        viewModel.removeFromPlaylist(item)
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {

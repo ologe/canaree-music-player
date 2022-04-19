@@ -1,26 +1,21 @@
 package dev.olog.equalizer.equalizer
 
-import android.content.Context
 import android.media.audiofx.AudioEffect
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.ApplicationScope
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
-    prefs: EqualizerPreferencesGateway
-
+    prefs: EqualizerPreferencesGateway,
+    private val applicationScope: ApplicationScope,
 ) : AbsEqualizer(gateway, prefs),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizerInternal {
 
     companion object {
         private const val BANDS = 5
@@ -43,7 +38,7 @@ internal class EqualizerImpl @Inject constructor(
         if (!isImplementedByDevice){
             return
         }
-        launch {
+        applicationScope.launch {
             release()
             try {
                 equalizer = NormalizedEqualizer(0, audioSessionId).apply {

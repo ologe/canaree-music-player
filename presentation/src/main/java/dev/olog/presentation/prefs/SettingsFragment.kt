@@ -29,16 +29,17 @@ import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Keep
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener,
-    CoroutineScope by MainScope() {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         @JvmStatic
@@ -166,7 +167,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launchWhenResumed { clearGlideCache() } }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }

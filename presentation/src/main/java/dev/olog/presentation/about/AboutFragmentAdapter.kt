@@ -14,14 +14,9 @@ import kotlinx.android.synthetic.main.item_about.view.*
 
 
 class AboutFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: NavigatorAbout,
     private val viewModel: AboutFragmentViewModel
-
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

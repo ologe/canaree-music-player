@@ -3,15 +3,15 @@ package dev.olog.presentation.rateapp
 import android.content.Context
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.PlayStoreUtils
-import kotlinx.coroutines.*
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private var counterAlreadyIncreased = false
@@ -19,25 +19,14 @@ private var counterAlreadyIncreased = false
 private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
 private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
+// todo replace with in-app rate
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
-    activity: FragmentActivity
-
-) : DefaultLifecycleObserver {
-
-    private val activityRef = WeakReference(activity)
-
-    private var disposable: Job? = null
+    private val activity: FragmentActivity,
+) {
 
     init {
-        activityRef.get()?.let {
-            it.lifecycle.addObserver(this)
-            check(it)
-        }
-    }
-
-    private fun check(activity: FragmentActivity) {
-        disposable = GlobalScope.launch {
+        activity.lifecycleScope.launchWhenResumed {
             val show = updateCounter(activity)
             delay(2000)
             if (show) {
@@ -47,7 +36,6 @@ class RateAppDialog @Inject constructor(
     }
 
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
-        val activity = activityRef.get() ?: return@withContext
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.rate_app_title)
             .setMessage(R.string.rate_app_message)
@@ -59,10 +47,6 @@ class RateAppDialog @Inject constructor(
             .setNeutralButton(R.string.rate_app_neutral_button) { _, _ -> }
             .setCancelable(false)
             .show()
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
     }
 
     /**

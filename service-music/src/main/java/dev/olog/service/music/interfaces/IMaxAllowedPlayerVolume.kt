@@ -17,7 +17,7 @@ internal interface IMaxAllowedPlayerVolume {
      */
     fun ducked(): Float
 
-    interface Listener {
+    fun interface Listener {
         fun onMaxAllowedVolumeChanged(volume: Float)
     }
 

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,14 +17,17 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.extensions.awaitLifecycle
+import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,11 +48,10 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            requireContext().findInContext(),
-            navigator,
-            this,
-            viewModel
+            mediaProvider = requireContext().findInContext(),
+            navigator = navigator,
+            dragListener = this,
+            viewModel = viewModel
         )
     }
 
@@ -59,29 +63,25 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.RIGHT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            adapter.updateDataSet(it)
-            emptyStateText.isVisible = it.isEmpty()
-        }
-
-        launch {
-            adapter.observeData(false)
-                .take(1)
-                .map {
-                    val idInPlaylist = viewModel.getLastIdInPlaylist()
-                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
-                }
-                .filter { it != RecyclerView.NO_POSITION } // filter only valid position
-                .flowOn(Dispatchers.Default)
-                .collect { position ->
-                    layoutManager.scrollToPositionWithOffset(
-                        position,
-                        dip(20)
-                    )
-                }
-        }
+        viewModel.observeData()
+            .collectOnViewLifecycle(this) {
+                adapter.submitList(it)
+                emptyStateText.isVisible = it.isEmpty()
+            }
+        viewModel.observeData()
+            .take(1)
+            .map {
+                val idInPlaylist = viewModel.getLastIdInPlaylist()
+                it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+            }
+            .filter { it != RecyclerView.NO_POSITION } // filter only valid position
+            .flowOn(Dispatchers.Default)
+            .awaitLifecycle(this, Lifecycle.State.RESUMED)
+            .collectOnViewLifecycle(this) { position ->
+                layoutManager.scrollToPositionWithOffset(position, dip(20))
+            }
     }
 
     override fun onResume() {

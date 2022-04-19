@@ -9,9 +9,9 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.shared.android.extensions.argument
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddFavoriteDialog : BaseDialog() {
@@ -46,7 +46,7 @@ class AddFavoriteDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        launchWhenResumed {
             var message: String
             try {
                 viewModel.execute(mediaId)

@@ -3,64 +3,47 @@ package dev.olog.presentation.base.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import dev.olog.shared.swap
 import kotlinx.coroutines.flow.*
 
+@Deprecated(message = "use directly ListAdapter")
 abstract class ObservableAdapter<T : BaseModel>(
-    lifecycle: Lifecycle,
-    private val itemCallback: DiffUtil.ItemCallback<T>
+    itemCallback: DiffUtil.ItemCallback<T>,
+) : ListAdapter<T, DataBoundViewHolder>(itemCallback) {
 
-) : RecyclerView.Adapter<DataBoundViewHolder>(),
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    fun observeChanges(): Flow<List<T>> {
+        val flow = MutableStateFlow(currentList)
 
-    protected val dataSet = mutableListOf<T>()
-    private var neverEmitted = true
-
-    private val channel = ConflatedBroadcastChannel<List<T>>()
-
-    fun getData(): List<T> = dataSet.toList()
-
-    fun observeData(skipInitialValue: Boolean): Flow<List<T>> {
-        return flow {
-            if (!skipInitialValue && !neverEmitted) {
-                // emit first only if has a valid value
-                emit(dataSet)
+        val listener = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                flow.value = currentList
             }
-            for (t in channel.openSubscription()) {
-                emit(t)
+
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                flow.value = currentList
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                flow.value = currentList
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                flow.value = currentList
+            }
+
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                flow.value = currentList
             }
         }
-    }
 
-    init {
-        lifecycle.addObserver(this)
-
-        launch {
-            channel.asFlow()
-                .distinctUntilChanged()
-                .collect { list ->
-                    val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
-                    val diff = DiffUtil.calculateDiff(diffCallback, true)
-                    withContext(Dispatchers.Main) {
-                        updateDataSetInternal(list)
-                        diff.dispatchUpdatesTo(this@ObservableAdapter)
-                    }
-                }
-        }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        channel.close()
-        cancel()
+        return flow
+            .onStart { registerAdapterDataObserver(listener) }
+            .onCompletion { unregisterAdapterDataObserver(listener) }
+            .debounce(50)
     }
 
     @CallSuper
@@ -75,15 +58,8 @@ abstract class ObservableAdapter<T : BaseModel>(
         holder.onDisappear()
     }
 
-    fun getItem(position: Int): T? {
-        if (position in 0..dataSet.size) {
-            return dataSet[position]
-        }
-        return null
-    }
-
     fun indexOf(predicate: (T) -> Boolean): Int {
-        return dataSet.indexOfFirst(predicate)
+        return currentList.indexOfFirst(predicate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
@@ -96,27 +72,31 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
 
-    override fun getItemCount(): Int = dataSet.size
+    fun lastIndex(): Int = currentList.lastIndex
 
-    fun lastIndex(): Int = dataSet.lastIndex
-
-    override fun getItemViewType(position: Int): Int = dataSet[position].type
+    override fun getItemViewType(position: Int): Int = getItem(position).type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        val item = dataSet[position]
+        val item = getItem(position)
         bind(holder, item, position)
     }
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
-    fun updateDataSet(data: List<T>) {
-        channel.offer(data)
+    protected fun swap(from: Int, to: Int) {
+        val current = currentList.toMutableList()
+        current.swap(from, to)
+        submitList(current)
     }
 
-    private fun updateDataSetInternal(data: List<T>) {
-        this.dataSet.clear()
-        this.dataSet.addAll(data)
-        neverEmitted = false
+    protected fun removeAt(index: Int) {
+        val current = currentList.toMutableList()
+        current.removeAt(index)
+        submitList(current)
+    }
+
+    public override fun getItem(position: Int): T {
+        return super.getItem(position)
     }
 
 }

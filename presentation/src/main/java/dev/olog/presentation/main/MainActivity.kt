@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
@@ -34,7 +35,6 @@ import dev.olog.shared.android.theme.isImmersiveMode
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -132,7 +132,7 @@ class MainActivity : MusicGlueActivity(),
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             Shortcuts.DETAIL -> {
-                launch {
+                lifecycleScope.launchWhenResumed {
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)

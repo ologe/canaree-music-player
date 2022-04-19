@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
-import dev.olog.media.R
 import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 

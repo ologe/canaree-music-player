@@ -86,7 +86,7 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
-            launch {
+            launchWhenResumed {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
             }

@@ -1,6 +1,7 @@
 package dev.olog.presentation.prefs.categories
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,7 +49,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     override fun setupRecyclerView(list: RecyclerView) {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(list, 0)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, 0)
     }
 
     override fun positiveAction() {
