@@ -34,6 +34,7 @@ internal class CurrentSong @Inject constructor(
     private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
     insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
     insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
+    playerLifecycle: IPlayerLifecycle,
     private val serviceScope: ServiceScope,
     schedulers: Schedulers,
 ) : DefaultLifecycleObserver,
@@ -49,6 +50,8 @@ internal class CurrentSong @Inject constructor(
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
     init {
+        playerLifecycle.addListener(this)
+
         serviceScope.launch(schedulers.io) {
             for (entity in channel) {
                 Log.v(TAG, "on new item ${entity.title}")
