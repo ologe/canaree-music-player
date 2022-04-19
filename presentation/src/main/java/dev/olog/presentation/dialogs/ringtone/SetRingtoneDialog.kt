@@ -10,9 +10,9 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.shared.android.extensions.argument
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {
@@ -46,7 +46,7 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        launchWhenResumed {
             var message: String
             try {
                 viewModel.execute(requireActivity(), mediaId)

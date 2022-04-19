@@ -4,6 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.ServiceScope
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -15,7 +16,6 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.ServiceLifecycle
 import dev.olog.shared.swap
 import kotlinx.coroutines.*
@@ -33,9 +33,9 @@ internal class QueueImpl @Inject constructor(
     private val queueMediaSession: MediaSessionQueue,
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    private val podcastGateway: PodcastGateway,
+    private val serviceScope: ServiceScope,
+) : DefaultLifecycleObserver {
 
     private var savePlayingQueueJob: Job? = null
 
@@ -89,7 +89,7 @@ internal class QueueImpl @Inject constructor(
 
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueJob?.cancel()
-        savePlayingQueueJob = launch {
+        savePlayingQueueJob = serviceScope.launch {
             val request = songList.map {
                 UpdatePlayingQueueUseCaseRequest(
                     it.mediaId,
@@ -115,7 +115,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        launch {
+        serviceScope.launch {
             val safePosition = ensurePosition(list, currentPosition)
             val miniQueue = list.asSequence()
                 .drop(safePosition + 1)

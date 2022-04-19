@@ -1,7 +1,6 @@
 package dev.olog.presentation.queue
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
@@ -14,20 +13,15 @@ import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
 
-) : ObservableAdapter<DisplayableQueueSong>(
-    lifecycle,
-    DiffCallbackPlayingQueue
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue), TouchableAdapter {
 
     private val moves = mutableListOf<Pair<Int, Int>>()
 
@@ -95,8 +89,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun onMoved(from: Int, to: Int) {
         mediaProvider.swap(from, to)
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
+        swap(from, to)
         moves.add(from to to)
     }
 
@@ -106,8 +99,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
+        removeAt(position)
         viewModel.recalculatePositionsAfterRemove(position)
     }
 

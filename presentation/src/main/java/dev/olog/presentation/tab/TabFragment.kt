@@ -56,28 +56,16 @@ class TabFragment : BaseFragment(), SetupNestedList {
     lateinit var navigator: Navigator
 
     private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
     private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
     private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
     private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            viewLifecycleOwner.lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator = navigator)
     }
 
     private val viewModel by activityViewModels<TabFragmentViewModel>()
@@ -86,7 +74,12 @@ class TabFragment : BaseFragment(), SetupNestedList {
     private val category by lazyFast { source.toTabCategory() }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(viewLifecycleOwner.lifecycle, navigator, requireContext().findInContext(), viewModel, this)
+        TabFragmentAdapter(
+            navigator = navigator,
+            mediaProvider = requireContext().findInContext(),
+            viewModel = viewModel,
+            setupNestedList = this
+        )
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
@@ -132,7 +125,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         viewModel.observeData(category)
             .collectOnViewLifecycle(this) { list ->
                 handleEmptyStateVisibility(list.isEmpty())
-                adapter.updateDataSet(list)
+                adapter.submitList(list)
                 sidebar.onDataChanged(list)
             }
 
@@ -149,27 +142,27 @@ class TabFragment : BaseFragment(), SetupNestedList {
         when (category) {
             TabCategory.ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                    .collectOnViewLifecycle(this) { lastAlbumsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { lastAlbumsAdapter.submitList(it) }
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                    .collectOnViewLifecycle(this) { newAlbumsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { newAlbumsAdapter.submitList(it) }
             }
             TabCategory.ARTISTS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                    .collectOnViewLifecycle(this) { lastArtistsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { lastArtistsAdapter.submitList(it) }
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                    .collectOnViewLifecycle(this) { newArtistsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { newArtistsAdapter.submitList(it) }
             }
             TabCategory.PODCASTS_ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                    .collectOnViewLifecycle(this) { lastAlbumsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { lastAlbumsAdapter.submitList(it) }
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                    .collectOnViewLifecycle(this) { newAlbumsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { newAlbumsAdapter.submitList(it) }
             }
             TabCategory.PODCASTS_ARTISTS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                    .collectOnViewLifecycle(this) { lastArtistsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { lastArtistsAdapter.submitList(it) }
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                    .collectOnViewLifecycle(this) { newArtistsAdapter.updateDataSet(it) }
+                    .collectOnViewLifecycle(this) { newArtistsAdapter.submitList(it) }
             }
             else -> {/*making lint happy*/
             }

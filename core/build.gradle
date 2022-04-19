@@ -16,4 +16,5 @@ dependencies {
     implementation lib_core.coroutines
 
     implementation lib_x.annotations
+    implementation lib_x.lifecycle_runtime
 }

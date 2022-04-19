@@ -2,15 +2,19 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.android.utils.isNougat
+import dev.olog.media.model.PlayerPlaybackState
+import dev.olog.shared.android.extensions.coroutineScope
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
-    fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState)
+    fun onStateChanged(state: PlayerPlaybackState)
     fun startAutoIncrement(startMillis: Int, speed: Float)
     fun stopAutoIncrement(startMillis: Int)
     fun observeProgress(): Flow<Long>
@@ -18,12 +22,11 @@ interface IProgressDeletegate {
 
 class ProgressDeletegate(
     private val progressBar: ProgressBar
-) : IProgressDeletegate,
-    CoroutineScope by MainScope() {
+) : IProgressDeletegate {
 
     private var incrementJob: Job? = null
 
-    private val channel = ConflatedBroadcastChannel<Long>()
+    private val progressPublisher = MutableStateFlow<Long?>(null)
 
     override fun stopAutoIncrement(startMillis: Int) {
         incrementJob?.cancel()
@@ -32,16 +35,15 @@ class ProgressDeletegate(
 
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
-        incrementJob = launch {
+        incrementJob = progressBar.coroutineScope.launch {
             flowInterval(
                 AppConstants.PROGRESS_BAR_INTERVAL,
                 TimeUnit.MILLISECONDS
             )
                 .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
-                .flowOn(Dispatchers.IO)
                 .collect {
                     setProgress(progressBar, it.toInt())
-                    channel.trySend(it.toLong())
+                    progressPublisher.value = it.toLong()
                 }
         }
     }
@@ -50,11 +52,9 @@ class ProgressDeletegate(
         progressBar.progress = position
     }
 
-    override fun observeProgress(): Flow<Long> {
-        return channel.asFlow()
-    }
+    override fun observeProgress(): Flow<Long> = progressPublisher.filterNotNull()
 
-    override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {
+    override fun onStateChanged(state: PlayerPlaybackState) {
         if (state.isPlaying) {
             startAutoIncrement(state.bookmark, state.playbackSpeed)
         } else {

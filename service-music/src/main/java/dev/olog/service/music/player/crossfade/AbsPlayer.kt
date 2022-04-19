@@ -7,11 +7,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.DefaultRenderersFactory
 import dev.olog.core.Config
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
 
@@ -39,11 +38,7 @@ internal abstract class AbsPlayer<T>(
     init {
         lifecycle.addObserver(this)
 
-        volume.listener = object : IMaxAllowedPlayerVolume.Listener {
-            override fun onMaxAllowedVolumeChanged(volume: Float) {
-                player.volume = volume
-            }
-        }
+        volume.listener = IMaxAllowedPlayerVolume.Listener { player.volume = it }
     }
 
     @CallSuper

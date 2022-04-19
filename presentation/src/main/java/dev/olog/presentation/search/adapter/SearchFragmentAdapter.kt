@@ -1,6 +1,5 @@
 package dev.olog.presentation.search.adapter
 
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -14,23 +13,18 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
-import kotlinx.android.synthetic.main.item_search_album.view.cover
 import kotlinx.android.synthetic.main.item_search_album.view.firstText
 import kotlinx.android.synthetic.main.item_search_album.view.secondText
 import kotlinx.android.synthetic.main.item_search_header.view.*
 import kotlinx.android.synthetic.main.item_search_recent.view.*
 
 class SearchFragmentAdapter(
-    lifecycle: Lifecycle,
     private val setupNestedList: SetupNestedList,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

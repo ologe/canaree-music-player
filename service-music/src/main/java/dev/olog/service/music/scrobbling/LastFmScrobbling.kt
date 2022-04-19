@@ -1,40 +1,28 @@
 package dev.olog.service.music.scrobbling
 
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.ServiceScope
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 internal class LastFmScrobbling @Inject constructor(
     observeLastFmUserCredentials: ObserveLastFmUserCredentials,
     playerLifecycle: IPlayerLifecycle,
-    private val lastFmService: LastFmService
-
-) : DefaultLifecycleObserver,
-    IPlayerLifecycle.Listener,
-    CoroutineScope by MainScope() {
+    private val lastFmService: LastFmService,
+    private val serviceScope: ServiceScope,
+) : IPlayerLifecycle.Listener {
 
     init {
         playerLifecycle.addListener(this)
 
-        launch {
-            observeLastFmUserCredentials()
-                .filter { it.username.isNotBlank() }
-                .collect { lastFmService::tryAuthenticate }
-        }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
-        lastFmService.dispose()
+        observeLastFmUserCredentials()
+            .filter { it.username.isNotBlank() }
+            .onEach { lastFmService.tryAuthenticate(it) }
+            .launchIn(serviceScope)
     }
 
     override fun onMetadataChanged(metadata: MetadataEntity) {

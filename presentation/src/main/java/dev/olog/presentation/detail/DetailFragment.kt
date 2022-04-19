@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -59,27 +60,32 @@ class DetailFragment : BaseFragment(),
     private val mediaId by argument<MediaId>(ARGUMENTS_MEDIA_ID)
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(viewLifecycleOwner.lifecycle, navigator, requireContext().findInContext())
+        DetailMostPlayedAdapter(
+            navigator = navigator,
+            mediaProvider = requireContext().findInContext()
+        )
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(viewLifecycleOwner.lifecycle, navigator, requireContext().findInContext())
+        DetailRecentlyAddedAdapter(
+            navigator = navigator,
+            mediaProvider = requireContext().findInContext()
+        )
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(viewLifecycleOwner.lifecycle, navigator)
+        DetailRelatedArtistsAdapter(navigator = navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(viewLifecycleOwner.lifecycle, navigator)
+        DetailSiblingsAdapter(navigator = navigator)
     }
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            viewLifecycleOwner.lifecycle,
-            mediaId,
-            this,
-            navigator,
-            requireActivity().findInContext(),
-            viewModel,
-            this
+            mediaId = mediaId,
+            setupNestedList = this,
+            navigator = navigator,
+            mediaProvider = requireActivity().findInContext(),
+            viewModel = viewModel,
+            dragListener = this
         )
     }
 
@@ -106,23 +112,23 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(list, swipeDirections)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, swipeDirections)
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, mostPlayedAdapter::submitList)
 
         viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::submitList)
 
         viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, relatedArtistAdapter::submitList)
 
         viewModel.observeSiblings()
             .subscribe(viewLifecycleOwner) {
-                albumsAdapter.updateDataSet(it)
+                albumsAdapter.submitList(it)
             }
 
         viewModel.observeSongs()
@@ -130,7 +136,7 @@ class DetailFragment : BaseFragment(),
                 if (list.isEmpty()) {
                     requireActivity().onBackPressed()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                     restoreUpperWidgetsTranslation()
                 }
             }

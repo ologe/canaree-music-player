@@ -12,11 +12,8 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 
-abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
-    CoroutineScope by MainScope() {
+abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     companion object {
         private val TAG = "P:${BaseEditItemFragment::class.java.simpleName}"

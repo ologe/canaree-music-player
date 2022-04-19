@@ -3,9 +3,12 @@ package dev.olog.service.floating
 import android.content.Context
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.model.PlayerState
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.collectOnLifecycle
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 class LyricsContent(
     lifecycle: Lifecycle,
@@ -18,7 +21,7 @@ class LyricsContent(
         super.onShown()
 
         glueService.observePlaybackState()
-            .subscribe(this) {
+            .collectOnLifecycle(this) {
                 content.seekBar.onStateChanged(it)
             }
 
@@ -26,7 +29,7 @@ class LyricsContent(
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(this) {
+            .collectOnLifecycle(this) {
                 when (it){
                     PlayerState.PLAYING -> content.playPause.animationPlay(true)
                     PlayerState.PAUSED -> content.playPause.animationPause(true)

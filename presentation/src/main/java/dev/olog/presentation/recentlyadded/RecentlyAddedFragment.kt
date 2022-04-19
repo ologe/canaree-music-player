@@ -3,6 +3,7 @@ package dev.olog.presentation.recentlyadded
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -40,7 +41,9 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            viewLifecycleOwner.lifecycle, navigator, requireContext().findInContext(), this
+            navigator = navigator,
+            mediaProvider = requireContext().findInContext(),
+            dragListener = this
         )
     }
 
@@ -51,9 +54,9 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.LEFT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->

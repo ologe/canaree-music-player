@@ -1,6 +1,5 @@
 package dev.olog.presentation.search.adapter
 
-import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
@@ -10,14 +9,10 @@ import dev.olog.presentation.search.SearchFragmentViewModel
 import kotlinx.android.synthetic.main.item_search_album.view.*
 
 class SearchFragmentNestedAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

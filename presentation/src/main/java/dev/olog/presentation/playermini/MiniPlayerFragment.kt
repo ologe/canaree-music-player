@@ -18,6 +18,7 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
@@ -55,7 +56,7 @@ class MiniPlayerFragment : BaseFragment(){
         media.observePlaybackState()
                 .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
+                .collectOnViewLifecycle(this) { progressBar.onStateChanged(it) }
 
         viewModel.observePodcastProgress(progressBar.observeProgress())
             .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
@@ -68,7 +69,7 @@ class MiniPlayerFragment : BaseFragment(){
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(viewLifecycleOwner) { state ->
+            .collectOnViewLifecycle(this) { state ->
                 when (state){
                     PlayerState.PLAYING -> playAnimation()
                     PlayerState.PAUSED -> pauseAnimation()
@@ -79,7 +80,9 @@ class MiniPlayerFragment : BaseFragment(){
         media.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .subscribe(viewLifecycleOwner, this::animateSkipTo)
+            .collectOnViewLifecycle(this) {
+                animateSkipTo(it)
+            }
 
         viewModel.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {

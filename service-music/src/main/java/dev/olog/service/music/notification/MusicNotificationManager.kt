@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.ServiceScope
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.service.music.interfaces.INotification
@@ -15,14 +16,13 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.isOreo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ServiceScoped
@@ -30,9 +30,9 @@ internal class MusicNotificationManager @Inject constructor(
     private val service: Service,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
-    playerLifecycle: IPlayerLifecycle
-
-) : DefaultLifecycleObserver, CoroutineScope by CustomScope() {
+    playerLifecycle: IPlayerLifecycle,
+    serviceScope: ServiceScope,
+) : DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -65,22 +65,20 @@ internal class MusicNotificationManager @Inject constructor(
     init {
         playerLifecycle.addListener(playerListener)
 
-        launch {
-            publisher.consumeAsFlow()
-                .filter { event ->
-                    when (event) {
-                        is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
-                        is Event.State -> currentState.isDifferentState(event.state)
-                        is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
-                    }
-                }.collect { consumeEvent(it) }
-        }
+        publisher.consumeAsFlow()
+            .filter { event ->
+                when (event) {
+                    is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
+                    is Event.State -> currentState.isDifferentState(event.state)
+                    is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
+                }
+            }.onEach { consumeEvent(it) }
+            .launchIn(serviceScope)
 
-        launch {
-            observeFavoriteUseCase()
-                .map { it == FavoriteEnum.FAVORITE }
-                .collect { onNextFavorite(it) }
-        }
+        observeFavoriteUseCase()
+            .map { it == FavoriteEnum.FAVORITE }
+            .onEach { onNextFavorite(it) }
+            .launchIn(serviceScope)
     }
 
     private suspend fun consumeEvent(event: Event){
@@ -134,8 +132,6 @@ internal class MusicNotificationManager @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
-        publishJob?.cancel()
-        cancel()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {

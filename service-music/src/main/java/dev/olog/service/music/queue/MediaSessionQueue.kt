@@ -3,24 +3,21 @@ package dev.olog.service.music.queue
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.android.ServiceLifecycle
+import dev.olog.core.ServiceScope
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
-    private val mediaSession: MediaSessionCompat
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    private val mediaSession: MediaSessionCompat,
+    private val serviceScope: ServiceScope,
+) {
 
     companion object {
         @JvmStatic
@@ -32,18 +29,14 @@ internal class MediaSessionQueue @Inject constructor(
     private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
     init {
-        lifecycle.addObserver(this)
+        delayedChannel.asFlow()
+            .debounce(DELAY)
+            .onEach { publish(it) }
+            .launchIn(serviceScope)
 
-        launch {
-            delayedChannel.asFlow()
-                .debounce(DELAY)
-                .collect { publish(it) }
-        }
-
-        launch {
-            immediateChannel.asFlow()
-                .collect { publish(it) }
-        }
+        immediateChannel.asFlow()
+            .onEach { publish(it) }
+            .launchIn(serviceScope)
     }
 
     private suspend fun publish(list: List<MediaEntity>) {
@@ -63,10 +56,6 @@ internal class MediaSessionQueue @Inject constructor(
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
         immediateChannel.trySend(list)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

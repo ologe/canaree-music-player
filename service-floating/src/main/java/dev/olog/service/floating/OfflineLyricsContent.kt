@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -55,10 +56,10 @@ class OfflineLyricsContent(
         presenter.onStart()
 
         glueService.observePlaybackState()
-            .subscribe(this) { content.seekBar.onStateChanged(it) }
+            .collectOnLifecycle(this) { content.seekBar.onStateChanged(it) }
 
         content.edit.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+            lifecycleScope.launch {
                 EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -101,7 +102,7 @@ class OfflineLyricsContent(
         content.scrollView.setOnTouchListener(scrollViewTouchListener)
 
         glueService.observePlaybackState()
-            .subscribe(this) {
+            .collectOnLifecycle(this) {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
             }

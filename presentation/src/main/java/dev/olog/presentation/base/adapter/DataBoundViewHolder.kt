@@ -33,6 +33,9 @@ class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
     fun onDisappear() {
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
+
+    fun onRecycled() {
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 

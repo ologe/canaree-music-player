@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -54,9 +55,13 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            viewLifecycleOwner.lifecycle, requireContext().findInContext(),
-            navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            mediaProvider = requireContext().findInContext(),
+            navigator = navigator,
+            viewModel = viewModel,
+            presenter = presenter,
+            musicPrefs = musicPrefs,
+            dragListener = this,
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -64,7 +69,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
@@ -85,7 +90,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             }
             .flowOn(Dispatchers.Default)
             .collectOnViewLifecycle(this) {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
             }
     }
 

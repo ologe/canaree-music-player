@@ -2,16 +2,19 @@ package dev.olog.service.music
 
 import android.util.Log
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.ServiceScope
 import dev.olog.service.music.EventDispatcher.Event
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @ServiceScoped
 internal class MediaButton @Inject internal constructor(
-    private val eventDispatcher: EventDispatcher
-
-) : CoroutineScope by MainScope() {
+    private val eventDispatcher: EventDispatcher,
+    private val serviceScope: ServiceScope,
+) {
 
     companion object {
         @JvmStatic
@@ -30,7 +33,7 @@ internal class MediaButton @Inject internal constructor(
 
         if (clicks <= MAX_ALLOWED_CLICKS) {
             job?.cancel()
-            job = launch {
+            job = serviceScope.launch {
                 delay(DELAY)
                 dispatchEvent(clicks)
                 clicks = 0

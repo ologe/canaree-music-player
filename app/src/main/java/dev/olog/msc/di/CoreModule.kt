@@ -52,6 +52,7 @@ abstract class CoreModule {
         @Provides
         fun provideConfig() = Config(
             isDebug = BuildConfig.DEBUG,
+            appId = BuildConfig.APPLICATION_ID,
             versionName = BuildConfig.VERSION_NAME,
             versionCode = BuildConfig.VERSION_CODE,
             aesPassword = BuildConfig.AES_PASSWORD,

@@ -26,6 +26,7 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
@@ -83,7 +84,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
 
         mediaProvider.observePlaybackState()
-            .subscribe(viewLifecycleOwner) {
+            .collectOnViewLifecycle(this) {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
             }
@@ -103,7 +104,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
-            .subscribe(viewLifecycleOwner) { seekBar.onStateChanged(it) }
+            .collectOnViewLifecycle(this) { seekBar.onStateChanged(it) }
 
         view.image.observePaletteColors()
             .map { it.accent }
