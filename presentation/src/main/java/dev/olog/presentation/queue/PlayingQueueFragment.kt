@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.extensions.awaitLifecycle
 import dev.olog.shared.android.extensions.collectOnViewLifecycle
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findInContext
@@ -76,6 +78,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             }
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
+            .awaitLifecycle(this, Lifecycle.State.RESUMED)
             .collectOnViewLifecycle(this) { position ->
                 layoutManager.scrollToPositionWithOffset(position, dip(20))
             }
