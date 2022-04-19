@@ -138,7 +138,9 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
+
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
 dependencies {
     implementation project(':core')
     implementation project(':localization')
@@ -159,7 +161,9 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
 dependencies {
     // features
     implementation project(':features:base')
