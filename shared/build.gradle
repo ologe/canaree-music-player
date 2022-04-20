@@ -5,5 +5,5 @@ dependencies {
     implementation lib_core.coroutines
 }
 
-sourceCompatibility = "8"
-targetCompatibility = "8"
+sourceCompatibility = project.javaVersion.toString()
+targetCompatibility = project.javaVersion.toString()

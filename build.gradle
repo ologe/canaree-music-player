@@ -1,5 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+apply from: rootProject.file("dependencies.gradle")
+apply from: rootProject.file("buildscripts/config.gradle")
+
 buildscript { 
 
     ext {
@@ -54,22 +57,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    // Sdk and tools
-    minSdkVersion = 21
-    targetSdkVersion = 31
-    compileSdkVersion = 31
-    buildToolsVersion = '30.0.3'
-
-    /*  version code
-        999 - for old compatibility
-        27 - android version
-        X.xxx - X major version, xxx minor version
-     */
-    versionCode = 999_29_3_3_01
-    versionName = '3.3.1'
-
-}
-
-apply from: 'dependencies.gradle'

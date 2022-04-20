@@ -1,2 +1,4 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")

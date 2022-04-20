@@ -1,12 +1,10 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
-android {
-    //kotlinOptions.allWarningsAsErrors = true
-}
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':core')

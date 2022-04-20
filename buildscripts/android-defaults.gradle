@@ -1,0 +1,40 @@
+android {
+
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility project.javaVersion
+        targetCompatibility project.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = project.javaVersion.toString()
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring lib_core.desugaring
+
+    implementation lib_core.kotlin
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_android
+
+    testImplementation lib_test.junit
+    testImplementation lib_test.mockito
+    testImplementation lib_test.mockito_kotlin
+    testImplementation lib_core.coroutines_test
+    testImplementation project (':test-shared')
+}
