@@ -82,7 +82,7 @@ dependencies {
     implementation project(':service-floating')
     implementation project(':offline-lyrics')
     implementation project(':intents')
-    implementation project(':shared')
+    implementation project(':common:shared')
 
     implementation lib_core.coroutines
 

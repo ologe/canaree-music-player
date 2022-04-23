@@ -9,7 +9,7 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':core')
     implementation project(':shared-android')
-    implementation project(':shared')
+    implementation project(':common:shared')
     implementation project(':prefs-keys')
     implementation project(':intents')
 

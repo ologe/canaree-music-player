@@ -1,9 +1,0 @@
-apply plugin: 'kotlin'
-
-dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-}
-
-sourceCompatibility = project.javaVersion.toString()
-targetCompatibility = project.javaVersion.toString()

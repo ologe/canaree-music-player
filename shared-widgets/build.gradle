@@ -6,7 +6,7 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':prefs-keys')
     implementation project(':shared-android')
-    implementation project(':shared')
+    implementation project(':common:shared')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
