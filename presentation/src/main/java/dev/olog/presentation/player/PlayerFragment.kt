@@ -13,10 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
@@ -96,12 +96,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel()?.addBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel()?.removeBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onDestroyView() {

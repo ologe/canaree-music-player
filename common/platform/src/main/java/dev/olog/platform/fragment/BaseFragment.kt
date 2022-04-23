@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.platform.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.main.MainActivity
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.HasScrollableContent
+import dev.olog.platform.HasSlidingPanel
 import dev.olog.shared.extension.findInContext
 
 abstract class BaseFragment : Fragment() {
@@ -24,12 +24,12 @@ abstract class BaseFragment : Fragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
+    fun getSlidingPanel(): BottomSheetBehavior<*> {
         return (requireContext().findInContext<HasSlidingPanel>()).getSlidingPanel()
     }
 
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+    fun restoreToInitialTranslation(){
+        (requireActivity() as HasScrollableContent).restoreToInitialTranslation()
     }
 
 }

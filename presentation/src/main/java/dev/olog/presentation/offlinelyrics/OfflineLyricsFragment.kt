@@ -18,12 +18,10 @@ import dev.olog.offlinelyrics.Lyrics
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.offlinelyrics.OffsetCalculator
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.ui.activity.removeLightStatusBar
-import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.shared.extension.animateBackgroundColor
 import dev.olog.shared.extension.animateTextColor
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -33,6 +31,8 @@ import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
 import dev.olog.shared.extension.toast
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.ui.colorSurface
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*

@@ -8,9 +8,9 @@ import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.platform.fragment.BaseBottomSheetFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
-import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
 import dev.olog.shared.extension.launchWhenResumed

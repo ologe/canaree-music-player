@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
@@ -75,7 +75,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
                 sidebar.onDataChanged(it)
-                restoreUpperWidgetsTranslation()
+                restoreToInitialTranslation()
             }
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist

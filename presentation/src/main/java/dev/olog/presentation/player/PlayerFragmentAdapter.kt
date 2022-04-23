@@ -14,6 +14,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
+import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -26,7 +27,6 @@ import dev.olog.presentation.base.adapter.setOnDragListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator

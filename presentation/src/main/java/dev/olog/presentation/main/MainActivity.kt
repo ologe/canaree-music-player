@@ -15,6 +15,8 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
+import dev.olog.platform.HasScrollableContent
+import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.platform.theme.isImmersiveMode
 import dev.olog.presentation.FloatingWindowHelper
@@ -23,7 +25,6 @@ import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
 import dev.olog.presentation.library.LibraryFragment
@@ -50,6 +51,7 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
+    HasScrollableContent,
     OnPermissionChanged {
 
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -216,7 +218,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreToInitialTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }

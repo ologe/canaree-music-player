@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.HasSlidingPanel
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.extension.dipf
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
@@ -53,14 +53,14 @@ class SwipeableView(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode) {
-            (context.findInContext<HasSlidingPanel>()).getSlidingPanel().addPanelSlideListener(slidingPanelListener)
+            (context.findInContext<HasSlidingPanel>()).getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         helper.swipeListener = null
-        (context.findInContext<HasSlidingPanel>()).getSlidingPanel().removePanelSlideListener(slidingPanelListener)
+        (context.findInContext<HasSlidingPanel>()).getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
     }
 
     fun isTouching(): Flow<Boolean> = helper.isTouching()

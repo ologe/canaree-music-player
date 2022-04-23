@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
@@ -108,7 +108,7 @@ class SearchFragment : BaseFragment(),
             .subscribe(viewLifecycleOwner) {
                 adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
-                restoreUpperWidgetsTranslation()
+                restoreToInitialTranslation()
             }
 
         viewModel.observeAlbumsData()

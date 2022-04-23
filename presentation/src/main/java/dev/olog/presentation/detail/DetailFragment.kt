@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
@@ -28,8 +28,6 @@ import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.ui.activity.removeLightStatusBar
-import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.argument
@@ -40,6 +38,8 @@ import dev.olog.shared.extension.isTablet
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
 import dev.olog.shared.extension.withArguments
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.ui.colorControlNormal
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
@@ -153,7 +153,7 @@ class DetailFragment : BaseFragment(),
                     requireActivity().onBackPressed()
                 } else {
                     adapter.submitList(list)
-                    restoreUpperWidgetsTranslation()
+                    restoreToInitialTranslation()
                 }
             }
 
