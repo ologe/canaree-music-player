@@ -10,8 +10,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast

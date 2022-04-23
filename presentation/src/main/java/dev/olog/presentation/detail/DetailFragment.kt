@@ -28,8 +28,8 @@ import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.argument

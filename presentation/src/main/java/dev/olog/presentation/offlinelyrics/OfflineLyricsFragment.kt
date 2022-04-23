@@ -22,8 +22,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.shared.extension.animateBackgroundColor
 import dev.olog.shared.extension.animateTextColor
 import dev.olog.shared.extension.collectOnViewLifecycle

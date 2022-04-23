@@ -8,10 +8,13 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 dependencies {
     implementation project(':common:shared')
     implementation project(':common:platform')
+    implementation project(':prefs-keys') // TODO inject the preference?
 
     implementation lib_x.core
     implementation lib_x.palette
     implementation lib_x.appcompat
     implementation lib_x.material
     implementation lib_x.preference
+
+    implementation lib_ui.color_desaturation
 }

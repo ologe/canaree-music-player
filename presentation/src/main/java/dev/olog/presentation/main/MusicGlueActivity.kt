@@ -22,11 +22,11 @@ import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.media.playPause
-import dev.olog.presentation.base.BaseActivity
+import dev.olog.ui.activity.ThemedActivity
 import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.flow.Flow
 
-abstract class MusicGlueActivity : BaseActivity(),
+abstract class MusicGlueActivity : ThemedActivity(),
     MediaProvider,
     OnConnectionChanged {
 

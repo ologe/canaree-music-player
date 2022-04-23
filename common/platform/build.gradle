@@ -11,6 +11,6 @@ dependencies {
 
     implementation lib_x.fragments
     implementation lib_x.material
-
+    implementation lib_x.preference
     implementation lib_x.lifecycle_runtime
 }
