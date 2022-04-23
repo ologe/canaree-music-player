@@ -1,0 +1,204 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <attr name="colorPrimaryTransparent" format="reference|color" />
+    <attr name="colorSwipeBackground" format="reference|color"/>
+    <attr name="colorUnselectedButton" format="reference|color"/>
+    <attr name="colorSurfaceSecondary" format="reference|color"/>
+
+    <attr name="colorBackgroundTransparent" format="reference|color"/>
+
+    <style name="TransparentTheme" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="popupMenuStyle">@style/MaterialPopupMenu</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorBackgroundTransparent">@color/colorBackgroundTransparent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceSecondary">@color/colorSurfaceSecondary</item>
+        <item name="colorControlNormal">@color/color_control_normal_selector</item>
+        <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
+        <item name="colorSwipeBackground">@color/colorSwipeBackground</item>
+        <item name="colorUnselectedButton">@color/colorUnselectedButton</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:textColorPrimary">@color/text_color_primary_selector</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_selector</item>
+
+        <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
+
+        <item name="materialAlertDialogTheme">@style/MaterialDialog</item>
+
+        <item name="bottomNavigationStyle">@style/MaterialBottomNavigationBar</item>
+        <item name="tabStyle">@style/MaterialTabLayout</item>
+        <item name="imageButtonStyle">@style/MaterialImageButton</item>
+        <item name="seekBarStyle">@style/MaterialSeekBar</item>
+        <item name="floatingActionButtonStyle">@style/MaterialFab</item>
+
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="shapeAppearanceSmallComponent">@style/SmallShapeAppearance</item>
+        <item name="shapeAppearanceMediumComponent">@style/MediumShapeAppearance</item>
+        <item name="shapeAppearanceLargeComponent">@style/LargeShapeAppearance</item>
+
+        <item name="textInputStyle">@style/DefaultTextBox</item>
+
+        <item name="buttonStyle">@style/DefaultButton</item>
+        <item name="materialButtonStyle">@style/DefaultButton</item>
+        <item name="chipStyle">@style/DefaultChip</item>
+
+        <item name="android:overScrollMode">never</item>
+
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+    </style>
+
+<!--    tab layout-->
+    <style name="MaterialTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabGravity">center</item>
+        <item name="tabSelectedTextColor">?colorAccent</item>
+        <item name="tabTextColor">?colorUnselectedButton</item>
+        <item name="tabIndicatorColor">?colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabUnboundedRipple">true</item>
+        <item name="tabTextAppearance">@style/MaterialTabLayout.TextAppearance</item>
+    </style>
+
+    <style name="MaterialTabLayout.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+
+<!--    bottom navigation-->
+    <style name="MaterialBottomNavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
+        <item name="labelVisibilityMode">selected</item>
+    </style>
+
+    <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
+<!--    image button-->
+    <style name="MaterialImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">?colorControlNormal</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+<!--    seekbar-->
+    <style name="MaterialSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">@color/progressTint</item>
+        <item name="android:thumbTint">@color/progressTint</item>
+        <item name="android:progressBackgroundTint">@color/progressBackgroundTint</item>
+        <item name="android:thumb">@drawable/seekbar_thumb_circle</item>
+        <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
+    </style>
+
+<!--    fab-->
+    <style name="MaterialFab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="tint">?attr/colorPrimaryTransparent</item>
+    </style>
+
+
+    <!--    search-->
+    <style name="SearchThemeLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/search_state_list</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/searchBoxBackground</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconDrawable">@drawable/vd_clear</item>
+        <item name="boxCornerRadiusTopStart">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/search_round_corner</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+
+    <style name="SearchThemeEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:imeOptions">flagNoExtractUi|actionDone</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:inputType">textFilter</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+
+
+
+
+
+    <style name="DefaultTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:imeOptions">flagNoExtractUi</item>
+    </style>
+    
+    <style name="EditItemEditText" parent="DefaultTextBox">
+        <item name="android:textSize">14dp</item>
+        <item name="android:inputType">textFilter</item>
+    </style>
+
+    <style name="DefaultButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="PositiveButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">?attr/colorPrimaryTransparent</item>
+    </style>
+
+
+    <style name="DefaultHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressTint">?attr/colorAccent</item>
+        <item name="android:progressBackgroundTint">@android:color/transparent</item>
+    </style>
+
+
+
+    <style name="DefaultChip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textAppearance">@style/ChipTextAppearance</item>
+        <item name="chipStrokeColor">?attr/colorAccent</item>
+        <item name="chipBackgroundColor">@android:color/transparent</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+    <style name="ChipTextAppearance" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MaterialPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_background</item>
+        <item name="overlapAnchor">true</item>
+    </style>
+
+</resources>

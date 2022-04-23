@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
 import dev.olog.presentation.R
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.ui.ForegroundImageView
 import kotlin.math.abs
 
 private const val DEFAULT_PARALLAX = .7f

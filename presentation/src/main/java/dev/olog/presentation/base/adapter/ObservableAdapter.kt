@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.swap
-import kotlinx.coroutines.flow.*
+import dev.olog.shared.extension.swap
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 
 @Deprecated(message = "use directly ListAdapter")
 abstract class ObservableAdapter<T : BaseModel>(

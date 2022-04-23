@@ -5,8 +5,8 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.android.extensions.coroutineScope
-import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.extension.coroutineScope
+import dev.olog.shared.extension.dip
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

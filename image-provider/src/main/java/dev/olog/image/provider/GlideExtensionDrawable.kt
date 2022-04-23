@@ -6,7 +6,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.shared.safeResume
+import dev.olog.shared.extension.safeResume
 import kotlin.coroutines.suspendCoroutine
 
 object GlideUtils {

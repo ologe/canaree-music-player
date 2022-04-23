@@ -11,9 +11,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.shared.android.extensions.argument
-import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.withArguments
 
 @AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {

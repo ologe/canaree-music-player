@@ -1,7 +1,11 @@
 package dev.olog.presentation.widgets.imageview.shape
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
@@ -9,14 +13,18 @@ import com.google.android.material.shape.CutCornerTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
+import dev.olog.platform.theme.HasImageShape
+import dev.olog.platform.theme.ImageShape
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.theme.HasImageShape
-import dev.olog.shared.android.theme.ImageShape
-import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
+import dev.olog.shared.extension.dipf
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.ForegroundImageView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 open class ShapeImageView(
     context: Context,

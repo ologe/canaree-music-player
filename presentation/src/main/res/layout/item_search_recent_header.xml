@@ -17,7 +17,7 @@
         android:layout_gravity="bottom"
         android:textAppearance="@style/Headline6"/>
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="8dp"/>

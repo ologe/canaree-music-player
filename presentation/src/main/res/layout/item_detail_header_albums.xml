@@ -25,7 +25,7 @@
         android:textAppearance="@style/Headline6"
         tools:text="More by 50 Cent" />
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginEnd="@dimen/detail_header_margin_end"

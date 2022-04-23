@@ -11,9 +11,9 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':shared-android')
     implementation project(':intents')
     implementation project(':common:shared')
+    implementation project(':common:platform')
 
     implementation lib_core.coroutines
     implementation lib_x.media

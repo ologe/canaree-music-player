@@ -79,7 +79,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageViewFab
+            <dev.olog.ui.playpause.AnimatedPlayPauseImageViewFab
                 android:id="@+id/playPause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

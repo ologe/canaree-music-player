@@ -19,14 +19,13 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
-import dev.olog.shared.android.extensions.findChild
-import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import java.lang.IllegalStateException
+import dev.olog.shared.extension.findChild
+import dev.olog.shared.extension.lazyFast
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(

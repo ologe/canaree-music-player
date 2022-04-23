@@ -2,12 +2,21 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.*
+import dev.olog.ui.adaptive.InvalidPaletteColors
+import dev.olog.ui.adaptive.InvalidProcessColors
+import dev.olog.ui.adaptive.PaletteColors
+import dev.olog.ui.adaptive.ProcessorColors
+import dev.olog.ui.adaptive.ValidPaletteColors
+import dev.olog.ui.adaptive.ValidProcessorColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(

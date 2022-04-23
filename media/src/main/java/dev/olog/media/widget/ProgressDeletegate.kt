@@ -3,7 +3,7 @@ package dev.olog.media.widget
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
 import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.shared.android.extensions.coroutineScope
+import dev.olog.shared.extension.coroutineScope
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow

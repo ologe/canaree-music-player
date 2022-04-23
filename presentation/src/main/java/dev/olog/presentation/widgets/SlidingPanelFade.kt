@@ -9,11 +9,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.collapse
-import dev.olog.shared.android.extensions.dip
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.isTablet
-import dev.olog.shared.android.extensions.scrimBackground
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.dip
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.isTablet
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.scrimBackground
 
 class SlidingPanelFade(
         context: Context,

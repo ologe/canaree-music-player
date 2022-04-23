@@ -5,10 +5,14 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
-import dev.olog.shared.android.extensions.coroutineScope
-import dev.olog.shared.android.extensions.textColorPrimary
+import dev.olog.shared.extension.coroutineScope
+import dev.olog.ui.textColorPrimary
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class ExplicitView(
     context: Context,

@@ -9,8 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
+import dev.olog.platform.NetworkUtils
 import dev.olog.presentation.utils.safeGet
-import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

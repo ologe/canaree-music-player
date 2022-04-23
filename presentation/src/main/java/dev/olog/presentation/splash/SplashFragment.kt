@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dev.olog.platform.Permissions
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
-import dev.olog.shared.android.Permissions
-import dev.olog.shared.android.extensions.alertDialog
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.alertDialog
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : Fragment() {

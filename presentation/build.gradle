@@ -14,14 +14,14 @@ dependencies {
     implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':image-provider')
-    implementation project(':shared-android')
-    implementation project(':shared-widgets')
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
     implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
     implementation project(':equalizer')
 
     implementation lib_core.kotlin

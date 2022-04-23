@@ -9,17 +9,17 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.msc.R
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.MusicService
-import dev.olog.presentation.main.MainActivity
-import dev.olog.shared.android.palette.ImageProcessorResult
-import dev.olog.shared.android.extensions.asServicePendingIntent
-import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
+import dev.olog.msc.R
+import dev.olog.presentation.main.MainActivity
+import dev.olog.service.music.MusicService
+import dev.olog.shared.extension.asServicePendingIntent
+import dev.olog.shared.extension.getAppWidgetsIdsFor
+import dev.olog.ui.palette.ImageProcessorResult
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {

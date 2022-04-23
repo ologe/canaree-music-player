@@ -15,8 +15,10 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter

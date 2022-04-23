@@ -1,8 +1,18 @@
 package dev.olog.msc.app
 
 import android.app.Application
-import dev.olog.msc.theme.*
-import dev.olog.shared.android.theme.*
+import dev.olog.msc.theme.DarkModeListener
+import dev.olog.msc.theme.ImageShapeListener
+import dev.olog.msc.theme.ImmersiveModeListener
+import dev.olog.msc.theme.PlayerAppearanceListener
+import dev.olog.msc.theme.QuickActionListener
+import dev.olog.platform.theme.HasImageShape
+import dev.olog.platform.theme.HasImmersive
+import dev.olog.platform.theme.HasPlayerAppearance
+import dev.olog.platform.theme.HasQuickAction
+import dev.olog.platform.theme.ImageShape
+import dev.olog.platform.theme.PlayerAppearance
+import dev.olog.platform.theme.QuickAction
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 

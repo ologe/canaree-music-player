@@ -168,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/player_title_margin_horizontal" />
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:id="@+id/separator"
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="parent"

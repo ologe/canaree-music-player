@@ -7,15 +7,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.isMarshmallow
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 

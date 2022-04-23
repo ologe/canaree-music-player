@@ -11,8 +11,9 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.colorControlNormal
+import dev.olog.ui.colorSwipeBackground
 import kotlin.math.hypot
 
 internal class TouchHelperAnimationController {

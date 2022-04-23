@@ -9,7 +9,7 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <dev.olog.ui.ForegroundImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
@@ -18,7 +18,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <dev.olog.ui.ForegroundImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
@@ -27,7 +27,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <dev.olog.ui.ForegroundImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"

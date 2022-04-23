@@ -9,7 +9,7 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
 import java.util.*
 import javax.inject.Inject
 

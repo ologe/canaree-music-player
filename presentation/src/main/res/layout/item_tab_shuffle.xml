@@ -41,7 +41,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="2dp"

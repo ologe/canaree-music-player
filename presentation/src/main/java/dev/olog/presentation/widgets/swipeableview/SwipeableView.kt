@@ -8,9 +8,9 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.dipf
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.flow.Flow
 
 class SwipeableView(

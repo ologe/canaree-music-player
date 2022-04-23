@@ -9,9 +9,9 @@ import android.widget.Button
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.utils.TimeUtils
+import dev.olog.shared.TimeUtils
+import dev.olog.shared.extension.launchWhenResumed
+import dev.olog.shared.extension.toast
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.map

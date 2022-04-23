@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_height="2dp"

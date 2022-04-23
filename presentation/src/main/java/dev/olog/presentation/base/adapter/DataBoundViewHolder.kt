@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
 import kotlinx.android.extensions.LayoutContainer
 
 class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),

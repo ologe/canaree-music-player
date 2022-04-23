@@ -15,12 +15,12 @@ import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.getCachedBitmap
+import dev.olog.intents.AppConstants
+import dev.olog.intents.Classes
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.shared.android.extensions.asActivityPendingIntent
+import dev.olog.shared.extension.asActivityPendingIntent
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 

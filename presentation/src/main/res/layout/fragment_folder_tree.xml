@@ -64,7 +64,7 @@
             android:paddingEnd="8dp"
             android:paddingStart="48dp" />
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.ui.DottedSeparator
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_gravity="bottom"

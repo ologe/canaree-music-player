@@ -13,6 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
+import dev.olog.platform.theme.PlayerAppearance
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -20,12 +22,10 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.collectOnViewLifecycle
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.mapListItem
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.mapListItem
+import dev.olog.shared.isMarshmallow
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers

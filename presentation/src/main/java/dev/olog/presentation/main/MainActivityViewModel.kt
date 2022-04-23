@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.platform.Permissions
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.Permissions
 import javax.inject.Inject
 
 @HiltViewModel

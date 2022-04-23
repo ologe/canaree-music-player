@@ -32,7 +32,7 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

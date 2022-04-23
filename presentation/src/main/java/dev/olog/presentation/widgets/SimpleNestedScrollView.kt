@@ -8,8 +8,8 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
 
 class SimpleNestedScrollView(
     context: Context,

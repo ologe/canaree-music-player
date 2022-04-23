@@ -1,15 +1,19 @@
 package dev.olog.service.floating.notification
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import dev.olog.core.ServiceScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.asServicePendingIntent
-import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.shared.extension.asServicePendingIntent
+import dev.olog.shared.isOreo
+import dev.olog.ui.colorControlNormal
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

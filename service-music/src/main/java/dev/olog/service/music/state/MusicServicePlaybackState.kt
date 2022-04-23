@@ -13,7 +13,7 @@ import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
 @ServiceScoped

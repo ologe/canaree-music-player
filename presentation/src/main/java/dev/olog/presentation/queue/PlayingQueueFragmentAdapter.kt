@@ -6,13 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.adapter.elevateSongOnTouch
+import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.base.adapter.setOnDragListener
+import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.android.extensions.textColorPrimary
-import dev.olog.shared.android.extensions.textColorSecondary
+import dev.olog.ui.textColorPrimary
+import dev.olog.ui.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(

@@ -23,11 +23,11 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.afterTextChange
-import dev.olog.shared.android.extensions.collectOnViewLifecycle
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.afterTextChange
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter

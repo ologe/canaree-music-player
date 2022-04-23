@@ -8,7 +8,11 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
@@ -16,16 +20,24 @@ import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
-import dev.olog.presentation.detail.mapper.*
+import dev.olog.presentation.detail.mapper.toDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toHeaderItem
+import dev.olog.presentation.detail.mapper.toMostPlayedDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toRecentDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toRelatedArtist
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.utils.TimeUtils
-import dev.olog.shared.component6
-import dev.olog.shared.exhaustive
-import dev.olog.shared.mapListItem
-import kotlinx.coroutines.flow.*
+import dev.olog.shared.TimeUtils
+import dev.olog.shared.extension.component6
+import dev.olog.shared.extension.exhaustive
+import dev.olog.shared.extension.mapListItem
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 internal class DetailDataProvider @Inject constructor(

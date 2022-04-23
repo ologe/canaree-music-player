@@ -10,8 +10,8 @@ import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.notification.NotificationImpl21
 import dev.olog.service.music.notification.NotificationImpl24
 import dev.olog.service.music.notification.NotificationImpl26
-import dev.olog.shared.android.utils.isNougat
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.shared.isNougat
+import dev.olog.shared.isOreo
 
 @Module
 @InstallIn(ServiceComponent::class)

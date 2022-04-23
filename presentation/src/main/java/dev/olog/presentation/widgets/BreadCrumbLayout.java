@@ -21,8 +21,9 @@ import java.util.Vector;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+
 import dev.olog.presentation.R;
-import dev.olog.shared.android.extensions.ContextExtensionKt;
+import dev.olog.ui.ThemeUtilsKt;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 
@@ -130,8 +131,8 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     private SelectionCallback mCallback;
 
     private void init() {
-        contentColorActivated = ContextExtensionKt.textColorPrimary(getContext());
-        contentColorDeactivated = ContextExtensionKt.textColorSecondary(getContext());
+        contentColorActivated = ThemeUtilsKt.textColorPrimary(getContext());
+        contentColorDeactivated = ThemeUtilsKt.textColorSecondary(getContext());
         setMinimumHeight((int) getResources().getDimension(R.dimen.tab));
         setClipToPadding(false);
         setHorizontalScrollBarEnabled(false);

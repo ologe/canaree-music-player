@@ -13,10 +13,10 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 

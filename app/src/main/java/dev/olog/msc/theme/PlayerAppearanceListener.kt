@@ -3,11 +3,11 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.msc.R
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
-import dev.olog.msc.R
+import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.shared.mutableLazy
-import dev.olog.shared.android.theme.PlayerAppearance
 import javax.inject.Inject
 
 internal class PlayerAppearanceListener @Inject constructor(

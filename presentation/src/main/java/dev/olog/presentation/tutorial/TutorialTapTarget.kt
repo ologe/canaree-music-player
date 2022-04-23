@@ -8,9 +8,9 @@ import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.colorBackground
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
+import dev.olog.ui.colorAccent
+import dev.olog.ui.colorBackground
 
 object TutorialTapTarget {
 

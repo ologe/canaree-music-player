@@ -4,10 +4,14 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
+import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.palette.ColorUtil
-import dev.olog.shared.android.theme.PlayerAppearance
+import dev.olog.shared.extension.animateBackgroundColor
+import dev.olog.shared.extension.animateTextColor
+import dev.olog.shared.extension.collectOnLifecycle
+import dev.olog.shared.extension.isDarkMode
+import dev.olog.ui.colorBackground
+import dev.olog.ui.palette.ColorUtil
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist

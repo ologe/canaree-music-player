@@ -6,5 +6,12 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':common:localization')
+    implementation lib_x.annotations
+    implementation lib_x.core
+    implementation lib_x.fragments
+    implementation lib_x.material
 
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_livedata
 }

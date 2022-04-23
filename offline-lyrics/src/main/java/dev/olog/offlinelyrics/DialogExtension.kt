@@ -2,7 +2,7 @@ package dev.olog.offlinelyrics
 
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.shared.isOreo
 
 @Suppress("DEPRECATION")
 fun AlertDialog.enableForService(){

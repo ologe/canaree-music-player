@@ -16,10 +16,14 @@ import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
 import dev.olog.media.MediaProvider
 import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.model.*
+import dev.olog.media.model.PlayerItem
+import dev.olog.media.model.PlayerMetadata
+import dev.olog.media.model.PlayerPlaybackState
+import dev.olog.media.model.PlayerRepeatMode
+import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.flow.Flow
 
 abstract class MusicGlueActivity : BaseActivity(),

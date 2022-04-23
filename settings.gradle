@@ -6,7 +6,10 @@ apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
 include ':app'
 
 include ':core'
+include ':common:localization'
 include ':common:shared'
+include ':common:platform'
+include ':common:ui'
 
 include ':data'
 
@@ -24,5 +27,3 @@ include ':jaudiotagger'
 include ':test-shared'
 include ':intents'
 include ':prefs-keys'
-include ':shared-widgets'
-include ':shared-android'

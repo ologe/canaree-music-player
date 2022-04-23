@@ -30,8 +30,12 @@ import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.dimen
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.drop
 import javax.inject.Inject

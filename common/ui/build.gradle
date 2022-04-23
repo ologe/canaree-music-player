@@ -1,0 +1,17 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+dependencies {
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+
+    implementation lib_x.core
+    implementation lib_x.palette
+    implementation lib_x.appcompat
+    implementation lib_x.material
+    implementation lib_x.preference
+}

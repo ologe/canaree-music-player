@@ -9,10 +9,10 @@ import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
-import dev.olog.shared.android.extensions.argument
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.launchWhenResumed
+import dev.olog.shared.extension.toast
+import dev.olog.shared.extension.withArguments
 
 @AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {

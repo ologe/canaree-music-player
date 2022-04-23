@@ -7,12 +7,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.platform.theme.HasQuickAction
+import dev.olog.platform.theme.QuickAction
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.coroutineScope
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.theme.HasQuickAction
-import dev.olog.shared.android.theme.QuickAction
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.coroutineScope
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
