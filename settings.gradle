@@ -1,5 +1,13 @@
+rootProject.name = 'canaree'
+gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
+gradle.ext.exoplayerModulePrefix = 'exoplayer-'
+apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
+
 include ':app'
+
 include ':core'
+include ':common:shared'
+
 include ':data'
 
 include ':service-music'
@@ -19,8 +27,3 @@ include ':prefs-keys'
 include ':shared'
 include ':shared-widgets'
 include ':shared-android'
-
-rootProject.name = 'canaree'
-gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
-gradle.ext.exoplayerModulePrefix = 'exoplayer-'
-apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
