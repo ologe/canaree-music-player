@@ -1,34 +1,28 @@
-package dev.olog.presentation.base.drag
+package dev.olog.platform.adapter.drag
 
 import android.graphics.Canvas
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
-import kotlinx.android.synthetic.main.item_detail_song.view.*
+import dev.olog.platform.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 class TouchHelperAdapterCallback(
     private val coroutineScope: CoroutineScope,
     private val adapter: TouchableAdapter,
-    horizontalDirections: Int
-
+    horizontalDirections: Int,
+    private val animation: TouchHelperAdapterAnimation,
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
 ) {
 
     companion object {
-        @JvmStatic
-        private val TAG = "P:${TouchHelperAdapterCallback::class.java.simpleName}"
         private const val SWIPE_DURATION = DEFAULT_SWIPE_ANIMATION_DURATION.toLong() - 50
     }
-
-    private val animationsController = TouchHelperAnimationController()
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -76,27 +70,23 @@ class TouchHelperAdapterCallback(
     }
 
     override fun onChildDraw(
-        canvas: Canvas, recyclerView: RecyclerView,
+        canvas: Canvas,
+        recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
     ) {
 
         when (actionState) {
             ItemTouchHelper.ACTION_STATE_SWIPE -> {
-                val viewWidth = viewHolder.itemView.width
-                if (abs(dX) > (viewWidth * 0.35f)) {
-                    animationsController.drawCircularReveal(viewHolder, dX)
-                } else if (abs(dX) < (viewWidth * 0.05f)) {
-                    animationsController.setAnimationIdle()
-                } else if (abs(dX) < (viewWidth * 0.35f)) {
-                    animationsController.initializeSwipe(viewHolder, dX)
-                }
+                animation.onSwipe(viewHolder, dX, dY)
 
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.content,
+                    adapter.contentViewFor(viewHolder),
                     dX,
                     dY,
                     actionState,

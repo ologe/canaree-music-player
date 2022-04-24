@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
 import dev.olog.core.MediaId
+import dev.olog.platform.adapter.BaseModel
 import dev.olog.shared.TextUtils
 
 data class DisplayableQueueSong(

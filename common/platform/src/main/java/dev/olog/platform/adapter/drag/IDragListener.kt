@@ -1,15 +1,19 @@
-package dev.olog.presentation.base.drag
+package dev.olog.platform.adapter.drag
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
-import java.lang.IllegalStateException
 
 
 interface IDragListener {
     var itemTouchHelper: ItemTouchHelper?
 
-    fun setupDragListener(scope: CoroutineScope, list: RecyclerView, direction: Int)
+    fun setupDragListener(
+        scope: CoroutineScope,
+        list: RecyclerView,
+        direction: Int,
+        animation: TouchHelperAdapterAnimation,
+    )
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
 }
 
@@ -19,14 +23,15 @@ class DragListenerImpl : IDragListener {
     override fun setupDragListener(
         scope: CoroutineScope,
         list: RecyclerView,
-        direction: Int
+        direction: Int,
+        animation: TouchHelperAdapterAnimation,
     ) {
         val adapter = list.adapter ?: throw IllegalStateException("list must have a nonnull adapter")
 
         if (adapter !is TouchableAdapter){
             throw IllegalStateException("${adapter::class.java.name} must implement ${TouchableAdapter::class.java.name}'")
         }
-        val callback = TouchHelperAdapterCallback(scope, adapter, direction)
+        val callback = TouchHelperAdapterCallback(scope, adapter, direction, animation)
         itemTouchHelper = ItemTouchHelper(callback).apply {
             attachToRecyclerView(list)
         }

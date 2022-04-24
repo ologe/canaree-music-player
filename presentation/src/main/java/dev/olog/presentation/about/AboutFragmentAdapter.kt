@@ -1,10 +1,10 @@
 package dev.olog.presentation.about
 
 import android.content.res.ColorStateList
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout

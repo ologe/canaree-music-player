@@ -2,6 +2,7 @@ package dev.olog.presentation.model
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
+import dev.olog.platform.adapter.BaseModel
 import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 

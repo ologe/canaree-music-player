@@ -16,9 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.detail.adapter.DetailFragmentAdapter
 import dev.olog.presentation.detail.adapter.DetailMostPlayedAdapter
 import dev.olog.presentation.detail.adapter.DetailRecentlyAddedAdapter
@@ -40,6 +40,7 @@ import dev.olog.shared.extension.subscribe
 import dev.olog.shared.extension.withArguments
 import dev.olog.ui.activity.removeLightStatusBar
 import dev.olog.ui.activity.setLightStatusBar
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import dev.olog.ui.colorControlNormal
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
@@ -128,7 +129,12 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, swipeDirections)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = swipeDirections,
+            animation = CircularRevealAnimationController(),
+        )
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)

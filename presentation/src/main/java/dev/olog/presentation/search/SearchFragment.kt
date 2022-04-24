@@ -13,9 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
@@ -28,6 +28,7 @@ import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -102,7 +103,12 @@ class SearchFragment : BaseFragment(),
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.LEFT)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = ItemTouchHelper.LEFT,
+            animation = CircularRevealAnimationController(),
+        )
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {

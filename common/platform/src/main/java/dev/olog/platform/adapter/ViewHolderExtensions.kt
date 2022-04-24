@@ -1,13 +1,12 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.platform.adapter
 
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.base.anim.ScaleInOnTouch
-import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.model.BaseModel
+import dev.olog.platform.adapter.animation.ScaleInOnTouch
+import dev.olog.platform.adapter.animation.ScaleMoreInOnTouch
+import dev.olog.platform.adapter.drag.IDragListener
 
 fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
     data: ObservableAdapter<T>,

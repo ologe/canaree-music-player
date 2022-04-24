@@ -1,5 +1,10 @@
 package dev.olog.presentation.relatedartists
 
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateAlbumOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum

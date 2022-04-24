@@ -1,19 +1,20 @@
 package dev.olog.presentation.queue
 
 import android.content.Context
+import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.elevateSongOnTouch
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnDragListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateSongOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.ui.textColorPrimary
@@ -113,6 +114,9 @@ class PlayingQueueFragmentAdapter(
         moves.clear()
     }
 
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }
 
 object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() {

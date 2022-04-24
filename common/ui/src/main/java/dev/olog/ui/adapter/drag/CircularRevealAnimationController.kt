@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.ui.adapter.drag
 
 import android.graphics.Color
 import android.view.View
@@ -10,13 +10,15 @@ import android.widget.ImageView
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.ui.R
+import dev.olog.platform.adapter.drag.TouchHelperAdapterAnimation
 import dev.olog.shared.extension.lazyFast
 import dev.olog.ui.colorControlNormal
 import dev.olog.ui.colorSwipeBackground
+import kotlin.math.abs
 import kotlin.math.hypot
 
-internal class TouchHelperAnimationController {
+class CircularRevealAnimationController : TouchHelperAdapterAnimation {
 
     companion object {
         private const val DELETE_COLOR = 0xff_cf1721.toInt()
@@ -29,15 +31,26 @@ internal class TouchHelperAnimationController {
 
     private var state = State.IDLE
 
-    fun setAnimationIdle() {
-        state = State.IDLE
-    }
-
     private val decelerateInterpolator by lazyFast { DecelerateInterpolator() }
     private val accelerateInterpolator by lazyFast { AccelerateInterpolator() }
     private val bounceInterpolator by lazyFast { BounceInterpolator() }
 
-    fun initializeSwipe(
+    override fun onSwipe(viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float) {
+        val viewWidth = viewHolder.itemView.width
+        if (abs(dX) > (viewWidth * 0.35f)) {
+            drawCircularReveal(viewHolder, dX)
+        } else if (abs(dX) < (viewWidth * 0.05f)) {
+            setAnimationIdle()
+        } else if (abs(dX) < (viewWidth * 0.35f)) {
+            initializeSwipe(viewHolder, dX)
+        }
+    }
+
+    private fun setAnimationIdle() {
+        state = State.IDLE
+    }
+
+    private fun initializeSwipe(
         viewHolder: RecyclerView.ViewHolder,
         dx: Float
     ) {
@@ -73,7 +86,7 @@ internal class TouchHelperAnimationController {
         playNext?.isInvisible = (dx < 0).not()
     }
 
-    fun drawCircularReveal(
+    private fun drawCircularReveal(
         viewHolder: RecyclerView.ViewHolder,
         dx: Float
     ) {

@@ -1,5 +1,6 @@
-package dev.olog.presentation.base.drag
+package dev.olog.platform.adapter.drag
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 interface TouchableAdapter {
@@ -28,5 +29,7 @@ interface TouchableAdapter {
     fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {}
 
     fun onClearView() {}
+
+    fun contentViewFor(holder: RecyclerView.ViewHolder): View
 
 }

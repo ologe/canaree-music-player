@@ -6,6 +6,7 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
+    implementation project(':core')
     implementation project(':common:shared')
     implementation lib_core.dagger
 

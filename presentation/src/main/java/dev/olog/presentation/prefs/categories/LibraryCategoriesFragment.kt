@@ -9,11 +9,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.withArguments
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 
 @AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
@@ -49,7 +50,12 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     override fun setupRecyclerView(list: RecyclerView) {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, 0)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = 0,
+            animation = CircularRevealAnimationController(),
+        )
     }
 
     override fun positiveAction() {

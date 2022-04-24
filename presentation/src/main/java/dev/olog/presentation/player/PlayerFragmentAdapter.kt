@@ -18,15 +18,15 @@ import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.elevateAlbumOnTouch
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnDragListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateAlbumOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -406,4 +406,7 @@ internal class PlayerFragmentAdapter(
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }

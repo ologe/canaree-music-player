@@ -2,6 +2,7 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,14 +15,14 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.elevateSongOnTouch
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnDragListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateSongOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
 import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_song.view.*
 import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
@@ -295,7 +297,9 @@ internal class DetailFragmentAdapter(
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
-
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }
 
 object DiffCallbackDetailDisplayableItem : DiffUtil.ItemCallback<DisplayableItem>() {

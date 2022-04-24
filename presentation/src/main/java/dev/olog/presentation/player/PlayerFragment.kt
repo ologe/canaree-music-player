@@ -17,8 +17,8 @@ import dev.olog.platform.fragment.BaseFragment
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -26,6 +26,7 @@ import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.mapListItem
 import dev.olog.shared.isMarshmallow
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +70,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
+            animation = CircularRevealAnimationController(),
+        )
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha

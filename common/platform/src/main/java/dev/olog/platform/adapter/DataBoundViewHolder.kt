@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.platform.adapter
 
 import android.view.View
 import android.widget.ImageView
@@ -6,19 +6,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.platform.R
 import dev.olog.shared.extension.lazyFast
-import kotlinx.android.extensions.LayoutContainer
 
-class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
-    LifecycleOwner,
-    LayoutContainer {
+class DataBoundViewHolder(view: View) :
+    RecyclerView.ViewHolder(view),
+    LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
-    val imageView : ImageView? by lazyFast { itemView.findViewById<ImageView>(R.id.cover) }
-
-    override val containerView: View = itemView
+    val imageView : ImageView? by lazyFast { itemView.findViewById(R.id.cover) }
 
     init {
         lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
