@@ -30,7 +30,7 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':shared')
+    implementation project(':common:shared')
     implementation project(':prefs-keys')
 
     implementation lib_core.coroutines

@@ -76,13 +76,13 @@ dependencies {
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':shared-android')
-    implementation project(':shared-widgets')
     implementation project(':service-music')
     implementation project(':service-floating')
     implementation project(':offline-lyrics')
     implementation project(':intents')
-    implementation project(':shared')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
 
     implementation lib_core.coroutines
 

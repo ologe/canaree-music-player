@@ -11,13 +11,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.MusicService
-import dev.olog.service.music.interfaces.*
+import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IPlayerDelegate
+import dev.olog.service.music.interfaces.IPlayerLifecycle
+import dev.olog.service.music.interfaces.IQueue
+import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.PlayerImpl
 import dev.olog.service.music.player.PlayerVolume
 import dev.olog.service.music.player.crossfade.CrossFadePlayerSwitcher
 import dev.olog.service.music.queue.QueueManager
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 
 @Module
 @InstallIn(ServiceComponent::class)

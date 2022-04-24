@@ -9,8 +9,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
-import dev.olog.shared.android.ServiceLifecycle
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.platform.ServiceLifecycle
+import dev.olog.shared.extension.findInContext
 
 @Module
 @InstallIn(ServiceComponent::class)

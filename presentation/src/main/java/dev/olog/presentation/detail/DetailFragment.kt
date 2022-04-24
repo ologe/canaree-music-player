@@ -7,24 +7,41 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.detail.adapter.*
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.presentation.detail.adapter.DetailFragmentAdapter
+import dev.olog.presentation.detail.adapter.DetailMostPlayedAdapter
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedAdapter
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistsAdapter
+import dev.olog.presentation.detail.adapter.DetailSiblingsAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.afterTextChange
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.isDarkMode
+import dev.olog.shared.extension.isTablet
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.withArguments
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
+import dev.olog.ui.colorControlNormal
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -112,7 +129,12 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, swipeDirections)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = swipeDirections,
+            animation = CircularRevealAnimationController(),
+        )
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
@@ -137,7 +159,7 @@ class DetailFragment : BaseFragment(),
                     requireActivity().onBackPressed()
                 } else {
                     adapter.submitList(list)
-                    restoreUpperWidgetsTranslation()
+                    restoreToInitialTranslation()
                 }
             }
 

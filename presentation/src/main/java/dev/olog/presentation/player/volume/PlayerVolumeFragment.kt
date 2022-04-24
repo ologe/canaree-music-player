@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 

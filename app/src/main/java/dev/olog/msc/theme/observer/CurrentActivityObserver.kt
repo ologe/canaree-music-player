@@ -3,7 +3,7 @@ package dev.olog.msc.theme.observer
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 
 internal class CurrentActivityObserver(context: Context) :
     ActivityLifecycleCallbacks {

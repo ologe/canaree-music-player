@@ -3,8 +3,8 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.platform.theme.ImageShape
 import dev.olog.presentation.R
-import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 

@@ -6,11 +6,14 @@ import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.platform.ServiceLifecycle
 import dev.olog.service.music.interfaces.IDuckVolume
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.shared.android.ServiceLifecycle
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

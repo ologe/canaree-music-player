@@ -22,7 +22,7 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
+            <dev.olog.ui.adaptive.AdaptiveColorImageView
                 android:id="@+id/image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -133,7 +133,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="?colorSurface">
 
-                <dev.olog.shared.widgets.AutoScrollTextView
+                <dev.olog.ui.AutoScrollTextView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

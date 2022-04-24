@@ -6,14 +6,14 @@ import android.view.View
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.HasSlidingPanel
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.collapse
-import dev.olog.shared.android.extensions.dip
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.isTablet
-import dev.olog.shared.android.extensions.scrimBackground
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.dip
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.isTablet
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.scrimBackground
 
 class SlidingPanelFade(
         context: Context,
@@ -36,12 +36,12 @@ class SlidingPanelFade(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addPanelSlideListener(slidingPanelCallback)
+        slidingPanel.addBottomSheetCallback(slidingPanelCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removePanelSlideListener(slidingPanelCallback)
+        slidingPanel.removeBottomSheetCallback(slidingPanelCallback)
     }
 
     private val slidingPanelCallback = object : BottomSheetBehavior.BottomSheetCallback() {

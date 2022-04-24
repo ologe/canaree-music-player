@@ -1,12 +1,19 @@
 package dev.olog.presentation.recentlyadded
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateAlbumOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -53,4 +60,7 @@ class RecentlyAddedFragmentAdapter(
         mediaProvider.addToPlayNext(item.mediaId)
     }
 
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }

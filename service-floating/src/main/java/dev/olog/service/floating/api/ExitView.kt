@@ -22,14 +22,15 @@ import android.graphics.Point
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.*
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.dimen
+import dev.olog.shared.extension.lazyFast
 import kotlin.math.pow
 import kotlin.math.sqrt
 

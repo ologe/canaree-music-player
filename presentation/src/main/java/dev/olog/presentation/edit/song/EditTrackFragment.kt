@@ -11,11 +11,16 @@ import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateSongInfo
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.extension.afterTextChange
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.extractText
+import dev.olog.shared.extension.launchWhenResumed
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.toast
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_edit_track.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditTrackFragment : BaseEditItemFragment() {

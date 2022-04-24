@@ -9,8 +9,12 @@ import dev.olog.core.ApplicationScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
-import dev.olog.shared.android.palette.ImageProcessor
-import kotlinx.coroutines.*
+import dev.olog.ui.palette.ImageProcessor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 private const val IMAGE_SIZE = 300

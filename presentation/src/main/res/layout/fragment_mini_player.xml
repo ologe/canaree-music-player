@@ -6,7 +6,7 @@
     android:layout_height="@dimen/sliding_panel_peek"
     android:background="?colorSurface">
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.ui.AnimatedImageView
         android:id="@+id/next"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_music_next" />
 
-    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+    <dev.olog.ui.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_playpause_play" />
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.ui.AnimatedImageView
         android:id="@+id/previous"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_music_previous" />
 
-    <dev.olog.shared.widgets.AutoScrollTextView
+    <dev.olog.ui.AutoScrollTextView
         android:id="@+id/title"
         android:gravity="bottom"
         android:layout_width="0dp"

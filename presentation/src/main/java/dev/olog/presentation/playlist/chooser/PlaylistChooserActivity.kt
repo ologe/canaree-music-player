@@ -5,14 +5,14 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.lazyFast
+import dev.olog.ui.activity.ThemedActivity
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.toast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 
 @AndroidEntryPoint
-class PlaylistChooserActivity : BaseActivity() {
+class PlaylistChooserActivity : ThemedActivity() {
 
     private val viewModel by viewModels<PlaylistChooserActivityViewModel>()
 

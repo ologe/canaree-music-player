@@ -1,11 +1,17 @@
 package dev.olog.presentation.search.adapter
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateSongOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
@@ -135,4 +141,7 @@ class SearchFragmentAdapter(
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }

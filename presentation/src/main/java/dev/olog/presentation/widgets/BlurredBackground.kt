@@ -9,10 +9,15 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.isDarkMode
+import dev.olog.shared.extension.lazyFast
 import io.alterac.blurkit.BlurKit
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 class BlurredBackground(
     context: Context,

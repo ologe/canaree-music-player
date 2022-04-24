@@ -5,9 +5,9 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.dimen
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.colorSurface
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class HeaderVisibilityScrollListener(

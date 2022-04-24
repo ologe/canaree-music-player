@@ -2,7 +2,7 @@ package dev.olog.presentation.model
 
 import android.content.Context
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.shared.android.extensions.configuration
+import dev.olog.shared.extension.configuration
 
 internal object SpanCountController {
 

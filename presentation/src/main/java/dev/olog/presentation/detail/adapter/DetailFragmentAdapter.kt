@@ -2,6 +2,7 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,26 +15,36 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateSongOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.*
+import dev.olog.presentation.model.DisplayableAlbum
+import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.collectOnLifecycle
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.exhaustive
+import dev.olog.shared.extension.collectOnLifecycle
+import dev.olog.shared.extension.exhaustive
+import dev.olog.shared.extension.map
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
 import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_song.view.*
 import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
@@ -286,7 +297,9 @@ internal class DetailFragmentAdapter(
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
-
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }
 
 object DiffCallbackDetailDisplayableItem : DiffUtil.ItemCallback<DisplayableItem>() {

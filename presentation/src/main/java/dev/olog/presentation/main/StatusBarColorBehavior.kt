@@ -7,58 +7,47 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.HasSlidingPanel
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.lazyFast
-import java.lang.ref.WeakReference
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.isMarshmallow
+import dev.olog.ui.activity.removeLightStatusBar
+import dev.olog.ui.activity.setLightStatusBar
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
-    fragmentActivity: FragmentActivity
+    private val activity: FragmentActivity
 ) : DefaultLifecycleObserver, FragmentManager.OnBackStackChangedListener {
 
-    private val activityRef = WeakReference(fragmentActivity)
-
-    private val slidingPanel: MultiListenerBottomSheetBehavior<*>? by lazyFast {
-        val activity = activityRef.get() ?: return@lazyFast null
+    private val slidingPanel: BottomSheetBehavior<*>? by lazyFast {
         (activity.findInContext<HasSlidingPanel>()).getSlidingPanel()
     }
 
     init {
-        fragmentActivity.lifecycle.addObserver(this)
+        activity.lifecycle.addObserver(this)
     }
 
     override fun onResume(owner: LifecycleOwner) {
-        val activity = activityRef.get() ?: return
-
         if (!isMarshmallow()){
             return
         }
 
-        slidingPanel?.addPanelSlideListener(slidingPanelListener)
+        slidingPanel?.addBottomSheetCallback(slidingPanelListener)
         activity.supportFragmentManager.addOnBackStackChangedListener(this)
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        val activity = activityRef.get() ?: return
-
         if (!isMarshmallow()){
             return
         }
 
-        slidingPanel?.removePanelSlideListener(slidingPanelListener)
+        slidingPanel?.removeBottomSheetCallback(slidingPanelListener)
         activity.supportFragmentManager.removeOnBackStackChangedListener(this)
     }
 
     override fun onBackStackChanged() {
-        val activity = activityRef.get() ?: return
-
         if (!isMarshmallow()){
             return
         }
@@ -94,8 +83,6 @@ class StatusBarColorBehavior @Inject constructor(
 
         @SuppressLint("SwitchIntDef")
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            val activity = activityRef.get() ?: return
-
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
                     val playerApperance = (activity.hasPlayerAppearance())

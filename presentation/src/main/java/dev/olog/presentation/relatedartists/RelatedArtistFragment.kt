@@ -5,13 +5,13 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 

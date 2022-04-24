@@ -2,9 +2,13 @@ package dev.olog.presentation.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.media.MediaProvider
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateSongOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*

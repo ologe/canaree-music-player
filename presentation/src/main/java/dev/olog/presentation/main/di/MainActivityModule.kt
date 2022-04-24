@@ -10,7 +10,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.navigator.NavigatorImpl
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 
 @Module
 @InstallIn(ActivityComponent::class)

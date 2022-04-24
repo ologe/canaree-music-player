@@ -10,7 +10,7 @@ import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
-import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.extension.toast
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 

@@ -20,7 +20,7 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(

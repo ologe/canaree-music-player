@@ -10,7 +10,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.tab.TabFragment
-import dev.olog.shared.isInBounds
+import dev.olog.shared.extension.isInBounds
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 class LibraryFragmentAdapter(

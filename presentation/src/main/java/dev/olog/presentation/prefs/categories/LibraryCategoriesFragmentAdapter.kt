@@ -1,13 +1,15 @@
 package dev.olog.presentation.prefs.categories
 
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.SimpleAdapter
-import dev.olog.presentation.base.adapter.setOnDragListener
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.platform.adapter.SimpleAdapter
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.shared.swap
+import dev.olog.shared.extension.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -55,5 +57,9 @@ class LibraryCategoriesFragmentAdapter (
 
         dataSet.swap(from, to)
         notifyItemMoved(from, to)
+    }
+
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
     }
 }

@@ -9,17 +9,25 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.offlinelyrics.*
+import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.Lyrics
+import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.offlinelyrics.OffsetCalculator
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.animateBackgroundColor
-import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.collectOnLifecycle
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.animateBackgroundColor
+import dev.olog.shared.extension.animateTextColor
+import dev.olog.shared.extension.collectOnLifecycle
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OfflineLyricsContent(
     private val context: Context,

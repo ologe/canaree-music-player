@@ -14,12 +14,19 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
+import dev.olog.platform.HasSlidingPanel
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.platform.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.elevateAlbumOnTouch
+import dev.olog.platform.adapter.setOnClickListener
+import dev.olog.platform.adapter.setOnDragListener
+import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -30,10 +37,9 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.collectOnLifecycle
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.extension.collectOnLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
@@ -400,4 +406,7 @@ internal class PlayerFragmentAdapter(
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
+    override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
+        return holder.itemView.content
+    }
 }

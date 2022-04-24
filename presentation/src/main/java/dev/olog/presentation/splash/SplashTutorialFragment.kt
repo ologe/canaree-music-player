@@ -17,7 +17,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.collectOnViewLifecycle
+import dev.olog.shared.extension.collectOnViewLifecycle
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
 class SplashTutorialFragment : Fragment(),

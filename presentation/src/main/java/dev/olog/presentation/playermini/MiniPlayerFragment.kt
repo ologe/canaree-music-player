@@ -10,13 +10,15 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerState
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -97,7 +99,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.isVisible = !getSlidingPanel().isExpanded()
         next.setOnClickListener { media.skipToNext() }
@@ -107,7 +109,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel()!!.removeBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)

@@ -7,7 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    implementation project(':shared')
+    implementation project(':common:shared')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

@@ -7,7 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 
 @AndroidEntryPoint

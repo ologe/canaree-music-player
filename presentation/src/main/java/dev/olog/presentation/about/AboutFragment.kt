@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 

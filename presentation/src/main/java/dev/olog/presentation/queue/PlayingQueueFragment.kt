@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.drag.DragListenerImpl
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.awaitLifecycle
-import dev.olog.shared.android.extensions.collectOnViewLifecycle
-import dev.olog.shared.android.extensions.dip
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.awaitLifecycle
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.dip
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
@@ -63,7 +64,12 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        setupDragListener(viewLifecycleOwner.lifecycleScope, list, ItemTouchHelper.RIGHT)
+        setupDragListener(
+            scope = viewLifecycleOwner.lifecycleScope,
+            list = list,
+            direction = ItemTouchHelper.RIGHT,
+            animation = CircularRevealAnimationController(),
+        )
 
         viewModel.observeData()
             .collectOnViewLifecycle(this) {

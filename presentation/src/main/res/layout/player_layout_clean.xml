@@ -189,7 +189,7 @@
         app:debug="true"
         app:skip_area_dimension="92dp"/>
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.ui.DottedSeparator
         android:id="@+id/separator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

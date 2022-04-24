@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.lazyFast
+import dev.olog.platform.HasSlidingPanel
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.lazyFast
 
 class SimpleNestedScrollView(
     context: Context,
@@ -22,12 +22,12 @@ class SimpleNestedScrollView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addPanelSlideListener(bottomSheetCallback)
+        slidingPanel.addBottomSheetCallback(bottomSheetCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removePanelSlideListener(bottomSheetCallback)
+        slidingPanel.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {

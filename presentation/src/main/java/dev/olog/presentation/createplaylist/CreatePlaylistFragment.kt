@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
@@ -18,8 +18,13 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.afterTextChange
+import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.subscribe
+import dev.olog.shared.extension.toast
+import dev.olog.shared.extension.toggleSelected
+import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -70,7 +75,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
                 sidebar.onDataChanged(it)
-                restoreUpperWidgetsTranslation()
+                restoreToInitialTranslation()
             }
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist

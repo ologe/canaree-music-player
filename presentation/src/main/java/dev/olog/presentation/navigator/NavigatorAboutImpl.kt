@@ -6,14 +6,14 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import dev.olog.platform.PlayStoreUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
 import dev.olog.presentation.translations.TranslationsFragment
-import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.isIntentSafe
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.shared.extension.isIntentSafe
+import dev.olog.shared.extension.toast
+import dev.olog.ui.colorSurface
 import saschpe.android.customtabs.CustomTabsHelper
 import javax.inject.Inject
 

@@ -7,19 +7,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extension.argument
+import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.launchWhenResumed
+import dev.olog.shared.extension.lazyFast
+import dev.olog.shared.extension.withArguments
+import dev.olog.ui.textColorPrimary
+import dev.olog.ui.textColorSecondary
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

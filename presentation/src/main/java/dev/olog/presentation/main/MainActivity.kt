@@ -15,10 +15,18 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
+import dev.olog.platform.HasScrollableContent
+import dev.olog.platform.HasSlidingPanel
+import dev.olog.platform.theme.hasPlayerAppearance
+import dev.olog.platform.theme.isImmersiveMode
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.*
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
+import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.interfaces.HasBottomNavigation
+import dev.olog.presentation.interfaces.OnPermissionChanged
+import dev.olog.presentation.interfaces.Permission
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -29,9 +37,11 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.extension.dimen
+import dev.olog.shared.extension.dip
+import dev.olog.shared.extension.getTopFragment
+import dev.olog.shared.extension.isTablet
+import dev.olog.shared.extension.setHeight
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -41,6 +51,7 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
+    HasScrollableContent,
     OnPermissionChanged {
 
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -207,7 +218,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreToInitialTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }
