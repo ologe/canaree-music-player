@@ -12,11 +12,10 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.bubble.FloatingWindowService
 import dev.olog.feature.bubble.R
 import dev.olog.shared.extension.asServicePendingIntent
+import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.isOreo
 import dev.olog.ui.colorControlNormal
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "0xfff"
@@ -47,11 +46,11 @@ class FloatingWindowNotification @Inject constructor(
         // keeps playing song in sync
         musicPreferencesUseCase.observeLastMetadata()
             .filter { it.isNotEmpty() }
-            .onEach {
+            .collectOnLifecycle(serviceScope) {
                 notificationTitle = it.description
                 val notification = builder.setContentTitle(notificationTitle).build()
                 notificationManager.notify(NOTIFICATION_ID, notification)
-            }.launchIn(serviceScope)
+            }
     }
 
     fun buildNotification(): Notification {

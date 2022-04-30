@@ -17,7 +17,6 @@ import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.extension.awaitLifecycle
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dip
 import dev.olog.shared.extension.findInContext
@@ -86,8 +85,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             }
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
-            .awaitLifecycle(this, Lifecycle.State.RESUMED)
-            .collectOnViewLifecycle(this) { position ->
+            .collectOnViewLifecycle(this, Lifecycle.State.RESUMED) { position ->
                 layoutManager.scrollToPositionWithOffset(position, dip(20))
             }
     }

@@ -2,16 +2,14 @@ package dev.olog.feature.bubble
 
 import android.app.Service
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.ServiceScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.bubble.api.HoverMenu
-import dev.olog.platform.ServiceLifecycle
 import dev.olog.feature.bubble.api.view.TabView
+import dev.olog.platform.ServiceLifecycle
+import dev.olog.shared.extension.collectOnLifecycle
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -24,7 +22,7 @@ class CustomHoverMenu @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
-) : HoverMenu(), DefaultLifecycleObserver {
+) : HoverMenu() {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
@@ -50,8 +48,9 @@ class CustomHoverMenu @Inject constructor(
     private fun startObserving(){
         musicPreferencesUseCase.observeLastMetadata()
             .filter { it.isNotEmpty() }
-            .onEach { item = it.description }
-            .launchIn(serviceScope)
+            .collectOnLifecycle(serviceScope) {
+                item = it.description
+            }
     }
 
     private val lyricsSection = Section(

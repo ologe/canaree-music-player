@@ -6,11 +6,12 @@ import android.content.Intent
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.HoverView
+import dev.olog.feature.bubble.api.window.HoverMenuService
 import dev.olog.feature.bubble.notification.FloatingWindowNotification
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FloatingWindowService : BaseFloatingService() {
+class FloatingWindowService : HoverMenuService() {
 
     @Inject
     lateinit var hoverMenu: CustomHoverMenu
