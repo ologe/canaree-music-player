@@ -25,7 +25,7 @@ class RippleTarget(
 
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
-        if (view is ForegroundImageView) {
+        if (view.isAttachedToWindow && view is ForegroundImageView) {
             view.coroutineScope.launch {
                 generateRipple(drawable)
             }
