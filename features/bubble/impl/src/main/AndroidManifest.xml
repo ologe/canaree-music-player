@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="dev.olog.feature.bubble"/>
+<manifest package="dev.olog.feature.bubble"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+
+        <service
+            android:name="dev.olog.feature.bubble.FloatingWindowService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
