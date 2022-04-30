@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme">
+
+    <dev.olog.feature.bubble.widget.AutoPivotView
+        android:id="@+id/view_exit_gradient"
+        android:layout_width="@dimen/exit_width"
+        android:translationY="20dp"
+        android:layout_height="@dimen/exit_height"
+        android:background="@drawable/gradient_exit"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/view_exit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:tint="#262626"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/vd_cancel"
+        android:background="@null"
+        android:padding="4dp"
+        android:layout_gravity="center_horizontal|bottom"/>
+
+</merge>

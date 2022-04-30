@@ -103,7 +103,7 @@
 
         <!--floating window service-->
         <service
-            android:name="dev.olog.service.floating.FloatingWindowService"
+            android:name="dev.olog.feature.bubble.FloatingWindowService"
             android:exported="false" />
 
 

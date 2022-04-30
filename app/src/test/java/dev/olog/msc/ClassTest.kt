@@ -1,7 +1,7 @@
 package dev.olog.msc
 
 import dev.olog.appshortcuts.ShortcutsActivity
-import dev.olog.service.floating.FloatingWindowService
+import dev.olog.feature.bubble.FloatingWindowService
 import dev.olog.service.music.MusicService
 import dev.olog.msc.appwidgets.WidgetColored
 import dev.olog.presentation.main.MainActivity

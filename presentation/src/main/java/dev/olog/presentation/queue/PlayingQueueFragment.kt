@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.extension.awaitLifecycle
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dip
 import dev.olog.shared.extension.findInContext
@@ -46,6 +45,8 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
@@ -84,8 +85,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             }
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
-            .awaitLifecycle(this, Lifecycle.State.RESUMED)
-            .collectOnViewLifecycle(this) { position ->
+            .collectOnViewLifecycle(this, Lifecycle.State.RESUMED) { position ->
                 layoutManager.scrollToPositionWithOffset(position, dip(20))
             }
     }
@@ -108,7 +108,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureBubbleNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
