@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
@@ -46,6 +46,8 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
@@ -108,7 +110,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureBubbleNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

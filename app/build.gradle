@@ -77,12 +77,15 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':presentation')
     implementation project(':service-music')
-    implementation project(':service-floating')
     implementation project(':offline-lyrics')
     implementation project(':intents')
+    // common
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
+
+    // features
+    implementation project(':features:bubble:impl')
 
     implementation lib_core.coroutines
 

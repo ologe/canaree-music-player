@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.drag.DragListenerImpl
@@ -94,6 +94,9 @@ class SearchFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
+
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -191,7 +194,7 @@ class SearchFragment : BaseFragment(),
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureBubbleNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
 

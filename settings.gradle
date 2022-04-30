@@ -13,8 +13,11 @@ include ':common:ui'
 
 include ':data'
 
+// features
+include ':features:bubble:api'
+include ':features:bubble:impl'
+
 include ':service-music'
-include ':service-floating'
 
 include ':presentation'
 include ':offline-lyrics'

@@ -7,8 +7,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
@@ -47,6 +47,9 @@ class LibraryFragment : BaseFragment() {
     private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     private val isPodcast by argument<Boolean>(IS_PODCAST)
 
@@ -131,7 +134,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureBubbleNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     private val onPageChangeListener =
