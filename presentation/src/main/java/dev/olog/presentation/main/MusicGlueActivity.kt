@@ -7,34 +7,38 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.media.MediaExposer
-import dev.olog.media.MediaProvider
-import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.model.PlayerItem
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerRepeatMode
-import dev.olog.media.model.PlayerShuffleMode
-import dev.olog.media.playPause
-import dev.olog.ui.activity.ThemedActivity
+import dev.olog.feature.media.FeatureMediaNavigator
+import dev.olog.feature.media.MediaExposer
+import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.media.MusicServiceAction
+import dev.olog.feature.media.MusicServiceCustomAction
+import dev.olog.feature.media.connection.OnConnectionChanged
+import dev.olog.feature.media.extensions.playPause
+import dev.olog.feature.media.model.PlayerItem
+import dev.olog.feature.media.model.PlayerMetadata
+import dev.olog.feature.media.model.PlayerPlaybackState
+import dev.olog.feature.media.model.PlayerRepeatMode
 import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.activity.ThemedActivity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 abstract class MusicGlueActivity : ThemedActivity(),
     MediaProvider,
     OnConnectionChanged {
+
+    @Inject
+    lateinit var featureMediaNavigator: FeatureMediaNavigator
 
     private val mediaExposer by lazyFast {
         MediaExposer(
             context = this,
             onConnectionChanged = this,
             scope = lifecycleScope,
+            componentName = featureMediaNavigator.serviceComponent(),
         )
     }
 
@@ -97,9 +101,9 @@ abstract class MusicGlueActivity : ThemedActivity(),
 
     override fun observePlaybackState(): Flow<PlayerPlaybackState> = mediaExposer.observePlaybackState()
 
-    override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
+    override fun observeRepeat(): Flow<PlayerRepeatMode> = mediaExposer.observeRepeat()
 
-    override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
+    override fun observeShuffle() = mediaExposer.observeShuffle()
 
     override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
 

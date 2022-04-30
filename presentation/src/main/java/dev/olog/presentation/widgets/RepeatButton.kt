@@ -7,7 +7,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import dev.olog.media.model.PlayerRepeatMode
+import dev.olog.feature.media.model.PlayerRepeatMode
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
 import dev.olog.shared.extension.getAnimatedVectorDrawable

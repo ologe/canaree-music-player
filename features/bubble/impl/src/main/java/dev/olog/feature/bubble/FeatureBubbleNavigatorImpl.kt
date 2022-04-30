@@ -11,7 +11,6 @@ import androidx.annotation.CheckResult
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import dev.olog.feature.bubble.FeatureBubbleNavigator.Companion.REQUEST_CODE_HOVER_PERMISSION
-import dev.olog.intents.Classes
 import javax.inject.Inject
 
 class FeatureBubbleNavigatorImpl @Inject constructor() : FeatureBubbleNavigator {
@@ -19,7 +18,7 @@ class FeatureBubbleNavigatorImpl @Inject constructor() : FeatureBubbleNavigator 
     @SuppressLint("NewApi")
     override fun startServiceOrRequestOverlayPermission(activity: Activity){
         if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))
+            val intent = Intent(activity, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(activity, intent)
         } else {
             val intent = createIntentToRequestOverlayPermission(activity)
@@ -32,7 +31,7 @@ class FeatureBubbleNavigatorImpl @Inject constructor() : FeatureBubbleNavigator 
     @SuppressLint("NewApi")
     override fun startServiceIfHasOverlayPermission(activity: Activity){
         if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))
+            val intent = Intent(activity, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(activity, intent)
         }
     }

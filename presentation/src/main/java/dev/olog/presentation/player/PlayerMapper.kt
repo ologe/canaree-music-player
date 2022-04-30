@@ -1,9 +1,9 @@
 package dev.olog.presentation.player
 
-import dev.olog.media.model.PlayerItem
-import dev.olog.presentation.R
+import dev.olog.feature.media.model.PlayerItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.R
 
 internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
     return DisplayableTrack(

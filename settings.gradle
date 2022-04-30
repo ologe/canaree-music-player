@@ -20,12 +20,9 @@ include ':features:bubble:impl'
 include ':features:media:api'
 include ':features:media:impl'
 
-include ':service-music'
-
 include ':presentation'
 include ':offline-lyrics'
 include ':equalizer'
-include ':media'
 include ':app-shortcuts'
 include ':image-provider'
 include ':jaudiotagger'

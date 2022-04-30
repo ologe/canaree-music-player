@@ -7,11 +7,15 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dev.olog.core.MediaId
+import dev.olog.feature.media.MusicServiceAction
+import dev.olog.feature.media.MusicServiceCustomAction
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AppShortcutsImp(
     private val context: Context

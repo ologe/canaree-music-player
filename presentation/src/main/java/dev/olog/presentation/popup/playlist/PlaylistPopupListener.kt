@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup

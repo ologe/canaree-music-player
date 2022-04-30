@@ -3,7 +3,7 @@ package dev.olog.presentation.tab.adapter
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder

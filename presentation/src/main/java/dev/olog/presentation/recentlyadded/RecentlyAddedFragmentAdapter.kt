@@ -2,7 +2,7 @@ package dev.olog.presentation.recentlyadded
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.elevateAlbumOnTouch

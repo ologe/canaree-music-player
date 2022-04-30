@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.Lyrics
 import dev.olog.offlinelyrics.NoScrollTouchListener

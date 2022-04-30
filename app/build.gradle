@@ -65,6 +65,11 @@ android {
 //    dynamicFeatures = [":feature_stylize"]
 
 //    kotlinOptions.allWarningsAsErrors = true
+
+    packagingOptions {
+        exclude 'META-INF/api_debug.kotlin_module'
+        exclude 'META-INF/impl_debug.kotlin_module'
+    }
 }
 
 
@@ -73,10 +78,8 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':service-music')
     implementation project(':offline-lyrics')
     implementation project(':intents')
     // common
@@ -85,6 +88,7 @@ dependencies {
     implementation project(':common:ui')
 
     // features
+    implementation project(':features:media:impl')
     implementation project(':features:bubble:impl')
 
     implementation lib_core.coroutines

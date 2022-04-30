@@ -41,7 +41,7 @@
         android:src="?colorBackgroundTransparent" />
 
     <!-- seekbar -->
-    <dev.olog.media.widget.CustomSeekBar
+    <dev.olog.ui.progress.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="64dp"

@@ -10,23 +10,23 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
+import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.media.model.PlayerMetadata
+import dev.olog.feature.media.model.PlayerPlaybackState
+import dev.olog.feature.media.model.PlayerState
 import dev.olog.platform.HasSlidingPanel
-import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.presentation.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateAlbumOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.platform.adapter.drag.IDragListener
-import dev.olog.platform.adapter.drag.TouchableAdapter
+import dev.olog.platform.theme.hasPlayerAppearance
+import dev.olog.presentation.BindingsAdapter
+import dev.olog.presentation.R
+import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -226,10 +226,14 @@ internal class PlayerFragmentAdapter(
             .collectOnLifecycle(holder) { view.seekBar.onStateChanged(it) }
 
         mediaProvider.observeRepeat()
-            .subscribe(holder, view.repeat::cycle)
+            .collectOnLifecycle(holder) {
+                view.repeat.cycle(it)
+            }
 
         mediaProvider.observeShuffle()
-            .subscribe(holder, view.shuffle::cycle)
+            .collectOnLifecycle(holder) {
+                view.shuffle.cycle(it)
+            }
 
         view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener {
             override fun onSwipedLeft() {

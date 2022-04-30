@@ -3,7 +3,7 @@ package dev.olog.msc.app
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.feature.media.interactor.SleepTimerUseCase
 import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
