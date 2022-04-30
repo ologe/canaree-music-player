@@ -1,26 +1,24 @@
 package dev.olog.shared.extension
 
 import android.content.SharedPreferences
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.channelFlow
 
 inline fun <reified T : Any> SharedPreferences.observeKey(key: String, default: T): Flow<T> {
-    val flow = MutableStateFlow<T?>(null)
-    flow.value = getItem(key, default)
+    val flow: Flow<T> = channelFlow {
+        send(getItem(key, default))
 
-    val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
-        if (key == k) {
-            flow.value = getItem(key, default)
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
+            if (key == k) {
+                trySend(getItem(key, default))
+            }
         }
-    }
 
+        registerOnSharedPreferenceChangeListener(listener)
+        awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
+    }
     return flow
-        .onStart { registerOnSharedPreferenceChangeListener(listener) }
-        .onCompletion { unregisterOnSharedPreferenceChangeListener(listener) }
-        .filterNotNull()
 }
 
 inline fun <reified T> SharedPreferences.getItem(key: String, default: T): T {

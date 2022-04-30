@@ -135,6 +135,7 @@ ext {
             mockito       : "org.mockito:mockito-android:3.5.10",
             mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
             livedata      : "com.jraska.livedata:testing-ktx:1.1.2",
+            flow          : "com.github.ologe:flow-test-observer:1.6.2",
     ]
 
 }
