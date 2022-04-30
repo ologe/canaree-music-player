@@ -17,6 +17,9 @@ include ':data'
 include ':features:bubble:api'
 include ':features:bubble:impl'
 
+include ':features:media:api'
+include ':features:media:impl'
+
 include ':service-music'
 
 include ':presentation'
