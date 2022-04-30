@@ -1,10 +1,11 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.Resettable
 import dev.olog.core.entity.UserCredentials
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
-interface AppPreferencesGateway {
+interface AppPreferencesGateway : Resettable {
 
     fun resetSleepTimer()
     fun setSleepTimer(sleepFrom: Long, sleepTime: Long)
@@ -21,6 +22,5 @@ interface AppPreferencesGateway {
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 
-    fun setDefault()
 }
 

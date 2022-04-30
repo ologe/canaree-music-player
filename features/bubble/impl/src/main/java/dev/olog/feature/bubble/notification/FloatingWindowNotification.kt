@@ -8,7 +8,7 @@ import android.app.Service
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import dev.olog.core.ServiceScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.bubble.FloatingWindowService
 import dev.olog.feature.bubble.R
 import dev.olog.shared.extension.asServicePendingIntent

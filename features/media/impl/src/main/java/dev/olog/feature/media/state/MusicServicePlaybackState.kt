@@ -8,7 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.feature.media.model.PositionInQueue

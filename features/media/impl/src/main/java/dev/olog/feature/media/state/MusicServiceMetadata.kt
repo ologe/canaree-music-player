@@ -9,7 +9,7 @@ import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap

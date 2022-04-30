@@ -4,7 +4,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
 import android.util.Log
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

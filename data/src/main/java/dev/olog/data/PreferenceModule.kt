@@ -9,8 +9,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.prefs.*
-import dev.olog.data.prefs.*
+import dagger.multibindings.IntoSet
+import dev.olog.core.Resettable
+import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.data.prefs.AppPreferencesImpl
+import dev.olog.data.prefs.BlacklistPreferenceImpl
+import dev.olog.data.prefs.EqualizerPreferenceImpl
+import dev.olog.data.prefs.TutorialPreferenceImpl
 import dev.olog.data.prefs.sort.AppSortingImpl
 import javax.inject.Singleton
 
@@ -23,6 +32,10 @@ abstract class PreferenceModule {
     internal abstract fun provideEqualizerPreferences(impl: EqualizerPreferenceImpl): EqualizerPreferencesGateway
 
     @Binds
+    @IntoSet
+    internal abstract fun provideEqualizerPreferencesResettable(impl: EqualizerPreferencesGateway): Resettable
+
+    @Binds
     @Singleton
     internal abstract fun provideTutorialPreferences(impl: TutorialPreferenceImpl): TutorialPreferenceGateway
 
@@ -31,8 +44,8 @@ abstract class PreferenceModule {
     internal abstract fun provideAppPreferences(impl: AppPreferencesImpl): AppPreferencesGateway
 
     @Binds
-    @Singleton
-    internal abstract fun provideMusicPreferences(impl: MusicPreferencesImpl): MusicPreferencesGateway
+    @IntoSet
+    internal abstract fun provideAppPreferencesResettable(impl: AppPreferencesGateway): Resettable
 
     @Binds
     @Singleton
@@ -41,6 +54,10 @@ abstract class PreferenceModule {
     @Binds
     @Singleton
     internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
+
+    @Binds
+    @IntoSet
+    abstract fun provideResettable(impl: BlacklistPreferences): Resettable
 
     companion object {
         @Provides

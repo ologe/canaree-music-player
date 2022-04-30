@@ -4,7 +4,7 @@ import android.app.Service
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.ServiceScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.view.TabView
 import dev.olog.platform.ServiceLifecycle

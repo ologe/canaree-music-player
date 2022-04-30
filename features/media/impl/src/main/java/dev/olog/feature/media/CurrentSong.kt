@@ -15,7 +15,6 @@ import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
-import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
 import dev.olog.feature.media.model.MediaEntity

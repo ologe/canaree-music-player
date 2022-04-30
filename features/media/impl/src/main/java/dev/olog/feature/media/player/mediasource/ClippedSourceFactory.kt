@@ -3,7 +3,7 @@ package dev.olog.feature.media.player.mediasource
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.core.ServiceScope
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.media.interfaces.ISourceFactory
 import dev.olog.feature.media.player.crossfade.CrossFadePlayer
 import kotlinx.coroutines.flow.launchIn

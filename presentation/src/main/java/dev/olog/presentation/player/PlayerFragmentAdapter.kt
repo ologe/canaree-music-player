@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.media.model.PlayerMetadata
 import dev.olog.feature.media.model.PlayerPlaybackState

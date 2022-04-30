@@ -1,9 +1,10 @@
-package dev.olog.core.prefs
+package dev.olog.feature.media
 
+import dev.olog.core.Resettable
 import dev.olog.core.entity.LastMetadata
 import kotlinx.coroutines.flow.Flow
 
-interface MusicPreferencesGateway {
+interface MusicPreferencesGateway : Resettable {
 
     fun getBookmark(): Long
     fun setBookmark(bookmark: Long)
@@ -25,8 +26,6 @@ interface MusicPreferencesGateway {
     fun getLastMetadata(): LastMetadata
     fun setLastMetadata(metadata: LastMetadata)
     fun observeLastMetadata(): Flow<LastMetadata>
-
-    fun setDefault()
 
     /**
      * in millis

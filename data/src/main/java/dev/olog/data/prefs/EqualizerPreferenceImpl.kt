@@ -3,7 +3,7 @@ package dev.olog.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -60,7 +60,7 @@ class EqualizerPreferenceImpl @Inject constructor(
         preferences.edit { putString(VIRTUALIZER_SETTINGS, settings) }
     }
 
-    override fun setDefault() {
+    override fun reset() {
         setEqualizerEnabled(false)
     }
 }

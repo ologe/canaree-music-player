@@ -1,13 +1,11 @@
-package dev.olog.data.prefs
+package dev.olog.feature.media
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.LastMetadata
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.data.R
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -104,7 +102,7 @@ class MusicPreferencesImpl @Inject constructor(
                 .map { getLastMetadata() }
     }
 
-    override fun setDefault() {
+    override fun reset() {
         setMidnightMode(false)
         setCrossFade(0)
         setGapless(false)
