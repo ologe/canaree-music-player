@@ -83,30 +83,6 @@
         <!--app shortcust playlist chooser-->
         <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
 
-        <!--music service-->
-        <service
-            android:name="dev.olog.service.music.MusicService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-
-        <!--media button receiver-->
-        <receiver
-            android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
-        <!--floating window service-->
-        <service
-            android:name="dev.olog.feature.bubble.FloatingWindowService"
-            android:exported="false" />
-
-
         <uses-library
             android:name="android.test.runner"
             android:required="false" />
@@ -137,20 +113,10 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <!--car support-->
-        <meta-data
-            android:name="com.google.android.gms.car.application"
-            android:resource="@xml/automotive_app_desc" />
-
         <!-- support to 2:1 screens -->
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
-
-        <!--chromecast-->
-        <meta-data
-            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="dev.olog.msc.chromecast.CastOptionsProvider" />
 
     </application>
 

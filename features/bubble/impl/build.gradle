@@ -15,10 +15,10 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
+    implementation project(':features:media:api')
 
     // legacy
     implementation project(':intents')
-    implementation project(':media')
     implementation project(':image-provider')
     implementation project(':offline-lyrics')
 

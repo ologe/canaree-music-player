@@ -1,8 +1,9 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.Resettable
 import kotlinx.coroutines.flow.Flow
 
-interface EqualizerPreferencesGateway {
+interface EqualizerPreferencesGateway : Resettable {
 
     fun isEqualizerEnabled(): Boolean
     fun setEqualizerEnabled(enabled: Boolean)
@@ -16,6 +17,5 @@ interface EqualizerPreferencesGateway {
 
     fun getVirtualizerSettings(): String
     fun getBassBoostSettings(): String
-    fun setDefault()
 
 }

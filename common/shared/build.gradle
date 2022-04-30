@@ -14,4 +14,6 @@ dependencies {
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_livedata
+
+    testImplementation lib_test.flow
 }

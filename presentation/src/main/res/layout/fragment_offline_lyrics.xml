@@ -171,7 +171,7 @@
             android:layout_marginEnd="100dp"/>
 
         <!-- seekbar -->
-        <dev.olog.media.widget.CustomSeekBar
+        <dev.olog.ui.progress.CustomSeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

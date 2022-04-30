@@ -10,13 +10,13 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
+import dev.olog.feature.media.MusicServiceAction
 import dev.olog.msc.R
 import dev.olog.presentation.main.MainActivity
-import dev.olog.service.music.MusicService
+import dev.olog.feature.media.MusicService
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import dev.olog.ui.palette.ImageProcessorResult

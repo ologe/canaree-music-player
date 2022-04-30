@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.shared.extension.withArguments

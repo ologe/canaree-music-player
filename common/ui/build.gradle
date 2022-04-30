@@ -10,6 +10,8 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':prefs-keys') // TODO inject the preference?
 
+    implementation project(':features:media:api') // todo not sure
+
     implementation lib_x.core
     implementation lib_x.palette
     implementation lib_x.appcompat

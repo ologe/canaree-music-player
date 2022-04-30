@@ -5,17 +5,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
+import dev.olog.feature.bubble.FloatingWindowsConstants
+import dev.olog.feature.media.MusicServiceAction
 import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
 import dev.olog.platform.HasScrollableContent
 import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
@@ -140,9 +138,7 @@ class MainActivity : MusicGlueActivity(),
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
-                ContextCompat.startForegroundService(this, serviceIntent)
+                featureMediaNavigator.startService(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH, null)
             }
             Shortcuts.DETAIL -> {
                 lifecycleScope.launchWhenResumed {
@@ -153,10 +149,7 @@ class MainActivity : MusicGlueActivity(),
                 }
             }
             Intent.ACTION_VIEW -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MusicServiceAction.PLAY_URI.name
-                serviceIntent.data = intent.data
-                ContextCompat.startForegroundService(this, serviceIntent)
+                featureMediaNavigator.startService(MusicServiceAction.PLAY_URI, intent.data)
             }
         }
         intent.action = null

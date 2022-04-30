@@ -22,7 +22,7 @@ class BlacklistPreferenceImpl @Inject constructor(
         preferences.edit { putStringSet(BLACKLIST, set) }
     }
 
-    override fun setDefault() {
+    override fun reset() {
         setBlackList(setOf())
     }
 

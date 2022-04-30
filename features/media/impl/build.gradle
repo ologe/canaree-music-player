@@ -1,0 +1,35 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+dependencies {
+    api project(':features:media:api')
+    implementation project(':core')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
+    implementation project(':common:localization')
+    implementation project(':equalizer')
+    implementation project(':intents')
+    implementation project(':image-provider')
+    implementation project(':jaudiotagger')
+
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_service
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
+    implementation lib_utils.last_fm_binding
+
+    //    implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
+    implementation project(':exoplayer-library')
+    implementation project(':exoplayer-extension-flac')
+    implementation project(':exoplayer-extension-opus')
+    implementation project(':exoplayer-extension-ffmpeg')
+}

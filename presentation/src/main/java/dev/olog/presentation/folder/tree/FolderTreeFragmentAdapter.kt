@@ -1,6 +1,6 @@
 package dev.olog.presentation.folder.tree
 
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder

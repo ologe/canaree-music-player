@@ -10,13 +10,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.media.MediaExposer
-import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.playPause
-import dev.olog.media.skipToNext
-import dev.olog.media.skipToPrevious
+import dev.olog.feature.media.FeatureMediaNavigator
+import dev.olog.feature.media.MediaExposer
+import dev.olog.feature.media.connection.OnConnectionChanged
+import dev.olog.feature.media.extensions.playPause
+import dev.olog.feature.media.extensions.skipToNext
+import dev.olog.feature.media.extensions.skipToPrevious
+import dev.olog.feature.media.model.PlayerMetadata
+import dev.olog.feature.media.model.PlayerPlaybackState
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.flow.Flow
@@ -25,8 +26,8 @@ import javax.inject.Inject
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
-
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val featureMediaNavigator: FeatureMediaNavigator,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
@@ -34,6 +35,7 @@ class MusicGlueService @Inject constructor(
             context = context,
             onConnectionChanged = this,
             scope = lifecycle.coroutineScope,
+            componentName = featureMediaNavigator.serviceComponent(),
         )
     }
     private var mediaController: MediaControllerCompat? = null

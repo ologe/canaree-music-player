@@ -15,7 +15,6 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':prefs-keys')
-    implementation project(':media')
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
@@ -25,6 +24,7 @@ dependencies {
     implementation project(':equalizer')
 
     implementation project(':features:bubble:api')
+    implementation project(':features:media:api')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

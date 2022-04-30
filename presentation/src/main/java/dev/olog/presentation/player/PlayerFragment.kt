@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance

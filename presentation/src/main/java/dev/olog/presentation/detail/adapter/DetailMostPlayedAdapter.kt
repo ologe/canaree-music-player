@@ -1,7 +1,7 @@
 package dev.olog.presentation.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch

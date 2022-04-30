@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -52,7 +52,7 @@ class AppPreferencesImpl @Inject constructor(
         return preferences.getLong(SLEEP_FROM, -1)
     }
 
-    override fun setDefault() {
+    override fun reset() {
         // LIBRARY -> folder tree
         @Suppress("DEPRECATION")
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
