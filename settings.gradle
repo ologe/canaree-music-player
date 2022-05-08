@@ -14,11 +14,9 @@ include ':common:ui'
 include ':data'
 
 // features
-include ':features:bubble:api'
-include ':features:bubble:impl'
-
-include ':features:media:api'
-include ':features:media:impl'
+include ':features:bubble:api', ':features:bubble:impl'
+include ':features:media:api', ':features:media:impl'
+include ':features:equalizer:api', ':features:equalizer:impl'
 
 include ':presentation'
 include ':offline-lyrics'
