@@ -21,10 +21,10 @@ dependencies {
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
-    implementation project(':equalizer')
 
     implementation project(':features:bubble:api')
     implementation project(':features:media:api')
+    implementation project(':features:equalizer:api')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

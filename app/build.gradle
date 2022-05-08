@@ -90,6 +90,7 @@ dependencies {
     // features
     implementation project(':features:media:impl')
     implementation project(':features:bubble:impl')
+    implementation project(':features:equalizer:impl')
 
     implementation lib_core.coroutines
 

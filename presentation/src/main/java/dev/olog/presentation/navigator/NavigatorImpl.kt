@@ -144,7 +144,7 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
-        mainPopup.get().show(anchor, this, category)
+        mainPopup.get().show(activity, anchor, this, category)
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {

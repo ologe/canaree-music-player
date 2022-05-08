@@ -11,10 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.base.TextViewDialog
+import dev.olog.ui.dialog.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.utils.hideIme
+import dev.olog.shared.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils

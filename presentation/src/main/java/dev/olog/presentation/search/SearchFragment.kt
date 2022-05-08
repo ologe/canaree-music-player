@@ -20,8 +20,8 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.utils.showIme
+import dev.olog.shared.hideIme
+import dev.olog.shared.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.collectOnViewLifecycle

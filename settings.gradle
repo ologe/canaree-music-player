@@ -20,7 +20,6 @@ include ':features:equalizer:api', ':features:equalizer:impl'
 
 include ':presentation'
 include ':offline-lyrics'
-include ':equalizer'
 include ':app-shortcuts'
 include ':image-provider'
 include ':jaudiotagger'
