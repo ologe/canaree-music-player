@@ -1,7 +1,6 @@
-package dev.olog.presentation.popup.main
+package dev.olog.feature.main
 
 import android.app.Activity
-import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
@@ -9,28 +8,30 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.feature.about.FeatureAboutNavigator
 import dev.olog.feature.equalizer.FeatureEqualizerNavigator
-import dev.olog.presentation.R
-import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tab.TabCategory
-import dev.olog.presentation.tab.toTabCategory
+import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.toTabCategory
+import dev.olog.feature.playlist.FeaturePlaylistNavigator
+import dev.olog.feature.settings.FeatureSettingsNavigator
 import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 
-internal class MainPopupDialog @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val popupNavigator: MainPopupNavigator,
+class MainPopupDialog @Inject constructor(
+    private val featureAboutNavigator: FeatureAboutNavigator,
+    private val featureSettingsNavigator: FeatureSettingsNavigator,
     private val featureEqualizerNavigator: FeatureEqualizerNavigator,
+    private val featureMainNavigator: FeatureMainNavigator,
+    private val featurePlaylistNavigator: FeaturePlaylistNavigator,
     private val gateway: SortPreferences,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val libraryPrefs: LibraryPreferences,
 
 ) {
 
@@ -46,7 +47,6 @@ internal class MainPopupDialog @Inject constructor(
     fun show(
         activity: FragmentActivity,
         anchor: View,
-        navigator: Navigator,
         category: MediaIdCategory?
     ) {
         val popup = PopupMenu(anchor.context, anchor)
@@ -78,14 +78,15 @@ internal class MainPopupDialog @Inject constructor(
 
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.about -> popupNavigator.toAboutActivity()
+                R.id.about -> featureAboutNavigator.toAbout(activity)
                 R.id.equalizer -> featureEqualizerNavigator.toEqualizer(activity)
-                R.id.settings -> popupNavigator.toSettingsActivity()
-                R.id.sleepTimer -> popupNavigator.toSleepTimer()
-                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
-                    MediaId.playingQueueId,
-                    -1,
-                    ""
+                R.id.settings -> featureSettingsNavigator.toSettings(activity)
+                R.id.sleepTimer -> featureMainNavigator.toSleepTimerDialog(activity)
+                SAVE_AS_PLAYLIST_ID -> featurePlaylistNavigator.toCreatePlaylistDialog(
+                    activity = activity,
+                    mediaId = MediaId.playingQueueId,
+                    listSize = -1,
+                    itemTitle = ""
                 )
                 R.id.gridSize1 -> updateSpanCount(anchor, category!!.toTabCategory(), 1)
                 R.id.gridSize2 -> updateSpanCount(anchor, category!!.toTabCategory(), 2)
@@ -93,9 +94,9 @@ internal class MainPopupDialog @Inject constructor(
                 R.id.gridSize4 -> updateSpanCount(anchor, category!!.toTabCategory(), 4)
                 else -> {
                     when (category) {
-                        MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
-                        MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
-                        MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
+                        MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(activity, it, sortModel!!)
+                        MediaIdCategory.SONGS -> handleAllSongsSorting(activity, it, sortModel!!)
+                        MediaIdCategory.ARTISTS -> handleAllArtistsSorting(activity, it, sortModel!!)
                         else -> Log.w("MainPopup", "not handled $category")
                     }
                 }
@@ -107,8 +108,8 @@ internal class MainPopupDialog @Inject constructor(
     }
 
     private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
-        val current = presentationPrefs.getSpanCount(category)
-        presentationPrefs.setSpanCount(category, spanCount)
+        val current = libraryPrefs.getSpanCount(category)
+        libraryPrefs.setSpanCount(category, spanCount)
         if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
             (view.context.findInContext<Activity>()).recreate()
         }
@@ -159,7 +160,11 @@ internal class MainPopupDialog @Inject constructor(
         return sort
     }
 
-    private fun handleAllSongsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllSongsSorting(
+        activity: FragmentActivity,
+        menuItem: MenuItem,
+        sort: SortEntity
+    ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
@@ -180,10 +185,14 @@ internal class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllTracksSort(model)
-        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+        activity.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
-    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllAlbumsSorting(
+        activity: FragmentActivity,
+        menuItem: MenuItem,
+        sort: SortEntity
+    ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
@@ -201,10 +210,14 @@ internal class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllAlbumsSort(model)
-        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+        activity.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
-    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity) {
+    private fun handleAllArtistsSorting(
+        activity: FragmentActivity,
+        menuItem: MenuItem,
+        sort: SortEntity
+    ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
@@ -222,7 +235,7 @@ internal class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllArtistsSort(model)
-        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+        activity.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
 }

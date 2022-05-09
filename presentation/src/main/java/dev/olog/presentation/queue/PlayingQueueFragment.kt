@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.bubble.FeatureBubbleNavigator
-import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.R
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.fragment.BaseFragment
+import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -45,6 +46,8 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
     @Inject
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
@@ -92,7 +95,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
+        more.setOnClickListener { featureMainNavigator.toMainPopup(requireActivity(), it, MediaIdCategory.PLAYING_QUEUE) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 

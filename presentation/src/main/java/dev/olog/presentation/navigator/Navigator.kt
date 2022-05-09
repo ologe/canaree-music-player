@@ -2,7 +2,6 @@ package dev.olog.presentation.navigator
 
 import android.view.View
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 
 interface Navigator {
@@ -23,11 +22,7 @@ interface Navigator {
 
     fun toDialog(mediaId: MediaId, anchor: View)
 
-    fun toMainPopup(anchor: View, category: MediaIdCategory?)
-
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
-
-    fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
     fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 

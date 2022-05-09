@@ -2,9 +2,9 @@ package dev.olog.presentation.tab.layoutmanager
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.library.TabCategory
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.BaseModel
-import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 

@@ -22,9 +22,15 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
 
+    implementation project(':features:library:api')
+    implementation project(':features:library:impl')
+    implementation project(':features:playlist:api')
+    implementation project(':features:main:api')
     implementation project(':features:bubble:api')
     implementation project(':features:media:api')
     implementation project(':features:equalizer:api')
+    implementation project(':features:about:api')
+    implementation project(':features:settings:api')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

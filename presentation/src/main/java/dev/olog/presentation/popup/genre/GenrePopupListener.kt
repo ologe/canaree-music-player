@@ -4,28 +4,26 @@ import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class GenrePopupListener @Inject constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
-
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val featurePlaylistNavigator: FeaturePlaylistNavigator,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
-
-    private val activityRef = WeakReference(activity)
-
 
     private lateinit var genre: Genre
     private var song: Song? = null
@@ -45,8 +43,6 @@ class GenrePopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.size, genre.name)
@@ -75,9 +71,9 @@ class GenrePopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), genre.size, genre.name)
+            featurePlaylistNavigator.toCreatePlaylistDialog(activity, getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            featurePlaylistNavigator.toCreatePlaylistDialog(activity, getMediaId(), -1, song!!.title)
         }
     }
 

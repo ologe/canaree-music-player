@@ -1,8 +1,8 @@
-package dev.olog.presentation.tab
+package dev.olog.feature.library
 
 import dev.olog.core.MediaIdCategory
 
-internal enum class TabCategory {
+enum class TabCategory {
     FOLDERS,
     PLAYLISTS,
     SONGS,
@@ -26,7 +26,7 @@ internal enum class TabCategory {
     RECENTLY_ADDED_PODCAST_ARTISTS,
 }
 
-internal fun MediaIdCategory.toTabCategory(): TabCategory = when (this) {
+fun MediaIdCategory.toTabCategory(): TabCategory = when (this) {
     MediaIdCategory.FOLDERS -> TabCategory.FOLDERS
     MediaIdCategory.PLAYLISTS -> TabCategory.PLAYLISTS
     MediaIdCategory.SONGS -> TabCategory.SONGS

@@ -1,10 +1,10 @@
-package dev.olog.presentation.model
+package dev.olog.feature.library.tab
 
 import android.content.Context
-import dev.olog.presentation.tab.TabCategory
+import dev.olog.feature.library.TabCategory
 import dev.olog.shared.extension.configuration
 
-internal object SpanCountController {
+object SpanCountController {
 
     const val SPAN_COUNT = 60
 

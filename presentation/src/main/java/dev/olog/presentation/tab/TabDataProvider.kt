@@ -12,6 +12,8 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
+import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.library.TabCategory
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
@@ -43,7 +45,8 @@ internal class TabDataProvider @Inject constructor(
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val presentationPrefs: PresentationPreferencesGateway,
+    private val libraryPrefs: LibraryPreferences,
 ) {
 
     private val resources = context.resources
@@ -94,7 +97,7 @@ internal class TabDataProvider @Inject constructor(
     private fun getFolders(): Flow<List<DisplayableItem>> {
         return folderGateway.observeAll()
             .map { folders ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.FOLDERS)
+                val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.FOLDERS)
                 folders.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
             }
     }
@@ -102,7 +105,7 @@ internal class TabDataProvider @Inject constructor(
     private fun getGenres(): Flow<List<DisplayableItem>> {
         return genreGateway.observeAll()
             .map { genres ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.GENRES)
+                val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.GENRES)
                 genres.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
             }
     }
@@ -113,7 +116,7 @@ internal class TabDataProvider @Inject constructor(
             .startWith(headers.autoPlaylistHeader)
 
         return playlistGateway.observeAll().map { list ->
-            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PLAYLISTS)
+            val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.PLAYLISTS)
 
             list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 .toMutableList()
@@ -135,7 +138,7 @@ internal class TabDataProvider @Inject constructor(
         return combine(
             albumGateway.observeAll()
                 .map { albums ->
-                    val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ALBUMS)
+                    val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.ALBUMS)
                     albums.map { it.toTabDisplayableItem(requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -162,7 +165,7 @@ internal class TabDataProvider @Inject constructor(
         return combine(
             artistGateway.observeAll()
                 .map { artists ->
-                    val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ARTISTS)
+                    val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.ARTISTS)
                     artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -183,7 +186,7 @@ internal class TabDataProvider @Inject constructor(
             .startWith(headers.autoPlaylistHeader)
 
         return podcastPlaylistGateway.observeAll().map { list ->
-            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_PLAYLIST)
+            val requestedSpanSize = libraryPrefs.getSpanCount(TabCategory.PODCASTS_PLAYLIST)
             list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
@@ -205,7 +208,7 @@ internal class TabDataProvider @Inject constructor(
             podcastAlbumGateway.observeAll()
                 .map { albums ->
                     val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ALBUMS)
+                        libraryPrefs.getSpanCount(TabCategory.PODCASTS_ALBUMS)
                     albums.map { it.toTabDisplayableItem(requestedSpanSize) }
                 },
             recentlyAddedFlow,
@@ -233,7 +236,7 @@ internal class TabDataProvider @Inject constructor(
             podcastArtistGateway.observeAll()
                 .map { artists ->
                     val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)
+                        libraryPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)
                     artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 },
             recentlyAddedFlow,

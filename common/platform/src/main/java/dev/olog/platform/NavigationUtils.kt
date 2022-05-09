@@ -1,4 +1,4 @@
-package dev.olog.presentation.navigator
+package dev.olog.platform
 
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -6,10 +6,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import dev.olog.presentation.R
-import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
-import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.extension.getTopFragment
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -18,13 +14,6 @@ const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
 var backStackCount = mutableMapOf<String, Int>()
 
 private var lastRequest: Long = -1
-
-private val basicFragments = listOf(
-    LibraryFragment.TAG_TRACK,
-    LibraryFragment.TAG_PODCAST,
-    SearchFragment.TAG,
-    PlayingQueueFragment.TAG
-)
 
 /**
  * Use this when you can instantiate multiple times same fragment
@@ -44,12 +33,15 @@ fun allowed(): Boolean {
     return allowed
 }
 
-fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
+fun findFirstVisibleFragment(
+    fragmentManager: FragmentManager,
+    tags: Set<BottomNavigationFragmentTag>,
+): Fragment? {
     var topFragment = fragmentManager.getTopFragment()
     if (topFragment == null) {
         topFragment = fragmentManager.fragments
             .filter { it.isVisible }
-            .firstOrNull { basicFragments.contains(it.tag) }
+            .firstOrNull { tags.containsTag(it.tag) }
     }
     if (topFragment == null) {
         Log.e("Navigator", "Something went wrong, for some reason no fragment was found")
@@ -61,13 +53,14 @@ fun superCerealTransition(
     activity: FragmentActivity,
     fragment: Fragment,
     tag: String,
+    tags: Set<BottomNavigationFragmentTag>,
     transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
 ) {
     if (!allowed()) {
         return
     }
 
-    val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+    val topFragment = findFirstVisibleFragment(activity.supportFragmentManager, tags)
 
     activity.supportFragmentManager.commit {
         setReorderingAllowed(true)

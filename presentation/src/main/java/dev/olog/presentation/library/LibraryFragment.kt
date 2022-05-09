@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.bubble.FeatureBubbleNavigator
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasBottomNavigation
@@ -47,6 +48,8 @@ class LibraryFragment : BaseFragment() {
     private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureMainNavigationPage: FeatureMainNavigator
 
     @Inject
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
@@ -103,7 +106,7 @@ class LibraryFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
+        more.setOnClickListener { featureMainNavigationPage.toMainPopup(requireActivity(), it, createMediaId()) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
