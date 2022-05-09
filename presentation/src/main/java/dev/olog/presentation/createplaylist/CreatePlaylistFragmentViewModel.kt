@@ -17,7 +17,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.shared.extension.mapListItem
 import dev.olog.shared.toList
 import dev.olog.shared.toggle

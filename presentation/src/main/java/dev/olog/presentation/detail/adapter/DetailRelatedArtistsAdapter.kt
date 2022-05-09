@@ -6,10 +6,10 @@ import dev.olog.platform.adapter.elevateAlbumOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 class DetailRelatedArtistsAdapter(

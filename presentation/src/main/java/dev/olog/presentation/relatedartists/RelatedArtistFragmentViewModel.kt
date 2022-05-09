@@ -12,8 +12,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.shared.extension.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn

@@ -5,11 +5,11 @@ import android.widget.CheckBox
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableTrack
 import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
 class CreatePlaylistFragmentAdapter(

@@ -30,6 +30,7 @@ dependencies {
     implementation project(':features:media:api')
     implementation project(':features:equalizer:api')
     implementation project(':features:about:api')
+    implementation project(':features:about:impl')
     implementation project(':features:settings:api')
 
     implementation lib_core.kotlin

@@ -13,7 +13,7 @@ import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.ui.dialog.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.shared.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

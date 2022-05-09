@@ -25,9 +25,9 @@ import dev.olog.presentation.detail.mapper.toHeaderItem
 import dev.olog.presentation.detail.mapper.toMostPlayedDetailDisplayableItem
 import dev.olog.presentation.detail.mapper.toRecentDetailDisplayableItem
 import dev.olog.presentation.detail.mapper.toRelatedArtist
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.shared.TextUtils
 import dev.olog.shared.TimeUtils
 import dev.olog.shared.extension.component6

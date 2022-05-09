@@ -11,12 +11,12 @@ import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.adapter.drag.TouchableAdapter
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(

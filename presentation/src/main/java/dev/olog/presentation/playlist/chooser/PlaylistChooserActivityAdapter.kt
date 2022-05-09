@@ -6,11 +6,11 @@ import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(

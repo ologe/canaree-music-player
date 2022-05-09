@@ -15,9 +15,9 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.shared.extension.mapListItem
 import dev.olog.shared.extension.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

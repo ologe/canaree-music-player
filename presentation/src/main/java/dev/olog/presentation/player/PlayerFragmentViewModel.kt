@@ -15,8 +15,8 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOn
