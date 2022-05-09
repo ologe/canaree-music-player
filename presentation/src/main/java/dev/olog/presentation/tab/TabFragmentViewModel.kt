@@ -7,7 +7,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.library.LibraryPreferences
 import dev.olog.feature.library.TabCategory
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

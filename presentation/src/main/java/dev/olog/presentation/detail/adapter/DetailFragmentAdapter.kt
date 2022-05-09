@@ -28,11 +28,11 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableNestedListPlaceholder
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.extension.collectOnLifecycle

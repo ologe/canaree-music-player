@@ -4,9 +4,9 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 class SearchFragmentHeaders @Inject constructor(

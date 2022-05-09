@@ -3,8 +3,8 @@ package dev.olog.presentation.tab
 import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.ui.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 class TabFragmentHeaders @Inject constructor(

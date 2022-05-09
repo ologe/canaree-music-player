@@ -8,10 +8,10 @@ import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.*

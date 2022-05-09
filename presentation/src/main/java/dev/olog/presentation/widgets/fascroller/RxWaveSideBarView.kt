@@ -2,9 +2,9 @@ package dev.olog.presentation.widgets.fascroller
 
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableAlbum
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.shared.TextUtils
 
 class RxWaveSideBarView(

@@ -26,7 +26,7 @@ import dev.olog.presentation.detail.adapter.DetailRelatedArtistsAdapter
 import dev.olog.presentation.detail.adapter.DetailSiblingsAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.ui.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange

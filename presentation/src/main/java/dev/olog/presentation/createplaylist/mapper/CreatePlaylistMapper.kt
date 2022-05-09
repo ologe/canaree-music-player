@@ -2,7 +2,7 @@ package dev.olog.presentation.createplaylist.mapper
 
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableTrack
 
 internal fun Song.toDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(

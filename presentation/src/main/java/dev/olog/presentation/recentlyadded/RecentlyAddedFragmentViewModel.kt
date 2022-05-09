@@ -11,8 +11,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableItem
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.shared.extension.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn

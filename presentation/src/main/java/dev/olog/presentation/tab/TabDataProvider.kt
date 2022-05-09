@@ -14,7 +14,7 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.feature.library.LibraryPreferences
 import dev.olog.feature.library.TabCategory
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.ui.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem

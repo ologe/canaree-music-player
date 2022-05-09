@@ -9,7 +9,7 @@ import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.ui.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
