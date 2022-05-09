@@ -2,5 +2,6 @@
 <resources>
 
     <item name="cover" type="id"/>
+    <item name="fragmentContainer" type="id"/>
 
 </resources>

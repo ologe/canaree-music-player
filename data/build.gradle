@@ -33,6 +33,8 @@ dependencies {
     implementation project(':common:shared')
     implementation project(':prefs-keys')
 
+    implementation project(':features:equalizer:api') // todo fix
+
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
 

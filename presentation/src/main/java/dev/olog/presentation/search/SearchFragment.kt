@@ -11,23 +11,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.bubble.FeatureBubbleNavigator
-import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.R
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.fragment.BaseFragment
+import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
+import dev.olog.shared.hideIme
+import dev.olog.shared.showIme
 import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
@@ -96,6 +97,8 @@ class SearchFragment : BaseFragment(),
     lateinit var navigator: Navigator
     @Inject
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -177,7 +180,7 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        more.setOnClickListener { featureMainNavigator.toMainPopup(requireActivity(), it, null) }
     }
 
     override fun onPause() {

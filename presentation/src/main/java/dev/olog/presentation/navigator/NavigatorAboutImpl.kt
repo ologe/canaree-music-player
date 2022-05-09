@@ -6,7 +6,10 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.PlayStoreUtils
+import dev.olog.platform.allowed
+import dev.olog.platform.superCerealTransition
 import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
@@ -18,8 +21,8 @@ import saschpe.android.customtabs.CustomTabsHelper
 import javax.inject.Inject
 
 class NavigatorAboutImpl @Inject internal constructor(
-    private val activity: FragmentActivity
-
+    private val activity: FragmentActivity,
+    private val tags: Set<@JvmSuppressWildcards BottomNavigationFragmentTag>,
 ) : NavigatorAbout {
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
@@ -47,8 +50,10 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun toLicensesFragment() {
         superCerealTransition(
-            activity, LicensesFragment(), LicensesFragment.TAG,
-            FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+            activity = activity, fragment = LicensesFragment(),
+            tag = LicensesFragment.TAG,
+            tags = tags,
+            transition = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE,
         )
     }
 
@@ -76,8 +81,11 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun toSpecialThanksFragment() {
         superCerealTransition(
-            activity, SpecialThanksFragment(), SpecialThanksFragment.TAG,
-            FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+            activity = activity,
+            fragment = SpecialThanksFragment(),
+            tag = SpecialThanksFragment.TAG,
+            tags = tags,
+            transition = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
         )
     }
 
@@ -125,8 +133,11 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun toTranslations() {
         superCerealTransition(
-            activity, TranslationsFragment(), TranslationsFragment.TAG,
-            FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+            activity = activity,
+            fragment = TranslationsFragment(),
+            tag = TranslationsFragment.TAG,
+            tags = tags,
+            transition = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
         )
     }
 

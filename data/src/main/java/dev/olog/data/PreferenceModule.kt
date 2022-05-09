@@ -13,23 +13,18 @@ import dagger.multibindings.IntoSet
 import dev.olog.core.Resettable
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.data.prefs.AppPreferencesImpl
 import dev.olog.data.prefs.BlacklistPreferenceImpl
-import dev.olog.data.prefs.EqualizerPreferenceImpl
 import dev.olog.data.prefs.TutorialPreferenceImpl
 import dev.olog.data.prefs.sort.AppSortingImpl
+import dev.olog.feature.equalizer.EqualizerPreferencesGateway
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class PreferenceModule {
-
-    @Binds
-    @Singleton
-    internal abstract fun provideEqualizerPreferences(impl: EqualizerPreferenceImpl): EqualizerPreferencesGateway
 
     @Binds
     @IntoSet

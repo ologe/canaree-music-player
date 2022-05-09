@@ -14,10 +14,11 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
-    implementation project(':equalizer')
     implementation project(':intents')
     implementation project(':image-provider')
     implementation project(':jaudiotagger')
+
+    implementation project(':features:equalizer:api')
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_service

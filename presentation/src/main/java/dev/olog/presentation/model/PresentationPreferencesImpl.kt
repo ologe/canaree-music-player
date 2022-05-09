@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -248,20 +247,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
 
     override fun isAdaptiveColorEnabled(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
-    }
-
-    override fun getSpanCount(category: TabCategory): Int {
-        return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(context, category))
-    }
-
-    override fun observeSpanCount(category: TabCategory): Flow<Int> {
-        return preferences.observeKey("${category}_span", SpanCountController.getDefaultSpan(context, category))
-    }
-
-    override fun setSpanCount(category: TabCategory, spanCount: Int) {
-        preferences.edit {
-            putInt("${category}_span", spanCount)
-        }
     }
 
     override fun canShowPodcasts(): Boolean {

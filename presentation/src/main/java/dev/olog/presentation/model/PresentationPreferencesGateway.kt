@@ -1,6 +1,5 @@
 package dev.olog.presentation.model
 
-import dev.olog.presentation.tab.TabCategory
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway {
@@ -32,10 +31,6 @@ internal interface PresentationPreferencesGateway {
     fun isAdaptiveColorEnabled(): Boolean
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
-
-    fun getSpanCount(category: TabCategory): Int
-    fun observeSpanCount(category: TabCategory): Flow<Int>
-    fun setSpanCount(category: TabCategory, spanCount: Int)
 
     fun canShowPodcasts(): Boolean
 

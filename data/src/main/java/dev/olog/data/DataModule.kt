@@ -17,6 +17,7 @@ import dev.olog.data.repository.podcast.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.data.repository.track.*
+import dev.olog.feature.equalizer.EqualizerGateway
 import javax.inject.Singleton
 
 @Module

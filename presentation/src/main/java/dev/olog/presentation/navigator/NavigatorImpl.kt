@@ -7,9 +7,12 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import dagger.Lazy
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
+import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.HasSlidingPanel
+import dev.olog.platform.allowed
+import dev.olog.platform.createBackStackTag
+import dev.olog.platform.superCerealTransition
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
@@ -17,7 +20,6 @@ import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
 import dev.olog.presentation.dialogs.play.next.PlayNextDialog
 import dev.olog.presentation.dialogs.playlist.clear.ClearPlaylistDialog
-import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
@@ -27,7 +29,6 @@ import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
-import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
@@ -40,11 +41,11 @@ import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
     private val activity: FragmentActivity,
-    private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
-    private val editItemDialogFactory: Lazy<EditItemDialogFactory>
+    private val editItemDialogFactory: Lazy<EditItemDialogFactory>,
+    private val tags: Set<@JvmSuppressWildcards BottomNavigationFragmentTag>,
 
-) : Navigator {
+    ) : Navigator {
 
     override fun toFirstAccess() {
         activity.supportFragmentManager.commit {
@@ -57,27 +58,30 @@ class NavigatorImpl @Inject internal constructor(
 
         val newTag = createBackStackTag(DetailFragment.TAG)
         superCerealTransition(
-            activity,
-            DetailFragment.newInstance(mediaId),
-            newTag
+            activity = activity,
+            fragment = DetailFragment.newInstance(mediaId),
+            tag = newTag,
+            tags = tags,
         )
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
         superCerealTransition(
-            activity,
-            RelatedArtistFragment.newInstance(mediaId),
-            newTag
+            activity = activity,
+            fragment = RelatedArtistFragment.newInstance(mediaId),
+            tag = newTag,
+            tags = tags,
         )
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
         superCerealTransition(
-            activity,
-            RecentlyAddedFragment.newInstance(mediaId),
-            newTag
+            activity = activity,
+            fragment = RecentlyAddedFragment.newInstance(mediaId),
+            tag = newTag,
+            tags = tags,
         )
     }
 
@@ -126,9 +130,10 @@ class NavigatorImpl @Inject internal constructor(
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
         val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
         superCerealTransition(
-            activity,
-            CreatePlaylistFragment.newInstance(type),
-            newTag
+            activity = activity,
+            fragment = CreatePlaylistFragment.newInstance(type),
+            tag = newTag,
+            tags = tags,
         )
     }
 
@@ -141,10 +146,6 @@ class NavigatorImpl @Inject internal constructor(
                 }
             }
         }
-    }
-
-    override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
-        mainPopup.get().show(anchor, this, category)
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
@@ -175,11 +176,6 @@ class NavigatorImpl @Inject internal constructor(
     override fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
         val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
-    }
-
-    override fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
-        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
     override fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String) {
