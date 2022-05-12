@@ -92,6 +92,7 @@ dependencies {
     implementation project(':features:library:impl')
     implementation project(':features:search:impl')
     implementation project(':features:queue:impl')
+    implementation project(':features:player:impl')
     implementation project(':features:detail:impl')
     implementation project(':features:playlist:impl')
     implementation project(':features:settings:impl')
@@ -100,6 +101,7 @@ dependencies {
     implementation project(':features:bubble:impl')
     implementation project(':features:equalizer:impl')
     implementation project(':features:shortcuts:impl')
+    implementation project(':features:lyrics-offline:impl')
 
     implementation lib_core.coroutines
 
