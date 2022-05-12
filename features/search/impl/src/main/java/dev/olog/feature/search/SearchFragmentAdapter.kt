@@ -1,4 +1,4 @@
-package dev.olog.presentation.search.adapter
+package dev.olog.feature.search
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,6 @@ import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.R
 import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableHeader

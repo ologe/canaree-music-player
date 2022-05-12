@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,7 +14,6 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.presentation.R
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableHeader
 import dev.olog.ui.model.DisplayableItem

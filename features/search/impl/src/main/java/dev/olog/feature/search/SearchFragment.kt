@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.os.Bundle
 import android.view.View
@@ -20,10 +20,6 @@ import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.R
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.search.adapter.SearchFragmentAdapter
-import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -124,8 +120,6 @@ class SearchFragment : BaseFragment(),
 
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
-    @Inject
-    lateinit var navigator: Navigator
     @Inject
     lateinit var featureDetailNavigator: FeatureDetailNavigator
     @Inject

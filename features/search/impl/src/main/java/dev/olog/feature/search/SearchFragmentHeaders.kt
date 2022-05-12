@@ -1,9 +1,8 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.presentation.R
 import dev.olog.ui.model.DisplayableHeader
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableNestedListPlaceholder
