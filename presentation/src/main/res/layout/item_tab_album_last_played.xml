@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.ui.ShapeImageView
         android:id="@+id/cover"
         tools:src="@drawable/placeholder_album"
         android:layout_width="0dp"

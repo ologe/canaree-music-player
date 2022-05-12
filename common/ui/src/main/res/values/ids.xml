@@ -4,5 +4,7 @@
     <item name="deleteIcon" type="id"/>
     <item name="playNextIcon" type="id"/>
     <item name="background" type="id"/>
+    <item name="cover" type="id"/>
+    <item name="textWrapper" type="id"/>
 
 </resources>

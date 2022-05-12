@@ -5,7 +5,7 @@ import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.elevateAlbumOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator

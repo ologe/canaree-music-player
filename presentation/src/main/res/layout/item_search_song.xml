@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="?android:colorBackground">
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.ui.ShapeImageView
             android:id="@+id/cover"
             android:layout_width="@dimen/item_song_cover_size"
             android:layout_height="@dimen/item_song_cover_size"

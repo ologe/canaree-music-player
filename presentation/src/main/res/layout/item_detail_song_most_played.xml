@@ -23,7 +23,7 @@
         tools:layout_marginStart="8dp"
         tools:text="1" />
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.ui.ShapeImageView
         android:id="@+id/cover"
         android:layout_width="@dimen/item_detail_most_played_cover_size"
         android:layout_height="@dimen/item_detail_most_played_cover_size"

@@ -1,13 +1,13 @@
 package dev.olog.presentation.folder.tree
 
 import dev.olog.feature.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.ui.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 

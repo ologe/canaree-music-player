@@ -24,7 +24,7 @@ import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.ui.model.DisplayableItem

@@ -74,7 +74,6 @@ android {
 
 
 dependencies {
-    implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
@@ -96,6 +95,7 @@ dependencies {
     implementation project(':features:media:impl')
     implementation project(':features:bubble:impl')
     implementation project(':features:equalizer:impl')
+    implementation project(':features:shortcuts:impl')
 
     implementation lib_core.coroutines
 

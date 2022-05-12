@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.olog.feature.shortcuts">
+
+    <application>
+
+        <activity android:name="dev.olog.feature.shortcuts.ShortcutsActivity"
+            android:theme="@style/TransparentTheme"/>
+
+    </application>
+
+</manifest>

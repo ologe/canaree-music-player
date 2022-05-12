@@ -11,7 +11,6 @@ androidExtensions {
 }
 
 dependencies {
-    implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':prefs-keys')
@@ -24,7 +23,7 @@ dependencies {
 
     implementation project(':features:library:api')
     implementation project(':features:library:impl')
-    implementation project(':features:playlist:api')
+    implementation project(':features:playlist:impl')
     implementation project(':features:main:api')
     implementation project(':features:bubble:api')
     implementation project(':features:media:api')
@@ -32,6 +31,7 @@ dependencies {
     implementation project(':features:about:api')
     implementation project(':features:about:impl')
     implementation project(':features:settings:api')
+    implementation project(':features:shortcuts:impl')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
