@@ -8,7 +8,7 @@ import dagger.multibindings.IntoSet
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
-import dev.olog.presentation.search.SearchFragment
+import dev.olog.feature.search.SearchFragment
 
 @Module
 @InstallIn(SingletonComponent::class)

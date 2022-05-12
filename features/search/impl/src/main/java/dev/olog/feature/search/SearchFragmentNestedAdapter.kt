@@ -1,4 +1,4 @@
-package dev.olog.presentation.search.adapter
+package dev.olog.feature.search
 
 import android.view.View
 import dev.olog.core.MediaId
@@ -10,8 +10,6 @@ import dev.olog.platform.adapter.setOnLongClickListener
 import dev.olog.image.provider.BindingsAdapter
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.search.SearchFragmentViewModel
 import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_search_album.view.*
 

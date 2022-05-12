@@ -1,10 +1,9 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
-import dev.olog.presentation.R
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
