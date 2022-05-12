@@ -14,4 +14,8 @@ abstract class FeatureMainModule {
     @Singleton
     abstract fun provideNavigator(impl: FeatureMainNavigatorImpl): FeatureMainNavigator
 
+    @Binds
+    @Singleton
+    abstract fun providePreferences(impl: MainPreferencesImpl): MainPreferences
+
 }

@@ -8,32 +8,28 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.shortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.feature.bubble.FloatingWindowsConstants
 import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.library.LibraryFragment
+import dev.olog.feature.library.folder.FolderTreeFragment
+import dev.olog.feature.main.BottomNavigationPage
+import dev.olog.feature.main.HasBottomNavigation
 import dev.olog.feature.media.MusicServiceAction
+import dev.olog.feature.shortcuts.Shortcuts
 import dev.olog.intents.AppConstants
+import dev.olog.platform.CanHandleOnBackPressed
+import dev.olog.platform.DrawsOnTop
 import dev.olog.platform.HasScrollableContent
 import dev.olog.platform.HasSlidingPanel
+import dev.olog.platform.permission.OnPermissionChanged
+import dev.olog.platform.permission.Permission
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.platform.theme.isImmersiveMode
 import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
-import dev.olog.platform.DrawsOnTop
-import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.platform.permission.OnPermissionChanged
-import dev.olog.platform.permission.Permission
-import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.ui.extension.collapse
-import dev.olog.ui.extension.expand
-import dev.olog.ui.extension.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.dimen
@@ -41,6 +37,9 @@ import dev.olog.shared.extension.dip
 import dev.olog.shared.extension.getTopFragment
 import dev.olog.shared.extension.isTablet
 import dev.olog.shared.extension.setHeight
+import dev.olog.ui.extension.collapse
+import dev.olog.ui.extension.expand
+import dev.olog.ui.extension.isExpanded
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -59,9 +58,6 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself
-
-    @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
     @Suppress("unused")
     @Inject

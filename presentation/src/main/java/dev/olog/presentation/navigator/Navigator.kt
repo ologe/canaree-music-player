@@ -1,13 +1,10 @@
 package dev.olog.presentation.navigator
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlaylistType
 
 interface Navigator {
 
     fun toFirstAccess()
-
-    fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 
     fun toEditInfoFragment(mediaId: MediaId)
 
