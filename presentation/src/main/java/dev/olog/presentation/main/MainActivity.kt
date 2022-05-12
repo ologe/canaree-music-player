@@ -12,6 +12,7 @@ import dev.olog.feature.shortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.feature.bubble.FloatingWindowsConstants
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.media.MusicServiceAction
 import dev.olog.intents.AppConstants
 import dev.olog.platform.HasScrollableContent
@@ -30,9 +31,9 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.presentation.utils.collapse
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.ui.extension.collapse
+import dev.olog.ui.extension.expand
+import dev.olog.ui.extension.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.dimen
@@ -53,6 +54,8 @@ class MainActivity : MusicGlueActivity(),
     OnPermissionChanged {
 
     private val viewModel by viewModels<MainActivityViewModel>()
+    @Inject
+    lateinit var featureDetailNavigator: FeatureDetailNavigator
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself
@@ -145,7 +148,7 @@ class MainActivity : MusicGlueActivity(),
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId)
+                    featureDetailNavigator.toDetail(this@MainActivity, mediaId)
                 }
             }
             Intent.ACTION_VIEW -> {

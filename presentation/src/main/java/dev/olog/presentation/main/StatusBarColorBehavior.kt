@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.platform.CanChangeStatusBarColor
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.isMarshmallow

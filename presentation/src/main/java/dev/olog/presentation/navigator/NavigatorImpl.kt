@@ -1,20 +1,16 @@
 package dev.olog.presentation.navigator
 
-import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
+import dev.olog.feature.playlist.create.CreatePlaylistFragment
 import dev.olog.platform.BottomNavigationFragmentTag
-import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.allowed
 import dev.olog.platform.createBackStackTag
 import dev.olog.platform.superCerealTransition
-import dev.olog.feature.playlist.create.CreatePlaylistFragment
-import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -28,20 +24,11 @@ import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.popup.PopupMenuFactory
-import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
-import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
-import dev.olog.presentation.utils.collapse
-import dev.olog.shared.extension.findInContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
     private val activity: FragmentActivity,
-    private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>,
     private val tags: Set<@JvmSuppressWildcards BottomNavigationFragmentTag>,
 
@@ -51,38 +38,6 @@ class NavigatorImpl @Inject internal constructor(
         activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
         }
-    }
-
-    override fun toDetailFragment(mediaId: MediaId) {
-        (activity.findInContext<HasSlidingPanel>()).getSlidingPanel().collapse()
-
-        val newTag = createBackStackTag(DetailFragment.TAG)
-        superCerealTransition(
-            activity = activity,
-            fragment = DetailFragment.newInstance(mediaId),
-            tag = newTag,
-            tags = tags,
-        )
-    }
-
-    override fun toRelatedArtists(mediaId: MediaId) {
-        val newTag = createBackStackTag(RelatedArtistFragment.TAG)
-        superCerealTransition(
-            activity = activity,
-            fragment = RelatedArtistFragment.newInstance(mediaId),
-            tag = newTag,
-            tags = tags,
-        )
-    }
-
-    override fun toRecentlyAdded(mediaId: MediaId) {
-        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
-        superCerealTransition(
-            activity = activity,
-            fragment = RecentlyAddedFragment.newInstance(mediaId),
-            tag = newTag,
-            tags = tags,
-        )
     }
 
     override fun toOfflineLyrics() {
@@ -135,17 +90,6 @@ class NavigatorImpl @Inject internal constructor(
             tag = newTag,
             tags = tags,
         )
-    }
-
-    override fun toDialog(mediaId: MediaId, anchor: View) {
-        if (allowed()) {
-            activity.lifecycleScope.launch {
-                val popup = popupFactory.get().create(anchor, mediaId)
-                withContext(Dispatchers.Main) {
-                    popup.show()
-                }
-            }
-        }
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {

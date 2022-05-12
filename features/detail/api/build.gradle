@@ -1,0 +1,12 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+dependencies {
+    implementation project(':core')
+    
+    implementation lib_x.appcompat
+}

@@ -8,6 +8,7 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.presentation.R
@@ -23,6 +24,7 @@ class FolderPopupListener @Inject constructor(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featurePlaylistNavigator: FeaturePlaylistNavigator,
+    private val featureDetailNavigator: FeatureDetailNavigator,
     private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -58,8 +60,8 @@ class FolderPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
+            R.id.viewAlbum -> viewAlbum(activity, featureDetailNavigator, song!!.getAlbumMediaId())
+            R.id.viewArtist -> viewArtist(activity, featureDetailNavigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(

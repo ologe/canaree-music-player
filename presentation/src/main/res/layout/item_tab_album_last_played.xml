@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1" />
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.ui.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"

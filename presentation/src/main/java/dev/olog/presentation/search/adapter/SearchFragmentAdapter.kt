@@ -2,23 +2,21 @@ package dev.olog.presentation.search.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.media.MediaProvider
+import dev.olog.core.MediaId
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.SetupNestedList
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.image.provider.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.platform.adapter.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableHeader
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.search.SearchFragmentViewModel
-import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_search_album.view.firstText
 import kotlinx.android.synthetic.main.item_search_album.view.secondText
 import kotlinx.android.synthetic.main.item_search_header.view.*
@@ -26,10 +24,12 @@ import kotlinx.android.synthetic.main.item_search_recent.view.*
 
 class SearchFragmentAdapter(
     private val setupNestedList: SetupNestedList,
-    private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
-    private val viewModel: SearchFragmentViewModel
-
+    private val onItemClick: (MediaId) -> Unit,
+    private val onItemLongClick: (View, MediaId) -> Unit,
+    private val onRecentItemClick: (DisplayableItem) -> Unit,
+    private val onSwipeLeft: (MediaId) -> Unit,
+    private val onClearRecentItemClick: (MediaId) -> Unit,
+    private val onClearAllRecentsClick: () -> Unit,
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -44,38 +44,33 @@ class SearchFragmentAdapter(
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    mediaProvider.playFromMediaId(item.mediaId, null, null)
-                    viewModel.insertToRecent(item.mediaId)
+                    onItemClick(item.mediaId)
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(viewHolder.itemView, item.mediaId)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    onItemLongClick(view, item.mediaId)
                 }
 
             }
             R.layout.item_search_clear_recent -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
-                    viewModel.clearRecentSearches()
+                    onClearAllRecentsClick()
                 }
             }
             R.layout.item_search_recent,
             R.layout.item_search_recent_album,
             R.layout.item_search_recent_artist -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    if (item is DisplayableTrack) {
-                        mediaProvider.playFromMediaId(item.mediaId, null, null)
-                    } else {
-                        navigator.toDetailFragment(item.mediaId)
-                    }
+                    onRecentItemClick(item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(viewHolder.itemView, item.mediaId)
                 }
                 viewHolder.setOnClickListener(R.id.clear, this) { item, _, _ ->
-                    viewModel.deleteFromRecent(item.mediaId)
+                    onClearRecentItemClick(item.mediaId)
                 }
             }
         }
@@ -133,8 +128,8 @@ class SearchFragmentAdapter(
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
-        val item = getItem(position)!!
-        mediaProvider.addToPlayNext(item.mediaId)
+        val item = getItem(position)
+        onSwipeLeft(item.mediaId)
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

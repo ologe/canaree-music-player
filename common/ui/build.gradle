@@ -22,4 +22,5 @@ dependencies {
     implementation lib_x.constraint_layout
 
     implementation lib_ui.color_desaturation
+    implementation lib_ui.tap_target_view
 }

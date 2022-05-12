@@ -19,7 +19,7 @@
         app:layout_constraintDimensionRatio="1"
         tools:src="@drawable/placeholder_artist" />
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.ui.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"

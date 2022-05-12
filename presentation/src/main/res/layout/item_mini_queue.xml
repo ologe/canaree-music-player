@@ -53,7 +53,7 @@
             app:layout_goneMarginStart="0dp"
             tools:text="@tools:sample/lorem" />
 
-        <dev.olog.presentation.widgets.textview.ExplicitView
+        <dev.olog.ui.ExplicitView
             android:id="@+id/explicit"
             android:layout_width="16dp"
             android:layout_height="16dp"
