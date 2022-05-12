@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/detail_header_margin_start"
+    android:paddingTop="@dimen/item_detail_header_padding_top"
+    android:paddingEnd="@dimen/detail_header_margin_end">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:textAppearance="@style/Headline6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/common_all_tracks" />
+
+    <TextView
+        android:id="@+id/sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textColor="?colorPrimary"
+        android:textSize="@dimen/item_header_sec_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sortImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/detail_sort_by" />
+
+    <dev.olog.feature.detail.widget.SortButton
+        android:id="@+id/sortImage"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:layout_marginEnd="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="?colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sort"
+        tools:src="@drawable/vd_arrow_up" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

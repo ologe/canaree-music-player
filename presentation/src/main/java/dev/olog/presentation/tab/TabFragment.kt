@@ -16,12 +16,15 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.library.TabCategory
 import dev.olog.feature.library.toTabCategory
+import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
@@ -60,18 +63,42 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
+    @Inject
+    lateinit var featureDetailNavigator: FeatureDetailNavigator
 
     private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator = navigator)
+        TabFragmentNestedAdapter(
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedLongItemClick,
+        )
     }
     private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator = navigator)
+        TabFragmentNestedAdapter(
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedLongItemClick,
+        )
     }
     private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator = navigator)
+        TabFragmentNestedAdapter(
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedLongItemClick,
+        )
     }
     private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator = navigator)
+        TabFragmentNestedAdapter(
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedLongItemClick,
+        )
+    }
+
+    private fun onNestedItemClick(mediaId: MediaId) {
+        featureDetailNavigator.toDetail(requireActivity(), mediaId)
+    }
+
+    private fun onNestedLongItemClick(view: View, mediaId: MediaId) {
+        featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
     }
 
     private val viewModel by activityViewModels<TabFragmentViewModel>()
@@ -79,12 +106,24 @@ class TabFragment : BaseFragment(), SetupNestedList {
     internal val source by argument<MediaIdCategory>(ARGUMENTS_SOURCE)
     private val category by lazyFast { source.toTabCategory() }
 
+    private val mediaProvider: MediaProvider
+        get() = requireActivity().findInContext()
+
     private val adapter by lazyFast {
         TabFragmentAdapter(
-            navigator = navigator,
-            mediaProvider = requireContext().findInContext(),
-            viewModel = viewModel,
-            setupNestedList = this
+            onShuffleClick = { mediaProvider.shuffle(it, null) },
+            setupNestedList = this,
+            onItemClick = { item ->
+                if (item is DisplayableTrack){
+                    val sort = viewModel.getAllTracksSortOrder(item.mediaId)
+                    mediaProvider.playFromMediaId(item.mediaId, null, sort)
+                } else if (item is DisplayableAlbum){
+                    featureDetailNavigator.toDetail(requireActivity(), item.mediaId)
+                }
+            },
+            onItemLongClick = { view, mediaId ->
+                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+            }
         )
     }
 

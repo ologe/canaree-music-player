@@ -1,21 +1,21 @@
 package dev.olog.presentation.folder.tree
 
+import android.view.View
+import dev.olog.core.MediaId
 import dev.olog.feature.media.MediaProvider
 import dev.olog.image.provider.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
+import dev.olog.presentation.R
 import dev.olog.ui.model.DisplayableFile
-import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator
-
+    private val onItemLongClick: (View, MediaId) -> Unit,
 ) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -40,7 +40,7 @@ class FolderTreeFragmentAdapter(
                     }
                     if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
-                            navigator.toDialog(mediaId, view)
+                            onItemLongClick(view, mediaId)
                         }
                     }
                 }

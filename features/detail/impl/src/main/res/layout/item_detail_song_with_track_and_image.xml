@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include layout="@layout/layout_swipeable" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:paddingStart="@dimen/detail_margin_horizontal"
+        android:paddingEnd="@dimen/detail_margin_horizontal">
+
+        <dev.olog.ui.ShapeImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/item_song_cover_size"
+            android:layout_height="@dimen/item_song_cover_size"
+            android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+            android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_folder" />
+
+        <TextView
+            android:id="@+id/index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/firstText"
+            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/firstText"
+            tools:layout_marginStart="8dp"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/firstText"
+            style="@style/Song.MainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintStart_toEndOf="@+id/index"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/secondText"
+            style="@style/Song.SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintStart_toEndOf="@+id/explicit"
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
+            app:layout_goneMarginStart="0dp"
+            tools:text="@tools:sample/lorem" />
+
+        <dev.olog.ui.ExplicitView
+            android:id="@+id/explicit"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/vd_explicit"
+            app:layout_constraintBottom_toBottomOf="@id/secondText"
+            app:layout_constraintStart_toStartOf="@+id/firstText"
+            app:layout_constraintTop_toTopOf="@+id/secondText" />
+
+        <ImageButton
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12dp"
+            android:src="@drawable/vd_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cover" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

@@ -23,6 +23,7 @@ dependencies {
 
     implementation project(':features:library:api')
     implementation project(':features:library:impl')
+    implementation project(':features:detail:impl')
     implementation project(':features:playlist:impl')
     implementation project(':features:main:api')
     implementation project(':features:bubble:api')

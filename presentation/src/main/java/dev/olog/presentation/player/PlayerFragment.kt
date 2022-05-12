@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.fragment.BaseFragment
@@ -44,6 +45,8 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
 
     @Inject lateinit var musicPrefs: MusicPreferencesGateway
 
@@ -62,7 +65,10 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             presenter = presenter,
             musicPrefs = musicPrefs,
             dragListener = this,
-            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance()),
+            onItemLongClick = { v, mediaId ->
+                featureMainNavigator.toItemDialog(requireActivity(), v, mediaId)
+            }
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)

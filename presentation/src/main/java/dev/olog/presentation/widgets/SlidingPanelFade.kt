@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.platform.HasSlidingPanel
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.collapse
+import dev.olog.ui.extension.collapse
 import dev.olog.shared.extension.dip
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.isTablet

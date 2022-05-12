@@ -1,27 +1,25 @@
 package dev.olog.presentation.tab.adapter
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.feature.media.MediaProvider
 import dev.olog.image.provider.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.adapter.elevateAlbumOnTouch
 import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.presentation.R
+import dev.olog.shared.extension.exhaustive
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableHeader
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableNestedListPlaceholder
 import dev.olog.ui.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tab.TabFragmentViewModel
-import dev.olog.shared.extension.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
 import kotlinx.android.synthetic.main.item_tab_album.view.secondText
@@ -30,18 +28,17 @@ import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.android.synthetic.main.item_tab_song.view.*
 
 internal class TabFragmentAdapter(
-    private val navigator: Navigator,
-    private val mediaProvider: MediaProvider,
-    private val viewModel: TabFragmentViewModel,
-    private val setupNestedList: SetupNestedList
-
+    private val setupNestedList: SetupNestedList,
+    private val onShuffleClick: (MediaId) -> Unit,
+    private val onItemClick: (DisplayableItem) -> Unit,
+    private val onItemLongClick: (View, MediaId) -> Unit,
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
-                    mediaProvider.shuffle(MediaId.shuffleId(), null)
+                    onShuffleClick(MediaId.shuffleId())
                 }
             }
             R.layout.item_tab_song,
@@ -51,7 +48,7 @@ internal class TabFragmentAdapter(
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(viewHolder.itemView, item.mediaId)
                 }
                 viewHolder.elevateSongOnTouch()
             }
@@ -62,7 +59,7 @@ internal class TabFragmentAdapter(
                     onItemClick(item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    onItemLongClick(viewHolder.itemView, item.mediaId)
                 }
                 viewHolder.elevateAlbumOnTouch()
             }
@@ -73,15 +70,6 @@ internal class TabFragmentAdapter(
                 val view = viewHolder.itemView as RecyclerView
                 setupNestedList.setupNestedList(viewType, view)
             }
-        }
-    }
-
-    private fun onItemClick(item: DisplayableItem){
-        if (item is DisplayableTrack){
-            val sort = viewModel.getAllTracksSortOrder(item.mediaId)
-            mediaProvider.playFromMediaId(item.mediaId, null, sort)
-        } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(item.mediaId)
         }
     }
 

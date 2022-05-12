@@ -4,29 +4,28 @@ import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.feature.media.MediaProvider
 import dev.olog.image.provider.BindingsAdapter
-import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.platform.adapter.drag.IDragListener
-import dev.olog.platform.adapter.drag.TouchableAdapter
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.ui.textColorPrimary
 import dev.olog.ui.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
-    private val navigator: Navigator,
     private val dragListener: IDragListener,
-    private val viewModel: PlayingQueueFragmentViewModel
-
+    private val viewModel: PlayingQueueFragmentViewModel,
+    private val onItemLongClick: (View, MediaId) -> Unit,
 ) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue), TouchableAdapter {
 
     private val moves = mutableListOf<Pair<Int, Int>>()
@@ -37,7 +36,7 @@ class PlayingQueueFragmentAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            onItemLongClick(viewHolder.itemView, item.mediaId)
         }
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
         viewHolder.elevateSongOnTouch()

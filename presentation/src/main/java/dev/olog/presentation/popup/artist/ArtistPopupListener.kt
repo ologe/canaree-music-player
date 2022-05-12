@@ -2,14 +2,15 @@ package dev.olog.presentation.popup.artist
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.feature.shortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
+import dev.olog.feature.shortcuts.AppShortcuts
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
@@ -23,6 +24,7 @@ class ArtistPopupListener @Inject constructor(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featurePlaylistNavigator: FeaturePlaylistNavigator,
+    private val featureDetailNavigator: FeatureDetailNavigator,
     private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -57,8 +59,8 @@ class ArtistPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getArtistMediaId())
-            R.id.viewArtist -> viewArtist(navigator, artist.getMediaId())
+            R.id.viewAlbum -> viewAlbum(activity, featureDetailNavigator, song!!.getArtistMediaId())
+            R.id.viewArtist -> viewArtist(activity, featureDetailNavigator, artist.getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(

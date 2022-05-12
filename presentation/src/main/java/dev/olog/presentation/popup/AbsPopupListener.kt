@@ -7,11 +7,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.parseAsHtml
+import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.FileProvider
@@ -125,12 +127,20 @@ abstract class AbsPopupListener(
         navigator.toEditInfoFragment(mediaId)
     }
 
-    protected fun viewAlbum(navigator: Navigator, mediaId: MediaId) {
-        navigator.toDetailFragment(mediaId)
+    protected fun viewAlbum(
+        activity: FragmentActivity,
+        navigator: FeatureDetailNavigator,
+        mediaId: MediaId
+    ) {
+        navigator.toDetail(activity, mediaId)
     }
 
-    protected fun viewArtist(navigator: Navigator, mediaId: MediaId) {
-        navigator.toDetailFragment(mediaId)
+    protected fun viewArtist(
+        activity: FragmentActivity,
+        navigator: FeatureDetailNavigator,
+        mediaId: MediaId
+    ) {
+        navigator.toDetail(activity, mediaId)
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: MediaId, song: Song) {

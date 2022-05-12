@@ -16,6 +16,7 @@ include ':data'
 // features
 include ':features:main:api', ':features:main:impl'
 include ':features:library:api', ':features:library:impl'
+include ':features:detail:api', ':features:detail:impl'
 include ':features:playlist:api', ':features:playlist:impl'
 include ':features:settings:api', ':features:settings:impl'
 include ':features:about:api', ':features:about:impl'

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
@@ -33,13 +34,17 @@ class FolderTreeFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
     private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
             viewModel = viewModel,
             mediaProvider = requireContext().findInContext(),
-            navigator = navigator
+            onItemLongClick = { v, mediaId ->
+                featureMainNavigator.toItemDialog(requireActivity(), v, mediaId)
+            }
         )
         fab.shrink()
 

@@ -1,5 +1,7 @@
 package dev.olog.presentation.search.adapter
 
+import android.view.View
+import dev.olog.core.MediaId
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.elevateAlbumOnTouch
@@ -14,18 +16,18 @@ import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_search_album.view.*
 
 class SearchFragmentNestedAdapter(
-    private val navigator: Navigator,
-    private val viewModel: SearchFragmentViewModel
-
+    private val onItemClick: (MediaId) -> Unit,
+    private val onItemLongClick: (View, MediaId) -> Unit,
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            navigator.toDetailFragment(item.mediaId)
-            viewModel.insertToRecent(item.mediaId)
+            onItemClick(item.mediaId)
+
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            onItemLongClick(viewHolder.itemView, item.mediaId)
+
         }
         viewHolder.elevateAlbumOnTouch()
     }

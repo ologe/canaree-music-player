@@ -12,9 +12,9 @@ import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.media.model.PlayerState
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isCollapsed
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.ui.extension.expand
+import dev.olog.ui.extension.isCollapsed
+import dev.olog.ui.extension.isExpanded
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast

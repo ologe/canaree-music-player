@@ -16,7 +16,6 @@ import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dip
@@ -44,8 +43,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
-    @Inject
-    lateinit var navigator: Navigator
+
     @Inject
     lateinit var featureMainNavigator: FeatureMainNavigator
     @Inject
@@ -54,9 +52,11 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             mediaProvider = requireContext().findInContext(),
-            navigator = navigator,
             dragListener = this,
-            viewModel = viewModel
+            viewModel = viewModel,
+            onItemLongClick = { view, mediaId ->
+                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+            }
         )
     }
 

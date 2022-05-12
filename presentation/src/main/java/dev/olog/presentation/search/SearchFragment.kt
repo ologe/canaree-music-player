@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
+import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
@@ -30,6 +33,7 @@ import dev.olog.shared.extension.subscribe
 import dev.olog.shared.hideIme
 import dev.olog.shared.showIme
 import dev.olog.ui.adapter.drag.CircularRevealAnimationController
+import dev.olog.ui.model.DisplayableTrack
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -50,51 +54,80 @@ class SearchFragment : BaseFragment(),
         }
     }
 
+    private val mediaProvider: MediaProvider
+        get() = requireActivity().findInContext()
+
     private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
             setupNestedList = this,
-            mediaProvider = requireActivity().findInContext(),
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = {
+                mediaProvider.playFromMediaId(it, null, null)
+                viewModel.insertToRecent(it)
+            },
+            onRecentItemClick = { item ->
+                if (item is DisplayableTrack) {
+                    mediaProvider.playFromMediaId(item.mediaId, null, null)
+                } else {
+                    featureDetailNavigator.toDetail(requireActivity(), item.mediaId)
+                }
+            },
+            onItemLongClick = { view, mediaId ->
+                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+            },
+            onSwipeLeft = { mediaProvider.addToPlayNext(it) },
+            onClearRecentItemClick = { viewModel.deleteFromRecent(it) },
+            onClearAllRecentsClick = { viewModel.clearRecentSearches() },
         )
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedItemLongClick,
         )
     }
     private val artistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedItemLongClick,
         )
     }
     private val genreAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedItemLongClick,
         )
     }
     private val playlistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedItemLongClick,
         )
     }
 
     private val folderAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            navigator = navigator,
-            viewModel = viewModel
+            onItemClick = ::onNestedItemClick,
+            onItemLongClick = ::onNestedItemLongClick,
         )
     }
+
+    private fun onNestedItemClick(mediaId: MediaId) {
+        featureDetailNavigator.toDetail(requireActivity(), mediaId)
+        viewModel.insertToRecent(mediaId)
+    }
+
+    private fun onNestedItemLongClick(view: View, mediaId: MediaId) {
+        featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+    }
+
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureDetailNavigator: FeatureDetailNavigator
     @Inject
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
     @Inject
