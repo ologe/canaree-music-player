@@ -13,7 +13,7 @@ import dev.olog.feature.detail.main.DetailFragment
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
+import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.findViewByIdNotRecursive

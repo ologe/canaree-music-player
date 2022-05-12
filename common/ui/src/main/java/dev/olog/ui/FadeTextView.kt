@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.textview
+package dev.olog.ui
 
 import android.content.Context
 import android.util.AttributeSet

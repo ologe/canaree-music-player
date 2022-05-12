@@ -1,4 +1,4 @@
-package dev.olog.presentation.model
+package dev.olog.feature.queue
 
 import dev.olog.core.MediaId
 import dev.olog.platform.adapter.BaseModel

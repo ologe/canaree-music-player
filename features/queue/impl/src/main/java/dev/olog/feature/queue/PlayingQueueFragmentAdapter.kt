@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.content.Context
 import android.view.View
@@ -15,8 +15,6 @@ import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.ui.textColorPrimary
 import dev.olog.ui.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*

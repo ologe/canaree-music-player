@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,6 @@ import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
-import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dip
