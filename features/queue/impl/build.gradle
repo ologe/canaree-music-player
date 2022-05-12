@@ -9,7 +9,7 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    api project(':features:search:api')
+    api project(':features:queue:api')
     implementation project(':core')
     implementation project(':common:shared')
     implementation project(':common:platform')

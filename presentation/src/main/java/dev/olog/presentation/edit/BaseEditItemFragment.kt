@@ -8,7 +8,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
+import dev.olog.ui.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.platform.fragment.BaseBottomSheetFragment
 import dev.olog.presentation.R

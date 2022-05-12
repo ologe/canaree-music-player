@@ -88,6 +88,7 @@ dependencies {
 
     // features
     implementation project(':features:main:impl')
+    implementation project(':features:splash:impl')
     implementation project(':features:library:impl')
     implementation project(':features:search:impl')
     implementation project(':features:queue:impl')

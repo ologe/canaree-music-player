@@ -6,5 +6,7 @@
     <item name="background" type="id"/>
     <item name="cover" type="id"/>
     <item name="textWrapper" type="id"/>
+    <item name="blurBackground" type="id"/>
+    <item name="imageSwitcher" type="id"/>
 
 </resources>

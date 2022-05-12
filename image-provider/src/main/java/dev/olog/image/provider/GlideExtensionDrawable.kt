@@ -7,13 +7,9 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.shared.extension.safeResume
+import dev.olog.ui.CoverUtils
+import dev.olog.ui.GlideUtils
 import kotlin.coroutines.suspendCoroutine
-
-object GlideUtils {
-    const val OVERRIDE_SMALL = 150
-    const val OVERRIDE_MID = 400
-    const val OVERRIDE_BIG = 1000
-}
 
 suspend fun Context.getCachedDrawable(
     mediaId: MediaId,

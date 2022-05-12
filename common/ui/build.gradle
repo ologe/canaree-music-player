@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
@@ -14,6 +16,10 @@ dependencies {
 
     implementation project(':features:media:api') // todo not sure
 
+    // todo not sure
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
+
     implementation lib_x.core
     implementation lib_x.palette
     implementation lib_x.appcompat
@@ -23,4 +29,6 @@ dependencies {
 
     implementation lib_ui.color_desaturation
     implementation lib_ui.tap_target_view
+    implementation lib_ui.blur_kit
+    implementation lib_ui.glide
 }

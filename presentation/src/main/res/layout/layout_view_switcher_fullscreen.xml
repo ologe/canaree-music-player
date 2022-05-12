@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dev.olog.presentation.widgets.switcher.CustomViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+<dev.olog.ui.switcher.CustomViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageSwitcher"
     android:layout_width="match_parent"
@@ -36,4 +36,4 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
-</dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
+</dev.olog.ui.switcher.CustomViewSwitcher>

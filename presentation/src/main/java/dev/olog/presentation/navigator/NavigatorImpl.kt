@@ -24,7 +24,7 @@ import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.splash.SplashFragment
+import dev.olog.feature.splash.SplashFragment
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(

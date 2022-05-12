@@ -6,11 +6,12 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
+import dev.olog.ui.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.RippleTarget
+import dev.olog.ui.RippleTarget
 import dev.olog.ui.ShapeImageView
 import dev.olog.shared.extension.lazyFast
+import dev.olog.ui.adaptive.AdaptiveImageHelper
 
 open class PlayerImageView (
     context: Context,

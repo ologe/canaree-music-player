@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp" />
 
-    <dev.olog.presentation.widgets.swipeableview.SwipeableView
+    <dev.olog.ui.swipeable.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
         app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
@@ -29,7 +29,7 @@
         android:focusable="true"
         app:debug="true"/>
 
-    <dev.olog.presentation.widgets.BlurredBackground
+    <dev.olog.ui.BlurredBackground
         android:id="@+id/blurBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
