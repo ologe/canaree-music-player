@@ -5,12 +5,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import dagger.Lazy
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlaylistType
-import dev.olog.feature.playlist.create.CreatePlaylistFragment
-import dev.olog.platform.BottomNavigationFragmentTag
+import dev.olog.feature.splash.SplashFragment
 import dev.olog.platform.allowed
-import dev.olog.platform.createBackStackTag
-import dev.olog.platform.superCerealTransition
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -24,13 +20,11 @@ import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.feature.splash.SplashFragment
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
     private val activity: FragmentActivity,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>,
-    private val tags: Set<@JvmSuppressWildcards BottomNavigationFragmentTag>,
 
     ) : Navigator {
 
@@ -80,16 +74,6 @@ class NavigatorImpl @Inject internal constructor(
                 else -> throw IllegalArgumentException("invalid media id $mediaId")
             }
         }
-    }
-
-    override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
-        superCerealTransition(
-            activity = activity,
-            fragment = CreatePlaylistFragment.newInstance(type),
-            tag = newTag,
-            tags = tags,
-        )
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {

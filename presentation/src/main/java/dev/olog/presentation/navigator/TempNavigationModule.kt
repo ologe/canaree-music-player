@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import dev.olog.platform.BottomNavigationFragmentTag
-import dev.olog.presentation.library.LibraryFragment
+import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.feature.search.SearchFragment
 

@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.library.LibraryPreferences
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.feature.main.BottomNavigationPage
+import dev.olog.feature.main.MainPreferences
 import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 
@@ -17,18 +18,20 @@ internal class CustomBottomNavigator(
 ) : BottomNavigationView(context, attrs) {
 
     @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    internal lateinit var mainPrefs: MainPreferences
+    @Inject
+    internal lateinit var libraryPrefs: LibraryPreferences
 
     private val navigator = BottomNavigator()
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val lastLibraryPage = presentationPrefs.getLastBottomViewPage()
+        val lastLibraryPage = mainPrefs.getLastBottomViewPage()
         selectedItemId = lastLibraryPage.toMenuId()
 
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
-            val libraryPage = presentationPrefs.getLastLibraryPage()
+            val libraryPage = libraryPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
             navigator.navigate(context.findInContext(), navigationPage, libraryPage)
             true
@@ -45,13 +48,13 @@ internal class CustomBottomNavigator(
     }
 
     fun navigateToLastPage(){
-        val navigationPage = presentationPrefs.getLastBottomViewPage()
-        val libraryPage = presentationPrefs.getLastLibraryPage()
+        val navigationPage = mainPrefs.getLastBottomViewPage()
+        val libraryPage = libraryPrefs.getLastLibraryPage()
         navigator.navigate(context.findInContext(), navigationPage, libraryPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
-        presentationPrefs.setLastBottomViewPage(page)
+        mainPrefs.setLastBottomViewPage(page)
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this){
