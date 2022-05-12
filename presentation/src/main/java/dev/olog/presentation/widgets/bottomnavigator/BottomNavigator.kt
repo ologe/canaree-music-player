@@ -8,7 +8,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.presentation.queue.PlayingQueueFragment
+import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.feature.search.SearchFragment
 
 internal class BottomNavigator {
