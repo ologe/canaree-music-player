@@ -20,7 +20,7 @@ import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.offlinelyrics.OffsetCalculator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.platform.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.extension.animateBackgroundColor
 import dev.olog.shared.extension.animateTextColor

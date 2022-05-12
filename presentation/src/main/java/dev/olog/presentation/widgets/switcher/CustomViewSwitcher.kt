@@ -21,7 +21,7 @@ import dev.olog.image.provider.GlideUtils
 import dev.olog.feature.media.model.PlayerMetadata
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.presentation.R
-import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.image.provider.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.extension.findChild

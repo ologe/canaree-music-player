@@ -18,7 +18,7 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.ui.model.DisplayableFile
 import dev.olog.shared.extension.distinctUntilChanged
 import dev.olog.shared.extension.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers

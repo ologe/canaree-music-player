@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.appshortcuts.Shortcuts
+import dev.olog.feature.shortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.feature.bubble.FloatingWindowsConstants
@@ -21,7 +21,7 @@ import dev.olog.platform.theme.isImmersiveMode
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.platform.DrawsOnTop
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission

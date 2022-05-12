@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.platform.DrawsOnTop
 import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject

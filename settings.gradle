@@ -22,10 +22,10 @@ include ':features:about:api', ':features:about:impl'
 include ':features:equalizer:api', ':features:equalizer:impl'
 include ':features:bubble:api', ':features:bubble:impl'
 include ':features:media:api', ':features:media:impl'
+include ':features:shortcuts:api', ':features:shortcuts:impl'
 
 include ':presentation'
 include ':offline-lyrics'
-include ':app-shortcuts'
 include ':image-provider'
 include ':jaudiotagger'
 

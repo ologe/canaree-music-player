@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.feature.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter

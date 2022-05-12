@@ -13,7 +13,7 @@ import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.allowed
 import dev.olog.platform.createBackStackTag
 import dev.olog.platform.superCerealTransition
-import dev.olog.presentation.createplaylist.CreatePlaylistFragment
+import dev.olog.feature.playlist.create.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog

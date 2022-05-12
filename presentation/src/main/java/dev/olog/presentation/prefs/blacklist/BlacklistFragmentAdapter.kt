@@ -1,7 +1,7 @@
 package dev.olog.presentation.prefs.blacklist
 
 import androidx.core.view.isVisible
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.SimpleAdapter
 import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*

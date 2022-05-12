@@ -7,7 +7,7 @@ import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.ui.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator

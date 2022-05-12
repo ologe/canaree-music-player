@@ -2,8 +2,8 @@ package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
-import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.feature.media.interactor.SleepTimerUseCase
+import dev.olog.feature.shortcuts.AppShortcuts
 import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
@@ -11,7 +11,8 @@ import javax.inject.Inject
 @HiltAndroidApp
 class App : ThemedApp() {
 
-    private lateinit var appShortcuts: AppShortcuts
+    @Inject
+    lateinit var appShortcuts: AppShortcuts
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -26,7 +27,7 @@ class App : ThemedApp() {
     }
 
     private fun initializeComponents() {
-        appShortcuts = AppShortcuts.instance(this)
+        appShortcuts.setup()
 
         BlurKit.init(this)
     }

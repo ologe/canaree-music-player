@@ -2,7 +2,7 @@ package dev.olog.presentation.popup.album
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.feature.shortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
@@ -23,6 +23,7 @@ class AlbumPopupListener @Inject constructor(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featurePlaylistNavigator: FeaturePlaylistNavigator,
+    private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var album: Album
@@ -60,9 +61,9 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
-                getMediaId(),
-                album.title
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(
+                mediaId = getMediaId(),
+                title = album.title
             )
         }
 

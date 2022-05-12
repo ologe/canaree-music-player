@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
+    <dev.olog.ui.parallax.ParallaxRecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -111,7 +111,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <dev.olog.presentation.widgets.fascroller.RxFastScroller
+    <dev.olog.ui.scroller.RxFastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

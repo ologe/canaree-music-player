@@ -30,7 +30,7 @@ import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
-import dev.olog.presentation.widgets.fascroller.WaveSideBarView
+import dev.olog.ui.scroller.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.collectOnViewLifecycle
