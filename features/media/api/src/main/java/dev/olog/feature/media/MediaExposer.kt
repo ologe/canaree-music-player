@@ -20,7 +20,7 @@ import dev.olog.feature.media.model.PlayerMetadata
 import dev.olog.feature.media.model.PlayerPlaybackState
 import dev.olog.feature.media.model.PlayerRepeatMode
 import dev.olog.feature.media.model.PlayerShuffleMode
-import dev.olog.platform.Permissions
+import dev.olog.platform.permission.Permissions
 import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

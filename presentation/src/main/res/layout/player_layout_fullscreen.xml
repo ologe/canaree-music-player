@@ -28,7 +28,7 @@
         android:focusable="false"
         android:clipChildren="false">
 
-        <dev.olog.presentation.widgets.swipeableview.SwipeableView
+        <dev.olog.ui.swipeable.SwipeableView
             android:id="@+id/swipeableView"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"

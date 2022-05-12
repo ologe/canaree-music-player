@@ -29,7 +29,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.widgets.imageview.PlayerImageView
-import dev.olog.presentation.widgets.swipeableview.SwipeableView
+import dev.olog.ui.swipeable.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.extension.findInContext

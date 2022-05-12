@@ -24,8 +24,8 @@ import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.platform.DrawsOnTop
 import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.presentation.interfaces.Permission
+import dev.olog.platform.permission.OnPermissionChanged
+import dev.olog.platform.permission.Permission
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway

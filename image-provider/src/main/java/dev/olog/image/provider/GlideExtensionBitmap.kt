@@ -9,6 +9,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.shared.extension.safeResume
+import dev.olog.ui.CoverUtils
+import dev.olog.ui.GlideUtils
 import kotlin.coroutines.suspendCoroutine
 
 sealed class OnImageLoadingError {

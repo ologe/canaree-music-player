@@ -11,7 +11,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
 import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.image.provider.GlideUtils
+import dev.olog.ui.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.feature.media.MusicConstants
