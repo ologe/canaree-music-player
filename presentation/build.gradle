@@ -26,6 +26,7 @@ dependencies {
     implementation project(':features:detail:impl')
     implementation project(':features:search:impl')
     implementation project(':features:queue:impl')
+    implementation project(':features:player:impl')
     implementation project(':features:playlist:impl')
     implementation project(':features:main:impl')
     implementation project(':features:bubble:impl')
@@ -34,6 +35,7 @@ dependencies {
     implementation project(':features:about:impl')
     implementation project(':features:settings:impl')
     implementation project(':features:shortcuts:impl')
+    implementation project(':features:lyrics-offline:impl')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dev.olog.ui.switcher.CustomViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/imageSwitcher"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    android:inAnimation="@android:anim/fade_in"
+    android:outAnimation="@android:anim/fade_out">
+
+    <dev.olog.feature.player.widget.PlayerShadowImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
+        android:stateListAnimator="@animator/scale_on_activated"
+        android:elevation="0dp" />
+
+    <dev.olog.feature.player.widget.PlayerShadowImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
+        android:stateListAnimator="@animator/scale_on_activated"
+        android:elevation="0dp" />
+
+    <dev.olog.feature.player.widget.PlayerShadowImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
+        android:stateListAnimator="@animator/scale_on_activated"
+        android:elevation="0dp" />
+
+</dev.olog.ui.switcher.CustomViewSwitcher>

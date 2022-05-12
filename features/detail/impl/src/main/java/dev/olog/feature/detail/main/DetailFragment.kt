@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.feature.detail.DetailSortDialog
-import dev.olog.feature.detail.DetailTapTarget
+import dev.olog.feature.detail.DetailTutorial
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
@@ -142,7 +142,7 @@ class DetailFragment : BaseFragment(),
             onSortDirectionClick = { viewModel.toggleSortArranging() },
             onShowSortTutorial = { text, image ->
                 if (viewModel.showSortByTutorialIfNeverShown()) {
-                    DetailTapTarget.sortBy(text, image)
+                    DetailTutorial.sortBy(text, image)
                 }
             },
             onSwipeRight = { viewModel.removeFromPlaylist(it) },

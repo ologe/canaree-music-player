@@ -21,16 +21,6 @@ object TutorialTapTarget {
         TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }
 
-    fun lyrics(view: View){
-        val context = view.context
-
-        val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
-                .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_offline_lyrics))
-
-        TapTargetView.showFor(view.context.findInContext<Activity>(), target)
-    }
-
     fun addLyrics(search: View, edit: View, sync: View){
         val context = search.context
 

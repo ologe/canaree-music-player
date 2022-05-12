@@ -24,7 +24,7 @@
         android:layout_marginBottom="8dp"
         android:rotation="90" />
 
-    <dev.olog.presentation.widgets.LottieFavorite
+    <dev.olog.feature.player.widget.LottieFavorite
         android:id="@+id/favorite"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"

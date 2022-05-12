@@ -23,7 +23,7 @@
         tools:visibility="visible"/>
 
     <!-- shuffle -->
-    <dev.olog.presentation.widgets.ShuffleButton
+    <dev.olog.feature.player.widget.ShuffleButton
         android:id="@+id/shuffle"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
@@ -84,7 +84,7 @@
         android:layout_marginEnd="16dp" />
 
     <!-- repeat -->
-    <dev.olog.presentation.widgets.RepeatButton
+    <dev.olog.feature.player.widget.RepeatButton
         android:id="@+id/repeat"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
