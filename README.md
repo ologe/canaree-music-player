@@ -28,7 +28,7 @@ Complete music player published in the Play Store. Heavily relies on Dagger, ~~R
 </div>
 
 ### Setup
-The repository has [ExoPlayer](https://github.com/google/ExoPlayer) as git submodule, so you'll clone the repository recursively:
+The repository has [ExoPlayer](https://github.com/google/ExoPlayer) as git submodule, so you have clone the repository recursively:
 ```
 git clone --recursive git@github.com:ologe/canaree-music-player.git
 ```
