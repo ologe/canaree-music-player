@@ -16,11 +16,11 @@ dependencies {
     implementation project(':common:ui')
     implementation project(':common:localization')
     implementation project(':features:media:api')
+    implementation project(':features:lyrics-offline:api')
 
     // legacy
     implementation project(':intents')
     implementation project(':image-provider')
-    implementation project(':offline-lyrics')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

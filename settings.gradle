@@ -32,7 +32,6 @@ include ':features:lyrics-offline:api', ':features:lyrics-offline:impl'
 include ':features:edit:api', ':features:edit:impl'
 
 include ':presentation'
-include ':offline-lyrics'
 include ':image-provider'
 include ':jaudiotagger'
 
