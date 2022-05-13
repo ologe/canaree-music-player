@@ -24,7 +24,7 @@ import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.feature.library.tab.manager.AbsSpanSizeLookup
 import dev.olog.feature.library.tab.manager.LayoutManagerFactory
 import dev.olog.feature.library.toTabCategory
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.platform.adapter.ObservableAdapter
@@ -62,7 +62,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     @Inject
-    lateinit var featureMainNavigator: FeatureMainNavigator
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
     @Inject
     lateinit var featureDetailNavigator: FeatureDetailNavigator
     @Inject
@@ -98,7 +98,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private fun onNestedLongItemClick(view: View, mediaId: MediaId) {
-        featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+        featureMainPopupNavigator.toItemDialog(view, mediaId)
     }
 
     private val viewModel by activityViewModels<TabFragmentViewModel>()
@@ -122,7 +122,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
             },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }

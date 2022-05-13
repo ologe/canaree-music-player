@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.player.PlayerTutorial
@@ -44,7 +44,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
-    lateinit var featureMainNavigator: FeatureMainNavigator
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
     @Inject
     lateinit var featureLyricsOfflineNavigator: FeatureLyricsOfflineNavigator
 
@@ -66,7 +66,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             dragListener = this,
             playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance()),
             onItemLongClick = { v, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), v, mediaId)
+                featureMainPopupNavigator.toItemDialog(v, mediaId)
             },
             onLyricsButtonClick = { featureLyricsOfflineNavigator.toOfflineLyrics(requireActivity()) }
         )

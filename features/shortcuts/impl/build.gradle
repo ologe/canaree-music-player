@@ -15,8 +15,10 @@ dependencies {
     implementation project(':common:ui')
     implementation project(':common:localization')
     implementation project(':image-provider')
+
     implementation project(':features:media:api')
     implementation project(':features:playlist:api')
+    implementation project(':features:main:api')
 
     implementation project(':intents')
 

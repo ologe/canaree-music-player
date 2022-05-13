@@ -3,6 +3,8 @@ package dev.olog.feature.main
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,5 +19,15 @@ abstract class FeatureMainModule {
     @Binds
     @Singleton
     abstract fun providePreferences(impl: MainPreferencesImpl): MainPreferences
+
+}
+
+@Module
+@InstallIn(ActivityComponent::class)
+abstract class FeatureActivityModule {
+
+    @Binds
+    @ActivityScoped
+    abstract fun provideNavigator(impl: FeatureMainPopupNavigatorImpl): FeatureMainPopupNavigator
 
 }

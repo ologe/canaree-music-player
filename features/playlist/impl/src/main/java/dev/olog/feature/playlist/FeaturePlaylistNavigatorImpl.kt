@@ -7,6 +7,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.playlist.chooser.PlaylistChooserActivity
 import dev.olog.feature.playlist.create.CreatePlaylistFragment
+import dev.olog.feature.playlist.dialog.clear.ClearPlaylistDialog
+import dev.olog.feature.playlist.dialog.duplicates.RemoveDuplicatesDialog
+import dev.olog.feature.playlist.dialog.rename.RenameDialog
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.createBackStackTag
 import dev.olog.platform.superCerealTransition
@@ -39,4 +42,32 @@ class FeaturePlaylistNavigatorImpl @Inject constructor(
     override fun playlistChooserIntent(context: Context): Intent {
         return Intent(context, PlaylistChooserActivity::class.java)
     }
+
+    override fun toRenameDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    ) {
+        val fragment = RenameDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
+    }
+
+    override fun toClearPlaylistDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    ) {
+        val fragment = ClearPlaylistDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
+    }
+
+    override fun toRemoveDuplicatesDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    ) {
+        val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
+    }
+
 }

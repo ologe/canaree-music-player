@@ -27,7 +27,7 @@ import dev.olog.feature.detail.main.adapter.DetailMostPlayedAdapter
 import dev.olog.feature.detail.main.adapter.DetailRecentlyAddedAdapter
 import dev.olog.feature.detail.main.adapter.DetailRelatedArtistsAdapter
 import dev.olog.feature.detail.main.adapter.DetailSiblingsAdapter
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.CanChangeStatusBarColor
 import dev.olog.platform.adapter.SetupNestedList
@@ -74,7 +74,7 @@ class DetailFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var featureMainNavigator: FeatureMainNavigator
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
     @Inject
     lateinit var featureDetailNavigator: FeatureDetailNavigator
 
@@ -89,7 +89,7 @@ class DetailFragment : BaseFragment(),
         DetailMostPlayedAdapter(
             onItemClick = { mediaProvider.playMostPlayed(it) },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }
@@ -97,7 +97,7 @@ class DetailFragment : BaseFragment(),
         DetailRecentlyAddedAdapter(
             onItemClick = { mediaProvider.playRecentlyAdded(it) },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }
@@ -105,7 +105,7 @@ class DetailFragment : BaseFragment(),
         DetailRelatedArtistsAdapter(
             onItemClick = { featureDetailNavigator.toDetail(requireActivity(), it) },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }
@@ -113,7 +113,7 @@ class DetailFragment : BaseFragment(),
         DetailSiblingsAdapter(
             onItemClick = { featureDetailNavigator.toDetail(requireActivity(), it) },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }
@@ -130,7 +130,7 @@ class DetailFragment : BaseFragment(),
                 }
             },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             },
             onSortTypeClick = { view ->
                 viewModel.observeSortOrder { currentSortType ->
@@ -273,7 +273,7 @@ class DetailFragment : BaseFragment(),
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
         back.setOnClickListener { requireActivity().onBackPressed() }
-        more.setOnClickListener { featureMainNavigator.toItemDialog(requireActivity(), more, viewModel.mediaId) }
+        more.setOnClickListener { featureMainPopupNavigator.toItemDialog(more, viewModel.mediaId) }
         filter.setOnClickListener {
             searchWrapper.isVisible = !searchWrapper.isVisible
         }

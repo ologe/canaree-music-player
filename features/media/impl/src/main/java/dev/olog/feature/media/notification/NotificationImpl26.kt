@@ -7,16 +7,17 @@ import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 internal class NotificationImpl26 @Inject constructor(
-        service: Service,
-        mediaSession: MediaSessionCompat
-
-) : NotificationImpl24(service, mediaSession) {
+    service: Service,
+    mediaSession: MediaSessionCompat,
+    featureMainNavigator: FeatureMainNavigator,
+) : NotificationImpl24(service, mediaSession, featureMainNavigator) {
 
     override fun extendInitialization() {
         builder.setColorized(true)

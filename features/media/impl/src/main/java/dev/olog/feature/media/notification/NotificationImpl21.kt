@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -14,19 +13,20 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.getCachedBitmap
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
 import dev.olog.feature.media.model.MusicNotificationState
+import dev.olog.image.provider.getCachedBitmap
+import dev.olog.platform.AppConstants
 import dev.olog.shared.extension.asActivityPendingIntent
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
-    private val mediaSession: MediaSessionCompat
+    private val mediaSession: MediaSessionCompat,
+    private val featureMainNavigator: FeatureMainNavigator,
 ) : INotification {
 
     protected val notificationManager by lazy {
@@ -133,7 +133,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildContentIntent(): PendingIntent {
-        val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
+        val intent = featureMainNavigator.newIntent(service)
         intent.action = AppConstants.ACTION_CONTENT_VIEW
         return intent.asActivityPendingIntent(service)
     }

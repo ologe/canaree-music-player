@@ -31,4 +31,5 @@ dependencies {
     implementation lib_ui.tap_target_view
     implementation lib_ui.blur_kit
     implementation lib_ui.glide
+    implementation lib_ui.scroll_helper
 }

@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
@@ -43,13 +43,13 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         get() = requireActivity().findInContext()
 
     @Inject
-    lateinit var featureMainNavigator: FeatureMainNavigator
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
 
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
             onItemClick = { mediaProvider.playFromMediaId(it, null, null) },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             },
             onSwipeLeft = { mediaProvider.addToPlayNext(it) },
             dragListener = this

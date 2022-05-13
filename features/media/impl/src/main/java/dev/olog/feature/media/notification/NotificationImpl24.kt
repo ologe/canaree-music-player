@@ -7,6 +7,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.feature.media.interfaces.INotification
 import dev.olog.shared.TextUtils
@@ -15,9 +16,9 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.N)
 internal open class NotificationImpl24 @Inject constructor(
     service: Service,
-    mediaSession: MediaSessionCompat
-
-) : NotificationImpl21(service, mediaSession) {
+    mediaSession: MediaSessionCompat,
+    featureMainNavigator: FeatureMainNavigator,
+) : NotificationImpl21(service, mediaSession, featureMainNavigator) {
 
     override fun startChronometer(bookmark: Long) {
         builder.setWhen(System.currentTimeMillis() - bookmark)

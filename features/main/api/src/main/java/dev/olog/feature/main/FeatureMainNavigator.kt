@@ -1,11 +1,15 @@
 package dev.olog.feature.main
 
+import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 
 interface FeatureMainNavigator {
+
+    fun newIntent(context: Context): Intent
 
     fun toMainPopup(
         activity: FragmentActivity,
@@ -15,10 +19,39 @@ interface FeatureMainNavigator {
 
     fun toSleepTimerDialog(activity: FragmentActivity)
 
-    fun toItemDialog(
+    fun toSetRingtoneDialog(
         activity: FragmentActivity,
-        anchor: View,
         mediaId: MediaId,
+        title: String,
+        artist: String
+    )
+
+    fun toAddToFavoriteDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        listSize: Int,
+        itemTitle: String
+    )
+
+    fun toPlayLater(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        listSize: Int,
+        itemTitle: String
+    )
+
+    fun toPlayNext(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        listSize: Int,
+        itemTitle: String
+    )
+
+    fun toDeleteDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        listSize: Int,
+        itemTitle: String
     )
 
 }
