@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.settings.blacklist
 
 import android.provider.MediaStore
 import androidx.fragment.app.viewModels
@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
+import dev.olog.feature.settings.R
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
+import dev.olog.ui.fragment.ListDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

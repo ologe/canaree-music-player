@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.prefs.lastfm
+package dev.olog.feature.settings.last.fm
 
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -17,7 +17,7 @@ import dev.olog.core.Config
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
-import dev.olog.presentation.R
+import dev.olog.feature.settings.R
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
 import kotlinx.coroutines.Dispatchers

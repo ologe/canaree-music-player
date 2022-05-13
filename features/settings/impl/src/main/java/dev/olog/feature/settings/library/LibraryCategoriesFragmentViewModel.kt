@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.library
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

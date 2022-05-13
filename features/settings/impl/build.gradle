@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -9,11 +10,28 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:settings:api')
+    implementation project(':core')
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
 
+    implementation project(':image-provider')
+
+    implementation project(':features:library:api')
+
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
+
+    implementation lib_x.fragments
+    implementation lib_x.preference
+    implementation lib_x.material
+    implementation lib_x.constraint_layout
+
+    implementation lib_ui.glide
+    implementation lib_ui.scroll_helper
+    implementation lib_ui.dialogs_core
+    implementation lib_ui.dialogs_color
+
+    implementation lib_utils.last_fm_binding
 }

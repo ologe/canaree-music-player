@@ -41,11 +41,11 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <fragment
-        android:name="dev.olog.presentation.prefs.SettingsFragment"
+        android:name="dev.olog.feature.settings.SettingsFragment"
         android:tag="dev.olog.presentation.prefs.SettingsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

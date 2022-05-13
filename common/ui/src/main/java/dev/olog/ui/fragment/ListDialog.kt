@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.ui.fragment
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -8,7 +8,7 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.presentation.R
+import dev.olog.ui.R
 
 abstract class ListDialog : DialogFragment() {
 
@@ -41,6 +41,6 @@ abstract class ListDialog : DialogFragment() {
     }
     protected open fun neutralAction(){}
 
-    protected open fun provideLayoutId() = R.layout.fragment_list
+    protected open fun provideLayoutId(): Int = R.layout.fragment_list
 
 }

@@ -1,8 +1,9 @@
-package dev.olog.presentation.prefs
+package dev.olog.ui
 
 import android.graphics.Color
 import dev.olog.lib.ColorDesaturationUtils
 
+// todo integrate better with theming
 object ColorPalette {
 
     @JvmStatic

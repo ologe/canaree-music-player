@@ -1,8 +1,8 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.library
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.feature.settings.R
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.SimpleAdapter
 import dev.olog.platform.adapter.setOnDragListener
