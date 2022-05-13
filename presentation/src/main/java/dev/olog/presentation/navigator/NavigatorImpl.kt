@@ -3,7 +3,6 @@ package dev.olog.presentation.navigator
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.feature.splash.SplashFragment
 import dev.olog.platform.allowed
@@ -15,16 +14,11 @@ import dev.olog.presentation.dialogs.playlist.clear.ClearPlaylistDialog
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
-import dev.olog.presentation.edit.EditItemDialogFactory
-import dev.olog.presentation.edit.album.EditAlbumFragment
-import dev.olog.presentation.edit.artist.EditArtistFragment
-import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
     private val activity: FragmentActivity,
-    private val editItemDialogFactory: Lazy<EditItemDialogFactory>,
 
     ) : Navigator {
 
@@ -47,32 +41,6 @@ class NavigatorImpl @Inject internal constructor(
                 OfflineLyricsFragment.TAG
             )
             addToBackStack(OfflineLyricsFragment.TAG)
-        }
-    }
-
-    override fun toEditInfoFragment(mediaId: MediaId) {
-        if (allowed()) {
-            when {
-                mediaId.isLeaf -> {
-                    editItemDialogFactory.get().toEditTrack(mediaId) {
-                        val instance = EditTrackFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
-                    }
-                }
-                mediaId.isAlbum || mediaId.isPodcastAlbum -> {
-                    editItemDialogFactory.get().toEditAlbum(mediaId) {
-                        val instance = EditAlbumFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
-                    }
-                }
-                mediaId.isArtist || mediaId.isPodcastArtist -> {
-                    editItemDialogFactory.get().toEditArtist(mediaId) {
-                        val instance = EditArtistFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
-                    }
-                }
-                else -> throw IllegalArgumentException("invalid media id $mediaId")
-            }
         }
     }
 

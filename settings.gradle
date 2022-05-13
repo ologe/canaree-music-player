@@ -29,6 +29,7 @@ include ':features:bubble:api', ':features:bubble:impl'
 include ':features:media:api', ':features:media:impl'
 include ':features:shortcuts:api', ':features:shortcuts:impl'
 include ':features:lyrics-offline:api', ':features:lyrics-offline:impl'
+include ':features:edit:api', ':features:edit:impl'
 
 include ':presentation'
 include ':offline-lyrics'

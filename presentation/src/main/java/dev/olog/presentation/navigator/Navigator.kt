@@ -6,8 +6,6 @@ interface Navigator {
 
     fun toFirstAccess()
 
-    fun toEditInfoFragment(mediaId: MediaId)
-
     fun toOfflineLyrics()
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)

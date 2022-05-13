@@ -7,6 +7,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.edit.FeatureEditNavigator
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
@@ -22,6 +23,7 @@ class SongPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featurePlaylistNavigator: FeaturePlaylistNavigator,
     private val featureDetailNavigator: FeatureDetailNavigator,
+    private val featureEditNavigator: FeatureEditNavigator,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private val activityRef = WeakReference(activity)
@@ -51,7 +53,7 @@ class SongPopupListener @Inject constructor(
             R.id.playLater -> playLater()
             R.id.playNext -> playNext()
             R.id.delete -> delete()
-            R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.viewInfo -> viewInfo(activity, featureEditNavigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(activity, featureDetailNavigator, song.getAlbumMediaId())
             R.id.viewArtist -> viewArtist(activity, featureDetailNavigator, song.getArtistMediaId())
             R.id.share -> share(activity, song)

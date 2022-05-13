@@ -36,6 +36,7 @@ dependencies {
     implementation project(':features:settings:impl')
     implementation project(':features:shortcuts:impl')
     implementation project(':features:lyrics-offline:impl')
+    implementation project(':features:edit:impl')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
