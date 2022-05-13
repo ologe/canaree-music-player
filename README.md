@@ -32,6 +32,11 @@ The repository has [ExoPlayer](https://github.com/google/ExoPlayer) as git submo
 ```
 git clone --recursive git@github.com:google/ExoPlayer.git
 ```
+Or if you're already cloned the repository, use the following commands to fetch submodules:   
+```
+git submodule init
+git submodule update
+```
 
 After that, you'll need to add the following properties to `local.properties`
 ```properties
