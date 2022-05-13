@@ -15,7 +15,6 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
-    implementation project(':prefs-keys')
     implementation project(':image-provider')
 
     implementation project(':features:media:api')

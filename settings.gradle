@@ -36,4 +36,3 @@ include ':jaudiotagger'
 
 include ':test-shared'
 include ':intents'
-include ':prefs-keys'
