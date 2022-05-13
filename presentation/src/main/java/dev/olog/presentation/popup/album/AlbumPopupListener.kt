@@ -9,6 +9,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.edit.FeatureEditNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.feature.playlist.FeaturePlaylistNavigator
 import dev.olog.presentation.R
@@ -25,6 +26,7 @@ class AlbumPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featurePlaylistNavigator: FeaturePlaylistNavigator,
     private val featureDetailNavigator: FeatureDetailNavigator,
+    private val featureEditNavigator: FeatureEditNavigator,
     private val appShortcuts: AppShortcuts,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -60,7 +62,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.delete -> delete()
             R.id.viewArtist -> viewArtist()
             R.id.viewAlbum -> viewAlbum(activity, featureDetailNavigator, album.getMediaId())
-            R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.viewInfo -> viewInfo(activity, featureEditNavigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(

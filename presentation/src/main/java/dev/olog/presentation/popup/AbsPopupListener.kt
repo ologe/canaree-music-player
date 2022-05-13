@@ -14,6 +14,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
+import dev.olog.feature.edit.FeatureEditNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.FileProvider
@@ -123,8 +124,12 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected fun viewInfo(navigator: Navigator, mediaId: MediaId) {
-        navigator.toEditInfoFragment(mediaId)
+    protected fun viewInfo(
+        activity: FragmentActivity,
+        navigator: FeatureEditNavigator,
+        mediaId: MediaId
+    ) {
+        navigator.toEditInfoFragment(activity, mediaId)
     }
 
     protected fun viewAlbum(

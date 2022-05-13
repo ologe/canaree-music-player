@@ -102,6 +102,7 @@ dependencies {
     implementation project(':features:equalizer:impl')
     implementation project(':features:shortcuts:impl')
     implementation project(':features:lyrics-offline:impl')
+    implementation project(':features:edit:impl')
 
     implementation lib_core.coroutines
 
