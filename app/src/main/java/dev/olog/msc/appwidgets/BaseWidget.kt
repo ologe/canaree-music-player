@@ -11,11 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
 import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.intents.AppConstants
+import dev.olog.platform.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.feature.media.MusicServiceAction
 import dev.olog.msc.R
-import dev.olog.presentation.main.MainActivity
+import dev.olog.feature.main.MainActivity
 import dev.olog.feature.media.MusicService
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.shared.extension.getAppWidgetsIdsFor

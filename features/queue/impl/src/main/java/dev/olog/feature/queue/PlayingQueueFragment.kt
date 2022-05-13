@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
@@ -46,6 +47,8 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     @Inject
     lateinit var featureMainNavigator: FeatureMainNavigator
     @Inject
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
+    @Inject
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     private val adapter by lazyFast {
@@ -54,7 +57,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             dragListener = this,
             viewModel = viewModel,
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             }
         )
     }

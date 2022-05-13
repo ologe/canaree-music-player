@@ -19,6 +19,7 @@ dependencies {
     implementation project(':jaudiotagger')
 
     implementation project(':features:equalizer:api')
+    implementation project(':features:main:api')
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_service

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -14,14 +15,29 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
+
     implementation project(':features:about:api')
     implementation project(':features:settings:api')
     implementation project(':features:equalizer:api')
     implementation project(':features:library:api')
     implementation project(':features:playlist:api')
+    implementation project(':features:detail:api')
+    implementation project(':features:edit:api')
+    implementation project(':features:media:api')
+    implementation project(':features:shortcuts:api')
+    implementation project(':features:bubble:api')
+    implementation project(':features:splash:api')
+    implementation project(':features:queue:api')
+    implementation project(':features:search:api')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 
     implementation lib_x.appcompat
+    implementation lib_x.fragments
+    implementation lib_x.material
+    implementation lib_x.media
+    implementation lib_x.preference
+
+    implementation lib_ui.scroll_helper
 }

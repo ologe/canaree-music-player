@@ -22,4 +22,22 @@ interface FeaturePlaylistNavigator {
 
     fun playlistChooserIntent(context: Context): Intent
 
+    fun toRenameDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    )
+
+    fun toClearPlaylistDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    )
+
+    fun toRemoveDuplicatesDialog(
+        activity: FragmentActivity,
+        mediaId: MediaId,
+        itemTitle: String
+    )
+
 }

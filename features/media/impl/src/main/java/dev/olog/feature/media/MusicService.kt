@@ -3,7 +3,6 @@ package dev.olog.feature.media
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
@@ -14,8 +13,7 @@ import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.media.interactor.SleepTimerUseCase
-import dev.olog.intents.Classes
+import dev.olog.feature.main.FeatureMainNavigator
 import dev.olog.feature.media.helper.CarHelper
 import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
 import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
@@ -24,9 +22,11 @@ import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_SUPPORTED
 import dev.olog.feature.media.helper.MediaIdHelper
 import dev.olog.feature.media.helper.MediaItemGenerator
 import dev.olog.feature.media.helper.WearHelper
+import dev.olog.feature.media.interactor.SleepTimerUseCase
 import dev.olog.feature.media.notification.MusicNotificationManager
 import dev.olog.feature.media.scrobbling.LastFmScrobbling
 import dev.olog.feature.media.state.MusicServiceMetadata
+import dev.olog.shared.extension.asActivityPendingIntent
 import dev.olog.shared.extension.asServicePendingIntent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +59,8 @@ class MusicService : BaseMusicService() {
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
     internal lateinit var noisy: Noisy
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
 
     override fun onCreate() {
         super.onCreate()
@@ -216,13 +218,7 @@ class MusicService : BaseMusicService() {
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
-        var flags = PendingIntent.FLAG_CANCEL_CURRENT
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            flags = flags or PendingIntent.FLAG_IMMUTABLE
-        }
-        return PendingIntent.getActivity(
-            this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), flags
-        )
+        return featureMainNavigator.newIntent(this)
+            .asActivityPendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 }

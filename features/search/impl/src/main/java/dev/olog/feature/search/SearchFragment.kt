@@ -14,6 +14,7 @@ import dev.olog.core.MediaId
 import dev.olog.feature.bubble.FeatureBubbleNavigator
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.FeatureMainPopupNavigator
 import dev.olog.feature.media.MediaProvider
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.SetupNestedList
@@ -70,7 +71,7 @@ class SearchFragment : BaseFragment(),
                 }
             },
             onItemLongClick = { view, mediaId ->
-                featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+                featureMainPopupNavigator.toItemDialog(view, mediaId)
             },
             onSwipeLeft = { mediaProvider.addToPlayNext(it) },
             onClearRecentItemClick = { viewModel.deleteFromRecent(it) },
@@ -115,7 +116,7 @@ class SearchFragment : BaseFragment(),
     }
 
     private fun onNestedItemLongClick(view: View, mediaId: MediaId) {
-        featureMainNavigator.toItemDialog(requireActivity(), view, mediaId)
+        featureMainPopupNavigator.toItemDialog(view, mediaId)
     }
 
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
@@ -126,6 +127,8 @@ class SearchFragment : BaseFragment(),
     lateinit var featureBubbleNavigator: FeatureBubbleNavigator
     @Inject
     lateinit var featureMainNavigator: FeatureMainNavigator
+    @Inject
+    lateinit var featureMainPopupNavigator: FeatureMainPopupNavigator
 
     private lateinit var layoutManager: LinearLayoutManager
 
