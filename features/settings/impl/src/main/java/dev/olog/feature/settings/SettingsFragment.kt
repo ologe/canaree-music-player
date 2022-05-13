@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -21,16 +21,16 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.feature.library.LibraryPage
 import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.settings.blacklist.BlacklistFragment
+import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
+import dev.olog.feature.settings.library.LibraryCategoriesFragment
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
-import dev.olog.presentation.R
-import dev.olog.presentation.prefs.blacklist.BlacklistFragment
-import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
-import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.isDarkMode
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
+import dev.olog.ui.ColorPalette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

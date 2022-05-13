@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.settings.blacklist
 
 import androidx.core.view.isVisible
 import dev.olog.image.provider.BindingsAdapter

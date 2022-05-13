@@ -2,6 +2,7 @@ package dev.olog.feature.settings
 
 import androidx.fragment.app.FragmentActivity
 import dev.olog.platform.BottomNavigationFragmentTag
+import dev.olog.platform.superCerealTransition
 import javax.inject.Inject
 
 class FeatureSettingsNavigatorImpl @Inject constructor(
@@ -9,11 +10,11 @@ class FeatureSettingsNavigatorImpl @Inject constructor(
 ) : FeatureSettingsNavigator {
 
     override fun toSettings(activity: FragmentActivity) {
-//        superCerealTransition( todo
-//            activity = activity,
-//            fragment = SettingsFragmentWrapper(),
-//            tag = SettingsFragmentWrapper.TAG,
-//            tags = tags,
-//        )
+        superCerealTransition(
+            activity = activity,
+            fragment = SettingsFragmentWrapper(),
+            tag = SettingsFragmentWrapper.TAG,
+            tags = tags,
+        )
     }
 }

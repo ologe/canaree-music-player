@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.olog.feature.detail.main.DetailFragment
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.feature.library.LibraryFragment
-import dev.olog.presentation.prefs.SettingsFragment
+import dev.olog.feature.settings.SettingsFragment
 import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType

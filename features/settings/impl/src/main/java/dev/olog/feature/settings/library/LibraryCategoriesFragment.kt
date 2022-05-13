@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.library
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
+import dev.olog.feature.settings.R
+import dev.olog.ui.fragment.ListDialog
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.shared.extension.argument

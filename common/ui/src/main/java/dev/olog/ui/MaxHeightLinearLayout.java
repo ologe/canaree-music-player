@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets;
+package dev.olog.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import dev.olog.presentation.R;
+import dev.olog.platform.R;
 import dev.olog.shared.extension.ContextExtensionKt;
 
 public class MaxHeightLinearLayout extends LinearLayout {
