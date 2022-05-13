@@ -79,20 +79,6 @@
             android:name="android.test.runner"
             android:required="false" />
 
-        <!--widget -->
-        <receiver
-            android:name=".appwidgets.WidgetColored"
-            android:label="@string/app_widget_default"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_colored" />
-        </receiver>
-
 
         <!--provide storage permission to share intents-->
         <provider

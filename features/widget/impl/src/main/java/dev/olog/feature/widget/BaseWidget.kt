@@ -1,23 +1,19 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
+import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.media.FeatureMediaNavigator
 import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.platform.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.feature.media.MusicServiceAction
-import dev.olog.msc.R
-import dev.olog.feature.main.MainActivity
-import dev.olog.feature.media.MusicService
-import dev.olog.shared.extension.asServicePendingIntent
+import dev.olog.shared.extension.asActivityPendingIntent
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import dev.olog.ui.palette.ImageProcessorResult
 import javax.inject.Inject
@@ -29,13 +25,20 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
+    @Inject
+    lateinit var featureMediaNavigator: FeatureMediaNavigator
+    @Inject
+    lateinit var featureWidgetNavigator: FeatureWidgetNavigator
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
             val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
-            for (clazz in Classes.widgets) {
+            for (clazz in featureWidgetNavigator.widgetClasses()) {
                 val ids = context.getAppWidgetsIdsFor(clazz)
                 onUpdate(context, appWidgetManager, ids)
             }
@@ -51,9 +54,9 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
         val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
@@ -71,9 +74,9 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
@@ -88,9 +91,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         val previousVisibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
         val nextVisibility = if (showNext) View.VISIBLE else View.INVISIBLE
 
-        val previousPendingIntent = if (showPrevious) buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name)
+        val previousPendingIntent = if (showPrevious) buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name)
             else null
-        val nextPendingIntent = if (showNext) buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name)
+        val nextPendingIntent = if (showNext) buildPendingIntent(MusicServiceAction.SKIP_NEXT.name)
             else null
 
         remoteViews.setViewVisibility(R.id.previous, previousVisibility)
@@ -101,21 +104,15 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
-    private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
-        val intent = Intent(context, MusicService::class.java)
-        intent.action = action
-        return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun buildPendingIntent(action: String): PendingIntent {
+        return featureMediaNavigator.pendingIntent(action)
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.action = AppConstants.ACTION_CONTENT_VIEW
+        val intent = featureMainNavigator.newIntent(context)
+        intent.action = FeatureMainNavigator.ACTION_CONTENT_VIEW
 
-        var flags = PendingIntent.FLAG_UPDATE_CURRENT
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            flags = flags or PendingIntent.FLAG_IMMUTABLE
-        }
-        return PendingIntent.getActivity(context, 0, intent, flags)
+        return intent.asActivityPendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){

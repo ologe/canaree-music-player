@@ -77,7 +77,6 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':intents')
     // common
     implementation project(':common:shared')
     implementation project(':common:platform')
@@ -100,6 +99,7 @@ dependencies {
     implementation project(':features:shortcuts:impl')
     implementation project(':features:lyrics-offline:impl')
     implementation project(':features:edit:impl')
+    implementation project(':features:widget:impl')
 
     implementation lib_core.coroutines
 

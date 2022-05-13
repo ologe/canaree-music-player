@@ -9,19 +9,19 @@ import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.ui.GlideUtils
-import dev.olog.image.provider.getCachedBitmap
-import dev.olog.intents.Classes
 import dev.olog.feature.media.MusicConstants
-import dev.olog.intents.WidgetConstants
+import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.extensions.putBoolean
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
 import dev.olog.feature.media.model.MediaEntity
 import dev.olog.feature.media.model.MetadataEntity
 import dev.olog.feature.media.model.SkipType
-import dev.olog.feature.media.extensions.putBoolean
+import dev.olog.feature.widget.FeatureWidgetNavigator
+import dev.olog.feature.widget.WidgetConstants
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.extension.getAppWidgetsIdsFor
+import dev.olog.ui.GlideUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -36,6 +36,7 @@ internal class MusicServiceMetadata @Inject constructor(
     musicPrefs: MusicPreferencesGateway,
     private val serviceScope: ServiceScope,
     private val schedulers: Schedulers,
+    private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) : IPlayerLifecycle.Listener {
 
     companion object {
@@ -98,7 +99,7 @@ internal class MusicServiceMetadata @Inject constructor(
     private fun notifyWidgets(entity: MediaEntity) {
         Log.v(TAG, "notify widgets ${entity.title}")
 
-        for (clazz in Classes.widgets) {
+        for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

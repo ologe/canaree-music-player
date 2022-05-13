@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget
 
 data class WidgetMetadata(
     val id: Long,

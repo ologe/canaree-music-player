@@ -8,22 +8,19 @@ plugins {
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    api project(':features:shortcuts:api')
+    api project(':features:widget:api')
     implementation project(':core')
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
-    implementation project(':common:localization')
+
     implementation project(':image-provider')
 
-    implementation project(':features:media:api')
-    implementation project(':features:playlist:api')
     implementation project(':features:main:api')
+    implementation project(':features:media:api')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 
-    implementation lib_x.appcompat
-
-    implementation lib_ui.glide
+    implementation lib_x.palette
 }

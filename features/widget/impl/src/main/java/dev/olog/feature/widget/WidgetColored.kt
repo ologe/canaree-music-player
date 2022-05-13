@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -8,7 +8,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.ApplicationScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.msc.R
 import dev.olog.ui.palette.ImageProcessor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,6 +18,7 @@ import javax.inject.Inject
 
 private const val IMAGE_SIZE = 300
 
+// todo rewrite in glance
 @AndroidEntryPoint
 class WidgetColored : BaseWidget() {
 

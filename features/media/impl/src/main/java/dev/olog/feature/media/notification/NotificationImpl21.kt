@@ -18,7 +18,6 @@ import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
 import dev.olog.feature.media.model.MusicNotificationState
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.platform.AppConstants
 import dev.olog.shared.extension.asActivityPendingIntent
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -134,7 +133,7 @@ internal open class NotificationImpl21 @Inject constructor(
 
     private fun buildContentIntent(): PendingIntent {
         val intent = featureMainNavigator.newIntent(service)
-        intent.action = AppConstants.ACTION_CONTENT_VIEW
+        intent.action = FeatureMainNavigator.ACTION_CONTENT_VIEW
         return intent.asActivityPendingIntent(service)
     }
 

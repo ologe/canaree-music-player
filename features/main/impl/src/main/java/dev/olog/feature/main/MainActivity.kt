@@ -19,7 +19,6 @@ import dev.olog.feature.media.MusicServiceAction
 import dev.olog.feature.player.FeaturePlayerNavigator
 import dev.olog.feature.shortcuts.ShortcutsConstants
 import dev.olog.feature.splash.FeatureSplashNavigator
-import dev.olog.platform.AppConstants
 import dev.olog.platform.CanHandleOnBackPressed
 import dev.olog.platform.DrawsOnTop
 import dev.olog.platform.HasScrollableContent
@@ -150,7 +149,7 @@ class MainActivity : MusicGlueActivity(),
                 featureBubbleNavigator.startServiceIfHasOverlayPermission(this)
             }
             ShortcutsConstants.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
+            FeatureMainNavigator.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 featureMediaNavigator.startService(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH, null)
             }
