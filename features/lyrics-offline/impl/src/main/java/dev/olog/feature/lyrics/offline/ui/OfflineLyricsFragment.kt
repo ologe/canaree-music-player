@@ -125,12 +125,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        viewModel.onStart()
-    }
-
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
@@ -183,11 +177,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(null)
         seekBar.setOnSeekBarChangeListener(null)
         sync.setOnClickListener(null)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.onStop()
     }
 
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){

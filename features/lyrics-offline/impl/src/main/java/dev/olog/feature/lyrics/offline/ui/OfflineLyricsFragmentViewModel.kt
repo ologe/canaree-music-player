@@ -16,6 +16,15 @@ class OfflineLyricsFragmentViewModel @Inject constructor(
     private var currentTitle: String = ""
     private var currentArtist: String = ""
 
+    init {
+        onStart()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        onStop()
+    }
+
     fun updateCurrentMetadata(title: String, artist: String) {
         this.currentTitle = title
         this.currentArtist = artist
