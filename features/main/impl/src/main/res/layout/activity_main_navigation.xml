@@ -19,17 +19,15 @@
         app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior"
         app:gestureInsetBottomIgnored="true">
 
-        <fragment
-            android:name="dev.olog.feature.player.main.PlayerFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/playerContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:tag="@string/player_fragment_tag" />
+            android:layout_height="match_parent" />
 
-        <fragment
-            android:name="dev.olog.feature.player.mini.MiniPlayerFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/miniPlayerContainer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
-            android:tag="@string/mini_player_fragment_tag" />
+            android:layout_height="@dimen/sliding_panel_peek" />
 
     </FrameLayout>
 

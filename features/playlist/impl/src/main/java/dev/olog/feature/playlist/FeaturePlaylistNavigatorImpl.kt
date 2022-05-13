@@ -8,6 +8,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.playlist.chooser.PlaylistChooserActivity
 import dev.olog.feature.playlist.create.CreatePlaylistFragment
 import dev.olog.feature.playlist.dialog.clear.ClearPlaylistDialog
+import dev.olog.feature.playlist.dialog.create.NewPlaylistDialog
 import dev.olog.feature.playlist.dialog.duplicates.RemoveDuplicatesDialog
 import dev.olog.feature.playlist.dialog.rename.RenameDialog
 import dev.olog.platform.BottomNavigationFragmentTag
@@ -35,8 +36,8 @@ class FeaturePlaylistNavigatorImpl @Inject constructor(
         listSize: Int,
         itemTitle: String
     ) {
-//        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle) todo
-//        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
+        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
     override fun playlistChooserIntent(context: Context): Intent {

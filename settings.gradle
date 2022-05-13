@@ -30,11 +30,9 @@ include ':features:media:api', ':features:media:impl'
 include ':features:shortcuts:api', ':features:shortcuts:impl'
 include ':features:lyrics-offline:api', ':features:lyrics-offline:impl'
 include ':features:edit:api', ':features:edit:impl'
+include ':features:widget:api', ':features:widget:impl'
 
-include ':presentation'
 include ':image-provider'
 include ':jaudiotagger'
 
 include ':test-shared'
-include ':intents'
-include ':prefs-keys'

@@ -29,6 +29,7 @@ dependencies {
     implementation project(':features:splash:api')
     implementation project(':features:queue:api')
     implementation project(':features:search:api')
+    implementation project(':features:player:api')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

@@ -9,6 +9,10 @@ import dev.olog.core.MediaIdCategory
 
 interface FeatureMainNavigator {
 
+    companion object {
+        const val ACTION_CONTENT_VIEW = "action.content.view"
+    }
+
     fun newIntent(context: Context): Intent
 
     fun toMainPopup(

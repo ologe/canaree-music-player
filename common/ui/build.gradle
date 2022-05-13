@@ -12,9 +12,10 @@ dependencies {
     implementation project(':core')
     implementation project(':common:shared')
     implementation project(':common:platform')
-    implementation project(':prefs-keys') // TODO inject the preference?
 
-    implementation project(':features:media:api') // todo not sure
+    // todo fix, do not depend on features
+    implementation project(':features:media:api')
+    implementation project(':features:settings:api')
 
     // todo not sure
     implementation lib_core.hilt

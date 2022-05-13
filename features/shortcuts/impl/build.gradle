@@ -20,8 +20,6 @@ dependencies {
     implementation project(':features:playlist:api')
     implementation project(':features:main:api')
 
-    implementation project(':intents')
-
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 

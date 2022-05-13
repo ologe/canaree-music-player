@@ -4,3 +4,7 @@ plugins {
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
+dependencies {
+    implementation lib_x.fragments
+}

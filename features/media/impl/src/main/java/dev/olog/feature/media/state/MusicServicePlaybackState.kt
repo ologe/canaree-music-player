@@ -9,10 +9,10 @@ import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.intents.Classes
-import dev.olog.intents.WidgetConstants
+import dev.olog.feature.widget.WidgetConstants
 import dev.olog.feature.media.model.PositionInQueue
 import dev.olog.feature.media.model.SkipType
+import dev.olog.feature.widget.FeatureWidgetNavigator
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
@@ -20,8 +20,8 @@ import javax.inject.Inject
 internal class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
-
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) {
 
     companion object {
@@ -144,7 +144,7 @@ internal class MusicServicePlaybackState @Inject constructor(
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
         Log.v(TAG, "notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
-        for (clazz in Classes.widgets) {
+        for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
@@ -160,7 +160,7 @@ internal class MusicServicePlaybackState @Inject constructor(
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
         Log.v(TAG, "notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
-        for (clazz in Classes.widgets) {
+        for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

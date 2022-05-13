@@ -18,8 +18,6 @@ dependencies {
     implementation project(':features:media:api')
     implementation project(':features:lyrics-offline:api')
 
-    // legacy
-    implementation project(':intents')
     implementation project(':image-provider')
 
     implementation lib_core.hilt
