@@ -12,6 +12,10 @@ abstract class FeaturePlayerModule {
 
     @Binds
     @Singleton
+    abstract fun provideNavigator(impl: FeaturePlayerNavigatorImpl): FeaturePlayerNavigator
+
+    @Binds
+    @Singleton
     abstract fun providePreferences(impl: PlayerPreferencesImpl): PlayerPreferences
 
 }

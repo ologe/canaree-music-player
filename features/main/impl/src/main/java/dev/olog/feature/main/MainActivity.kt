@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,7 @@ import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.library.FeatureLibraryNavigator
 import dev.olog.feature.main.rate.RateAppDialog
 import dev.olog.feature.media.MusicServiceAction
+import dev.olog.feature.player.FeaturePlayerNavigator
 import dev.olog.feature.shortcuts.ShortcutsConstants
 import dev.olog.feature.splash.FeatureSplashNavigator
 import dev.olog.platform.AppConstants
@@ -69,11 +71,21 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var featureLibraryNavigator: FeatureLibraryNavigator
     @Inject
+    lateinit var featurePlayerNavigator: FeaturePlayerNavigator
+
+    @Inject
     lateinit var scrollHelperFactory: ScrollHelperFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                add(R.id.playerContainer, featurePlayerNavigator.playerFragment())
+                add(R.id.miniPlayerContainer, featurePlayerNavigator.miniPlayerFragment())
+            }
+        }
 
         if (isImmersiveMode()){
             // workaround, on some device on immersive mode bottom navigation disappears
