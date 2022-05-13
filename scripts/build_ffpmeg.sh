@@ -4,7 +4,7 @@ NDK_PATH=~/Library/Android/sdk/ndk-bundle
 
 HOST_PLATFORM="darwin-x86_64"
 
-cd "<preferred location for ffmpeg>" && \
+cd "${FFMPEG_MODULE_PATH}/jni" && \
   git clone git://source.ffmpeg.org/ffmpeg && \
   cd ffmpeg && \
   git checkout release/4.2 && \

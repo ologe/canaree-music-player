@@ -29,7 +29,6 @@ dependencies {
 
     implementation lib_utils.last_fm_binding
 
-    //    implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
     implementation project(':exoplayer-library')
     implementation project(':exoplayer-extension-flac')
     implementation project(':exoplayer-extension-opus')
