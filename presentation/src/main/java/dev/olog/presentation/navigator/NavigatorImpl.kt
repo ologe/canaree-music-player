@@ -1,11 +1,9 @@
 package dev.olog.presentation.navigator
 
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import dev.olog.core.MediaId
 import dev.olog.feature.splash.SplashFragment
-import dev.olog.platform.allowed
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -14,7 +12,6 @@ import dev.olog.presentation.dialogs.playlist.clear.ClearPlaylistDialog
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
-import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
@@ -25,22 +22,6 @@ class NavigatorImpl @Inject internal constructor(
     override fun toFirstAccess() {
         activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
-        }
-    }
-
-    override fun toOfflineLyrics() {
-        if (!allowed()) {
-            return
-        }
-        activity.supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(
-                android.R.id.content,
-                OfflineLyricsFragment.newInstance(),
-                OfflineLyricsFragment.TAG
-            )
-            addToBackStack(OfflineLyricsFragment.TAG)
         }
     }
 

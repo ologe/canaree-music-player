@@ -79,7 +79,6 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':offline-lyrics')
     implementation project(':intents')
     // common
     implementation project(':common:shared')

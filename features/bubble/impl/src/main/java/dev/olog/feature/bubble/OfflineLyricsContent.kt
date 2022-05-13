@@ -8,18 +8,17 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.api.Content
+import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
+import dev.olog.feature.lyrics.offline.Lyrics
+import dev.olog.feature.lyrics.offline.NoScrollTouchListener
+import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
+import dev.olog.feature.lyrics.offline.OffsetCalculator
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.Lyrics
-import dev.olog.offlinelyrics.NoScrollTouchListener
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
-import dev.olog.offlinelyrics.OffsetCalculator
 import dev.olog.shared.extension.animateBackgroundColor
 import dev.olog.shared.extension.animateTextColor
 import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.extension.lazyFast
-import dev.olog.shared.extension.subscribe
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +31,8 @@ import kotlinx.coroutines.withContext
 class OfflineLyricsContent(
     private val context: Context,
     private val glueService: MusicGlueService,
-    private val presenter: OfflineLyricsContentPresenter
-
+    private val presenter: LyricsOfflinePresenter,
+    private val featureLyricsOfflineNavigator: FeatureLyricsOfflineNavigator,
 ) : Content() {
 
     private var lyricsJob: Job? = null
@@ -68,7 +67,7 @@ class OfflineLyricsContent(
 
         content.edit.setOnClickListener {
             lifecycleScope.launch {
-                EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
+                featureLyricsOfflineNavigator.toEditDialog(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
             }
@@ -94,9 +93,9 @@ class OfflineLyricsContent(
         content.sync.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 try {
-                    OfflineLyricsSyncAdjustementDialog.show(
-                        context,
-                        presenter.getSyncAdjustment()
+                    featureLyricsOfflineNavigator.toSyncAdjustment(
+                        context = context,
+                        currentSync = presenter.getSyncAdjustment()
                     ) {
                         presenter.updateSyncAdjustment(it)
                     }
@@ -116,7 +115,7 @@ class OfflineLyricsContent(
             }
 
         presenter.observeLyrics()
-            .subscribe(this) { (lyrics, type) ->
+            .collectOnLifecycle(this) { (lyrics, type) ->
                 content.emptyState.isVisible = lyrics.isEmpty()
                 content.text.text = lyrics
 

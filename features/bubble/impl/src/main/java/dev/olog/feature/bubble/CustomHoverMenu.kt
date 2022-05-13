@@ -7,6 +7,8 @@ import dev.olog.core.ServiceScope
 import dev.olog.feature.media.MusicPreferencesGateway
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.view.TabView
+import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
+import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.shared.extension.collectOnLifecycle
 import kotlinx.coroutines.flow.filter
@@ -20,8 +22,8 @@ class CustomHoverMenu @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    offlineLyricsContentPresenter: OfflineLyricsContentPresenter
-
+    offlineLyricsContentPresenter: LyricsOfflinePresenter,
+    featureLyricsOfflineNavigator: FeatureLyricsOfflineNavigator,
 ) : HoverMenu() {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
@@ -31,7 +33,12 @@ class CustomHoverMenu @Inject constructor(
     private val lyricsContent =
         LyricsContent(lifecycle, service, musicServiceBinder)
     private val videoContent = VideoContent(lifecycle, service)
-    private val offlineLyricsContent = OfflineLyricsContent(service, musicServiceBinder, offlineLyricsContentPresenter)
+    private val offlineLyricsContent = OfflineLyricsContent(
+        context = service,
+        glueService = musicServiceBinder,
+        presenter = offlineLyricsContentPresenter,
+        featureLyricsOfflineNavigator = featureLyricsOfflineNavigator
+    )
 
     private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {

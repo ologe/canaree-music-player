@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -9,7 +10,26 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:lyrics-offline:api')
+    implementation project(':core')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
+    implementation project(':common:localization')
+
+    implementation project(':features:media:api')
+
+    implementation project(':jaudiotagger')
+    implementation project(':image-provider')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
+
+    implementation lib_x.browser
+    implementation lib_x.appcompat
+    implementation lib_x.fragments
+    implementation lib_x.material
+
+    implementation lib_ui.custom_tabs
+    implementation lib_ui.blur_kit
+    implementation lib_ui.tap_target_view
 }

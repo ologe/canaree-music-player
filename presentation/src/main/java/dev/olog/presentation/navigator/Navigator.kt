@@ -6,8 +6,6 @@ interface Navigator {
 
     fun toFirstAccess()
 
-    fun toOfflineLyrics()
-
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 
     fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)

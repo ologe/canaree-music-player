@@ -14,7 +14,6 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':prefs-keys')
-    implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
     implementation project(':common:shared')
