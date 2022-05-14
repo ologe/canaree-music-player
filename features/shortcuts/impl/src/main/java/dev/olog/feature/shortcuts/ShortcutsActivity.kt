@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.media.FeatureMediaNavigator
+import dev.olog.feature.media.api.FeatureMediaNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint

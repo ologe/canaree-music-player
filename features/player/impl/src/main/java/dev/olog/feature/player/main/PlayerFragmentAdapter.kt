@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.feature.media.MediaProvider
-import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.feature.media.model.PlayerMetadata
-import dev.olog.feature.media.model.PlayerPlaybackState
-import dev.olog.feature.media.model.PlayerState
+import dev.olog.feature.media.api.MediaProvider
+import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.feature.media.api.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerPlaybackState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.feature.player.R
 import dev.olog.feature.player.volume.PlayerVolumeFragment
 import dev.olog.feature.player.widget.PlayerImageView

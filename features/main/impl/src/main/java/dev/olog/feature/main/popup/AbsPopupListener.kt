@@ -14,8 +14,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
-import dev.olog.feature.edit.FeatureEditNavigator
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.edit.api.FeatureEditNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.R
 import dev.olog.shared.FileProvider
 import dev.olog.shared.extension.lazyFast

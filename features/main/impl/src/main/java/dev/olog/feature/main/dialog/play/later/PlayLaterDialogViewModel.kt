@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.feature.media.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

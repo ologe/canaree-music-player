@@ -2,7 +2,7 @@ package dev.olog.feature.equalizer.impl.virtualizer
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.Virtualizer
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(

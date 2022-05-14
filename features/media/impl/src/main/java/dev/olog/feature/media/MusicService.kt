@@ -13,7 +13,8 @@ import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.feature.media.helper.CarHelper
 import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
 import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
@@ -22,7 +23,7 @@ import dev.olog.feature.media.helper.CarHelper.CONTENT_STYLE_SUPPORTED
 import dev.olog.feature.media.helper.MediaIdHelper
 import dev.olog.feature.media.helper.MediaItemGenerator
 import dev.olog.feature.media.helper.WearHelper
-import dev.olog.feature.media.interactor.SleepTimerUseCase
+import dev.olog.feature.media.api.interactor.SleepTimerUseCase
 import dev.olog.feature.media.notification.MusicNotificationManager
 import dev.olog.feature.media.scrobbling.LastFmScrobbling
 import dev.olog.feature.media.state.MusicServiceMetadata

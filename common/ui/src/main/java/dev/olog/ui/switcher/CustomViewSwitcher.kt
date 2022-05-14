@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.feature.media.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.ui.R
 import dev.olog.shared.extension.findChild

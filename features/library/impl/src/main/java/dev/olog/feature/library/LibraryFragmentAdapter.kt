@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.library.api.LibraryCategoryBehavior
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.feature.library.tab.TabFragment
 import dev.olog.shared.extension.isInBounds

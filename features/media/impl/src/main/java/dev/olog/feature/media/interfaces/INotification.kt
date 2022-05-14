@@ -1,7 +1,7 @@
 package dev.olog.feature.media.interfaces
 
 import android.app.Notification
-import dev.olog.feature.media.model.MusicNotificationState
+import dev.olog.feature.media.api.model.MusicNotificationState
 
 internal interface INotification {
 

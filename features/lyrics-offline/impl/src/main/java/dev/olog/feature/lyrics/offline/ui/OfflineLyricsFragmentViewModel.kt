@@ -4,7 +4,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
+import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
 import javax.inject.Inject
 
 @HiltViewModel

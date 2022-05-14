@@ -9,7 +9,7 @@ import dev.olog.core.Config
 import dev.olog.core.ServiceScope
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.feature.media.model.MediaEntity
+import dev.olog.feature.media.api.model.MediaEntity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

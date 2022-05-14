@@ -7,6 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import dev.olog.core.Resettable
+import dev.olog.feature.library.api.FeatureLibraryNavigator
+import dev.olog.feature.library.api.LibraryPreferences
 import dev.olog.platform.BottomNavigationFragmentTag
 import javax.inject.Singleton
 

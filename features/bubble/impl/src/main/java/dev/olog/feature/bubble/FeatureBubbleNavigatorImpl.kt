@@ -10,7 +10,8 @@ import android.provider.Settings
 import androidx.annotation.CheckResult
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import dev.olog.feature.bubble.FeatureBubbleNavigator.Companion.REQUEST_CODE_HOVER_PERMISSION
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator.Companion.REQUEST_CODE_HOVER_PERMISSION
 import javax.inject.Inject
 
 class FeatureBubbleNavigatorImpl @Inject constructor() : FeatureBubbleNavigator {

@@ -8,7 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
 import dev.olog.feature.media.MusicService
-import dev.olog.feature.media.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.feature.media.R
 

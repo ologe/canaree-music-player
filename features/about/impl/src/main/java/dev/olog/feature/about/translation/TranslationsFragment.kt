@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.about.FeatureAboutNavigator
+import dev.olog.feature.about.api.FeatureAboutNavigator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.about.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

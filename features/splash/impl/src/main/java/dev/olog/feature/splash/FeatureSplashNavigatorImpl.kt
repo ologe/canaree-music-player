@@ -2,6 +2,7 @@ package dev.olog.feature.splash
 
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import dev.olog.feature.splash.api.FeatureSplashNavigator
 import javax.inject.Inject
 
 class FeatureSplashNavigatorImpl @Inject constructor(

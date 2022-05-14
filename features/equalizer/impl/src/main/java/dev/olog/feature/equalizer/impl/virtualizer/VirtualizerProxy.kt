@@ -1,6 +1,6 @@
 package dev.olog.feature.equalizer.impl.virtualizer
 
-import dev.olog.feature.equalizer.IVirtualizer
+import dev.olog.feature.equalizer.api.IVirtualizer
 import javax.inject.Inject
 
 class VirtualizerProxy @Inject constructor(

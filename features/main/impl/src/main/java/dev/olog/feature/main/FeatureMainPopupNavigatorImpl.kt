@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import dagger.Lazy
 import dev.olog.core.MediaId
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.feature.main.popup.PopupMenuFactory
 import dev.olog.platform.allowed
 import kotlinx.coroutines.Dispatchers

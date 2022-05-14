@@ -1,8 +1,8 @@
 package dev.olog.feature.equalizer.impl.equalizer
 
-import dev.olog.feature.equalizer.IEqualizer
-import dev.olog.feature.equalizer.model.EqualizerBand
-import dev.olog.feature.equalizer.model.EqualizerPreset
+import dev.olog.feature.equalizer.api.IEqualizer
+import dev.olog.feature.equalizer.api.model.EqualizerBand
+import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

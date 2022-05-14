@@ -2,7 +2,7 @@ package dev.olog.feature.library.tab.manager
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.api.TabCategory
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.BaseModel
 import dev.olog.feature.library.tab.adapter.TabFragmentAdapter

@@ -1,6 +1,6 @@
 package dev.olog.feature.media.player.crossfade
 
-import dev.olog.feature.media.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.PlayerMediaEntity
 import dev.olog.feature.media.interfaces.IPlayerDelegate
 import javax.inject.Inject
 

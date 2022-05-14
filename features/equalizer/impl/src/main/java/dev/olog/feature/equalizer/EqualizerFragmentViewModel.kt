@@ -5,7 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.feature.equalizer.model.EqualizerPreset
+import dev.olog.feature.equalizer.api.EqualizerGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.IBassBoost
+import dev.olog.feature.equalizer.api.IEqualizer
+import dev.olog.feature.equalizer.api.IVirtualizer
+import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch

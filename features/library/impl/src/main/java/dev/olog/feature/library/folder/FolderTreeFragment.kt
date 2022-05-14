@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.R
-import dev.olog.feature.main.FeatureMainPopupNavigator
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.platform.CanHandleOnBackPressed
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

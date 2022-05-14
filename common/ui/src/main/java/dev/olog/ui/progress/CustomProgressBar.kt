@@ -3,7 +3,7 @@ package dev.olog.ui.progress
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ProgressBar
-import dev.olog.feature.media.model.PlayerPlaybackState
+import dev.olog.feature.media.api.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
 class CustomProgressBar(

@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.feature.settings.api.FeatureSettingsNavigator
 import javax.inject.Singleton
 
 @Module

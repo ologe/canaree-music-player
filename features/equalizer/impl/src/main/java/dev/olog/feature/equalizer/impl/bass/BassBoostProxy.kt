@@ -1,6 +1,6 @@
 package dev.olog.feature.equalizer.impl.bass
 
-import dev.olog.feature.equalizer.IBassBoost
+import dev.olog.feature.equalizer.api.IBassBoost
 import javax.inject.Inject
 
 class BassBoostProxy @Inject constructor(

@@ -3,8 +3,8 @@ package dev.olog.feature.media.voice
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.GenreGateway
-import dev.olog.feature.media.model.MediaEntity
-import dev.olog.feature.media.model.toMediaEntity
+import dev.olog.feature.media.api.model.MediaEntity
+import dev.olog.feature.media.api.model.toMediaEntity
 
 internal object VoiceSearch {
 

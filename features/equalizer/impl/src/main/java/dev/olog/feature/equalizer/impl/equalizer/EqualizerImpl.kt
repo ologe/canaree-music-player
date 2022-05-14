@@ -2,11 +2,11 @@ package dev.olog.feature.equalizer.impl.equalizer
 
 import android.media.audiofx.AudioEffect
 import dev.olog.core.ApplicationScope
-import dev.olog.feature.equalizer.EqualizerGateway
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.EqualizerGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import dev.olog.feature.equalizer.impl.audio.NormalizedEqualizer
-import dev.olog.feature.equalizer.model.EqualizerBand
-import dev.olog.feature.equalizer.model.EqualizerPreset
+import dev.olog.feature.equalizer.api.model.EqualizerBand
+import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

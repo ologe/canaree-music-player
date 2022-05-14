@@ -11,10 +11,11 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.ServiceScope
 import dev.olog.core.gateway.FavoriteGateway
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.feature.media.interfaces.IPlayer
 import dev.olog.feature.media.interfaces.IQueue
-import dev.olog.feature.media.model.PlayerMediaEntity
-import dev.olog.feature.media.model.SkipType
+import dev.olog.feature.media.api.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.SkipType
 import dev.olog.feature.media.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.feature.media.state.MusicServicePlaybackState
 import dev.olog.feature.media.state.MusicServiceRepeatMode

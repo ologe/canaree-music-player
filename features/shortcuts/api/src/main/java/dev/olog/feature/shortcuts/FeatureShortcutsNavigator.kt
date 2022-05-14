@@ -1,3 +1,0 @@
-package dev.olog.feature.shortcuts
-
-interface FeatureShortcutsNavigator

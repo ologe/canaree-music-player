@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.bubble.FeatureBubbleNavigator
-import dev.olog.feature.main.FeatureMainNavigator
-import dev.olog.feature.main.FeatureMainPopupNavigator
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment

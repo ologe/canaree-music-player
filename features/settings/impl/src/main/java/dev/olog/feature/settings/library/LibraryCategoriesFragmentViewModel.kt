@@ -3,8 +3,8 @@ package dev.olog.feature.settings.library
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.library.LibraryCategoryBehavior
-import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.library.api.LibraryCategoryBehavior
+import dev.olog.feature.library.api.LibraryPreferences
 import javax.inject.Inject
 
 @HiltViewModel

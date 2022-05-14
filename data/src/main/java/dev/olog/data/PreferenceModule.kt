@@ -19,7 +19,7 @@ import dev.olog.data.prefs.AppPreferencesImpl
 import dev.olog.data.prefs.BlacklistPreferenceImpl
 import dev.olog.data.prefs.TutorialPreferenceImpl
 import dev.olog.data.prefs.sort.AppSortingImpl
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import javax.inject.Singleton
 
 @Module

@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import dev.olog.feature.queue.api.FeatureQueueNavigator
 import dev.olog.platform.BottomNavigationFragmentTag
 import javax.inject.Singleton
 

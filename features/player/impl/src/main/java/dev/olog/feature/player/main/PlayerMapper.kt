@@ -1,6 +1,6 @@
 package dev.olog.feature.player.main
 
-import dev.olog.feature.media.model.PlayerItem
+import dev.olog.feature.media.api.model.PlayerItem
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
 import dev.olog.feature.player.R

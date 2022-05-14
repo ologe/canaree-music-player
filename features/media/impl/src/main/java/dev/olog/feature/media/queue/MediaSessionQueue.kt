@@ -4,7 +4,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.model.MediaEntity
+import dev.olog.feature.media.api.model.MediaEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow

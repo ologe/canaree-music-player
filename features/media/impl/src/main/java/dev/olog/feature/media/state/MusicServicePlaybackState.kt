@@ -8,11 +8,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.feature.widget.WidgetConstants
-import dev.olog.feature.media.model.PositionInQueue
-import dev.olog.feature.media.model.SkipType
-import dev.olog.feature.widget.FeatureWidgetNavigator
+import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.feature.widget.api.WidgetConstants
+import dev.olog.feature.media.api.model.PositionInQueue
+import dev.olog.feature.media.api.model.SkipType
+import dev.olog.feature.widget.api.FeatureWidgetNavigator
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 

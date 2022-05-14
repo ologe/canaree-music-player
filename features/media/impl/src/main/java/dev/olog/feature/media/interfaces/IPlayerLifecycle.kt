@@ -1,7 +1,7 @@
 package dev.olog.feature.media.interfaces
 
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.feature.media.model.MetadataEntity
+import dev.olog.feature.media.api.model.MetadataEntity
 
 internal interface IPlayerLifecycle {
 

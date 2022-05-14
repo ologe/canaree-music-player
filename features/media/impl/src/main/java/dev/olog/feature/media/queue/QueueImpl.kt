@@ -11,11 +11,11 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.platform.ServiceLifecycle
-import dev.olog.feature.media.model.MediaEntity
-import dev.olog.feature.media.model.PositionInQueue
-import dev.olog.feature.media.model.toMediaEntity
+import dev.olog.feature.media.api.model.MediaEntity
+import dev.olog.feature.media.api.model.PositionInQueue
+import dev.olog.feature.media.api.model.toMediaEntity
 import dev.olog.feature.media.state.MusicServiceRepeatMode
 import dev.olog.shared.extension.swap
 import kotlinx.coroutines.Dispatchers

@@ -8,7 +8,7 @@ import dev.olog.platform.adapter.SimpleAdapter
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.adapter.drag.TouchableAdapter
-import dev.olog.feature.library.LibraryCategoryBehavior
+import dev.olog.feature.library.api.LibraryCategoryBehavior
 import dev.olog.shared.extension.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 import kotlinx.coroutines.GlobalScope

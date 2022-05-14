@@ -3,7 +3,7 @@ package dev.olog.feature.player.widget
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.player.R
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flowOn

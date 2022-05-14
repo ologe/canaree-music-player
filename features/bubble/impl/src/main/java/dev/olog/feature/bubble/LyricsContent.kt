@@ -2,7 +2,7 @@ package dev.olog.feature.bubble
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import dev.olog.feature.media.model.PlayerState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.shared.extension.collectOnLifecycle
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*

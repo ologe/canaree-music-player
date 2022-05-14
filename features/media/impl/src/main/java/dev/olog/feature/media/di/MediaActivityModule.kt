@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.shared.extension.findInContext
 
 @Module

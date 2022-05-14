@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
+import dev.olog.feature.widget.api.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
 

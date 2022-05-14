@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
+import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
 import dev.olog.feature.lyrics.offline.base.LyricsOfflinePresenterImpl
 import javax.inject.Singleton
 

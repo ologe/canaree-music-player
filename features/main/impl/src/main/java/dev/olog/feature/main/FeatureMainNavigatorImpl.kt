@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.dialog.delete.DeleteDialog
 import dev.olog.feature.main.dialog.favorite.AddFavoriteDialog
 import dev.olog.feature.main.dialog.play.later.PlayLaterDialog

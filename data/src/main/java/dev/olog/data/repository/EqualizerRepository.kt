@@ -2,14 +2,14 @@ package dev.olog.data.repository
 
 import android.os.Build
 import dev.olog.core.ApplicationScope
-import dev.olog.feature.equalizer.EqualizerGateway
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.EqualizerGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
-import dev.olog.feature.equalizer.model.EqualizerBand
-import dev.olog.feature.equalizer.model.EqualizerPreset
+import dev.olog.feature.equalizer.api.model.EqualizerBand
+import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest

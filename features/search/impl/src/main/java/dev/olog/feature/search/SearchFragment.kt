@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.bubble.FeatureBubbleNavigator
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
 import dev.olog.feature.detail.FeatureDetailNavigator
-import dev.olog.feature.main.FeatureMainNavigator
-import dev.olog.feature.main.FeatureMainPopupNavigator
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.adapter.drag.DragListenerImpl

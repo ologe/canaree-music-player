@@ -12,10 +12,10 @@ import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.feature.media.interfaces.INotification
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
-import dev.olog.feature.media.model.Event
-import dev.olog.feature.media.model.MediaEntity
-import dev.olog.feature.media.model.MetadataEntity
-import dev.olog.feature.media.model.MusicNotificationState
+import dev.olog.feature.media.api.model.Event
+import dev.olog.feature.media.api.model.MediaEntity
+import dev.olog.feature.media.api.model.MetadataEntity
+import dev.olog.feature.media.api.model.MusicNotificationState
 import dev.olog.shared.isOreo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel

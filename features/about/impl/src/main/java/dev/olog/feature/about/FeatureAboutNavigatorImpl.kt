@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import dev.olog.feature.about.api.FeatureAboutNavigator
 import dev.olog.feature.about.license.LicensesFragment
 import dev.olog.feature.about.thanks.SpecialThanksFragment
 import dev.olog.feature.about.translation.TranslationsFragment

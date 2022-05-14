@@ -3,7 +3,7 @@ package dev.olog.feature.playlist.chooser
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.feature.playlist.R
-import dev.olog.feature.shortcuts.AppShortcuts
+import dev.olog.feature.shortcuts.api.AppShortcuts
 import dev.olog.image.provider.BindingsAdapter
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter

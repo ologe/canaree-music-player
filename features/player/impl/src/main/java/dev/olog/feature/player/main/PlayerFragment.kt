@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
-import dev.olog.feature.main.FeatureMainPopupNavigator
-import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.player.PlayerTutorial
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.platform.theme.PlayerAppearance
