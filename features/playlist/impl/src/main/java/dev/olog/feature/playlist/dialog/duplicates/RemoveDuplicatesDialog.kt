@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.playlist.R
 import dev.olog.platform.fragment.BaseDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
@@ -37,10 +36,10 @@ class RemoveDuplicatesDialog: BaseDialog() {
     private val itemTitle by argument<String>(ARGUMENTS_ITEM_TITLE)
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.remove_duplicates_title)
+        return builder.setTitle(localization.R.string.remove_duplicates_title)
             .setMessage(createMessage().parseAsHtml())
-            .setPositiveButton(R.string.popup_positive_remove, null)
-            .setNegativeButton(R.string.popup_negative_no, null)
+            .setPositiveButton(localization.R.string.popup_positive_remove, null)
+            .setNegativeButton(localization.R.string.popup_negative_no, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -60,15 +59,15 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     private fun successMessage(context: Context): String {
-        return context.getString(R.string.remove_duplicates_success, itemTitle)
+        return context.getString(localization.R.string.remove_duplicates_success, itemTitle)
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_duplicates_message, itemTitle)
+        return context!!.getString(localization.R.string.remove_duplicates_message, itemTitle)
     }
 
 }

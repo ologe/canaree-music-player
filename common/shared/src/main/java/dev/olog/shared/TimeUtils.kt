@@ -15,10 +15,10 @@ object TimeUtils {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
 
         if (hours == 0L) {
-            return context.resources.getQuantityString(R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
+            return context.resources.getQuantityString(localization.R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
         } else {
-            var result = context.resources.getQuantityString(R.plurals.common_plurals_hours, hours.toInt(), hours.toInt()) + " "
-            result += context.resources.getQuantityString(R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
+            var result = context.resources.getQuantityString(localization.R.plurals.common_plurals_hours, hours.toInt(), hours.toInt()) + " "
+            result += context.resources.getQuantityString(localization.R.plurals.common_plurals_minutes, minutes.toInt(), minutes.toInt())
             return result
         }
     }

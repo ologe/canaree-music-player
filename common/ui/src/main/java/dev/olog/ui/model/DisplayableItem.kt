@@ -3,7 +3,6 @@ package dev.olog.ui.model
 import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.platform.adapter.BaseModel
-import dev.olog.ui.R
 import dev.olog.shared.TextUtils
 
 sealed class DisplayableItem(
@@ -39,7 +38,7 @@ data class DisplayableAlbum(
             if (size <= 0) {
                 return ""
             }
-            return resources.getQuantityString(R.plurals.common_plurals_song, size, size)
+            return resources.getQuantityString(localization.R.plurals.common_plurals_song, size, size)
                 .toLowerCase()
         }
     }

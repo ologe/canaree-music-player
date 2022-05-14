@@ -17,9 +17,9 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.feature.library.R
-import dev.olog.ui.model.DisplayableFile
 import dev.olog.shared.extension.distinctUntilChanged
 import dev.olog.shared.extension.startWithIfNotEmpty
+import dev.olog.ui.model.DisplayableFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -163,14 +163,14 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val foldersHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
         MediaId.headerId("folder header"),
-        context.getString(R.string.common_folders),
+        context.getString(localization.R.string.common_folders),
         null
     )
 
     private val tracksHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
         MediaId.headerId("track header"),
-        context.getString(R.string.common_tracks),
+        context.getString(localization.R.string.common_tracks),
         null
     )
 

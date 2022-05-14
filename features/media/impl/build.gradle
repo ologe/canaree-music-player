@@ -20,6 +20,7 @@ dependencies {
     implementation project(':features:equalizer:api')
     implementation project(':features:main:api')
     implementation project(':features:widget:api')
+    implementation project(':features:settings:api')
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_service

@@ -13,8 +13,8 @@ object LibraryTutorial {
     fun floatingWindow(view: View){
         val context = view.context
 
-        val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
-            .icon(ContextCompat.getDrawable(context, R.drawable.vd_search_text))
+        val target = TapTarget.forView(view, context.getString(localization.R.string.tutorial_floating_window))
+            .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_search_text))
             .tint(context)
         TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }

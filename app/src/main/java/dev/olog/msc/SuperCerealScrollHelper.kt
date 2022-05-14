@@ -13,10 +13,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.feature.detail.main.DetailFragment
-import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.feature.library.LibraryFragment
-import dev.olog.feature.settings.SettingsFragment
+import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.feature.queue.PlayingQueueFragment
+import dev.olog.feature.settings.SettingsFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.findViewByIdNotRecursive
@@ -36,7 +36,7 @@ class SuperCerealScrollHelper(
             list.updatePadding(top = 0)
         }
         if (fragment is FolderTreeFragment){
-            val crumbsWrapper = fragment.view!!.findViewById<View>(R.id.crumbsWrapper)
+            val crumbsWrapper = fragment.view!!.findViewById<View>(dev.olog.feature.library.R.id.crumbsWrapper)
             if (crumbsWrapper.marginTop < 1){
 //                 margin not set yet
                 fragment.view!!.doOnPreDraw {
@@ -48,13 +48,13 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForFab(fragment: Fragment): View? {
-        return fragment.view?.findViewById(R.id.fab)
+        return fragment.view?.findViewById(dev.olog.feature.library.R.id.fab)
     }
 
     override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
-        var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(R.id.list)
+        var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(dev.olog.feature.library.R.id.list)
         if (recyclerView == null && fragment.tag == SettingsFragment.TAG) {
-            recyclerView = fragment.view?.findViewById(R.id.recycler_view)
+            recyclerView = fragment.view?.findViewById(androidx.preference.R.id.recycler_view)
         }
         return recyclerView
     }
@@ -67,7 +67,7 @@ class SuperCerealScrollHelper(
             }
             else -> fragment.view
         }
-        return view?.findViewByIdNotRecursive(R.id.tabLayout)
+        return view?.findViewByIdNotRecursive(dev.olog.feature.library.R.id.tabLayout)
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
@@ -83,13 +83,13 @@ class SuperCerealScrollHelper(
             fragment.tag == SettingsFragment.TAG -> fragment.parentFragment?.view
             else -> fragment.view
         }
-        return view?.findViewByIdNotRecursive(R.id.toolbar)
+        return view?.findViewByIdNotRecursive(dev.olog.feature.library.R.id.toolbar)
     }
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {
         val tag = fragment.tag
         if (tag == LibraryFragment.TAG_TRACK || tag == LibraryFragment.TAG_PODCAST){
-            return fragment.view?.findViewByIdNotRecursive(R.id.viewPager)
+            return fragment.view?.findViewByIdNotRecursive(dev.olog.feature.library.R.id.viewPager)
         }
         return null
     }

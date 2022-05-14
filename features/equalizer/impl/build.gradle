@@ -16,6 +16,8 @@ dependencies {
     implementation project(':common:ui')
     implementation project(':common:localization')
 
+    implementation project(':features:settings:api')
+
     implementation lib_core.hilt
     kapt lib_core.hilt_processor
 

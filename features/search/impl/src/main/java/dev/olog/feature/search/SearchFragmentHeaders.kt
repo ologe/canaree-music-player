@@ -16,23 +16,23 @@ class SearchFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_search_recent_header,
             mediaId = MediaId.headerId("recent searches header id"),
-            title = context.getString(R.string.search_recent_searches)
+            title = context.getString(localization.R.string.search_recent_searches)
         )
     )
 
     fun songsHeaders(size: Int): DisplayableItem = DisplayableHeader(
         type = R.layout.item_search_header,
         mediaId = MediaId.headerId("songs header id"),
-        title = context.getString(R.string.search_songs),
-        subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+        title = context.getString(localization.R.string.search_songs),
+        subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
     )
 
     fun albumsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("albums header id"),
-            title = context.getString(R.string.search_albums),
-            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+            title = context.getString(localization.R.string.search_albums),
+            subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_albums,
@@ -44,8 +44,8 @@ class SearchFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("artists header id"),
-            title = context.getString(R.string.search_artists),
-            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+            title = context.getString(localization.R.string.search_artists),
+            subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_artists,
@@ -57,8 +57,8 @@ class SearchFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("folders header id"),
-            title = context.getString(R.string.search_folders),
-            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+            title = context.getString(localization.R.string.search_folders),
+            subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_folder,
@@ -70,8 +70,8 @@ class SearchFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("playlists header id"),
-            title = context.getString(R.string.search_playlists),
-            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+            title = context.getString(localization.R.string.search_playlists),
+            subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_playlists,
@@ -83,8 +83,8 @@ class SearchFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("genres header id"),
-            title = context.getString(R.string.search_genres),
-            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+            title = context.getString(localization.R.string.search_genres),
+            subtitle = context.resources.getQuantityString(localization.R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_genre,

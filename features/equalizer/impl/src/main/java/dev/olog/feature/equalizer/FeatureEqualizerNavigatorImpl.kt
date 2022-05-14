@@ -14,7 +14,7 @@ class FeatureEqualizerNavigatorImpl @Inject constructor(
 
     override fun toEqualizer(activity: FragmentActivity) {
         val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
-            .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
+            .getBoolean(activity.getString(dev.olog.feature.settings.api.R.string.prefs_used_equalizer_key), true)
 
         if (useCustomEqualizer) {
             toBuiltInEqualizer(activity)

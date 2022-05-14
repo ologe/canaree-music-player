@@ -24,7 +24,7 @@ open class ScrollHmsPickerDialog : DialogFragment() {
     @ColorRes
     var colorNormal: Int = android.R.color.darker_gray
     @ColorRes
-    var colorSelected: Int = R.color.defaultColorAccent
+    var colorSelected: Int = dev.olog.ui.R.color.defaultColorAccent
     @ColorRes
     var colorBackground: Int = android.R.color.white
     var dismissListener: DialogInterface.OnDismissListener? = null

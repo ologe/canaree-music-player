@@ -107,7 +107,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         setupBandListeners { band -> BandListener(band) }
 
         powerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
+            val text = if (isChecked) localization.R.string.common_switch_on else localization.R.string.common_switch_off
             powerSwitch.text = getString(text)
             viewModel.setEqualizerEnabled(isChecked)
         }
@@ -143,7 +143,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
                 viewModel.getPresets()
             }
             val popup = PopupMenu(requireContext(), presetSpinner)
-            popup.inflate(R.menu.empty)
+            popup.inflate(dev.olog.ui.R.menu.empty)
             for (preset in presets) {
                 popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)
             }

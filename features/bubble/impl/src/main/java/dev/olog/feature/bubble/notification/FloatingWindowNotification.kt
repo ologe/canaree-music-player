@@ -8,9 +8,8 @@ import android.app.Service
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.bubble.FloatingWindowService
-import dev.olog.feature.bubble.R
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.isOreo
@@ -59,9 +58,9 @@ class FloatingWindowNotification @Inject constructor(
         return builder
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setSmallIcon(R.drawable.vd_bird_singing)
+            .setSmallIcon(dev.olog.ui.R.drawable.vd_bird_singing)
             .setContentTitle(notificationTitle)
-            .setContentText(service.getString(R.string.floating_window_notification_content_text))
+            .setContentText(service.getString(localization.R.string.floating_window_notification_content_text))
             .setColor(service.colorControlNormal())
             .setContentIntent(createContentIntent())
             .setGroup("dev.olog.msc.FLOATING")
@@ -78,9 +77,9 @@ class FloatingWindowNotification @Inject constructor(
         }
 
         // create notification channel
-        val name = service.getString(R.string.floating_window_notification_channel_title)
+        val name = service.getString(localization.R.string.floating_window_notification_channel_title)
         val description =
-            service.getString(R.string.floating_window_notification_channel_description)
+            service.getString(localization.R.string.floating_window_notification_channel_description)
 
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(CHANNEL_ID, name, importance)

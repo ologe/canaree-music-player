@@ -126,12 +126,12 @@ class FeatureEditNavigatorImpl @Inject constructor(
 
     private fun showError(context: Context, error: Throwable) {
         when (error) {
-            is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
-            is IOException -> context.toast(R.string.edit_song_error_io)
-            is ReadOnlyFileException -> context.toast(R.string.edit_song_error_read_only)
+            is CannotReadException -> context.toast(localization.R.string.edit_song_error_can_not_read)
+            is IOException -> context.toast(localization.R.string.edit_song_error_io)
+            is ReadOnlyFileException -> context.toast(localization.R.string.edit_song_error_read_only)
             else -> {
                 error.printStackTrace()
-                context.toast(R.string.edit_song_error)
+                context.toast(localization.R.string.edit_song_error)
             }
         }
     }

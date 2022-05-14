@@ -21,6 +21,7 @@ dependencies {
     implementation project(':features:bubble:api')
     implementation project(':features:detail:api')
     implementation project(':features:playlist:api')
+    implementation project(':features:settings:api')
 
     implementation project(':image-provider')
 

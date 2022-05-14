@@ -8,8 +8,8 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.feature.media.api.model.PlayerRepeatMode
-import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.feature.player.R
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.extension.getAnimatedVectorDrawable
 import dev.olog.shared.extension.isDarkMode
 import dev.olog.shared.extension.lazyFast
@@ -30,7 +30,7 @@ class RepeatButton(
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
-        setImageResource(R.drawable.vd_repeat)
+        setImageResource(dev.olog.ui.R.drawable.vd_repeat)
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
@@ -61,15 +61,15 @@ class RepeatButton(
 
     private fun repeatNone() {
         val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
-        animateAvd(defaultColor, R.drawable.repeat_hide_one, R.drawable.repeat_show)
+        animateAvd(defaultColor, dev.olog.ui.R.drawable.repeat_hide_one, dev.olog.ui.R.drawable.repeat_show)
     }
 
     private fun repeatOne() {
-        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
+        animateAvd(enabledColor, dev.olog.ui.R.drawable.repeat_hide, R.drawable.repeat_show_one)
     }
 
     private fun repeatAll() {
-        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
+        animateAvd(enabledColor, dev.olog.ui.R.drawable.repeat_hide, dev.olog.ui.R.drawable.repeat_show)
     }
 
     private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int) {

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.settings.R
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
 import dev.olog.ui.fragment.ListDialog
@@ -30,10 +29,10 @@ class BlacklistFragment : ListDialog() {
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder
-            .setTitle(R.string.prefs_blacklist_title)
-            .setMessage(R.string.prefs_blacklist_description)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-            .setPositiveButton(R.string.popup_positive_save, null)
+            .setTitle(localization.R.string.prefs_blacklist_title)
+            .setMessage(localization.R.string.prefs_blacklist_description)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_save, null)
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
@@ -66,7 +65,7 @@ class BlacklistFragment : ListDialog() {
     }
 
     private fun showErrorMessage(){
-        activity!!.toast(R.string.prefs_blacklist_error)
+        activity!!.toast(localization.R.string.prefs_blacklist_error)
     }
 
 }

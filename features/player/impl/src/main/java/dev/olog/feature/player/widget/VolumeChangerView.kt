@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.feature.media.api.MusicPreferencesGateway
-import dev.olog.feature.player.R
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 class VolumeChangerView(
     context: Context,
@@ -14,7 +16,7 @@ class VolumeChangerView(
 ) : AppCompatImageButton(context, attrs) {
 
     init {
-        setImageResource(R.drawable.vd_volume_up)
+        setImageResource(dev.olog.ui.R.drawable.vd_volume_up)
     }
 
     var musicPrefs: MusicPreferencesGateway? = null
@@ -52,9 +54,9 @@ class VolumeChangerView(
 
     private fun updateImage(volume: Int) {
         val drawable = when (volume) {
-            0 -> R.drawable.vd_volume_mute
-            in 1..60 -> R.drawable.vd_volume_down
-            else -> R.drawable.vd_volume_up
+            0 -> dev.olog.ui.R.drawable.vd_volume_mute
+            in 1..60 -> dev.olog.ui.R.drawable.vd_volume_down
+            else -> dev.olog.ui.R.drawable.vd_volume_up
         }
         setImageResource(drawable)
     }

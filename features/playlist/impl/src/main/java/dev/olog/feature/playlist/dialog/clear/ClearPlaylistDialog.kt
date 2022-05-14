@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.playlist.R
 import dev.olog.platform.fragment.BaseDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
@@ -36,10 +35,10 @@ class ClearPlaylistDialog : BaseDialog() {
     private val viewModel by viewModels<ClearPlaylistDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_clear_playlist)
+        return builder.setTitle(localization.R.string.popup_clear_playlist)
             .setMessage(createMessage().parseAsHtml())
-            .setPositiveButton(R.string.popup_positive_delete, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_delete, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -59,15 +58,15 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun successMessage(context: Context): String {
-        return context.getString(R.string.playlist_x_cleared, title)
+        return context.getString(localization.R.string.playlist_x_cleared, title)
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
+        return context!!.getString(localization.R.string.remove_songs_from_playlist_y, title)
     }
 
 }

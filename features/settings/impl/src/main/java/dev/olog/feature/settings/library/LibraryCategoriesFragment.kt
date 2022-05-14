@@ -7,14 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.settings.R
-import dev.olog.ui.fragment.ListDialog
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.withArguments
 import dev.olog.ui.adapter.drag.CircularRevealAnimationController
+import dev.olog.ui.fragment.ListDialog
 
 @AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
@@ -39,12 +38,12 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     private val category by argument<MediaIdCategory>(TYPE)
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
+        val title = if (category == MediaIdCategory.SONGS) localization.R.string.prefs_library_categories_title else localization.R.string.prefs_podcast_library_categories_title
 
         return builder.setTitle(title)
-            .setNeutralButton(R.string.popup_neutral_reset, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-            .setPositiveButton(R.string.popup_positive_save, null)
+            .setNeutralButton(localization.R.string.popup_neutral_reset, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_save, null)
     }
 
     override fun setupRecyclerView(list: RecyclerView) {

@@ -4,7 +4,12 @@ import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.feature.detail.R
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableTrack
@@ -85,7 +90,7 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            localization.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()
@@ -98,7 +103,7 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            localization.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()
@@ -111,7 +116,7 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            localization.R.plurals.common_plurals_song,
             this.songs,
             this.songs
         ).toLowerCase()
@@ -124,7 +129,7 @@ internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(
-            R.plurals.common_plurals_song,
+            localization.R.plurals.common_plurals_song,
             this.size,
             this.size
         ).toLowerCase()

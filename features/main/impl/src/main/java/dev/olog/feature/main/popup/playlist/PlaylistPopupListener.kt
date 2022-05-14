@@ -9,13 +9,13 @@ import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.edit.api.FeatureEditNavigator
+import dev.olog.feature.main.R
 import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.main.popup.AbsPopup
+import dev.olog.feature.main.popup.AbsPopupListener
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
 import dev.olog.feature.shortcuts.api.AppShortcuts
-import dev.olog.feature.main.R
-import dev.olog.feature.main.popup.AbsPopup
-import dev.olog.feature.main.popup.AbsPopupListener
 import dev.olog.shared.extension.toast
 import javax.inject.Inject
 
@@ -94,7 +94,7 @@ class PlaylistPopupListener @Inject constructor(
 
     private fun playFromMediaId() {
         if (playlist.size == 0) {
-            activity.toast(R.string.common_empty_list)
+            activity.toast(localization.R.string.common_empty_list)
         } else {
             mediaProvider.playFromMediaId(getMediaId(), null, null)
         }
@@ -102,7 +102,7 @@ class PlaylistPopupListener @Inject constructor(
 
     private fun playShuffle() {
         if (playlist.size == 0) {
-            activity.toast(R.string.common_empty_list)
+            activity.toast(localization.R.string.common_empty_list)
         } else {
             mediaProvider.shuffle(getMediaId(), null)
         }

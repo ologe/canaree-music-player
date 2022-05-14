@@ -79,7 +79,7 @@ class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun isMidnightMode(): Flow<Boolean> {
-        val key = context.getString(R.string.prefs_midnight_mode_key)
+        val key = context.getString(dev.olog.feature.settings.api.R.string.prefs_midnight_mode_key)
         return preferences.observeKey(key, false)
     }
 
@@ -111,26 +111,26 @@ class MusicPreferencesImpl @Inject constructor(
 
     private fun setMidnightMode(enable: Boolean){
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_midnight_mode_key), enable)
+            putBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_midnight_mode_key), enable)
         }
     }
 
     private fun setCrossFade(value: Int){
-        val key = context.getString(R.string.prefs_cross_fade_key)
+        val key = context.getString(dev.olog.feature.settings.api.R.string.prefs_cross_fade_key)
         preferences.edit { putInt(key, value) }
     }
 
     override fun observeCrossFade(): Flow<Int> {
-        return preferences.observeKey(context.getString(R.string.prefs_cross_fade_key), 0)
+        return preferences.observeKey(context.getString(dev.olog.feature.settings.api.R.string.prefs_cross_fade_key), 0)
                 .map { it * 1000 }
     }
 
     override fun observeGapless(): Flow<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_gapless_key), false)
+        return preferences.observeKey(context.getString(dev.olog.feature.settings.api.R.string.prefs_gapless_key), false)
     }
 
     private fun setGapless(enabled: Boolean){
-        val key = context.getString(R.string.prefs_gapless_key)
+        val key = context.getString(dev.olog.feature.settings.api.R.string.prefs_gapless_key)
         preferences.edit { putBoolean(key, enabled) }
     }
 
@@ -179,7 +179,7 @@ class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun observeShowLockscreenArtwork(): Flow<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_lockscreen_artwork_key), false)
+        return preferences.observeKey(context.getString(dev.olog.feature.settings.api.R.string.prefs_lockscreen_artwork_key), false)
             .flowOn(Dispatchers.IO)
     }
 }

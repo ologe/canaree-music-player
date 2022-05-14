@@ -7,7 +7,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
-import dev.olog.image.provider.R
 import dev.olog.platform.NetworkUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -131,16 +130,16 @@ abstract class BaseDataFetcher(
     private fun networkSafeAction(): Boolean {
 
         val downloadMode = prefs.getString(
-            context.getString(R.string.prefs_auto_download_images_key),
-            context.getString(R.string.prefs_auto_download_images_entry_value_wifi)
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_download_images_key),
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_download_images_entry_value_wifi)
         )
 
         val isWifiActive = NetworkUtils.isOnWiFi(context)
 
         return when (downloadMode) {
-            context.getString(R.string.prefs_auto_download_images_entry_value_never) -> false
-            context.getString(R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
-            context.getString(R.string.prefs_auto_download_images_entry_value_always) -> true
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_download_images_entry_value_never) -> false
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_download_images_entry_value_wifi) -> isWifiActive
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_download_images_entry_value_always) -> true
             else -> throw IllegalArgumentException("not supposed to happen, key not valid=$downloadMode")
         }
     }

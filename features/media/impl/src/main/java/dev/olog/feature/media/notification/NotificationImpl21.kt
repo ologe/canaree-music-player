@@ -14,9 +14,8 @@ import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.main.api.FeatureMainNavigator
-import dev.olog.feature.media.R
-import dev.olog.feature.media.interfaces.INotification
 import dev.olog.feature.media.api.model.MusicNotificationState
+import dev.olog.feature.media.interfaces.INotification
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.extension.asActivityPendingIntent
 import kotlinx.coroutines.yield
@@ -45,7 +44,7 @@ internal open class NotificationImpl21 @Inject constructor(
             .setMediaSession(mediaSession.sessionToken)
             .setShowActionsInCompactView(1, 2, 3)
 
-        builder.setSmallIcon(R.drawable.vd_bird_not_singing)
+        builder.setSmallIcon(dev.olog.ui.R.drawable.vd_bird_not_singing)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(
@@ -98,7 +97,7 @@ internal open class NotificationImpl21 @Inject constructor(
 
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
         builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
-        builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
+        builder.setSmallIcon(if (isPlaying) dev.olog.ui.R.drawable.vd_bird_singing else dev.olog.ui.R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
 
         if (isPlaying) {

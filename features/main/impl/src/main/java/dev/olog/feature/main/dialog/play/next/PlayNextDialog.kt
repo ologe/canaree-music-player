@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.main.R
 import dev.olog.platform.fragment.BaseDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
@@ -40,20 +39,20 @@ class PlayNextDialog : BaseDialog() {
     private val viewModel by viewModels<PlayNextDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_play_next)
+        return builder.setTitle(localization.R.string.popup_play_next)
             .setMessage(createMessage().parseAsHtml())
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     private fun successMessage(context: Context): String {
         return if (mediaId.isLeaf){
-            context.getString(R.string.song_x_added_to_play_next, title)
-        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_next, listSize, listSize)
+            context.getString(localization.R.string.song_x_added_to_play_next, title)
+        } else context.resources.getQuantityString(localization.R.plurals.xx_songs_added_to_play_next, listSize, listSize)
     }
 
     private  fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -74,9 +73,9 @@ class PlayNextDialog : BaseDialog() {
 
     private fun createMessage() : String {
         if (mediaId.isAll || mediaId.isLeaf){
-            return getString(R.string.add_song_x_to_play_next, title)
+            return getString(localization.R.string.add_song_x_to_play_next, title)
         }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_play_next, listSize, listSize)
+        return context!!.resources.getQuantityString(localization.R.plurals.add_xx_songs_to_play_next, listSize, listSize)
     }
 
 }
