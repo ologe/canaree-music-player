@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.platform.PlayStoreUtils
+import dev.olog.feature.about.api.FeatureAboutNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -22,6 +22,7 @@ private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val activity: FragmentActivity,
+    private val featureAboutNavigator: FeatureAboutNavigator,
 ) {
 
     init {
@@ -40,7 +41,7 @@ class RateAppDialog @Inject constructor(
             .setMessage(localization.R.string.rate_app_message)
             .setPositiveButton(localization.R.string.rate_app_positive_button) { _, _ ->
                 setNeverShowAgain()
-                PlayStoreUtils.open(activity)
+                featureAboutNavigator.toMarket(activity)
             }
             .setNegativeButton(localization.R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
             .setNeutralButton(localization.R.string.rate_app_neutral_button) { _, _ -> }

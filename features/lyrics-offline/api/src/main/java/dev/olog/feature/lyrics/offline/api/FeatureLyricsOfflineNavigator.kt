@@ -19,4 +19,6 @@ interface FeatureLyricsOfflineNavigator {
         updateAction: (Long) -> Unit,
     )
 
+    fun searchLyrics(activity: FragmentActivity, url: String)
+
 }

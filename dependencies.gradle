@@ -10,7 +10,7 @@ ext {
     android_x_appcompat = '1.2.0'
     android_x_media = '1.5.0'
     android_x_recycler = '1.1.0'
-    android_x_browser = '1.2.0'
+    android_x_browser = '1.4.0'
     android_x_material = '1.2.0'
     android_x_preference = '1.1.1'
     android_x_palette = '1.0.0'
@@ -23,7 +23,6 @@ ext {
 //    ui
     glide = '4.11.0'
     lottie = '3.4.2'
-    custom_tabs = '3.0.1'
     material_dialogs = '3.3.0'
     scroll_helper = '1.1.4'
     blur_kit = '1.0.0'
@@ -97,7 +96,6 @@ ext {
             scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
             blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
             lottie                  : "com.airbnb.android:lottie:$lottie",
-            custom_tabs             : "saschpe.android:customtabs:$custom_tabs",
             dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
             dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
             color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",

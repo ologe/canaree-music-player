@@ -7,8 +7,8 @@ import dev.olog.feature.detail.recently.added.RecentlyAddedFragment
 import dev.olog.feature.detail.related.artist.RelatedArtistFragment
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.HasSlidingPanel
-import dev.olog.platform.createBackStackTag
-import dev.olog.platform.superCerealTransition
+import dev.olog.platform.navigation.createBackStackTag
+import dev.olog.platform.navigation.superCerealTransition
 import dev.olog.shared.extension.findInContext
 import dev.olog.ui.extension.collapse
 import javax.inject.Inject

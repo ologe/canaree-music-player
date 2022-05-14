@@ -13,8 +13,8 @@ import dev.olog.feature.playlist.dialog.create.NewPlaylistDialog
 import dev.olog.feature.playlist.dialog.duplicates.RemoveDuplicatesDialog
 import dev.olog.feature.playlist.dialog.rename.RenameDialog
 import dev.olog.platform.BottomNavigationFragmentTag
-import dev.olog.platform.createBackStackTag
-import dev.olog.platform.superCerealTransition
+import dev.olog.platform.navigation.createBackStackTag
+import dev.olog.platform.navigation.superCerealTransition
 import javax.inject.Inject
 
 class FeaturePlaylistNavigatorImpl @Inject constructor(

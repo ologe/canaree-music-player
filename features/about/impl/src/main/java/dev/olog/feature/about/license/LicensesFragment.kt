@@ -6,37 +6,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.about.R
+import dev.olog.feature.about.databinding.FragmentLicensesBinding
+import dev.olog.platform.viewBinding
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_about.*
-import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
 @AndroidEntryPoint
 class LicensesFragment : Fragment(R.layout.fragment_licenses) {
 
     private val viewModel by viewModels<LicensesFragmentViewModel>()
+    private val binding by viewBinding(FragmentLicensesBinding::bind)
 
-    companion object {
-        @JvmStatic
-        val TAG = LicensesFragment::class.java.name
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         val adapter = LicensesFragmentAdapter()
 
-        view.list.adapter = adapter
-        view.list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.adapter = adapter
+        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.setHasFixedSize(true)
 
         adapter.submitList(viewModel.data)
-    }
 
-    override fun onResume() {
-        super.onResume()
         back.setOnClickListener { requireActivity().onBackPressed() }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        back.setOnClickListener(null)
     }
 
 }

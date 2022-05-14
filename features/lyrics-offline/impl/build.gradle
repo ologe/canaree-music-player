@@ -28,8 +28,8 @@ dependencies {
     implementation lib_x.appcompat
     implementation lib_x.fragments
     implementation lib_x.material
+    implementation lib_x.constraint_layout
 
-    implementation lib_ui.custom_tabs
     implementation lib_ui.blur_kit
     implementation lib_ui.tap_target_view
 }

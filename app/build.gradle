@@ -119,7 +119,6 @@ dependencies {
     kapt lib_core.hilt_processor
 
     implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
     implementation lib_ui.scroll_helper
 
     implementation lib_utils.aes_crypto

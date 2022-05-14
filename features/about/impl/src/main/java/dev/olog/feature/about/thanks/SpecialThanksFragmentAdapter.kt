@@ -1,25 +1,41 @@
 package dev.olog.feature.about.thanks
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.about.databinding.ItemSpecialThanksBinding
 import dev.olog.image.provider.GlideApp
-import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.platform.adapter.ObservableAdapter
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
+import dev.olog.platform.adapter.IdentityDiffCallback
 
 class SpecialThanksFragmentAdapter(
-) : ObservableAdapter<SpecialThanksModel>(DiffUtilSpecialThansModel) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+) : ListAdapter<SpecialThanksItem, SpecialThanksFragmentAdapter.ViewHolder>(IdentityDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent)
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.itemView.apply {
-            GlideApp.with(context)
-                .load(ContextCompat.getDrawable(context, item.image))
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class ViewHolder(
+        viewGroup: ViewGroup,
+        private val binding: ItemSpecialThanksBinding = ItemSpecialThanksBinding.inflate(
+            LayoutInflater.from(viewGroup.context), viewGroup, false
+        )
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: SpecialThanksItem) = with(binding) {
+            GlideApp.with(root.context)
+                .load(ContextCompat.getDrawable(root.context, item.image))
                 .into(image)
 
             title.text = item.title
         }
+
     }
 
 }

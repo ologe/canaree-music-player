@@ -21,8 +21,6 @@ class App : ThemedApp() {
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
-
-        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
     }
 
     private fun initializeComponents() {

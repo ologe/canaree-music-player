@@ -1,4 +1,4 @@
-package dev.olog.platform
+package dev.olog.platform.navigation
 
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import dev.olog.platform.BottomNavigationFragmentTag
+import dev.olog.platform.R
+import dev.olog.platform.containsTag
 import dev.olog.shared.extension.getTopFragment
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -52,7 +55,7 @@ fun findFirstVisibleFragment(
 fun superCerealTransition(
     activity: FragmentActivity,
     fragment: Fragment,
-    tag: String,
+    tag: String?,
     tags: Set<BottomNavigationFragmentTag>,
     transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
 ) {

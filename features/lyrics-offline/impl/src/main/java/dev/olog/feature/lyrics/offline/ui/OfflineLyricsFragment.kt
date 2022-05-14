@@ -1,11 +1,7 @@
 package dev.olog.feature.lyrics.offline.ui
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -13,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.feature.lyrics.offline.LyricsOfflineTutorial
 import dev.olog.feature.lyrics.offline.R
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
 import dev.olog.feature.lyrics.offline.api.Lyrics
 import dev.olog.feature.lyrics.offline.api.NoScrollTouchListener
 import dev.olog.feature.lyrics.offline.api.OffsetCalculator
@@ -28,13 +25,10 @@ import dev.olog.shared.extension.animateTextColor
 import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
-import dev.olog.shared.extension.isIntentSafe
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.lazyFast
-import dev.olog.shared.extension.toast
 import dev.olog.ui.activity.removeLightStatusBar
 import dev.olog.ui.activity.setLightStatusBar
-import dev.olog.ui.colorSurface
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
@@ -42,8 +36,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
@@ -57,6 +51,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
+    @Inject
+    lateinit var navigator: FeatureLyricsOfflineNavigator
+
     private val viewModel by viewModels<OfflineLyricsFragmentViewModel>()
 
     private val mediaProvider: MediaProvider
@@ -64,17 +61,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val scrollViewTouchListener by lazyFast {
         NoScrollTouchListener(requireContext()) { mediaProvider.playPause() }
-    }
-
-    private val callback = object : CustomTabsHelper.CustomTabFallback {
-        override fun openUri(context: Context?, uri: Uri?) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (requireActivity().packageManager.isIntentSafe(intent)) {
-                requireActivity().startActivity(intent)
-            } else {
-                requireActivity().toast(localization.R.string.common_browser_not_found)
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -191,18 +177,11 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
+
     private fun searchLyrics() {
-        val customTabIntent = CustomTabsIntent.Builder()
-            .enableUrlBarHiding()
-            .setToolbarColor(requireContext().colorSurface())
-            .build()
-        CustomTabsHelper.addKeepAliveExtra(requireContext(), customTabIntent.intent)
-
         val escapedQuery = URLEncoder.encode(viewModel.getInfoMetadata(), "UTF-8")
-        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(requireContext(), customTabIntent, uri, callback)
+        navigator.searchLyrics(requireActivity(), "http://www.google.com/#q=$escapedQuery")
     }
-
 
     override fun provideLayoutId(): Int = R.layout.fragment_offline_lyrics
 }

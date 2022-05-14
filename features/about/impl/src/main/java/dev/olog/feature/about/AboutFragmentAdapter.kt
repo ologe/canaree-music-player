@@ -1,12 +1,12 @@
 package dev.olog.feature.about
 
-import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.platform.adapter.ObservableAdapter
-import dev.olog.platform.adapter.setOnClickListener
-import dev.olog.ui.model.DiffCallbackDisplayableItem
-import dev.olog.ui.model.DisplayableHeader
-import dev.olog.ui.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_about.view.*
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.about.databinding.ItemAboutBinding
+import dev.olog.platform.adapter.IdentityDiffCallback
+import dev.olog.shared.extension.exhaustive
 
 
 class AboutFragmentAdapter(
@@ -20,31 +20,47 @@ class AboutFragmentAdapter(
     private val onChangelogClick: () -> Unit,
     private val onGithubClick: () -> Unit,
     private val onTranslationsClick: () -> Unit,
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ListAdapter<AboutItem, AboutFragmentAdapter.ViewHolder>(IdentityDiffCallback()) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            when (item.mediaId) {
-                AboutFragmentViewModel.HAVOC_ID -> onHavocClick()
-                AboutFragmentViewModel.THIRD_SW_ID -> onThirdPartyClick()
-                AboutFragmentViewModel.SPECIAL_THANKS_ID -> onSpecialThanksClick()
-                AboutFragmentViewModel.RATE_ID -> onRateClick()
-                AboutFragmentViewModel.PRIVACY_POLICY -> onPrivacyPolicyClick()
-                AboutFragmentViewModel.COMMUNITY -> onCommunityClick()
-                AboutFragmentViewModel.BETA -> onBetaClick()
-                AboutFragmentViewModel.CHANGELOG -> onChangelogClick()
-                AboutFragmentViewModel.GITHUB -> onGithubClick()
-                AboutFragmentViewModel.TRANSLATION -> onTranslationsClick()
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val vh = ViewHolder(parent)
+        vh.itemView.setOnClickListener {
+            val item = getItem(vh.adapterPosition)
+            when (item.type) {
+                AboutItem.Type.Havoc -> onHavocClick()
+                AboutItem.Type.Licence -> onThirdPartyClick()
+                AboutItem.Type.SpecialThanks -> onSpecialThanksClick()
+                AboutItem.Type.Rate -> onRateClick()
+                AboutItem.Type.PrivacyPolicy -> onPrivacyPolicyClick()
+                AboutItem.Type.Community -> onCommunityClick()
+                AboutItem.Type.Beta -> onBetaClick()
+                AboutItem.Type.Changelog -> onChangelogClick()
+                AboutItem.Type.Repo -> onGithubClick()
+                AboutItem.Type.Translation -> onTranslationsClick()
+                AboutItem.Type.Author,
+                AboutItem.Type.Version -> {}
+            }.exhaustive
         }
+        return vh
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableHeader)
-        holder.itemView.apply {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+
+    class ViewHolder(
+        viewGroup: ViewGroup,
+        private val binding: ItemAboutBinding = ItemAboutBinding.inflate(
+            LayoutInflater.from(viewGroup.context), viewGroup, false
+        )
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: AboutItem) = with(binding) {
             title.text = item.title
-            subtitle.text = item.subtitle   
+            subtitle.text = item.subtitle
         }
+
     }
 
 }

@@ -10,6 +10,7 @@ dependencies {
     implementation project(':common:shared')
     implementation lib_core.dagger
 
+    implementation lib_x.browser
     implementation lib_x.fragments
     implementation lib_x.material
     implementation lib_x.preference
