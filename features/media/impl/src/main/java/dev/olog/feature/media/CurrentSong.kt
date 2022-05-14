@@ -16,9 +16,10 @@ import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
-import dev.olog.feature.media.model.MediaEntity
-import dev.olog.feature.media.model.MetadataEntity
+import dev.olog.feature.media.api.model.MediaEntity
+import dev.olog.feature.media.api.model.MetadataEntity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch

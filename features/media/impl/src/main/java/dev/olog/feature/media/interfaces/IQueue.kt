@@ -3,8 +3,8 @@ package dev.olog.feature.media.interfaces
 import android.net.Uri
 import android.os.Bundle
 import dev.olog.core.MediaId
-import dev.olog.feature.media.model.PlayerMediaEntity
-import dev.olog.feature.media.model.PositionInQueue
+import dev.olog.feature.media.api.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.PositionInQueue
 
 internal interface IQueue {
 

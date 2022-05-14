@@ -13,10 +13,10 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
-import dev.olog.feature.media.model.MusicNotificationState
+import dev.olog.feature.media.api.model.MusicNotificationState
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.extension.asActivityPendingIntent
 import kotlinx.coroutines.yield

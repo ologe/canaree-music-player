@@ -11,9 +11,9 @@ import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.media.interfaces.IQueue
-import dev.olog.feature.media.model.*
+import dev.olog.feature.media.api.model.*
 import dev.olog.feature.media.state.MusicServiceShuffleMode
 import dev.olog.feature.media.voice.VoiceSearch
 import dev.olog.feature.media.voice.VoiceSearchParams

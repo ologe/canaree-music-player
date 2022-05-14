@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import dev.olog.core.MediaId
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.theme.HasQuickAction
 import dev.olog.platform.theme.QuickAction
 import dev.olog.shared.extension.coroutineScope

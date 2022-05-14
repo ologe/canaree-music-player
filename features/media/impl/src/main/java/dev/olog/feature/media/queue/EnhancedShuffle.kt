@@ -2,8 +2,8 @@ package dev.olog.feature.media.queue
 
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
-import dev.olog.feature.media.model.MediaEntity
-import dev.olog.feature.media.model.MetadataEntity
+import dev.olog.feature.media.api.model.MediaEntity
+import dev.olog.feature.media.api.model.MetadataEntity
 import dev.olog.shared.extension.removeFirst
 import javax.inject.Inject
 import kotlin.math.min

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
 import dev.olog.feature.lyrics.offline.base.EditLyricsDialog
 import dev.olog.feature.lyrics.offline.base.OfflineLyricsSyncAdjustementDialog
 import dev.olog.feature.lyrics.offline.ui.OfflineLyricsFragment

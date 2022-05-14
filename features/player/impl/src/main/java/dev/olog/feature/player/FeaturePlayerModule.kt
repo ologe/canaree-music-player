@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.feature.player.api.FeaturePlayerNavigator
+import dev.olog.feature.player.api.PlayerPreferences
 import javax.inject.Singleton
 
 @Module

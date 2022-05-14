@@ -1,7 +1,7 @@
 package dev.olog.ui.progress
 
 import android.widget.ProgressBar
-import dev.olog.feature.media.model.PlayerPlaybackState
+import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.shared.extension.coroutineScope
 import dev.olog.shared.flowInterval
 import dev.olog.ui.progress.IProgressDeletegate.Companion.PROGRESS_BAR_INTERVAL

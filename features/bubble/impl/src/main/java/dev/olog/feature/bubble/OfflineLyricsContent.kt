@@ -8,11 +8,11 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.api.Content
-import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
-import dev.olog.feature.lyrics.offline.Lyrics
-import dev.olog.feature.lyrics.offline.NoScrollTouchListener
-import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
-import dev.olog.feature.lyrics.offline.OffsetCalculator
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
+import dev.olog.feature.lyrics.offline.api.Lyrics
+import dev.olog.feature.lyrics.offline.api.NoScrollTouchListener
+import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
+import dev.olog.feature.lyrics.offline.api.OffsetCalculator
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.extension.animateBackgroundColor

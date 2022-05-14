@@ -7,7 +7,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.feature.media.interfaces.INotification
 import dev.olog.shared.TextUtils

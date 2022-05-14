@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import com.google.android.exoplayer2.Player
 import dev.olog.core.ServiceScope
-import dev.olog.feature.equalizer.IBassBoost
-import dev.olog.feature.equalizer.IEqualizer
-import dev.olog.feature.equalizer.IVirtualizer
+import dev.olog.feature.equalizer.api.IBassBoost
+import dev.olog.feature.equalizer.api.IEqualizer
+import dev.olog.feature.equalizer.api.IVirtualizer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

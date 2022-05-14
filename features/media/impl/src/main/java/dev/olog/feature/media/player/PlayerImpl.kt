@@ -5,7 +5,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.media.Noisy
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.feature.media.focus.AudioFocusBehavior
@@ -14,9 +14,9 @@ import dev.olog.feature.media.interfaces.IPlayer
 import dev.olog.feature.media.interfaces.IPlayerDelegate
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
 import dev.olog.feature.media.interfaces.IServiceLifecycleController
-import dev.olog.feature.media.model.MetadataEntity
-import dev.olog.feature.media.model.PlayerMediaEntity
-import dev.olog.feature.media.model.SkipType
+import dev.olog.feature.media.api.model.MetadataEntity
+import dev.olog.feature.media.api.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.SkipType
 import dev.olog.feature.media.state.MusicServicePlaybackState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn

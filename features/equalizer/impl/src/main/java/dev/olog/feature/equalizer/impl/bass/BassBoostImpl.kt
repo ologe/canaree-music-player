@@ -2,7 +2,7 @@ package dev.olog.feature.equalizer.impl.bass
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(

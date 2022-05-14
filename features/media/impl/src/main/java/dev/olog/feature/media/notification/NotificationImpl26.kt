@@ -7,7 +7,7 @@ import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
 import javax.inject.Inject

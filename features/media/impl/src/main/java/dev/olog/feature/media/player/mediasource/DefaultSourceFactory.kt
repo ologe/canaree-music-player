@@ -10,7 +10,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.media.interfaces.ISourceFactory
-import dev.olog.feature.media.model.MediaEntity
+import dev.olog.feature.media.api.model.MediaEntity
 import javax.inject.Inject
 
 internal class DefaultSourceFactory @Inject constructor(

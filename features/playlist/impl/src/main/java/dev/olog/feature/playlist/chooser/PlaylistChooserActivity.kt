@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.playlist.R
-import dev.olog.feature.shortcuts.AppShortcuts
+import dev.olog.feature.shortcuts.api.AppShortcuts
 import dev.olog.ui.activity.ThemedActivity
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe

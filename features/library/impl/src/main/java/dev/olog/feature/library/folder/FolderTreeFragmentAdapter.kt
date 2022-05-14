@@ -2,7 +2,7 @@ package dev.olog.feature.library.folder
 
 import android.view.View
 import dev.olog.core.MediaId
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.image.provider.BindingsAdapter
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter

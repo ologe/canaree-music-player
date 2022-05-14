@@ -12,8 +12,8 @@ import android.text.style.StyleSpan
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.feature.lyrics.offline.Lyrics
-import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
+import dev.olog.feature.lyrics.offline.api.Lyrics
+import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
 import dev.olog.shared.extension.dip
 import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.Dispatchers

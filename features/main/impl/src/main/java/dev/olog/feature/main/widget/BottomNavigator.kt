@@ -4,12 +4,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import dev.olog.feature.library.FeatureLibraryNavigator
+import dev.olog.feature.library.api.FeatureLibraryNavigator
 import dev.olog.feature.main.R
-import dev.olog.feature.main.BottomNavigationPage
-import dev.olog.feature.library.LibraryPage
-import dev.olog.feature.queue.FeatureQueueNavigator
-import dev.olog.feature.search.FeatureSearchNavigator
+import dev.olog.feature.main.api.BottomNavigationPage
+import dev.olog.feature.library.api.LibraryPage
+import dev.olog.feature.queue.api.FeatureQueueNavigator
+import dev.olog.feature.search.api.FeatureSearchNavigator
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.containsTag
 import javax.inject.Inject

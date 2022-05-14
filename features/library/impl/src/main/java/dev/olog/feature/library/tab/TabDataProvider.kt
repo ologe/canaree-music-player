@@ -12,8 +12,8 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.feature.library.LibraryPreferences
-import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.api.LibraryPreferences
+import dev.olog.feature.library.api.TabCategory
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.shared.extension.doIf
 import dev.olog.shared.extension.mapListItem

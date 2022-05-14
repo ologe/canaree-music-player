@@ -3,6 +3,9 @@ package dev.olog.feature.library
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.feature.library.api.LibraryCategoryBehavior
+import dev.olog.feature.library.api.LibraryPage
+import dev.olog.feature.library.api.LibraryPreferences
 import javax.inject.Inject
 
 @HiltViewModel

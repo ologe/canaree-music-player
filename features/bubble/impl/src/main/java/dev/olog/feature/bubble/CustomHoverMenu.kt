@@ -4,11 +4,11 @@ import android.app.Service
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.view.TabView
-import dev.olog.feature.lyrics.offline.FeatureLyricsOfflineNavigator
-import dev.olog.feature.lyrics.offline.LyricsOfflinePresenter
+import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
+import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.shared.extension.collectOnLifecycle
 import kotlinx.coroutines.flow.filter

@@ -5,8 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.feature.library.LibraryPreferences
-import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.api.TabCategory
+import dev.olog.feature.library.api.LibraryPreferences
 import dev.olog.ui.model.DisplayableItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

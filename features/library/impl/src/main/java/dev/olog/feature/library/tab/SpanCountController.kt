@@ -1,7 +1,7 @@
 package dev.olog.feature.library.tab
 
 import android.content.Context
-import dev.olog.feature.library.TabCategory
+import dev.olog.feature.library.api.TabCategory
 import dev.olog.shared.extension.configuration
 
 object SpanCountController {

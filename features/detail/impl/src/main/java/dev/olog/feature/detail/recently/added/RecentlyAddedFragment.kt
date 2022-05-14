@@ -9,8 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
-import dev.olog.feature.main.FeatureMainPopupNavigator
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

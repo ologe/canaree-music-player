@@ -2,6 +2,7 @@ package dev.olog.feature.equalizer
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

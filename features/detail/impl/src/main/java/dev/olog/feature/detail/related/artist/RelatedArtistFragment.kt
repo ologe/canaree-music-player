@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
-import dev.olog.feature.main.FeatureMainPopupNavigator
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe

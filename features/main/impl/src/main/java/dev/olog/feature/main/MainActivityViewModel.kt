@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.feature.main.MainPreferences
+import dev.olog.feature.main.api.MainPreferences
 import dev.olog.platform.permission.Permissions
 import javax.inject.Inject
 

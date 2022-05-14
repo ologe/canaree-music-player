@@ -14,13 +14,14 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.feature.about.FeatureAboutNavigator
-import dev.olog.feature.equalizer.FeatureEqualizerNavigator
-import dev.olog.feature.library.LibraryPreferences
-import dev.olog.feature.library.TabCategory
-import dev.olog.feature.library.toTabCategory
-import dev.olog.feature.playlist.FeaturePlaylistNavigator
-import dev.olog.feature.settings.FeatureSettingsNavigator
+import dev.olog.feature.about.api.FeatureAboutNavigator
+import dev.olog.feature.equalizer.api.FeatureEqualizerNavigator
+import dev.olog.feature.library.api.LibraryPreferences
+import dev.olog.feature.library.api.TabCategory
+import dev.olog.feature.library.api.toTabCategory
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
+import dev.olog.feature.settings.api.FeatureSettingsNavigator
 import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 

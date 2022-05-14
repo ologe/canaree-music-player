@@ -27,8 +27,8 @@ import dev.olog.feature.detail.main.adapter.DetailMostPlayedAdapter
 import dev.olog.feature.detail.main.adapter.DetailRecentlyAddedAdapter
 import dev.olog.feature.detail.main.adapter.DetailRelatedArtistsAdapter
 import dev.olog.feature.detail.main.adapter.DetailSiblingsAdapter
-import dev.olog.feature.main.FeatureMainPopupNavigator
-import dev.olog.feature.media.MediaProvider
+import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.CanChangeStatusBarColor
 import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.ui.model.DisplayableHeader

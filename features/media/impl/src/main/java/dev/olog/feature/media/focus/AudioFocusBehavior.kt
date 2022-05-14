@@ -10,7 +10,7 @@ import androidx.media.AudioManagerCompat
 import dagger.Lazy
 import dev.olog.feature.media.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.feature.media.interfaces.IPlayer
-import dev.olog.feature.media.model.FocusState
+import dev.olog.feature.media.api.model.FocusState
 import dev.olog.shared.extension.lazyFast
 import javax.inject.Inject
 

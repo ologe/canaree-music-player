@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.library.api.LibraryPreferences
 import dev.olog.feature.main.R
-import dev.olog.feature.main.BottomNavigationPage
-import dev.olog.feature.main.MainPreferences
+import dev.olog.feature.main.api.BottomNavigationPage
+import dev.olog.feature.main.api.MainPreferences
 import dev.olog.shared.extension.findInContext
 import javax.inject.Inject
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.LastMetadata
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

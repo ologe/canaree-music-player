@@ -7,10 +7,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.feature.bubble.FeatureBubbleNavigator
-import dev.olog.feature.main.BottomNavigationPage
-import dev.olog.feature.main.FeatureMainNavigator
-import dev.olog.feature.main.HasBottomNavigation
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
+import dev.olog.feature.library.api.LibraryPage
+import dev.olog.feature.main.api.BottomNavigationPage
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.main.api.HasBottomNavigation
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.findInContext

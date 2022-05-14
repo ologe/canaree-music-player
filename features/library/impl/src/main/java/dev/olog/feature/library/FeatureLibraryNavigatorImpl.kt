@@ -2,6 +2,7 @@ package dev.olog.feature.library
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import dev.olog.feature.library.api.FeatureLibraryNavigator
 import dev.olog.feature.library.folder.FolderTreeFragment
 import dev.olog.platform.CanHandleOnBackPressed
 import javax.inject.Inject

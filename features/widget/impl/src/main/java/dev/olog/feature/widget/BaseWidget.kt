@@ -9,10 +9,11 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
-import dev.olog.feature.main.FeatureMainNavigator
-import dev.olog.feature.media.FeatureMediaNavigator
-import dev.olog.feature.media.MusicPreferencesGateway
-import dev.olog.feature.media.MusicServiceAction
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.media.api.FeatureMediaNavigator
+import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicServiceAction
+import dev.olog.feature.widget.api.FeatureWidgetNavigator
 import dev.olog.shared.extension.asActivityPendingIntent
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import dev.olog.ui.palette.ImageProcessorResult

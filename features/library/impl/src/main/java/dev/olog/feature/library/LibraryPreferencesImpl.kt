@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.library.api.LibraryCategoryBehavior
+import dev.olog.feature.library.api.LibraryPage
+import dev.olog.feature.library.api.LibraryPreferences
+import dev.olog.feature.library.api.TabCategory
 import dev.olog.feature.library.tab.SpanCountController
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow

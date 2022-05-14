@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

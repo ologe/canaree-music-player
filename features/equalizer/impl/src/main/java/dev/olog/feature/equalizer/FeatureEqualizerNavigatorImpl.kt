@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.audiofx.AudioEffect
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
+import dev.olog.feature.equalizer.api.FeatureEqualizerNavigator
 import dev.olog.shared.extension.toast
 import javax.inject.Inject
 

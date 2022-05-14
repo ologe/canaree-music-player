@@ -1,7 +1,7 @@
 package dev.olog.feature.media.interfaces
 
-import dev.olog.feature.media.model.PlayerMediaEntity
-import dev.olog.feature.media.model.SkipType
+import dev.olog.feature.media.api.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.SkipType
 
 internal interface IPlayer : IPlayerLifecycle {
 

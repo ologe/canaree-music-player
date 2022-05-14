@@ -2,6 +2,8 @@ package dev.olog.feature.main
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dev.olog.feature.main.api.BottomNavigationPage
+import dev.olog.feature.main.api.MainPreferences
 import javax.inject.Inject
 
 class MainPreferencesImpl @Inject constructor(

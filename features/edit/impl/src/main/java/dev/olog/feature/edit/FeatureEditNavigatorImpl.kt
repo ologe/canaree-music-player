@@ -9,6 +9,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.feature.edit.album.EditAlbumFragment
+import dev.olog.feature.edit.api.FeatureEditNavigator
 import dev.olog.feature.edit.artist.EditArtistFragment
 import dev.olog.feature.edit.song.EditTrackFragment
 import dev.olog.platform.allowed

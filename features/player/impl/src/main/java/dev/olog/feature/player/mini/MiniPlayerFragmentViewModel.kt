@@ -2,7 +2,7 @@ package dev.olog.feature.player.mini
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

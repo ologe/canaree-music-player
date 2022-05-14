@@ -7,6 +7,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.FeatureEqualizerNavigator
+import dev.olog.feature.equalizer.api.IBassBoost
+import dev.olog.feature.equalizer.api.IEqualizer
+import dev.olog.feature.equalizer.api.IVirtualizer
 import dev.olog.feature.equalizer.impl.bass.BassBoostImpl
 import dev.olog.feature.equalizer.impl.bass.BassBoostProxy
 import dev.olog.feature.equalizer.impl.bass.IBassBoostInternal

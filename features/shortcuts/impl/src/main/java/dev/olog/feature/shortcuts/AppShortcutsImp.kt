@@ -8,10 +8,12 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.feature.main.FeatureMainNavigator
-import dev.olog.feature.media.MusicServiceAction
-import dev.olog.feature.media.MusicServiceCustomAction
-import dev.olog.feature.playlist.FeaturePlaylistNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.media.api.MusicServiceAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
+import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
+import dev.olog.feature.shortcuts.api.AppShortcuts
+import dev.olog.feature.shortcuts.api.ShortcutsConstants
 import dev.olog.image.provider.getCachedBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

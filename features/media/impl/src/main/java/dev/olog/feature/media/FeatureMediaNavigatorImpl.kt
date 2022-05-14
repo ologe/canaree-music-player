@@ -7,6 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.media.api.FeatureMediaNavigator
+import dev.olog.feature.media.api.MusicServiceAction
 import dev.olog.shared.extension.asServicePendingIntent
 import javax.inject.Inject
 

@@ -19,8 +19,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.feature.library.LibraryPage
-import dev.olog.feature.library.LibraryPreferences
+import dev.olog.feature.library.api.LibraryPage
+import dev.olog.feature.library.api.LibraryPreferences
 import dev.olog.feature.settings.blacklist.BlacklistFragment
 import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.feature.settings.library.LibraryCategoriesFragment

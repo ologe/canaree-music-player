@@ -8,14 +8,14 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.detail.FeatureDetailNavigator
-import dev.olog.feature.edit.FeatureEditNavigator
-import dev.olog.feature.main.FeatureMainNavigator
+import dev.olog.feature.edit.api.FeatureEditNavigator
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.R
 import dev.olog.feature.main.popup.AbsPopup
 import dev.olog.feature.main.popup.AbsPopupListener
-import dev.olog.feature.media.MediaProvider
-import dev.olog.feature.playlist.FeaturePlaylistNavigator
-import dev.olog.feature.shortcuts.AppShortcuts
+import dev.olog.feature.media.api.MediaProvider
+import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
+import dev.olog.feature.shortcuts.api.AppShortcuts
 import javax.inject.Inject
 
 class GenrePopupListener @Inject constructor(

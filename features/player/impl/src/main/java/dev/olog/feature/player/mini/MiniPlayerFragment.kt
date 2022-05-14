@@ -8,8 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.media.MediaProvider
-import dev.olog.feature.media.model.PlayerState
+import dev.olog.feature.media.api.MediaProvider
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.feature.player.R
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.shared.extension.collectOnViewLifecycle

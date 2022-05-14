@@ -1,6 +1,7 @@
 package dev.olog.feature.settings
 
 import androidx.fragment.app.FragmentActivity
+import dev.olog.feature.settings.api.FeatureSettingsNavigator
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.superCerealTransition
 import javax.inject.Inject

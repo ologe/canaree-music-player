@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.feature.media.interfaces.IDuckVolume
 import dev.olog.feature.media.interfaces.IMaxAllowedPlayerVolume

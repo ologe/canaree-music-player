@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import dev.olog.feature.media.model.PlayerShuffleMode
+import dev.olog.feature.media.api.model.PlayerShuffleMode
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.feature.player.R
 import dev.olog.shared.extension.getAnimatedVectorDrawable

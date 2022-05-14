@@ -1,8 +1,8 @@
 package dev.olog.feature.equalizer.impl.equalizer
 
-import dev.olog.feature.equalizer.EqualizerGateway
-import dev.olog.feature.equalizer.EqualizerPreferencesGateway
-import dev.olog.feature.equalizer.model.EqualizerPreset
+import dev.olog.feature.equalizer.api.EqualizerGateway
+import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
+import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

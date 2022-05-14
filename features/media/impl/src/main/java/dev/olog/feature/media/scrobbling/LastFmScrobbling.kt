@@ -3,7 +3,7 @@ package dev.olog.feature.media.scrobbling
 import dev.olog.core.ServiceScope
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
-import dev.olog.feature.media.model.MetadataEntity
+import dev.olog.feature.media.api.model.MetadataEntity
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

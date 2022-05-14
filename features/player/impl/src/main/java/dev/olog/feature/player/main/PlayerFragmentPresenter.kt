@@ -2,7 +2,7 @@ package dev.olog.feature.player.main
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.feature.player.PlayerPreferences
+import dev.olog.feature.player.api.PlayerPreferences
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.ui.adaptive.InvalidPaletteColors
 import dev.olog.ui.adaptive.InvalidProcessColors

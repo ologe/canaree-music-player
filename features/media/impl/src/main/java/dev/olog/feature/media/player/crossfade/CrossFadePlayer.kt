@@ -9,13 +9,13 @@ import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.Config
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.MusicPreferencesGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.media.EventDispatcher
 import dev.olog.feature.media.EventDispatcher.*
 import dev.olog.feature.media.OnAudioSessionIdChangeListener
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.feature.media.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.feature.media.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.PlayerMediaEntity
 import dev.olog.feature.media.player.mediasource.ClippedSourceFactory
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.Job

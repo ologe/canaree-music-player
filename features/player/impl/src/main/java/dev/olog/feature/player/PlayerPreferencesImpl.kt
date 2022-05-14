@@ -3,6 +3,7 @@ package dev.olog.feature.player
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.feature.player.api.PlayerPreferences
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

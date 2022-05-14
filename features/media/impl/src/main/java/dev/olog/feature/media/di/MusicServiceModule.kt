@@ -17,7 +17,7 @@ import dev.olog.feature.media.interfaces.IPlayerDelegate
 import dev.olog.feature.media.interfaces.IPlayerLifecycle
 import dev.olog.feature.media.interfaces.IQueue
 import dev.olog.feature.media.interfaces.IServiceLifecycleController
-import dev.olog.feature.media.model.PlayerMediaEntity
+import dev.olog.feature.media.api.model.PlayerMediaEntity
 import dev.olog.feature.media.player.PlayerImpl
 import dev.olog.feature.media.player.PlayerVolume
 import dev.olog.feature.media.player.crossfade.CrossFadePlayerSwitcher
