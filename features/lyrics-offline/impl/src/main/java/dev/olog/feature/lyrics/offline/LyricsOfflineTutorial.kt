@@ -13,17 +13,17 @@ object LyricsOfflineTutorial {
     fun addLyrics(search: View, edit: View, sync: View){
         val context = search.context
 
-        val searchTarget = TapTarget.forView(search, context.getString(R.string.tutorial_search_lyrics))
+        val searchTarget = TapTarget.forView(search, context.getString(localization.R.string.tutorial_search_lyrics))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_search))
+                .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_search))
 
-        val editTarget = TapTarget.forView(edit, context.getString(R.string.tutorial_add_lyrics))
+        val editTarget = TapTarget.forView(edit, context.getString(localization.R.string.tutorial_add_lyrics))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
+                .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_edit))
 
-        val syncLyrics = TapTarget.forView(sync, context.getString(R.string.tutorial_adjust_sync))
+        val syncLyrics = TapTarget.forView(sync, context.getString(localization.R.string.tutorial_adjust_sync))
                 .tint(context)
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_sync))
+                .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_sync))
 
         TapTargetSequence(search.context.findInContext<Activity>())
                 .targets(editTarget, searchTarget, syncLyrics)

@@ -25,7 +25,6 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import dev.olog.feature.bubble.R;
 
 
 /**
@@ -66,7 +65,7 @@ public class TabSelectorView extends View {
         setSelectorPosition(mSelectorWidthPx / 2);
 
         mSelectorPaint = new Paint();
-        mSelectorPaint.setColor(getResources().getColor(R.color.hover_selector_color));
+        mSelectorPaint.setColor(getResources().getColor(dev.olog.ui.R.color.hover_selector_color));
         mSelectorPaint.setStyle(Paint.Style.FILL);
     }
 

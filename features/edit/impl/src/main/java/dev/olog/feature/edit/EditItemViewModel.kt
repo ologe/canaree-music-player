@@ -35,7 +35,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.Main) {
-            context.toast(R.string.edit_track_update_success)
+            context.toast(localization.R.string.edit_track_update_success)
         }
 
         return UpdateResult.OK
@@ -48,7 +48,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.Main) {
-            context.toast(R.string.edit_album_update_start)
+            context.toast(localization.R.string.edit_album_update_start)
         }
 
         withContext(Dispatchers.IO) {
@@ -57,7 +57,7 @@ class EditItemViewModel @Inject constructor(
             presenter.updateAlbum(data)
         }
         withContext(Dispatchers.Main) {
-            context.toast(R.string.edit_track_update_success)
+            context.toast(localization.R.string.edit_track_update_success)
         }
 
         return UpdateResult.OK
@@ -69,7 +69,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.Main) {
-            context.toast(R.string.edit_artist_update_start)
+            context.toast(localization.R.string.edit_artist_update_start)
         }
 
         withContext(Dispatchers.IO) {
@@ -77,7 +77,7 @@ class EditItemViewModel @Inject constructor(
             presenter.updateArtist(data)
         }
         withContext(Dispatchers.Main) {
-            context.toast(R.string.edit_track_update_success)
+            context.toast(localization.R.string.edit_track_update_success)
         }
 
         return UpdateResult.OK
@@ -86,10 +86,10 @@ class EditItemViewModel @Inject constructor(
     private fun showErrorMessage(throwable: Throwable) {
         // TODO
         when (throwable) {
-            is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
-            is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
-            is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
-            else -> context.toast(R.string.popup_error_message)
+            is CannotReadException -> context.toast(localization.R.string.edit_song_cannot_read)
+            is ReadOnlyFileException -> context.toast(localization.R.string.edit_song_read_only)
+            is FileNotFoundException -> context.toast(localization.R.string.edit_song_file_not_found)
+            else -> context.toast(localization.R.string.popup_error_message)
         }
     }
 

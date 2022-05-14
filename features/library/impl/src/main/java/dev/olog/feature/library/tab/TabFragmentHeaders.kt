@@ -14,13 +14,13 @@ class TabFragmentHeaders @Inject constructor(
     val allPlaylistHeader = DisplayableHeader(
         R.layout.item_tab_header,
         MediaId.headerId("all playlist"),
-        resources.getString(R.string.tab_all_playlists)
+        resources.getString(localization.R.string.tab_all_playlists)
     )
 
     val autoPlaylistHeader = DisplayableHeader(
         R.layout.item_tab_header,
         MediaId.headerId("auto playlist"),
-        resources.getString(R.string.tab_auto_playlists)
+        resources.getString(localization.R.string.tab_auto_playlists)
     )
 
     val shuffleHeader = DisplayableHeader(
@@ -32,7 +32,7 @@ class TabFragmentHeaders @Inject constructor(
         DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("all albums"),
-            resources.getString(R.string.tab_all_albums)
+            resources.getString(localization.R.string.tab_all_albums)
         )
     )
 
@@ -40,7 +40,7 @@ class TabFragmentHeaders @Inject constructor(
         DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("all artists"),
-            resources.getString(R.string.tab_all_artists)
+            resources.getString(localization.R.string.tab_all_artists)
         )
     )
 
@@ -48,7 +48,7 @@ class TabFragmentHeaders @Inject constructor(
         DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("recent albums"),
-            resources.getString(R.string.tab_recent_played)
+            resources.getString(localization.R.string.tab_recent_played)
         ),
         DisplayableNestedListPlaceholder(
             R.layout.item_tab_last_played_album_horizontal_list,
@@ -60,7 +60,7 @@ class TabFragmentHeaders @Inject constructor(
         DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("recent artists"),
-            resources.getString(R.string.tab_recent_played)
+            resources.getString(localization.R.string.tab_recent_played)
         ),
         DisplayableNestedListPlaceholder(
             R.layout.item_tab_last_played_artist_horizontal_list,
@@ -71,7 +71,7 @@ class TabFragmentHeaders @Inject constructor(
     val recentlyAddedAlbumsHeaders = listOf(
         DisplayableHeader(
             R.layout.item_tab_header, MediaId.headerId("new albums"),
-            resources.getStringArray(R.array.tab_new_items)[0]
+            resources.getStringArray(localization.R.array.tab_new_items)[0]
         ),
         DisplayableNestedListPlaceholder(
             R.layout.item_tab_new_album_horizontal_list,
@@ -82,7 +82,7 @@ class TabFragmentHeaders @Inject constructor(
     val recentlyAddedArtistsHeaders = listOf(
         DisplayableHeader(
             R.layout.item_tab_header, MediaId.headerId("new artists"),
-            resources.getStringArray(R.array.tab_new_items)[1]
+            resources.getStringArray(localization.R.array.tab_new_items)[1]
         ),
         DisplayableNestedListPlaceholder(
             R.layout.item_tab_new_artist_horizontal_list,

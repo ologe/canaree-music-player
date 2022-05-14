@@ -6,11 +6,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.edit.R
 import dev.olog.feature.edit.BaseEditItemFragment
 import dev.olog.feature.edit.EditItemViewModel
-import dev.olog.feature.edit.UpdateSongInfo
+import dev.olog.feature.edit.R
 import dev.olog.feature.edit.UpdateResult
+import dev.olog.feature.edit.UpdateSongInfo
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -79,9 +79,9 @@ class EditTrackFragment : BaseEditItemFragment() {
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {
             if (viewModel.fetchSongInfo(mediaId)) {
-                showLoader(R.string.edit_song_fetching_info)
+                showLoader(localization.R.string.edit_song_fetching_info)
             } else {
-                toast(R.string.common_no_internet)
+                toast(localization.R.string.common_no_internet)
             }
         }
     }
@@ -111,10 +111,10 @@ class EditTrackFragment : BaseEditItemFragment() {
 
         when (result) {
             UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> toast(R.string.edit_song_invalid_title)
-            UpdateResult.ILLEGAL_DISC_NUMBER -> toast(R.string.edit_song_invalid_disc_number)
-            UpdateResult.ILLEGAL_TRACK_NUMBER -> toast(R.string.edit_song_invalid_track_number)
-            UpdateResult.ILLEGAL_YEAR -> toast(R.string.edit_song_invalid_year)
+            UpdateResult.EMPTY_TITLE -> toast(localization.R.string.edit_song_invalid_title)
+            UpdateResult.ILLEGAL_DISC_NUMBER -> toast(localization.R.string.edit_song_invalid_disc_number)
+            UpdateResult.ILLEGAL_TRACK_NUMBER -> toast(localization.R.string.edit_song_invalid_track_number)
+            UpdateResult.ILLEGAL_YEAR -> toast(localization.R.string.edit_song_invalid_year)
         }
     }
 

@@ -8,7 +8,6 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.platform.PlayStoreUtils
-import dev.olog.feature.main.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -37,14 +36,14 @@ class RateAppDialog @Inject constructor(
 
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
         MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.rate_app_title)
-            .setMessage(R.string.rate_app_message)
-            .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->
+            .setTitle(localization.R.string.rate_app_title)
+            .setMessage(localization.R.string.rate_app_message)
+            .setPositiveButton(localization.R.string.rate_app_positive_button) { _, _ ->
                 setNeverShowAgain()
                 PlayStoreUtils.open(activity)
             }
-            .setNegativeButton(R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
-            .setNeutralButton(R.string.rate_app_neutral_button) { _, _ -> }
+            .setNegativeButton(localization.R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
+            .setNeutralButton(localization.R.string.rate_app_neutral_button) { _, _ -> }
             .setCancelable(false)
             .show()
     }

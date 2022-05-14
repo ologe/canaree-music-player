@@ -7,7 +7,6 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.data.R
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -68,43 +67,45 @@ class AppPreferencesImpl @Inject constructor(
 
     private fun setDefaultAdaptiveColors() {
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
+            putBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_adaptive_colors_key), false)
         }
     }
 
     private fun setDefaultImmersive() {
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_immersive_key), false)
+            putBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_immersive_key), false)
         }
     }
 
     override fun canAutoCreateImages(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
+        return preferences.getBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_auto_create_images_key), true)
     }
 
     private fun setDefaultFolderView() {
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
+            putBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_folder_tree_view_key), false)
         }
     }
 
     private fun hideQuickAction() {
         preferences.edit {
-            putString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
+            putString(context.getString(dev.olog.feature.settings.api.R.string.prefs_quick_action_key), context.getString(
+                dev.olog.feature.settings.api.R.string.prefs_quick_action_entry_value_hide))
         }
     }
 
     private fun setDefaultIconShape() {
         preferences.edit {
-            putString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
+            putString(context.getString(dev.olog.feature.settings.api.R.string.prefs_icon_shape_key), context.getString(
+                dev.olog.feature.settings.api.R.string.prefs_icon_shape_rounded))
         }
     }
 
     private fun setDefaultPlayerAppearance() {
         preferences.edit {
             putString(
-                context.getString(R.string.prefs_appearance_key),
-                context.getString(R.string.prefs_appearance_entry_value_default)
+                context.getString(dev.olog.feature.settings.api.R.string.prefs_appearance_key),
+                context.getString(dev.olog.feature.settings.api.R.string.prefs_appearance_entry_value_default)
             )
         }
     }

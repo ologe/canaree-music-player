@@ -13,9 +13,9 @@ object PlayerTutorial {
     fun lyrics(view: View){
         val context = view.context
 
-        val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
+        val target = TapTarget.forView(view, context.getString(localization.R.string.tutorial_lyrics))
             .tint(context)
-            .icon(ContextCompat.getDrawable(context, R.drawable.vd_offline_lyrics))
+            .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_offline_lyrics))
 
         TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }

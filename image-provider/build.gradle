@@ -12,6 +12,9 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
 
+    // todo fix
+    implementation project(':features:settings:api')
+
     implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_core.hilt

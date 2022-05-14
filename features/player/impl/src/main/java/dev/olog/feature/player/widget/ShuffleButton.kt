@@ -8,7 +8,6 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.feature.media.api.model.PlayerShuffleMode
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.feature.player.R
 import dev.olog.shared.extension.getAnimatedVectorDrawable
 import dev.olog.shared.extension.isDarkMode
 import dev.olog.shared.extension.lazyFast
@@ -28,7 +27,7 @@ class ShuffleButton(
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
-        setImageResource(R.drawable.vd_shuffle)
+        setImageResource(dev.olog.ui.R.drawable.vd_shuffle)
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
@@ -66,11 +65,11 @@ class ShuffleButton(
     }
 
     private fun animateAvd(@ColorInt endColor: Int) {
-        val hideDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_hide)
+        val hideDrawable = context.getAnimatedVectorDrawable(dev.olog.ui.R.drawable.shuffle_hide)
         setImageDrawable(hideDrawable)
         hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
             override fun onAnimationEnd(drawable: Drawable?) {
-                val showDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_show)
+                val showDrawable = context.getAnimatedVectorDrawable(dev.olog.ui.R.drawable.shuffle_show)
                 setColorFilter(endColor)
                 setImageDrawable(showDrawable)
                 showDrawable.start()

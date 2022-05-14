@@ -4,7 +4,6 @@ import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import dev.olog.feature.media.api.interactor.SleepTimerUseCase
 import dev.olog.feature.shortcuts.api.AppShortcuts
-import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -33,7 +32,7 @@ class App : ThemedApp() {
     }
 
     private fun initializeConstants() {
-        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+        PreferenceManager.setDefaultValues(this, dev.olog.feature.settings.R.xml.prefs, false)
     }
 
     private fun resetSleepTimer() {

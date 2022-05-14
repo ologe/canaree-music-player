@@ -3,5 +3,6 @@
 
     <item name="cover" type="id"/>
     <item name="fragmentContainer" type="id"/>
+    <item name="content" type="id"/>
 
 </resources>

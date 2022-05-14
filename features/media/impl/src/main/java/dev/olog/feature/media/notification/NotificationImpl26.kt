@@ -8,7 +8,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import dev.olog.feature.main.api.FeatureMainNavigator
-import dev.olog.feature.media.R
 import dev.olog.feature.media.interfaces.INotification
 import javax.inject.Inject
 
@@ -31,8 +30,8 @@ internal class NotificationImpl26 @Inject constructor(
 
     private fun createChannel(){
         // create notification channel
-        val name = service.getString(R.string.music_channel_id_notification)
-        val description = service.getString(R.string.music_channel_id_notification_description)
+        val name = service.getString(localization.R.string.music_channel_id_notification)
+        val description = service.getString(localization.R.string.music_channel_id_notification_description)
 
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(INotification.CHANNEL_ID, name, importance)

@@ -109,12 +109,12 @@ class TouchHelperAdapterCallback(
         dY: Float
     ) {
         if (isCurrentlyActive) {
-            var originalElevation: Any? = view.getTag(R.id.item_touch_helper_previous_elevation)
+            var originalElevation: Any? = view.getTag(androidx.recyclerview.R.id.item_touch_helper_previous_elevation)
             if (originalElevation == null) {
                 originalElevation = ViewCompat.getElevation(view)
                 val newElevation = 5f + findMaxElevation(recyclerView, view)
                 ViewCompat.setElevation(view, newElevation)
-                view.setTag(R.id.item_touch_helper_previous_elevation, originalElevation)
+                view.setTag(androidx.recyclerview.R.id.item_touch_helper_previous_elevation, originalElevation)
             }
         }
         view.translationY = dY

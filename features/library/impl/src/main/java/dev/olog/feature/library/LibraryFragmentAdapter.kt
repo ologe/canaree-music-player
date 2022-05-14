@@ -36,7 +36,7 @@ class LibraryFragmentAdapter(
 
     fun showFolderAsHierarchy(): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        return prefs.getBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
+        return prefs.getBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_folder_tree_view_key), false)
     }
 
     override fun getCount(): Int = categories.size

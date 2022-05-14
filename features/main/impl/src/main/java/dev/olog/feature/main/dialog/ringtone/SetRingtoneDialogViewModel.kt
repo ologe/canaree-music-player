@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.feature.main.R
 import dev.olog.shared.isMarshmallow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,10 +37,10 @@ class SetRingtoneDialogViewModel @Inject constructor(
     private suspend fun requestWritingSettingsPermission(activity: FragmentActivity) =
         withContext(Dispatchers.Main) {
             MaterialAlertDialogBuilder(activity)
-                .setTitle(R.string.popup_permission)
-                .setMessage(R.string.popup_request_permission_write_settings)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                .setTitle(localization.R.string.popup_permission)
+                .setMessage(localization.R.string.popup_request_permission_write_settings)
+                .setNegativeButton(localization.R.string.popup_negative_cancel, null)
+                .setPositiveButton(localization.R.string.popup_positive_ok) { _, _ ->
                     val packageName = activity.packageName
                     val intent = Intent(
                         Settings.ACTION_MANAGE_WRITE_SETTINGS,

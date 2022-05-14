@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.main.R
 import dev.olog.platform.fragment.BaseDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
@@ -39,10 +38,10 @@ class AddFavoriteDialog : BaseDialog() {
     private val viewModel by viewModels<AddFavoriteDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_add_to_favorites)
+        return builder.setTitle(localization.R.string.popup_add_to_favorites)
             .setMessage(createMessage().parseAsHtml())
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -62,21 +61,21 @@ class AddFavoriteDialog : BaseDialog() {
 
     private fun successMessage(context: Context): String {
         if (mediaId.isLeaf){
-            return context.getString(R.string.song_x_added_to_favorites, title)
+            return context.getString(localization.R.string.song_x_added_to_favorites, title)
         }
-        return context.resources.getQuantityString(R.plurals.xx_songs_added_to_favorites, listSize, listSize)
+        return context.resources.getQuantityString(localization.R.plurals.xx_songs_added_to_favorites, listSize, listSize)
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
         return if (mediaId.isLeaf) {
-            getString(R.string.add_song_x_to_favorite, title)
+            getString(localization.R.string.add_song_x_to_favorite, title)
         } else {
             context!!.resources.getQuantityString(
-                    R.plurals.add_xx_songs_to_favorite, listSize, listSize)
+                    localization.R.plurals.add_xx_songs_to_favorite, listSize, listSize)
         }
     }
 

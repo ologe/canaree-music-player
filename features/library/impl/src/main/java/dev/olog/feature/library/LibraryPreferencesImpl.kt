@@ -219,19 +219,19 @@ class LibraryPreferencesImpl @Inject constructor(
     }
 
     override fun canShowPodcasts(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
+        return preferences.getBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_show_podcasts_key), true)
     }
 
     override fun observeLibraryNewVisibility(): Flow<Boolean> {
         return preferences.observeKey(
-            context.getString(R.string.prefs_show_new_albums_artists_key),
+            context.getString(dev.olog.feature.settings.api.R.string.prefs_show_new_albums_artists_key),
             true
         )
     }
 
     override fun observeLibraryRecentPlayedVisibility(): Flow<Boolean> {
         return preferences.observeKey(
-            (context.getString(R.string.prefs_show_recent_albums_artists_key)),
+            (context.getString(dev.olog.feature.settings.api.R.string.prefs_show_recent_albums_artists_key)),
             true
         )
     }

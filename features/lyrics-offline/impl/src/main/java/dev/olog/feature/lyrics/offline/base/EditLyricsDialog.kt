@@ -13,10 +13,10 @@ import dev.olog.platform.extension.enableForService
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit) {
-        val themeWrapper = ContextThemeWrapper(context, R.style.AppTheme)
+        val themeWrapper = ContextThemeWrapper(context, dev.olog.ui.R.style.AppTheme)
         val builder = MaterialAlertDialogBuilder(themeWrapper)
-            .setTitle(R.string.offline_lyrics_edit_title)
-            .setView(R.layout.layout_edit_text)
+            .setTitle(localization.R.string.offline_lyrics_edit_title)
+            .setView(dev.olog.platform.R.layout.layout_edit_text)
             .setPositiveButton("OK", null)
             .setNegativeButton("Back", null)
 
@@ -26,10 +26,10 @@ object EditLyricsDialog {
         }
         dialog.show()
 
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
+        val editText = dialog.findViewById<TextInputEditText>(dev.olog.ui.R.id.editText)!!
         val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.wrapper)!!
-        editTextLayout.hint = context.getString(R.string.offline_lyrics_edit_hint)
-        if (currentText != context.getString(R.string.offline_lyrics_empty)) {
+        editTextLayout.hint = context.getString(localization.R.string.offline_lyrics_edit_hint)
+        if (currentText != context.getString(localization.R.string.offline_lyrics_empty)) {
             editText.setText(currentText)
         }
 

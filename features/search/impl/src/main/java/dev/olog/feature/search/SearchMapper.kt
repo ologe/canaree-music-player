@@ -3,23 +3,28 @@ package dev.olog.feature.search
 import android.content.Context
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
 
 internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {
-        RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
-        RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
-        RecentSearchesTypes.ARTIST -> context.getString(R.string.search_type_artist)
-        RecentSearchesTypes.PLAYLIST -> context.getString(R.string.search_type_playlist)
-        RecentSearchesTypes.GENRE -> context.getString(R.string.search_type_genre)
-        RecentSearchesTypes.FOLDER -> context.getString(R.string.search_type_folder)
-        RecentSearchesTypes.PODCAST -> context.getString(R.string.search_type_podcast)
-        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(R.string.search_type_podcast_playlist)
-        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(R.string.search_type_podcast_album)
-        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(R.string.search_type_podcast_artist)
+        RecentSearchesTypes.SONG -> context.getString(localization.R.string.search_type_track)
+        RecentSearchesTypes.ALBUM -> context.getString(localization.R.string.search_type_album)
+        RecentSearchesTypes.ARTIST -> context.getString(localization.R.string.search_type_artist)
+        RecentSearchesTypes.PLAYLIST -> context.getString(localization.R.string.search_type_playlist)
+        RecentSearchesTypes.GENRE -> context.getString(localization.R.string.search_type_genre)
+        RecentSearchesTypes.FOLDER -> context.getString(localization.R.string.search_type_folder)
+        RecentSearchesTypes.PODCAST -> context.getString(localization.R.string.search_type_podcast)
+        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(localization.R.string.search_type_podcast_playlist)
+        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(localization.R.string.search_type_podcast_album)
+        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(localization.R.string.search_type_podcast_artist)
         else -> throw IllegalArgumentException("invalid item type $itemType")
     }
 

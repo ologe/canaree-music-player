@@ -13,6 +13,7 @@ dependencies {
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
+    implementation project(':common:localization')
 
     implementation project(':image-provider')
 

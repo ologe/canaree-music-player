@@ -11,11 +11,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.lyrics.offline.api.Lyrics
 import dev.olog.feature.lyrics.offline.LyricsOfflineTutorial
+import dev.olog.feature.lyrics.offline.R
+import dev.olog.feature.lyrics.offline.api.Lyrics
 import dev.olog.feature.lyrics.offline.api.NoScrollTouchListener
 import dev.olog.feature.lyrics.offline.api.OffsetCalculator
-import dev.olog.feature.lyrics.offline.R
 import dev.olog.feature.lyrics.offline.base.EditLyricsDialog
 import dev.olog.feature.lyrics.offline.base.OfflineLyricsSyncAdjustementDialog
 import dev.olog.feature.media.api.MediaProvider
@@ -72,7 +72,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             if (requireActivity().packageManager.isIntentSafe(intent)) {
                 requireActivity().startActivity(intent)
             } else {
-                requireActivity().toast(R.string.common_browser_not_found)
+                requireActivity().toast(localization.R.string.common_browser_not_found)
             }
         }
     }

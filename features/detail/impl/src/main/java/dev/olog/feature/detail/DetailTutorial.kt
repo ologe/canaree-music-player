@@ -13,12 +13,12 @@ object DetailTutorial {
     fun sortBy(text: View, arrow: View){
         val context = text.context
 
-        val textTarget = TapTarget.forView(text, context.getString(R.string.tutorial_sort_by_text))
+        val textTarget = TapTarget.forView(text, context.getString(localization.R.string.tutorial_sort_by_text))
             .transparentTarget(true)
             .tint(context)
 
-        val arrowTarget = TapTarget.forView(arrow, context.getString(R.string.tutorial_sort_by_arrow))
-            .icon(ContextCompat.getDrawable(context, R.drawable.vd_arrow_down))
+        val arrowTarget = TapTarget.forView(arrow, context.getString(localization.R.string.tutorial_sort_by_arrow))
+            .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_arrow_down))
             .tint(context)
 
         TapTargetSequence(text.context.findInContext<Activity>())

@@ -6,9 +6,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.edit.R
 import dev.olog.feature.edit.BaseEditItemFragment
 import dev.olog.feature.edit.EditItemViewModel
+import dev.olog.feature.edit.R
 import dev.olog.feature.edit.UpdateAlbumInfo
 import dev.olog.feature.edit.UpdateResult
 import dev.olog.shared.extension.afterTextChange
@@ -60,7 +60,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
             year.setText(it.year)
             genre.setText(it.genre)
             val text = resources.getQuantityString(
-                R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
+                localization.R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
             albumsUpdated.text =  text
             podcast.isChecked = it.isPodcast
         }
@@ -95,8 +95,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
         when (result){
             UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> toast(R.string.edit_song_invalid_title)
-            UpdateResult.ILLEGAL_YEAR -> toast(R.string.edit_song_invalid_year)
+            UpdateResult.EMPTY_TITLE -> toast(localization.R.string.edit_song_invalid_title)
+            UpdateResult.ILLEGAL_YEAR -> toast(localization.R.string.edit_song_invalid_year)
             UpdateResult.ILLEGAL_DISC_NUMBER,
             UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
         }

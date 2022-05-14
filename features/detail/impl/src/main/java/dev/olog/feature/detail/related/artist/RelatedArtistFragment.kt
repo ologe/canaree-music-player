@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.feature.detail.FeatureDetailNavigator
-import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.platform.fragment.BaseFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
@@ -59,7 +59,7 @@ class RelatedArtistFragment : BaseFragment() {
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->
-                val headersArray = resources.getStringArray(R.array.related_artists_header)
+                val headersArray = resources.getStringArray(localization.R.array.related_artists_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
                 this.header.text = header
             }

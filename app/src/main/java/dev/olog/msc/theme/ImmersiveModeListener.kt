@@ -5,15 +5,14 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
-import dev.olog.msc.R
-import dev.olog.ui.StatusBarView
 import dev.olog.shared.mutableLazy
+import dev.olog.ui.StatusBarView
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(
     @ApplicationContext context: Context,
     prefs: SharedPreferences
-) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(R.string.prefs_immersive_key)),
+) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(dev.olog.feature.settings.api.R.string.prefs_immersive_key)),
     ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
     var isImmersive by mutableLazy { getValue() }

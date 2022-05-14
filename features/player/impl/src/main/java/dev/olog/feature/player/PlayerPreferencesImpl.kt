@@ -14,11 +14,11 @@ class PlayerPreferencesImpl @Inject constructor(
 ) : PlayerPreferences {
 
     override fun observePlayerControlsVisibility(): Flow<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
+        return preferences.observeKey(context.getString(dev.olog.feature.settings.api.R.string.prefs_player_controls_visibility_key), false)
     }
 
     override fun isAdaptiveColorEnabled(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
+        return preferences.getBoolean(context.getString(dev.olog.feature.settings.api.R.string.prefs_adaptive_colors_key), false)
     }
 
 }

@@ -12,9 +12,9 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.feature.detail.R
+import dev.olog.shared.extension.mapListItem
 import dev.olog.ui.model.DisplayableAlbum
 import dev.olog.ui.model.DisplayableItem
-import dev.olog.shared.extension.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         val songs =
-            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
+            resources.getQuantityString(localization.R.plurals.common_plurals_song, this.songs, this.songs)
 
         return DisplayableAlbum(
             type = R.layout.item_related_artist,

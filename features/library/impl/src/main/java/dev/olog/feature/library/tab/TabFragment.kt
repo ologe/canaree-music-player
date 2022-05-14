@@ -19,11 +19,11 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.library.R
 import dev.olog.feature.library.api.TabCategory
+import dev.olog.feature.library.api.toTabCategory
 import dev.olog.feature.library.tab.adapter.TabFragmentAdapter
 import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.feature.library.tab.manager.AbsSpanSizeLookup
 import dev.olog.feature.library.tab.manager.LayoutManagerFactory
-import dev.olog.feature.library.api.toTabCategory
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
@@ -131,10 +131,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
         emptyStateText.isVisible = isEmpty
         if (isEmpty) {
             if (isPodcastFragment()) {
-                val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
+                val emptyText = resources.getStringArray(localization.R.array.tab_empty_podcast)
                 emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
-                val emptyText = resources.getStringArray(R.array.tab_empty_state)
+                val emptyText = resources.getStringArray(localization.R.array.tab_empty_state)
                 emptyStateText.text = emptyText[category.ordinal]
             }
         }
@@ -154,7 +154,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         list.setHasFixedSize(true)
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
-            list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
+            list.updatePadding(right = requireContext().dimen(dev.olog.ui.R.dimen.playing_queue_margin_horizontal))
         }
 
         val scrollableLayoutId = when (category) {

@@ -128,9 +128,9 @@ class MainActivity : MusicGlueActivity(),
                 this, ScrollType.Full(
                     slidingPanel = slidingPanel,
                     bottomNavigation = bottomWrapper,
-                    toolbarHeight = dimen(R.dimen.toolbar),
-                    tabLayoutHeight = dimen(R.dimen.tab),
-                    realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
+                    toolbarHeight = dimen(dev.olog.ui.R.dimen.toolbar),
+                    tabLayoutHeight = dimen(dev.olog.ui.R.dimen.tab),
+                    realSlidingPanelPeek = dimen(dev.olog.ui.R.dimen.sliding_panel_peek)
                 )
             )
             lifecycle.addObserver(scrollHelper)

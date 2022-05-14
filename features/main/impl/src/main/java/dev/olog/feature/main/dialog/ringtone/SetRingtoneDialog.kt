@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.main.R
 import dev.olog.platform.fragment.BaseDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
@@ -39,10 +38,10 @@ class SetRingtoneDialog : BaseDialog() {
     private val viewModel by viewModels<SetRingtoneDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder.setTitle(R.string.popup_set_as_ringtone)
+        return builder.setTitle(localization.R.string.popup_set_as_ringtone)
             .setMessage(createMessage().parseAsHtml())
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(localization.R.string.popup_positive_ok, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun positionButtonAction(context: Context) {
@@ -63,16 +62,16 @@ class SetRingtoneDialog : BaseDialog() {
 
     private fun successMessage(context: Context): String {
         val title = generateItemDescription()
-        return context.getString(R.string.song_x_set_as_ringtone, title)
+        return context.getString(localization.R.string.song_x_set_as_ringtone, title)
     }
 
     private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+        return context.getString(localization.R.string.popup_error_message)
     }
 
     private fun createMessage() : String{
         val title = generateItemDescription()
-        return context!!.getString(R.string.song_x_will_be_set_as_ringtone, title)
+        return context!!.getString(localization.R.string.song_x_will_be_set_as_ringtone, title)
     }
 
     private fun generateItemDescription(): String{

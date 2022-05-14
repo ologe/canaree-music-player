@@ -60,7 +60,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .collectOnViewLifecycle(this) { progressBar.onStateChanged(it) }
 
         viewModel.observePodcastProgress(progressBar.observeProgress())
-            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+            .map { resources.getQuantityString(localization.R.plurals.mini_player_time_left, it.toInt(), it) }
             .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
             .collectOnViewLifecycle(this) {
                 artist.text = it

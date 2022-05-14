@@ -7,7 +7,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.feature.playlist.R
 import dev.olog.platform.fragment.BaseEditTextDialog
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.toast
@@ -37,9 +36,9 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
-            .setTitle(R.string.popup_rename)
-            .setPositiveButton(R.string.popup_positive_rename, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setTitle(localization.R.string.popup_rename)
+            .setPositiveButton(localization.R.string.popup_positive_rename, null)
+            .setNegativeButton(localization.R.string.popup_negative_cancel, null)
     }
 
     override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
@@ -48,7 +47,7 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun provideMessageForBlank(): String {
         return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> getString(R.string.popup_playlist_name_not_valid)
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> getString(localization.R.string.popup_playlist_name_not_valid)
             else -> throw IllegalArgumentException("invalid media id category $mediaId")
         }
     }
@@ -60,14 +59,14 @@ class RenameDialog : BaseEditTextDialog() {
             message = successMessage(requireContext(), string)
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            message = getString(R.string.popup_error_message)
+            message = getString(localization.R.string.popup_error_message)
         }
         toast(message)
     }
 
     private fun successMessage(context: Context, currentValue: String): String {
         return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(localization.R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
             else -> throw IllegalStateException("not a playlist, $mediaId")
         }
     }

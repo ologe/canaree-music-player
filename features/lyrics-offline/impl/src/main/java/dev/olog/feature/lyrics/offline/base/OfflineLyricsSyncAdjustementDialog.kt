@@ -8,18 +8,17 @@ import androidx.core.text.isDigitsOnly
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.shared.extension.toast
-import dev.olog.feature.lyrics.offline.R
 import dev.olog.platform.extension.enableForService
+import dev.olog.shared.extension.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 
     @JvmStatic
     fun show(ctx: Context, currentValue: String, positiveAction: (Long) -> Unit) {
-        val themeWrapper = ContextThemeWrapper(ctx, R.style.AppTheme)
+        val themeWrapper = ContextThemeWrapper(ctx, dev.olog.ui.R.style.AppTheme)
         val builder = MaterialAlertDialogBuilder(themeWrapper)
-            .setTitle(R.string.offline_lyrics_adjust_sync)
-            .setView(R.layout.layout_edit_text_simple)
+            .setTitle(localization.R.string.offline_lyrics_adjust_sync)
+            .setView(dev.olog.ui.R.layout.layout_edit_text_simple)
             .setPositiveButton("OK", null)
             .setNegativeButton("Back", null)
 
@@ -31,10 +30,10 @@ object OfflineLyricsSyncAdjustementDialog {
         }
         dialog.show()
 
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
+        val editText = dialog.findViewById<TextInputEditText>(dev.olog.ui.R.id.editText)!!
         editText.setText(currentValue)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
-        editTextLayout.hint = ctx.getString(R.string.offline_lyrics_adjust_sync_hint)
+        val editTextLayout = dialog.findViewById<TextInputLayout>(dev.olog.ui.R.id.editTextLayout)!!
+        editTextLayout.hint = ctx.getString(localization.R.string.offline_lyrics_adjust_sync_hint)
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val text = editText.text.toString()
@@ -42,7 +41,7 @@ object OfflineLyricsSyncAdjustementDialog {
                 positiveAction(text.toLong())
                 dialog.dismiss()
             } else {
-                ctx.toast(ctx.getString(R.string.offline_lyrics_adjust_sync_error))
+                ctx.toast(ctx.getString(localization.R.string.offline_lyrics_adjust_sync_error))
             }
         }
     }
