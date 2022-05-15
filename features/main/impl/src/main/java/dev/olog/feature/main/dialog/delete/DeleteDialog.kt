@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.platform.fragment.BaseDialog
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
@@ -19,12 +20,11 @@ import dev.olog.shared.isQ
 class DeleteDialog: BaseDialog() {
 
     companion object {
-        const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+        val TAG = FragmentTagFactory.create(DeleteDialog::class)
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
+        val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): DeleteDialog {
             return DeleteDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,

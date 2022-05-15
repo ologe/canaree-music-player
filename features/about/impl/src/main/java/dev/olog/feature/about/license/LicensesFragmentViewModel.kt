@@ -236,7 +236,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun apache(): String {
         return cachedLicenses.getOrPut("apache") {
             context.assets
-                .open("licenses/apache.txt")
+                .open("apache.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -245,7 +245,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun mit(): String {
         return cachedLicenses.getOrPut("mit") {
             context.assets
-                .open("licenses/mit.txt")
+                .open("mit.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -254,7 +254,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun gnu(): String {
         return cachedLicenses.getOrPut("gnu") {
             context.assets
-                .open("licenses/gnu.txt")
+                .open("gnu.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -263,7 +263,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun jAudioTagger(): String {
         return cachedLicenses.getOrPut("jaudiotagger") {
             context.assets
-                .open("licenses/jaudiotagger.txt")
+                .open("jaudiotagger.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -273,7 +273,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun glide(): String {
         return cachedLicenses.getOrPut("glide") {
             context.assets
-                .open("licenses/glide.txt")
+                .open("glide.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -282,7 +282,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun lastFmBinding(): String {
         return cachedLicenses.getOrPut("lastfm") {
             context.assets
-                .open("licenses/lastfm.txt")
+                .open("lastfm.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }

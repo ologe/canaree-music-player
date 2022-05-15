@@ -22,6 +22,7 @@ import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.feature.player.R
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
@@ -39,6 +40,10 @@ import kotlin.math.abs
 @Keep
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+
+    companion object {
+        val TAG = FragmentTagFactory.create(PlayerFragment::class)
+    }
 
     private val viewModel by viewModels<PlayerFragmentViewModel>()
     @Inject

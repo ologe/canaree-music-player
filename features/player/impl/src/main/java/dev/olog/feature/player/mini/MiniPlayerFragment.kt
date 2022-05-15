@@ -12,6 +12,7 @@ import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.feature.player.R
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
@@ -28,8 +29,8 @@ import kotlinx.coroutines.flow.map
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
-        private const val TAG = "MiniPlayerFragment"
-        private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
+        val TAG = FragmentTagFactory.create(MiniPlayerFragment::class)
+        private val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
     private val viewModel by viewModels<MiniPlayerFragmentViewModel>()

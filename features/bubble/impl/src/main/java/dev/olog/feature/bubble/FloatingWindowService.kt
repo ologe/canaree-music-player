@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.bubble.api.FloatingWindowsConstants
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.HoverView
 import dev.olog.feature.bubble.api.window.HoverMenuService
@@ -18,13 +19,8 @@ class FloatingWindowService : HoverMenuService() {
     @Inject
     lateinit var notification: FloatingWindowNotification
 
-    companion object {
-        const val TAG = "FloatingWindowService"
-        const val ACTION_STOP = "$TAG.ACTION_STOP"
-    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_STOP){
+        if (intent?.action == FloatingWindowsConstants.ACTION_STOP){
             stopSelf()
             return Service.START_NOT_STICKY
         }

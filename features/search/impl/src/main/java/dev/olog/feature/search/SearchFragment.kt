@@ -21,6 +21,7 @@ import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -42,10 +43,8 @@ class SearchFragment : BaseFragment(),
     IDragListener by DragListenerImpl() {
 
     companion object {
-        @JvmStatic
-        val TAG = SearchFragment::class.java.name
+        val TAG = FragmentTagFactory.create(SearchFragment::class)
 
-        @JvmStatic
         fun newInstance(): SearchFragment {
             return SearchFragment()
         }

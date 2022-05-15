@@ -1,10 +1,7 @@
 package dev.olog.feature.about
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.about.databinding.ItemAboutBinding
 import dev.olog.platform.adapter.IdentityDiffCallback
 import dev.olog.shared.extension.exhaustive
 
@@ -20,12 +17,17 @@ class AboutFragmentAdapter(
     private val onChangelogClick: () -> Unit,
     private val onGithubClick: () -> Unit,
     private val onTranslationsClick: () -> Unit,
-) : ListAdapter<AboutItem, AboutFragmentAdapter.ViewHolder>(IdentityDiffCallback()) {
+) : ListAdapter<AboutItem, AboutItemViewHolder>(IdentityDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val vh = ViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutItemViewHolder {
+        val vh : AboutItemViewHolder = when (viewType) {
+            R.layout.item_about -> AboutItemViewDefaultViewHolder(parent)
+            R.layout.item_about_promotion -> AboutItemViewPromotionViewHolder(parent)
+            else -> error("invalid viewType $viewType")
+        }
+
         vh.itemView.setOnClickListener {
-            val item = getItem(vh.adapterPosition)
+            val item = getItem(vh.bindingAdapterPosition)
             when (item.type) {
                 AboutItem.Type.Havoc -> onHavocClick()
                 AboutItem.Type.Licence -> onThirdPartyClick()
@@ -44,23 +46,18 @@ class AboutFragmentAdapter(
         return vh
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        if (item.type == AboutItem.Type.Havoc) {
+            return R.layout.item_about_promotion
+        }
+        return R.layout.item_about
+    }
+
+    override fun onBindViewHolder(holder: AboutItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
 
-    class ViewHolder(
-        viewGroup: ViewGroup,
-        private val binding: ItemAboutBinding = ItemAboutBinding.inflate(
-            LayoutInflater.from(viewGroup.context), viewGroup, false
-        )
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: AboutItem) = with(binding) {
-            title.text = item.title
-            subtitle.text = item.subtitle
-        }
-
-    }
 
 }

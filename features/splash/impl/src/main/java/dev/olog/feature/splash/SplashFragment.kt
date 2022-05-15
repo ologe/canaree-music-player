@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.platform.permission.OnPermissionChanged
 import dev.olog.platform.permission.Permission
 import dev.olog.platform.permission.Permissions
@@ -19,8 +20,7 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 class SplashFragment : Fragment() {
 
     companion object {
-        @JvmStatic
-        val TAG = SplashFragment::class.java.name
+        val TAG = FragmentTagFactory.create(SplashFragment::class)
     }
 
     private val adapter by lazyFast {

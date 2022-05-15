@@ -8,15 +8,11 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.ui.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.platform.fragment.BaseBottomSheetFragment
+import dev.olog.ui.CoverUtils
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
-
-    companion object {
-        private val TAG = "P:${BaseEditItemFragment::class.java.simpleName}"
-    }
 
     private var progressDialog: ProgressDialog? = null
 

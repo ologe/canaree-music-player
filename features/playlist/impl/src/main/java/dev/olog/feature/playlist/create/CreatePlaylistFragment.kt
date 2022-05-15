@@ -12,6 +12,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.feature.playlist.R
 import dev.olog.platform.DrawsOnTop
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.extension.afterTextChange
@@ -33,10 +34,9 @@ import kotlinx.coroutines.flow.filter
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
-        val TAG = CreatePlaylistFragment::class.java.name
+        val TAG = FragmentTagFactory.create(CreatePlaylistFragment::class)
         val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
 
-        @JvmStatic
         fun newInstance(type: PlaylistType): CreatePlaylistFragment {
             return CreatePlaylistFragment().withArguments(
                 ARGUMENT_PLAYLIST_TYPE to type

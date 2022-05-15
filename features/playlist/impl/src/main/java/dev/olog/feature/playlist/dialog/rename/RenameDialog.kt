@@ -8,6 +8,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.platform.fragment.BaseEditTextDialog
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.toast
 import dev.olog.shared.extension.withArguments
@@ -16,11 +17,10 @@ import dev.olog.shared.extension.withArguments
 class RenameDialog : BaseEditTextDialog() {
 
     companion object {
-        const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+        val TAG = FragmentTagFactory.create(RenameDialog::class)
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,

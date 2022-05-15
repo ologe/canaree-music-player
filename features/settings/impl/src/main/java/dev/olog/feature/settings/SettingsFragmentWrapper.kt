@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
 
 // TODO still needed?
 class SettingsFragmentWrapper : Fragment() {
 
     companion object {
-        val TAG = SettingsFragmentWrapper::class.java.name
+        val TAG = FragmentTagFactory.create(SettingsFragmentWrapper::class)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

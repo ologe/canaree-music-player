@@ -16,6 +16,7 @@ import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dip
@@ -34,9 +35,8 @@ import javax.inject.Inject
 class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
-        val TAG = PlayingQueueFragment::class.java.name
+        val TAG = FragmentTagFactory.create(PlayingQueueFragment::class)
 
-        @JvmStatic
         fun newInstance(): PlayingQueueFragment {
             return PlayingQueueFragment()
         }

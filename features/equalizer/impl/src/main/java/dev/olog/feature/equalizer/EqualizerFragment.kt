@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.equalizer.widget.BoxedVertical
 import dev.olog.feature.equalizer.widget.croller.Croller
 import dev.olog.platform.fragment.BaseBottomSheetFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.subscribe
 import dev.olog.ui.dialog.TextViewDialog
@@ -24,10 +25,9 @@ import kotlinx.coroutines.withContext
 internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
-        const val TAG = "EqualizerFragment"
+        val TAG = FragmentTagFactory.create(EqualizerFragment::class)
         const val DEFAULT_BAR_ALPHA = .75f
 
-        @JvmStatic
         fun newInstance(): EqualizerFragment {
             return EqualizerFragment()
         }

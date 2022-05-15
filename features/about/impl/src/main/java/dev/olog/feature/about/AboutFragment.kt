@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.about.api.FeatureAboutNavigator
 import dev.olog.feature.about.databinding.FragmentAboutBinding
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.platform.viewBinding
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.lazyFast
@@ -14,6 +16,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AboutFragment : Fragment(R.layout.fragment_about) {
+
+    companion object {
+        val TAG = FragmentTagFactory.create(AboutFragment::class)
+    }
 
     @Inject
     lateinit var navigator: FeatureAboutNavigator
@@ -41,7 +47,9 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
         list.adapter = adapter
         list.setHasFixedSize(true)
 
-        adapter.submitList(viewModel.data)
+        lifecycleScope.launchWhenResumed {
+            adapter.submitList(viewModel.data)
+        }
 
         back.setOnClickListener { requireActivity().onBackPressed() }
     }

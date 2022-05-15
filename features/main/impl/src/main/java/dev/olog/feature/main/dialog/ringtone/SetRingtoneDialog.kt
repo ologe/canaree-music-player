@@ -8,6 +8,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.platform.fragment.BaseDialog
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
@@ -17,12 +18,11 @@ import dev.olog.shared.extension.withArguments
 class SetRingtoneDialog : BaseDialog() {
 
     companion object {
-        const val TAG = "SetRingtoneDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_TITLE = "$TAG.arguments.title"
-        const val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
+        val TAG = FragmentTagFactory.create(SetRingtoneDialog::class)
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        val ARGUMENTS_TITLE = "$TAG.arguments.title"
+        val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,

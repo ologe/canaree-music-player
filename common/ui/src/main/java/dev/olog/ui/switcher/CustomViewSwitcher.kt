@@ -36,11 +36,6 @@ class CustomViewSwitcher(
     attrs: AttributeSet
 ) : MultiViewSwitcher(context, attrs), RequestListener<Drawable> {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "P:${CustomViewSwitcher::class.java.simpleName}"
-    }
-
     @Inject
     lateinit var requestManager: RequestManager
 
@@ -184,7 +179,6 @@ class CustomViewSwitcher(
         isFirstResource: Boolean
     ): Boolean {
         e?.printStackTrace()
-        e?.logRootCauses(TAG)
 
         if (!animationFinished) {
             animationFinished = true

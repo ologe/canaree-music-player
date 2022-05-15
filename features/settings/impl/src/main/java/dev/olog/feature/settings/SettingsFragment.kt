@@ -26,6 +26,7 @@ import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.feature.settings.library.LibraryCategoriesFragment
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.isDarkMode
 import dev.olog.shared.extension.launchWhenResumed
@@ -42,8 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
-        @JvmStatic
-        val TAG = SettingsFragment::class.java.name
+        val TAG = FragmentTagFactory.create(SettingsFragment::class)
     }
 
     @Inject

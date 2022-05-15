@@ -13,6 +13,7 @@ import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
@@ -26,9 +27,7 @@ import javax.inject.Inject
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
-        @JvmStatic
-        val TAG = RecentlyAddedFragment::class.java.name
-        @JvmStatic
+        val TAG = FragmentTagFactory.create(RecentlyAddedFragment::class)
         val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic

@@ -21,11 +21,6 @@ internal class AudioFocusBehavior @Inject constructor(
 
 ) : AudioManager.OnAudioFocusChangeListener {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "SM:${AudioFocusBehavior::class.java.simpleName}"
-    }
-
     private val audioManager = service.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     private val focusRequest by lazyFast { buildFocusRequest() }
@@ -41,14 +36,10 @@ internal class AudioFocusBehavior @Inject constructor(
             else -> throw IllegalStateException("audio focus response not handle with code $focus")
         }
 
-        return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED).also {
-            Log.v(TAG, "request focus, granted=$it")
-        }
+        return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
     }
 
     fun abandonFocus() {
-        Log.v(TAG, "release focus")
-
         currentFocus = FocusState.NONE
         AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
     }
@@ -77,7 +68,6 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     private fun onAudioFocusChangeInternal(focus: AudioFocusType){
-        Log.v(TAG, "on focus=$focus")
         when (focus) {
             AudioFocusType.GAIN -> {
                 player.get().setVolume(this.volume.normal())
@@ -100,7 +90,7 @@ internal class AudioFocusBehavior @Inject constructor(
                 player.get().setVolume(this.volume.ducked())
             }
             else -> {
-                Log.w(TAG, "not handled $focus")
+                Log.w("AudioFocusBehavior", "not handled $focus")
             }
         }
     }

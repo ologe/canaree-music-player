@@ -17,6 +17,7 @@ class FeatureAboutNavigatorImpl @Inject constructor(
         manager.navigateToFragment(
             activity = activity,
             fragment = AboutFragment(),
+            tag = AboutFragment.TAG,
         )
     }
 
@@ -24,6 +25,7 @@ class FeatureAboutNavigatorImpl @Inject constructor(
         manager.navigateToFragment(
             activity = activity,
             fragment = LicensesFragment(),
+            tag = LicensesFragment.TAG,
             transition = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE,
         )
     }
@@ -46,6 +48,7 @@ class FeatureAboutNavigatorImpl @Inject constructor(
         manager.navigateToFragment(
             activity = activity,
             fragment = SpecialThanksFragment(),
+            tag = SpecialThanksFragment.TAG,
             transition = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
         )
     }

@@ -30,6 +30,7 @@ import dev.olog.feature.playlist.api.FeaturePlaylistNavigator
 import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.SetupNestedList
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.TextUtils
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -50,10 +51,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     companion object {
 
-        private const val TAG = "TabFragment"
-        const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
+        val TAG = FragmentTagFactory.create(TabFragment::class)
+        val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
-        @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
             return TabFragment().withArguments(
                 ARGUMENTS_SOURCE to category

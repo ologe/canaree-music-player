@@ -40,7 +40,7 @@
         android:background="?android:colorBackground"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/sliding_panel_peek"
-        app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior">
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/playerContainer"

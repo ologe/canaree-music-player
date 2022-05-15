@@ -17,7 +17,7 @@ class NavigationManager @Inject constructor(
     fun navigateToFragment(
         activity: FragmentActivity,
         fragment: Fragment,
-        tag: String? = null,
+        tag: String,
         transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE,
     ) {
         superCerealTransition(

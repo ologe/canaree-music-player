@@ -20,6 +20,7 @@ import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.platform.DrawsOnTop
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.animateBackgroundColor
 import dev.olog.shared.extension.animateTextColor
 import dev.olog.shared.extension.collectOnLifecycle
@@ -43,9 +44,8 @@ import javax.inject.Inject
 class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
-        const val TAG = "OfflineLyricsFragment"
+        val TAG = FragmentTagFactory.create(OfflineLyricsFragment::class)
 
-        @JvmStatic
         fun newInstance(): OfflineLyricsFragment {
             return OfflineLyricsFragment()
         }

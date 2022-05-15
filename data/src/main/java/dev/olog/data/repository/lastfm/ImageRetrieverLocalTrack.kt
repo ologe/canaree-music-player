@@ -1,6 +1,5 @@
 package dev.olog.data.repository.lastfm
 
-import android.util.Log
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.LastFmDao
@@ -12,11 +11,6 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
     private val lastFmDao: LastFmDao
 ) {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "D:${ImageRetrieverLocalTrack::class.java.simpleName}"
-    }
-
     fun mustFetch(trackId: Id): Boolean {
         return lastFmDao.getTrack(trackId) == null
     }
@@ -26,13 +20,11 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
     }
 
     fun cache(model: LastFmTrack) {
-        Log.v(TAG, "cache ${model.id}")
         val entity = model.toModel()
         lastFmDao.insertTrack(entity)
     }
 
     fun delete(trackId: Long) {
-        Log.v(TAG, "delete $trackId")
         lastFmDao.deleteTrack(trackId)
     }
 

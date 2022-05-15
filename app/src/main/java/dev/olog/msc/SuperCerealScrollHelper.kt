@@ -15,8 +15,10 @@ import dagger.hilt.components.SingletonComponent
 import dev.olog.feature.detail.main.DetailFragment
 import dev.olog.feature.library.LibraryFragment
 import dev.olog.feature.library.folder.FolderTreeFragment
+import dev.olog.feature.player.main.PlayerFragment
 import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.feature.settings.SettingsFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.findViewByIdNotRecursive
@@ -31,7 +33,7 @@ class SuperCerealScrollHelper(
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
         super.applyInsetsToList(fragment, list, toolbar, tabLayout)
-        if (fragment.tag?.startsWith(DetailFragment.TAG) == true){
+        if (fragment is DetailFragment) {
             // apply only top padding
             list.updatePadding(top = 0)
         }
@@ -53,7 +55,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
         var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(dev.olog.feature.library.R.id.list)
-        if (recyclerView == null && fragment.tag == SettingsFragment.TAG) {
+        if (fragment is SettingsFragment) {
             recyclerView = fragment.view?.findViewById(androidx.preference.R.id.recycler_view)
         }
         return recyclerView
@@ -61,7 +63,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForTabLayout(fragment: Fragment): View? {
         val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
+            FragmentTagFactory.isFromViewPager(fragment.tag) -> {
                 // search toolbar and tab layout in parent fragment
                 fragment.parentFragment?.view
             }
@@ -71,41 +73,36 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
-        if (fragment.tag == PlayingQueueFragment.TAG){
+        if (fragment is PlayingQueueFragment){
             // for some reason when drag and drop in queue fragment, the queue became crazy
             return null
         }
         val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
+            FragmentTagFactory.isFromViewPager(fragment.tag) -> {
                 // search toolbar and tab layout in parent fragment
                 fragment.parentFragment?.view
             }
-            fragment.tag == SettingsFragment.TAG -> fragment.parentFragment?.view
+            fragment is SettingsFragment -> fragment.parentFragment?.view
             else -> fragment.view
         }
         return view?.findViewByIdNotRecursive(dev.olog.feature.library.R.id.toolbar)
     }
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {
-        val tag = fragment.tag
-        if (tag == LibraryFragment.TAG_TRACK || tag == LibraryFragment.TAG_PODCAST){
+        if (fragment is LibraryFragment) {
             return fragment.view?.findViewByIdNotRecursive(dev.olog.feature.library.R.id.viewPager)
         }
         return null
     }
 
     override fun skipFragment(fragment: Fragment): Boolean {
-        if (isViewPagerChildTag(fragment.tag)){
+        if (FragmentTagFactory.isFromViewPager(fragment.tag)){
             return false
         }
-        return isPlayerTag(fragment.tag) || !hasFragmentOwnership(fragment.tag)
+        return fragment is PlayerFragment || !hasFragmentOwnership(fragment.tag)
     }
 
-    private fun isViewPagerChildTag(tag: String?) = tag?.startsWith("android:switcher:") == true
-
-    private fun hasFragmentOwnership(tag: String?) = tag?.startsWith("dev.olog") == true
-
-    private fun isPlayerTag(tag: String?) = tag?.contains("Player") == true
+    private fun hasFragmentOwnership(tag: String?) = FragmentTagFactory.isFromFactory(tag)
 }
 
 @Module

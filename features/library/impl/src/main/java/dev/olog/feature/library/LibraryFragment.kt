@@ -13,6 +13,7 @@ import dev.olog.feature.main.api.BottomNavigationPage
 import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.api.HasBottomNavigation
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.launchWhenResumed
@@ -28,10 +29,9 @@ import javax.inject.Inject
 class LibraryFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
-        val TAG_TRACK = LibraryFragment::class.java.name
-        @JvmStatic
-        val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
+        private val DEFAULT = FragmentTagFactory.create(LibraryFragment::class)
+        val TAG_TRACK = "$DEFAULT.track"
+        val TAG_PODCAST = "$DEFAULT.podcast"
         const val IS_PODCAST = "IS_PODCAST"
 
         @JvmStatic
