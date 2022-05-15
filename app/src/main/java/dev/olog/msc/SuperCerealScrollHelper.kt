@@ -55,7 +55,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
         var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(dev.olog.feature.library.R.id.list)
-        if (fragment is SettingsFragment) {
+        if (recyclerView == null && fragment is SettingsFragment) {
             recyclerView = fragment.view?.findViewById(androidx.preference.R.id.recycler_view)
         }
         return recyclerView
