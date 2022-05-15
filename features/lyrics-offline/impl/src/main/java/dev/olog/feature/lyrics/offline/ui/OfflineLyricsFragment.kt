@@ -37,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.net.URLEncoder
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -179,8 +178,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
 
     private fun searchLyrics() {
-        val escapedQuery = URLEncoder.encode(viewModel.getInfoMetadata(), "UTF-8")
-        navigator.searchLyrics(requireActivity(), "http://www.google.com/#q=$escapedQuery")
+        navigator.searchLyrics(requireActivity(), viewModel.getInfoMetadata())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_offline_lyrics
