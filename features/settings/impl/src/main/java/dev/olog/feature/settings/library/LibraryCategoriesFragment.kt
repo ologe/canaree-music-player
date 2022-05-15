@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.platform.adapter.drag.DragListenerImpl
 import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.withArguments
@@ -19,8 +20,8 @@ import dev.olog.ui.fragment.ListDialog
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {
-        const val TAG = "LibraryCategoriesFragment"
-        const val TYPE = "$TAG.TYPE"
+        val TAG = FragmentTagFactory.create(LibraryCategoriesFragment::class)
+        val TYPE = "$TAG.TYPE"
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {

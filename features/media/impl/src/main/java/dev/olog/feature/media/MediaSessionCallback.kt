@@ -5,22 +5,24 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import android.view.KeyEvent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.ServiceScope
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.feature.media.api.MusicServiceCustomAction
-import dev.olog.feature.media.interfaces.IPlayer
-import dev.olog.feature.media.interfaces.IQueue
 import dev.olog.feature.media.api.model.PlayerMediaEntity
 import dev.olog.feature.media.api.model.SkipType
+import dev.olog.feature.media.interfaces.IPlayer
+import dev.olog.feature.media.interfaces.IQueue
 import dev.olog.feature.media.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.feature.media.state.MusicServicePlaybackState
 import dev.olog.feature.media.state.MusicServiceRepeatMode
 import dev.olog.feature.media.state.MusicServiceShuffleMode
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ServiceScoped
@@ -35,11 +37,6 @@ internal class MediaSessionCallback @Inject constructor(
     private val serviceScope: ServiceScope,
 ) : MediaSessionCompat.Callback() {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
-    }
-
     private var retrieveDataJob: Job? = null
 
     override fun onPrepare() {
@@ -49,7 +46,6 @@ internal class MediaSessionCallback @Inject constructor(
     private fun onPrepareInternal(forced: Boolean){
         if (queue.isEmpty() || forced){
             val track = queue.prepare()
-            Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
             if (track != null){
                 player.prepare(track)
             }
@@ -71,13 +67,10 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onEmptyQueue() {
-        Log.v(TAG, "onEmptyQueue")
         onStop()
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
-        Log.v(TAG, "onPlayFromMediaId mediaId=$stringMediaId, extras=$extras")
-
         onPrepareInternal(false)
 
         retrieveAndPlay {
@@ -98,13 +91,11 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPlay() {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlay")
         player.resume()
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlayFromSearch query=$query, extras=$extras")
 
         retrieveAndPlay {
             updatePodcastPosition()
@@ -114,7 +105,6 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlayFromUri uri=$uri, extras=$extras")
 
         retrieveAndPlay {
             updatePodcastPosition()
@@ -123,7 +113,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPause() {
-        Log.v(TAG, "onPause")
         serviceScope.launch {
             updatePodcastPosition()
             player.pause(true)
@@ -131,18 +120,15 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onStop() {
-        Log.v(TAG, "onStop")
         onPause()
     }
 
     override fun onSkipToNext() {
-        Log.v(TAG, "onSkipToNext")
         onSkipToNext(false)
     }
 
     override fun onSkipToPrevious() {
         serviceScope.launch {
-            Log.v(TAG, "onSkipToPrevious")
 
             updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
@@ -155,7 +141,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onTrackEnded() {
-        Log.v(TAG, "onTrackEnded")
         onSkipToNext(true)
     }
 
@@ -163,7 +148,6 @@ internal class MediaSessionCallback @Inject constructor(
      * Try to skip to next song, if can't, restart current and pause
      */
     private fun onSkipToNext(trackEnded: Boolean) = serviceScope.launch {
-        Log.v(TAG, "onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
         if (metadata != null) {
@@ -183,7 +167,6 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToQueueItem(id: Long) {
         serviceScope.launch {
-            Log.v(TAG, "onSkipToQueueItem id=$id")
 
             updatePodcastPosition()
             val mediaEntity = queue.handleSkipToQueueItem(id)
@@ -196,7 +179,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSeekTo(pos: Long) {
-        Log.v(TAG, "onSeekTo pos=$pos")
         serviceScope.launch {
             updatePodcastPosition()
             player.seekTo(pos)
@@ -208,13 +190,11 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        Log.v(TAG, "onSetRating rating=$rating, extras=$extras")
         serviceScope.launch { favoriteGateway.toggleFavorite() }
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
         onPrepareInternal(false)
-        Log.v(TAG, "onCustomAction action=$action, extras=$extras")
 
         val musicAction = MusicServiceCustomAction.values().find { it.name == action }
             ?: return // other apps can request custom action
@@ -303,16 +283,12 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-        Log.v(TAG, "onSetRepeatMode")
-
         this.repeatMode.update()
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
         queue.onRepeatModeChanged()
     }
 
     override fun onSetShuffleMode(unused: Int) {
-        Log.v(TAG, "onSetShuffleMode")
-
         val newShuffleMode = this.shuffleMode.update()
         if (newShuffleMode) {
             queue.shuffle()
@@ -326,7 +302,6 @@ internal class MediaSessionCallback @Inject constructor(
         onPrepareInternal(false)
 
         val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)!!
-        Log.v(TAG, "onMediaButtonEvent, action=${event.action}, keycode=${event.keyCode}")
         if (event.action == KeyEvent.ACTION_DOWN) {
 
             when (event.keyCode) {
@@ -349,8 +324,6 @@ internal class MediaSessionCallback @Inject constructor(
      * this function DO NOT KILL service on pause
      */
     fun handlePlayPause() {
-        Log.v(TAG, "handlePlayPause")
-
         if (player.isPlaying()) {
             player.pause(false)
         } else {
@@ -359,8 +332,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private suspend fun updatePodcastPosition() {
-        Log.v(TAG, "updatePodcastPosition")
-
         val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
         withContext(Dispatchers.IO){
             queue.updatePodcastPosition(bookmark)

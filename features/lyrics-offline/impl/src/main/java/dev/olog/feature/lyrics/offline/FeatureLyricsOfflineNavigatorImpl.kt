@@ -8,11 +8,13 @@ import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
 import dev.olog.feature.lyrics.offline.base.EditLyricsDialog
 import dev.olog.feature.lyrics.offline.base.OfflineLyricsSyncAdjustementDialog
 import dev.olog.feature.lyrics.offline.ui.OfflineLyricsFragment
-import dev.olog.platform.allowed
+import dev.olog.platform.navigation.NavigationManager
+import dev.olog.platform.navigation.allowed
+import java.net.URLEncoder
 import javax.inject.Inject
 
 class FeatureLyricsOfflineNavigatorImpl @Inject constructor(
-
+    private val manager: NavigationManager,
 ) : FeatureLyricsOfflineNavigator {
 
     override fun toOfflineLyrics(activity: FragmentActivity) {
@@ -41,9 +43,18 @@ class FeatureLyricsOfflineNavigatorImpl @Inject constructor(
 
     override fun toSyncAdjustment(
         context: Context,
-        currentLyrics: String,
+        currentSync: String,
         updateAction: (Long) -> Unit
     ) {
-        OfflineLyricsSyncAdjustementDialog.show(context, currentLyrics, updateAction)
+        OfflineLyricsSyncAdjustementDialog.show(context, currentSync, updateAction)
+    }
+
+    override fun searchLyrics(
+        activity: FragmentActivity,
+        query: String
+    ) {
+        // todo fix android.content.ActivityNotFoundException: No Activity found to handle Intent
+        val encoded = URLEncoder.encode(query, "UTF-8")
+        manager.openUrl(activity, "https://www.google.com/search?q=$encoded")
     }
 }

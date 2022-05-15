@@ -1,9 +1,10 @@
-package dev.olog.feature.about
+package dev.olog.feature.about.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.feature.about.navigation.FeatureAboutNavigatorImpl
 import dev.olog.feature.about.api.FeatureAboutNavigator
 import javax.inject.Singleton
 

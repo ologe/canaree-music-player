@@ -41,10 +41,6 @@ internal class ExitView constructor(
     context: Context
 ) : RelativeLayout(context) {
 
-    companion object {
-        private const val TAG = "ExitView"
-    }
-
     private var mExitRadiusInPx: Int = 0
     private var mExitIcon: View? = null
 
@@ -71,7 +67,6 @@ internal class ExitView constructor(
     fun isInExitZone(position: Point): Boolean {
         val exitCenter = exitZoneCenter
         val distanceToExit = calculateDistance(position, exitCenter)
-        Log.d(TAG, "Drop point: $position, Exit center: $exitCenter, Distance: $distanceToExit")
         return distanceToExit <= mExitRadiusInPx
     }
 

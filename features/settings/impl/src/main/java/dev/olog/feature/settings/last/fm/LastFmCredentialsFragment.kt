@@ -18,6 +18,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.feature.settings.R
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
 import kotlinx.coroutines.Dispatchers
@@ -29,9 +30,8 @@ import javax.inject.Inject
 class LastFmCredentialsFragment : DialogFragment() {
 
     companion object {
-        const val TAG = "LastFmCredentialsFragment"
+        val TAG = FragmentTagFactory.create(LastFmCredentialsFragment::class)
 
-        @JvmStatic
         fun newInstance(): LastFmCredentialsFragment {
             return LastFmCredentialsFragment()
         }

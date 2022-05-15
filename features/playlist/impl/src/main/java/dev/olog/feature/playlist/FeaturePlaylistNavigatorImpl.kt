@@ -13,8 +13,8 @@ import dev.olog.feature.playlist.dialog.create.NewPlaylistDialog
 import dev.olog.feature.playlist.dialog.duplicates.RemoveDuplicatesDialog
 import dev.olog.feature.playlist.dialog.rename.RenameDialog
 import dev.olog.platform.BottomNavigationFragmentTag
-import dev.olog.platform.createBackStackTag
-import dev.olog.platform.superCerealTransition
+import dev.olog.platform.navigation.FragmentTagFactory
+import dev.olog.platform.navigation.superCerealTransition
 import javax.inject.Inject
 
 class FeaturePlaylistNavigatorImpl @Inject constructor(
@@ -22,7 +22,7 @@ class FeaturePlaylistNavigatorImpl @Inject constructor(
 ) : FeaturePlaylistNavigator {
 
     override fun toCreatePlaylist(activity: FragmentActivity, type: PlaylistType) {
-        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
+        val newTag = FragmentTagFactory.createWithBackStack(CreatePlaylistFragment.TAG)
         superCerealTransition(
             activity = activity,
             fragment = CreatePlaylistFragment.newInstance(type),

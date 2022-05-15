@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.MediaId
-import dev.olog.feature.about.R
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,211 +13,181 @@ class LicensesFragmentViewModel @Inject constructor(
 
     private val cachedLicenses = mutableMapOf<String, String>()
 
-    private val ANDROID_OPEN_SOURCE_PROJECT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("android"),
-        "The Android Open Source Project", "https://source.android.com",
-        apache()
+    private val ANDROID_OPEN_SOURCE_PROJECT = LicenseItem(
+        name = "The Android Open Source Project",
+        url = "https://source.android.com",
+        license = apache()
     )
 
-    private val ANDROID_SUPPORT_LIBRARIES = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("android support"),
-        "Android Support Libraries",
-        "https://developer.android.com/topic/libraries/support-library/index.html",
-        apache()
+    private val ANDROID_SUPPORT_LIBRARIES = LicenseItem(
+        name = "Android Support Libraries",
+        url = "https://developer.android.com/topic/libraries/support-library/index.html",
+        license = apache()
     )
 
-    private val KOTLIN_COROUTINES = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("coroutines"),
-        "kotlinx.coroutines", "https://github.com/Kotlin/kotlinx.coroutines",
-        apache()
+    private val KOTLIN_COROUTINES = LicenseItem(
+        name = "kotlinx.coroutines",
+        url = "https://github.com/Kotlin/kotlinx.coroutines",
+        license = apache()
     )
 
-    private val DAGGER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("dagger"),
-        "Dagger", "https://github.com/google/dagger",
-        apache()
+    private val DAGGER = LicenseItem(
+        name = "Dagger",
+        url = "https://github.com/google/dagger",
+        license = apache()
     )
 
-    private val EXO_PLAYER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("exo player"),
-        "ExoPlayer", "https://github.com/google/ExoPlayer",
-        apache()
+    private val EXO_PLAYER = LicenseItem(
+        name = "ExoPlayer",
+        url = "https://github.com/google/ExoPlayer",
+        license = apache()
     )
 
-    private val HOVER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("hover"),
-        "Hover", "https://github.com/google/hover",
-        apache()
+    private val HOVER = LicenseItem(
+        name = "Hover",
+        url = "https://github.com/google/hover",
+        license = apache()
     )
 
-    private val LOTTIE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("lottie"),
-        "Lottie", "https://github.com/airbnb/lottie-android",
-        apache()
+    private val LOTTIE = LicenseItem(
+        name = "Lottie",
+        url = "https://github.com/airbnb/lottie-android",
+        license = apache()
     )
 
-    private val GLIDE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("glide"),
-        "Glide", "https://github.com/bumptech/glide",
-        glide()
+    private val GLIDE = LicenseItem(
+        name = "Glide",
+        url = "https://github.com/bumptech/glide",
+        license = glide()
     )
 
-    private val BETTER_PICKERS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("ScrollHmsPicker"),
-        "ScrollHmsPicker", "https://github.com/DeweyReed/ScrollHmsPicker",
-        mit()
+    private val BETTER_PICKERS = LicenseItem(
+        name = "ScrollHmsPicker",
+        url = "https://github.com/DeweyReed/ScrollHmsPicker",
+        license = mit()
     )
 
-    private val FUZZY_WUZZY = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("fuzzywuzzy"),
-        "JavaWuzzy", "https://github.com/xdrop/fuzzywuzzy",
-        gnu()
+    private val FUZZY_WUZZY = LicenseItem(
+        name = "JavaWuzzy",
+        url = "https://github.com/xdrop/fuzzywuzzy",
+        license = gnu()
     )
 
-    private val GSON = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("gson"),
-        "google-gson", "https://github.com/google/gson",
-        apache()
+    private val GSON = LicenseItem(
+        name = "google-gson",
+        url = "https://github.com/google/gson",
+        license = apache()
     )
 
-    private val RETROFIT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("retrofit"),
-        "Retrofit", "https://github.com/square/retrofit",
-        apache()
+    private val RETROFIT = LicenseItem(
+        name = "Retrofit",
+        url = "https://github.com/square/retrofit",
+        license = apache()
     )
 
-    private val OK_HTTP = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("OkHttp"),
-        "OkHttp", "https://github.com/square/okhttp",
-        apache()
+    private val OK_HTTP = LicenseItem(
+        name = "OkHttp",
+        url = "https://github.com/square/okhttp",
+        license = apache()
     )
 
-    private val J_AUDIO_TAGGER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("jaudiotagger"),
-        "JAudiotagger", "http://www.jthink.net/jaudiotagger/",
-        jAudioTagger()
+    private val J_AUDIO_TAGGER = LicenseItem(
+        name = "JAudiotagger",
+        url = "http://www.jthink.net/jaudiotagger/",
+        license = jAudioTagger()
     )
 
-    private val TAP_TARGET_VIEW = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("TapTargetView"),
-        "TapTargetView", "https://github.com/KeepSafe/TapTargetView",
-        apache()
+    private val TAP_TARGET_VIEW = LicenseItem(
+        name = "TapTargetView",
+        url = "https://github.com/KeepSafe/TapTargetView",
+        license = apache()
     )
 
-    private val AES_CRYPTO = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("java-aes-crypto"),
-        "java-aes-crypto", "https://github.com/tozny/java-aes-crypto",
-        mit()
+    private val AES_CRYPTO = LicenseItem(
+        name = "java-aes-crypto",
+        url = "https://github.com/tozny/java-aes-crypto",
+        license = mit()
     )
 
-    private val LAST_FM_BINDING = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("last_fm_binding"),
-        "Last.fm API Bindings for Java", "https://github.com/jkovacs/lastfm-java",
-        lastFmBinding()
+    private val LAST_FM_BINDING = LicenseItem(
+        name = "Last.fm API Bindings for Java",
+        url = "https://github.com/jkovacs/lastfm-java",
+        license = lastFmBinding()
     )
 
-    private val CUSTOM_TABS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("custom tabs"),
-        "Android CustomTabs", "https://github.com/saschpe/android-customtabs",
-        apache()
+    private val CUSTOM_TABS = LicenseItem(
+        name = "Android CustomTabs",
+        url = "https://github.com/saschpe/android-customtabs",
+        license = apache()
     )
 
-    private val LEAK_CANARY = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("leakCanary"),
-        "LeakCanary", "https://github.com/square/leakcanary",
-        apache()
+    private val LEAK_CANARY = LicenseItem(
+        name = "LeakCanary",
+        url = "https://github.com/square/leakcanary",
+        license = apache()
     )
 
-    private val MATERIAL_DIALOGS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("Material Dialogs"),
-        "Material Dialogs", "https://github.com/afollestad/material-dialogs",
-        apache()
+    private val MATERIAL_DIALOGS = LicenseItem(
+        name = "Material Dialogs",
+        url = "https://github.com/afollestad/material-dialogs",
+        license = apache()
     )
 
-    private val LIBAVCODEC = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavcodec"),
-        "libavcodec", "http://git.videolan.org/?p=ffmpeg.git",
-        gnu()
+    private val LIBAVCODEC = LicenseItem(
+        name = "libavcodec",
+        url = "http://git.videolan.org/?p=ffmpeg.git",
+        license = gnu()
     )
 
-    private val LIBAVRESAMPLE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavresample"),
-        "libavresample", "http://git.videolan.org/?p=ffmpeg.git",
-        gnu()
+    private val LIBAVRESAMPLE = LicenseItem(
+        name = "libavresample",
+        url = "http://git.videolan.org/?p=ffmpeg.git",
+        license = gnu()
     )
 
-    private val LIBAVUTIL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavutil"),
-        "libavutil", "http://git.videolan.org/?p=ffmpeg.git",
-        gnu()
+    private val LIBAVUTIL = LicenseItem(
+        name = "libavutil",
+        url = "http://git.videolan.org/?p=ffmpeg.git",
+        license = gnu()
     )
 
-    private val SCROLL_HELPER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("scroll helper"),
-        "Scroll Helper", "https://github.com/ologe/scroll-helper",
-        mit()
+    private val SCROLL_HELPER = LicenseItem(
+        name = "Scroll Helper",
+        url = "https://github.com/ologe/scroll-helper",
+        license = mit()
     )
 
-    private val BLUR_KIT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("blurkit"),
-        "BlurKit", "https://github.com/CameraKit/blurkit-android",
-        mit()
+    private val BLUR_KIT = LicenseItem(
+        name = "BlurKit",
+        url = "https://github.com/CameraKit/blurkit-android",
+        license = mit()
     )
 
-    private val COLOR_DESATURATION = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("color desaturation"),
-        "Color desaturation", "https://github.com/ologe/color-desaturation",
-        mit()
+    private val COLOR_DESATURATION = LicenseItem(
+        name = "Color desaturation",
+        url = "https://github.com/ologe/color-desaturation",
+        license = mit()
     )
 
-    private val CONTENT_RESOLVER_SQL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("content resolver sql"),
-        "Content Resolver SQL", "https://github.com/ologe/android-content-resolver-SQL",
-        mit()
+    private val CONTENT_RESOLVER_SQL = LicenseItem(
+        name = "Content Resolver SQL",
+        url = "https://github.com/ologe/android-content-resolver-SQL",
+        license = mit()
     )
 
-    private val STETHO = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("stetho"),
-        "Stetho", "https://github.com/facebook/stetho",
-        mit()
+    private val STETHO = LicenseItem(
+        name = "Stetho",
+        url = "https://github.com/facebook/stetho",
+        license = mit()
     )
 
-    private val CROLLER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("croller"),
-        "Croller", "https://github.com/harjot-oberai/Croller",
-        mit()
+    private val CROLLER = LicenseItem(
+        name = "Croller",
+        url = "https://github.com/harjot-oberai/Croller",
+        license = mit()
     )
 
-    val data: List<LicenseModel> = listOf(
+    val data: List<LicenseItem> = listOf(
         ANDROID_OPEN_SOURCE_PROJECT,
         ANDROID_SUPPORT_LIBRARIES,
 
@@ -268,7 +236,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun apache(): String {
         return cachedLicenses.getOrPut("apache") {
             context.assets
-                .open("licenses/apache.txt")
+                .open("apache.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -277,7 +245,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun mit(): String {
         return cachedLicenses.getOrPut("mit") {
             context.assets
-                .open("licenses/mit.txt")
+                .open("mit.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -286,7 +254,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun gnu(): String {
         return cachedLicenses.getOrPut("gnu") {
             context.assets
-                .open("licenses/gnu.txt")
+                .open("gnu.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -295,7 +263,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun jAudioTagger(): String {
         return cachedLicenses.getOrPut("jaudiotagger") {
             context.assets
-                .open("licenses/jaudiotagger.txt")
+                .open("jaudiotagger.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -305,7 +273,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun glide(): String {
         return cachedLicenses.getOrPut("glide") {
             context.assets
-                .open("licenses/glide.txt")
+                .open("glide.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
@@ -314,7 +282,7 @@ class LicensesFragmentViewModel @Inject constructor(
     private fun lastFmBinding(): String {
         return cachedLicenses.getOrPut("lastfm") {
             context.assets
-                .open("licenses/lastfm.txt")
+                .open("lastfm.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }

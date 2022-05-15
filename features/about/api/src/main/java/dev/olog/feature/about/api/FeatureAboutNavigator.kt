@@ -25,6 +25,4 @@ interface FeatureAboutNavigator {
 
     fun toTranslations(activity: FragmentActivity)
 
-    fun requestTranslation(activity: FragmentActivity)
-
 }

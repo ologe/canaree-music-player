@@ -12,7 +12,7 @@ import dev.olog.feature.edit.album.EditAlbumFragment
 import dev.olog.feature.edit.api.FeatureEditNavigator
 import dev.olog.feature.edit.artist.EditArtistFragment
 import dev.olog.feature.edit.song.EditTrackFragment
-import dev.olog.platform.allowed
+import dev.olog.platform.navigation.allowed
 import dev.olog.shared.extension.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

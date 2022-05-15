@@ -2,12 +2,11 @@ package dev.olog.feature.shortcuts.api
 
 object ShortcutsConstants {
 
-    private const val TAG = "Shortcuts"
-    const val PLAY = "$TAG.play"
-    const val SHUFFLE = "$TAG.shuffle"
-    const val SEARCH = "$TAG.search"
-    const val PLAYLIST_CHOOSER = "$TAG.playlist.chooser"
-    const val DETAIL = "$TAG.detail"
-    const val DETAIL_EXTRA_ID = "$TAG.detail.extra.id"
+    const val PLAY = "shortcuts.play"
+    const val SHUFFLE = "shortcuts.shuffle"
+    const val SEARCH = "shortcuts.search"
+    const val PLAYLIST_CHOOSER = "shortcuts.playlist.chooser"
+    const val DETAIL = "shortcuts.detail"
+    const val DETAIL_EXTRA_ID = "shortcuts.detail.extra.id"
 
 }

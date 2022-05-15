@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
-import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +29,6 @@ import dev.olog.platform.permission.OnPermissionChanged
 import dev.olog.platform.permission.Permission
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.platform.theme.isImmersiveMode
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.extension.dimen
 import dev.olog.shared.extension.dip
@@ -83,10 +81,11 @@ class MainActivity : MusicGlueActivity(),
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                add(R.id.playerContainer, featurePlayerNavigator.playerFragment())
-                add(R.id.miniPlayerContainer, featurePlayerNavigator.miniPlayerFragment())
-            }
+            featurePlayerNavigator.show(
+                activity = this,
+                playerContainer = R.id.playerContainer,
+                miniPlayerContainer = R.id.miniPlayerContainer,
+            )
         }
 
         if (isImmersiveMode()){
@@ -209,8 +208,8 @@ class MainActivity : MusicGlueActivity(),
 
     }
 
-    override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(slidingPanel) as MultiListenerBottomSheetBehavior<*>
+    override fun getSlidingPanel(): BottomSheetBehavior<*> {
+        return BottomSheetBehavior.from(slidingPanel)
     }
 
     override fun navigate(page: BottomNavigationPage) {

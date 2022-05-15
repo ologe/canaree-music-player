@@ -21,8 +21,6 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     DefaultLifecycleObserver {
 
     companion object {
-        @JvmStatic
-        private val TAG = "SM:${OnAudioSessionIdChangeListener::class.java.simpleName}"
         internal const val DELAY = 500L
     }
 
@@ -39,15 +37,12 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     private fun onAudioSessionIdInternal(audioSessionId: Int) {
-        Log.v(TAG, "on audio session id changed =$audioSessionId")
-
         equalizer.onAudioSessionIdChanged(hash, audioSessionId)
         virtualizer.onAudioSessionIdChanged(hash, audioSessionId)
         bassBoost.onAudioSessionIdChanged(hash, audioSessionId)
     }
 
     fun release() {
-        Log.v(TAG, "onDestroy")
         equalizer.onDestroy(hash)
         virtualizer.onDestroy(hash)
         bassBoost.onDestroy(hash)

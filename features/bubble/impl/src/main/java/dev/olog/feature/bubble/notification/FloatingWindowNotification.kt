@@ -9,6 +9,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import dev.olog.core.ServiceScope
 import dev.olog.feature.bubble.FloatingWindowService
+import dev.olog.feature.bubble.api.FloatingWindowsConstants
 import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.shared.extension.collectOnLifecycle
@@ -90,7 +91,7 @@ class FloatingWindowNotification @Inject constructor(
 
     private fun createContentIntent(): PendingIntent {
         val intent = Intent(service, FloatingWindowService::class.java)
-        intent.action = FloatingWindowService.ACTION_STOP
+        intent.action = FloatingWindowsConstants.ACTION_STOP
         return intent.asServicePendingIntent(service, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

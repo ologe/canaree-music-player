@@ -7,7 +7,7 @@ import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.feature.main.popup.PopupMenuFactory
-import dev.olog.platform.allowed
+import dev.olog.platform.navigation.allowed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

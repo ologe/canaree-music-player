@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceScope
@@ -39,11 +38,6 @@ internal class MusicServiceMetadata @Inject constructor(
     private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) : IPlayerLifecycle.Listener {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "SM:${MusicServiceMetadata::class.java.simpleName}"
-    }
-
     private val builder = MediaMetadataCompat.Builder()
 
     private var showLockScreenArtwork = false
@@ -66,8 +60,6 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     private fun update(metadata: MetadataEntity) {
-        Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
-
         serviceScope.launch(schedulers.io) {
 
             val entity = metadata.entity
@@ -97,8 +89,6 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
-        Log.v(TAG, "notify widgets ${entity.title}")
-
         for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 

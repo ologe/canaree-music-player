@@ -9,6 +9,7 @@ import dev.olog.feature.detail.FeatureDetailNavigator
 import dev.olog.feature.detail.R
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.extension.lazyFast
 import dev.olog.shared.extension.subscribe
@@ -20,12 +21,9 @@ import javax.inject.Inject
 class RelatedArtistFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
-        val TAG = RelatedArtistFragment::class.java.name
-        @JvmStatic
+        val TAG = FragmentTagFactory.create(RelatedArtistFragment::class)
         val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId

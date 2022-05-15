@@ -11,6 +11,7 @@ import dev.olog.feature.edit.EditItemViewModel
 import dev.olog.feature.edit.R
 import dev.olog.feature.edit.UpdateArtistInfo
 import dev.olog.feature.edit.UpdateResult
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.argument
 import dev.olog.shared.extension.collectOnViewLifecycle
@@ -26,10 +27,9 @@ import kotlinx.coroutines.flow.map
 class EditArtistFragment : BaseEditItemFragment() {
 
     companion object {
-        const val TAG = "EditArtistFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        val TAG = FragmentTagFactory.create(EditArtistFragment::class)
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): EditArtistFragment {
             return EditArtistFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId

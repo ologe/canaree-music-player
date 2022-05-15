@@ -7,8 +7,8 @@ import dev.olog.feature.detail.recently.added.RecentlyAddedFragment
 import dev.olog.feature.detail.related.artist.RelatedArtistFragment
 import dev.olog.platform.BottomNavigationFragmentTag
 import dev.olog.platform.HasSlidingPanel
-import dev.olog.platform.createBackStackTag
-import dev.olog.platform.superCerealTransition
+import dev.olog.platform.navigation.FragmentTagFactory
+import dev.olog.platform.navigation.superCerealTransition
 import dev.olog.shared.extension.findInContext
 import dev.olog.ui.extension.collapse
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class FeatureDetailNavigatorImpl @Inject constructor(
     override fun toDetail(activity: FragmentActivity, mediaId: MediaId) {
         (activity.findInContext<HasSlidingPanel>()).getSlidingPanel().collapse()
 
-        val newTag = createBackStackTag(DetailFragment.TAG)
+        val newTag = FragmentTagFactory.createWithBackStack(DetailFragment.TAG)
         superCerealTransition(
             activity = activity,
             fragment = DetailFragment.newInstance(mediaId),
@@ -30,7 +30,7 @@ class FeatureDetailNavigatorImpl @Inject constructor(
     }
 
     override fun toRelatedArtists(activity: FragmentActivity, mediaId: MediaId) {
-        val newTag = createBackStackTag(RelatedArtistFragment.TAG)
+        val newTag = FragmentTagFactory.createWithBackStack(RelatedArtistFragment.TAG)
         superCerealTransition(
             activity = activity,
             fragment = RelatedArtistFragment.newInstance(mediaId),
@@ -40,7 +40,7 @@ class FeatureDetailNavigatorImpl @Inject constructor(
     }
 
     override fun toRecentlyAdded(activity: FragmentActivity, mediaId: MediaId) {
-        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
+        val newTag = FragmentTagFactory.createWithBackStack(RecentlyAddedFragment.TAG)
         superCerealTransition(
             activity = activity,
             fragment = RecentlyAddedFragment.newInstance(mediaId),

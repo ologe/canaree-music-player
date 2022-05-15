@@ -1,6 +1,5 @@
 package dev.olog.data.repository.lastfm
 
-import android.util.Log
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.LastFmDao
@@ -12,11 +11,6 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
     private val lastFmDao: LastFmDao
 ) {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "D:${ImageRetrieverLocalAlbum::class.java.simpleName}"
-    }
-
     fun mustFetch(albumId: Long): Boolean {
         return lastFmDao.getAlbum(albumId) == null
     }
@@ -26,13 +20,11 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
     }
 
     fun cache(model: LastFmAlbum) {
-        Log.v(TAG, "cache ${model.id}")
         val entity = model.toModel()
         lastFmDao.insertAlbum(entity)
     }
 
     fun delete(albumId: Long) {
-        Log.v(TAG, "delete $albumId")
         lastFmDao.deleteAlbum(albumId)
     }
 

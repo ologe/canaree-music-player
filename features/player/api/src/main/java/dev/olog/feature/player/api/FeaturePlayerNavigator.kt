@@ -1,11 +1,14 @@
 package dev.olog.feature.player.api
 
-import androidx.fragment.app.Fragment
+import androidx.annotation.IdRes
+import androidx.fragment.app.FragmentActivity
 
 interface FeaturePlayerNavigator {
 
-    fun playerFragment(): Fragment
-
-    fun miniPlayerFragment(): Fragment
+    fun show(
+        activity: FragmentActivity,
+        @IdRes playerContainer: Int,
+        @IdRes miniPlayerContainer: Int,
+    )
 
 }

@@ -10,12 +10,9 @@ enum class MusicServiceAction {
 
 
     companion object {
-        @JvmStatic
-        val ARGUMENT_MEDIA_ID = "${MusicServiceAction::class.java}.mediaid"
-        @JvmStatic
-        val ARGUMENT_SORT_TYPE = "${MusicServiceAction::class.java}.sort.type"
-        @JvmStatic
-        val ARGUMENT_SORT_ARRANGING = "${MusicServiceAction::class.java}.sort.arranging"
+        const val ARGUMENT_MEDIA_ID = "action.mediaid"
+        const val ARGUMENT_SORT_TYPE = "action.sort.type"
+        const val ARGUMENT_SORT_ARRANGING = "action.sort.arranging"
 
     }
 }

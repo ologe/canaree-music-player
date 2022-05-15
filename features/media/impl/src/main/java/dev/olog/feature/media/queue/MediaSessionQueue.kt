@@ -2,7 +2,6 @@ package dev.olog.feature.media.queue
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import dev.olog.core.ServiceScope
 import dev.olog.feature.media.api.model.MediaEntity
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,6 @@ internal class MediaSessionQueue @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
-        private val TAG = "SM:${MediaSessionQueue::class.java.simpleName}"
         private const val DELAY = 1000L
     }
 
@@ -40,7 +37,6 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     private suspend fun publish(list: List<MediaEntity>) {
-        Log.v(TAG, "publish")
         val queue = list.map { it.toQueueItem() }
 
         withContext(Dispatchers.Main) {
@@ -49,12 +45,10 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     fun onNext(list: List<MediaEntity>) {
-        Log.v(TAG, "on next delayed")
         delayedChannel.trySend(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
-        Log.v(TAG, "on next immediate")
         immediateChannel.trySend(list)
     }
 

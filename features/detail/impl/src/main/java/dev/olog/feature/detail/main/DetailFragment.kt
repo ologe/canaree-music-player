@@ -17,11 +17,7 @@ import dev.olog.core.MediaId
 import dev.olog.feature.detail.DetailSortDialog
 import dev.olog.feature.detail.DetailTutorial
 import dev.olog.feature.detail.FeatureDetailNavigator
-import dev.olog.platform.fragment.BaseFragment
 import dev.olog.feature.detail.R
-import dev.olog.platform.adapter.ObservableAdapter
-import dev.olog.platform.adapter.drag.DragListenerImpl
-import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.feature.detail.main.adapter.DetailFragmentAdapter
 import dev.olog.feature.detail.main.adapter.DetailMostPlayedAdapter
 import dev.olog.feature.detail.main.adapter.DetailRecentlyAddedAdapter
@@ -30,8 +26,12 @@ import dev.olog.feature.detail.main.adapter.DetailSiblingsAdapter
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.CanChangeStatusBarColor
+import dev.olog.platform.adapter.ObservableAdapter
 import dev.olog.platform.adapter.SetupNestedList
-import dev.olog.ui.model.DisplayableHeader
+import dev.olog.platform.adapter.drag.DragListenerImpl
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.fragment.BaseFragment
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.extension.afterTextChange
 import dev.olog.shared.extension.argument
@@ -46,6 +46,7 @@ import dev.olog.ui.activity.removeLightStatusBar
 import dev.olog.ui.activity.setLightStatusBar
 import dev.olog.ui.adapter.drag.CircularRevealAnimationController
 import dev.olog.ui.colorControlNormal
+import dev.olog.ui.model.DisplayableHeader
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -60,9 +61,7 @@ class DetailFragment : BaseFragment(),
     IDragListener by DragListenerImpl() {
 
     companion object {
-        @JvmStatic
-        val TAG = DetailFragment::class.java.name
-        @JvmStatic
+        val TAG = FragmentTagFactory.create(DetailFragment::class)
         val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic

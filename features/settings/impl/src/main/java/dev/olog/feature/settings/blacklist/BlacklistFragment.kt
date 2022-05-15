@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.toast
 import dev.olog.ui.fragment.ListDialog
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withContext
 class BlacklistFragment : ListDialog() {
 
     companion object {
-        const val TAG = "BlacklistFragment"
+        val TAG = FragmentTagFactory.create(BlacklistFragment::class)
 
         fun newInstance(): BlacklistFragment {
             return BlacklistFragment()

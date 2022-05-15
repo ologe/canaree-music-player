@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.feature.player.R
 import dev.olog.platform.DrawsOnTop
+import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
@@ -18,13 +19,10 @@ import javax.inject.Inject
 class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
 
     companion object {
-        @JvmStatic
-        val TAG = PlayerVolumeFragment::class.java.name
-        @JvmStatic
+        val TAG = FragmentTagFactory.create(PlayerVolumeFragment::class)
         private val ARGUMENT_LAYOUT_ID = "$TAG.argument.layoutid"
         private val ARGUMENT_Y_POSITION = "$TAG.argument.y_position"
 
-        @JvmStatic
         fun newInstance(layoutId: Int, yPosition: Float = -1f): PlayerVolumeFragment {
             return PlayerVolumeFragment().withArguments(
                 ARGUMENT_LAYOUT_ID to layoutId,

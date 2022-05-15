@@ -5,14 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.feature.media.api.MusicPreferencesGateway
-import dev.olog.feature.widget.api.WidgetConstants
 import dev.olog.feature.media.api.model.PositionInQueue
 import dev.olog.feature.media.api.model.SkipType
 import dev.olog.feature.widget.api.FeatureWidgetNavigator
+import dev.olog.feature.widget.api.WidgetConstants
 import dev.olog.shared.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
@@ -24,11 +23,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) {
 
-    companion object {
-        @JvmStatic
-        val TAG = "SM:${MusicServicePlaybackState::class.java.simpleName}"
-    }
-
     private val builder = PlaybackStateCompat.Builder().apply {
         setState(
             PlaybackStateCompat.STATE_PAUSED,
@@ -39,7 +33,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun prepare(bookmark: Long) {
-        Log.v(TAG, "prepare bookmark=$bookmark")
         mediaSession.setPlaybackState(builder.build())
 
         notifyWidgetsOfStateChanged(false, bookmark)
@@ -49,8 +42,6 @@ internal class MusicServicePlaybackState @Inject constructor(
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
     fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
-        Log.v(TAG, "update state=$state, bookmark=$bookmark, speed=$speed")
-
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
         builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
@@ -67,7 +58,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun updatePlaybackSpeed(speed: Float) {
-        Log.v(TAG, "updatePlaybackSpeed speed=$speed")
         val currentState = mediaSession.controller?.playbackState
         if (currentState == null) {
             builder.setState(
@@ -84,7 +74,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {
-        Log.v(TAG, "toggleSkipToActions positionInQueue=$positionInQueue")
         when {
             positionInQueue === PositionInQueue.FIRST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
@@ -111,8 +100,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun skipTo(skipType: SkipType) {
-        Log.v(TAG, "skipTo skipType=$skipType")
-
         val state = when (skipType){
             SkipType.SKIP_NEXT -> PlaybackStateCompat.STATE_SKIPPING_TO_NEXT
             SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
@@ -143,7 +130,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
-        Log.v(TAG, "notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
         for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
@@ -159,7 +145,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
-        Log.v(TAG, "notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
         for (clazz in featureWidgetNavigator.widgetClasses()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 

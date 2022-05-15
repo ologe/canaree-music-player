@@ -27,6 +27,10 @@ android {
             "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
         ]
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
