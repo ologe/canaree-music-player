@@ -256,7 +256,8 @@ internal class DetailFragmentAdapter(
             return false
         }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        val viewType = viewHolder.itemViewType
         return viewType == R.layout.item_detail_song ||
                 viewType == R.layout.item_detail_song_with_drag_handle ||
                 viewType == R.layout.item_detail_song_with_track ||

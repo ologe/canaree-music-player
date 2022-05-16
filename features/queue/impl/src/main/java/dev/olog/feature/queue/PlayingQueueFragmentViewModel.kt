@@ -5,93 +5,85 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.shared.TextUtils
 import dev.olog.shared.extension.swap
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    playingQueueGateway: PlayingQueueGateway
-
+    playingQueueGateway: PlayingQueueGateway,
+    schedulers: Schedulers,
 ) : ViewModel() {
 
-    fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
+    private val moves = mutableListOf<Pair<Int, Int>>()
 
-    private val queueLiveData = MutableStateFlow<List<PlayingQueueSong>?>(null)
+    private val _data = MutableStateFlow<List<PlayingQueueSong>?>(null)
 
-    val data: Flow<List<DisplayableQueueSong>> = combine(
-        queueLiveData.filterNotNull(),
+    val data: Flow<List<QueueItem>> = combine(
+        _data.filterNotNull(),
         musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged()
     ) { queue, idInPlaylist ->
         val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
         queue.mapIndexed { index, item ->
-            item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
+            item.toPresentation(index, currentPlayingIndex, idInPlaylist)
         }
-    }
+    }.flowOn(schedulers.cpu)
+
+    val initialItemFlow = data
+        .take(1)
+        .map { list ->
+            val idInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
+            list.indexOfFirst { it.idInPlaylist == idInPlaylist }
+        }.filter { it >= 0 }
+        .flowOn(schedulers.cpu)
 
     init {
-        viewModelScope.launch {
-            playingQueueGateway.observeAll().distinctUntilChanged()
-                .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.value = it }
-        }
+        playingQueueGateway.observeAll()
+            .distinctUntilChanged()
+            .onEach { _data.value = it }
+            .launchIn(viewModelScope)
     }
 
-    fun observeData(): Flow<List<DisplayableQueueSong>> = data
+    fun recalculatePositionsAfterRemove(position: Int) {
+        val currentList = _data.value.orEmpty().toMutableList()
+        currentList.removeAt(position)
+        _data.value = currentList
+    }
 
-    fun recalculatePositionsAfterRemove(position: Int) =
-        viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.orEmpty().toMutableList()
-            currentList.removeAt(position)
-
-            queueLiveData.value = currentList
-        }
-
-    /**
-     * @param moves contains all the movements in the list
-     */
-    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
-        viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.orEmpty()
-            for ((from, to) in moves) {
-                currentList.swap(from, to)
-            }
-
-            queueLiveData.value = currentList
-        }
-
-    private fun PlayingQueueSong.toDisplayableItem(
+    private fun PlayingQueueSong.toPresentation(
         currentPosition: Int,
         currentPlayingIndex: Int,
         currentPlayingIdInPlaylist: Int
-    ): DisplayableQueueSong {
+    ): QueueItem {
         val song = this.song
 
         val relativePosition = computeRelativePosition(currentPosition, currentPlayingIndex)
 
-        return DisplayableQueueSong(
-            type = R.layout.item_playing_queue,
+        return QueueItem(
             mediaId = mediaId,
             title = song.title,
-            artist = song.artist,
-            album = song.album,
+            subtitle = "${song.artist}${TextUtils.MIDDLE_DOT_SPACED}${song.album}",
             idInPlaylist = song.idInPlaylist,
             relativePosition = relativePosition,
             isCurrentSong = song.idInPlaylist == currentPlayingIdInPlaylist
         )
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun computeRelativePosition(
+    private fun computeRelativePosition(
         currentPosition: Int,
         currentPlayingIndex: Int
     ): String {
@@ -101,4 +93,24 @@ class PlayingQueueFragmentViewModel @Inject constructor(
             else -> "-"
         }
     }
+
+    /**
+     * to avoid issues with observability, record moves in [recordSwap] while swap is in progress,
+     * and then apply it as a batch when is finished.
+     */
+    fun applySwap() {
+        val currentList = _data.value.orEmpty()
+        for ((from, to) in moves.toList()) {
+            currentList.swap(from, to)
+        }
+
+        _data.value = currentList
+
+        moves.clear()
+    }
+
+    fun recordSwap(from: Int, to: Int) {
+        moves.add(from to to)
+    }
+
 }

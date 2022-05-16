@@ -383,8 +383,8 @@ internal class PlayerFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_mini_queue
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_mini_queue
     }
 
     override fun onMoved(from: Int, to: Int) {

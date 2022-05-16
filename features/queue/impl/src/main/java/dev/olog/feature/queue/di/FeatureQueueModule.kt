@@ -1,4 +1,4 @@
-package dev.olog.feature.queue
+package dev.olog.feature.queue.di
 
 import dagger.Binds
 import dagger.Module
@@ -6,6 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import dev.olog.feature.queue.navigation.FeatureQueueNavigatorImpl
+import dev.olog.feature.queue.PlayingQueueFragment
 import dev.olog.feature.queue.api.FeatureQueueNavigator
 import dev.olog.platform.BottomNavigationFragmentTag
 import javax.inject.Singleton
