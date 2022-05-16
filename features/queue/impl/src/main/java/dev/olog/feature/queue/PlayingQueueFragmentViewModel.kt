@@ -34,16 +34,14 @@ class PlayingQueueFragmentViewModel @Inject constructor(
     private val _data = MutableStateFlow<List<PlayingQueueSong>?>(null)
 
     val data: Flow<List<QueueItem>> = combine(
-        _data.filterNotNull(),
+        _data.filterNotNull().onEach { moves.clear() },
         musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged()
     ) { queue, idInPlaylist ->
         val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
         queue.mapIndexed { index, item ->
             item.toPresentation(index, currentPlayingIndex, idInPlaylist)
         }
-    }
-        .flowOn(schedulers.cpu)
-        .onEach { moves.clear() }
+    }.flowOn(schedulers.cpu)
 
     val initialItemFlow = data
         .take(1)
