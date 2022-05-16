@@ -4,37 +4,33 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.ui.CoverUtils
+import dev.olog.feature.splash.databinding.FragmentSplashTutorialBinding
 import dev.olog.image.provider.GlideApp
+import dev.olog.platform.viewBinding
 import dev.olog.shared.extension.collectOnViewLifecycle
+import dev.olog.ui.CoverUtils
 import dev.olog.ui.StoppingViewPager
 import dev.olog.ui.swipeable.SwipeableView
-import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
-class SplashTutorialFragment : Fragment(),
+class SplashTutorialFragment : Fragment(R.layout.fragment_splash_tutorial),
     SwipeableView.SwipeListener {
 
     private var progressive = 0
 
-    private lateinit var viewPager : StoppingViewPager
+    private lateinit var viewPager: StoppingViewPager
+    private val binding by viewBinding(FragmentSplashTutorialBinding::bind)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_splash_tutorial, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        viewPager = requireParentFragment().requireView().findViewById(R.id.viewPager)
 
         swipeableView.isTouching()
-            .collectOnViewLifecycle(this) {
+            .collectOnViewLifecycle(this@SplashTutorialFragment) {
                 viewPager.isSwipeEnabled = !it
             }
 
@@ -44,12 +40,12 @@ class SplashTutorialFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        swipeableView.setOnSwipeListener(this)
+        binding.swipeableView.setOnSwipeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        swipeableView.setOnSwipeListener(null)
+        binding.swipeableView.setOnSwipeListener(null)
     }
 
     override fun onSwipedLeft() {
@@ -63,7 +59,7 @@ class SplashTutorialFragment : Fragment(),
     }
 
     override fun onClick() {
-        val newState = !cover.isActivated
+        val newState = !binding.cover.isActivated
         setActivated(newState)
     }
 
@@ -78,8 +74,8 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun setActivated(activated: Boolean){
-        coverWrapper.isActivated = activated
-        nowPlaying.isActivated = activated
+        binding.coverWrapper.isActivated = activated
+        binding.nowPlaying.isActivated = activated
     }
 
     private fun loadNextImage(){
@@ -90,7 +86,7 @@ class SplashTutorialFragment : Fragment(),
         loadImage(--progressive)
     }
 
-    private fun loadPhoneImage(view: View){
+    private fun loadPhoneImage(view: View) {
         GlideApp.with(requireContext())
                 .asBitmap()
                 .load(R.drawable.phone_black)
@@ -105,13 +101,11 @@ class SplashTutorialFragment : Fragment(),
                 })
     }
 
-    private fun loadImage(position: Int){
-        GlideApp.with(this).clear(cover)
-
+    private fun loadImage(position: Int) {
         GlideApp.with(this)
                 .load(Uri.EMPTY)
                 .centerCrop()
                 .placeholder(CoverUtils.getGradient(requireContext(), position))
-                .into(cover)
+                .into(binding.cover)
     }
 }

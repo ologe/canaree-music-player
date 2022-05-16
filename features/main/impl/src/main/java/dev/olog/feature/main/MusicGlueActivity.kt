@@ -21,9 +21,12 @@ import dev.olog.feature.media.api.model.PlayerItem
 import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.feature.media.api.model.PlayerRepeatMode
+import dev.olog.platform.permission.PermissionManager
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.extension.lazyFast
 import dev.olog.ui.activity.ThemedActivity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class MusicGlueActivity : ThemedActivity(),
@@ -32,6 +35,10 @@ abstract class MusicGlueActivity : ThemedActivity(),
 
     @Inject
     lateinit var featureMediaNavigator: FeatureMediaNavigator
+    @Inject
+    lateinit var permissionManager: PermissionManager
+
+    private var connectionJob by autoDisposeJob()
 
     private val mediaExposer by lazyFast {
         MediaExposer(
@@ -39,23 +46,22 @@ abstract class MusicGlueActivity : ThemedActivity(),
             onConnectionChanged = this,
             scope = lifecycleScope,
             componentName = featureMediaNavigator.serviceComponent(),
+            permissionManager = permissionManager,
         )
-    }
-
-    fun connect() {
-        mediaExposer.connect()
-
     }
 
     @CallSuper
     override fun onStart() {
         super.onStart()
-        connect()
+        connectionJob = lifecycleScope.launch {
+            mediaExposer.connect()
+        }
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
+        connectionJob = null
         mediaExposer.disconnect()
         unregisterMediaController()
     }

@@ -6,11 +6,11 @@ import android.net.Uri
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
-import dev.olog.data.utils.PermissionsUtils
+import dev.olog.platform.permission.Permission
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.channelFlow
@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 internal abstract class BaseRepository<T, Param>(
     private val context: Context,
     protected val contentResolver: ContentResolver,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val permissionManager: PermissionManager,
 ) : BaseGateway<T, Param> {
 
     protected val channel = ConflatedBroadcastChannel<List<T>>()
@@ -27,9 +28,7 @@ internal abstract class BaseRepository<T, Param>(
     protected fun firstQuery() {
         GlobalScope.launch(schedulers.io) {
 
-            do {
-                delay(200)
-            } while (!PermissionsUtils.canReadStorage(context))
+            permissionManager.awaitPermission(context, Permission.Storage)
 
             val contentUri = registerMainContentUri()
 

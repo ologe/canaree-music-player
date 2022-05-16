@@ -115,9 +115,8 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
-        Permission.STORAGE -> {
+        Permission.Storage -> {
             navigateToLastPage()
-            connect()
         }
     }
 

@@ -20,7 +20,13 @@ import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
-import kotlinx.coroutines.flow.*
+import dev.olog.platform.permission.PermissionManager
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class ArtistRepository @Inject constructor(
@@ -29,8 +35,14 @@ internal class ArtistRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedArtistDao,
-    schedulers: Schedulers
-) : BaseRepository<Artist, Id>(context, contentResolver, schedulers), ArtistGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Artist, Id>(
+    context,
+    contentResolver,
+    schedulers,
+    permissionManager,
+), ArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 

@@ -4,101 +4,83 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import dev.olog.feature.splash.databinding.FragmentSplashBinding
 import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.platform.permission.OnPermissionChanged
 import dev.olog.platform.permission.Permission
-import dev.olog.platform.permission.Permissions
+import dev.olog.platform.permission.PermissionManager
+import dev.olog.platform.permission.PermissionResult
+import dev.olog.platform.viewBinding
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.extension.alertDialog
+import dev.olog.shared.extension.exhaustive
 import dev.olog.shared.extension.findInContext
+import dev.olog.shared.extension.launchWhenResumed
 import dev.olog.shared.extension.lazyFast
-import kotlinx.android.synthetic.main.fragment_splash.*
 
-class SplashFragment : Fragment() {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     companion object {
         val TAG = FragmentTagFactory.create(SplashFragment::class)
     }
 
+    private val binding by viewBinding(FragmentSplashBinding::bind)
+    private var permissionJob by autoDisposeJob()
+
     private val adapter by lazyFast {
-        SplashFragmentViewPagerAdapter(
-            childFragmentManager
-        )
+        SplashFragmentViewPagerAdapter(childFragmentManager)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+    private val permissionHandler = PermissionManager().run {
+        requestPermissionHandler(this@SplashFragment, Permission.Storage)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         viewPager.adapter = adapter
         inkIndicator.setViewPager(viewPager)
-    }
 
-    override fun onResume() {
-        super.onResume()
         next.setOnClickListener {
             if (viewPager.currentItem == 0) {
                 viewPager.setCurrentItem(1, true)
             } else {
-                requestStoragePermission()
+                permissionJob = launchWhenResumed {
+                    requestStoragePermission()
+                }
             }
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        next.setOnClickListener(null)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        permissionHandler.dispose()
     }
 
-    private fun requestStoragePermission() {
-        if (!Permissions.canReadStorage(requireContext())) {
-            Permissions.requestReadStorage(this)
-        } else {
-            onStoragePermissionGranted()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (Permissions.checkWriteCode(requestCode)) {
-            if (Permissions.canReadStorage(requireContext())) {
-                onStoragePermissionGranted()
-            } else {
-                onStoragePermissionDenied()
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+    private suspend fun requestStoragePermission() {
+        val result = permissionHandler.request()
+        when (result) {
+            PermissionResult.Granted -> onStoragePermissionGranted()
+            PermissionResult.Denied -> {}
+            PermissionResult.RequestRationale -> onStoragePermissionDenied()
+        }.exhaustive
     }
 
     private fun onStoragePermissionGranted() {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .remove(this)
-            .commitAllowingStateLoss()
+        requireActivity().supportFragmentManager.commit(true) {
+            remove(this@SplashFragment)
+        }
 
-        (requireActivity().findInContext<OnPermissionChanged>()).onPermissionGranted(Permission.STORAGE)
+        (requireActivity().findInContext<OnPermissionChanged>()).onPermissionGranted(Permission.Storage)
     }
 
     private fun onStoragePermissionDenied() {
-        if (Permissions.hasUserDisabledReadStorage(this)) {
-            requireActivity().alertDialog {
-                setTitle(localization.R.string.splash_storage_permission)
-                setMessage(localization.R.string.splash_storage_permission_disabled)
-                setPositiveButton(localization.R.string.popup_positive_ok, { _, _ -> toSettings() })
-                setNegativeButton(localization.R.string.popup_negative_no, null)
-            }
+        requireActivity().alertDialog {
+            setTitle(localization.R.string.splash_storage_permission)
+            setMessage(localization.R.string.splash_storage_permission_disabled)
+            setPositiveButton(localization.R.string.popup_positive_ok) { _, _ -> toSettings() }
+            setNegativeButton(localization.R.string.popup_negative_no, null)
         }
     }
 
