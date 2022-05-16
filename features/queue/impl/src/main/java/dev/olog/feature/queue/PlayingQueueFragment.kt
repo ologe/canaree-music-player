@@ -60,7 +60,7 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue),
                 mediaProvider.swap(from, to)
                 viewModel.recordSwap(from, to)
             },
-            onItemClear = { viewModel.onMovesClear() },
+            onItemClear = { viewModel.applySwap() },
             onSwipeRight = { mediaProvider.remove(it) },
             afterSwipeRight = { viewModel.recalculatePositionsAfterRemove(it) }
         )

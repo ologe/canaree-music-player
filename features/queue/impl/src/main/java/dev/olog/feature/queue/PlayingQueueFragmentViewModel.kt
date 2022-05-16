@@ -34,7 +34,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
     private val _data = MutableStateFlow<List<PlayingQueueSong>?>(null)
 
     val data: Flow<List<QueueItem>> = combine(
-        _data.filterNotNull().onEach { moves.clear() },
+        _data.filterNotNull(),
         musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged()
     ) { queue, idInPlaylist ->
         val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
@@ -94,7 +94,11 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         }
     }
 
-    fun onMovesClear() {
+    /**
+     * to avoid issues with observability, record moves in [recordSwap] while swap is in progress,
+     * and then apply it as a batch when is finished.
+     */
+    fun applySwap() {
         val currentList = _data.value.orEmpty()
         for ((from, to) in moves.toList()) {
             currentList.swap(from, to)
