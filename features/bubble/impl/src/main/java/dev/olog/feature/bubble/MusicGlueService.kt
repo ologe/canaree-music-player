@@ -19,8 +19,10 @@ import dev.olog.feature.media.api.extensions.skipToPrevious
 import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.platform.ServiceLifecycle
+import dev.olog.platform.permission.PermissionManager
 import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ServiceScoped
@@ -28,6 +30,7 @@ class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val featureMediaNavigator: FeatureMediaNavigator,
+    private val permissionManager: PermissionManager,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
@@ -36,13 +39,16 @@ class MusicGlueService @Inject constructor(
             onConnectionChanged = this,
             scope = lifecycle.coroutineScope,
             componentName = featureMediaNavigator.serviceComponent(),
+            permissionManager = permissionManager,
         )
     }
     private var mediaController: MediaControllerCompat? = null
 
     init {
         lifecycle.addObserver(this)
-        mediaExposer.connect()
+        lifecycle.coroutineScope.launch {
+            mediaExposer.connect()
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

@@ -20,7 +20,13 @@ import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
-import kotlinx.coroutines.flow.*
+import dev.olog.platform.permission.PermissionManager
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class AlbumRepository @Inject constructor(
@@ -29,8 +35,14 @@ internal class AlbumRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedAlbumDao,
-    schedulers: Schedulers
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers), AlbumGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Album, Id>(
+    context,
+    contentResolver,
+    schedulers,
+    permissionManager
+), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 

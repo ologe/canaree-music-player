@@ -20,6 +20,7 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -31,8 +32,14 @@ internal class PodcastRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Song, Id>(
+    context,
+    contentResolver,
+    schedulers,
+    permissionManager,
+), PodcastGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

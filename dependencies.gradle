@@ -44,7 +44,7 @@ ext {
     fuzzywuzzy = '1.2.0'
 
 //    debug
-    leak_canary = '2.8.1'
+    leak_canary = '2.9.1'
 
 //    firebase
     firebase_core = '17.2.0'

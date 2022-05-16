@@ -7,7 +7,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.feature.media.api.connection.IMediaConnectionCallback
 import dev.olog.feature.media.api.connection.MusicServiceConnection
@@ -20,16 +19,23 @@ import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.feature.media.api.model.PlayerRepeatMode
 import dev.olog.feature.media.api.model.PlayerShuffleMode
-import dev.olog.platform.permission.Permissions
+import dev.olog.platform.permission.Permission
+import dev.olog.platform.permission.PermissionManager
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.extension.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MediaExposer(
@@ -37,6 +43,7 @@ class MediaExposer(
     private val onConnectionChanged: OnConnectionChanged,
     private val scope: CoroutineScope,
     private val componentName: ComponentName,
+    private val permissionManager: PermissionManager,
 ) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
@@ -49,11 +56,11 @@ class MediaExposer(
         )
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
+    private val connectionPublisher = Channel<MusicServiceConnectionState>()
 
     private val metadataPublisher = MutableStateFlow<PlayerMetadata?>(null)
     private val statePublisher = MutableStateFlow<PlayerPlaybackState?>(null)
@@ -61,42 +68,38 @@ class MediaExposer(
     private val shuffleModePublisher = MutableStateFlow<PlayerShuffleMode?>(null)
     private val queuePublisher = MutableStateFlow<List<PlayerItem>>(emptyList())
 
-    fun connect() {
-        if (!Permissions.canReadStorage(context)) {
-            Log.w("MediaExposer", "Storage permission is not granted")
-            return
-        }
-        job?.cancel()
-        job = scope.launch {
-            for (state in connectionPublisher.openSubscription()) {
-                Log.d("MediaExposer", "Connection state=$state")
-                when (state) {
-                    MusicServiceConnectionState.CONNECTED -> {
-                        onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
-                    }
-                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(
-                        mediaBrowser,
-                        callback
-                    )
-                }
-            }
-        }
+    suspend fun connect() = coroutineScope {
+        permissionManager.awaitPermission(context, Permission.Storage)
 
-        if (!mediaBrowser.isConnected){
-            try {
-                mediaBrowser.connect()
-            } catch (ex: IllegalStateException){
-//                TODO leak ??
-//                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
-//                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
-            }
-        }
+        job = connectionPublisher.receiveAsFlow()
+            .onEach { handleConnectionChange(it)}
+            .launchIn(scope)
+
+        tryConnect()
     }
 
     fun disconnect() {
-        job?.cancel()
-        if (mediaBrowser.isConnected){
-            mediaBrowser.disconnect()
+        job = null
+        mediaBrowser.disconnect()
+    }
+
+    private fun handleConnectionChange(state: MusicServiceConnectionState) = when (state) {
+        MusicServiceConnectionState.CONNECTED -> {
+            onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
+        }
+        MusicServiceConnectionState.FAILED -> {
+            onConnectionChanged.onConnectedFailed(mediaBrowser, callback)
+        }
+    }
+
+    private suspend fun tryConnect() = coroutineScope {
+        while (isActive) {
+            try {
+                mediaBrowser.connect()
+            } catch (ignored: IllegalStateException) {
+                // thrown while still disconnecting, can ignore
+            }
+            delay(100)
         }
     }
 

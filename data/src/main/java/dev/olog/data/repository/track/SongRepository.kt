@@ -18,7 +18,11 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.*
+import dev.olog.data.utils.getLong
+import dev.olog.data.utils.getString
+import dev.olog.data.utils.queryAll
+import dev.olog.data.utils.queryOne
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -29,8 +33,14 @@ internal class SongRepository @Inject constructor(
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Song, Id>(
+    context,
+    contentResolver,
+    schedulers,
+    permissionManager,
+), SongGateway {
 
     private val queries = TrackQueries(
         contentResolver, blacklistPrefs,

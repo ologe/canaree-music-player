@@ -31,6 +31,7 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(':common:shared')
+    implementation project(':common:platform')
 
     // todo fix, do not depends on features
     implementation project(':features:equalizer:api')
