@@ -29,8 +29,8 @@ class TouchHelperAdapterCallback(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType) &&
-            adapter.canInteractWithViewHolder(target.itemViewType)
+        if (adapter.canInteractWithViewHolder(viewHolder) &&
+            adapter.canInteractWithViewHolder(target)
         ) {
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
             return true
@@ -42,14 +42,14 @@ class TouchHelperAdapterCallback(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
+        if (adapter.canInteractWithViewHolder(viewHolder)) {
             return super.getSwipeDirs(recyclerView, viewHolder)
         }
         return 0
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
+        if (adapter.canInteractWithViewHolder(viewHolder)) {
             when (direction) {
                 ItemTouchHelper.RIGHT -> {
                     coroutineScope.launch {

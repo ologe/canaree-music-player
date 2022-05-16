@@ -3,19 +3,19 @@ package dev.olog.feature.detail.recently.added
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
+import dev.olog.feature.detail.R
+import dev.olog.image.provider.BindingsAdapter
 import dev.olog.platform.adapter.DataBoundViewHolder
 import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.drag.IDragListener
+import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateAlbumOnTouch
 import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
 import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.image.provider.BindingsAdapter
-import dev.olog.feature.detail.R
-import dev.olog.platform.adapter.drag.IDragListener
-import dev.olog.platform.adapter.drag.TouchableAdapter
+import dev.olog.ui.model.DiffCallbackDisplayableItem
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
-import dev.olog.ui.model.DiffCallbackDisplayableItem
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
@@ -50,8 +50,8 @@ class RecentlyAddedFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_recently_added
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_recently_added
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

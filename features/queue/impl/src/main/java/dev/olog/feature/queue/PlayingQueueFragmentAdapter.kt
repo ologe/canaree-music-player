@@ -1,152 +1,95 @@
 package dev.olog.feature.queue
 
-import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.feature.media.api.MediaProvider
-import dev.olog.image.provider.BindingsAdapter
-import dev.olog.platform.adapter.DataBoundViewHolder
-import dev.olog.platform.adapter.ObservableAdapter
+import dev.olog.platform.adapter.DiffAdapter
 import dev.olog.platform.adapter.drag.IDragListener
 import dev.olog.platform.adapter.drag.TouchableAdapter
 import dev.olog.platform.adapter.elevateSongOnTouch
-import dev.olog.platform.adapter.setOnClickListener
 import dev.olog.platform.adapter.setOnDragListener
-import dev.olog.platform.adapter.setOnLongClickListener
-import dev.olog.ui.textColorPrimary
-import dev.olog.ui.textColorSecondary
-import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(
-    private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener,
-    private val viewModel: PlayingQueueFragmentViewModel,
+    private val onItemClick: (QueueItem) -> Unit,
     private val onItemLongClick: (View, MediaId) -> Unit,
-) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue), TouchableAdapter {
+    private val onItemMoved: (from: Int, to: Int) -> Unit,
+    private val onItemClear: () -> Unit,
+    private val onSwipeRight: (Int) -> Unit,
+    private val afterSwipeRight: (Int) -> Unit,
+) : DiffAdapter<QueueItem, PlayingQueueViewHolder>(Diff),
+    TouchableAdapter {
 
-    private val moves = mutableListOf<Pair<Int, Int>>()
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.skipToQueueItem(item.idInPlaylist)
+    companion object Diff : DiffUtil.ItemCallback<QueueItem>() {
+        override fun areItemsTheSame(oldItem: QueueItem, newItem: QueueItem): Boolean {
+            return oldItem.mediaId == newItem.mediaId
         }
 
-        viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            onItemLongClick(viewHolder.itemView, item.mediaId)
+        override fun areContentsTheSame(oldItem: QueueItem, newItem: QueueItem): Boolean {
+            return oldItem == newItem
         }
-        viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
-        viewHolder.elevateSongOnTouch()
-    }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            index.text = item.relativePosition
-            BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
-
-            val textColor = calculateTextColor(context, item.relativePosition)
-            index.setTextColor(textColor)
+        override fun getChangePayload(oldItem: QueueItem, newItem: QueueItem): Any {
+            return newItem
         }
     }
 
-    private fun calculateTextColor(context: Context, positionInList: String): Int {
-        return if (positionInList.startsWith("-")) context.textColorSecondary()
-        else context.textColorPrimary()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayingQueueViewHolder {
+        val vh = PlayingQueueViewHolder(parent)
+
+        vh.itemView.setOnClickListener {
+            val item = getItem(vh.bindingAdapterPosition)
+            onItemClick(item)
+        }
+        vh.itemView.setOnLongClickListener {
+            val item = getItem(vh.bindingAdapterPosition)
+            onItemLongClick(it, item.mediaId)
+            true
+        }
+        vh.elevateSongOnTouch()
+        vh.setOnDragListener(R.id.dragHandle, dragListener)
+
+        return vh
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        if (payloads.isNotEmpty()) {
-            val payload = payloads[0] as List<Any>
-            for (currentPayload in payload) {
-                when (currentPayload) {
-                    is Boolean -> BindingsAdapter.setBoldIfTrue(holder.itemView.firstText, currentPayload)
-                    is String -> {
-                        val item = getItem(position)!!
-                        val textColor = calculateTextColor(
-                            holder.itemView.context,
-                            item.relativePosition
-                        )
-                        holder.itemView.index.updateText(currentPayload, textColor)
-                    }
-                }
-            }
-        } else {
+    override fun onBindViewHolder(holder: PlayingQueueViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    override fun onBindViewHolder(holder: PlayingQueueViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
-
+            return
         }
+
+        val item = payloads.first() as QueueItem
+        holder.rebind(item)
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_playing_queue
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder is PlayingQueueViewHolder
     }
 
     override fun onMoved(from: Int, to: Int) {
-        mediaProvider.swap(from, to)
+        onItemMoved(from, to)
         swap(from, to)
-        moves.add(from to to)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-        mediaProvider.remove(viewHolder.adapterPosition)
+        onSwipeRight(viewHolder.bindingAdapterPosition)
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        val position = viewHolder.adapterPosition
-        removeAt(position)
-        viewModel.recalculatePositionsAfterRemove(position)
+        afterSwipeRight(viewHolder.bindingAdapterPosition)
     }
 
     override fun onClearView() {
-        viewModel.recalculatePositionsAfterMove(moves.toList())
-        moves.clear()
+        onItemClear()
     }
 
     override fun contentViewFor(holder: RecyclerView.ViewHolder): View {
-        return holder.itemView.content
-    }
-}
-
-object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() {
-    override fun areItemsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override fun areContentsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun getChangePayload(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Any? {
-        val mutableList = mutableListOf<Any>()
-        if (oldItem.relativePosition != newItem.relativePosition) {
-            mutableList.add(newItem.relativePosition)
-        }
-        if (!oldItem.isCurrentSong && newItem.isCurrentSong) {
-            mutableList.add(true)
-        } else if (oldItem.isCurrentSong && !newItem.isCurrentSong) {
-            mutableList.add(false)
-        }
-        if (mutableList.isNotEmpty()) {
-            return mutableList
-        }
-        return super.getChangePayload(oldItem, newItem)
+        return holder.itemView.findViewById(R.id.content)
     }
 }

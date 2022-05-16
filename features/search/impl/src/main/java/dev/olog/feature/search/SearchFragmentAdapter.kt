@@ -120,9 +120,9 @@ class SearchFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_search_song ||
-                viewType == R.layout.item_search_recent
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_search_song ||
+            viewHolder.itemViewType == R.layout.item_search_recent
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {

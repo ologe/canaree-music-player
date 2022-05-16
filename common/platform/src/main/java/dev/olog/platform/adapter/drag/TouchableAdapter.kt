@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 interface TouchableAdapter {
 
-    fun canInteractWithViewHolder(viewType: Int): Boolean
+    fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean
 
     fun onMoved(from: Int, to: Int) {}
 
