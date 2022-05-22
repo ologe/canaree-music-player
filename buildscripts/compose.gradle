@@ -1,0 +1,24 @@
+android {
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose
+    }
+
+    kotlinOptions {
+        useIR = true
+    }
+
+}
+
+dependencies {
+    implementation lib_compose.ui
+    debugImplementation lib_compose.tooling
+    implementation lib_compose.tooling_preview
+    implementation lib_compose.material
+    implementation lib_compose.activity
+    implementation lib_compose.icons
+    implementation lib_compose.constraint_layout
+}

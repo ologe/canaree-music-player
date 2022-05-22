@@ -19,6 +19,7 @@ ext {
     android_x_fragments = '1.4.1'
     constraint_layout = '2.0.0'
     lifecycle = '2.4.1'
+    compose = '1.2.0-beta02'
 
 //    ui
     glide = '4.11.0'
@@ -87,6 +88,16 @@ ext {
             lifecycle_viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
             lifecycle_service  : "androidx.lifecycle:lifecycle-service:$lifecycle",
             lifecycle_process  : "androidx.lifecycle:lifecycle-process:$lifecycle",
+    ]
+
+    lib_compose = [
+            ui               : "androidx.compose.ui:ui:$compose",
+            tooling          : "androidx.compose.ui:ui-tooling:$compose",
+            tooling_preview  : "androidx.compose.ui:ui-tooling-preview:$compose",
+            material         : "androidx.compose.material:material:$compose",
+            activity         : "androidx.activity:activity-compose:$compose",
+            icons            : "androidx.compose.material:material-icons-extended:$compose",
+            constraint_layout: "androidx.constraintlayout:constraintlayout-compose:$compose",
     ]
 
     lib_ui = [
