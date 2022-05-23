@@ -4,9 +4,9 @@ apply from: rootProject.file("buildscripts/config.gradle")
 buildscript { 
 
     ext {
-        kotlin_version = '1.6.20'
-        google_services = '4.3.3'
-        crashlytics = '2.2.1'
+        kotlin_version = '1.6.21'
+        google_services = '4.3.10'
+        crashlytics = '2.8.1'
     }
 
     repositories {
@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath 'com.android.tools.build:gradle:7.4.0-alpha02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"

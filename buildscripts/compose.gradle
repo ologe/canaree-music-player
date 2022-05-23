@@ -9,6 +9,9 @@ android {
 
     kotlinOptions {
         useIR = true
+        freeCompilerArgs += [
+                "-opt-in=com.google.accompanist.pager.ExperimentalPagerApi"
+        ]
     }
 
 }
@@ -21,4 +24,6 @@ dependencies {
     implementation lib_compose.activity
     implementation lib_compose.icons
     implementation lib_compose.constraint_layout
+    implementation lib_compose.pager
+    implementation lib_compose.pager_indicator
 }

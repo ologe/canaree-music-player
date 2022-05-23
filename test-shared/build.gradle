@@ -32,10 +32,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dexOptions {
-        preDexLibraries true
-    }
-
     useLibrary 'android.test.runner'
 
     useLibrary 'android.test.base'

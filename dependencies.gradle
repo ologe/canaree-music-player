@@ -20,9 +20,11 @@ ext {
     constraint_layout = '2.0.0'
     lifecycle = '2.4.1'
     compose = '1.2.0-beta02'
+    compose_constraint_layout = '1.1.0-alpha01'
+    accompanist = '0.24.9-beta'
 
 //    ui
-    glide = '4.11.0'
+    glide = '4.13.2'
     lottie = '3.4.2'
     material_dialogs = '3.3.0'
     scroll_helper = '1.2.1'
@@ -48,8 +50,8 @@ ext {
     leak_canary = '2.9.1'
 
 //    firebase
-    firebase_core = '17.2.0'
-    firebase_crashlytics = '17.2.1'
+    firebase_core = '21.0.0'
+    firebase_crashlytics = '18.2.10'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
@@ -97,13 +99,14 @@ ext {
             material         : "androidx.compose.material:material:$compose",
             activity         : "androidx.activity:activity-compose:$compose",
             icons            : "androidx.compose.material:material-icons-extended:$compose",
-            constraint_layout: "androidx.constraintlayout:constraintlayout-compose:$compose",
+            constraint_layout: "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout",
+            pager            : "com.google.accompanist:accompanist-pager:$accompanist",
+            pager_indicator  : "com.google.accompanist:accompanist-pager-indicators:$accompanist",
     ]
 
     lib_ui = [
             glide                   : "com.github.bumptech.glide:glide:$glide",
             glide_processor         : "com.github.bumptech.glide:compiler:$glide",
-            androidSupportAnnotation: "com.android.support:support-annotations:28.0.0",
             scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
             blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
             lottie                  : "com.airbnb.android:lottie:$lottie",
