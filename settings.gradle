@@ -10,6 +10,7 @@ include ':common:localization'
 include ':common:shared'
 include ':common:platform'
 include ':common:ui'
+include ':common:compose'
 
 include ':data'
 

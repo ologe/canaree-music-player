@@ -1,5 +1,4 @@
 android {
-
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
 

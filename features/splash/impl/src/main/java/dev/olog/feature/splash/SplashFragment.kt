@@ -4,52 +4,38 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import dev.olog.feature.splash.databinding.FragmentSplashBinding
+import dev.olog.compose.ComposeView
 import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.platform.permission.OnPermissionChanged
 import dev.olog.platform.permission.Permission
 import dev.olog.platform.permission.PermissionManager
 import dev.olog.platform.permission.PermissionResult
-import dev.olog.platform.viewBinding
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.extension.alertDialog
 import dev.olog.shared.extension.exhaustive
 import dev.olog.shared.extension.findInContext
-import dev.olog.shared.extension.launchWhenResumed
-import dev.olog.shared.extension.lazyFast
 
-class SplashFragment : Fragment(R.layout.fragment_splash) {
+class SplashFragment : Fragment() {
 
     companion object {
         val TAG = FragmentTagFactory.create(SplashFragment::class)
-    }
-
-    private val binding by viewBinding(FragmentSplashBinding::bind)
-    private var permissionJob by autoDisposeJob()
-
-    private val adapter by lazyFast {
-        SplashFragmentViewPagerAdapter(childFragmentManager)
     }
 
     private val permissionHandler = PermissionManager().run {
         requestPermissionHandler(this@SplashFragment, Permission.Storage)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        viewPager.adapter = adapter
-        inkIndicator.setViewPager(viewPager)
-
-        next.setOnClickListener {
-            if (viewPager.currentItem == 0) {
-                viewPager.setCurrentItem(1, true)
-            } else {
-                permissionJob = launchWhenResumed {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return ComposeView(requireContext()) {
+            SplashScreen(
+                onRequestPermission = {
                     requestStoragePermission()
                 }
-            }
+            )
         }
     }
 

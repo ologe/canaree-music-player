@@ -106,4 +106,6 @@
 
     <string name="common_sort_by">Sort by</string>
 
+    <string name="player_now_playing" translatable="false">Now Playing</string>
+
 </resources>

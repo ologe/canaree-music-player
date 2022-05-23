@@ -8,11 +8,8 @@ apply from: rootProject.file("buildscripts/compose.gradle")
 
 dependencies {
     implementation project(':core')
-    implementation project(':common:compose')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
     implementation project(':common:localization')
     implementation project(':common:ui')
-
-    implementation lib_x.fragments
-
-    implementation lib_ui.glide
 }
