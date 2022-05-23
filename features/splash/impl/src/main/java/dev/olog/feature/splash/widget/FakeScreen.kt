@@ -35,6 +35,7 @@ import dev.olog.compose.DevicePreviews
 import dev.olog.compose.OrientationPreviews
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.glide.RemoteImage
+import dev.olog.compose.statusBarsPadding
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.feature.player.api.widget.NowPlaying
@@ -61,7 +62,7 @@ fun FakePhone(
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .padding(top = paddingTop)
+                .statusBarsPadding(plus = paddingTop)
                 .widthIn(max = maxWidth)
                 .aspectRatio(ratio)
         )
@@ -73,6 +74,7 @@ fun FakePhone(
                 .padding(top = paddingTop)
                 .widthIn(max = maxWidth)
         ) {
+            // fake screen
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(topStart = CornerSize, topEnd = CornerSize))

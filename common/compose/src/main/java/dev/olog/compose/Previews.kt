@@ -22,7 +22,7 @@ annotation class CombinedPreviews
     group = "devices"
 )
 @Preview(
-    name = "pixel 4 xml",
+    name = "pixel 4 xl",
     device = Devices.PIXEL_4_XL,
     group = "devices"
 )

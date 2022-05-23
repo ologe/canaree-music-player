@@ -7,6 +7,6 @@ import androidx.compose.ui.unit.Dp
 
 fun Modifier.statusBarsPadding(plus: Dp): Modifier {
     return this
-        .then(statusBarsPadding())
+        .statusBarsPadding()
         .padding(top = plus)
 }

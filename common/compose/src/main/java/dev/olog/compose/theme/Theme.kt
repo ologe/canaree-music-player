@@ -18,9 +18,8 @@ fun CanareeTheme(
         content = {
             CompositionLocalProvider(
                 LocalContentAlpha provides 1f,
-            ) {
-                content()
-            }
+                content = content,
+            )
         }
     )
 }

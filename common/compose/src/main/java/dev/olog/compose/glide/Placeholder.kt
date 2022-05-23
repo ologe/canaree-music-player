@@ -48,10 +48,6 @@ internal fun Placeholder(
         )
     }
 
-    val icon = rememberVectorPainter(
-        ImageVector.vectorResource(CoverUtils.getDrawableId(mediaId))
-    )
-
     Box(
         modifier = modifier.background(gradient),
         contentAlignment = Alignment.Center,
@@ -60,7 +56,10 @@ internal fun Placeholder(
                 modifier = Modifier
                     .fillMaxSize(.35f)
                     .paint(
-                        painter = icon,
+                        // todo double remember
+                        painter = rememberVectorPainter(
+                            ImageVector.vectorResource(CoverUtils.getDrawableId(mediaId))
+                        ),
                         contentScale = ContentScale.Fit,
                         sizeToIntrinsics = true
                     )
