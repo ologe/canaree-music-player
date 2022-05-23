@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import dev.olog.compose.Background
 import dev.olog.compose.ThemePreviews
@@ -25,6 +26,8 @@ private val DefaultPrimaryColor = Color(0xff_3D5AFE)
 
 @Composable
 internal fun colors(isDarkMode: Boolean): Colors {
+    val secondaryColor = DefaultPrimaryColor
+    val onSecondaryColor = if (secondaryColor.luminance() < .5) Color.White else Color.Black
     return if (isDarkMode) {
         darkColors(
             background = Color(0xff_121212),
@@ -34,8 +37,9 @@ internal fun colors(isDarkMode: Boolean): Colors {
             primary = Color(0xff_121212),
             primaryVariant = Color(0xff_121212),
             onPrimary = Color.White,
-            secondary = DefaultPrimaryColor,
-            secondaryVariant = DefaultPrimaryColor,
+            secondary = secondaryColor,
+            secondaryVariant = secondaryColor,
+            onSecondary = onSecondaryColor,
         )
     } else {
         lightColors(
@@ -46,8 +50,9 @@ internal fun colors(isDarkMode: Boolean): Colors {
             primary = Color.White,
             primaryVariant = Color.White,
             onPrimary = Color(0xff_2b2b2b),
-            secondary = DefaultPrimaryColor,
-            secondaryVariant = DefaultPrimaryColor,
+            secondary = secondaryColor,
+            secondaryVariant = secondaryColor,
+            onSecondary = onSecondaryColor,
         )
     }
 }

@@ -3,7 +3,6 @@ package dev.olog.compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
@@ -17,7 +16,7 @@ fun Background(
     withStatusBar: Boolean = true,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    Column(
+    Box(
         modifier = modifier.background(MaterialTheme.colors.background),
         content = {
             CompositionLocalProvider(

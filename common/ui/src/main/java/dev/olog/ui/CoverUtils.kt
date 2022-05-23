@@ -50,6 +50,33 @@ object CoverUtils {
         }
     }
 
+    fun onlyGradientColors(
+        mediaId: MediaId,
+        isDarkMode: Boolean,
+    ): IntArray {
+        val position = mediaId.resolveId.toInt() % COLORS.size
+        return if (!isDarkMode) {
+            COLORS[abs(position)]
+        } else {
+            DESATURATED_COLORS[abs(position)]
+        }
+    }
+
+    @DrawableRes
+    fun getDrawableId(mediaId: MediaId): Int = when (mediaId.category) {
+        MediaIdCategory.FOLDERS -> R.drawable.vd_folder
+        MediaIdCategory.PLAYLISTS,
+        MediaIdCategory.PODCASTS_PLAYLIST -> R.drawable.vd_playlist
+        MediaIdCategory.SONGS -> R.drawable.vd_musical_note
+        MediaIdCategory.ALBUMS,
+        MediaIdCategory.PODCASTS_ALBUMS -> R.drawable.vd_album
+        MediaIdCategory.ARTISTS,
+        MediaIdCategory.PODCASTS_ARTISTS -> R.drawable.vd_artist
+        MediaIdCategory.GENRES -> R.drawable.vd_genre
+        MediaIdCategory.PODCASTS -> R.drawable.vd_podcast
+        else -> throw IllegalArgumentException("invalid source ${mediaId.category}")
+    }
+
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
         return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
     }

@@ -22,6 +22,7 @@ ext {
     compose = '1.2.0-beta02'
     compose_constraint_layout = '1.1.0-alpha01'
     accompanist = '0.24.9-beta'
+    landscapist = '1.5.2'
 
 //    ui
     glide = '4.13.2'
@@ -102,18 +103,19 @@ ext {
             constraint_layout: "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout",
             pager            : "com.google.accompanist:accompanist-pager:$accompanist",
             pager_indicator  : "com.google.accompanist:accompanist-pager-indicators:$accompanist",
+            landscapist      : "com.github.skydoves:landscapist-glide:$landscapist"
     ]
 
     lib_ui = [
-            glide                   : "com.github.bumptech.glide:glide:$glide",
-            glide_processor         : "com.github.bumptech.glide:compiler:$glide",
-            scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
-            blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
-            lottie                  : "com.airbnb.android:lottie:$lottie",
-            dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
-            dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
-            color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",
-            tap_target_view         : "com.github.ologe:taptargetview:$tap_target_view"
+            glide             : "com.github.bumptech.glide:glide:$glide",
+            glide_processor   : "com.github.bumptech.glide:compiler:$glide",
+            scroll_helper     : "com.github.ologe:scroll-helper:$scroll_helper",
+            blur_kit          : "io.alterac.blurkit:blurkit:$blur_kit",
+            lottie            : "com.airbnb.android:lottie:$lottie",
+            dialogs_core      : "com.afollestad.material-dialogs:core:$material_dialogs",
+            dialogs_color     : "com.afollestad.material-dialogs:color:$material_dialogs",
+            color_desaturation: "com.github.ologe:color-desaturation:$color_desaturation",
+            tap_target_view   : "com.github.ologe:taptargetview:$tap_target_view"
     ]
 
     lib_data = [

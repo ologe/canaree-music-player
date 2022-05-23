@@ -15,7 +15,10 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
     implementation project(':common:localization')
+    implementation project(':common:compose')
     implementation project(':image-provider')
+
+    implementation project(':features:player:api')
 
     implementation lib_core.hilt
     kapt lib_core.hilt_processor

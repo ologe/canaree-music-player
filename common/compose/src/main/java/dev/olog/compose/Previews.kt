@@ -31,6 +31,11 @@ annotation class CombinedPreviews
     device = Devices.PIXEL_C,
     group = "devices"
 )
+@Preview(
+    name = "foldable",
+    device = Devices.FOLDABLE,
+    group = "devices"
+)
 annotation class DevicePreviews
 
 @Preview(
@@ -70,7 +75,7 @@ annotation class FontScalePreviews
     name = "landscape",
     device = Devices.AUTOMOTIVE_1024p,
     widthDp = 720,
-    heightDp = 300,
+    heightDp = 360,
     group = "orientation",
 )
 annotation class OrientationPreviews

@@ -21,8 +21,6 @@
     <dimen name="dotted_separator_margin_bottom">12dp</dimen>
 
 
-    <string name="player_now_playing" translatable="false">Now Playing</string>
-
     <dimen name="player_big_image_text_margin_top">20dp</dimen>
 
 </resources>
