@@ -23,21 +23,20 @@ import kotlinx.coroutines.launch
 fun SplashScreen(
     onRequestPermission: suspend () -> Unit,
 ) {
-    Background(Modifier.fillMaxSize()) {
+    Background(
+        modifier = Modifier.fillMaxSize()
+            .statusBarsPadding()
+    ) {
         val state = rememberPagerState(initialPage = 1)
 
         PagerIndicator(
             pagerState = state,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .statusBarsPadding(plus = 16.dp),
+                .padding(top = 16.dp),
         )
 
-        HorizontalPager(
-            count = 2,
-            state = state,
-            modifier = Modifier.statusBarsPadding()
-        ) { page ->
+        HorizontalPager(count = 2, state = state) { page ->
             when (page) {
                 0 -> SplashPresentation()
                 1 -> SplashTutorial(
