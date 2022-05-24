@@ -2,6 +2,7 @@ package dev.olog.feature.splash
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ fun SplashScreen(
     onRequestPermission: suspend () -> Unit,
 ) {
     Background(Modifier.fillMaxSize()) {
-        val state = rememberPagerState(initialPage = 0)
+        val state = rememberPagerState(initialPage = 1)
 
         PagerIndicator(
             pagerState = state,
@@ -32,7 +33,11 @@ fun SplashScreen(
                 .statusBarsPadding(plus = 16.dp),
         )
 
-        HorizontalPager(count = 2, state = state) { page ->
+        HorizontalPager(
+            count = 2,
+            state = state,
+            modifier = Modifier.statusBarsPadding()
+        ) { page ->
             when (page) {
                 0 -> SplashPresentation()
                 1 -> SplashTutorial(
