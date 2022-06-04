@@ -10,7 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +24,7 @@ import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue.Default
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.ThresholdConfig
 import androidx.compose.material.rememberDismissState
@@ -42,10 +43,11 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.olog.compose.Background
 import dev.olog.compose.CanareeIcons
+import dev.olog.compose.DevicePreviews
 import dev.olog.compose.animation.BounceEasing
 import dev.olog.compose.animation.rememberAccelerateEasing
 import dev.olog.compose.animation.rememberDecelerateEasing
@@ -57,6 +59,8 @@ private val PlayNextColor = Color(0xff_364854)
 private val DeleteColor = Color(0xff_cf1721)
 private const val CircularRevealDuration = 400
 private const val TargetIconScale = 1.2f
+private val IconSize = 48.dp
+private val IconPaddingFromScreen = 16.dp
 
 @Composable
 fun CircularSwipeToDismiss(
@@ -65,7 +69,8 @@ fun CircularSwipeToDismiss(
     dismissThresholds: (DismissDirection) -> ThresholdConfig = { FractionalThreshold(0.5f) },
     onDelete: () -> Boolean = { false }, // true to reset
     onPlayNext: () -> Boolean = { true }, // true to reset
-    content: @Composable RowScope.() -> Unit,
+    contentColor: Color = MaterialTheme.colors.background,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     // call callbacks on dismiss finished
     LaunchedEffect(state.isDismissed(EndToStart), state.isDismissed(StartToEnd)) {
@@ -92,7 +97,11 @@ fun CircularSwipeToDismiss(
                 modifier = Modifier.fillMaxSize()
             )
         },
-        dismissContent = content,
+        dismissContent = {
+            Box(Modifier.background(color = contentColor)) {
+                 content()
+            }
+        },
     )
 }
 
@@ -131,7 +140,7 @@ private fun SwipeableBackground(
                 scale = scaleEffect.value,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .padding(start = 16.dp)
+                    .padding(start = IconPaddingFromScreen)
             )
         }
 
@@ -142,7 +151,7 @@ private fun SwipeableBackground(
                 scale = scaleEffect.value,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(end = 16.dp)
+                    .padding(end = IconPaddingFromScreen)
             )
         }
     }
@@ -158,10 +167,8 @@ private fun CircularBackground(
         modifier = modifier
             .circularReveal(
                 visible = showReveal,
-                revealFrom = Offset(
-                    x = if (state.dismissDirection == StartToEnd) .1f else .9f, // todo
-                    y = .5f
-                )
+                direction = state.dismissDirection,
+                offset = IconPaddingFromScreen + (IconSize / 2)
             )
             .background(
                 when (state.dismissDirection) {
@@ -175,7 +182,8 @@ private fun CircularBackground(
 
 private fun Modifier.circularReveal(
     visible: Boolean,
-    revealFrom: Offset = Offset(0.5f, 0.5f),
+    direction: DismissDirection?,
+    offset: Dp,
 ): Modifier = composed {
     val factor = updateTransition(visible, label = "Visibility")
         .animateFloat(
@@ -192,19 +200,23 @@ private fun Modifier.circularReveal(
 
     drawWithCache {
         path.reset()
-        val center = revealFrom.mapTo(size)
-        val radius = calculateRadius(revealFrom, size)
 
+        val center = when (direction) {
+            StartToEnd -> Offset(offset.toPx(), size.height / 2)
+            EndToStart -> Offset(size.width - offset.toPx(), size.height / 2)
+            null -> Offset.Zero
+        }
+        val normalizedOrigin = Offset(
+            center.x / size.width,
+            .5f,
+        )
+        val radius = calculateRadius(normalizedOrigin, size)
         path.addOval(Rect(center, radius * factor.value))
 
         onDrawWithContent {
             clipPath(path) { this@onDrawWithContent.drawContent() }
         }
     }
-}
-
-private fun Offset.mapTo(size: Size): Offset {
-    return Offset(x * size.width, y * size.height)
 }
 
 private fun calculateRadius(normalizedOrigin: Offset, size: Size) = with(normalizedOrigin) {
@@ -222,7 +234,6 @@ private fun scaleEffect(trigger: Boolean): Animatable<Float, AnimationVector1D> 
     // scale animation
     LaunchedEffect(trigger) {
         if (trigger) {
-            scaleAnimatable.snapTo(1f)
             scaleAnimatable.animateTo(
                 targetValue = TargetIconScale,
                 animationSpec = tween(
@@ -237,8 +248,6 @@ private fun scaleEffect(trigger: Boolean): Animatable<Float, AnimationVector1D> 
                     easing = bounceEasing,
                 )
             )
-        } else {
-            scaleAnimatable.snapTo(1f)
         }
     }
 
@@ -255,7 +264,7 @@ private fun ActionIcon(
         imageVector = imageVector,
         contentDescription = null,
         modifier = modifier
-            .size(48.dp)
+            .size(IconSize)
             .padding(12.dp)
             .graphicsLayer(
                 scaleX = scale,
@@ -264,20 +273,21 @@ private fun ActionIcon(
     )
 }
 
-@Preview
+@DevicePreviews
 @Composable
 private fun Preview() {
     CanareeTheme {
         Background(
             Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(100.dp)
         ) {
-            CircularSwipeToDismiss {
+            CircularSwipeToDismiss(
+                onDelete = { true },
+                onPlayNext = { true },
+            ) {
                 Spacer(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Blue.copy(1f))
+                    Modifier.fillMaxSize()
                 )
             }
         }
