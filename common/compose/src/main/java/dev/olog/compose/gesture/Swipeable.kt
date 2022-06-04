@@ -4,10 +4,7 @@
 package dev.olog.compose.gesture
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -33,7 +30,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -43,15 +39,17 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.olog.compose.Background
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.DevicePreviews
+import dev.olog.compose.LaunchedBooleanEffect
 import dev.olog.compose.animation.BounceEasing
 import dev.olog.compose.animation.rememberAccelerateEasing
 import dev.olog.compose.animation.rememberDecelerateEasing
 import dev.olog.compose.theme.CanareeTheme
+import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 private val DefaultColor = Color(0xff_c6c6c6)
@@ -98,7 +96,7 @@ fun CircularSwipeToDismiss(
             )
         },
         dismissContent = {
-            Box(Modifier.background(color = contentColor)) {
+            Box(Modifier.background(contentColor)) {
                  content()
             }
         },
@@ -111,33 +109,74 @@ private fun SwipeableBackground(
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
-        // default background
-        Spacer(
-            Modifier
-                .matchParentSize()
-                .background(DefaultColor)
-        )
+        val animatable = remember { Animatable(0f) }
+        val scaleAnimatable = remember { Animatable(1f) }
+        val accelerateEasing = rememberAccelerateEasing()
+        val decelerateEasing = rememberDecelerateEasing()
+        val bounceEasing = BounceEasing
 
-        val isIdle = with(state.progress) { (from == Default && from == to) }
-        val showReveal = state.progress.fraction > .15
-
-        // actions background with circular reveal animation, hide completely if idle
-        if (!isIdle) {
-            CircularBackground(
-                state = state,
-                showReveal = showReveal,
-                modifier = Modifier.matchParentSize()
-            )
+        val offset = state.progress.fraction
+        LaunchedBooleanEffect(offset > .15f) { // start reveal
+            // background
+            launch {
+                animatable.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = CircularRevealDuration,
+                        easing = accelerateEasing,
+                    )
+                )
+            }
+            // icon scale
+            launch {
+                // increase
+                scaleAnimatable.animateTo(
+                    targetValue = TargetIconScale,
+                    animationSpec = tween(
+                        durationMillis = CircularRevealDuration / 2,
+                        easing = decelerateEasing,
+                    )
+                )
+                // decrease
+                scaleAnimatable.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = CircularRevealDuration / 2,
+                        easing = bounceEasing,
+                    )
+                )
+            }
         }
 
-        // scale effect for icons when circular reveal starts
-        val scaleEffect = scaleEffect(trigger = !isIdle && showReveal)
+        // restore initial state
+        LaunchedBooleanEffect(
+            predicate1 = offset < 0.01,
+            predicate2 = with(state.progress) { from == Default && to == from }
+        ) {
+            // background
+            launch {
+                animatable.snapTo(0f)
+            }
+            // icon scale
+            launch {
+                scaleAnimatable.snapTo(1f)
+            }
+        }
+
+        // actions background with circular reveal animation, hide completely if idle
+        CircularRevealBackground(
+            state = state,
+            modifier = Modifier.matchParentSize()
+        )
+
+        // todo icons are redrawn on each movement, is this correct?
+        //   and seems not related to scale
 
         // delete icon, left icon
         if (state.dismissDirection == StartToEnd) {
             ActionIcon(
                 imageVector = CanareeIcons.Delete,
-                scale = scaleEffect.value,
+                scale = scaleAnimatable.value,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = IconPaddingFromScreen)
@@ -148,7 +187,7 @@ private fun SwipeableBackground(
         if (state.dismissDirection == EndToStart) {
             ActionIcon(
                 imageVector = CanareeIcons.PlaylistAdd,
-                scale = scaleEffect.value,
+                scale = scaleAnimatable.value,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = IconPaddingFromScreen)
@@ -158,100 +197,68 @@ private fun SwipeableBackground(
 }
 
 @Composable
-private fun CircularBackground(
+private fun CircularRevealBackground(
     state: DismissState,
-    showReveal: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Spacer(
-        modifier = modifier
-            .circularReveal(
-                visible = showReveal,
-                direction = state.dismissDirection,
-                offset = IconPaddingFromScreen + (IconSize / 2)
-            )
-            .background(
-                when (state.dismissDirection) {
-                    StartToEnd -> DeleteColor
-                    EndToStart -> PlayNextColor
-                    null -> Color.Unspecified
-                }
-            )
-    )
-}
+    val animatable = remember { Animatable(0f) }
+    val easing = rememberAccelerateEasing()
 
-private fun Modifier.circularReveal(
-    visible: Boolean,
-    direction: DismissDirection?,
-    offset: Dp,
-): Modifier = composed {
-    val factor = updateTransition(visible, label = "Visibility")
-        .animateFloat(
-            label = "revealFactor",
-            transitionSpec = {
-                tween(
-                    durationMillis = CircularRevealDuration,
-                    easing = rememberAccelerateEasing(),
-                )
-            }
-        ) { if (it) 1f else 0f }
+    val offset = state.progress.fraction
+    LaunchedEffect(offset > .15f) { // start reveal
+        animatable.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = CircularRevealDuration,
+                easing = easing,
+            )
+        )
+    }
+    LaunchedEffect(abs(offset) < 0.01) { // restore initial state
+        animatable.snapTo(0f)
+    }
 
     val path = remember { Path() }
-
-    drawWithCache {
-        path.reset()
-
-        val center = when (direction) {
-            StartToEnd -> Offset(offset.toPx(), size.height / 2)
-            EndToStart -> Offset(size.width - offset.toPx(), size.height / 2)
-            null -> Offset.Zero
-        }
-        val normalizedOrigin = Offset(
-            center.x / size.width,
-            .5f,
-        )
-        val radius = calculateRadius(normalizedOrigin, size)
-        path.addOval(Rect(center, radius * factor.value))
-
-        onDrawWithContent {
-            clipPath(path) { this@onDrawWithContent.drawContent() }
-        }
+    val paddingFromScreen = IconPaddingFromScreen + (IconSize / 2)
+    val direction = state.dismissDirection
+    val backgroundColor = when (direction) {
+        StartToEnd -> DeleteColor
+        EndToStart -> PlayNextColor
+        null -> Color.Unspecified
     }
+
+    // todo fix background color on multiple fast swipes
+    Spacer(
+        modifier = modifier
+            .background(DefaultColor) // default background
+            .drawWithCache {
+                path.reset()
+
+                val center = when (direction) {
+                    StartToEnd -> Offset(paddingFromScreen.toPx(), size.height / 2)
+                    EndToStart -> Offset(size.width - paddingFromScreen.toPx(), size.height / 2)
+                    null -> Offset.Zero
+                }
+                val normalizedOrigin = Offset(
+                    center.x / size.width,
+                    .5f,
+                )
+                val radius = calculateRadius(normalizedOrigin, size)
+                path.addOval(Rect(center, radius * animatable.value))
+
+                onDrawBehind {
+                    clipPath(path) {
+                        drawRect(backgroundColor)
+                    }
+                }
+            }
+    )
 }
 
 private fun calculateRadius(normalizedOrigin: Offset, size: Size) = with(normalizedOrigin) {
     val x = (if (x > 0.5f) x else 1 - x) * size.width
     val y = (if (y > 0.5f) y else 1 - y) * size.height
     sqrt(x * x + y * y)
-}
-
-@Composable
-private fun scaleEffect(trigger: Boolean): Animatable<Float, AnimationVector1D> {
-    val decelerateEasing = rememberDecelerateEasing()
-    val bounceEasing = BounceEasing
-    val scaleAnimatable = remember { Animatable(1f) }
-
-    // scale animation
-    LaunchedEffect(trigger) {
-        if (trigger) {
-            scaleAnimatable.animateTo(
-                targetValue = TargetIconScale,
-                animationSpec = tween(
-                    durationMillis = CircularRevealDuration / 2,
-                    easing = decelerateEasing,
-                )
-            )
-            scaleAnimatable.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(
-                    durationMillis = CircularRevealDuration / 2,
-                    easing = bounceEasing,
-                )
-            )
-        }
-    }
-
-    return scaleAnimatable
 }
 
 @Composable
@@ -269,7 +276,8 @@ private fun ActionIcon(
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale,
-            )
+            ),
+        tint = Color.White,
     )
 }
 
