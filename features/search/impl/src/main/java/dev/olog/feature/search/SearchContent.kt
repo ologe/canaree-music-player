@@ -127,7 +127,10 @@ fun SearchContent(
 
             CanareeFab(
                 imageVector = CanareeIcons.Keyboard,
-                onClick = { inputService?.showSoftwareKeyboard() },
+                onClick = {
+                    // todo not working if none textfield was focused
+                    inputService?.showSoftwareKeyboard()
+                },
                 modifier = Modifier
                     .constrainAs(fab) {
                         bottom.linkTo(parent.bottom)
