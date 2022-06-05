@@ -33,7 +33,7 @@ import dev.olog.compose.theme.CanareeTheme
 @Composable
 fun StatusBar(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colors.background
+    color: Color = if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.background
 ) {
     val heightModifier = if (LocalInspectionMode.current) {
         Modifier.height(24.dp)

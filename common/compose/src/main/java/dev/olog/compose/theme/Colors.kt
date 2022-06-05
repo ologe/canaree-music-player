@@ -1,6 +1,8 @@
 package dev.olog.compose.theme
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,15 +20,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import dev.olog.compose.Background
 import dev.olog.compose.ThemePreviews
+import dev.olog.lib.ColorDesaturationUtils
 
 private val DefaultPrimaryColor = Color(0xff_3D5AFE)
 
 @Composable
 internal fun colors(isDarkMode: Boolean): Colors {
-    val secondaryColor = DefaultPrimaryColor
+    val secondaryColor = if (isSystemInDarkTheme()) {
+        Color(ColorDesaturationUtils.desaturate(DefaultPrimaryColor.toArgb(), .25f, .75f))
+    } else {
+        DefaultPrimaryColor
+    }
     val onSecondaryColor = if (secondaryColor.luminance() < .5) Color.White else Color.Black
     return if (isDarkMode) {
         darkColors(
@@ -37,8 +45,8 @@ internal fun colors(isDarkMode: Boolean): Colors {
             primary = Color(0xff_121212),
             primaryVariant = Color(0xff_121212),
             onPrimary = Color.White,
-            secondary = secondaryColor,
-            secondaryVariant = secondaryColor,
+            secondary = animateColorAsState(secondaryColor).value,
+            secondaryVariant = animateColorAsState(secondaryColor).value,
             onSecondary = onSecondaryColor,
         )
     } else {
@@ -50,8 +58,8 @@ internal fun colors(isDarkMode: Boolean): Colors {
             primary = Color.White,
             primaryVariant = Color.White,
             onPrimary = Color(0xff_2b2b2b),
-            secondary = secondaryColor,
-            secondaryVariant = secondaryColor,
+            secondary = animateColorAsState(secondaryColor).value,
+            secondaryVariant = animateColorAsState(secondaryColor).value,
             onSecondary = onSecondaryColor,
         )
     }

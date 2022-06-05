@@ -1,6 +1,7 @@
-package dev.olog.feature.search
+package dev.olog.feature.search.navigation
 
 import androidx.fragment.app.Fragment
+import dev.olog.feature.search.SearchFragment
 import dev.olog.feature.search.api.FeatureSearchNavigator
 import javax.inject.Inject
 

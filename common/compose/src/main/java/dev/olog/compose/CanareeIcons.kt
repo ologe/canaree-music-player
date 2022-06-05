@@ -5,6 +5,7 @@ import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Explicit
+import androidx.compose.material.icons.rounded.Keyboard
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayArrow
@@ -51,5 +52,8 @@ object CanareeIcons {
 
     val Clear: ImageVector
         get() = Icons.Rounded.Clear
+
+    val Keyboard: ImageVector
+        get() = Icons.Rounded.Keyboard
 
 }

@@ -8,6 +8,13 @@ object TextUtils {
     const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
+    fun getTrackText(
+        title: String,
+        subtitle: String,
+    ) : String {
+        return "$title${MIDDLE_DOT_SPACED}$subtitle"
+    }
+
     @Suppress("NOTHING_TO_INLINE")
     @JvmStatic
     inline fun formatMillis(millis: Int): String {

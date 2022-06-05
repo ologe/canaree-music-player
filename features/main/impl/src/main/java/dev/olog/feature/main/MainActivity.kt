@@ -122,16 +122,16 @@ class MainActivity : MusicGlueActivity(),
 
     private fun setupSlidingPanel(){
         if (!isTablet) {
-            val scrollHelper = scrollHelperFactory.create(
-                this, ScrollType.Full(
-                    slidingPanel = slidingPanel,
-                    bottomNavigation = bottomWrapper,
-                    toolbarHeight = dimen(dev.olog.ui.R.dimen.toolbar),
-                    tabLayoutHeight = dimen(dev.olog.ui.R.dimen.tab),
-                    realSlidingPanelPeek = dimen(dev.olog.ui.R.dimen.sliding_panel_peek)
-                )
-            )
-            lifecycle.addObserver(scrollHelper)
+//            val scrollHelper = scrollHelperFactory.create(
+//                this, ScrollType.Full(
+//                    slidingPanel = slidingPanel,
+//                    bottomNavigation = bottomWrapper,
+//                    toolbarHeight = dimen(dev.olog.ui.R.dimen.toolbar),
+//                    tabLayoutHeight = dimen(dev.olog.ui.R.dimen.tab),
+//                    realSlidingPanelPeek = dimen(dev.olog.ui.R.dimen.sliding_panel_peek)
+//                )
+//            )
+//            lifecycle.addObserver(scrollHelper)
         }
     }
 
