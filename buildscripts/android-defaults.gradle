@@ -23,7 +23,10 @@ android {
         jvmTarget = project.javaVersion.toString()
         freeCompilerArgs += [
             "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
+            "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
         ]
     }
 
@@ -43,5 +46,7 @@ dependencies {
     testImplementation lib_test.mockito
     testImplementation lib_test.mockito_kotlin
     testImplementation lib_core.coroutines_test
+    testImplementation lib_core.coroutines_test
+    testImplementation lib_test.robolectric
     testImplementation project (':test-shared')
 }
