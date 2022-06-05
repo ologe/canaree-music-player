@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="screen_margin">16dp</dimen>
+
     <dimen name="playing_queue_margin_horizontal">8dp</dimen>
     <dimen name="playing_queue_margin_vertical">8dp</dimen>
 

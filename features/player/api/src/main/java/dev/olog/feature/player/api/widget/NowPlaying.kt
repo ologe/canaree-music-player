@@ -33,7 +33,6 @@ fun NowPlaying(
         Text(
             text = stringResource(localization.R.string.player_now_playing),
             style = MaterialTheme.typography.h5,
-            fontSize = 28.sp,
             color = MaterialTheme.colors.onBackground,
             textAlign = TextAlign.Center,
             modifier = Modifier.graphicsLayer {

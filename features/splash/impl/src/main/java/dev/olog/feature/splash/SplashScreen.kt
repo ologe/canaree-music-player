@@ -2,9 +2,7 @@ package dev.olog.feature.splash
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -13,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import dev.olog.compose.Background
+import dev.olog.compose.CanareeIcon
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.PagerIndicator
-import dev.olog.compose.statusBarsPadding
 import dev.olog.shared.extension.exhaustive
 import kotlinx.coroutines.launch
 
@@ -24,10 +22,9 @@ fun SplashScreen(
     onRequestPermission: suspend () -> Unit,
 ) {
     Background(
-        modifier = Modifier.fillMaxSize()
-            .statusBarsPadding()
+        modifier = Modifier.fillMaxSize(),
     ) {
-        val state = rememberPagerState(initialPage = 1)
+        val state = rememberPagerState(initialPage = 0)
 
         PagerIndicator(
             pagerState = state,
@@ -75,9 +72,6 @@ private fun NextFab(
             scope.launch { onClick() }
         }
     ) {
-        Icon(
-            imageVector = CanareeIcons.KeyboardArrowRight,
-            contentDescription = null,
-        )
+        CanareeIcon(imageVector = CanareeIcons.KeyboardArrowRight)
     }
 }

@@ -43,7 +43,7 @@ internal class QueueManager @Inject constructor(
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
         val currentPosition = playingQueue
             .indexOfFirst { it.idInPlaylist == lastPlayedId }
-            .coerceIn(0, playingQueue.lastIndex)
+            .coerceIn(0, playingQueue.lastIndex.coerceAtLeast(0))
 
         val result = playingQueue.getOrNull(currentPosition) ?: return null
 

@@ -50,7 +50,7 @@
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
             android:elevation="@dimen/toolbar_elevation"
-            android:src="@drawable/vd_search_text"
+            android:src="@drawable/vd_bubble"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />

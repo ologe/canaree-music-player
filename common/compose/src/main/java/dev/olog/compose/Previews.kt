@@ -32,7 +32,7 @@ annotation class CombinedPreviews
     group = "devices"
 )
 @Preview(
-    name = "foldable",
+    name = "z foldable", // keep "z" prefix to show it as last preview
     device = Devices.FOLDABLE,
     group = "devices"
 )

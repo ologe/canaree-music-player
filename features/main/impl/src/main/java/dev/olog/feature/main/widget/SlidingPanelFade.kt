@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.platform.HasSlidingPanel
@@ -36,7 +37,9 @@ class SlidingPanelFade(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addBottomSheetCallback(slidingPanelCallback)
+        if (!isInEditMode) {
+            slidingPanel.addBottomSheetCallback(slidingPanelCallback)
+        }
     }
 
     override fun onDetachedFromWindow() {

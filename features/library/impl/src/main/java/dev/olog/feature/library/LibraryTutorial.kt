@@ -14,7 +14,7 @@ object LibraryTutorial {
         val context = view.context
 
         val target = TapTarget.forView(view, context.getString(localization.R.string.tutorial_floating_window))
-            .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_search_text))
+            .icon(ContextCompat.getDrawable(context, dev.olog.ui.R.drawable.vd_bubble))
             .tint(context)
         TapTargetView.showFor(view.context.findInContext<Activity>(), target)
     }
