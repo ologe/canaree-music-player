@@ -34,7 +34,7 @@ import dev.olog.compose.Background
 import dev.olog.compose.DevicePreviews
 import dev.olog.compose.OrientationPreviews
 import dev.olog.compose.ThemePreviews
-import dev.olog.compose.glide.RemoteImage
+import dev.olog.compose.glide.Image
 import dev.olog.compose.statusBarsPadding
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
@@ -141,7 +141,7 @@ private fun SwipeableView(
             mediaId = MediaId.songId(progressive),
             direction = direction,
         ) { mediaId ->
-            RemoteImage(
+            Image(
                 mediaId = mediaId,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)

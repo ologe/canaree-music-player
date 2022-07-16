@@ -27,7 +27,7 @@ import dev.olog.compose.Background
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.WithMediumEmphasys
 import dev.olog.compose.gesture.scalableContent
-import dev.olog.compose.glide.RemoteImage
+import dev.olog.compose.glide.Image
 import dev.olog.compose.shape.LocalImageShape
 import dev.olog.compose.shape.LocalQuickAction
 import dev.olog.compose.shape.toComposeShape
@@ -52,7 +52,7 @@ fun MediaAlbum(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box {
-            RemoteImage(
+            Image(
                 mediaId = mediaId,
                 modifier = Modifier
                     .aspectRatio(1f)

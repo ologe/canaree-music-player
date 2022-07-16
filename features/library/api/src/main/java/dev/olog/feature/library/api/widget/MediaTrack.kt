@@ -28,7 +28,7 @@ import dev.olog.compose.CanareeIcons
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.WithMediumEmphasys
 import dev.olog.compose.gesture.scalableContent
-import dev.olog.compose.glide.RemoteImage
+import dev.olog.compose.glide.Image
 import dev.olog.compose.shape.LocalImageShape
 import dev.olog.compose.shape.toComposeShape
 import dev.olog.compose.theme.CanareeTheme
@@ -53,7 +53,7 @@ fun MediaTrack(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        RemoteImage(
+        Image(
             mediaId = mediaId,
             modifier = Modifier
                 .padding(vertical = 9.dp)

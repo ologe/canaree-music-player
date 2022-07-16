@@ -13,7 +13,7 @@ import dev.olog.core.MediaId
 import dev.olog.shared.extension.exhaustive
 
 @Composable
-fun RemoteImage(
+fun Image(
     mediaId: MediaId,
     modifier: Modifier = Modifier,
     requestBuilder: @Composable () -> RequestBuilder<Drawable> = {
