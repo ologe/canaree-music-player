@@ -18,6 +18,9 @@ private val animationSpec = tween<Float>(
     durationMillis = 250
 )
 
+/**
+ * Scale from 1 to [scaleTo] on touch, returns to 1 when not touched anymore
+ */
 fun Modifier.scalableContent(scaleTo: Float): Modifier = composed {
     var scaleIn by remember {
         mutableStateOf(false)
@@ -34,6 +37,9 @@ fun Modifier.scalableContent(scaleTo: Float): Modifier = composed {
         }
 }
 
+/**
+ * Callback to react on touches (up and down)
+ */
 fun Modifier.touchable(isTouched: (Boolean) -> Unit): Modifier {
     return pointerInput(Unit) {
         forEachGesture {
