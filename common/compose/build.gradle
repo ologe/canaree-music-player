@@ -12,4 +12,11 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:localization')
     implementation project(':common:ui')
+
+    // todo remove dependency
+    implementation project(':features:settings:api')
+
+    implementation lib_x.preference
+
+    implementation lib_ui.color_desaturation
 }

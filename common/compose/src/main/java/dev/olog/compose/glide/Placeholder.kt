@@ -23,7 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -72,7 +72,7 @@ internal fun Placeholder(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background(Modifier.fillMaxSize()) {
+        CanareeBackground(Modifier.fillMaxSize()) {
             LazyVerticalGrid(GridCells.Fixed(4)) {
                 item {
                     PreviewPlaceholder(

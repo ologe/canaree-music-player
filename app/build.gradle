@@ -124,7 +124,7 @@ dependencies {
     implementation lib_utils.aes_crypto
 
     // debug
-    debugImplementation lib_debug.leak_canary_debug
+//    debugImplementation lib_debug.leak_canary_debug
 
     // firebase
     implementation lib_analytics.core

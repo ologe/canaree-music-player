@@ -1,7 +1,7 @@
 // Sdk and tools
 project.ext.minSdkVersion = 21
-project.ext.targetSdkVersion = 31
-project.ext.compileSdkVersion = 31
+project.ext.targetSdkVersion = 32
+project.ext.compileSdkVersion = 32
 project.ext.buildToolsVersion = '30.0.3'
 
 /*

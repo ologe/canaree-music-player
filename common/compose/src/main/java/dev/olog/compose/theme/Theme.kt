@@ -2,9 +2,12 @@ package dev.olog.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import dev.olog.compose.composition.local.ProvideImageShapePrefs
+import dev.olog.compose.composition.local.ProvideQuickActionPrefs
 
 
 @Composable
@@ -16,10 +19,23 @@ fun CanareeTheme(
         colors = colors(darkTheme),
         typography = Typography,
         content = {
-            CompositionLocalProvider(
-                LocalContentAlpha provides 1f,
-                content = content,
-            )
+            LocalProviders {
+                content()
+            }
         }
     )
+}
+
+@Composable
+private fun LocalProviders(content: @Composable () -> Unit) {
+    CompositionLocalProvider(
+        LocalContentAlpha provides 1f,
+        LocalContentColor provides MaterialTheme.colors.onBackground
+    ) {
+        ProvideImageShapePrefs {
+            ProvideQuickActionPrefs {
+                content()
+            }
+        }
+    }
 }

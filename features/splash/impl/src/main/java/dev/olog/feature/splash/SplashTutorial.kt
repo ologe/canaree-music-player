@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.CombinedPreviews
 import dev.olog.compose.isLargeScreen
 import dev.olog.compose.theme.CanareeTheme
@@ -116,7 +116,7 @@ private fun TutorialText(modifier: Modifier = Modifier) {
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             SplashTutorial(
                 modifier = Modifier.fillMaxSize(),
                 disallowParentInterceptEvent = { }

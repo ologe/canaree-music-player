@@ -61,7 +61,7 @@
             android:clickable="true"
             android:elevation="@dimen/toolbar_elevation"
             android:focusable="true"
-            android:src="@drawable/vd_search_text"
+            android:src="@drawable/vd_bubble"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +94,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <TextView
         android:id="@+id/pagerEmptyState"

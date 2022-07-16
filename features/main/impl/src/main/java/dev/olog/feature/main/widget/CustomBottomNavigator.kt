@@ -27,6 +27,9 @@ internal class CustomBottomNavigator(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (isInEditMode) {
+            return
+        }
         val lastLibraryPage = mainPrefs.getLastBottomViewPage()
         selectedItemId = lastLibraryPage.toMenuId()
 

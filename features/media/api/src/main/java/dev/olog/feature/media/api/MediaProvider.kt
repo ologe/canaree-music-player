@@ -1,5 +1,9 @@
 package dev.olog.feature.media.api
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.fragment.app.Fragment
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.feature.media.api.model.PlayerItem
@@ -7,7 +11,20 @@ import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.feature.media.api.model.PlayerRepeatMode
 import dev.olog.feature.media.api.model.PlayerShuffleMode
+import dev.olog.shared.extension.findInContext
 import kotlinx.coroutines.flow.Flow
+
+val Fragment.mediaProvider: MediaProvider
+    get() = requireActivity().findInContext()
+
+// todo bad api, refactor
+val LocalMediaProvider: MediaProvider
+    @Composable
+    get() = if (LocalInspectionMode.current) {
+        DummyMediaProvider
+    } else {
+        LocalContext.current.findInContext()
+    }
 
 interface MediaProvider {
 

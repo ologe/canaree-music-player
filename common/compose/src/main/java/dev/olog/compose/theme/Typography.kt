@@ -19,7 +19,7 @@ internal val Typography = TypographyUtils.fromDefaults(
     ),
     h5 = TextStyle(
         fontWeight = FontWeight.Black,
-        fontSize = 24.sp,
+        fontSize = 28.sp,
         letterSpacing = 0.1.sp,
     ),
     h6 = TextStyle(

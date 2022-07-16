@@ -2,9 +2,6 @@ package dev.olog.feature.splash
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -12,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dev.olog.compose.Background
 import dev.olog.compose.CanareeIcons
-import dev.olog.compose.PagerIndicator
-import dev.olog.compose.statusBarsPadding
+import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeFab
+import dev.olog.compose.components.CanareePagerIndicator
 import dev.olog.shared.extension.exhaustive
 import kotlinx.coroutines.launch
 
@@ -23,21 +20,19 @@ import kotlinx.coroutines.launch
 fun SplashScreen(
     onRequestPermission: suspend () -> Unit,
 ) {
-    Background(Modifier.fillMaxSize()) {
-        val state = rememberPagerState(initialPage = 1)
+    CanareeBackground(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        val state = rememberPagerState(initialPage = 0)
 
-        PagerIndicator(
+        CanareePagerIndicator(
             pagerState = state,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .statusBarsPadding(plus = 16.dp),
+                .padding(top = 16.dp),
         )
 
-        HorizontalPager(
-            count = 2,
-            state = state,
-            modifier = Modifier.statusBarsPadding()
-        ) { page ->
+        HorizontalPager(count = 2, state = state) { page ->
             when (page) {
                 0 -> SplashPresentation()
                 1 -> SplashTutorial(
@@ -70,15 +65,11 @@ private fun NextFab(
 ) {
     val scope = rememberCoroutineScope()
 
-    FloatingActionButton(
+    CanareeFab(
+        imageVector = CanareeIcons.KeyboardArrowRight,
         modifier = modifier,
         onClick = {
             scope.launch { onClick() }
         }
-    ) {
-        Icon(
-            imageVector = CanareeIcons.KeyboardArrowRight,
-            contentDescription = null,
-        )
-    }
+    )
 }
