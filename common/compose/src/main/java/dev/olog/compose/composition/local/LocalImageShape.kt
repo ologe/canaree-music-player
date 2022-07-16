@@ -1,4 +1,4 @@
-package dev.olog.compose.shape
+package dev.olog.compose.composition.local
 
 import android.content.Context
 import androidx.compose.foundation.shape.CutCornerShape
@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.LocalPreference
+import dev.olog.feature.settings.api.R
 import dev.olog.platform.theme.ImageShape
 
 val LocalImageShape = staticCompositionLocalOf<ImageShape> { error("LocalImageShape not set") }
@@ -20,7 +20,7 @@ fun ProvideImageShapePrefs(
     content: @Composable () -> Unit
 ) {
     LocalPreference(
-        key = stringResource(dev.olog.feature.settings.api.R.string.prefs_icon_shape_key),
+        key = stringResource(R.string.prefs_icon_shape_key),
         serialize = { it.toPref(this) },
         deserialize = { mapValue(this, it) },
         default = ImageShape.ROUND,

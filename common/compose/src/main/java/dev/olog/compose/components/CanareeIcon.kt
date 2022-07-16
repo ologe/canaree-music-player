@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +17,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import dev.olog.compose.ThemePreviews
 import dev.olog.compose.theme.CanareeTheme
+import dev.olog.ui.R
 
 private val IconButtonSize = 48.dp
 private val IconSize = 24.dp
@@ -104,19 +106,19 @@ fun CanareeIconButton(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             Column {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     CanareeIcon(imageVector = Icons.Default.Shuffle)
-                    CanareeIcon(painter = painterResource(id = dev.olog.ui.R.drawable.vd_bird_singing))
+                    CanareeIcon(painter = painterResource(id = R.drawable.vd_bird_singing))
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     CanareeIconButton(imageVector = Icons.Default.Shuffle) { }
-                    CanareeIconButton(painter = painterResource(id = dev.olog.ui.R.drawable.vd_bird_singing)) { }
+                    CanareeIconButton(painter = painterResource(id = R.drawable.vd_bird_singing)) { }
                 }
             }
         }

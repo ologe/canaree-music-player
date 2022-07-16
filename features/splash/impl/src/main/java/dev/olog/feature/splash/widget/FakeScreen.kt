@@ -30,12 +30,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.DevicePreviews
 import dev.olog.compose.OrientationPreviews
 import dev.olog.compose.ThemePreviews
-import dev.olog.compose.glide.Image
-import dev.olog.compose.statusBarsPadding
+import dev.olog.compose.components.CanareeImage
+import dev.olog.compose.modifier.statusBarsPadding
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.feature.player.api.widget.NowPlaying
@@ -141,7 +141,7 @@ private fun SwipeableView(
             mediaId = MediaId.songId(progressive),
             direction = direction,
         ) { mediaId ->
-            Image(
+            CanareeImage(
                 mediaId = mediaId,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -195,7 +195,7 @@ private fun ScreenFrame(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background(Modifier.fillMaxSize()) {
+        CanareeBackground(Modifier.fillMaxSize()) {
             FakePhone(Modifier.align(Alignment.BottomEnd))
         }
     }

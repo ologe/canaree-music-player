@@ -1,4 +1,4 @@
-package dev.olog.compose.text
+package dev.olog.compose.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,12 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olog.compose.DottedDivider
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.ui.R
 
 @Composable
-fun Footer(
+fun CanareeFooter(
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -28,7 +27,7 @@ fun Footer(
             .padding(top = 16.dp)
             .padding(horizontal = dimensionResource(R.dimen.screen_margin))
     ) {
-        DottedDivider(Modifier.fillMaxWidth())
+        CanareeDottedDivider(Modifier.fillMaxWidth())
 
         Text(
             text = text,
@@ -47,7 +46,7 @@ fun Footer(
 private fun Preview() {
     CanareeTheme {
         Box(Modifier.background(Color.White)) {
-            Footer(text = "Footer")
+            CanareeFooter(text = "Footer")
         }
     }
 }

@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.ThemePreviews
 import dev.olog.lib.ColorDesaturationUtils
 
@@ -69,7 +69,7 @@ internal fun colors(isDarkMode: Boolean): Colors {
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             LazyVerticalGrid(columns = GridCells.Fixed(3)) {
                 item {
                     ColorPreview(

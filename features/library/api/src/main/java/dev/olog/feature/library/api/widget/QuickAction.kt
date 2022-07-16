@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.ThemePreviews
-import dev.olog.compose.elevation
-import dev.olog.compose.shape.LocalQuickAction
+import dev.olog.compose.modifier.elevation
+import dev.olog.compose.composition.local.LocalQuickAction
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.feature.media.api.LocalMediaProvider
@@ -77,7 +77,7 @@ fun QuickAction(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             Row(
                 modifier = Modifier.size(100.dp),
                 verticalAlignment = Alignment.CenterVertically,

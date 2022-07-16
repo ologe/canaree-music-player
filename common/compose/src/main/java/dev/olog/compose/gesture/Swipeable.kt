@@ -40,7 +40,7 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.DevicePreviews
 import dev.olog.compose.LaunchedBooleanEffect
@@ -285,7 +285,7 @@ private fun ActionIcon(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background(
+        CanareeBackground(
             Modifier
                 .fillMaxWidth()
                 .height(100.dp)

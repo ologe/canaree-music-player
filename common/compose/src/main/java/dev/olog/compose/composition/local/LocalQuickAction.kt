@@ -1,10 +1,10 @@
-package dev.olog.compose.shape
+package dev.olog.compose.composition.local
 
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.res.stringResource
-import dev.olog.compose.LocalPreference
+import dev.olog.feature.settings.api.R
 import dev.olog.platform.theme.QuickAction
 
 val LocalQuickAction = staticCompositionLocalOf<QuickAction> { error("LocalQuickAction not set") }
@@ -15,7 +15,7 @@ fun ProvideQuickActionPrefs(
     content: @Composable () -> Unit
 ) {
     LocalPreference(
-        key = stringResource(dev.olog.feature.settings.api.R.string.prefs_quick_action_key),
+        key = stringResource(R.string.prefs_quick_action_key),
         serialize = { it.toPref(this) },
         deserialize = { mapValue(this, it) },
         default = QuickAction.NONE,

@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dev.olog.compose.Background
-import dev.olog.compose.CanareeIcon
+import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeIcon
 import dev.olog.compose.CanareeIcons
-import dev.olog.compose.PagerIndicator
+import dev.olog.compose.components.CanareePagerIndicator
 import dev.olog.shared.extension.exhaustive
 import kotlinx.coroutines.launch
 
@@ -21,12 +21,12 @@ import kotlinx.coroutines.launch
 fun SplashScreen(
     onRequestPermission: suspend () -> Unit,
 ) {
-    Background(
+    CanareeBackground(
         modifier = Modifier.fillMaxSize(),
     ) {
         val state = rememberPagerState(initialPage = 0)
 
-        PagerIndicator(
+        CanareePagerIndicator(
             pagerState = state,
             modifier = Modifier
                 .align(Alignment.TopCenter)

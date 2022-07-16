@@ -6,8 +6,8 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import dev.olog.compose.shape.ProvideImageShapePrefs
-import dev.olog.compose.shape.ProvideQuickActionPrefs
+import dev.olog.compose.composition.local.ProvideImageShapePrefs
+import dev.olog.compose.composition.local.ProvideQuickActionPrefs
 
 
 @Composable

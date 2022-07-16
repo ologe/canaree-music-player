@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.modifier
 
 import androidx.compose.foundation.background
 import androidx.compose.ui.Modifier

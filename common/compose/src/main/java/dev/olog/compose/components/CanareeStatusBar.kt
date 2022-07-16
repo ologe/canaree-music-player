@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
+import dev.olog.compose.ThemePreviews
 import dev.olog.compose.theme.CanareeTheme
 
 @Composable

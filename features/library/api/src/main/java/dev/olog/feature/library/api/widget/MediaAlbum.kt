@@ -23,14 +23,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.WithMediumEmphasys
 import dev.olog.compose.gesture.scalableContent
-import dev.olog.compose.glide.Image
-import dev.olog.compose.shape.LocalImageShape
-import dev.olog.compose.shape.LocalQuickAction
-import dev.olog.compose.shape.toComposeShape
+import dev.olog.compose.components.CanareeImage
+import dev.olog.compose.composition.local.LocalImageShape
+import dev.olog.compose.composition.local.LocalQuickAction
+import dev.olog.compose.composition.local.toComposeShape
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -52,7 +52,7 @@ fun MediaAlbum(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box {
-            Image(
+            CanareeImage(
                 mediaId = mediaId,
                 modifier = Modifier
                     .aspectRatio(1f)
@@ -93,7 +93,7 @@ fun MediaAlbum(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             LazyVerticalGrid(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 columns = GridCells.Adaptive(100.dp),

@@ -1,4 +1,4 @@
-package dev.olog.compose.glide
+package dev.olog.compose.components
 
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
@@ -9,11 +9,14 @@ import com.bumptech.glide.RequestBuilder
 import com.skydoves.landscapist.glide.GlideImageState
 import com.skydoves.landscapist.glide.toGlideImageState
 import com.skydoves.landscapist.rememberDrawablePainter
+import dev.olog.compose.glide.GlideImage
+import dev.olog.compose.glide.LocalGlideProvider
+import dev.olog.compose.glide.Placeholder
 import dev.olog.core.MediaId
 import dev.olog.shared.extension.exhaustive
 
 @Composable
-fun Image(
+fun CanareeImage(
     mediaId: MediaId,
     modifier: Modifier = Modifier,
     requestBuilder: @Composable () -> RequestBuilder<Drawable> = {

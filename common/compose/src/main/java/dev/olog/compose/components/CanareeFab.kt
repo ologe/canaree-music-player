@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import dev.olog.compose.CanareeIcons
+import dev.olog.compose.ThemePreviews
 import dev.olog.compose.theme.CanareeTheme
 
 @Composable

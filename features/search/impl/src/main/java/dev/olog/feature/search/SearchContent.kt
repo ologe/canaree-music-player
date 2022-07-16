@@ -12,20 +12,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
-import dev.olog.compose.Background
-import dev.olog.compose.CanareeFab
-import dev.olog.compose.CanareeIconButton
+import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeFab
+import dev.olog.compose.components.CanareeIconButton
 import dev.olog.compose.CanareeIcons
-import dev.olog.compose.CanareeToolbar
-import dev.olog.compose.EmptyState
-import dev.olog.compose.SearchBox
-import dev.olog.compose.StatusBar
-import dev.olog.compose.elevation
+import dev.olog.compose.components.CanareeToolbar
+import dev.olog.compose.components.CanareeEmptyState
+import dev.olog.compose.components.CanareeSearchBox
+import dev.olog.compose.components.StatusBar
+import dev.olog.compose.modifier.elevation
 import dev.olog.core.MediaId
 import dev.olog.feature.search.model.SearchState
 import dev.olog.feature.search.widget.SearchList
 import dev.olog.feature.search.widget.SearchRecentList
 import dev.olog.shared.extension.exhaustive
+import localization.R
 
 @Composable
 fun SearchContent(
@@ -43,7 +44,7 @@ fun SearchContent(
     onPlayNext: (MediaId) -> Unit,
     onDelete: (MediaId) -> Unit,
 ) {
-    Background(
+    CanareeBackground(
         modifier = Modifier.fillMaxSize(),
     ) {
         ConstraintLayout(
@@ -58,7 +59,7 @@ fun SearchContent(
 
             // toolbar
             CanareeToolbar(
-                text = stringResource(id = localization.R.string.common_search),
+                text = stringResource(id = R.string.common_search),
                 modifier = Modifier
                     .constrainAs(toolbar) { top.linkTo(statusBar.bottom) }
                     .zIndex(10f), // to avoid shadow from searchbox
@@ -69,9 +70,9 @@ fun SearchContent(
             )
 
             // search box
-            SearchBox(
+            CanareeSearchBox(
                 value = query,
-                hint = stringResource(id = localization.R.string.search_hint),
+                hint = stringResource(id = R.string.search_hint),
                 onValueChange = onQueryChange,
                 modifier = Modifier
                     .elevation(
@@ -108,15 +109,15 @@ fun SearchContent(
                     )
                     // todo move out of lazy column, position is bugged
                     is SearchState.NoRecents -> item {
-                        EmptyState(
-                            text = stringResource(localization.R.string.common_no_results), // todo improve text/design
+                        CanareeEmptyState(
+                            text = stringResource(R.string.common_no_results), // todo improve text/design
                             modifier = Modifier.fillMaxSize()
                         )
                     }
                     // todo move out of lazy column, position is bugged
                     is SearchState.NoResults -> item {
-                        EmptyState(
-                            text = stringResource(localization.R.string.common_no_results), // todo improve text/design
+                        CanareeEmptyState(
+                            text = stringResource(R.string.common_no_results), // todo improve text/design
                             modifier = Modifier.fillMaxSize()
                         )
                     }

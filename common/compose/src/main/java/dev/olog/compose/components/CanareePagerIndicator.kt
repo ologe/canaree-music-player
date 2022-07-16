@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
@@ -12,7 +12,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 
 @Composable
-fun PagerIndicator(
+fun CanareePagerIndicator(
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     pageIndexMapping: (Int) -> Int = { it },

@@ -8,7 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import dev.olog.compose.text.Header
+import dev.olog.compose.components.CanareeHeader
+import localization.R
 
 @Composable
 fun SearchHeader(
@@ -16,13 +17,13 @@ fun SearchHeader(
     itemsCount: Int,
     modifier: Modifier = Modifier,
 ) {
-    Header(
+    CanareeHeader(
         text = stringResource(stringRes),
         modifier = modifier,
         endContent = {
             Text(
                 text = pluralStringResource(
-                    localization.R.plurals.search_xx_results,
+                    R.plurals.search_xx_results,
                     itemsCount,
                     itemsCount,
                 ),

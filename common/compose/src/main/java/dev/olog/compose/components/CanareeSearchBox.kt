@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -35,6 +35,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.olog.compose.CanareeIcons
+import dev.olog.compose.FontScalePreviews
+import dev.olog.compose.ThemePreviews
+import dev.olog.compose.WithMediumEmphasys
 import dev.olog.compose.modifier.cursor
 import dev.olog.compose.theme.CanareeTheme
 
@@ -42,7 +46,7 @@ private val LightBackground = Color(0xff_f1f3f4)
 private val DarkBackground = Color(0xff_303336)
 
 @Composable
-fun SearchBox(
+fun CanareeSearchBox(
     value: String,
     hint: String,
     modifier: Modifier = Modifier,
@@ -140,20 +144,20 @@ private fun DecorationBox(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background(
+        CanareeBackground(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SearchBox(
+                CanareeSearchBox(
                     value = "Value",
                     hint = "",
                     onValueChange = { },
                     onClearTextClick = { },
                 )
-                SearchBox(
+                CanareeSearchBox(
                     value = "",
                     hint = "Hint",
                     onValueChange = { },

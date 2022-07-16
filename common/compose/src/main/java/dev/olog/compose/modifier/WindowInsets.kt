@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.modifier
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding

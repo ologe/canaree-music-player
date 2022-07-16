@@ -8,15 +8,16 @@ import androidx.compose.material.DismissDirection.EndToStart
 import androidx.compose.material.DismissDirection.StartToEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import dev.olog.compose.CanareeIconButton
+import dev.olog.compose.components.CanareeIconButton
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.gesture.CircularSwipeToDismiss
 import dev.olog.compose.gesture.clickable
-import dev.olog.compose.text.Footer
-import dev.olog.compose.text.Header
+import dev.olog.compose.components.CanareeFooter
+import dev.olog.compose.components.CanareeHeader
 import dev.olog.core.MediaId
 import dev.olog.feature.library.api.widget.MediaTrack
 import dev.olog.feature.search.model.SearchState
+import localization.R
 
 @Suppress("FunctionName")
 fun LazyListScope.SearchRecentList(
@@ -29,7 +30,7 @@ fun LazyListScope.SearchRecentList(
     onPlayNext: (MediaId) -> Unit,
 ) {
     item {
-        Header(stringResource(id = localization.R.string.search_recent_searches))
+        CanareeHeader(stringResource(id = R.string.search_recent_searches))
     }
 
     println("xx ${data.items.map { it.mediaId }}")
@@ -70,8 +71,8 @@ fun LazyListScope.SearchRecentList(
     }
 
     item {
-        Footer(
-            text = stringResource(localization.R.string.search_clear_recent_searches),
+        CanareeFooter(
+            text = stringResource(R.string.search_clear_recent_searches),
             modifier = Modifier.clickable { onClearAllClick() }
         )
     }

@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.unit.dp
+import dev.olog.compose.ThemePreviews
 import dev.olog.compose.theme.CanareeTheme
 
 private val Color = Color.Black.copy(.1f)
@@ -21,7 +22,7 @@ private val Width = 2.dp
 private val Gap = Width
 
 @Composable
-fun DottedDivider(
+fun CanareeDottedDivider(
     modifier: Modifier = Modifier,
 ) {
     if (isSystemInDarkTheme()) {
@@ -34,7 +35,7 @@ fun DottedDivider(
             .height(Height)
     ) {
         drawLine(
-            color = dev.olog.compose.Color,
+            color = dev.olog.compose.components.Color,
             pathEffect = PathEffect.dashPathEffect(
                 floatArrayOf(Width.toPx(), Gap.toPx()), 10f
             ),
@@ -49,12 +50,12 @@ fun DottedDivider(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             Box(
                 modifier = Modifier.size(100.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                DottedDivider()
+                CanareeDottedDivider()
             }
         }
     }

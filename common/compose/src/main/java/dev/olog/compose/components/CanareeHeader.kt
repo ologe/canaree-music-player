@@ -1,4 +1,4 @@
-package dev.olog.compose.text
+package dev.olog.compose.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,12 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.olog.compose.DottedDivider
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.ui.R
 
 @Composable
-fun Header(
+fun CanareeHeader(
     text: String,
     modifier: Modifier = Modifier,
     endContent: (@Composable RowScope.() -> Unit)? = null,
@@ -40,7 +39,7 @@ fun Header(
 
             endContent?.invoke(this)
         }
-        DottedDivider(Modifier.padding(bottom = 12.dp))
+        CanareeDottedDivider(Modifier.padding(bottom = 12.dp))
     }
 }
 
@@ -55,11 +54,11 @@ private fun Preview() {
             verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically)
         ) {
             Box(Modifier.background(Color.White)) {
-                Header(text = "Header")
+                CanareeHeader(text = "Header")
             }
 
             Box(Modifier.background(Color.White)) {
-                Header(text = "Header") {
+                CanareeHeader(text = "Header") {
                     Text(text = "subtitle")
                 }
             }

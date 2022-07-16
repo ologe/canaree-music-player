@@ -15,8 +15,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.theme.CanareeTheme
 
@@ -46,7 +45,7 @@ fun NowPlaying(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             Column {
                 NowPlaying(true)
                 NowPlaying(false)

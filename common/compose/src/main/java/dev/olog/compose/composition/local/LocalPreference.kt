@@ -1,4 +1,4 @@
-package dev.olog.compose
+package dev.olog.compose.composition.local
 
 import android.content.Context
 import android.content.SharedPreferences

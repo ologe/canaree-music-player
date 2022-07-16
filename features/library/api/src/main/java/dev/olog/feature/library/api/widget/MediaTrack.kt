@@ -22,15 +22,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olog.compose.Background
-import dev.olog.compose.CanareeIconButton
+import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeIconButton
 import dev.olog.compose.CanareeIcons
 import dev.olog.compose.ThemePreviews
 import dev.olog.compose.WithMediumEmphasys
 import dev.olog.compose.gesture.scalableContent
-import dev.olog.compose.glide.Image
-import dev.olog.compose.shape.LocalImageShape
-import dev.olog.compose.shape.toComposeShape
+import dev.olog.compose.components.CanareeImage
+import dev.olog.compose.composition.local.LocalImageShape
+import dev.olog.compose.composition.local.toComposeShape
 import dev.olog.compose.theme.CanareeTheme
 import dev.olog.core.MediaId
 import dev.olog.platform.theme.ImageShape
@@ -53,7 +53,7 @@ fun MediaTrack(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
+        CanareeImage(
             mediaId = mediaId,
             modifier = Modifier
                 .padding(vertical = 9.dp)
@@ -111,7 +111,7 @@ fun MediaTrack(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             Column {
                 val lorem = LoremIpsum(7)
                 for ((index, value) in ImageShape.values().withIndex()) {

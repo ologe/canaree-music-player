@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import dev.olog.compose.Background
+import dev.olog.compose.components.CanareeBackground
 import dev.olog.compose.CombinedPreviews
 import dev.olog.compose.theme.CanareeTheme
 
@@ -47,7 +47,7 @@ fun SplashPresentation(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Background {
+        CanareeBackground {
             SplashPresentation(Modifier.fillMaxSize())
         }
     }
