@@ -33,7 +33,6 @@ fun LazyListScope.SearchRecentList(
         CanareeHeader(stringResource(id = R.string.search_recent_searches))
     }
 
-    println("xx ${data.items.map { it.mediaId }}")
     items(
         items = data.items,
         key = { it.mediaId }
