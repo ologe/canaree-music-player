@@ -2,7 +2,6 @@ package dev.olog.feature.splash
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -10,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dev.olog.compose.components.CanareeBackground
-import dev.olog.compose.components.CanareeIcon
 import dev.olog.compose.CanareeIcons
+import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeFab
 import dev.olog.compose.components.CanareePagerIndicator
 import dev.olog.shared.extension.exhaustive
 import kotlinx.coroutines.launch
@@ -66,12 +65,11 @@ private fun NextFab(
 ) {
     val scope = rememberCoroutineScope()
 
-    FloatingActionButton(
+    CanareeFab(
+        imageVector = CanareeIcons.KeyboardArrowRight,
         modifier = modifier,
         onClick = {
             scope.launch { onClick() }
         }
-    ) {
-        CanareeIcon(imageVector = CanareeIcons.KeyboardArrowRight)
-    }
+    )
 }
