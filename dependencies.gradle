@@ -1,7 +1,6 @@
 ext {
 //    core
     coroutines = '1.6.1'
-    dagger = '2.41'
     desugaring = '1.1.5'
 
 //    android x
@@ -20,9 +19,6 @@ ext {
     android_x_activity = '1.4.0'
     constraint_layout = '2.0.0'
     lifecycle = '2.4.1'
-    compose = '1.2.0-rc01'
-    compose_constraint_layout = '1.1.0-alpha01'
-    accompanist = '0.24.9-beta'
     landscapist = '1.5.2'
 
 //    ui
@@ -62,9 +58,6 @@ ext {
 
     lib_core = [
             kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
-            dagger            : "com.google.dagger:dagger:$dagger",
-            hilt              : "com.google.dagger:hilt-android:$dagger",
-            hilt_processor    : "com.google.dagger:hilt-compiler:$dagger",
             coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
             coroutines_test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
@@ -92,19 +85,6 @@ ext {
             lifecycle_viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
             lifecycle_service  : "androidx.lifecycle:lifecycle-service:$lifecycle",
             lifecycle_process  : "androidx.lifecycle:lifecycle-process:$lifecycle",
-    ]
-
-    lib_compose = [
-            ui               : "androidx.compose.ui:ui:$compose",
-            tooling          : "androidx.compose.ui:ui-tooling:$compose",
-            tooling_preview  : "androidx.compose.ui:ui-tooling-preview:$compose",
-            material         : "androidx.compose.material:material:$compose",
-            activity         : "androidx.activity:activity-compose:$android_x_activity",
-            icons            : "androidx.compose.material:material-icons-extended:$compose",
-            constraint_layout: "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout",
-            pager            : "com.google.accompanist:accompanist-pager:$accompanist",
-            pager_indicator  : "com.google.accompanist:accompanist-pager-indicators:$accompanist",
-            landscapist      : "com.github.skydoves:landscapist-glide:$landscapist"
     ]
 
     lib_ui = [

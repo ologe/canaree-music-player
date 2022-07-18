@@ -1,0 +1,41 @@
+[versions]
+gradle = "7.4.0-alpha08"
+kotlin = "1.6.21"
+gms = "4.3.10"
+crashlytics = "2.8.1"
+dagger = "2.41"
+
+compose = "1.2.0-rc01"
+compose-constraintLayout = "1.2.0-rc01"
+compose-accompanist = "0.24.9-beta"
+
+androidx-preference = "1.1.1"
+androidx-activity = "1.4.0"
+
+ui-colorDesaturation = "1.0.2"
+
+[libraries]
+plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-gms = { module = "com.google.gms:google-services", version.ref = "gms" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
+plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
+
+hilt-core = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+hilt-test = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
+
+androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
+
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+compose-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose-constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintLayout" }
+compose-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "compose-accompanist" }
+compose-pager-indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "compose-accompanist" }
+
+
+ui-colorDesaturation = { module = "com.github.ologe:color-desaturation", version.ref = "ui-colorDesaturation" }

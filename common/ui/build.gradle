@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
@@ -17,10 +17,6 @@ dependencies {
     // todo fix, do not depend on features
     implementation project(':features:media:api')
     implementation project(':features:settings:api')
-
-    // todo not sure
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
 
     implementation lib_x.core
     implementation lib_x.palette

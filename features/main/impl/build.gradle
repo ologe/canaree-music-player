@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
@@ -30,9 +30,6 @@ dependencies {
     implementation project(':features:queue:api')
     implementation project(':features:search:api')
     implementation project(':features:player:api')
-
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
 
     implementation lib_x.appcompat
     implementation lib_x.fragments

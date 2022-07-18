@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
@@ -24,9 +24,6 @@ dependencies {
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_service
-
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
 
     implementation lib_utils.last_fm_binding
 

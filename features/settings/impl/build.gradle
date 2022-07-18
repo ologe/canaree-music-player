@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
@@ -19,9 +19,6 @@ dependencies {
     implementation project(':image-provider')
 
     implementation project(':features:library:api')
-
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
 
     implementation lib_x.fragments
     implementation lib_x.preference
