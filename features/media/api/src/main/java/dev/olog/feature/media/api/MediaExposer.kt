@@ -96,6 +96,7 @@ class MediaExposer(
         while (isActive) {
             try {
                 mediaBrowser.connect()
+                return@coroutineScope
             } catch (ignored: IllegalStateException) {
                 // thrown while still disconnecting, can ignore
             }
