@@ -1,11 +1,8 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:shortcuts:api')
@@ -20,10 +17,7 @@ dependencies {
     implementation project(':features:playlist:api')
     implementation project(':features:main:api')
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation(libs.androidx.appcompat)
 
-    implementation lib_x.appcompat
-
-    implementation lib_ui.glide
+    implementation(libs.ui.glide)
 }

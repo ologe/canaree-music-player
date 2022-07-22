@@ -23,6 +23,7 @@ fun CanareeImage(
         LocalGlideProvider.getGlideRequestBuilder(mediaId)
     },
 ) {
+
     if (LocalInspectionMode.current) {
         Placeholder(
             mediaId = mediaId,

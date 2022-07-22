@@ -1,75 +1,29 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'dagger.hilt.android.plugin'
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+plugins {
+    id 'dev.olog.msc.application'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'dev.olog.msc.hilt'
+    id 'dev.olog.msc.secrets'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 android {
 
     defaultConfig {
         applicationId "dev.olog.msc"
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
-    }
-
-    bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
     }
 
     buildTypes {
         release {
             minifyEnabled true
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
             applicationIdSuffix ".debug"
-            multiDexEnabled true
         }
     }
 
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
-
-    packagingOptions {
-        exclude 'META-INF/api_debug.kotlin_module'
-        exclude 'META-INF/impl_debug.kotlin_module'
-    }
 }
 
 
@@ -101,32 +55,26 @@ dependencies {
     implementation project(':features:edit:impl')
     implementation project(':features:widget:impl')
 
-    implementation lib_core.coroutines
-
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
-    implementation lib_x.lifecycle_process
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.java8)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.process)
 
-    implementation lib_x.core
-    implementation lib_x.appcompat
-    implementation lib_x.browser
-    implementation lib_x.preference
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.preference)
 
-    // dagger
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation(libs.ui.blurKit)
+    implementation(libs.ui.scrollHelper)
 
-    implementation lib_ui.blur_kit
-    implementation lib_ui.scroll_helper
-
-    implementation lib_utils.aes_crypto
+    implementation(libs.utils.aes)
 
     // debug
 //    debugImplementation lib_debug.leak_canary_debug
 
     // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
+    implementation(libs.firebase.core)
+    implementation(libs.firebase.crashlytics)
 }

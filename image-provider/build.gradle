@@ -1,9 +1,8 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
+plugins {
+    id 'dev.olog.msc.library'
+    id 'kotlin-kapt'
+    id 'dev.olog.msc.hilt'
+}
 
 dependencies {
     implementation project(':jaudiotagger')
@@ -15,16 +14,11 @@ dependencies {
     // todo fix
     implementation project(':features:settings:api')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation(libs.ui.colorDesaturation)
+    implementation(libs.ui.glide)
+    kapt(libs.ui.glide.processor)
 
-    implementation lib_ui.color_desaturation
-    implementation lib_ui.glide
-    kapt lib_ui.glide_processor
-
-    implementation lib_x.core
-    implementation lib_x.preference
-    implementation lib_x.palette
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.palette)
 }

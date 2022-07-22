@@ -1,12 +1,9 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':core')
@@ -18,20 +15,16 @@ dependencies {
     implementation project(':features:media:api')
     implementation project(':features:settings:api')
 
-    // todo not sure
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.palette)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.constraintLayout)
 
-    implementation lib_x.core
-    implementation lib_x.palette
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.preference
-    implementation lib_x.constraint_layout
-
-    implementation lib_ui.color_desaturation
-    implementation lib_ui.tap_target_view
-    implementation lib_ui.blur_kit
-    implementation lib_ui.glide
-    implementation lib_ui.scroll_helper
+    implementation(libs.ui.colorDesaturation)
+    implementation(libs.ui.tapTargetView)
+    implementation(libs.ui.blurKit)
+    implementation(libs.ui.glide)
+    implementation(libs.ui.scrollHelper)
 }

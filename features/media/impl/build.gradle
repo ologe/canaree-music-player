@@ -1,11 +1,8 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:media:api')
@@ -22,13 +19,10 @@ dependencies {
     implementation project(':features:widget:api')
     implementation project(':features:settings:api')
 
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_service
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.service)
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
-
-    implementation lib_utils.last_fm_binding
+    implementation(libs.data.lastFmBinding)
 
     implementation project(':exoplayer-library')
     implementation project(':exoplayer-extension-flac')

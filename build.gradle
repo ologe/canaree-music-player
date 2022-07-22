@@ -1,13 +1,4 @@
-apply from: rootProject.file("dependencies.gradle")
-apply from: rootProject.file("buildscripts/config.gradle")
-
-buildscript { 
-
-    ext {
-        kotlin_version = '1.6.21'
-        google_services = '4.3.10'
-        crashlytics = '2.8.1'
-    }
+buildscript {
 
     repositories {
         gradlePluginPortal()
@@ -17,21 +8,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.0-alpha08'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_services"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
+        classpath(libs.plugin.gradle)
+        classpath(libs.plugin.kotlin)
+        classpath(libs.plugin.gms)
+        classpath(libs.plugin.crashlytics)
+        classpath(libs.plugin.hilt)
     }
     
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-    }
 }
 
 task clean(type: Delete) {

@@ -1,54 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id "dev.olog.msc.library"
+}
 
 android {
-
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    buildTypes {
-        release {
-            debuggable false
-        }
-
-        debug {
-//            debuggable false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     useLibrary 'android.test.runner'
-
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
-
 }
 
 dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.coroutines_test
-
-    implementation lib_x.lifecycle_livedata
-    implementation lib_test.livedata
-
-    implementation lib_test.junit
-//    implementation lib_test.mockito
-//    implementation lib_test.mockito_kotlin
+    implementation(libs.androidx.lifecycle.livedata)
 }

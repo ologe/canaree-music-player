@@ -1,18 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'dagger.hilt.android.plugin'
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
+plugins {
+    id 'dev.olog.msc.library'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'dev.olog.msc.hilt'
+}
 
 dependencies {
     implementation project(':common:shared')
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
-    implementation lib_core.coroutines
-
-    implementation lib_x.annotations
-    implementation lib_x.lifecycle_runtime
+    implementation(libs.androidx.annotations)
+    implementation(libs.androidx.lifecycle.runtime)
 }

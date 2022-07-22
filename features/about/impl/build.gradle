@@ -1,11 +1,8 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:about:api')
@@ -16,15 +13,12 @@ dependencies {
     implementation project(':common:localization')
     implementation project(':image-provider')
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.fragments)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.constraintLayout)
 
-    implementation lib_x.browser
-    implementation lib_x.appcompat
-    implementation lib_x.fragments
-    implementation lib_x.material
-    implementation lib_x.constraint_layout
-
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
+    implementation(libs.ui.scrollHelper)
+    implementation(libs.ui.glide)
 }
