@@ -29,11 +29,12 @@ fun Project.configureKotlinAndroid(
     kotlinOptions {
         jvmTarget = config.javaVersion.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-            "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+            "-opt-in=kotlinx.coroutines.flow.FlowPreview",
         )
     }
 

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dev.olog.msc.hilt'
+    id 'dev.olog.msc.compose'
 }
 
 dependencies {
@@ -11,6 +12,7 @@ dependencies {
     implementation project(':common:shared')
     implementation project(':common:platform')
     implementation project(':common:ui')
+    implementation project(':common:compose')
     implementation project(':common:localization')
 
     implementation project(':features:about:api')

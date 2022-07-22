@@ -1,6 +1,6 @@
 plugins {
     id 'dev.olog.msc.library'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'dev.olog.msc.hilt'
 }
 
@@ -49,6 +49,6 @@ dependencies {
     implementation(libs.data.sqlContentResolver)
     implementation(libs.data.room)
     implementation(libs.data.room.ktx)
-    kapt(libs.data.room.processor)
+    ksp(libs.data.room.processor)
 
 }

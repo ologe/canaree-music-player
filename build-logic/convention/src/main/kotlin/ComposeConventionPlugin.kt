@@ -18,7 +18,7 @@ class ComposeConventionPlugin : Plugin<Project> {
 
             val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
             composeOptions {
-                kotlinCompilerExtensionVersion = catalog.findVersion("compose").get().toString()
+                kotlinCompilerExtensionVersion = catalog.findVersion("compose-compiler").get().toString()
             }
 
             kotlinOptions {
