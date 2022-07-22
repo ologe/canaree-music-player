@@ -8,7 +8,6 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.project
 
 internal class LibrariesContainer(
     project: Project

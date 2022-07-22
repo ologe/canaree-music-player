@@ -15,6 +15,16 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("ApplicationConventionPlugin") {
+            id = "dev.olog.msc.application"
+            implementationClass = "ApplicationConventionPlugin"
+        }
+
+        register("LibraryConventionPlugin") {
+            id = "dev.olog.msc.library"
+            implementationClass = "LibraryConventionPlugin"
+        }
+
         register("HiltConventionPlugin") {
             id = "dev.olog.msc.hilt"
             implementationClass = "HiltConventionPlugin"
@@ -23,6 +33,11 @@ gradlePlugin {
         register("ComposeConventionPlugin") {
             id = "dev.olog.msc.compose"
             implementationClass = "ComposeConventionPlugin"
+        }
+
+        register("SecretsConventionPlugin") {
+            id = "dev.olog.msc.secrets"
+            implementationClass = "SecretsConventionPlugin"
         }
     }
 }

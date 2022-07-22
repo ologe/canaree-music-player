@@ -1,19 +1,14 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':common:localization')
-    implementation lib_x.annotations
-    implementation lib_x.core
-    implementation lib_x.fragments
-    implementation lib_x.material
+    implementation(libs.androidx.annotations)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.fragments)
+    implementation(libs.androidx.material)
 
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_livedata
-
-    testImplementation lib_test.flow
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.livedata)
 }

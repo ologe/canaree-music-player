@@ -1,11 +1,8 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-kapt'
     id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 android {
 
@@ -39,22 +36,19 @@ dependencies {
     implementation project(':features:equalizer:api')
     implementation project(':features:settings:api')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.preference)
 
-    implementation lib_x.core
-    implementation lib_x.preference
+    implementation(libs.utils.fuzzy)
+    implementation(libs.data.gson)
+    implementation(libs.data.retrofit)
+    implementation(libs.data.retrofit.gson)
+    implementation(libs.data.okhttp)
+    implementation(libs.data.okhttp.interceptor)
 
-    implementation lib_utils.fuzzy
-    implementation lib_network.gson
-    implementation lib_network.retrofit
-    implementation lib_network.retrofit_gson
-    implementation lib_network.ok_http
-    implementation lib_network.ok_http_interceptor
-
-    implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
+    implementation(libs.data.sqlContentResolver)
+    implementation(libs.data.room)
+    implementation(libs.data.room.ktx)
+    kapt(libs.data.room.processor)
 
 }

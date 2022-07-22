@@ -1,11 +1,4 @@
-apply from: rootProject.file("dependencies.gradle")
-apply from: rootProject.file("buildscripts/config.gradle")
-
-buildscript { 
-
-    ext {
-        kotlin_version = '1.6.21'
-    }
+buildscript {
 
     repositories {
         gradlePluginPortal()

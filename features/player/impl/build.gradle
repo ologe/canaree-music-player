@@ -1,12 +1,9 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dev.olog.msc.hilt'
 }
-
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     api project(':features:player:api')
@@ -22,14 +19,14 @@ dependencies {
     implementation project(':features:lyrics-offline:api')
     implementation project(':features:settings:api')
 
-    implementation lib_x.fragments
-    implementation lib_x.recycler
-    implementation lib_x.material
-    implementation lib_x.constraint_layout
+    implementation(libs.androidx.fragments)
+    implementation(libs.androidx.recycler)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.constraintLayout)
 
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.lottie
-    implementation lib_ui.blur_kit
-    implementation lib_ui.glide
-    implementation lib_ui.tap_target_view
+    implementation(libs.ui.scrollHelper)
+    implementation(libs.ui.lottie)
+    implementation(libs.ui.blurKit)
+    implementation(libs.ui.glide)
+    implementation(libs.ui.tapTargetView)
 }

@@ -1,18 +1,13 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id 'dev.olog.msc.library'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
     id 'dev.olog.msc.hilt'
 }
 
-apply from: rootProject.file("buildscripts/android-defaults.gradle")
-
 dependencies {
     implementation project(':common:shared')
 
-    implementation lib_core.coroutines
-
-    implementation lib_x.annotations
-    implementation lib_x.lifecycle_runtime
+    implementation(libs.androidx.annotations)
+    implementation(libs.androidx.lifecycle.runtime)
 }

@@ -1,9 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.compose")
 }
-
-apply(from = rootProject.file("buildscripts/android-defaults.gradle"))
 
 dependencies {
     implementation(projects.core)
@@ -11,6 +9,7 @@ dependencies {
     implementation(projects.common.platform)
     implementation(projects.common.localization)
     implementation(projects.common.ui)
+    implementation(libs.compose.landscapist)
 
     // todo remove dependency
     implementation(projects.features.settings.api)
