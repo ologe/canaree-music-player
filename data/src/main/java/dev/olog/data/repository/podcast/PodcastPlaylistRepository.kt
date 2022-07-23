@@ -13,10 +13,10 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.R
-import dev.olog.data.db.dao.HistoryDao
-import dev.olog.data.db.dao.PodcastPlaylistDao
-import dev.olog.data.db.entities.PodcastPlaylistEntity
-import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import dev.olog.data.db.history.HistoryDao
+import dev.olog.data.db.playlist.PodcastPlaylistDao
+import dev.olog.data.db.playlist.PodcastPlaylistEntity
+import dev.olog.data.db.playlist.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.shared.extension.mapListItem
 import dev.olog.shared.extension.swap

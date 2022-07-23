@@ -4,7 +4,25 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.data.db.dao.*
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.db.equalizer.EqualizerPresetsDao
+import dev.olog.data.db.favorite.FavoriteDao
+import dev.olog.data.db.history.HistoryDao
+import dev.olog.data.db.last.played.LastPlayedAlbumDao
+import dev.olog.data.db.last.played.LastPlayedArtistDao
+import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
+import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
+import dev.olog.data.db.lastfm.LastFmDao
+import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
+import dev.olog.data.db.lyrics.OfflineLyricsDao
+import dev.olog.data.db.most.played.FolderMostPlayedDao
+import dev.olog.data.db.most.played.GenreMostPlayedDao
+import dev.olog.data.db.most.played.PlaylistMostPlayedDao
+import dev.olog.data.db.playlist.PlaylistDao
+import dev.olog.data.db.playlist.PodcastPlaylistDao
+import dev.olog.data.db.podcast.PodcastPositionDao
+import dev.olog.data.db.queue.PlayingQueueDao
+import dev.olog.data.db.recent.search.RecentSearchesDao
 
 @Module
 @InstallIn(SingletonComponent::class)

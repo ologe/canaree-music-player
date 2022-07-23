@@ -7,7 +7,7 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.data.db.dao.RecentSearchesDao
+import dev.olog.data.db.recent.search.RecentSearchesDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

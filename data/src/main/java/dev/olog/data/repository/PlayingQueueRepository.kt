@@ -6,7 +6,7 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.data.db.dao.PlayingQueueDao
+import dev.olog.data.db.queue.PlayingQueueDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -13,7 +13,7 @@ import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.LastPlayedPodcastAlbumDao
+import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries

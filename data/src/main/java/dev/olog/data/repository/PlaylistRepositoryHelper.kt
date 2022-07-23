@@ -4,10 +4,10 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
-import dev.olog.data.db.dao.HistoryDao
-import dev.olog.data.db.dao.PlaylistDao
-import dev.olog.data.db.entities.PlaylistEntity
-import dev.olog.data.db.entities.PlaylistTrackEntity
+import dev.olog.data.db.history.HistoryDao
+import dev.olog.data.db.playlist.PlaylistDao
+import dev.olog.data.db.playlist.PlaylistEntity
+import dev.olog.data.db.playlist.PlaylistTrackEntity
 import dev.olog.shared.extension.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
