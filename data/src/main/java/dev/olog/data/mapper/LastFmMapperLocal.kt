@@ -3,9 +3,9 @@ package dev.olog.data.mapper
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.data.db.entities.LastFmAlbumEntity
-import dev.olog.data.db.entities.LastFmArtistEntity
-import dev.olog.data.db.entities.LastFmTrackEntity
+import dev.olog.data.db.lastfm.LastFmAlbumEntity
+import dev.olog.data.db.lastfm.LastFmArtistEntity
+import dev.olog.data.db.lastfm.LastFmTrackEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,7 +81,7 @@ fun LastFmArtistEntity.toDomain(): LastFmArtist {
     )
 }
 
-fun LastFmArtist.toModel() : LastFmArtistEntity{
+fun LastFmArtist.toModel() : LastFmArtistEntity {
     return LastFmArtistEntity(
         this.id,
         this.image,

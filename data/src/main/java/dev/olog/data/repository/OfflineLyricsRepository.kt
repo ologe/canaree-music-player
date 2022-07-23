@@ -2,10 +2,10 @@ package dev.olog.data.repository
 
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.data.db.dao.LyricsSyncAdjustmentDao
-import dev.olog.data.db.dao.OfflineLyricsDao
-import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
-import dev.olog.data.db.entities.OfflineLyricsEntity
+import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
+import dev.olog.data.db.lyrics.OfflineLyricsDao
+import dev.olog.data.db.lyrics.LyricsSyncAdjustmentEntity
+import dev.olog.data.db.lyrics.OfflineLyricsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart

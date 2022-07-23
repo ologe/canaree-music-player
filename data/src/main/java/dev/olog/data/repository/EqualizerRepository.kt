@@ -5,9 +5,9 @@ import dev.olog.core.ApplicationScope
 import dev.olog.feature.equalizer.api.EqualizerGateway
 import dev.olog.feature.equalizer.api.EqualizerPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.EqualizerPresetsDao
-import dev.olog.data.db.entities.EqualizerBandEntity
-import dev.olog.data.db.entities.EqualizerPresetEntity
+import dev.olog.data.db.equalizer.EqualizerPresetsDao
+import dev.olog.data.db.equalizer.EqualizerBandEntity
+import dev.olog.data.db.equalizer.EqualizerPresetEntity
 import dev.olog.feature.equalizer.api.model.EqualizerBand
 import dev.olog.feature.equalizer.api.model.EqualizerPreset
 import kotlinx.coroutines.flow.Flow

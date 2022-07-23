@@ -2,7 +2,7 @@ package dev.olog.data.repository.lastfm
 
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.gateway.base.Id
-import dev.olog.data.db.dao.LastFmDao
+import dev.olog.data.db.lastfm.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
 import javax.inject.Inject

@@ -13,7 +13,7 @@ import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.LastPlayedArtistDao
+import dev.olog.data.db.last.played.LastPlayedArtistDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries

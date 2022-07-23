@@ -12,8 +12,8 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.PodcastPositionDao
-import dev.olog.data.db.entities.PodcastPositionEntity
+import dev.olog.data.db.podcast.PodcastPositionDao
+import dev.olog.data.db.podcast.PodcastPositionEntity
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository

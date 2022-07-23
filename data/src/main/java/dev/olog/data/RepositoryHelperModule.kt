@@ -9,7 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.AppDatabase
 import javax.inject.Singleton
 
 @Module
