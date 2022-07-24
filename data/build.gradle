@@ -8,16 +8,12 @@ android {
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"
-                ]
-            }
-        }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas".toString())
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
     }
 
     sourceSets {
@@ -50,5 +46,6 @@ dependencies {
     implementation(libs.data.room)
     implementation(libs.data.room.ktx)
     ksp(libs.data.room.processor)
-
+    testImplementation(libs.data.room.testing)
+    androidTestImplementation(libs.data.room.testing)
 }

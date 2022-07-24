@@ -52,11 +52,13 @@ utils-aes = "1.1.0"
 utils-fuzzy = "1.2.0"
 utils-leakCanary = "2.9.1"
 
-test-junit = "4.13"
+test-junit = "4.13.2"
 test-mockito = "3.5.10"
 test-mockito-kotlin = "2.2.0"
 test-robolectric = "4.8.1"
 test-flowAssertions = "1.6.2"
+
+testui-androidx = "1.4.0"
 
 [libraries]
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -141,3 +143,6 @@ test-mockito = { module = "org.mockito:mockito-inline", version.ref = "test-mock
 test-mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "test-mockito-kotlin" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 test-flowAssertions = { module = "com.github.ologe:flow-test-observer", version.ref = "test-flowAssertions" }
+
+testui-runner = { module = "androidx.test:runner", version.ref = "testui-androidx" }
+testui-rules = { module = "androidx.test:rules", version.ref = "testui-androidx" }

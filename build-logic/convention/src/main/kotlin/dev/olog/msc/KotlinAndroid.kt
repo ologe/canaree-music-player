@@ -55,6 +55,10 @@ fun Project.configureKotlinAndroid(
         testImplementation("test-mockito")
         testImplementation("test-mockito-kotlin")
         testImplementation("test-robolectric")
+
+        androidTestImplementation("test-junit")
+        androidTestImplementation("testui-runner")
+        androidTestImplementation("testui-rules")
     }
 
 }
