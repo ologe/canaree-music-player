@@ -53,7 +53,7 @@ utils-fuzzy = "1.2.0"
 utils-leakCanary = "2.9.1"
 
 test-junit = "4.13.2"
-test-mockito = "3.5.10"
+test-mockito = "4.6.1"
 test-mockito-kotlin = "2.2.0"
 test-robolectric = "4.8.1"
 test-flowAssertions = "1.6.2"

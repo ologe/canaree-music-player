@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-internal abstract class PodcastPositionDao {
+abstract class PodcastPositionDao {
 
     @Query("""
         SELECT position

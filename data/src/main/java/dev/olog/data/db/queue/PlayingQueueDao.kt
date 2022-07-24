@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class PlayingQueueDao {
+abstract class PlayingQueueDao {
 
     @Query(
         """

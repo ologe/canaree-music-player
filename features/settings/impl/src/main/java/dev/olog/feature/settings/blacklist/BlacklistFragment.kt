@@ -39,7 +39,7 @@ class BlacklistFragment : ListDialog() {
     override fun setupRecyclerView(list: RecyclerView) {
         launchWhenResumed {
             val data = withContext(Dispatchers.Default) {
-                viewModel.data
+                viewModel.data()
             }
             adapter = BlacklistFragmentAdapter(data)
             list.adapter = adapter

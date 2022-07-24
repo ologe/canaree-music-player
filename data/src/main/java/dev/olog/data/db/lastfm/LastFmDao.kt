@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-internal abstract class LastFmDao {
+abstract class LastFmDao {
 
     companion object {
         private const val CACHE_TIME = "1 month"

@@ -7,7 +7,7 @@ import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class LastPlayedArtistDao {
+abstract class LastPlayedArtistDao {
 
     @Query(
         """

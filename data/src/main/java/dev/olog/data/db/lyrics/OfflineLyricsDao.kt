@@ -7,7 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class OfflineLyricsDao {
+abstract class OfflineLyricsDao {
 
     @Query("SELECT * FROM offline_lyrics WHERE trackId = :trackId")
      abstract fun observeLyrics(trackId: Long): Flow<List<OfflineLyricsEntity>>

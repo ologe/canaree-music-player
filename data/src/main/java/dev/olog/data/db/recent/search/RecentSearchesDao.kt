@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class RecentSearchesDao {
+abstract class RecentSearchesDao {
 
     @Query(
         """

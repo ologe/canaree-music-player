@@ -50,6 +50,8 @@ fun Project.configureKotlinAndroid(
         implementation("coroutines-android")
         testImplementation("coroutines-test")
         testImplementation("test-flowAssertions")
+        androidTestImplementation("coroutines-test")
+        androidTestImplementation("test-flowAssertions")
 
         testImplementation("test-junit")
         testImplementation("test-mockito")
@@ -57,6 +59,8 @@ fun Project.configureKotlinAndroid(
         testImplementation("test-robolectric")
 
         androidTestImplementation("test-junit")
+        androidTestImplementation("test-mockito")
+        androidTestImplementation("test-mockito-kotlin")
         androidTestImplementation("testui-runner")
         androidTestImplementation("testui-rules")
     }
