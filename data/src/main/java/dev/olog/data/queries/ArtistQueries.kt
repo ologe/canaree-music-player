@@ -5,9 +5,8 @@ import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortDirection
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
@@ -89,7 +88,7 @@ internal class ArtistQueries(
             else -> "lower($ARTIST)"
         }
         sort += " COLLATE UNICODE "
-        if (sortEntity.arranging == SortArranging.DESCENDING) {
+        if (sortEntity.direction == SortDirection.DESCENDING) {
             sort += " DESC"
         }
         return sort

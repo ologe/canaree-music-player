@@ -5,7 +5,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.fragment.app.Fragment
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
 import dev.olog.feature.media.api.model.PlayerItem
 import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
@@ -36,7 +36,7 @@ interface MediaProvider {
     // moved to a background thread
     fun observeQueue(): Flow<List<PlayerItem>>
 
-    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
+    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: Sort?)
     fun playMostPlayed(mediaId: MediaId)
     fun playRecentlyAdded(mediaId: MediaId)
 

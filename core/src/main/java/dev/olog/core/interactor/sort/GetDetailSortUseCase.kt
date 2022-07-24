@@ -2,7 +2,7 @@ package dev.olog.core.interactor.sort
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.prefs.SortPreferences
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class GetDetailSortUseCase @Inject constructor(
 
 ) {
 
-    operator fun invoke(mediaId: MediaId): SortEntity {
+    operator fun invoke(mediaId: MediaId): Sort {
         val category = mediaId.category
         return when (category) {
             MediaIdCategory.FOLDERS -> gateway.getDetailFolderSort()

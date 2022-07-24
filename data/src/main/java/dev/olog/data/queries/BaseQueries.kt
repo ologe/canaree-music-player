@@ -2,8 +2,8 @@ package dev.olog.data.queries
 
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortDirection
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -55,7 +55,7 @@ abstract class BaseQueries(
             SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
             SortType.RECENTLY_ADDED -> DATE_ADDED // DESC
             SortType.DURATION -> DURATION
-            SortType.TRACK_NUMBER -> "$discNumberProjection ${sortEntity.arranging}, $trackNumberProjection ${sortEntity.arranging}, $TITLE"
+            SortType.TRACK_NUMBER -> "$discNumberProjection ${sortEntity.direction}, $trackNumberProjection ${sortEntity.direction}, $TITLE"
             SortType.CUSTOM -> default
             else -> "lower($TITLE)"
         }
@@ -66,11 +66,11 @@ abstract class BaseQueries(
 
         sort += " COLLATE UNICODE "
 
-        if (sortEntity.arranging == SortArranging.ASCENDING && sortEntity.type == SortType.RECENTLY_ADDED) {
+        if (sortEntity.direction == SortDirection.ASCENDING && sortEntity.type == SortType.RECENTLY_ADDED) {
             // recently added works in reverse
             sort += " DESC"
         }
-        if (sortEntity.arranging == SortArranging.DESCENDING) {
+        if (sortEntity.direction == SortDirection.DESCENDING) {
             if (sortEntity.type == SortType.RECENTLY_ADDED) {
                 // recently added works in reverse
                 sort += " ASC"
@@ -82,7 +82,7 @@ abstract class BaseQueries(
         return sort
     }
 
-    private fun getSortType(category: MediaIdCategory): SortEntity {
+    private fun getSortType(category: MediaIdCategory): Sort {
         return when (category) {
             MediaIdCategory.FOLDERS -> sortPrefs.getDetailFolderSort()
             MediaIdCategory.PLAYLISTS -> sortPrefs.getDetailPlaylistSort()

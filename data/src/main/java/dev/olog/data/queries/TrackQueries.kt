@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortDirection
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
@@ -88,13 +88,13 @@ internal class TrackQueries(
 
         if (sortEntity.type == SortType.RECENTLY_ADDED) {
             // recently added order works in reverse
-            if (sortEntity.arranging == SortArranging.ASCENDING) {
+            if (sortEntity.direction == SortDirection.ASCENDING) {
                 sort += " DESC"
             } else {
                 sort += " ASC"
             }
         } else {
-            if (sortEntity.arranging == SortArranging.ASCENDING) {
+            if (sortEntity.direction == SortDirection.ASCENDING) {
                 sort += " ASC"
             } else {
                 sort += " DESC"

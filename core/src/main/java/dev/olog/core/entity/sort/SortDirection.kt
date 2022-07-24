@@ -1,6 +1,6 @@
 package dev.olog.core.entity.sort
 
-enum class SortArranging {
+enum class SortDirection {
     ASCENDING, DESCENDING;
 
     override fun toString(): String {

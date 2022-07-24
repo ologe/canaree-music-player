@@ -10,8 +10,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortDirection
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.about.api.FeatureAboutNavigator
@@ -116,7 +116,7 @@ class MainPopupDialog @Inject constructor(
         }
     }
 
-    private fun initializeTracksSort(menu: Menu): SortEntity {
+    private fun initializeTracksSort(menu: Menu): Sort {
         val sort = gateway.getAllTracksSort()
         val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
@@ -126,35 +126,35 @@ class MainPopupDialog @Inject constructor(
             SortType.RECENTLY_ADDED -> R.id.by_date
             else -> throw IllegalStateException("invalid for tracks ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.direction == SortDirection.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
         return sort
     }
 
-    private fun initializeAlbumSort(menu: Menu): SortEntity {
+    private fun initializeAlbumSort(menu: Menu): Sort {
         val sort = gateway.getAllAlbumsSort()
         val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
             SortType.ARTIST -> R.id.by_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.direction == SortDirection.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
         return sort
     }
 
-    private fun initializeArtistSort(menu: Menu): SortEntity {
+    private fun initializeArtistSort(menu: Menu): Sort {
         val sort = gateway.getAllArtistsSort()
         val item = when (sort.type) {
             SortType.ARTIST -> R.id.by_artist
             SortType.ALBUM_ARTIST -> R.id.by_album_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
-        val ascending = sort.arranging == SortArranging.ASCENDING
+        val ascending = sort.direction == SortDirection.ASCENDING
         menu.findItem(item).isChecked = true
         menu.findItem(R.id.arranging).isChecked = ascending
 
@@ -164,15 +164,15 @@ class MainPopupDialog @Inject constructor(
     private fun handleAllSongsSorting(
         activity: FragmentActivity,
         menuItem: MenuItem,
-        sort: SortEntity
+        sort: Sort
     ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) SortDirection.ASCENDING else SortDirection.DESCENDING
+            Sort(type = model.type, direction = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
@@ -182,7 +182,7 @@ class MainPopupDialog @Inject constructor(
                 R.id.by_date -> SortType.RECENTLY_ADDED
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, direction = model.direction)
         }
 
         gateway.setAllTracksSort(model)
@@ -192,22 +192,22 @@ class MainPopupDialog @Inject constructor(
     private fun handleAllAlbumsSorting(
         activity: FragmentActivity,
         menuItem: MenuItem,
-        sort: SortEntity
+        sort: Sort
     ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) SortDirection.ASCENDING else SortDirection.DESCENDING
+            Sort(type = model.type, direction = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
                 R.id.by_artist -> SortType.ARTIST
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, direction = model.direction)
         }
 
         gateway.setAllAlbumsSort(model)
@@ -217,22 +217,22 @@ class MainPopupDialog @Inject constructor(
     private fun handleAllArtistsSorting(
         activity: FragmentActivity,
         menuItem: MenuItem,
-        sort: SortEntity
+        sort: Sort
     ) {
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
             val newArranging =
-                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            SortEntity(type = model.type, arranging = newArranging)
+                if (isAscending) SortDirection.ASCENDING else SortDirection.DESCENDING
+            Sort(type = model.type, direction = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_artist -> SortType.ARTIST
                 R.id.by_album_artist -> SortType.ALBUM_ARTIST
                 else -> null
             } ?: return
-            SortEntity(type = newSortType, arranging = model.arranging)
+            Sort(type = newSortType, direction = model.direction)
         }
 
         gateway.setAllArtistsSort(model)

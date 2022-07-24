@@ -3,8 +3,8 @@ package dev.olog.data.prefs.sort
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortDirection
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
 import dev.olog.shared.extension.observeKey
@@ -31,77 +31,77 @@ internal class DetailSortingHelper @Inject constructor(
         private const val DETAIL_SORT_GENRE_ARRANGING = "$TAG.DETAIL_SORT_GENRE_ARRANGING"
     }
 
-    override fun observeDetailFolderSort(): Flow<SortEntity> {
+    override fun observeDetailFolderSort(): Flow<Sort> {
         return preferences.observeKey(DETAIL_SORT_FOLDER_ORDER, SortType.TITLE.ordinal)
             .combine(
                 preferences.observeKey(
                     DETAIL_SORT_FOLDER_ARRANGING,
-                    SortArranging.ASCENDING.ordinal
+                    SortDirection.ASCENDING.ordinal
                 )
             ) { type, arranging ->
-                SortEntity(
+                Sort(
                     SortType.values()[type],
-                    SortArranging.values()[arranging]
+                    SortDirection.values()[arranging]
                 )
             }
     }
 
-    override fun observeDetailPlaylistSort(): Flow<SortEntity> {
+    override fun observeDetailPlaylistSort(): Flow<Sort> {
         return preferences.observeKey(DETAIL_SORT_PLAYLIST_ORDER, SortType.CUSTOM.ordinal)
             .combine(
                 preferences.observeKey(
                     DETAIL_SORT_PLAYLIST_ARRANGING,
-                    SortArranging.ASCENDING.ordinal
+                    SortDirection.ASCENDING.ordinal
                 )
             ) { type, arranging ->
-                SortEntity(
+                Sort(
                     SortType.values()[type],
-                    SortArranging.values()[arranging]
+                    SortDirection.values()[arranging]
                 )
             }
     }
 
-    override fun observeDetailAlbumSort(): Flow<SortEntity> {
+    override fun observeDetailAlbumSort(): Flow<Sort> {
         return preferences.observeKey(DETAIL_SORT_ALBUM_ORDER, SortType.TITLE.ordinal)
             .combine(
                 preferences.observeKey(
                     DETAIL_SORT_ALBUM_ARRANGING,
-                    SortArranging.ASCENDING.ordinal
+                    SortDirection.ASCENDING.ordinal
                 )
             ) { type, arranging ->
-                SortEntity(
+                Sort(
                     SortType.values()[type],
-                    SortArranging.values()[arranging]
+                    SortDirection.values()[arranging]
                 )
             }
     }
 
-    override fun observeDetailArtistSort(): Flow<SortEntity> {
+    override fun observeDetailArtistSort(): Flow<Sort> {
         return preferences.observeKey(DETAIL_SORT_ARTIST_ORDER, SortType.TITLE.ordinal)
             .combine(
                 preferences.observeKey(
                     DETAIL_SORT_ARTIST_ARRANGING,
-                    SortArranging.ASCENDING.ordinal
+                    SortDirection.ASCENDING.ordinal
                 )
             ) { type, arranging ->
-                SortEntity(
+                Sort(
                     SortType.values()[type],
-                    SortArranging.values()[arranging]
+                    SortDirection.values()[arranging]
                 )
             }
     }
 
-    override fun observeDetailGenreSort(): Flow<SortEntity> {
+    override fun observeDetailGenreSort(): Flow<Sort> {
         return preferences.observeKey(DETAIL_SORT_GENRE_ORDER, SortType.TITLE.ordinal)
             .combine(
                 preferences.observeKey(
                     DETAIL_SORT_GENRE_ARRANGING,
-                    SortArranging.ASCENDING.ordinal
+                    SortDirection.ASCENDING.ordinal
                 )
             ) { type, arranging ->
-                SortEntity(
+                Sort(
                     SortType.values()[type],
-                    SortArranging.values()[arranging]
+                    SortDirection.values()[arranging]
                 )
             }
     }
@@ -137,62 +137,62 @@ internal class DetailSortingHelper @Inject constructor(
             else -> throw IllegalStateException("invalid category $category")
         }
 
-        val oldArranging = SortArranging.values()[preferences.getInt(
+        val oldArranging = SortDirection.values()[preferences.getInt(
             arrangingKey,
-            SortArranging.ASCENDING.ordinal
+            SortDirection.ASCENDING.ordinal
         )]
 
-        val newArranging = if (oldArranging == SortArranging.ASCENDING) {
-            SortArranging.DESCENDING
-        } else SortArranging.ASCENDING
+        val newArranging = if (oldArranging == SortDirection.ASCENDING) {
+            SortDirection.DESCENDING
+        } else SortDirection.ASCENDING
 
         preferences.edit {
             putInt(arrangingKey, newArranging.ordinal)
         }
     }
 
-    override fun getDetailFolderSort(): SortEntity {
+    override fun getDetailFolderSort(): Sort {
         val order = preferences.getInt(DETAIL_SORT_FOLDER_ORDER, SortType.TITLE.ordinal)
-        val arranging = preferences.getInt(DETAIL_SORT_FOLDER_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+        val arranging = preferences.getInt(DETAIL_SORT_FOLDER_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[order],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getDetailPlaylistSort(): SortEntity {
+    override fun getDetailPlaylistSort(): Sort {
         val order = preferences.getInt(DETAIL_SORT_PLAYLIST_ORDER, SortType.CUSTOM.ordinal)
-        val arranging = preferences.getInt(DETAIL_SORT_PLAYLIST_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+        val arranging = preferences.getInt(DETAIL_SORT_PLAYLIST_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[order],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getDetailAlbumSort(): SortEntity {
+    override fun getDetailAlbumSort(): Sort {
         val order = preferences.getInt(DETAIL_SORT_ALBUM_ORDER, SortType.TITLE.ordinal)
-        val arranging = preferences.getInt(DETAIL_SORT_ALBUM_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+        val arranging = preferences.getInt(DETAIL_SORT_ALBUM_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[order],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getDetailArtistSort(): SortEntity {
+    override fun getDetailArtistSort(): Sort {
         val order = preferences.getInt(DETAIL_SORT_ARTIST_ORDER, SortType.TITLE.ordinal)
-        val arranging = preferences.getInt(DETAIL_SORT_ARTIST_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+        val arranging = preferences.getInt(DETAIL_SORT_ARTIST_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[order],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getDetailGenreSort(): SortEntity {
+    override fun getDetailGenreSort(): Sort {
         val order = preferences.getInt(DETAIL_SORT_GENRE_ORDER, SortType.TITLE.ordinal)
-        val arranging = preferences.getInt(DETAIL_SORT_GENRE_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+        val arranging = preferences.getInt(DETAIL_SORT_GENRE_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[order],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 

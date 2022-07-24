@@ -3,7 +3,7 @@ package dev.olog.feature.library.tab
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.feature.library.api.TabCategory
 import dev.olog.feature.library.api.LibraryPreferences
@@ -27,18 +27,18 @@ internal class TabFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getAllTracksSortOrder(mediaId: MediaId): SortEntity? {
+    fun getAllTracksSortOrder(mediaId: MediaId): Sort? {
         if (mediaId.isAnyPodcast) {
             return null
         }
         return appPreferencesUseCase.getAllTracksSort()
     }
 
-    fun getAllAlbumsSortOrder(): SortEntity {
+    fun getAllAlbumsSortOrder(): Sort {
         return appPreferencesUseCase.getAllAlbumsSort()
     }
 
-    fun getAllArtistsSortOrder(): SortEntity {
+    fun getAllArtistsSortOrder(): Sort {
         return appPreferencesUseCase.getAllArtistsSort()
     }
 
