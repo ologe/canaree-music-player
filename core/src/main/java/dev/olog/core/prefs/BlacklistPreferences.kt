@@ -1,8 +1,6 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.Resettable
-
-interface BlacklistPreferences : Resettable {
-    fun getBlackList(): Set<String>
-    fun setBlackList(set: Set<String>)
+interface BlacklistPreferences {
+    suspend fun getBlackList(): List<String>
+    suspend fun setBlackList(items: List<String>)
 }

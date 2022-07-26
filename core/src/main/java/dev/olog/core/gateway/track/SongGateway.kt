@@ -1,6 +1,7 @@
 package dev.olog.core.gateway.track
 
 import android.net.Uri
+import dev.olog.core.entity.sort.AllSongsSort
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.gateway.base.Id
@@ -14,5 +15,8 @@ interface SongGateway :
     fun getByUri(uri: Uri): Song?
 
     fun getByAlbumId(albumId: Id): Song?
+
+    fun setSort(sort: AllSongsSort)
+    fun getSort(): AllSongsSort
 
 }

@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.blacklist.BlacklistPreferenceLegacy
 import dev.olog.data.db.migration.Migration15to16
 import dev.olog.data.db.migration.Migration16to17
 import dev.olog.data.db.migration.Migration17to18
@@ -19,13 +21,17 @@ internal class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
+    fun provideRoomDatabase(
+        @ApplicationContext context: Context,
+        blacklistPreferenceLegacy: BlacklistPreferenceLegacy,
+        sortPreferences: SortPreferences,
+    ): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(
                 Migration15to16(),
                 Migration16to17(),
                 Migration17to18(),
-                Migration18to19(),
+                Migration18to19(blacklistPreferenceLegacy, sortPreferences),
             )
             .allowMainThreadQueries() // todo remove
             .build()
