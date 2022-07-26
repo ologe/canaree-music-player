@@ -7,8 +7,10 @@ import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.Migration
 import javax.inject.Inject
 
+@Migration
 internal class AppSortingImpl @Inject constructor(
     private val preferences: SharedPreferences,
     private val detailSortingHelper: DetailSortingHelper

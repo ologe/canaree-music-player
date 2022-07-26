@@ -7,11 +7,13 @@ import dev.olog.core.entity.sort.SortDirection
 import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
+import dev.olog.core.Migration
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
+@Migration
 internal class DetailSortingHelper @Inject constructor(
     private val preferences: SharedPreferences
 ) : SortDetail {

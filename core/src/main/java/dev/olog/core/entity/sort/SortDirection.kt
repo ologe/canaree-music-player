@@ -1,5 +1,8 @@
 package dev.olog.core.entity.sort
 
+import dev.olog.core.Migration
+
+@Migration
 enum class SortDirection {
     ASCENDING, DESCENDING;
 
