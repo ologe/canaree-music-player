@@ -6,7 +6,7 @@ import dev.olog.core.entity.sort.SortDirection
 import dev.olog.data.DatabaseTest
 import dev.olog.data.emptyMediaStoreAudioEntity
 import dev.olog.data.emptyMediaStoreSongView
-import dev.olog.data.emptyMediaStoreSortedSongView
+import dev.olog.data.emptyMediaStoreSongSortedView
 import dev.olog.data.sort.SortRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -24,9 +24,9 @@ class SongDaoTest : DatabaseTest() {
         // actual db view behaviour is tested in MediaStoreSongViewDaoTest
         mediaStoreDao.insertAll(
             listOf(
-                emptyMediaStoreAudioEntity(id = "1", title = "title 1", isPodcast = false),
-                emptyMediaStoreAudioEntity(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
-                emptyMediaStoreAudioEntity(id = "3", title = "title 3", displayName = "displayName", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "id 1", title = "title 1", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "id 3", title = "title 3", displayName = "displayName", isPodcast = false),
             )
         )
     }
@@ -37,9 +37,9 @@ class SongDaoTest : DatabaseTest() {
         SortRepository(db.sortDao()).setAllSongsSort(sort)
 
         val expected = listOf(
-            emptyMediaStoreSortedSongView(id = "1", title = "title 1", isPodcast = false),
-            emptyMediaStoreSortedSongView(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
-            emptyMediaStoreSortedSongView(id = "3", title = "title 3", displayName = "displayName", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 1", title = "title 1", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 3", title = "title 3", displayName = "displayName", isPodcast = false),
         )
         val actual = sut.getAll()
         Assert.assertEquals(expected, actual)
@@ -51,9 +51,9 @@ class SongDaoTest : DatabaseTest() {
         SortRepository(db.sortDao()).setAllSongsSort(sort)
 
         val expected = listOf(
-            emptyMediaStoreSortedSongView(id = "1", title = "title 1", isPodcast = false),
-            emptyMediaStoreSortedSongView(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
-            emptyMediaStoreSortedSongView(id = "3", title = "title 3", displayName = "displayName", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 1", title = "title 1", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
+            emptyMediaStoreSongSortedView(id = "id 3", title = "title 3", displayName = "displayName", isPodcast = false),
         )
         val actual = sut.observeAll().first()
         Assert.assertEquals(expected, actual)
@@ -62,39 +62,39 @@ class SongDaoTest : DatabaseTest() {
     @Test
     fun testGetById() {
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "1", title = "title 1", isPodcast = false),
-            sut.getById("1"),
+            emptyMediaStoreSongView(id = "id 1", title = "title 1", isPodcast = false),
+            sut.getById("id 1"),
         )
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
-            sut.getById("2"),
+            emptyMediaStoreSongView(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
+            sut.getById("id 2"),
         )
         Assert.assertEquals(
             null,
-            sut.getById("10"),
+            sut.getById("id 10"),
         )
     }
 
     @Test
     fun testObserveById() = runTest {
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "1", title = "title 1", isPodcast = false),
-            sut.observeById("1").first(),
+            emptyMediaStoreSongView(id = "id 1", title = "title 1", isPodcast = false),
+            sut.observeById("id 1").first(),
         )
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
-            sut.observeById("2").first(),
+            emptyMediaStoreSongView(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
+            sut.observeById("id 2").first(),
         )
         Assert.assertEquals(
             null,
-            sut.observeById("10").first(),
+            sut.observeById("id 10").first(),
         )
     }
 
     @Test
     fun testGetByDisplayName() {
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "3", title = "title 3", displayName = "displayName", isPodcast = false),
+            emptyMediaStoreSongView(id = "id 3", title = "title 3", displayName = "displayName", isPodcast = false),
             sut.getByDisplayName("displayName"),
         )
         Assert.assertEquals(
@@ -106,7 +106,7 @@ class SongDaoTest : DatabaseTest() {
     @Test
     fun testGetByAlbumId() {
         Assert.assertEquals(
-            emptyMediaStoreSongView(id = "2", title = "title 2", albumId = "albumId", isPodcast = false),
+            emptyMediaStoreSongView(id = "id 2", title = "title 2", albumId = "albumId", isPodcast = false),
             sut.getByAlbumId("albumId"),
         )
         Assert.assertEquals(

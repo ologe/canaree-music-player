@@ -15,7 +15,6 @@ import dev.olog.data.db.history.HistoryEntity
 import dev.olog.data.db.history.PodcastHistoryEntity
 import dev.olog.data.db.last.played.LastPlayedAlbumDao
 import dev.olog.data.db.last.played.LastPlayedAlbumEntity
-import dev.olog.data.db.last.played.LastPlayedArtistDao
 import dev.olog.data.db.last.played.LastPlayedArtistEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumEntity
@@ -29,10 +28,6 @@ import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.lyrics.OfflineLyricsDao
 import dev.olog.data.db.lyrics.OfflineLyricsEntity
-import dev.olog.data.mediastore.MediaStoreAudioDao
-import dev.olog.data.mediastore.MediaStoreAudioEntity
-import dev.olog.data.mediastore.MediaStoreSongView
-import dev.olog.data.mediastore.MediaStoreSortedSongView
 import dev.olog.data.db.most.played.FolderMostPlayedDao
 import dev.olog.data.db.most.played.FolderMostPlayedEntity
 import dev.olog.data.db.most.played.GenreMostPlayedDao
@@ -51,8 +46,16 @@ import dev.olog.data.db.queue.PlayingQueueDao
 import dev.olog.data.db.queue.PlayingQueueEntity
 import dev.olog.data.db.recent.search.RecentSearchesDao
 import dev.olog.data.db.recent.search.RecentSearchesEntity
-import dev.olog.data.mediastore.MediaStoreSongViewDao
+import dev.olog.data.mediastore.MediaStoreAudioDao
+import dev.olog.data.mediastore.MediaStoreAudioEntity
+import dev.olog.data.mediastore.song.MediaStoreSongsView
+import dev.olog.data.mediastore.song.MediaStoreSongsViewDao
+import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
+import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
+import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewDao
+import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 import dev.olog.data.song.SongDao
+import dev.olog.data.song.artist.ArtistDao
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortEntity
 import dev.olog.data.sort.db.SortTypeConverters
@@ -101,8 +104,10 @@ import dev.olog.data.sort.db.SortTypeConverters
 
     ),
     views = [
-        MediaStoreSongView::class,
-        MediaStoreSortedSongView::class,
+        MediaStoreSongsView::class,
+        MediaStoreSongsViewSorted::class,
+        MediaStoreArtistsView::class,
+        MediaStoreArtistsViewSorted::class,
     ],
     version = 19,
     exportSchema = true
@@ -113,13 +118,25 @@ import dev.olog.data.sort.db.SortTypeConverters
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    // mediastore
     abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
-    abstract fun mediaStoreSongDao(): MediaStoreSongViewDao
+    // mediastore song views
+    abstract fun mediaStoreSongDao(): MediaStoreSongsViewDao
+    abstract fun mediaStoreArtistDao(): MediaStoreArtistsViewDao
 
+    // mediastore podcast views
+    // todo
+
+    // utils
     abstract fun blacklistDao(): BlacklistDao
     abstract fun sortDao(): SortDao
 
+    // song queries
     abstract fun songDao(): SongDao
+    abstract fun artistDao(): ArtistDao
+
+    // podcast queries
+    // todo
 
     abstract fun playingQueueDao(): PlayingQueueDao
 
@@ -136,7 +153,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
 
     abstract fun lastPlayedAlbumDao(): LastPlayedAlbumDao
-    abstract fun lastPlayedArtistDao(): LastPlayedArtistDao
     abstract fun lastPlayedPodcastArtistDao(): LastPlayedPodcastArtistDao
     abstract fun lastPlayedPodcastAlbumDao(): LastPlayedPodcastAlbumDao
 

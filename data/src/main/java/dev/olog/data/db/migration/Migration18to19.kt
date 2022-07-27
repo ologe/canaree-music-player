@@ -67,7 +67,7 @@ class Migration18to19(
         """.trimIndent())
 
         database.execSQL("""
-            CREATE VIEW `sorted_songs_view` AS SELECT songs_view.*
+            CREATE VIEW `songs_view_sorted` AS SELECT songs_view.*
             FROM songs_view
                 LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working
             WHERE sort.tableName = '$SORT_TABLE_SONGS'
@@ -93,6 +93,25 @@ class Migration18to19(
             CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) COLLATE UNICODE END DESC
         """.trimIndent()
         )
+
+        database.execSQL("""
+            CREATE VIEW `artists_view` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs
+            FROM songs_view
+            GROUP BY artistId
+            ORDER BY lower(name) COLLATE UNICODE ASC
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `artists_view_sorted` AS SELECT artists_view.*
+            FROM artists_view
+                LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working
+            WHERE sort.tableName = 'artists'
+            ORDER BY
+            -- author
+            CASE WHEN name = '<unknown>' THEN -1 END, -- when unknown move last
+            CASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE UNICODE DESC
+        """.trimIndent())
     }
 
     private fun createBlacklistTables(database: SupportSQLiteDatabase) {
@@ -102,7 +121,7 @@ class Migration18to19(
                 PRIMARY KEY(directory)
             )
         """.trimIndent())
-        database.execSQL("CREATE INDEX IF NOT EXISTS `index_blacklist_directory` ON `directory` (`directory`)")
+        database.execSQL("CREATE INDEX IF NOT EXISTS `index_blacklist_directory` ON `blacklist` (`directory`)")
 
         val legacyBlacklist = blacklistPreferenceLegacy.getBlackList()
         if (legacyBlacklist.isNotEmpty()) {

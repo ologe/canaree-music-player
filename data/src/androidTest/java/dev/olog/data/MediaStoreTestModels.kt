@@ -1,8 +1,10 @@
 package dev.olog.data
 
 import dev.olog.data.mediastore.MediaStoreAudioEntity
-import dev.olog.data.mediastore.MediaStoreSongView
-import dev.olog.data.mediastore.MediaStoreSortedSongView
+import dev.olog.data.mediastore.song.MediaStoreSongsView
+import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
+import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
+import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 
 fun emptyMediaStoreAudioEntity(
     id: String = "",
@@ -57,7 +59,7 @@ fun emptyMediaStoreSongView(
     trackNumber: Int = 0,
     isPodcast: Boolean,
     displayName: String = "",
-) = MediaStoreSongView(
+) = MediaStoreSongsView(
     id = id,
     artistId = artistId,
     albumId = albumId,
@@ -76,7 +78,7 @@ fun emptyMediaStoreSongView(
     displayName = displayName
 )
 
-fun emptyMediaStoreSortedSongView(
+fun emptyMediaStoreSongSortedView(
     id: String = "",
     artistId: String = "",
     albumId: String = "",
@@ -93,7 +95,7 @@ fun emptyMediaStoreSortedSongView(
     trackNumber: Int = 0,
     isPodcast: Boolean,
     displayName: String = "",
-) = MediaStoreSortedSongView(
+) = MediaStoreSongsViewSorted(
     id = id,
     artistId = artistId,
     albumId = albumId,
@@ -110,4 +112,28 @@ fun emptyMediaStoreSortedSongView(
     trackNumber = trackNumber,
     isPodcast = isPodcast,
     displayName = displayName
+)
+
+fun emptyMediaStoreArtistView(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStoreArtistsView(
+    id = id,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded,
+)
+
+fun emptyMediaStoreArtistSortedView(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStoreArtistsViewSorted(
+    id = id,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded,
 )

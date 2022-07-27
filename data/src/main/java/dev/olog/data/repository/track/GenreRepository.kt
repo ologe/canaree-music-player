@@ -133,7 +133,7 @@ internal class GenreRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.withSongs(list.size)
+                artist.copy(songs = list.size)
             }
     }
 }

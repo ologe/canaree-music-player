@@ -18,6 +18,9 @@ abstract class MediaStoreAudioDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAll(items: List<MediaStoreAudioEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAll(vararg items: MediaStoreAudioEntity)
+
     @Transaction
     open suspend fun replaceAll(items: List<MediaStoreAudioEntity>) {
         deleteAll()

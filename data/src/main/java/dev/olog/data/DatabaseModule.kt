@@ -9,7 +9,6 @@ import dev.olog.data.db.equalizer.EqualizerPresetsDao
 import dev.olog.data.db.favorite.FavoriteDao
 import dev.olog.data.db.history.HistoryDao
 import dev.olog.data.db.last.played.LastPlayedAlbumDao
-import dev.olog.data.db.last.played.LastPlayedArtistDao
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
 import dev.olog.data.db.lastfm.LastFmDao
@@ -86,11 +85,6 @@ class DatabaseModule {
     @Provides
     internal fun provideLastPlayedPodcastAlbumsDao(db: AppDatabase): LastPlayedPodcastAlbumDao {
         return db.lastPlayedPodcastAlbumDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedArtistsDao(db: AppDatabase): LastPlayedArtistDao {
-        return db.lastPlayedArtistDao()
     }
 
     @Provides

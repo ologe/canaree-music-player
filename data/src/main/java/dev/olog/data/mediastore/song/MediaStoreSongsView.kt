@@ -1,4 +1,4 @@
-package dev.olog.data.mediastore
+package dev.olog.data.mediastore.song
 
 import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.DatabaseView
@@ -18,7 +18,7 @@ FROM mediastore_audio
 WHERE blacklist.directory IS NULL AND isPodcast = false
 ORDER BY lower(title) COLLATE UNICODE ASC
 """, viewName = "songs_view")
-data class MediaStoreSongView(
+data class MediaStoreSongsView(
     val id: String,
     val artistId: String,
     val albumId: String,
@@ -62,8 +62,8 @@ CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIR
 -- also, CASE WHEN sort.columnName = 'title'
 CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(title) COLLATE UNICODE END ASC,
 CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) COLLATE UNICODE END DESC
-""", viewName = "sorted_songs_view")
-data class MediaStoreSortedSongView(
+""", viewName = "songs_view_sorted")
+data class MediaStoreSongsViewSorted(
     val id: String,
     val artistId: String,
     val albumId: String,
@@ -82,7 +82,7 @@ data class MediaStoreSortedSongView(
     val displayName: String,
 )
 
-fun MediaStoreSongView.toDomain(): Song {
+fun MediaStoreSongsView.toDomain(): Song {
     return Song(
         id = id.toLong(),
         artistId = artistId.toLong(),
@@ -103,7 +103,7 @@ fun MediaStoreSongView.toDomain(): Song {
     )
 }
 
-fun MediaStoreSortedSongView.toDomain(): Song {
+fun MediaStoreSongsViewSorted.toDomain(): Song {
     return Song(
         id = id.toLong(),
         artistId = artistId.toLong(),

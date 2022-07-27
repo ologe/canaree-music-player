@@ -11,7 +11,7 @@ import dev.olog.core.entity.sort.AllSongsSort
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.mediastore.toDomain
+import dev.olog.data.mediastore.song.toDomain
 import dev.olog.data.sort.SortRepository
 import dev.olog.data.utils.getString
 import dev.olog.shared.extension.mapListItem
@@ -38,12 +38,12 @@ internal class SongRepository @Inject constructor(
             .mapListItem { it.toDomain() }
     }
 
-    override fun getByParam(param: Id): Song? {
-        return songDao.getById(param.toString())?.toDomain()
+    override fun getByParam(id: Long): Song? {
+        return songDao.getById(id.toString())?.toDomain()
     }
 
-    override fun observeByParam(param: Id): Flow<Song?> {
-        return songDao.observeById(param.toString())
+    override fun observeByParam(id: Long): Flow<Song?> {
+        return songDao.observeById(id.toString())
             .distinctUntilChanged()
             .mapLatest { it?.toDomain() }
     }
