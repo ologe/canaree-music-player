@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "832135320304bd3facdb4bbc9cbd0c9d",
+    "identityHash": "e98673f1f5ee989478be6f0672b6271e",
     "entities": [
       {
         "tableName": "mediastore_audio",
@@ -1265,20 +1265,28 @@
       },
       {
         "viewName": "songs_view_sorted",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT songs_view.*\nFROM songs_view\n    LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working\nWHERE sort.tableName = 'songs'\nORDER BY\n-- artist, then title\nCASE WHEN sort.columnName = 'artist' AND artist = '<unknown>' THEN -1 END, -- when unknown move last\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'asc' THEN lower(artist) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'desc' THEN lower(artist) COLLATE UNICODE END DESC,\n-- album, then title\nCASE WHEN sort.columnName = 'album' AND album = '<unknown>' THEN -1 END, -- when unknown move last\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'asc' THEN lower(album) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'desc' THEN lower(album) COLLATE UNICODE END DESC,\n-- duration, then title\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'asc' THEN duration END ASC,\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'desc' THEN duration END DESC,\n-- date added, then title\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END DESC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END ASC,\n\n-- default, and second sort\n-- also, CASE WHEN sort.columnName = 'title'\nCASE WHEN sort.direction = 'asc' THEN lower(title) COLLATE UNICODE END ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) COLLATE UNICODE END DESC"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT songs_view.*\nFROM songs_view LEFT JOIN sort ON TRUE\nWHERE sort.tableName = 'songs'\nORDER BY\n-- artist, then title\nCASE WHEN sort.columnName = 'artist' AND artist = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'asc' THEN lower(artist) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'desc' THEN lower(artist) COLLATE UNICODE END DESC,\n-- album, then title\nCASE WHEN sort.columnName = 'album' AND album = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'asc' THEN lower(album) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'desc' THEN lower(album) COLLATE UNICODE END DESC,\n-- duration, then title\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'asc' THEN duration END ASC,\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'desc' THEN duration END DESC,\n-- date, then title\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END DESC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END ASC,\n-- default, and second sort\nCASE WHEN sort.direction = 'asc' THEN lower(title) COLLATE UNICODE END ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) COLLATE UNICODE END DESC"
       },
       {
         "viewName": "artists_view",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs\nFROM songs_view\nGROUP BY artistId\nORDER BY lower(name) COLLATE UNICODE ASC"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded \nFROM songs_view\nGROUP BY artistId\nORDER BY lower(name) COLLATE UNICODE ASC"
+      },
+      {
+        "viewName": "albums_view",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT DISTINCT albumId AS id, artistId, album AS title, artist, albumArtist, count(*) AS songs, MIN(dateAdded) as dateAdded, directory\nFROM songs_view\nGROUP BY albumId\nORDER BY lower(album) COLLATE UNICODE ASC"
       },
       {
         "viewName": "artists_view_sorted",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT artists_view.*\nFROM artists_view\n    LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working\nWHERE sort.tableName = 'artists'\nORDER BY\n-- author\nCASE WHEN name = '<unknown>' THEN -1 END, -- when unknown move last\nCASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE UNICODE DESC"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT artists_view.*\nFROM artists_view LEFT JOIN sort ON TRUE\nWHERE sort.tableName = 'artists'\nORDER BY\n-- artist\nCASE WHEN sort.columnName = 'artist' AND name = '<unknown>' THEN -1 END,\n-- date, then artist\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END ASC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END DESC,\n-- default, and second sort\nCASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE UNICODE DESC"
+      },
+      {
+        "viewName": "albums_view_sorted",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT albums_view.*\nFROM albums_view LEFT JOIN sort ON TRUE\nWHERE sort.tableName = 'albums'\nORDER BY\n-- title, then artist\nCASE WHEN sort.columnName = 'album' AND title = '<unknown>' THEN -1 END,\n-- artist, then artist\nCASE WHEN sort.columnName = 'artist' AND artist = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'asc' THEN lower(artist) END COLLATE UNICODE ASC,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'desc' THEN lower(artist) END COLLATE UNICODE DESC,\n-- date, then artist\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END ASC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END DESC,\n-- default, and second sort\nCASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE UNICODE DESC"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '832135320304bd3facdb4bbc9cbd0c9d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e98673f1f5ee989478be6f0672b6271e')"
     ]
   }
 }

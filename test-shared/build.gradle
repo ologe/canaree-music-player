@@ -10,4 +10,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.lifecycle.livedata)
+
+    implementation(libs.test.junit)
+    implementation(libs.coroutines.test)
 }

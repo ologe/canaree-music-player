@@ -1,6 +1,7 @@
 package dev.olog.data.db.migration
 
 import android.provider.MediaStore
+import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dev.olog.core.entity.sort.Sort
@@ -8,6 +9,8 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.blacklist.BlacklistPreferenceLegacy
 import dev.olog.data.sort.db.SORT_DIRECTION_ASC
 import dev.olog.data.sort.db.SORT_DIRECTION_DESC
+import dev.olog.data.sort.db.SORT_TABLE_ALBUMS
+import dev.olog.data.sort.db.SORT_TABLE_ARTISTS
 import dev.olog.data.sort.db.SORT_TABLE_SONGS
 import dev.olog.data.sort.db.SORT_TYPE_ALBUM
 import dev.olog.data.sort.db.SORT_TYPE_ARTIST
@@ -68,34 +71,31 @@ class Migration18to19(
 
         database.execSQL("""
             CREATE VIEW `songs_view_sorted` AS SELECT songs_view.*
-            FROM songs_view
-                LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working
+            FROM songs_view LEFT JOIN sort ON TRUE
             WHERE sort.tableName = '$SORT_TABLE_SONGS'
             ORDER BY
             -- artist, then title
-            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND artist = '${MediaStore.UNKNOWN_STRING}' THEN -1 END, -- when unknown move last
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND artist = '$UNKNOWN_STRING' THEN -1 END,
             CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_ASC' THEN lower(artist) COLLATE UNICODE END ASC,
             CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_DESC' THEN lower(artist) COLLATE UNICODE END DESC,
             -- album, then title
-            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND album = '${MediaStore.UNKNOWN_STRING}' THEN -1 END, -- when unknown move last
+            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND album = '$UNKNOWN_STRING' THEN -1 END,
             CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND sort.direction = '$SORT_DIRECTION_ASC' THEN lower(album) COLLATE UNICODE END ASC,
             CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND sort.direction = '$SORT_DIRECTION_DESC' THEN lower(album) COLLATE UNICODE END DESC,
             -- duration, then title
             CASE WHEN sort.columnName = '$SORT_TYPE_DURATION' AND sort.direction = '$SORT_DIRECTION_ASC' THEN duration END ASC,
             CASE WHEN sort.columnName = '$SORT_TYPE_DURATION' AND sort.direction = '$SORT_DIRECTION_DESC' THEN duration END DESC,
-            -- date added, then title
+            -- date, then title
             CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_ASC' THEN dateAdded END DESC,
             CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_DESC' THEN dateAdded END ASC,
-            
             -- default, and second sort
-            -- also, CASE WHEN sort.columnName = 'title'
             CASE WHEN sort.direction = '$SORT_DIRECTION_ASC' THEN lower(title) COLLATE UNICODE END ASC,
             CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) COLLATE UNICODE END DESC
         """.trimIndent()
         )
 
         database.execSQL("""
-            CREATE VIEW `artists_view` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs
+            CREATE VIEW `artists_view` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded 
             FROM songs_view
             GROUP BY artistId
             ORDER BY lower(name) COLLATE UNICODE ASC
@@ -103,14 +103,43 @@ class Migration18to19(
 
         database.execSQL("""
             CREATE VIEW `artists_view_sorted` AS SELECT artists_view.*
-            FROM artists_view
-                LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working
-            WHERE sort.tableName = 'artists'
+            FROM artists_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_ARTISTS'
             ORDER BY
-            -- author
-            CASE WHEN name = '<unknown>' THEN -1 END, -- when unknown move last
-            CASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE UNICODE ASC,
-            CASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE UNICODE DESC
+            -- artist
+            CASE WHEN sort.columnName = '${SORT_TYPE_ARTIST}' AND name = '$UNKNOWN_STRING' THEN -1 END,
+            -- date, then artist
+            CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN dateAdded END ASC,
+            CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN dateAdded END DESC,
+            -- default, and second sort
+            CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(name) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(name) END COLLATE UNICODE DESC
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `albums_view` AS SELECT DISTINCT albumId AS id, artistId, album AS title, artist, albumArtist, count(*) AS songs, MIN(dateAdded) as dateAdded, directory
+            FROM songs_view
+            GROUP BY albumId
+            ORDER BY lower(album) COLLATE UNICODE ASC
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `albums_view_sorted` AS SELECT albums_view.*
+            FROM albums_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_ALBUMS'
+            ORDER BY
+            -- title, then artist
+            CASE WHEN sort.columnName = '${SORT_TYPE_ALBUM}' AND title = '$UNKNOWN_STRING' THEN -1 END,
+            -- artist, then artist
+            CASE WHEN sort.columnName = '${SORT_TYPE_ARTIST}' AND artist = '$UNKNOWN_STRING' THEN -1 END,
+            CASE WHEN sort.columnName = '${SORT_TYPE_ARTIST}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(artist) END COLLATE UNICODE ASC,
+            CASE WHEN sort.columnName = '${SORT_TYPE_ARTIST}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(artist) END COLLATE UNICODE DESC,
+            -- date, then artist
+            CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN dateAdded END ASC,
+            CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN dateAdded END DESC,
+            -- default, and second sort
+            CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(title) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) END COLLATE UNICODE DESC
         """.trimIndent())
     }
 

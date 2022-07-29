@@ -6,6 +6,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.data.sort.db.SORT_DIRECTION_ASC
 import dev.olog.data.sort.db.SORT_DIRECTION_DESC
 import dev.olog.data.sort.db.SORT_TABLE_ARTISTS
+import dev.olog.data.sort.db.SORT_TYPE_ARTIST
+import dev.olog.data.sort.db.SORT_TYPE_DATE
 
 @DatabaseView("""
 SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded 
@@ -22,12 +24,15 @@ data class MediaStoreArtistsView(
 
 @DatabaseView("""
 SELECT artists_view.*
-FROM artists_view
-    LEFT JOIN sort ON TRUE -- join with sort to observe table, keep on TRUE so WHERE clause is working
+FROM artists_view LEFT JOIN sort ON TRUE
 WHERE sort.tableName = '${SORT_TABLE_ARTISTS}'
 ORDER BY
--- author
-CASE WHEN name = '${UNKNOWN_STRING}' THEN -1 END, -- when unknown move last
+-- artist
+CASE WHEN sort.columnName = '${SORT_TYPE_ARTIST}' AND name = '${UNKNOWN_STRING}' THEN -1 END,
+-- date, then artist
+CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN dateAdded END ASC,
+CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN dateAdded END DESC,
+-- default, and second sort
 CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(name) END COLLATE UNICODE ASC,
 CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(name) END COLLATE UNICODE DESC
 """, viewName = "artists_view_sorted")

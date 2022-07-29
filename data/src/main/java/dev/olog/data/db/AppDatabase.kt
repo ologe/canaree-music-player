@@ -13,7 +13,6 @@ import dev.olog.data.db.favorite.FavoritePodcastEntity
 import dev.olog.data.db.history.HistoryDao
 import dev.olog.data.db.history.HistoryEntity
 import dev.olog.data.db.history.PodcastHistoryEntity
-import dev.olog.data.db.last.played.LastPlayedAlbumDao
 import dev.olog.data.db.last.played.LastPlayedAlbumEntity
 import dev.olog.data.db.last.played.LastPlayedArtistEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
@@ -51,10 +50,14 @@ import dev.olog.data.mediastore.MediaStoreAudioEntity
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.MediaStoreSongsViewDao
 import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
+import dev.olog.data.mediastore.song.album.MediaStoreAlbumsView
+import dev.olog.data.mediastore.song.album.MediaStoreAlbumsViewDao
+import dev.olog.data.mediastore.song.album.MediaStoreAlbumsViewSorted
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewDao
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 import dev.olog.data.song.SongDao
+import dev.olog.data.song.album.AlbumDao
 import dev.olog.data.song.artist.ArtistDao
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortEntity
@@ -108,6 +111,8 @@ import dev.olog.data.sort.db.SortTypeConverters
         MediaStoreSongsViewSorted::class,
         MediaStoreArtistsView::class,
         MediaStoreArtistsViewSorted::class,
+        MediaStoreAlbumsView::class,
+        MediaStoreAlbumsViewSorted::class,
     ],
     version = 19,
     exportSchema = true
@@ -123,6 +128,7 @@ abstract class AppDatabase : RoomDatabase() {
     // mediastore song views
     abstract fun mediaStoreSongDao(): MediaStoreSongsViewDao
     abstract fun mediaStoreArtistDao(): MediaStoreArtistsViewDao
+    abstract fun mediaStoreAlbumsDao(): MediaStoreAlbumsViewDao
 
     // mediastore podcast views
     // todo
@@ -134,6 +140,7 @@ abstract class AppDatabase : RoomDatabase() {
     // song queries
     abstract fun songDao(): SongDao
     abstract fun artistDao(): ArtistDao
+    abstract fun albumDao(): AlbumDao
 
     // podcast queries
     // todo
@@ -152,7 +159,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun historyDao(): HistoryDao
 
-    abstract fun lastPlayedAlbumDao(): LastPlayedAlbumDao
     abstract fun lastPlayedPodcastArtistDao(): LastPlayedPodcastArtistDao
     abstract fun lastPlayedPodcastAlbumDao(): LastPlayedPodcastAlbumDao
 

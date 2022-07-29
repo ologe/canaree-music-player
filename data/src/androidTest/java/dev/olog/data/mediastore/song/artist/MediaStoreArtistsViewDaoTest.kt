@@ -63,4 +63,36 @@ class MediaStoreArtistsViewDaoTest : MediaStoreTest(isPodcastTest = false) {
         Assert.assertEquals(expected, actual)
     }
 
+    @Test
+    fun testGetAllSortedByDateAsc() = runTest {
+        sortRepository.setAllArtistsSort(AllArtistsSort(ArtistSortType.Date, SortDirection.ASCENDING))
+        mediaStoreDao.insertAll(TestData.items(false))
+
+        val expected = listOf(
+            Triple("1", -10001L, "<unknown>"),
+            Triple("2", 201L, "dEa artist 1"),
+            Triple("4", 201L, "dec artist 3"),
+            Triple("3", 301L, "déh artist 2"),
+        )
+        val actual = sut.getAllSorted().map { Triple(it.id, it.dateAdded, it.name) }
+
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testGetAllSortedByDateDesc() = runTest {
+        sortRepository.setAllArtistsSort(AllArtistsSort(ArtistSortType.Date, SortDirection.DESCENDING))
+        mediaStoreDao.insertAll(TestData.items(false))
+
+        val expected = listOf(
+            Triple("3", 301L, "déh artist 2"),
+            Triple("4", 201L, "dec artist 3"),
+            Triple("2", 201L, "dEa artist 1"),
+            Triple("1", -10001L, "<unknown>"),
+        )
+        val actual = sut.getAllSorted().map { Triple(it.id, it.dateAdded, it.name) }
+
+        Assert.assertEquals(expected, actual)
+    }
+
 }

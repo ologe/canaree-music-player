@@ -8,7 +8,6 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.equalizer.EqualizerPresetsDao
 import dev.olog.data.db.favorite.FavoriteDao
 import dev.olog.data.db.history.HistoryDao
-import dev.olog.data.db.last.played.LastPlayedAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
 import dev.olog.data.db.lastfm.LastFmDao
@@ -75,11 +74,6 @@ class DatabaseModule {
     @Provides
     internal fun provideRecentDao(db: AppDatabase): RecentSearchesDao {
         return db.recentSearchesDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedAlbumsDao(db: AppDatabase): LastPlayedAlbumDao {
-        return db.lastPlayedAlbumDao()
     }
 
     @Provides

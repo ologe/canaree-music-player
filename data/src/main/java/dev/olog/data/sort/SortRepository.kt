@@ -1,5 +1,9 @@
 package dev.olog.data.sort
 
+import dev.olog.core.entity.sort.AlbumSongsSort
+import dev.olog.core.entity.sort.AlbumSongsSortType
+import dev.olog.core.entity.sort.AlbumSortType
+import dev.olog.core.entity.sort.AllAlbumsSort
 import dev.olog.core.entity.sort.AllArtistsSort
 import dev.olog.core.entity.sort.AllSongsSort
 import dev.olog.core.entity.sort.ArtistSongsSort
@@ -62,6 +66,40 @@ class SortRepository @Inject constructor(
     fun setArtistSongsSort(model: ArtistSongsSort) {
         val entity = SortEntity(
             tableName = SortEntityTable.ArtistsSongs,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getAllAlbumsSort(): AllAlbumsSort {
+        val model = dao.getSort(SortEntityTable.Albums)
+        return AllAlbumsSort(
+            type = AlbumSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setAllAlbumsSort(model: AllAlbumsSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.Albums,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getAlbumSongsSort(): AlbumSongsSort {
+        val model = dao.getSort(SortEntityTable.AlbumsSongs)
+        return AlbumSongsSort(
+            type = AlbumSongsSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setAlbumSongsSort(model: AlbumSongsSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.AlbumsSongs,
             columnName = SortTypeEntity(model.type.type),
             direction = SortDirectionEntity(model.direction),
         )

@@ -3,6 +3,8 @@ package dev.olog.data
 import dev.olog.data.mediastore.MediaStoreAudioEntity
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
+import dev.olog.data.mediastore.song.album.MediaStoreAlbumsView
+import dev.olog.data.mediastore.song.album.MediaStoreAlbumsViewSorted
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 
@@ -136,4 +138,44 @@ fun emptyMediaStoreArtistSortedView(
     name = name,
     songs = songs,
     dateAdded = dateAdded,
+)
+
+fun emptyMediaStoreAlbumView(
+    id: String = "",
+    artistId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+    directory: String = "",
+) = MediaStoreAlbumsView(
+    id = id,
+    artistId = artistId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    songs = songs,
+    dateAdded = dateAdded,
+    directory = directory,
+)
+
+fun emptyMediaStoreAlbumSortedView(
+    id: String = "",
+    artistId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+    directory: String = "",
+) = MediaStoreAlbumsViewSorted(
+    id = id,
+    artistId = artistId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    songs = songs,
+    dateAdded = dateAdded,
+    directory = directory,
 )

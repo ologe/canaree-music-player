@@ -9,6 +9,7 @@ class ArtistSortTest {
     fun testTypes() {
         // all
         Assert.assertEquals(ArtistSortType.Name.type, SortTypeV2.Artist)
+        Assert.assertEquals(ArtistSortType.Date.type, SortTypeV2.Date)
 
         // songs
         Assert.assertEquals(ArtistSongsSortType.Title.type, SortTypeV2.Title)

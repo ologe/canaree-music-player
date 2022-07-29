@@ -44,7 +44,7 @@ CASE WHEN sort.columnName = '${SORT_TYPE_ALBUM_ARTIST}' AND sort.direction = '${
 -- duration, then title
 CASE WHEN sort.columnName = '${SORT_TYPE_DURATION}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN duration END ASC,
 CASE WHEN sort.columnName = '${SORT_TYPE_DURATION}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN duration END DESC,
--- date added, then title
+-- date, then title
 CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN dateAdded END DESC,
 CASE WHEN sort.columnName = '${SORT_TYPE_DATE}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN dateAdded END ASC,
 -- disc number, track number, then title
@@ -52,11 +52,9 @@ CASE WHEN sort.columnName = '${SORT_TYPE_TRACK_NUMBER}' AND sort.direction = '${
 CASE WHEN sort.columnName = '${SORT_TYPE_TRACK_NUMBER}' AND sort.direction = '${SORT_DIRECTION_ASC}' THEN trackNumber END ASC,
 CASE WHEN sort.columnName = '${SORT_TYPE_TRACK_NUMBER}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN discNumber END DESC,
 CASE WHEN sort.columnName = '${SORT_TYPE_TRACK_NUMBER}' AND sort.direction = '${SORT_DIRECTION_DESC}' THEN trackNumber END DESC,
-
--- default, and second sort
 -- also, CASE WHEN sort.columnName = 'title'
 CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(title) END COLLATE UNICODE ASC,
-CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) END COLLATE UNICODE DESC;
+CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) END COLLATE UNICODE DESC
 """
     }
 

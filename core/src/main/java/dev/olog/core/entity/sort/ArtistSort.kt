@@ -6,7 +6,8 @@ data class AllArtistsSort(
 )
 
 enum class ArtistSortType(val type: SortTypeV2) {
-    Name(SortTypeV2.Artist);
+    Name(SortTypeV2.Artist),
+    Date(SortTypeV2.Date);
 
     companion object {
         operator fun invoke(type: SortTypeV2): ArtistSortType {
