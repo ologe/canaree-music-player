@@ -5,7 +5,6 @@ import dev.olog.core.entity.sort.AllAlbumsSort
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.AlbumGateway
-import dev.olog.data.db.last.played.LastPlayedAlbumEntity
 import dev.olog.data.mediastore.song.album.toDomain
 import dev.olog.data.mediastore.song.toDomain
 import dev.olog.data.sort.SortRepository

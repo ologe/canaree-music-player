@@ -9,7 +9,6 @@ import dev.olog.core.entity.sort.SortDirection
 import dev.olog.data.DataConstants
 import dev.olog.data.DatabaseTest
 import dev.olog.data.TestData
-import dev.olog.data.db.last.played.LastPlayedArtistEntity
 import dev.olog.data.emptyMediaStoreArtistSortedView
 import dev.olog.data.emptyMediaStoreArtistView
 import dev.olog.data.emptyMediaStoreAudioEntity
@@ -522,9 +521,9 @@ class ArtistDaoTest : DatabaseTest() {
     @Test
     fun testObserveRecentlyAdded() = runTest {
         val now = System.currentTimeMillis().milliseconds.inWholeSeconds
-        val exactExpirationTime = now - DataConstants.RECENTLY_ADDED_PERIOD.seconds.inWholeSeconds
+        val exactExpirationTime = now - DataConstants.RECENTLY_ADDED_PERIOD_IN_SECONDS.seconds.inWholeSeconds
         val oneSecond = 1.seconds.inWholeMilliseconds
-        val halfExpiration = now - (DataConstants.RECENTLY_ADDED_PERIOD.seconds.inWholeSeconds / 2)
+        val halfExpiration = now - (DataConstants.RECENTLY_ADDED_PERIOD_IN_SECONDS.seconds.inWholeSeconds / 2)
 
         mediaStoreDao.insertAll(
             // added now

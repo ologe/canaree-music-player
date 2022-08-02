@@ -13,8 +13,8 @@ import dev.olog.data.db.favorite.FavoritePodcastEntity
 import dev.olog.data.db.history.HistoryDao
 import dev.olog.data.db.history.HistoryEntity
 import dev.olog.data.db.history.PodcastHistoryEntity
-import dev.olog.data.db.last.played.LastPlayedAlbumEntity
-import dev.olog.data.db.last.played.LastPlayedArtistEntity
+import dev.olog.data.song.album.LastPlayedAlbumEntity
+import dev.olog.data.song.artist.LastPlayedArtistEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
@@ -27,8 +27,7 @@ import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.lyrics.OfflineLyricsDao
 import dev.olog.data.db.lyrics.OfflineLyricsEntity
-import dev.olog.data.db.most.played.FolderMostPlayedDao
-import dev.olog.data.db.most.played.FolderMostPlayedEntity
+import dev.olog.data.song.folder.FolderMostPlayedEntity
 import dev.olog.data.db.most.played.GenreMostPlayedDao
 import dev.olog.data.db.most.played.GenreMostPlayedEntity
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
@@ -56,9 +55,13 @@ import dev.olog.data.mediastore.song.album.MediaStoreAlbumsViewSorted
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewDao
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
+import dev.olog.data.mediastore.song.folder.MediaStoreFoldersView
+import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewDao
+import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewSorted
 import dev.olog.data.song.SongDao
 import dev.olog.data.song.album.AlbumDao
 import dev.olog.data.song.artist.ArtistDao
+import dev.olog.data.song.folder.FolderDao
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortEntity
 import dev.olog.data.sort.db.SortTypeConverters
@@ -113,6 +116,8 @@ import dev.olog.data.sort.db.SortTypeConverters
         MediaStoreArtistsViewSorted::class,
         MediaStoreAlbumsView::class,
         MediaStoreAlbumsViewSorted::class,
+        MediaStoreFoldersView::class,
+        MediaStoreFoldersViewSorted::class,
     ],
     version = 19,
     exportSchema = true
@@ -129,6 +134,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaStoreSongDao(): MediaStoreSongsViewDao
     abstract fun mediaStoreArtistDao(): MediaStoreArtistsViewDao
     abstract fun mediaStoreAlbumsDao(): MediaStoreAlbumsViewDao
+    abstract fun mediaStoreFoldersDao(): MediaStoreFoldersViewDao
 
     // mediastore podcast views
     // todo
@@ -141,13 +147,12 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun songDao(): SongDao
     abstract fun artistDao(): ArtistDao
     abstract fun albumDao(): AlbumDao
+    abstract fun folderDao(): FolderDao
 
     // podcast queries
     // todo
 
     abstract fun playingQueueDao(): PlayingQueueDao
-
-    abstract fun folderMostPlayedDao(): FolderMostPlayedDao
 
     abstract fun playlistMostPlayedDao(): PlaylistMostPlayedDao
 

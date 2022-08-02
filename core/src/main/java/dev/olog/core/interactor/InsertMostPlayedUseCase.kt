@@ -16,7 +16,10 @@ class InsertMostPlayedUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId) {
         when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.FOLDERS -> folderGateway.insertMostPlayed(
+                directory = mediaId.categoryValue,
+                songId = mediaId.leaf!!,
+            )
             MediaIdCategory.PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
             MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(mediaId)
             else -> return

@@ -14,7 +14,6 @@ import dev.olog.data.sort.db.SORT_TYPE_DATE
 SELECT DISTINCT albumId AS id, artistId, album AS title, artist, albumArtist, count(*) AS songs, MIN(dateAdded) as dateAdded, directory
 FROM songs_view
 GROUP BY albumId
-ORDER BY lower(album) COLLATE UNICODE ASC
 """, viewName = "albums_view")
 data class MediaStoreAlbumsView(
     val id: String,

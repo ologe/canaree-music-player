@@ -1,16 +1,14 @@
 package dev.olog.data.db.migration
 
-import android.provider.MediaStore
 import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dev.olog.core.entity.sort.Sort
-import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.blacklist.BlacklistPreferenceLegacy
 import dev.olog.data.sort.db.SORT_DIRECTION_ASC
 import dev.olog.data.sort.db.SORT_DIRECTION_DESC
 import dev.olog.data.sort.db.SORT_TABLE_ALBUMS
 import dev.olog.data.sort.db.SORT_TABLE_ARTISTS
+import dev.olog.data.sort.db.SORT_TABLE_FOLDERS
 import dev.olog.data.sort.db.SORT_TABLE_SONGS
 import dev.olog.data.sort.db.SORT_TYPE_ALBUM
 import dev.olog.data.sort.db.SORT_TYPE_ARTIST
@@ -20,10 +18,7 @@ import dev.olog.data.sort.db.SortDirectionEntity
 import dev.olog.data.sort.db.SortEntityTable
 import dev.olog.data.sort.db.SortTypeEntity
 
-class Migration18to19(
-    private val blacklistPreferenceLegacy: BlacklistPreferenceLegacy,
-    private val sortPreferences: SortPreferences,
-) : Migration(18, 19) {
+class Migration18to19 : Migration(18, 19) {
 
     override fun migrate(database: SupportSQLiteDatabase) {
         createMediaStoreTables(database)
@@ -46,6 +41,7 @@ class Migration18to19(
                     dateAdded INTEGER NOT NULL,
                     dateModified INTEGER NOT NULL,
                     directory TEXT NOT NULL,
+                    directoryName TEXT NOT NULL,
                     path TEXT NOT NULL,
                     discNumber INTEGER NOT NULL,
                     trackNumber INTEGER NOT NULL,
@@ -66,7 +62,6 @@ class Migration18to19(
             FROM mediastore_audio
                 LEFT JOIN blacklist ON mediastore_audio.directory = blacklist.directory --remove blacklisted
             WHERE blacklist.directory IS NULL AND isPodcast = false
-            ORDER BY lower(title) COLLATE UNICODE ASC
         """.trimIndent())
 
         database.execSQL("""
@@ -98,7 +93,6 @@ class Migration18to19(
             CREATE VIEW `artists_view` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded 
             FROM songs_view
             GROUP BY artistId
-            ORDER BY lower(name) COLLATE UNICODE ASC
         """.trimIndent())
 
         database.execSQL("""
@@ -120,7 +114,6 @@ class Migration18to19(
             CREATE VIEW `albums_view` AS SELECT DISTINCT albumId AS id, artistId, album AS title, artist, albumArtist, count(*) AS songs, MIN(dateAdded) as dateAdded, directory
             FROM songs_view
             GROUP BY albumId
-            ORDER BY lower(album) COLLATE UNICODE ASC
         """.trimIndent())
 
         database.execSQL("""
@@ -141,6 +134,41 @@ class Migration18to19(
             CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(title) END COLLATE UNICODE ASC,
             CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) END COLLATE UNICODE DESC
         """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `folders_view` AS SELECT DISTINCT directory AS path, directoryName AS name, count(*) AS songs, MIN(dateAdded) as dateAdded
+            FROM songs_view
+            GROUP BY directory
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `folders_view_sorted` AS SELECT folders_view.*
+            FROM folders_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_FOLDERS'
+            ORDER BY
+            -- title
+            CASE WHEN sort.direction = '${SORT_DIRECTION_ASC}' THEN lower(name) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(name) END COLLATE UNICODE DESC
+        """.trimIndent())
+
+        // migrate folder most played
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS most_played_folder_v2 (
+                songId TEXT NOT NULL,
+                path TEXT NOT NULL,
+                timesPlayed INTEGER NOT NULL,
+                PRIMARY KEY (songId, path)
+            )
+        """.trimIndent())
+
+        database.execSQL("""
+            INSERT INTO most_played_folder_v2(songId, path, timesPlayed)
+            SELECT songId, folderPath, COUNT(*)
+            FROM most_played_folder
+            GROUP BY songId, folderPath
+        """.trimIndent())
+
+        database.execSQL("DROP TABLE most_played_folder")
     }
 
     private fun createBlacklistTables(database: SupportSQLiteDatabase) {
@@ -151,22 +179,6 @@ class Migration18to19(
             )
         """.trimIndent())
         database.execSQL("CREATE INDEX IF NOT EXISTS `index_blacklist_directory` ON `blacklist` (`directory`)")
-
-        val legacyBlacklist = blacklistPreferenceLegacy.getBlackList()
-        if (legacyBlacklist.isNotEmpty()) {
-            val blacklistValues = legacyBlacklist
-                .joinToString(
-                    separator = ",",
-                    postfix = ";",
-                    transform = { "('$it')" }
-                )
-            blacklistPreferenceLegacy.delete()
-
-            database.execSQL("""
-                INSERT INTO blacklist(directory)
-                VALUES $blacklistValues
-            """.trimIndent())
-        }
     }
 
     private fun createSortTables(database: SupportSQLiteDatabase) {
@@ -178,55 +190,6 @@ class Migration18to19(
                 PRIMARY KEY(tableName)
             )
         """.trimIndent())
-
-        database.execSQL("""
-            INSERT INTO sort (tableName, columnName, direction)
-            VALUES 
-                ${sortValues()}
-        """.trimIndent())
-    }
-
-    private fun sortValues(): String {
-        val tracksSort = sortPreferences.getAllTracksSort().toRow(SortEntityTable.Songs)
-        val albumsSort = sortPreferences.getAllAlbumsSort().toRow(SortEntityTable.Albums)
-        val artistsSort = sortPreferences.getAllArtistsSort().toRow(SortEntityTable.Artists)
-
-        val detailFolderSort = sortPreferences.getDetailFolderSort().toRow(SortEntityTable.FoldersSongs)
-        val detailPlaylistSort = sortPreferences.getDetailPlaylistSort().toRow(SortEntityTable.PlaylistsSongs)
-        val detailAlbumSort = sortPreferences.getDetailAlbumSort().toRow(SortEntityTable.AlbumsSongs)
-        val detailArtistSort = sortPreferences.getDetailArtistSort().toRow(SortEntityTable.ArtistsSongs)
-        val detailGenreSort = sortPreferences.getDetailGenreSort().toRow(SortEntityTable.GenresSongs)
-
-        return """
-            --all songs
-            ('folders', 'title', 'asc'),
-            ('playlists', 'title', 'asc'),
-            ${tracksSort},
-            ${artistsSort},
-            ${albumsSort},
-            ('genres', 'title', 'asc'),
-            --all podcasts
-            ('podcast_playlists', 'title', 'asc'),
-            ('podcast_episodes', 'title', 'asc'),
-            ('podcast_artists', 'author', 'asc'),
-            ('podcast_albums', 'collection', 'asc'),
-            --songs
-            ${detailFolderSort},
-            ${detailPlaylistSort},
-            ${detailAlbumSort},
-            ${detailArtistSort},
-            ${detailGenreSort},
-            --podcasts
-            ('podcast_playlists_episodes', 'custom', 'asc'),
-            ('podcast_artists_episodes', 'title', 'asc'),
-            ('podcast_albums_episodes', 'title', 'asc')
-        """.trimIndent()
-    }
-
-    private fun Sort.toRow(tableName: SortEntityTable): String {
-        val type = SortTypeEntity(type)
-        val direction = SortDirectionEntity(direction)
-        return "('${tableName}', '${type}', '${direction}')"
     }
 
 }

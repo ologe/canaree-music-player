@@ -23,7 +23,7 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
         return when (mediaId.category) {
             MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId)
             MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId)
-            MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId)
+            MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId.categoryValue)
             else -> flowOf(listOf())
         }
     }

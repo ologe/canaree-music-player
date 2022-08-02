@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.data.db.last.played.LastPlayedArtistEntity
 import dev.olog.data.mediastore.song.artist.toDomain
 import dev.olog.data.mediastore.song.toDomain
 import dev.olog.data.sort.SortRepository

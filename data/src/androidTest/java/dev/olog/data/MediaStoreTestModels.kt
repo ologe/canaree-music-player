@@ -7,6 +7,8 @@ import dev.olog.data.mediastore.song.album.MediaStoreAlbumsView
 import dev.olog.data.mediastore.song.album.MediaStoreAlbumsViewSorted
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
+import dev.olog.data.mediastore.song.folder.MediaStoreFoldersView
+import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewSorted
 
 fun emptyMediaStoreAudioEntity(
     id: String = "",
@@ -20,6 +22,7 @@ fun emptyMediaStoreAudioEntity(
     dateAdded: Long = 0,
     dateModified: Long = 0,
     directory: String = "",
+    directoryName: String = "",
     path: String = "",
     discNumber: Int = 0,
     trackNumber: Int = 0,
@@ -37,6 +40,7 @@ fun emptyMediaStoreAudioEntity(
     dateAdded = dateAdded,
     dateModified = dateModified,
     directory = directory,
+    directoryName = directoryName,
     path = path,
     discNumber = discNumber,
     trackNumber = trackNumber,
@@ -56,6 +60,7 @@ fun emptyMediaStoreSongView(
     dateAdded: Long = 0,
     dateModified: Long = 0,
     directory: String = "",
+    directoryName: String = "",
     path: String = "",
     discNumber: Int = 0,
     trackNumber: Int = 0,
@@ -73,6 +78,7 @@ fun emptyMediaStoreSongView(
     dateAdded = dateAdded,
     dateModified = dateModified,
     directory = directory,
+    directoryName = directoryName,
     path = path,
     discNumber = discNumber,
     trackNumber = trackNumber,
@@ -178,4 +184,28 @@ fun emptyMediaStoreAlbumSortedView(
     songs = songs,
     dateAdded = dateAdded,
     directory = directory,
+)
+
+fun emptyMediaStoreFoldersView(
+    path: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStoreFoldersView(
+    path = path,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded
+)
+
+fun emptyMediaStoreFoldersViewSorted(
+    path: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStoreFoldersViewSorted(
+    path = path,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded
 )

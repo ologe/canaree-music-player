@@ -26,6 +26,7 @@ data class MediaStoreAudioEntity(
     val dateAdded: Long,
     val dateModified: Long,
     val directory: String,
+    val directoryName: String,
     val path: String,
     val discNumber: Int,
     val trackNumber: Int,

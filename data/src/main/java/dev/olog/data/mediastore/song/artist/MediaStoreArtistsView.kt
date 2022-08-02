@@ -13,7 +13,6 @@ import dev.olog.data.sort.db.SORT_TYPE_DATE
 SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded 
 FROM songs_view
 GROUP BY artistId
-ORDER BY lower(name) COLLATE UNICODE ASC
 """, viewName = "artists_view")
 data class MediaStoreArtistsView(
     val id: String,

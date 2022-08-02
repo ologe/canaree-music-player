@@ -39,6 +39,7 @@ data class TestSong(
     val duration: Long,
     val dateAdded: Long,
     val trackNumber: Int,
+    val directory: String,
 )
 
 fun List<TestArtist>.flatten(): List<MediaStoreAudioEntity> {
@@ -58,6 +59,7 @@ fun List<TestArtist>.flatten(): List<MediaStoreAudioEntity> {
                     isPodcast = artist.isPodcast,
                     discNumber = album.discNumber,
                     trackNumber = song.trackNumber,
+                    directory = song.directory,
                 )
             }
         }
@@ -82,6 +84,7 @@ object TestData {
                     duration = 10_000,
                     dateAdded = 10_001,
                     trackNumber = 0,
+                    directory = "storage/directory",
                 ),
                 TestSong(
                     id = "101",
@@ -89,6 +92,7 @@ object TestData {
                     duration = -10_000,
                     dateAdded = -10_001,
                     trackNumber = 0,
+                    directory = "storage/directory",
                 )
             ),
         ),
@@ -107,6 +111,7 @@ object TestData {
                     duration = 200,
                     dateAdded = 201,
                     trackNumber = 1,
+                    directory = "storage/directory",
                 ),
                 TestSong(
                     id = "201",
@@ -114,6 +119,7 @@ object TestData {
                     duration = 200,
                     dateAdded = 201,
                     trackNumber = 2,
+                    directory = "storage/directory",
                 ),
             ),
             TestAlbum(
@@ -127,6 +133,7 @@ object TestData {
                     duration = 200,
                     dateAdded = 201,
                     trackNumber = 1,
+                    directory = "storage/directory",
                 ),
                 TestSong(
                     id = "211",
@@ -134,6 +141,7 @@ object TestData {
                     duration = 200,
                     dateAdded = 201,
                     trackNumber = 2,
+                    directory = "storage/directory",
                 ),
                 TestSong(
                     id = "212",
@@ -141,6 +149,7 @@ object TestData {
                     duration = 210,
                     dateAdded = 211,
                     trackNumber = 3,
+                    directory = "storage/directory",
                 ),
             ),
         ),
@@ -159,6 +168,7 @@ object TestData {
                     duration = 300,
                     dateAdded = 301,
                     trackNumber = 0,
+                    directory = "storage/directory",
                 )
             )
         ),
@@ -177,6 +187,7 @@ object TestData {
                     duration = 200,
                     dateAdded = 201,
                     trackNumber = 1,
+                    directory = "storage/directory",
                 )
             )
         )

@@ -13,7 +13,6 @@ import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
 import dev.olog.data.db.lastfm.LastFmDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.OfflineLyricsDao
-import dev.olog.data.db.most.played.FolderMostPlayedDao
 import dev.olog.data.db.most.played.GenreMostPlayedDao
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
 import dev.olog.data.db.playlist.PlaylistDao
@@ -84,11 +83,6 @@ class DatabaseModule {
     @Provides
     internal fun provideLastPlayedPodcastArtistsDao(db: AppDatabase): LastPlayedPodcastArtistDao {
         return db.lastPlayedPodcastArtistDao()
-    }
-
-    @Provides
-    internal fun provideFolderMostPlayedDao(db: AppDatabase): FolderMostPlayedDao {
-        return db.folderMostPlayedDao()
     }
 
     @Provides

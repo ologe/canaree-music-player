@@ -16,7 +16,6 @@ SELECT mediastore_audio.*
 FROM mediastore_audio
     LEFT JOIN blacklist ON mediastore_audio.directory = blacklist.directory --remove blacklisted
 WHERE blacklist.directory IS NULL AND isPodcast = false
-ORDER BY lower(title) COLLATE UNICODE ASC
 """, viewName = "songs_view")
 data class MediaStoreSongsView(
     val id: String,
@@ -30,6 +29,7 @@ data class MediaStoreSongsView(
     val dateAdded: Long,
     val dateModified: Long,
     val directory: String,
+    val directoryName: String,
     val path: String,
     val discNumber: Int,
     val trackNumber: Int,

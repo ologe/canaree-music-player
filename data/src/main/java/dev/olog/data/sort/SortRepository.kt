@@ -5,10 +5,14 @@ import dev.olog.core.entity.sort.AlbumSongsSortType
 import dev.olog.core.entity.sort.AlbumSortType
 import dev.olog.core.entity.sort.AllAlbumsSort
 import dev.olog.core.entity.sort.AllArtistsSort
+import dev.olog.core.entity.sort.AllFoldersSort
 import dev.olog.core.entity.sort.AllSongsSort
 import dev.olog.core.entity.sort.ArtistSongsSort
 import dev.olog.core.entity.sort.ArtistSongsSortType
 import dev.olog.core.entity.sort.ArtistSortType
+import dev.olog.core.entity.sort.FolderSongsSort
+import dev.olog.core.entity.sort.FolderSongsSortType
+import dev.olog.core.entity.sort.FolderSortType
 import dev.olog.core.entity.sort.SongSortType
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortDirectionEntity
@@ -100,6 +104,40 @@ class SortRepository @Inject constructor(
     fun setAlbumSongsSort(model: AlbumSongsSort) {
         val entity = SortEntity(
             tableName = SortEntityTable.AlbumsSongs,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getAllFoldersSort(): AllFoldersSort {
+        val model = dao.getSort(SortEntityTable.Folders)
+        return AllFoldersSort(
+            type = FolderSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setAllFolderSort(model: AllFoldersSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.Folders,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getFolderSongsSort(): FolderSongsSort {
+        val model = dao.getSort(SortEntityTable.FoldersSongs)
+        return FolderSongsSort(
+            type = FolderSongsSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setFolderSongsSort(model: FolderSongsSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.FoldersSongs,
             columnName = SortTypeEntity(model.type.type),
             direction = SortDirectionEntity(model.direction),
         )

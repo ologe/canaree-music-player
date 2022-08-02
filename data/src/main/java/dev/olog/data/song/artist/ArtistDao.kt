@@ -6,8 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.DataConstants.MAX_LAST_PLAYED
-import dev.olog.data.DataConstants.RECENTLY_ADDED_PERIOD
-import dev.olog.data.db.last.played.LastPlayedArtistEntity
+import dev.olog.data.DataConstants.RECENTLY_ADDED_PERIOD_IN_SECONDS
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
@@ -93,7 +92,7 @@ CASE WHEN sort.direction = '${SORT_DIRECTION_DESC}' THEN lower(title) END COLLAT
     @Query("""
         SELECT *
         FROM artists_view
-        WHERE strftime('%s','now') - dateAdded < $RECENTLY_ADDED_PERIOD
+        WHERE strftime('%s','now') - dateAdded < $RECENTLY_ADDED_PERIOD_IN_SECONDS
         ORDER BY dateAdded DESC
     """)
     abstract fun observeRecentlyAdded(): Flow<List<MediaStoreArtistsView>>

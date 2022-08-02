@@ -18,6 +18,9 @@ abstract class BlacklistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAll(items: List<BlacklistEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAll(vararg items: BlacklistEntity)
+
     @Transaction
     open suspend fun replaceAll(items: List<BlacklistEntity>) {
         deleteAll()

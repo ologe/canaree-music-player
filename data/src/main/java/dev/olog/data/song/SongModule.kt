@@ -13,7 +13,7 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.song.album.AlbumRepository
-import dev.olog.data.repository.track.FolderRepository
+import dev.olog.data.song.folder.FolderRepository
 import dev.olog.data.repository.track.GenreRepository
 import dev.olog.data.repository.track.PlaylistRepository
 import dev.olog.data.song.artist.ArtistRepository
@@ -55,6 +55,8 @@ internal abstract class SongModule {
         fun provideArtistDao(db: AppDatabase) = db.artistDao()
         @Provides
         fun provideAlbumDao(db: AppDatabase) = db.albumDao()
+        @Provides
+        fun provideFolderDao(db: AppDatabase) = db.folderDao()
     }
 
 }

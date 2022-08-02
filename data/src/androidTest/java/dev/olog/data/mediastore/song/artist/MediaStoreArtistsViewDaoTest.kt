@@ -21,12 +21,12 @@ class MediaStoreArtistsViewDaoTest : MediaStoreTest(isPodcastTest = false) {
         mediaStoreDao.insertAll(TestData.items(false))
 
         val expected = listOf(
-            "1" to "<unknown>",
-            "2" to "dEa artist 1",
-            "4" to "dec artist 3",
-            "3" to "déh artist 2",
+            "1",
+            "2",
+            "3",
+            "4",
         )
-        val actual = sut.getAll().map { it.id to it.name }
+        val actual = sut.getAll().map { it.id }
 
         Assert.assertEquals(expected, actual)
     }

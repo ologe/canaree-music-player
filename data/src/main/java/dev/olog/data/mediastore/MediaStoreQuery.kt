@@ -43,7 +43,8 @@ class MediaStoreQuery @Inject constructor(
                 ${MediaStore.Audio.AudioColumns.IS_PODCAST},
                 ${MediaStore.Audio.AudioColumns.DISPLAY_NAME}
             FROM $audioUri
-            WHERE ${MediaStore.Audio.Media.IS_MUSIC} = 1 OR ${MediaStore.Audio.Media.IS_PODCAST} = 1
+            WHERE (${MediaStore.Audio.Media.IS_MUSIC} != 0 OR ${MediaStore.Audio.Media.IS_PODCAST} != 0)
+                AND ${MediaStore.Audio.Media.IS_NOTIFICATION} = 0
         """.trimIndent()
         return contextResolver.querySql(sql).mapToMediaStoreAudio()
     }
@@ -69,6 +70,16 @@ class MediaStoreQuery @Inject constructor(
                 val author = getStringOrNull(artistColumn).orEmpty()
                 val track = getIntOrNull(trackColumn) ?: 0
                 val path = getStringOrNull(pathColumn).orEmpty()
+                val directory = if (path.isNotBlank()) {
+                    path.substring(0, path.lastIndexOf(File.separator).coerceAtLeast(0))
+                } else {
+                    ""
+                }
+                val directoryName = directory.substringAfterLast(
+                    delimiter = File.separator,
+                    missingDelimiterValue = directory
+                )
+
                 this += MediaStoreAudioEntity(
                     id = getStringOrNull(idColumn) ?: continue,
                     artistId = getStringOrNull(artistIdColumn) ?: continue,
@@ -81,11 +92,8 @@ class MediaStoreQuery @Inject constructor(
                     dateAdded = getLongOrNull(dateAddedColumn) ?: -1L,
                     dateModified = getLongOrNull(dateModifiedColumn) ?: -1L,
                     path = path,
-                    directory = if (path.isNotBlank()) {
-                        path.substring(0, path.lastIndexOf(File.separator).coerceAtLeast(0))
-                    } else {
-                        ""
-                    },
+                    directory = directory,
+                    directoryName = directoryName,
                     discNumber = if (track >= 1000) track / 1000 else 0,
                     trackNumber = if (track >= 1000) track % 1000 else track,
                     isPodcast = getIntOrNull(isPodcastColumn) != 0,
