@@ -1,4 +1,4 @@
-package dev.olog.data.db.podcast
+package dev.olog.data.mediastore.podcast
 
 import androidx.room.Dao
 import androidx.room.Insert

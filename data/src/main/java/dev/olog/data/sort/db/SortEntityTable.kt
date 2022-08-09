@@ -6,15 +6,18 @@ const val SORT_TABLE_SONGS = "songs"
 const val SORT_TABLE_ARTISTS = "artists"
 const val SORT_TABLE_ALBUMS = "albums"
 const val SORT_TABLE_GENRES = "genres"
+
 const val SORT_TABLE_PODCAST_PLAYLIST = "podcast_playlists"
 const val SORT_TABLE_PODCAST_EPISODES = "podcast_episodes"
 const val SORT_TABLE_PODCAST_ARTISTS = "podcast_artists"
 const val SORT_TABLE_PODCAST_ALBUMS = "podcast_albums"
+
 const val SORT_TABLE_FOLDERS_SONGS = "folders_songs"
 const val SORT_TABLE_PLAYLIST_SONGS = "playlists_songs"
 const val SORT_TABLE_ARTISTS_SONGS = "artists_songs"
 const val SORT_TABLE_ALBUMS_SONGS = "albums_songs"
 const val SORT_TABLE_GENRES_SONGS = "genres_songs"
+
 const val SORT_TABLE_PODCAST_PLAYLIST_EPISODES = "podcast_playlists_episodes"
 const val SORT_TABLE_PODCAST_ARTISTS_EPISODES = "podcast_artists_episodes"
 const val SORT_TABLE_PODCAST_ALBUMS_EPISODES = "podcast_albums_episodes"

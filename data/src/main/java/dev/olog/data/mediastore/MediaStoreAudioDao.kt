@@ -15,6 +15,9 @@ abstract class MediaStoreAudioDao {
     @Query("DELETE FROM mediastore_audio")
     abstract suspend fun deleteAll()
 
+    @Query("DELETE FROM mediastore_audio WHERE id = :id")
+    abstract suspend fun delete(id: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAll(items: List<MediaStoreAudioEntity>)
 

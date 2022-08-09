@@ -33,14 +33,17 @@ import dev.olog.data.db.playlist.PlaylistTrackEntity
 import dev.olog.data.db.playlist.PodcastPlaylistDao
 import dev.olog.data.db.playlist.PodcastPlaylistEntity
 import dev.olog.data.db.playlist.PodcastPlaylistTrackEntity
-import dev.olog.data.db.podcast.PodcastPositionDao
-import dev.olog.data.db.podcast.PodcastPositionEntity
+import dev.olog.data.mediastore.podcast.PodcastPositionDao
+import dev.olog.data.mediastore.podcast.PodcastPositionEntity
 import dev.olog.data.db.queue.PlayingQueueDao
 import dev.olog.data.db.queue.PlayingQueueEntity
 import dev.olog.data.db.recent.search.RecentSearchesDao
 import dev.olog.data.db.recent.search.RecentSearchesEntity
 import dev.olog.data.mediastore.MediaStoreAudioDao
 import dev.olog.data.mediastore.MediaStoreAudioEntity
+import dev.olog.data.mediastore.podcast.MediaStorePodcastsView
+import dev.olog.data.mediastore.podcast.MediaStorePodcastsViewDao
+import dev.olog.data.mediastore.podcast.MediaStorePodcastsViewSorted
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.MediaStoreSongsViewDao
 import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
@@ -59,6 +62,7 @@ import dev.olog.data.mediastore.song.genre.MediaStoreGenreTrackEntity
 import dev.olog.data.mediastore.song.genre.MediaStoreGenresView
 import dev.olog.data.mediastore.song.genre.MediaStoreGenresViewDao
 import dev.olog.data.mediastore.song.genre.MediaStoreGenresViewSorted
+import dev.olog.data.podcast.PodcastDao
 import dev.olog.data.song.SongDao
 import dev.olog.data.song.album.AlbumDao
 import dev.olog.data.song.album.LastPlayedAlbumEntity
@@ -128,6 +132,9 @@ import dev.olog.data.sort.db.SortTypeConverters
         MediaStoreFoldersViewSorted::class,
         MediaStoreGenresView::class,
         MediaStoreGenresViewSorted::class,
+
+        MediaStorePodcastsView::class,
+        MediaStorePodcastsViewSorted::class,
     ],
     version = 19,
     exportSchema = true
@@ -141,6 +148,7 @@ abstract class AppDatabase : RoomDatabase() {
     // mediastore
     abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
     abstract fun mediaStoreGenreDao(): MediaStoreGenreDao
+
     // mediastore song views
     abstract fun mediaStoreSongDao(): MediaStoreSongsViewDao
     abstract fun mediaStoreArtistDao(): MediaStoreArtistsViewDao
@@ -149,7 +157,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaStoreGenresDao(): MediaStoreGenresViewDao
 
     // mediastore podcast views
-    // todo
+    abstract fun mediaStorePodcastDao(): MediaStorePodcastsViewDao
 
     // utils
     abstract fun blacklistDao(): BlacklistDao
@@ -163,6 +171,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
 
     // podcast queries
+    abstract fun podcastDao(): PodcastDao
     // todo
 
     abstract fun playingQueueDao(): PlayingQueueDao

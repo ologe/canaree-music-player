@@ -1,6 +1,8 @@
 package dev.olog.data
 
 import dev.olog.data.mediastore.MediaStoreAudioEntity
+import dev.olog.data.mediastore.podcast.MediaStorePodcastsView
+import dev.olog.data.mediastore.podcast.MediaStorePodcastsViewSorted
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
 import dev.olog.data.mediastore.song.album.MediaStoreAlbumsView
@@ -248,4 +250,78 @@ fun emptyMediaStoreGenresViewSorted(
     id = id,
     name = name,
     songs = songs,
+)
+
+fun emptyMediaStorePodcastView(
+    id: String = "",
+    artistId: String = "",
+    albumId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    album: String = "",
+    duration: Long = 0,
+    dateAdded: Long = 0,
+    dateModified: Long = 0,
+    directory: String = "",
+    directoryName: String = "",
+    path: String = "",
+    discNumber: Int = 0,
+    trackNumber: Int = 0,
+    isPodcast: Boolean,
+    displayName: String = "",
+) = MediaStorePodcastsView(
+    id = id,
+    artistId = artistId,
+    albumId = albumId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    album = album,
+    duration = duration,
+    dateAdded = dateAdded,
+    dateModified = dateModified,
+    directory = directory,
+    directoryName = directoryName,
+    path = path,
+    discNumber = discNumber,
+    trackNumber = trackNumber,
+    isPodcast = isPodcast,
+    displayName = displayName
+)
+
+fun emptyMediaStorePodcastSortedView(
+    id: String = "",
+    artistId: String = "",
+    albumId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    album: String = "",
+    duration: Long = 0,
+    dateAdded: Long = 0,
+    dateModified: Long = 0,
+    directory: String = "",
+    path: String = "",
+    discNumber: Int = 0,
+    trackNumber: Int = 0,
+    isPodcast: Boolean,
+    displayName: String = "",
+) = MediaStorePodcastsViewSorted(
+    id = id,
+    artistId = artistId,
+    albumId = albumId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    album = album,
+    duration = duration,
+    dateAdded = dateAdded,
+    dateModified = dateModified,
+    directory = directory,
+    path = path,
+    discNumber = discNumber,
+    trackNumber = trackNumber,
+    isPodcast = isPodcast,
+    displayName = displayName
 )

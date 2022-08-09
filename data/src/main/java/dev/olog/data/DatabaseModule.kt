@@ -16,7 +16,6 @@ import dev.olog.data.db.lyrics.OfflineLyricsDao
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
 import dev.olog.data.db.playlist.PlaylistDao
 import dev.olog.data.db.playlist.PodcastPlaylistDao
-import dev.olog.data.db.podcast.PodcastPositionDao
 import dev.olog.data.db.queue.PlayingQueueDao
 import dev.olog.data.db.recent.search.RecentSearchesDao
 
@@ -87,11 +86,6 @@ class DatabaseModule {
     @Provides
     internal fun providePlaylistMostPlayedDao(db: AppDatabase): PlaylistMostPlayedDao {
         return db.playlistMostPlayedDao()
-    }
-
-    @Provides
-    internal fun providePodcastPositionDao(db: AppDatabase): PodcastPositionDao {
-        return db.podcastPositionDao()
     }
 
 }

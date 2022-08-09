@@ -11,7 +11,6 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.repository.EqualizerRepository
 import dev.olog.data.repository.FavoriteRepository
@@ -22,7 +21,6 @@ import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
-import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.feature.equalizer.api.EqualizerGateway
 import javax.inject.Singleton
 
@@ -35,9 +33,6 @@ abstract class DataModule {
     @Singleton
     internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository): PodcastPlaylistGateway
 
-    @Binds
-    @Singleton
-    internal abstract fun providePodcsatRepository(repository: PodcastRepository): PodcastGateway
     @Binds
     @Singleton
     internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository): PodcastAlbumGateway
