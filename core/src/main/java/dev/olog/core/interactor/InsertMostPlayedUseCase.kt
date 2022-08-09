@@ -21,7 +21,10 @@ class InsertMostPlayedUseCase @Inject constructor(
                 songId = mediaId.leaf!!,
             )
             MediaIdCategory.PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
-            MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(
+                genreId = mediaId.categoryValue.toLong(),
+                songId = mediaId.leaf!!,
+            )
             else -> return
         }
     }

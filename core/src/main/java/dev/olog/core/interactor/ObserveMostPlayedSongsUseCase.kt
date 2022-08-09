@@ -21,7 +21,7 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
-            MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId)
+            MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId.categoryValue.toLong())
             MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId)
             MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId.categoryValue)
             else -> flowOf(listOf())

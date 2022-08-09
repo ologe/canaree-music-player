@@ -15,8 +15,8 @@ class DataConstantsTest {
 
         Assert.assertEquals(10, DataConstants.MAX_LAST_PLAYED)
 
-        Assert.assertEquals(5, DataConstants.MIN_MOST_PLAYED)
-        Assert.assertEquals(10, DataConstants.MAX_MOST_PLAYED)
+        Assert.assertEquals(5, DataConstants.MIN_MOST_PLAYED_TIMES)
+        Assert.assertEquals(10, DataConstants.MAX_MOST_PLAYED_ITEMS)
     }
 
 }

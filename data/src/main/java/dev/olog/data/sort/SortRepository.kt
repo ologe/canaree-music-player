@@ -6,6 +6,7 @@ import dev.olog.core.entity.sort.AlbumSortType
 import dev.olog.core.entity.sort.AllAlbumsSort
 import dev.olog.core.entity.sort.AllArtistsSort
 import dev.olog.core.entity.sort.AllFoldersSort
+import dev.olog.core.entity.sort.AllGenresSort
 import dev.olog.core.entity.sort.AllSongsSort
 import dev.olog.core.entity.sort.ArtistSongsSort
 import dev.olog.core.entity.sort.ArtistSongsSortType
@@ -13,6 +14,9 @@ import dev.olog.core.entity.sort.ArtistSortType
 import dev.olog.core.entity.sort.FolderSongsSort
 import dev.olog.core.entity.sort.FolderSongsSortType
 import dev.olog.core.entity.sort.FolderSortType
+import dev.olog.core.entity.sort.GenreSongsSort
+import dev.olog.core.entity.sort.GenreSongsSortType
+import dev.olog.core.entity.sort.GenreSortType
 import dev.olog.core.entity.sort.SongSortType
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortDirectionEntity
@@ -138,6 +142,40 @@ class SortRepository @Inject constructor(
     fun setFolderSongsSort(model: FolderSongsSort) {
         val entity = SortEntity(
             tableName = SortEntityTable.FoldersSongs,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getAllGenresSort(): AllGenresSort {
+        val model = dao.getSort(SortEntityTable.Genres)
+        return AllGenresSort(
+            type = GenreSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setAllGenresSort(model: AllGenresSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.Genres,
+            columnName = SortTypeEntity(model.type.type),
+            direction = SortDirectionEntity(model.direction),
+        )
+        dao.setSort(entity)
+    }
+
+    fun getGenreSongsSort(): GenreSongsSort {
+        val model = dao.getSort(SortEntityTable.GenresSongs)
+        return GenreSongsSort(
+            type = GenreSongsSortType(model.columnName.toDomain()),
+            direction = model.direction.toDomain()
+        )
+    }
+
+    fun setGenreSongsSort(model: GenreSongsSort) {
+        val entity = SortEntity(
+            tableName = SortEntityTable.GenresSongs,
             columnName = SortTypeEntity(model.type.type),
             direction = SortDirectionEntity(model.direction),
         )

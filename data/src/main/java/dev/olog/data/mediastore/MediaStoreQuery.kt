@@ -9,6 +9,8 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.contentresolversql.querySql
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreEntity
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreTrackEntity
 import dev.olog.shared.isQ
 import java.io.File
 import javax.inject.Inject
@@ -21,6 +23,13 @@ class MediaStoreQuery @Inject constructor(
         val audioUri: Uri = when {
             isQ() -> MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             else -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        }
+        val genreUri: Uri = when {
+            isQ() -> MediaStore.Audio.Genres.getContentUri(MediaStore.VOLUME_EXTERNAL)
+            else -> MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI
+        }
+        fun genreTracksUri(id: String): Uri {
+            return MediaStore.Audio.Genres.Members.getContentUri(MediaStore.VOLUME_EXTERNAL, id.toLong())
         }
     }
 
@@ -47,6 +56,26 @@ class MediaStoreQuery @Inject constructor(
                 AND ${MediaStore.Audio.Media.IS_NOTIFICATION} = 0
         """.trimIndent()
         return contextResolver.querySql(sql).mapToMediaStoreAudio()
+    }
+
+    fun queryAllGenres(): List<MediaStoreGenreEntity> {
+        val sql = """
+            SELECT 
+                ${MediaStore.Audio.AudioColumns._ID},
+                ${MediaStore.Audio.Genres.NAME}
+            FROM $genreUri
+        """.trimIndent()
+        return contextResolver.querySql(sql).mapToMediaStoreGenre()
+    }
+
+    fun queryAllGenreSongs(id: String): List<MediaStoreGenreTrackEntity> {
+        val sql = """
+            SELECT
+                ${MediaStore.Audio.Genres.Members.GENRE_ID},
+                ${MediaStore.Audio.Genres.Members.AUDIO_ID}
+            FROM ${genreTracksUri(id)}
+        """.trimIndent()
+        return contextResolver.querySql(sql).mapToMediaStoreGenreTracks()
     }
 
     private fun Cursor.mapToMediaStoreAudio(): List<MediaStoreAudioEntity> = use {
@@ -98,6 +127,34 @@ class MediaStoreQuery @Inject constructor(
                     trackNumber = if (track >= 1000) track % 1000 else track,
                     isPodcast = getIntOrNull(isPodcastColumn) != 0,
                     displayName = getStringOrNull(displayNameColumn).orEmpty(),
+                )
+            }
+        }
+    }
+
+    private fun Cursor.mapToMediaStoreGenre(): List<MediaStoreGenreEntity> = use {
+        val idColumn = getColumnIndex(MediaStore.Audio.AudioColumns._ID)
+        val nameColumn = getColumnIndex(MediaStore.Audio.Genres.NAME)
+
+        buildList {
+            while (moveToNext()) {
+                this += MediaStoreGenreEntity(
+                    id = getStringOrNull(idColumn) ?: continue,
+                    name = getStringOrNull(nameColumn) ?: MediaStore.UNKNOWN_STRING,
+                )
+            }
+        }
+    }
+
+    private fun Cursor.mapToMediaStoreGenreTracks(): List<MediaStoreGenreTrackEntity> = use {
+        val genreIdColumn = getColumnIndex(MediaStore.Audio.Genres.Members.GENRE_ID)
+        val songIdColumn = getColumnIndex(MediaStore.Audio.Genres.Members.AUDIO_ID)
+
+        buildList {
+            while (moveToNext()) {
+                this += MediaStoreGenreTrackEntity(
+                    genreId = getStringOrNull(genreIdColumn) ?: continue,
+                    songId = getStringOrNull(songIdColumn) ?: continue,
                 )
             }
         }

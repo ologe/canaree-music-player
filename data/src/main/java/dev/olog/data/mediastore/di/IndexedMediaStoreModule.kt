@@ -21,6 +21,8 @@ internal abstract class IndexedMediaStoreModule {
     companion object {
         @Provides
         fun provideMediaStoreAudioDao(db: AppDatabase) = db.mediaStoreAudioDao()
+        @Provides
+        fun provideMediaStoreGenreDao(db: AppDatabase) = db.mediaStoreGenreDao()
     }
 
 }

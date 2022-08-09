@@ -13,8 +13,6 @@ import dev.olog.data.db.favorite.FavoritePodcastEntity
 import dev.olog.data.db.history.HistoryDao
 import dev.olog.data.db.history.HistoryEntity
 import dev.olog.data.db.history.PodcastHistoryEntity
-import dev.olog.data.song.album.LastPlayedAlbumEntity
-import dev.olog.data.song.artist.LastPlayedArtistEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
 import dev.olog.data.db.last.played.LastPlayedPodcastAlbumEntity
 import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
@@ -27,9 +25,6 @@ import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.lyrics.OfflineLyricsDao
 import dev.olog.data.db.lyrics.OfflineLyricsEntity
-import dev.olog.data.song.folder.FolderMostPlayedEntity
-import dev.olog.data.db.most.played.GenreMostPlayedDao
-import dev.olog.data.db.most.played.GenreMostPlayedEntity
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
 import dev.olog.data.db.most.played.PlaylistMostPlayedEntity
 import dev.olog.data.db.playlist.PlaylistDao
@@ -58,10 +53,21 @@ import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 import dev.olog.data.mediastore.song.folder.MediaStoreFoldersView
 import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewDao
 import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewSorted
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreDao
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreEntity
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreTrackEntity
+import dev.olog.data.mediastore.song.genre.MediaStoreGenresView
+import dev.olog.data.mediastore.song.genre.MediaStoreGenresViewDao
+import dev.olog.data.mediastore.song.genre.MediaStoreGenresViewSorted
 import dev.olog.data.song.SongDao
 import dev.olog.data.song.album.AlbumDao
+import dev.olog.data.song.album.LastPlayedAlbumEntity
 import dev.olog.data.song.artist.ArtistDao
+import dev.olog.data.song.artist.LastPlayedArtistEntity
 import dev.olog.data.song.folder.FolderDao
+import dev.olog.data.song.folder.FolderMostPlayedEntity
+import dev.olog.data.song.genre.GenreDao
+import dev.olog.data.song.genre.GenreMostPlayedEntity
 import dev.olog.data.sort.db.SortDao
 import dev.olog.data.sort.db.SortEntity
 import dev.olog.data.sort.db.SortTypeConverters
@@ -70,6 +76,8 @@ import dev.olog.data.sort.db.SortTypeConverters
 @Database(
     entities = arrayOf(
         MediaStoreAudioEntity::class,
+        MediaStoreGenreEntity::class,
+        MediaStoreGenreTrackEntity::class,
         BlacklistEntity::class,
         SortEntity::class,
 
@@ -118,6 +126,8 @@ import dev.olog.data.sort.db.SortTypeConverters
         MediaStoreAlbumsViewSorted::class,
         MediaStoreFoldersView::class,
         MediaStoreFoldersViewSorted::class,
+        MediaStoreGenresView::class,
+        MediaStoreGenresViewSorted::class,
     ],
     version = 19,
     exportSchema = true
@@ -130,11 +140,13 @@ abstract class AppDatabase : RoomDatabase() {
 
     // mediastore
     abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
+    abstract fun mediaStoreGenreDao(): MediaStoreGenreDao
     // mediastore song views
     abstract fun mediaStoreSongDao(): MediaStoreSongsViewDao
     abstract fun mediaStoreArtistDao(): MediaStoreArtistsViewDao
     abstract fun mediaStoreAlbumsDao(): MediaStoreAlbumsViewDao
     abstract fun mediaStoreFoldersDao(): MediaStoreFoldersViewDao
+    abstract fun mediaStoreGenresDao(): MediaStoreGenresViewDao
 
     // mediastore podcast views
     // todo
@@ -148,6 +160,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun artistDao(): ArtistDao
     abstract fun albumDao(): AlbumDao
     abstract fun folderDao(): FolderDao
+    abstract fun genreDao(): GenreDao
 
     // podcast queries
     // todo
@@ -155,8 +168,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun playingQueueDao(): PlayingQueueDao
 
     abstract fun playlistMostPlayedDao(): PlaylistMostPlayedDao
-
-    abstract fun genreMostPlayedDao(): GenreMostPlayedDao
 
     abstract fun favoriteDao(): FavoriteDao
 

@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -16,7 +15,6 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.repository.EqualizerRepository
 import dev.olog.data.repository.FavoriteRepository
-import dev.olog.data.repository.FolderNavigatorRepository
 import dev.olog.data.repository.OfflineLyricsRepository
 import dev.olog.data.repository.PlayingQueueRepository
 import dev.olog.data.repository.RecentSearchesRepository
@@ -68,10 +66,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideFolderNavigator(repository: FolderNavigatorRepository): FolderNavigatorGateway
 
     @Binds
     @Singleton

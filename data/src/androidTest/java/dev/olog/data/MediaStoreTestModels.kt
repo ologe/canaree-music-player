@@ -9,6 +9,10 @@ import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsViewSorted
 import dev.olog.data.mediastore.song.folder.MediaStoreFoldersView
 import dev.olog.data.mediastore.song.folder.MediaStoreFoldersViewSorted
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreEntity
+import dev.olog.data.mediastore.song.genre.MediaStoreGenreTrackEntity
+import dev.olog.data.mediastore.song.genre.MediaStoreGenresView
+import dev.olog.data.mediastore.song.genre.MediaStoreGenresViewSorted
 
 fun emptyMediaStoreAudioEntity(
     id: String = "",
@@ -46,6 +50,22 @@ fun emptyMediaStoreAudioEntity(
     trackNumber = trackNumber,
     isPodcast = isPodcast,
     displayName = displayName
+)
+
+fun emptyMediaStoreGenreEntity(
+    id: String = "",
+    name: String = "",
+) = MediaStoreGenreEntity(
+    id = id,
+    name = name,
+)
+
+fun emptyMediaStoreGenreTrackEntity(
+    genreId: String = "",
+    songId: String = "",
+) = MediaStoreGenreTrackEntity(
+    genreId = genreId,
+    songId = songId,
 )
 
 fun emptyMediaStoreSongView(
@@ -208,4 +228,24 @@ fun emptyMediaStoreFoldersViewSorted(
     name = name,
     songs = songs,
     dateAdded = dateAdded
+)
+
+fun emptyMediaStoreGenresView(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+) = MediaStoreGenresView(
+    id = id,
+    name = name,
+    songs = songs,
+)
+
+fun emptyMediaStoreGenresViewSorted(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+) = MediaStoreGenresViewSorted(
+    id = id,
+    name = name,
+    songs = songs,
 )
