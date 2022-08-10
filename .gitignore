@@ -56,6 +56,8 @@ captures/
 .idea/caches/build_file_checksums.ser
 .idea/modules.xml
 .idea/markdown-navigator*
+.idea/androidTestResultsUserPreferences.xml
+.idea/deploymentTargetDropDown.xml
 
 # Version control
 vcs.xml

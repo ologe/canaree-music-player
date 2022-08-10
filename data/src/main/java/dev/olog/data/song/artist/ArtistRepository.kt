@@ -4,7 +4,6 @@ import dev.olog.core.entity.sort.AllArtistsSort
 import dev.olog.core.entity.sort.ArtistSongsSort
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.data.mediastore.song.artist.toDomain
 import dev.olog.data.mediastore.song.toDomain
@@ -56,7 +55,7 @@ internal class ArtistRepository @Inject constructor(
             .mapListItem { it.toDomain() }
     }
 
-    override suspend fun addLastPlayed(id: Id) {
+    override suspend fun addLastPlayed(id: Long) {
         artistDao.insertLastPlayed(LastPlayedArtistEntity(id))
     }
 

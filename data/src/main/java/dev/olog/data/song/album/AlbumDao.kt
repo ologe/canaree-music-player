@@ -27,8 +27,7 @@ abstract class AlbumDao {
         @Language("RoomSql")
         private const val SONGS_QUERY = """
 SELECT songs_view.*
-FROM songs_view
-    LEFT JOIN sort ON TRUE
+FROM songs_view LEFT JOIN sort ON TRUE
 WHERE albumId = :id AND sort.tableName = '$SORT_TABLE_ALBUMS_SONGS'
 ORDER BY
 -- album artist, then title

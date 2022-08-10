@@ -32,7 +32,7 @@ enum class AlbumSongsSortType(val type: SortTypeV2) {
 
     companion object {
         operator fun invoke(type: SortTypeV2): AlbumSongsSortType {
-            return AlbumSongsSortType.values().first { it.type == type }
+            return values().first { it.type == type }
         }
     }
 
