@@ -4,7 +4,6 @@ import dev.olog.core.entity.sort.AlbumSongsSort
 import dev.olog.core.entity.sort.AllAlbumsSort
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import kotlinx.coroutines.flow.Flow
 
 interface AlbumGateway {
@@ -25,7 +24,7 @@ interface AlbumGateway {
 
     fun observeSiblings(id: Long): Flow<List<Album>>
 
-    fun observeArtistsAlbums(artistId: Id): Flow<List<Album>>
+    fun observeArtistsAlbums(artistId: Long): Flow<List<Album>>
 
     fun setSort(sort: AllAlbumsSort)
     fun getSort(): AllAlbumsSort

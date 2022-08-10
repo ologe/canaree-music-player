@@ -12,7 +12,7 @@ class InsertHistorySongUseCase @Inject constructor(
 
     suspend operator fun invoke(param: Input) {
         if (param.isPodcast) {
-            podcastGateway.insertPodcastToHistory(param.id)
+            podcastGateway.insertSongToHistory(param.id)
         } else {
             playlistGateway.insertSongToHistory(param.id)
         }

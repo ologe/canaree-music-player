@@ -8,7 +8,6 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -39,12 +38,12 @@ internal class ImageRetrieverRepository @Inject constructor(
 ) : ImageRetrieverGateway {
 
     // track
-    override suspend fun mustFetchTrack(trackId: Id): Boolean {
+    override suspend fun mustFetchTrack(trackId: Long): Boolean {
         val mustFetch = localTrack.mustFetch(trackId)
         return mustFetch
     }
 
-    override suspend fun getTrack(trackId: Id): LastFmTrack? = coroutineScope {
+    override suspend fun getTrack(trackId: Long): LastFmTrack? = coroutineScope {
         val cached = localTrack.getCached(trackId)
         if (cached != null) {
             return@coroutineScope cached
@@ -139,17 +138,17 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteTrack(trackId: Id) {
+    override suspend fun deleteTrack(trackId: Long) {
         localTrack.delete(trackId)
     }
 
     // album
-    override suspend fun mustFetchAlbum(albumId: Id): Boolean {
+    override suspend fun mustFetchAlbum(albumId: Long): Boolean {
         val mustFetch = localAlbum.mustFetch(albumId)
         return mustFetch
     }
 
-    override suspend fun getAlbum(albumId: Id): LastFmAlbum? = coroutineScope {
+    override suspend fun getAlbum(albumId: Long): LastFmAlbum? = coroutineScope {
         val album = albumGateway.getByParam(albumId) ?: return@coroutineScope null
         if (album.hasSameNameAsFolder) {
             return@coroutineScope null
@@ -234,17 +233,17 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteAlbum(albumId: Id) {
+    override suspend fun deleteAlbum(albumId: Long) {
         localAlbum.delete(albumId)
     }
 
     // artist
-    override suspend fun mustFetchArtist(artistId: Id): Boolean {
+    override suspend fun mustFetchArtist(artistId: Long): Boolean {
         val mustFetch = localArtist.mustFetch(artistId)
         return mustFetch
     }
 
-    override suspend fun getArtist(artistId: Id): LastFmArtist? = coroutineScope {
+    override suspend fun getArtist(artistId: Long): LastFmArtist? = coroutineScope {
         val cached = localArtist.getCached(artistId)
         if (cached != null) {
             return@coroutineScope cached
@@ -296,7 +295,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         )
     }
 
-    override suspend fun deleteArtist(artistId: Id) {
+    override suspend fun deleteArtist(artistId: Long) {
         localArtist.delete(artistId)
     }
 }
