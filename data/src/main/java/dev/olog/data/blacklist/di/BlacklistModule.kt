@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.data.blacklist.BlacklistPreferenceImpl
+import dev.olog.core.BlacklistGateway
+import dev.olog.data.blacklist.BlacklistRepository
 import dev.olog.data.db.AppDatabase
 import javax.inject.Singleton
 
@@ -16,7 +16,7 @@ internal abstract class BlacklistModule {
 
     @Binds
     @Singleton
-    abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
+    abstract fun provideBlacklistPreferences(impl: BlacklistRepository): BlacklistGateway
 
     companion object {
 

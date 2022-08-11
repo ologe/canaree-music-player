@@ -1,13 +1,13 @@
 package dev.olog.data.blacklist
 
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.BlacklistGateway
 import dev.olog.data.blacklist.db.BlacklistDao
 import dev.olog.data.blacklist.db.BlacklistEntity
 import javax.inject.Inject
 
-class BlacklistPreferenceImpl @Inject constructor(
+class BlacklistRepository @Inject constructor(
     private val dao: BlacklistDao,
-) : BlacklistPreferences {
+) : BlacklistGateway {
 
     override suspend fun getBlackList(): List<String> {
         return dao.getAll().map { it.directory }

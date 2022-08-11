@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.BlacklistGateway
 import dev.olog.feature.settings.R
 import kotlinx.coroutines.launch
 import java.util.*
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BlacklistFragmentViewModel @Inject constructor(
     private val folderGateway: FolderGateway,
-    private val appPreferencesUseCase: BlacklistPreferences
+    private val appPreferencesUseCase: BlacklistGateway
 ) : ViewModel() {
 
     suspend fun data(): List<BlacklistModel> {

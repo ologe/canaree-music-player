@@ -9,11 +9,9 @@ import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.Sort
 import dev.olog.feature.media.api.FeatureMediaNavigator
 import dev.olog.feature.media.api.MediaExposer
 import dev.olog.feature.media.api.MediaProvider
-import dev.olog.feature.media.api.MusicServiceAction
 import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.feature.media.api.connection.OnConnectionChanged
 import dev.olog.feature.media.api.extensions.playPause
@@ -121,11 +119,9 @@ abstract class MusicGlueActivity : ThemedActivity(),
         return mediaController()?.transportControls
     }
 
-    override fun playFromMediaId(mediaId: MediaId, filter: String?, sort: Sort?) {
+    override fun playFromMediaId(mediaId: MediaId, filter: String?) {
         val bundle = bundleOf(
-            MusicServiceCustomAction.ARGUMENT_FILTER to filter,
-            MusicServiceAction.ARGUMENT_SORT_TYPE to sort?.type?.name,
-            MusicServiceAction.ARGUMENT_SORT_ARRANGING to sort?.direction?.name
+            MusicServiceCustomAction.ARGUMENT_FILTER to filter
         )
 
         transportControls()?.playFromMediaId(mediaId.toString(), bundle)

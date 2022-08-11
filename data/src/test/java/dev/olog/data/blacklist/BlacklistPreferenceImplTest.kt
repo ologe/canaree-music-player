@@ -12,7 +12,7 @@ import org.junit.Test
 class BlacklistPreferenceImplTest {
 
     private val dao = mock<BlacklistDao>()
-    private val sut = BlacklistPreferenceImpl(
+    private val sut = BlacklistRepository(
         dao = dao,
     )
 

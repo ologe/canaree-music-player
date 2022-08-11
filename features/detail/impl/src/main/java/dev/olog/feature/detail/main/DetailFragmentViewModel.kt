@@ -15,9 +15,9 @@ import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.shared.extension.mapListItem
 import dev.olog.ui.model.DisplayableItem
 import dev.olog.ui.model.DisplayableTrack
-import dev.olog.shared.extension.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -135,11 +135,6 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
-
-    fun detailSortDataUseCase(mediaId: MediaId, action: (Sort) -> Unit) {
-        val sortOrder = getSortOrderUseCase(mediaId)
-        action(sortOrder)
-    }
 
     fun observeSortOrder(action: (SortType) -> Unit) {
         val sortEntity = getSortOrderUseCase(mediaId)

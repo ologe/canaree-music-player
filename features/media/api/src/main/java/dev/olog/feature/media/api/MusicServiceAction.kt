@@ -7,12 +7,4 @@ enum class MusicServiceAction {
 
     SKIP_NEXT,
     SKIP_PREVIOUS;
-
-
-    companion object {
-        const val ARGUMENT_MEDIA_ID = "action.mediaid"
-        const val ARGUMENT_SORT_TYPE = "action.sort.type"
-        const val ARGUMENT_SORT_ARRANGING = "action.sort.arranging"
-
-    }
 }
