@@ -1,4 +1,4 @@
-package dev.olog.data.db.last.played
+package dev.olog.data.podcast.album
 
 import androidx.room.Entity
 import androidx.room.Index

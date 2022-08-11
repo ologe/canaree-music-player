@@ -9,6 +9,9 @@ import dev.olog.data.sort.db.SORT_TABLE_ALBUMS
 import dev.olog.data.sort.db.SORT_TABLE_ARTISTS
 import dev.olog.data.sort.db.SORT_TABLE_FOLDERS
 import dev.olog.data.sort.db.SORT_TABLE_GENRES
+import dev.olog.data.sort.db.SORT_TABLE_PODCAST_ALBUMS
+import dev.olog.data.sort.db.SORT_TABLE_PODCAST_ARTISTS
+import dev.olog.data.sort.db.SORT_TABLE_PODCAST_EPISODES
 import dev.olog.data.sort.db.SORT_TABLE_SONGS
 import dev.olog.data.sort.db.SORT_TYPE_ALBUM
 import dev.olog.data.sort.db.SORT_TYPE_ARTIST
@@ -28,6 +31,10 @@ class Migration18to19 : Migration(18, 19) {
         createAlbumsView(database)
         createFoldersView(database)
         createGenresView(database)
+
+        createPodcastsView(database)
+        createPodcastArtistsView(database)
+        createPodcastAlbumsView(database)
 
         createBlacklistTables(database)
         createSortTables(database)
@@ -264,6 +271,88 @@ class Migration18to19 : Migration(18, 19) {
                 direction TEXT NOT NULL,
                 PRIMARY KEY(tableName)
             )
+        """.trimIndent())
+    }
+
+    private fun createPodcastsView(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE VIEW `podcasts_view` AS SELECT mediastore_audio.*
+            FROM mediastore_audio
+                LEFT JOIN blacklist ON mediastore_audio.directory = blacklist.directory --remove blacklisted
+            WHERE blacklist.directory IS NULL AND isPodcast = true
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `podcasts_view_sorted` AS SELECT podcasts_view.*
+            FROM podcasts_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_PODCAST_EPISODES'
+            ORDER BY
+            -- artist, then title
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND artist = '$UNKNOWN_STRING' THEN -1 END,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_ASC' THEN lower(artist) COLLATE UNICODE END ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_DESC' THEN lower(artist) COLLATE UNICODE END DESC,
+            -- album, then title
+            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND album = '$UNKNOWN_STRING' THEN -1 END,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND sort.direction = '$SORT_DIRECTION_ASC' THEN lower(album) COLLATE UNICODE END ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND sort.direction = '$SORT_DIRECTION_DESC' THEN lower(album) COLLATE UNICODE END DESC,
+            -- duration, then title
+            CASE WHEN sort.columnName = '$SORT_TYPE_DURATION' AND sort.direction = '$SORT_DIRECTION_ASC' THEN duration END ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_DURATION' AND sort.direction = '$SORT_DIRECTION_DESC' THEN duration END DESC,
+            -- date, then title
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_ASC' THEN dateAdded END DESC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_DESC' THEN dateAdded END ASC,
+            -- default, and second sort
+            CASE WHEN sort.direction = '$SORT_DIRECTION_ASC' THEN lower(title) COLLATE UNICODE END ASC,
+            CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) COLLATE UNICODE END DESC
+        """.trimIndent())
+    }
+
+    private fun createPodcastArtistsView(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE VIEW `podcast_artists_view` AS SELECT DISTINCT artistId AS id, artist AS name, count(*) AS songs, MIN(dateAdded) as dateAdded 
+            FROM podcasts_view
+            GROUP BY artistId
+        """.trimIndent())
+        database.execSQL("""
+            CREATE VIEW `podcast_artists_view_sorted` AS SELECT podcast_artists_view.*
+            FROM podcast_artists_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_PODCAST_ARTISTS'
+            ORDER BY
+            -- artist
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND name = '$UNKNOWN_STRING' THEN -1 END,
+            -- date, then artist
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_ASC' THEN dateAdded END ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_DESC' THEN dateAdded END DESC,
+            -- default, and second sort
+            CASE WHEN sort.direction = '$SORT_DIRECTION_ASC' THEN lower(name) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(name) END COLLATE UNICODE DESC
+        """.trimIndent())
+    }
+
+    private fun createPodcastAlbumsView(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE VIEW `podcast_albums_view` AS SELECT DISTINCT albumId AS id, artistId, album AS title, artist, albumArtist, count(*) AS songs, MIN(dateAdded) as dateAdded, directory
+            FROM podcasts_view
+            GROUP BY albumId
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `podcast_albums_view_sorted` AS SELECT podcast_albums_view.*
+            FROM podcast_albums_view LEFT JOIN sort ON TRUE
+            WHERE sort.tableName = '$SORT_TABLE_PODCAST_ALBUMS'
+            ORDER BY
+            -- title, then artist
+            CASE WHEN sort.columnName = '$SORT_TYPE_ALBUM' AND title = '$UNKNOWN_STRING' THEN -1 END,
+            -- artist, then artist
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND artist = '$UNKNOWN_STRING' THEN -1 END,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_ASC' THEN lower(artist) END COLLATE UNICODE ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_ARTIST' AND sort.direction = '$SORT_DIRECTION_DESC' THEN lower(artist) END COLLATE UNICODE DESC,
+            -- date, then artist
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_ASC' THEN dateAdded END ASC,
+            CASE WHEN sort.columnName = '$SORT_TYPE_DATE' AND sort.direction = '$SORT_DIRECTION_DESC' THEN dateAdded END DESC,
+            -- default, and second sort
+            CASE WHEN sort.direction = '$SORT_DIRECTION_ASC' THEN lower(title) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) END COLLATE UNICODE DESC
         """.trimIndent())
     }
 

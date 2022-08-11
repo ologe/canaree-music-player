@@ -3,6 +3,10 @@ package dev.olog.data
 import dev.olog.data.mediastore.MediaStoreAudioEntity
 import dev.olog.data.mediastore.podcast.MediaStorePodcastsView
 import dev.olog.data.mediastore.podcast.MediaStorePodcastsViewSorted
+import dev.olog.data.mediastore.podcast.album.MediaStorePodcastAlbumsView
+import dev.olog.data.mediastore.podcast.album.MediaStorePodcastAlbumsViewSorted
+import dev.olog.data.mediastore.podcast.artist.MediaStorePodcastArtistsView
+import dev.olog.data.mediastore.podcast.artist.MediaStorePodcastArtistsViewSorted
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.MediaStoreSongsViewSorted
 import dev.olog.data.mediastore.song.album.MediaStoreAlbumsView
@@ -324,4 +328,68 @@ fun emptyMediaStorePodcastSortedView(
     trackNumber = trackNumber,
     isPodcast = isPodcast,
     displayName = displayName
+)
+
+fun emptyMediaStorePodcastAlbumView(
+    id: String = "",
+    artistId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+    directory: String = "",
+) = MediaStorePodcastAlbumsView(
+    id = id,
+    artistId = artistId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    songs = songs,
+    dateAdded = dateAdded,
+    directory = directory,
+)
+
+fun emptyMediaStorePodcastAlbumSortedView(
+    id: String = "",
+    artistId: String = "",
+    title: String = "",
+    artist: String = "",
+    albumArtist: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+    directory: String = "",
+) = MediaStorePodcastAlbumsViewSorted(
+    id = id,
+    artistId = artistId,
+    title = title,
+    artist = artist,
+    albumArtist = albumArtist,
+    songs = songs,
+    dateAdded = dateAdded,
+    directory = directory,
+)
+
+fun emptyMediaStorePodcastArtistView(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStorePodcastArtistsView(
+    id = id,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded,
+)
+
+fun emptyMediaStorePodcastArtistSortedView(
+    id: String = "",
+    name: String = "",
+    songs: Int = 0,
+    dateAdded: Long = 0,
+) = MediaStorePodcastArtistsViewSorted(
+    id = id,
+    name = name,
+    songs = songs,
+    dateAdded = dateAdded,
 )

@@ -18,8 +18,8 @@ import dev.olog.data.repository.OfflineLyricsRepository
 import dev.olog.data.repository.PlayingQueueRepository
 import dev.olog.data.repository.RecentSearchesRepository
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
-import dev.olog.data.repository.podcast.PodcastAlbumRepository
-import dev.olog.data.repository.podcast.PodcastArtistRepository
+import dev.olog.data.podcast.album.PodcastAlbumRepository
+import dev.olog.data.podcast.artist.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.feature.equalizer.api.EqualizerGateway
 import javax.inject.Singleton

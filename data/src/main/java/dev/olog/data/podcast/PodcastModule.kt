@@ -23,6 +23,12 @@ abstract class PodcastModule {
         fun providePodcastDao(db: AppDatabase) = db.podcastDao()
 
         @Provides
+        fun providePodcastArtistDao(db: AppDatabase) = db.podcastArtistDao()
+
+        @Provides
+        fun providePodcastAlbumDao(db: AppDatabase) = db.podcastAlbumDao()
+
+        @Provides
         internal fun providePodcastPositionDao(db: AppDatabase) = db.podcastPositionDao()
 
     }
