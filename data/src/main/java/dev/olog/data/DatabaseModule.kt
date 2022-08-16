@@ -8,19 +8,12 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.equalizer.EqualizerPresetsDao
 import dev.olog.data.db.favorite.FavoriteDao
 import dev.olog.data.db.history.HistoryDao
-import dev.olog.data.db.last.played.LastPlayedAlbumDao
-import dev.olog.data.db.last.played.LastPlayedArtistDao
-import dev.olog.data.db.last.played.LastPlayedPodcastAlbumDao
-import dev.olog.data.db.last.played.LastPlayedPodcastArtistDao
 import dev.olog.data.db.lastfm.LastFmDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.OfflineLyricsDao
-import dev.olog.data.db.most.played.FolderMostPlayedDao
-import dev.olog.data.db.most.played.GenreMostPlayedDao
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
 import dev.olog.data.db.playlist.PlaylistDao
 import dev.olog.data.db.playlist.PodcastPlaylistDao
-import dev.olog.data.db.podcast.PodcastPositionDao
 import dev.olog.data.db.queue.PlayingQueueDao
 import dev.olog.data.db.recent.search.RecentSearchesDao
 
@@ -79,43 +72,8 @@ class DatabaseModule {
     }
 
     @Provides
-    internal fun provideLastPlayedAlbumsDao(db: AppDatabase): LastPlayedAlbumDao {
-        return db.lastPlayedAlbumDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedPodcastAlbumsDao(db: AppDatabase): LastPlayedPodcastAlbumDao {
-        return db.lastPlayedPodcastAlbumDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedArtistsDao(db: AppDatabase): LastPlayedArtistDao {
-        return db.lastPlayedArtistDao()
-    }
-
-    @Provides
-    internal fun provideLastPlayedPodcastArtistsDao(db: AppDatabase): LastPlayedPodcastArtistDao {
-        return db.lastPlayedPodcastArtistDao()
-    }
-
-    @Provides
-    internal fun provideFolderMostPlayedDao(db: AppDatabase): FolderMostPlayedDao {
-        return db.folderMostPlayedDao()
-    }
-
-    @Provides
     internal fun providePlaylistMostPlayedDao(db: AppDatabase): PlaylistMostPlayedDao {
         return db.playlistMostPlayedDao()
-    }
-
-    @Provides
-    internal fun provideGenreMostPlayedDao(db: AppDatabase): GenreMostPlayedDao {
-        return db.genreMostPlayedDao()
-    }
-
-    @Provides
-    internal fun providePodcastPositionDao(db: AppDatabase): PodcastPositionDao {
-        return db.podcastPositionDao()
     }
 
 }

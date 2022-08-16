@@ -5,7 +5,7 @@ import dev.olog.core.entity.favorite.FavoriteType
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class FavoriteDao {
+abstract class FavoriteDao {
 
     @Query("SELECT songId FROM favorite_songs")
     abstract fun getAllTracksImpl(): List<Long>

@@ -124,9 +124,7 @@ class DetailFragment : BaseFragment(),
             onRecentlyAddedHeaderClick = { featureDetailNavigator.toRecentlyAdded(requireActivity(), mediaId) },
             onRelatedArtistsHeaderClick = { featureDetailNavigator.toRelatedArtists(requireActivity(), mediaId) },
             onItemClick = { mediaId ->
-                viewModel.detailSortDataUseCase(mediaId) {
-                    mediaProvider.playFromMediaId(mediaId, viewModel.getFilter(), it)
-                }
+                mediaProvider.playFromMediaId(mediaId, viewModel.getFilter())
             },
             onItemLongClick = { view, mediaId ->
                 featureMainPopupNavigator.toItemDialog(view, mediaId)

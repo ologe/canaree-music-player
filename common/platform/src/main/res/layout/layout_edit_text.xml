@@ -15,7 +15,7 @@
         tools:hint="Hint"
         android:layout_marginStart="16dp"
         app:endIconMode="clear_text"
-        app:endIconDrawable="@drawable/vd_clear">
+        app:endIconDrawable="@drawable/temp_vd_clear">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"

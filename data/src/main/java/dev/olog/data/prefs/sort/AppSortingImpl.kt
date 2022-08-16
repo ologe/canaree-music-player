@@ -2,13 +2,15 @@ package dev.olog.data.prefs.sort
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortDirection
+import dev.olog.core.entity.sort.Sort
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.Migration
 import javax.inject.Inject
 
+@Migration
 internal class AppSortingImpl @Inject constructor(
     private val preferences: SharedPreferences,
     private val detailSortingHelper: DetailSortingHelper
@@ -27,54 +29,54 @@ internal class AppSortingImpl @Inject constructor(
         private const val ALL_ARTISTS_SORT_ARRANGING = "$TAG.ALL_ARTISTS_SORT_ARRANGING"
     }
 
-    override fun getAllTracksSort(): SortEntity {
+    override fun getAllTracksSort(): Sort {
         val sort = preferences.getInt(ALL_SONGS_SORT_ORDER, SortType.TITLE.ordinal)
         val arranging =
-            preferences.getInt(ALL_SONGS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+            preferences.getInt(ALL_SONGS_SORT_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[sort],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getAllAlbumsSort(): SortEntity {
+    override fun getAllAlbumsSort(): Sort {
         val sort = preferences.getInt(ALL_ALBUMS_SORT_ORDER, SortType.TITLE.ordinal)
         val arranging =
-            preferences.getInt(ALL_ALBUMS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+            preferences.getInt(ALL_ALBUMS_SORT_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[sort],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun getAllArtistsSort(): SortEntity {
+    override fun getAllArtistsSort(): Sort {
         val sort = preferences.getInt(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal)
         val arranging =
-            preferences.getInt(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return SortEntity(
+            preferences.getInt(ALL_ARTISTS_SORT_ARRANGING, SortDirection.ASCENDING.ordinal)
+        return Sort(
             SortType.values()[sort],
-            SortArranging.values()[arranging]
+            SortDirection.values()[arranging]
         )
     }
 
-    override fun setAllTracksSort(sortType: SortEntity) {
+    override fun setAllTracksSort(sortType: Sort) {
         preferences.edit {
             putInt(ALL_SONGS_SORT_ORDER, sortType.type.ordinal)
-            putInt(ALL_SONGS_SORT_ARRANGING, sortType.arranging.ordinal)
+            putInt(ALL_SONGS_SORT_ARRANGING, sortType.direction.ordinal)
         }
     }
 
-    override fun setAllAlbumsSort(sortType: SortEntity) {
+    override fun setAllAlbumsSort(sortType: Sort) {
         preferences.edit {
             putInt(ALL_ALBUMS_SORT_ORDER, sortType.type.ordinal)
-            putInt(ALL_ALBUMS_SORT_ARRANGING, sortType.arranging.ordinal)
+            putInt(ALL_ALBUMS_SORT_ARRANGING, sortType.direction.ordinal)
         }
     }
 
-    override fun setAllArtistsSort(sortType: SortEntity) {
+    override fun setAllArtistsSort(sortType: Sort) {
         preferences.edit {
             putInt(ALL_ARTISTS_SORT_ORDER, sortType.type.ordinal)
-            putInt(ALL_ARTISTS_SORT_ARRANGING, sortType.arranging.ordinal)
+            putInt(ALL_ARTISTS_SORT_ARRANGING, sortType.direction.ordinal)
         }
     }
 

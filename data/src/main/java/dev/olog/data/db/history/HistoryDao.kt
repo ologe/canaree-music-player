@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class HistoryDao {
+abstract class HistoryDao {
 
     companion object {
         private const val HISTORY_LIMIT = 100

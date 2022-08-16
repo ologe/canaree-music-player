@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class PodcastPlaylistDao {
+abstract class PodcastPlaylistDao {
 
     @Query("""
         SELECT playlist.*, count(*) as size

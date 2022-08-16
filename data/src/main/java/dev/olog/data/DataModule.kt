@@ -4,19 +4,23 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.FavoriteGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
-import dev.olog.data.repository.*
+import dev.olog.data.repository.EqualizerRepository
+import dev.olog.data.repository.FavoriteRepository
+import dev.olog.data.repository.OfflineLyricsRepository
+import dev.olog.data.repository.PlayingQueueRepository
+import dev.olog.data.repository.RecentSearchesRepository
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
-import dev.olog.data.repository.podcast.PodcastAlbumRepository
-import dev.olog.data.repository.podcast.PodcastArtistRepository
+import dev.olog.data.podcast.album.PodcastAlbumRepository
+import dev.olog.data.podcast.artist.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
-import dev.olog.data.repository.podcast.PodcastRepository
-import dev.olog.data.repository.track.*
 import dev.olog.feature.equalizer.api.EqualizerGateway
 import javax.inject.Singleton
 
@@ -24,41 +28,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
 
-
-    // tracks
-
-    @Binds
-    @Singleton
-    internal abstract fun provideFolderRepository(repository: FolderRepository): FolderGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideSongRepository(repository: SongRepository): SongGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideAlbumRepository(repository: AlbumRepository): AlbumGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideArtistRepository(repository: ArtistRepository): ArtistGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
-
     // podcasts
     @Binds
     @Singleton
     internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository): PodcastPlaylistGateway
 
-    @Binds
-    @Singleton
-    internal abstract fun providePodcsatRepository(repository: PodcastRepository): PodcastGateway
     @Binds
     @Singleton
     internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository): PodcastAlbumGateway
@@ -87,10 +61,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun provideFolderNavigator(repository: FolderNavigatorRepository): FolderNavigatorGateway
 
     @Binds
     @Singleton

@@ -115,8 +115,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             setupNestedList = this,
             onItemClick = { item ->
                 if (item is DisplayableTrack){
-                    val sort = viewModel.getAllTracksSortOrder(item.mediaId)
-                    mediaProvider.playFromMediaId(item.mediaId, null, sort)
+                    mediaProvider.playFromMediaId(item.mediaId, null)
                 } else if (item is DisplayableAlbum){
                     featureDetailNavigator.toDetail(requireActivity(), item.mediaId)
                 }

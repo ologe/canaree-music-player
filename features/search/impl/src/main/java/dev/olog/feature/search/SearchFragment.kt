@@ -59,7 +59,7 @@ class SearchFragment : Fragment() {
 //                    featureMainNavigator.toMainPopup(requireActivity(), it, null)
                 },
                 onPlayableClick = { mediaId ->
-                    mediaProvider.playFromMediaId(mediaId, null, null)
+                    mediaProvider.playFromMediaId(mediaId, null)
                     viewModel.insertToRecent(mediaId)
                 },
                 onNonPlayableClick = { mediaId ->

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class PlaylistMostPlayedDao {
+abstract class PlaylistMostPlayedDao {
 
     @Query(
         """

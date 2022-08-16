@@ -1,7 +1,6 @@
 package dev.olog.feature.media.api
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
 import dev.olog.feature.media.api.model.PlayerItem
 import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.feature.media.api.model.PlayerPlaybackState
@@ -32,7 +31,7 @@ internal object DummyMediaProvider : MediaProvider {
         return emptyFlow()
     }
 
-    override fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?) {
+    override fun playFromMediaId(mediaId: MediaId, filter: String?) {
         
     }
 

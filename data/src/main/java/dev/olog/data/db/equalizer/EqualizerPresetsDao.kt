@@ -4,7 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class EqualizerPresetsDao {
+abstract class EqualizerPresetsDao {
 
     @Query(
         """
