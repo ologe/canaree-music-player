@@ -1,5 +1,5 @@
 [versions]
-gradle = "7.4.0-alpha08"
+gradle = "7.4.0-alpha10"
 kotlin = "1.7.10"
 kotlin-ksp = "1.7.10-1.0.6"
 gms = "4.3.10"
