@@ -24,7 +24,7 @@ import localization.R
 
 @Suppress("FunctionName")
 fun LazyListScope.SearchList(
-    data: SearchState.Items,
+    state: SearchState.Items,
     onPlayableClick: (MediaId) -> Unit,
     onNonPlayableClick: (MediaId) -> Unit,
     onItemLongClick: (MediaId) -> Unit,
@@ -33,40 +33,40 @@ fun LazyListScope.SearchList(
 ) {
     horizontalList(
         header = R.string.common_playlists,
-        items = data.playlists,
+        items = state.playlists,
         onItemClick = onNonPlayableClick,
         onItemLongClick = onItemLongClick,
     )
     horizontalList(
         header = R.string.common_genres,
-        items = data.genres,
+        items = state.genres,
         onItemClick = onNonPlayableClick,
         onItemLongClick = onItemLongClick,
     )
     horizontalList(
         header = R.string.common_artists,
-        items = data.artists,
+        items = state.artists,
         onItemClick = onNonPlayableClick,
         onItemLongClick = onItemLongClick,
     )
     horizontalList(
         header = R.string.common_albums,
-        items = data.albums,
+        items = state.albums,
         onItemClick = onNonPlayableClick,
         onItemLongClick = onItemLongClick,
     )
 
-    if (data.tracks.isNotEmpty()) {
+    if (state.tracks.isNotEmpty()) {
         item {
             SearchHeader(
                 stringRes = R.string.common_tracks,
-                itemsCount = data.tracks.size,
+                itemsCount = state.tracks.size,
             )
         }
     }
 
     items(
-        items = data.tracks,
+        items = state.tracks,
         key = { item -> item.mediaId }
     ) { item ->
 

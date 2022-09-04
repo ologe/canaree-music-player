@@ -43,11 +43,11 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()) {
-            val data = viewModel.data.collectAsState(initial = null).value ?: return@ComposeView
+            val state = viewModel.state.collectAsState(initial = null).value ?: return@ComposeView
             val query by viewModel.query.collectAsState()
 
             SearchContent(
-                data = data,
+                state = state,
                 query = query,
                 onQueryChange = viewModel::updateQuery,
                 onQueryClear = viewModel::clearQuery,

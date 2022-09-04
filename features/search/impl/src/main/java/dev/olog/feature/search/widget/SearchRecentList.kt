@@ -21,7 +21,7 @@ import localization.R
 
 @Suppress("FunctionName")
 fun LazyListScope.SearchRecentList(
-    data: SearchState.Recents,
+    state: SearchState.Recents,
     onPlayableClick: (MediaId) -> Unit,
     onNonPlayableClick: (MediaId) -> Unit,
     onItemLongClick: (MediaId) -> Unit,
@@ -34,7 +34,7 @@ fun LazyListScope.SearchRecentList(
     }
 
     items(
-        items = data.items,
+        items = state.items,
         key = { it.mediaId }
     ) { item ->
         CircularSwipeToDismiss(

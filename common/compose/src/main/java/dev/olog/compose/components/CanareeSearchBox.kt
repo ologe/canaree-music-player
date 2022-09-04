@@ -26,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -50,6 +52,7 @@ fun CanareeSearchBox(
     value: String,
     hint: String,
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester? = null,
     onValueChange: (String) -> Unit,
     onClearTextClick: () -> Unit,
 ) {
@@ -77,7 +80,8 @@ fun CanareeSearchBox(
         BasicTextField(
             modifier = Modifier
                 .weight(1f)
-                .onFocusChanged { hasFocus = it.hasFocus },
+                .onFocusChanged { hasFocus = it.hasFocus }
+                .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier),
             value = value,
             onValueChange = onValueChange,
             singleLine = true,

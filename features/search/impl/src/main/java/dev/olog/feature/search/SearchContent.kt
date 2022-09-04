@@ -1,24 +1,30 @@
 package dev.olog.feature.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
+import dev.olog.compose.CanareeIcons
 import dev.olog.compose.components.CanareeBackground
+import dev.olog.compose.components.CanareeEmptyState
 import dev.olog.compose.components.CanareeFab
 import dev.olog.compose.components.CanareeIconButton
-import dev.olog.compose.CanareeIcons
-import dev.olog.compose.components.CanareeToolbar
-import dev.olog.compose.components.CanareeEmptyState
 import dev.olog.compose.components.CanareeSearchBox
+import dev.olog.compose.components.CanareeToolbar
 import dev.olog.compose.components.StatusBar
 import dev.olog.compose.modifier.elevation
 import dev.olog.core.MediaId
@@ -30,7 +36,7 @@ import localization.R
 
 @Composable
 fun SearchContent(
-    data: SearchState,
+    state: SearchState,
     query: String,
     onQueryChange: (String) -> Unit,
     onQueryClear: () -> Unit,
@@ -47,10 +53,15 @@ fun SearchContent(
     CanareeBackground(
         modifier = Modifier.fillMaxSize(),
     ) {
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val (statusBar, toolbar, search, list, fab) = createRefs()
+        ConstraintLayout {
+            val (
+                statusBar,
+                toolbar,
+                search,
+                list,
+                fab,
+                emptyState,
+            ) = createRefs()
 
             // status bar
             StatusBar(
@@ -69,11 +80,14 @@ fun SearchContent(
                 }
             )
 
+            val focusRequester = remember { FocusRequester() }
+
             // search box
             CanareeSearchBox(
                 value = query,
                 hint = stringResource(id = R.string.search_hint),
                 onValueChange = onQueryChange,
+                focusRequester = focusRequester,
                 modifier = Modifier
                     .elevation(
                         elevation = dimensionResource(id = dev.olog.ui.R.dimen.toolbar_elevation),
@@ -89,9 +103,9 @@ fun SearchContent(
             LazyColumn(
                 modifier = Modifier.constrainAs(list) { top.linkTo(search.bottom) },
             ) {
-                when (data) {
+                when (state) {
                     is SearchState.Items -> SearchList(
-                        data = data,
+                        state = state,
                         onPlayableClick = onPlayableClick,
                         onNonPlayableClick = onNonPlayableClick,
                         onItemLongClick = onItemLongClick,
@@ -99,7 +113,7 @@ fun SearchContent(
                         onDelete = onDelete,
                     )
                     is SearchState.Recents -> SearchRecentList(
-                        data = data,
+                        state = state,
                         onPlayableClick = onPlayableClick,
                         onNonPlayableClick = onNonPlayableClick,
                         onItemLongClick = onItemLongClick,
@@ -107,21 +121,31 @@ fun SearchContent(
                         onClearAllClick = onClearAllClick,
                         onPlayNext = onPlayNext,
                     )
-                    // todo move out of lazy column, position is bugged
-                    is SearchState.NoRecents -> item {
-                        CanareeEmptyState(
-                            text = stringResource(R.string.common_no_results), // todo improve text/design
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                    // todo move out of lazy column, position is bugged
-                    is SearchState.NoResults -> item {
-                        CanareeEmptyState(
-                            text = stringResource(R.string.common_no_results), // todo improve text/design
-                            modifier = Modifier.fillMaxSize()
-                        )
+                    is SearchState.NoRecents,
+                    is SearchState.NoResults -> {
                     }
                 }.exhaustive
+            }
+
+            val text = when (state) {
+                is SearchState.Items -> ""
+                is SearchState.Recents -> ""
+                is SearchState.NoRecents -> stringResource(R.string.common_no_results) // todo improve text/design
+                is SearchState.NoResults -> stringResource(R.string.common_no_results) // todo improve text/design
+            }
+            AnimatedVisibility(
+                visible = text.isNotBlank(),
+                enter = fadeIn(),
+                exit = fadeOut(animationSpec = snap())
+            ) {
+                CanareeEmptyState(
+                    text = text,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .constrainAs(emptyState) {
+                            centerVerticallyTo(list)
+                        }
+                )
             }
 
             val inputService = LocalTextInputService.current
@@ -129,7 +153,7 @@ fun SearchContent(
             CanareeFab(
                 imageVector = CanareeIcons.Keyboard,
                 onClick = {
-                    // todo not working if none textfield was focused
+                    focusRequester.requestFocus()
                     inputService?.showSoftwareKeyboard()
                 },
                 modifier = Modifier

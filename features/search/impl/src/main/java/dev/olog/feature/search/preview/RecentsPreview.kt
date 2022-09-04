@@ -14,7 +14,7 @@ import dev.olog.feature.search.model.SearchState
 private fun Preview() {
     CanareeTheme {
         SearchContent(
-            data = SearchState.Recents(
+            state = SearchState.Recents(
                 items = listOf(
                     MediaIdCategory.FOLDERS,
                     MediaIdCategory.PLAYLISTS,

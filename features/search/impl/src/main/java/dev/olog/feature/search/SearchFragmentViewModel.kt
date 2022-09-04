@@ -21,7 +21,7 @@ class SearchFragmentViewModel @Inject constructor(
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
 ) : ViewModel() {
 
-    val data: Flow<SearchState>
+    val state: Flow<SearchState>
         get() = dataProvider.observe()
 
     val query: StateFlow<String>

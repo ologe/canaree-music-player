@@ -30,7 +30,7 @@ private fun Preview() {
 
     CanareeTheme {
         SearchContent(
-            data = SearchState.Items(
+            state = SearchState.Items(
                 playlists = createData(MediaIdCategory.PLAYLISTS),
                 albums = createData(MediaIdCategory.ALBUMS),
                 artists = createData(MediaIdCategory.ARTISTS),
