@@ -1,5 +1,6 @@
 package dev.olog.data.song.folder
 
+import dev.olog.core.entity.FolderContent
 import dev.olog.core.entity.sort.AllFoldersSort
 import dev.olog.core.entity.sort.FolderSongsSort
 import dev.olog.core.entity.track.Artist
@@ -11,6 +12,8 @@ import dev.olog.data.mediastore.song.folder.toDomain
 import dev.olog.data.mediastore.song.toDomain
 import dev.olog.data.sort.SortRepository
 import dev.olog.shared.extension.mapListItem
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -106,5 +109,14 @@ internal class FolderRepository @Inject constructor(
 
     override fun getSongSort(): FolderSongsSort {
         return sortRepository.getFolderSongsSort()
+    }
+
+    override suspend fun getFolderContent(directory: String): FolderContent = coroutineScope {
+        val subFoldersDeferred = async { folderDao.getDirectorySubFolders(directory) }
+        val songsDeferred = async { folderDao.getDirectorySongs(directory) }
+        FolderContent(
+            subFolders = subFoldersDeferred.await().map { it.toDomain() },
+            songs = songsDeferred.await().map { it.toDomain() },
+        )
     }
 }

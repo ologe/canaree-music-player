@@ -12,6 +12,7 @@ import dev.olog.feature.library.api.LibraryPage
 import dev.olog.feature.main.api.BottomNavigationPage
 import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.api.HasBottomNavigation
+import dev.olog.feature.main.api.MainPopupDialogData
 import dev.olog.platform.fragment.BaseFragment
 import dev.olog.platform.navigation.FragmentTagFactory
 import dev.olog.shared.extension.argument
@@ -102,7 +103,13 @@ class LibraryFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener { featureMainNavigationPage.toMainPopup(requireActivity(), it, createMediaId()) }
+        more.setOnClickListener { view ->
+            featureMainNavigationPage.toMainPopup(
+                activity = requireActivity(),
+                anchor = view,
+                data = createMediaId()?.let { MainPopupDialogData.Library(it) } ?: return@setOnClickListener
+            )
+        }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }

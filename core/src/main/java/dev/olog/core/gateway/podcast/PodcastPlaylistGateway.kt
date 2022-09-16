@@ -1,32 +1,26 @@
 package dev.olog.core.gateway.podcast
 
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.base.*
+import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.track.PlaylistOperations
+import kotlinx.coroutines.flow.Flow
 
-interface PodcastPlaylistGateway :
-    BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id>,
-    HasSiblings<Playlist, Id>,
-    HasRelatedArtists<Id> {
+interface PodcastPlaylistGateway : PlaylistOperations {
+
+    fun getAll(): List<Playlist>
+    fun observeAll(): Flow<List<Playlist>>
+
+    fun getByParam(id: Long): Playlist?
+    fun observeByParam(id: Long): Flow<Playlist?>
+
+    fun getTrackListByParam(id: Long): List<Song>
+    fun observeTrackListByParam(id: Long): Flow<List<Song>>
+
+    fun observeSiblings(id: Long): Flow<List<Playlist>>
+
+    fun observeRelatedArtists(id: Long): Flow<List<Artist>>
 
     fun getAllAutoPlaylists(): List<Playlist>
-
-    suspend fun createPlaylist(playlistName: String): Long
-
-    suspend fun renamePlaylist(playlistId: Id, newTitle: String)
-
-    suspend fun deletePlaylist(playlistId: Id)
-
-    suspend fun clearPlaylist(playlistId: Id)
-
-    suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>)
-
-    suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long)
-
-    suspend fun removeDuplicated(playlistId: Id)
-
-    suspend fun insertPodcastToHistory(podcastId: Id)
-
-    suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>)
 
 }

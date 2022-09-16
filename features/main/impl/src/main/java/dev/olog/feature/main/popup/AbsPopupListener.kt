@@ -41,18 +41,18 @@ abstract class AbsPopupListener(
     @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(
         context: Context,
-        itemId: Int,
+        itemId: String,
         mediaId: MediaId,
         listSize: Int,
         title: String
     ) {
-        playlists.firstOrNull { it.id == itemId.toLong() }?.run {
+        playlists.firstOrNull { it.id == itemId }?.run {
             GlobalScope.launch {
                 try {
                     addToPlaylistUseCase(this@run, mediaId)
                     createSuccessMessage(
                         context,
-                        itemId.toLong(),
+                        itemId,
                         mediaId,
                         listSize,
                         title
@@ -66,7 +66,7 @@ abstract class AbsPopupListener(
 
     private suspend fun createSuccessMessage(
         context: Context,
-        playlistId: Long,
+        playlistId: String,
         mediaId: MediaId,
         listSize: Int,
         title: String

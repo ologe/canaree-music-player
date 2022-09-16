@@ -5,6 +5,7 @@ import android.os.Bundle
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
@@ -31,6 +32,7 @@ internal class QueueManager @Inject constructor(
     private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
     private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway,
     private val genreGateway: GenreGateway,
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase
@@ -161,7 +163,9 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity? {
-        val song = songGateway.getByUri(uri) ?: return null
+        val song = songGateway.getByUri(uri)
+            ?: podcastGateway.getByUri(uri)
+            ?: return null
         val mediaEntity = song.toMediaEntity(0, song.getMediaId())
         val songList = listOf(mediaEntity)
 

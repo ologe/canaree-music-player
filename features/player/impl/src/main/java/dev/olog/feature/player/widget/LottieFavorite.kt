@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.platform.HasSlidingPanel
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.extension.findInContext
@@ -21,7 +20,7 @@ class LottieFavorite(
     private val slidingPanel by lazyFast { context.findInContext<HasSlidingPanel>().getSlidingPanel() }
     private var isSlidingPanelExpanded = false
 
-    private var state: FavoriteEnum? = null
+    private var state: Boolean? = null
 
     init {
         if (!isInEditMode){
@@ -72,8 +71,8 @@ class LottieFavorite(
     }
 
     fun toggleFavorite(){
-        this.state = this.state?.reverse()
-        animateFavorite(this.state == FavoriteEnum.FAVORITE)
+        this.state = this.state?.not()
+        animateFavorite(this.state ?: return)
     }
 
     private fun animateFavorite(toFavorite: Boolean) {
@@ -86,16 +85,12 @@ class LottieFavorite(
         }
     }
 
-    fun onNextState(favoriteEnum: FavoriteEnum) {
-        if (this.state == favoriteEnum) {
+    fun onNextState(isFavourite: Boolean) {
+        if (this.state == isFavourite) {
             return
         }
-        this.state = FavoriteEnum.valueOf(favoriteEnum.name)
 
-        when (favoriteEnum) {
-            FavoriteEnum.FAVORITE -> toggleFavorite(true)
-            FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
-        }
+        toggleFavorite(isFavourite)
     }
 
     private val listener = object : BottomSheetBehavior.BottomSheetCallback() {

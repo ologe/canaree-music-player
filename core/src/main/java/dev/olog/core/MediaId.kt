@@ -17,7 +17,6 @@ enum class MediaIdCategory {
     PODCASTS_ARTISTS,
 
     HEADER,
-    PLAYING_QUEUE
 }
 
 @Parcelize
@@ -37,9 +36,6 @@ class MediaId private constructor(
         fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
         }
-
-        @JvmStatic
-        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
 
         @JvmStatic
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
@@ -159,8 +155,6 @@ class MediaId private constructor(
     val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
 
     val isAnyArtist : Boolean = isArtist || isPodcastArtist
-
-    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 
     fun assertPlaylist(){
         require(isPlaylist || isPodcastPlaylist) {

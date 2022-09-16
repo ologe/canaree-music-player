@@ -13,7 +13,7 @@ import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.repository.EqualizerRepository
-import dev.olog.data.repository.FavoriteRepository
+import dev.olog.data.favourites.FavoriteRepository
 import dev.olog.data.repository.OfflineLyricsRepository
 import dev.olog.data.repository.PlayingQueueRepository
 import dev.olog.data.repository.RecentSearchesRepository

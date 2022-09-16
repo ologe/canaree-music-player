@@ -5,7 +5,6 @@ import dev.olog.core.entity.sort.FolderSortType
 import dev.olog.core.entity.sort.SortDirection
 import dev.olog.data.MediaStoreTest
 import dev.olog.data.emptyMediaStoreAudioEntity
-import dev.olog.data.emptyMediaStoreFoldersView
 import dev.olog.data.emptyMediaStoreFoldersViewSorted
 import dev.olog.data.sort.SortRepository
 import kotlinx.coroutines.test.runTest
@@ -16,7 +15,7 @@ class MediaStoreFoldersViewDaoTest : MediaStoreTest(isPodcastTest = false) {
 
     private val mediaStoreDao = db.mediaStoreAudioDao()
     private val sortRepository = SortRepository(db.sortDao())
-    private val sut = db.mediaStoreFoldersDao()
+    private val sut = db.mediaStoreFoldersViewDao()
 
     @Test
     fun testGetAll() = runTest {

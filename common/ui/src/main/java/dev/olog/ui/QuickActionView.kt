@@ -64,7 +64,7 @@ class QuickActionView (
     override fun onClick(v: View?) {
         val mediaProvider = context.findInContext<MediaProvider>()
         when (hasQuickAction.getQuickAction()) {
-            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
+            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {
             }

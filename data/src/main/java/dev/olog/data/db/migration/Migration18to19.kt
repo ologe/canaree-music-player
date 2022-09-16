@@ -3,6 +3,7 @@ package dev.olog.data.db.migration
 import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import dev.olog.data.playlist.persister.PlaylistPersister
 import dev.olog.data.sort.db.SORT_DIRECTION_ASC
 import dev.olog.data.sort.db.SORT_DIRECTION_DESC
 import dev.olog.data.sort.db.SORT_TABLE_ALBUMS
@@ -24,6 +25,7 @@ class Migration18to19 : Migration(18, 19) {
         // mediastore
         createMediaStoreAudioTable(database)
         createMediaStoreGenreTable(database)
+        createMediaStorePlaylistTable(database)
 
         // views
         createSongsView(database)
@@ -31,6 +33,7 @@ class Migration18to19 : Migration(18, 19) {
         createAlbumsView(database)
         createFoldersView(database)
         createGenresView(database)
+        createPlaylistsView(database)
 
         createPodcastsView(database)
         createPodcastArtistsView(database)
@@ -38,6 +41,8 @@ class Migration18to19 : Migration(18, 19) {
 
         createBlacklistTables(database)
         createSortTables(database)
+
+        migrateFavourites(database)
     }
 
     private fun createMediaStoreAudioTable(database: SupportSQLiteDatabase) {
@@ -93,6 +98,28 @@ class Migration18to19 : Migration(18, 19) {
 
         database.execSQL("CREATE INDEX IF NOT EXISTS `index_mediastore_genre_track_genreId` ON `mediastore_genre_track` (`genreId`)")
         database.execSQL("CREATE INDEX IF NOT EXISTS `index_mediastore_genre_track_songId` ON `mediastore_genre_track` (`songId`)")
+    }
+
+    private fun createMediaStorePlaylistTable(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS `mediastore_playlist` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `path` TEXT NOT NULL, PRIMARY KEY(`id`))
+        """.trimIndent())
+        database.execSQL("""
+            CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_id` ON `mediastore_playlist` (`id`)
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS `mediastore_playlist_track` (`playlistId` TEXT NOT NULL, `songId` TEXT NOT NULL, `playOrder` INTEGER NOT NULL, PRIMARY KEY(`playlistId`, `songId`))
+        """.trimIndent())
+        database.execSQL("""
+            CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_track_playlistId` ON `mediastore_playlist_track` (`playlistId`)
+        """.trimIndent())
+        database.execSQL("""
+            CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_track_songId` ON `mediastore_playlist_track` (`songId`)
+        """.trimIndent())
+
+        // todo move playlists to new table and persist
+        // todo drop old tables
     }
 
     private fun createSongsView(database: SupportSQLiteDatabase) {
@@ -253,6 +280,26 @@ class Migration18to19 : Migration(18, 19) {
         database.execSQL("DROP TABLE most_played_genre")
     }
 
+    private fun createPlaylistsView(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE VIEW `playlists_view` AS SELECT mediastore_playlist.*, COUNT(*) AS songs 
+            FROM mediastore_playlist 
+                JOIN mediastore_playlist_track ON mediastore_playlist.id = mediastore_playlist_track.playlistId
+                JOIN songs_view ON mediastore_playlist_track.songId = songs_view.id 
+            GROUP BY mediastore_playlist.id
+        """.trimIndent())
+
+        database.execSQL("""
+            CREATE VIEW `playlists_view_sorted` AS SELECT playlists_view.* 
+            FROM playlists_view LEFT JOIN sort on TRUE
+            WHERE sort.tableName = 'playlists'
+            ORDER BY
+            -- title
+            CASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE UNICODE ASC,
+            CASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE UNICODE DESC
+        """.trimIndent())
+    }
+
     private fun createBlacklistTables(database: SupportSQLiteDatabase) {
         database.execSQL("""
             CREATE TABLE IF NOT EXISTS blacklist(
@@ -354,6 +401,29 @@ class Migration18to19 : Migration(18, 19) {
             CASE WHEN sort.direction = '$SORT_DIRECTION_ASC' THEN lower(title) END COLLATE UNICODE ASC,
             CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) END COLLATE UNICODE DESC
         """.trimIndent())
+    }
+
+    private fun migrateFavourites(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS favourites(
+                id TEXT NOT NULL PRIMARY KEY
+            )
+        """.trimIndent())
+        database.execSQL("CREATE INDEX IF NOT EXISTS `index_favourites_id` ON `favourites` (`id`)")
+
+        database.execSQL("""
+            INSERT OR REPLACE INTO favourites(id)
+            SELECT songId FROM favorite_songs
+        """.trimIndent())
+
+        database.execSQL("DROP TABLE favorite_songs")
+
+        database.execSQL("""
+            INSERT OR REPLACE INTO favourites(id)
+            SELECT podcastId FROM favorite_podcast_songs
+        """.trimIndent())
+
+        database.execSQL("DROP TABLE favorite_podcast_songs")
     }
 
 }

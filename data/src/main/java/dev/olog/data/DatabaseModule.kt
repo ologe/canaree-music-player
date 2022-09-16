@@ -6,13 +6,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.equalizer.EqualizerPresetsDao
-import dev.olog.data.db.favorite.FavoriteDao
+import dev.olog.data.favourites.FavoriteDao
 import dev.olog.data.db.history.HistoryDao
 import dev.olog.data.db.lastfm.LastFmDao
 import dev.olog.data.db.lyrics.LyricsSyncAdjustmentDao
 import dev.olog.data.db.lyrics.OfflineLyricsDao
 import dev.olog.data.db.most.played.PlaylistMostPlayedDao
-import dev.olog.data.db.playlist.PlaylistDao
+import dev.olog.data.song.playlist.LegacyPlaylistDao
 import dev.olog.data.db.playlist.PodcastPlaylistDao
 import dev.olog.data.db.queue.PlayingQueueDao
 import dev.olog.data.db.recent.search.RecentSearchesDao
@@ -52,7 +52,7 @@ class DatabaseModule {
     }
 
     @Provides
-    internal fun providePlaylistDao(db: AppDatabase): PlaylistDao {
+    internal fun providePlaylistDao(db: AppDatabase): LegacyPlaylistDao {
         return db.playlistDao()
     }
 

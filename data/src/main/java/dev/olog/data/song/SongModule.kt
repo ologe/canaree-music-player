@@ -13,10 +13,10 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.song.album.AlbumRepository
+import dev.olog.data.song.artist.ArtistRepository
 import dev.olog.data.song.folder.FolderRepository
 import dev.olog.data.song.genre.GenreRepository
-import dev.olog.data.repository.track.PlaylistRepository
-import dev.olog.data.song.artist.ArtistRepository
+import dev.olog.data.song.playlist.PlaylistRepository
 import javax.inject.Singleton
 
 @Module
@@ -26,10 +26,6 @@ internal abstract class SongModule {
     @Binds
     @Singleton
     internal abstract fun provideFolderRepository(repository: FolderRepository): FolderGateway
-
-    @Binds
-    @Singleton
-    internal abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
 
     @Binds
     @Singleton
@@ -47,6 +43,10 @@ internal abstract class SongModule {
     @Singleton
     internal abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
 
+    @Binds
+    @Singleton
+    internal abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
+
     companion object {
 
         @Provides
@@ -59,6 +59,8 @@ internal abstract class SongModule {
         fun provideFolderDao(db: AppDatabase) = db.folderDao()
         @Provides
         fun provideGenreDao(db: AppDatabase) = db.genreDao()
+        @Provides
+        fun providePlaylistDao(db: AppDatabase) = db.playlistDao()
     }
 
 }

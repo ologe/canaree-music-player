@@ -46,7 +46,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            onItemClick = { mediaProvider.playFromMediaId(it, null, null) },
+            onItemClick = { mediaProvider.playFromMediaId(it, null) },
             onItemLongClick = { view, mediaId ->
                 featureMainPopupNavigator.toItemDialog(view, mediaId)
             },

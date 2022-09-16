@@ -113,4 +113,16 @@ abstract class HistoryDao {
         insertPodcastImpl(PodcastHistoryEntity(podcastId = id))
     }
 
+    @Query("SELECT COUNT(*) FROM song_history")
+    abstract fun countAllSongs(): Int
+
+    @Query("SELECT COUNT(*) FROM podcast_song_history")
+    abstract fun countAllPodcasts(): Int
+
+    @Query("SELECT COUNT(*) FROM song_history")
+    abstract fun observeCountAllSongs(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM podcast_song_history")
+    abstract fun observeCountAllPodcasts(): Flow<Int>
+
 }

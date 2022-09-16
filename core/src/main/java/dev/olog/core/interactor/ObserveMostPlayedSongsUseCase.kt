@@ -22,7 +22,7 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
     override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
             MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId.categoryValue.toLong())
-            MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId)
+            MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId.categoryValue)
             MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId.categoryValue)
             else -> flowOf(listOf())
         }

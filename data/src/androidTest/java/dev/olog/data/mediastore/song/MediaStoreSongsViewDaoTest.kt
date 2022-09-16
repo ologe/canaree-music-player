@@ -14,7 +14,7 @@ class MediaStoreSongsViewDaoTest : MediaStoreTest(isPodcastTest = false) {
 
     private val mediaStoreDao = db.mediaStoreAudioDao()
     private val sortRepository = SortRepository(db.sortDao())
-    private val sut = db.mediaStoreSongDao()
+    private val sut = db.mediaStoreSongsViewDao()
 
     @Test
     fun testGetAll() = runTest {

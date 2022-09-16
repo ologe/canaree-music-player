@@ -65,13 +65,11 @@ class EditItemPresenter @Inject constructor(
 
 
     fun updateArtist(info: UpdateArtistInfo) {
-        val albumArtist = if (info.albumArtist.isBlank()) info.name else info.albumArtist
         return updateMultipleTracksUseCase(
             UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
                 mapOf(
                     FieldKey.ARTIST to info.name,
-                    FieldKey.ALBUM_ARTIST to albumArtist
                 ),
                 info.isPodcast
             )

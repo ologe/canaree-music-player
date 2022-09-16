@@ -6,8 +6,12 @@ import dev.olog.core.AppInitializer
 import dev.olog.core.ApplicationScope
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.mediastore.song.genre.MediaStoreGenreDao
+import dev.olog.data.mediastore.song.playlist.MediaStorePlaylistDao
 import dev.olog.platform.permission.Permission
 import dev.olog.platform.permission.PermissionManager
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,6 +21,7 @@ class IndexedMediaStoreInitializer @Inject constructor(
     private val schedulers: Schedulers,
     private val mediaStoreAudioDao: MediaStoreAudioDao,
     private val mediaStoreGenreDao: MediaStoreGenreDao,
+    private val mediaStorePlaylistDao: MediaStorePlaylistDao,
     private val mediaStoreQuery: MediaStoreQuery,
     private val permissionManager: PermissionManager,
 ) : AppInitializer {
@@ -26,6 +31,7 @@ class IndexedMediaStoreInitializer @Inject constructor(
             permissionManager.awaitPermission(context, Permission.Storage)
             launch { populateAudio() }
             launch { populateGenres() }
+            launch { populatePlaylists() }
         }
     }
 
@@ -33,10 +39,22 @@ class IndexedMediaStoreInitializer @Inject constructor(
         mediaStoreAudioDao.replaceAll(mediaStoreQuery.queryAllAudio())
     }
 
-    private suspend fun populateGenres() {
+    private suspend fun populateGenres() = coroutineScope {
         val genres = mediaStoreQuery.queryAllGenres()
-        val songs = genres.flatMap { mediaStoreQuery.queryAllGenreSongs(it.id) }
+        val songs = genres
+            .map { async { mediaStoreQuery.queryAllGenreSongs(it.id) } }
+            .awaitAll()
+            .flatten()
         mediaStoreGenreDao.replaceAll(genres, songs)
+    }
+
+    private suspend fun populatePlaylists() = coroutineScope {
+        val playlists = mediaStoreQuery.queryAllPlaylists()
+        val songs = playlists
+            .map { async { mediaStoreQuery.queryAllPlaylistSongs(it.id) } }
+            .awaitAll()
+            .flatten()
+        mediaStorePlaylistDao.replaceAll(playlists, songs)
     }
 
 }

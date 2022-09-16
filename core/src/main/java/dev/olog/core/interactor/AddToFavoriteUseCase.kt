@@ -1,7 +1,6 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import javax.inject.Inject
@@ -12,21 +11,14 @@ class AddToFavoriteUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(param: Input) {
-        val mediaId = param.mediaId
-        val type = param.type
+    suspend operator fun invoke(mediaId: MediaId) {
         if (mediaId.isLeaf) {
             val songId = mediaId.leaf!!
-            return favoriteGateway.addSingle(type, songId)
+            return favoriteGateway.addSingle(songId)
         }
 
         val ids = getSongListByParamUseCase(mediaId).map { it.id }
-        return favoriteGateway.addGroup(type, ids)
+        return favoriteGateway.addGroup(ids)
     }
-
-    class Input(
-        val mediaId: MediaId,
-        val type: FavoriteType
-    )
 
 }

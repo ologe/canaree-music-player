@@ -1,7 +1,6 @@
 package dev.olog.feature.media.api
 
 import dev.olog.core.Resettable
-import dev.olog.core.entity.LastMetadata
 import kotlinx.coroutines.flow.Flow
 
 interface MusicPreferencesGateway : Resettable {
@@ -22,10 +21,6 @@ interface MusicPreferencesGateway : Resettable {
     fun observeSkipToNextVisibility(): Flow<Boolean>
 
     fun isMidnightMode() : Flow<Boolean>
-
-    fun getLastMetadata(): LastMetadata
-    fun setLastMetadata(metadata: LastMetadata)
-    fun observeLastMetadata(): Flow<LastMetadata>
 
     /**
      * in millis

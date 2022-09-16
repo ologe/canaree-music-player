@@ -73,15 +73,15 @@ class FolderDaoTest : DatabaseTest() {
     fun testGetByDirectory() = runTest {
         Assert.assertEquals(
             emptyMediaStoreFoldersView(path = "storage/dir 1", name = "dir 1", songs = 2),
-            sut.observeByDirectory("storage/dir 1").first(),
+            sut.getByDirectory("storage/dir 1"),
         )
         Assert.assertEquals(
             emptyMediaStoreFoldersView(path = "storage/dir 2", name = "dir 2", songs = 1),
-            sut.observeByDirectory("storage/dir 2").first(),
+            sut.getByDirectory("storage/dir 2"),
         )
         Assert.assertEquals(
             null,
-            sut.observeByDirectory("storage/dir 3").first(),
+            sut.getByDirectory("storage/dir 3"),
         )
     }
 
@@ -634,7 +634,7 @@ class FolderDaoTest : DatabaseTest() {
         )
 
         // add one less than needed
-        (0 until DataConstants.MIN_MOST_PLAYED - 1).forEach {
+        (0 until DataConstants.MIN_MOST_PLAYED_TIMES - 1).forEach {
             sut.insertMostPlayed("storage/dir 1", "id 1")
         }
 
@@ -651,7 +651,7 @@ class FolderDaoTest : DatabaseTest() {
         )
 
         // add another more
-        (0 until DataConstants.MIN_MOST_PLAYED * 2).forEach {
+        (0 until DataConstants.MIN_MOST_PLAYED_TIMES * 2).forEach {
             sut.insertMostPlayed("storage/dir 1", "id 2")
         }
 
@@ -736,6 +736,65 @@ class FolderDaoTest : DatabaseTest() {
         Assert.assertEquals(
             emptyList<MediaStoreSongsView>(),
             sut.observeRecentlyAddedSongs("missing dir").first(),
+        )
+    }
+
+    @Test
+    fun testGetDirectorySubFolders() = runTest {
+        mediaStoreDao.replaceAll(
+            listOf(
+                emptyMediaStoreAudioEntity(id = "1", directory = "/storage", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "2", directory = "/storage/dir 1", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "3", directory = "/storage/dir 2", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "4", directory = "/storage/dir 1/abc", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "5", directory = "/storage/dir 1/def", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "6", directory = "/storage 2", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "7", directory = "/storage 2/dir 10", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "8", directory = "/storage 2/dir 20", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "9", directory = "/storage 2/dir 10/aaa", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "10", directory = "/storage 2/dir 20/bbb", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "11", directory = "/storage 2/dir 20/zzz", isPodcast = false),
+                emptyMediaStoreAudioEntity(id = "12", directory = "/storage 2/dir 20/zzz", isPodcast = false),
+            )
+        )
+
+        Assert.assertEquals(
+            listOf(
+                emptyMediaStoreFoldersView(path = "/storage/dir 1", songs = 1),
+                emptyMediaStoreFoldersView(path = "/storage/dir 2", songs = 1),
+            ),
+            sut.getDirectorySubFolders("/storage")
+        )
+
+        Assert.assertEquals(
+            listOf(
+                emptyMediaStoreFoldersView(path = "/storage/dir 1/abc", songs = 1),
+                emptyMediaStoreFoldersView(path = "/storage/dir 1/def", songs = 1),
+            ),
+            sut.getDirectorySubFolders("/storage/dir 1")
+        )
+
+        Assert.assertEquals(
+            listOf(
+                emptyMediaStoreFoldersView(path = "/storage 2/dir 10", songs = 1),
+                emptyMediaStoreFoldersView(path = "/storage 2/dir 20", songs = 1),
+            ),
+            sut.getDirectorySubFolders("/storage 2")
+        )
+
+        Assert.assertEquals(
+            listOf(
+                emptyMediaStoreFoldersView(path = "/storage 2/dir 10/aaa", songs = 1),
+            ),
+            sut.getDirectorySubFolders("/storage 2/dir 10")
+        )
+
+        Assert.assertEquals(
+            listOf(
+                emptyMediaStoreFoldersView(path = "/storage 2/dir 20/bbb", songs = 1),
+                emptyMediaStoreFoldersView(path = "/storage 2/dir 20/zzz", songs = 2),
+            ),
+            sut.getDirectorySubFolders("/storage 2/dir 20")
         )
     }
 

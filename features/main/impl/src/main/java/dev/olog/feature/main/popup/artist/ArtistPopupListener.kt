@@ -50,7 +50,7 @@ class ArtistPopupListener @Inject constructor(
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), artist.songs, artist.name)
+        onPlaylistSubItemClick(activity, itemId.toString(), getMediaId(), artist.songs, artist.name)
 
         when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()

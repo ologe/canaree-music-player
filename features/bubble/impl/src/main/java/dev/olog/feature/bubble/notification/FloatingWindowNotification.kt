@@ -8,14 +8,13 @@ import android.app.Service
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import dev.olog.core.ServiceScope
+import dev.olog.core.gateway.PlayingGateway
 import dev.olog.feature.bubble.FloatingWindowService
 import dev.olog.feature.bubble.api.FloatingWindowsConstants
-import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.asServicePendingIntent
 import dev.olog.shared.extension.collectOnLifecycle
 import dev.olog.shared.isOreo
 import dev.olog.ui.colorControlNormal
-import kotlinx.coroutines.flow.filter
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "0xfff"
@@ -24,7 +23,7 @@ class FloatingWindowNotification @Inject constructor(
     private val service: Service,
     private val serviceScope: ServiceScope,
     private val notificationManager: NotificationManager,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val playingGateway: PlayingGateway,
 ) {
 
     companion object {
@@ -44,12 +43,11 @@ class FloatingWindowNotification @Inject constructor(
 
     private fun startObserving() {
         // keeps playing song in sync
-        musicPreferencesUseCase.observeLastMetadata()
-            .filter { it.isNotEmpty() }
+        playingGateway.observe()
             .collectOnLifecycle(serviceScope) {
-                notificationTitle = it.description
-                val notification = builder.setContentTitle(notificationTitle).build()
-                notificationManager.notify(NOTIFICATION_ID, notification)
+//                notificationTitle = it.description todo
+//                val notification = builder.setContentTitle(notificationTitle).build()
+//                notificationManager.notify(NOTIFICATION_ID, notification)
             }
     }
 

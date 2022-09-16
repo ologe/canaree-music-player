@@ -62,7 +62,7 @@ internal class DetailDataProvider @Inject constructor(
         val item = when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryValue)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem() }
@@ -77,7 +77,6 @@ internal class DetailDataProvider @Inject constructor(
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
-            MediaIdCategory.PLAYING_QUEUE,
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
         }.exhaustive
@@ -163,7 +162,7 @@ internal class DetailDataProvider @Inject constructor(
                 resources
             )
         }
-        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryValue).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )

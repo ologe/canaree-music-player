@@ -28,7 +28,7 @@ class NewPlaylistDialogViewModel @Inject constructor(
         val playlistType = if (mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
 
         val trackToInsert = when {
-            mediaId.isPlayingQueue -> playingQueueGateway.getAll().map { it.song.id }
+//            mediaId.isPlayingQueue -> playingQueueGateway.getAll().map { it.song.id } todo
             mediaId.isLeaf && mediaId.isPodcast -> listOf(podcastGateway.getByParam(mediaId.resolveId)!!.id)
             mediaId.isLeaf -> listOf(songGateway.getByParam(mediaId.resolveId)!!.id)
             else -> getSongListByParamUseCase(mediaId).map { it.id }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "4ed5e6364fa67e4518a43dc1f3ce387d",
+    "identityHash": "ac2b41b5e718b0cb82148de0fc524daf",
     "entities": [
       {
         "tableName": "mediastore_audio",
@@ -240,6 +240,100 @@
         "foreignKeys": []
       },
       {
+        "tableName": "mediastore_playlist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `path` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_mediastore_playlist_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "mediastore_playlist_track",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playlistId` TEXT NOT NULL, `songId` TEXT NOT NULL, `playOrder` INTEGER NOT NULL, PRIMARY KEY(`playlistId`, `songId`))",
+        "fields": [
+          {
+            "fieldPath": "playlistId",
+            "columnName": "playlistId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "songId",
+            "columnName": "songId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playOrder",
+            "columnName": "playOrder",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "playlistId",
+            "songId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_mediastore_playlist_track_playlistId",
+            "unique": false,
+            "columnNames": [
+              "playlistId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_track_playlistId` ON `${TABLE_NAME}` (`playlistId`)"
+          },
+          {
+            "name": "index_mediastore_playlist_track_songId",
+            "unique": false,
+            "columnNames": [
+              "songId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_track_songId` ON `${TABLE_NAME}` (`songId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
         "tableName": "blacklist",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`directory` TEXT NOT NULL, PRIMARY KEY(`directory`))",
         "fields": [
@@ -356,6 +450,26 @@
         "foreignKeys": []
       },
       {
+        "tableName": "playing",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
         "tableName": "most_played_folder_v2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`songId` TEXT NOT NULL, `path` TEXT NOT NULL, `timesPlayed` INTEGER NOT NULL, PRIMARY KEY(`songId`, `path`))",
         "fields": [
@@ -464,61 +578,31 @@
         "foreignKeys": []
       },
       {
-        "tableName": "favorite_songs",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`songId` INTEGER NOT NULL, PRIMARY KEY(`songId`))",
+        "tableName": "favourites",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "songId",
-            "columnName": "songId",
-            "affinity": "INTEGER",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "songId"
+            "id"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_favorite_songs_songId",
+            "name": "index_favourites_id",
             "unique": false,
             "columnNames": [
-              "songId"
+              "id"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_favorite_songs_songId` ON `${TABLE_NAME}` (`songId`)"
-          }
-        ],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "favorite_podcast_songs",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`podcastId` INTEGER NOT NULL, PRIMARY KEY(`podcastId`))",
-        "fields": [
-          {
-            "fieldPath": "podcastId",
-            "columnName": "podcastId",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "podcastId"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_favorite_podcast_songs_podcastId",
-            "unique": false,
-            "columnNames": [
-              "podcastId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_favorite_podcast_songs_podcastId` ON `${TABLE_NAME}` (`podcastId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_favourites_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -1358,6 +1442,10 @@
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT mediastore_genre.*, COUNT(*) AS songs \nFROM mediastore_genre \n    JOIN mediastore_genre_track ON mediastore_genre.id = mediastore_genre_track.genreId\n    JOIN songs_view ON mediastore_genre_track.songId = songs_view.id \nGROUP BY mediastore_genre.id"
       },
       {
+        "viewName": "playlists_view",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT mediastore_playlist.*, COUNT(*) AS songs \nFROM mediastore_playlist \n    JOIN mediastore_playlist_track ON mediastore_playlist.id = mediastore_playlist_track.playlistId\n    JOIN songs_view ON mediastore_playlist_track.songId = songs_view.id \nGROUP BY mediastore_playlist.id"
+      },
+      {
         "viewName": "podcasts_view_sorted",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT podcasts_view.*\nFROM podcasts_view LEFT JOIN sort ON TRUE\nWHERE sort.tableName = 'podcast_episodes'\nORDER BY\n-- artist, then title\nCASE WHEN sort.columnName = 'artist' AND artist = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'asc' THEN lower(artist) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'desc' THEN lower(artist) COLLATE UNICODE END DESC,\n-- album, then title\nCASE WHEN sort.columnName = 'album' AND album = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'asc' THEN lower(album) COLLATE UNICODE END ASC,\nCASE WHEN sort.columnName = 'album' AND sort.direction = 'desc' THEN lower(album) COLLATE UNICODE END DESC,\n-- duration, then title\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'asc' THEN duration END ASC,\nCASE WHEN sort.columnName = 'duration' AND sort.direction = 'desc' THEN duration END DESC,\n-- date, then title\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END DESC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END ASC,\n-- default, and second sort\nCASE WHEN sort.direction = 'asc' THEN lower(title) COLLATE UNICODE END ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) COLLATE UNICODE END DESC"
       },
@@ -1386,6 +1474,10 @@
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT genres_view.* \nFROM genres_view LEFT JOIN sort on TRUE\nWHERE sort.tableName = 'genres'\nORDER BY\n-- title\nCASE WHEN sort.direction = 'asc' THEN lower(name) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(name) END COLLATE UNICODE DESC"
       },
       {
+        "viewName": "playlists_view_sorted",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT playlists_view.* \nFROM playlists_view LEFT JOIN sort on TRUE\nWHERE sort.tableName = 'playlists'\nORDER BY\n-- title\nCASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE UNICODE DESC"
+      },
+      {
         "viewName": "podcast_albums_view_sorted",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT podcast_albums_view.*\nFROM podcast_albums_view LEFT JOIN sort ON TRUE\nWHERE sort.tableName = 'podcast_albums'\nORDER BY\n-- title, then artist\nCASE WHEN sort.columnName = 'album' AND title = '<unknown>' THEN -1 END,\n-- artist, then artist\nCASE WHEN sort.columnName = 'artist' AND artist = '<unknown>' THEN -1 END,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'asc' THEN lower(artist) END COLLATE UNICODE ASC,\nCASE WHEN sort.columnName = 'artist' AND sort.direction = 'desc' THEN lower(artist) END COLLATE UNICODE DESC,\n-- date, then artist\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'asc' THEN dateAdded END ASC,\nCASE WHEN sort.columnName = 'date_added' AND sort.direction = 'desc' THEN dateAdded END DESC,\n-- default, and second sort\nCASE WHEN sort.direction = 'asc' THEN lower(title) END COLLATE UNICODE ASC,\nCASE WHEN sort.direction = 'desc' THEN lower(title) END COLLATE UNICODE DESC"
       },
@@ -1396,7 +1488,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ed5e6364fa67e4518a43dc1f3ce387d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ac2b41b5e718b0cb82148de0fc524daf')"
     ]
   }
 }

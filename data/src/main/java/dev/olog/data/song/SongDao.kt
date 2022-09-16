@@ -31,4 +31,11 @@ abstract class SongDao {
     @Query("SELECT * FROM songs_view WHERE albumId = :albumId")
     // todo made suspend
     abstract fun getByAlbumId(albumId: String): MediaStoreSongsView?
+
+    @Query("SELECT COUNT(*) FROM songs_view")
+    abstract fun countAll(): Int
+
+    @Query("SELECT COUNT(*) FROM songs_view")
+    abstract fun observeCountAll(): Flow<Int>
+
 }

@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.track.Song
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.utils.getString
 import java.io.File
 import javax.inject.Inject
 
@@ -59,7 +58,7 @@ class MediaStoreUtils @Inject constructor(
         """
         val displayName = context.contentResolver.querySql(fileQuery).use {
             it.moveToFirst()
-            it.getString(MediaStore.Audio.Media.DISPLAY_NAME)
+            it.getString(it.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
         }
         return findByDisplayName(displayName)
     }
