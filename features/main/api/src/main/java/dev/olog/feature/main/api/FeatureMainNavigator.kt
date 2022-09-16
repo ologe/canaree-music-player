@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 
 interface FeatureMainNavigator {
 
@@ -18,7 +17,7 @@ interface FeatureMainNavigator {
     fun toMainPopup(
         activity: FragmentActivity,
         anchor: View,
-        category: MediaIdCategory?,
+        data: MainPopupDialogData,
     )
 
     fun toSleepTimerDialog(activity: FragmentActivity)

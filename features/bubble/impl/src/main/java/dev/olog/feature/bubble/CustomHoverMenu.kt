@@ -4,14 +4,13 @@ import android.app.Service
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.ServiceScope
-import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.core.gateway.PlayingGateway
 import dev.olog.feature.bubble.api.HoverMenu
 import dev.olog.feature.bubble.api.view.TabView
 import dev.olog.feature.lyrics.offline.api.FeatureLyricsOfflineNavigator
 import dev.olog.feature.lyrics.offline.api.LyricsOfflinePresenter
 import dev.olog.platform.ServiceLifecycle
 import dev.olog.shared.extension.collectOnLifecycle
-import kotlinx.coroutines.flow.filter
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -21,7 +20,7 @@ class CustomHoverMenu @Inject constructor(
     private val serviceScope: ServiceScope,
     @ServiceLifecycle lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
-    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val playingGateway: PlayingGateway,
     offlineLyricsContentPresenter: LyricsOfflinePresenter,
     featureLyricsOfflineNavigator: FeatureLyricsOfflineNavigator,
 ) : HoverMenu() {
@@ -53,11 +52,10 @@ class CustomHoverMenu @Inject constructor(
     }
 
     private fun startObserving(){
-        musicPreferencesUseCase.observeLastMetadata()
-            .filter { it.isNotEmpty() }
-            .collectOnLifecycle(serviceScope) {
-                item = it.description
-            }
+//        playingGateway.observe() todo
+//            .collectOnLifecycle(serviceScope) {
+//                item = it.description
+//            }
     }
 
     private val lyricsSection = Section(

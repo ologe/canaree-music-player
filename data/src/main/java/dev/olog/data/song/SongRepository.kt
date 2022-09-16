@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
 // todo test
-internal class SongRepository @Inject constructor(
+class SongRepository @Inject constructor(
     private val songDao: SongDao,
     private val sortRepository: SortRepository,
     private val mediaStoreUtils: MediaStoreUtils,

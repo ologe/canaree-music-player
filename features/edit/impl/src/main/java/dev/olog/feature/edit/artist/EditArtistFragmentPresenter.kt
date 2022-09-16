@@ -4,7 +4,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import javax.inject.Inject
@@ -25,13 +24,12 @@ class EditArtistFragmentPresenter @Inject constructor(
         return Artist(
             id = artist.id,
             name = artist.name,
-            albumArtist = artist.albumArtist,
             songs = artist.songs,
             isPodcast = artist.isPodcast
         )
     }
 
-    suspend fun fetchData(id: Id): LastFmArtist? {
+    suspend fun fetchData(id: Long): LastFmArtist? {
         return lastFmGateway.getArtist(id)
     }
 

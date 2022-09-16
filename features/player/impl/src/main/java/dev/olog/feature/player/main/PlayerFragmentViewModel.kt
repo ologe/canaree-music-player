@@ -8,25 +8,23 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.feature.media.api.MusicPreferencesGateway
+import dev.olog.feature.player.R
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.feature.player.R
 import dev.olog.ui.model.DisplayableHeader
 import dev.olog.ui.model.DisplayableItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+    favoriteGateway: FavoriteGateway,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
@@ -34,14 +32,12 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
     private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
 
-    private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
+    private val favoriteLiveData = MutableLiveData<Boolean>()
 
     init {
-        viewModelScope.launch {
-            observeFavoriteAnimationUseCase()
-                .flowOn(Dispatchers.Default)
-                .collect { favoriteLiveData.value = it }
-        }
+        favoriteGateway.observePlayingFavorite()
+            .onEach { favoriteLiveData.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun getCurrentTrackId(): Long? = currentTrackIdPublisher.value
@@ -75,7 +71,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
         )
     }
 
-    val onFavoriteStateChanged: LiveData<FavoriteEnum> = favoriteLiveData
+    val onFavoriteStateChanged: LiveData<Boolean> = favoriteLiveData
 
     val skipToNextVisibility = musicPrefsUseCase
             .observeSkipToNextVisibility()

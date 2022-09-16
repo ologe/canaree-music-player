@@ -66,9 +66,9 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
 
     private fun successMessage(context: Context, currentValue: String): CharSequence {
-        if (mediaId.isPlayingQueue){
-            return context.getString(localization.R.string.queue_saved_as_playlist, currentValue)
-        }
+//        if (mediaId.isPlayingQueue){ todo
+//            return context.getString(localization.R.string.queue_saved_as_playlist, currentValue)
+//        }
         if (mediaId.isLeaf){
             return context.getString(localization.R.string.added_song_x_to_playlist_y, title, currentValue)
         }

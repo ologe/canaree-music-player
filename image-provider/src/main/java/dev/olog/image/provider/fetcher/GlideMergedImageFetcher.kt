@@ -31,7 +31,7 @@ class GlideMergedImageFetcher(
             val inputStream = when {
                 mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
                 mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
-                else -> makePlaylistImage(mediaId.categoryId)
+                else -> makePlaylistImage(mediaId.categoryValue)
             }
             callback.onDataReady(inputStream)
         } catch (ex: Throwable){
@@ -71,10 +71,10 @@ class GlideMergedImageFetcher(
         return file?.inputStream()
     }
 
-    private suspend fun makePlaylistImage(playlistId: Long): InputStream? {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)){
-            return null
-        }
+    private suspend fun makePlaylistImage(playlistId: String): InputStream? {
+//        if (AutoPlaylist.isAutoPlaylist(playlistId)){ todo
+//            return null
+//        }
 
 //        ImagesFolderUtils.forPlaylist(context, id) --contains current image
         val albumsId = playlistGateway.getTrackListByParam(playlistId).map { it.albumId }

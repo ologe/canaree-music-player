@@ -1,5 +1,6 @@
 package dev.olog.core.gateway.track
 
+import dev.olog.core.entity.FolderContent
 import dev.olog.core.entity.sort.AllFoldersSort
 import dev.olog.core.entity.sort.FolderSongsSort
 import dev.olog.core.entity.track.Artist
@@ -40,5 +41,7 @@ interface FolderGateway {
 
     fun setSongSort(sort: FolderSongsSort)
     fun getSongSort(): FolderSongsSort
+
+    suspend fun getFolderContent(directory: String): FolderContent
 
 }

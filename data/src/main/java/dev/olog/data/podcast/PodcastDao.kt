@@ -32,4 +32,10 @@ abstract class PodcastDao {
     // todo made suspend
     abstract fun getByAlbumId(albumId: String): MediaStorePodcastsView?
 
+    @Query("SELECT COUNT(*) FROM podcasts_view")
+    abstract fun countAll(): Int
+
+    @Query("SELECT COUNT(*) FROM podcasts_view")
+    abstract fun observeCountAll(): Flow<Int>
+
 }

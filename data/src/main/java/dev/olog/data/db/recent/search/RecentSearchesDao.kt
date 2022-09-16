@@ -65,7 +65,7 @@ abstract class RecentSearchesDao {
                             artistMapper(recentEntity, item)
                         }
                         PLAYLIST -> {
-                            val item = playlistList.getByParam(recentEntity.itemId)
+                            val item = playlistList.getByParam(recentEntity.itemId.toString())
                             playlistMapper(recentEntity, item)
                         }
                         GENRE -> {

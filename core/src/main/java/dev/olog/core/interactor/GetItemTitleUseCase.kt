@@ -31,7 +31,7 @@ class GetItemTitleUseCase @Inject constructor(
     override fun buildUseCase(param: MediaId): Flow<String> {
         return when (param.category){
             MediaIdCategory.FOLDERS -> getFolderUseCase.observeByParam(param.categoryValue).map { it?.title }
-            MediaIdCategory.PLAYLISTS -> getPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.PLAYLISTS -> getPlaylistUseCase.observeByParam(param.categoryId.toString()).map { it?.title }
             MediaIdCategory.SONGS -> getSongUseCase.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.ALBUMS -> getAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.ARTISTS -> getArtistUseCase.observeByParam(param.categoryId).map { it?.name }

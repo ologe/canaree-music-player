@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
                 },
                 onMoreClick = {
 //                    todo
-//                    featureMainNavigator.toMainPopup(requireActivity(), it, null)
+//                    featureMainNavigator.toMainPopup(requireActivity(), it, MainPopupDialogData.Search)
                 },
                 onPlayableClick = { mediaId ->
                     mediaProvider.playFromMediaId(mediaId, null)

@@ -10,10 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaIdCategory
 import dev.olog.feature.bubble.api.FeatureBubbleNavigator
 import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.main.api.FeatureMainPopupNavigator
+import dev.olog.feature.main.api.MainPopupDialogData
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.queue.databinding.FragmentPlayingQueueBinding
 import dev.olog.platform.adapter.drag.DragListenerImpl
@@ -89,7 +89,7 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue),
 
         scrollToCurrentItem(layoutManager)
 
-        more.setOnClickListener { featureMainNavigator.toMainPopup(requireActivity(), it, MediaIdCategory.PLAYING_QUEUE) }
+        more.setOnClickListener { featureMainNavigator.toMainPopup(requireActivity(), it, MainPopupDialogData.PlayingQueue) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 

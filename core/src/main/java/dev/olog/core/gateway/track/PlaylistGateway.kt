@@ -1,36 +1,27 @@
 package dev.olog.core.gateway.track
 
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.base.*
+import dev.olog.core.entity.track.Song
+import kotlinx.coroutines.flow.Flow
 
-interface PlaylistGateway :
-    BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id>,
-    HasMostPlayed,
-    HasSiblings<Playlist, Id>,
-    PlaylistOperations,
-    HasRelatedArtists<Id> {
+interface PlaylistGateway : PlaylistOperations {
 
     fun getAllAutoPlaylists(): List<Playlist>
+    fun getAll(): List<Playlist>
+    fun observeAll(): Flow<List<Playlist>>
 
-}
+    fun getByParam(id: String): Playlist?
+    fun observeByParam(id: String): Flow<Playlist?>
 
-interface PlaylistOperations {
-    suspend fun createPlaylist(playlistName: String): Long
+    fun getTrackListByParam(id: String): List<Song>
+    fun observeTrackListByParam(id: String): Flow<List<Song>>
 
-    suspend fun renamePlaylist(playlistId: Long, newTitle: String)
+    fun observeMostPlayed(id: String): Flow<List<Song>>
+    suspend fun insertMostPlayed(playlistId: String, songId: String)
 
-    suspend fun deletePlaylist(playlistId: Long)
+    fun observeSiblings(id: String): Flow<List<Playlist>>
 
-    suspend fun clearPlaylist(playlistId: Long)
+    fun observeRelatedArtists(id: String): Flow<List<Artist>>
 
-    suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>)
-
-    suspend fun insertSongToHistory(songId: Long)
-
-    suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>)
-
-    suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long)
-
-    suspend fun removeDuplicated(playlistId: Long)
 }

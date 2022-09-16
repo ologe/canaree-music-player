@@ -3,8 +3,8 @@ package dev.olog.data.song.folder
 import android.provider.MediaStore
 import androidx.room.Dao
 import androidx.room.Query
-import dev.olog.data.DataConstants.MAX_MOST_PLAYED
-import dev.olog.data.DataConstants.MIN_MOST_PLAYED
+import dev.olog.data.DataConstants.MAX_MOST_PLAYED_ITEMS
+import dev.olog.data.DataConstants.MIN_MOST_PLAYED_TIMES
 import dev.olog.data.DataConstants.RECENTLY_ADDED_PERIOD_IN_SECONDS
 import dev.olog.data.mediastore.song.MediaStoreSongsView
 import dev.olog.data.mediastore.song.artist.MediaStoreArtistsView
@@ -29,8 +29,7 @@ abstract class FolderDao {
         @Language("RoomSql")
         private const val SONGS_QUERY = """
 SELECT songs_view.*
-FROM songs_view
-    LEFT JOIN sort ON TRUE
+FROM songs_view LEFT JOIN sort ON TRUE
 WHERE directory = :directory AND sort.tableName = '$SORT_TABLE_FOLDERS_SONGS'
 ORDER BY
 -- artist, then title
@@ -95,9 +94,9 @@ CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) END COLLATE 
     @Query("""
         SELECT songs_view.*
         FROM songs_view JOIN most_played_folder_v2 ON songs_view.id = most_played_folder_v2.songId
-        WHERE most_played_folder_v2.path = :directory AND timesPlayed >= $MIN_MOST_PLAYED
+        WHERE most_played_folder_v2.path = :directory AND timesPlayed >= $MIN_MOST_PLAYED_TIMES
         ORDER BY timesPlayed DESC
-        LIMIT $MAX_MOST_PLAYED
+        LIMIT $MAX_MOST_PLAYED_ITEMS
     """)
     abstract fun observeMostPlayed(directory: String): Flow<List<MediaStoreSongsView>>
 //
@@ -134,5 +133,23 @@ CASE WHEN sort.direction = '$SORT_DIRECTION_DESC' THEN lower(title) END COLLATE 
         ORDER BY dateAdded DESC, lower(title) COLLATE UNICODE ASC
     """)
     abstract fun observeRecentlyAddedSongs(directory: String): Flow<List<MediaStoreSongsView>>
+
+    @Query("""
+        SELECT *
+        FROM folders_view
+        WHERE path != :directory -- filter out same directory 
+            AND path LIKE :directory || '/%' -- filter in sub-directory 
+            AND path NOT LIKE :directory || '/%/%' -- filter out sub-sub-directories
+        ORDER BY lower(name) COLLATE UNICODE ASC
+    """)
+    abstract suspend fun getDirectorySubFolders(directory: String): List<MediaStoreFoldersView>
+
+    @Query("""
+        SELECT songs_view.*
+        FROM songs_view
+        WHERE directory = :directory
+        ORDER BY lower(title) COLLATE UNICODE ASC
+    """)
+    abstract suspend fun getDirectorySongs(directory: String): List<MediaStoreSongsView>
 
 }

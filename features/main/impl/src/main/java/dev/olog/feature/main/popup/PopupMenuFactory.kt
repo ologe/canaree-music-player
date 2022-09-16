@@ -60,7 +60,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPlaylistPopup(view: View, mediaId: MediaId): PopupMenu {
-        val playlist = getPlaylistUseCase.getByParam(mediaId.categoryId)!!
+        val playlist = getPlaylistUseCase.getByParam(mediaId.categoryValue)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getByParam(mediaId.leaf!!)
             PlaylistPopup(view, playlist, song, listenerFactory.playlist(playlist, song))

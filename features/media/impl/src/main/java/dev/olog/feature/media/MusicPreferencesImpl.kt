@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.LastMetadata
 import dev.olog.feature.media.api.MusicPreferencesGateway
 import dev.olog.shared.extension.observeKey
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +20,6 @@ private const val REPEAT_MODE = "$TAG.mode.repeat"
 
 private const val SKIP_PREVIOUS = "$TAG.skip.previous"
 private const val SKIP_NEXT = "$TAG.skip.next"
-
-private const val LAST_TITLE = "$TAG.last.title"
-private const val LAST_SUBTITLE = "$TAG.last.subtitle"
-private const val LAST_ID = "$TAG.last.id"
 
 private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 
@@ -81,26 +76,6 @@ class MusicPreferencesImpl @Inject constructor(
     override fun isMidnightMode(): Flow<Boolean> {
         val key = context.getString(dev.olog.feature.settings.api.R.string.prefs_midnight_mode_key)
         return preferences.observeKey(key, false)
-    }
-
-    override fun getLastMetadata(): LastMetadata {
-        return LastMetadata(
-            preferences.getString(LAST_TITLE, "")!!,
-            preferences.getString(LAST_SUBTITLE, "")!!,
-            preferences.getLong(LAST_ID, -1)
-        )
-    }
-
-    override fun setLastMetadata(metadata: LastMetadata) {
-        preferences.edit {
-            putString(LAST_TITLE, metadata.title)
-            putString(LAST_SUBTITLE, metadata.subtitle)
-        }
-    }
-
-    override fun observeLastMetadata(): Flow<LastMetadata> {
-        return preferences.observeKey(LAST_TITLE, "")
-                .map { getLastMetadata() }
     }
 
     override fun reset() {

@@ -1,5 +1,6 @@
 package dev.olog.core.entity
 
+@Deprecated("")
 enum class AutoPlaylist {
     LAST_ADDED,
     FAVORITE,

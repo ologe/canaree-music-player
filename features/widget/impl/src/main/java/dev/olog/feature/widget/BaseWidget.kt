@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.core.entity.LastMetadata
 import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.media.api.FeatureMediaNavigator
 import dev.olog.feature.media.api.MusicPreferencesGateway
@@ -60,8 +59,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-        val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
-        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
+//        val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context) todo
+//        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
     }
 
     override fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray) {
@@ -143,23 +142,23 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews)
     }
 
-    private fun LastMetadata.safeMap(context: Context): LastMetadata {
-        val title = if (this.title.isBlank()) context.getString(localization.R.string.common_placeholder_title) else this.title
-        val subtitle = if (this.subtitle.isBlank()) context.getString(localization.R.string.common_placeholder_artist) else this.subtitle
-
-        return LastMetadata(
-            title,
-            subtitle,
-            this.id
-        )
-    }
-
-    private fun LastMetadata.toWidgetMetadata(): WidgetMetadata {
-        return WidgetMetadata(
-            this.id,
-            this.title,
-            this.subtitle
-        )
-    }
+//    private fun LastMetadata.safeMap(context: Context): LastMetadata {
+//        val title = if (this.title.isBlank()) context.getString(localization.R.string.common_placeholder_title) else this.title
+//        val subtitle = if (this.subtitle.isBlank()) context.getString(localization.R.string.common_placeholder_artist) else this.subtitle
+//
+//        return LastMetadata(
+//            title,
+//            subtitle,
+//            this.id
+//        )
+//    }
+//
+//    private fun LastMetadata.toWidgetMetadata(): WidgetMetadata {
+//        return WidgetMetadata(
+//            this.id,
+//            this.title,
+//            this.subtitle
+//        )
+//    }
 
 }

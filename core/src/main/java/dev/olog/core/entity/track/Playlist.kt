@@ -4,8 +4,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 
 data class Playlist(
-    val id: Long,
+    val id: String,
     val title: String,
+    val path: String,
     val size: Int,
     val isPodcast: Boolean
 ) {
@@ -13,16 +14,7 @@ data class Playlist(
     fun getMediaId(): MediaId {
         val category =
             if (isPodcast) MediaIdCategory.PODCASTS_PLAYLIST else MediaIdCategory.PLAYLISTS
-        return MediaId.createCategoryValue(category, id.toString())
-    }
-
-    fun withSongs(songs: Int): Playlist {
-        return Playlist(
-            id = id,
-            title = title,
-            size = songs,
-            isPodcast = isPodcast
-        )
+        return MediaId.createCategoryValue(category, id)
     }
 
 }

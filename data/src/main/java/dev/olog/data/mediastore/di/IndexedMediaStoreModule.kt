@@ -23,6 +23,8 @@ internal abstract class IndexedMediaStoreModule {
         fun provideMediaStoreAudioDao(db: AppDatabase) = db.mediaStoreAudioDao()
         @Provides
         fun provideMediaStoreGenreDao(db: AppDatabase) = db.mediaStoreGenreDao()
+        @Provides
+        fun provideMediaStorePlaylistDao(db: AppDatabase) = db.mediaStorePlaylistDao()
     }
 
 }

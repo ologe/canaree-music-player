@@ -20,7 +20,7 @@ class MediaStoreGenresViewDaoTest : DatabaseTest() {
     private val mediaStoreAudioDao = db.mediaStoreAudioDao()
     private val mediaStoreGenreDao = db.mediaStoreGenreDao()
     private val blacklistDao = db.blacklistDao()
-    private val sut = db.mediaStoreGenresDao()
+    private val sut = db.mediaStoreGenresViewDao()
     private val sortRepository = SortRepository(db.sortDao())
 
     @Test

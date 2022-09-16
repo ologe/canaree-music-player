@@ -46,7 +46,7 @@ fun QuickAction(
             .clickable {
                 when (quickAction) {
                     QuickAction.NONE -> error("invalid")
-                    QuickAction.PLAY -> mediaProvider.playFromMediaId(mediaId, null, null)
+                    QuickAction.PLAY -> mediaProvider.playFromMediaId(mediaId, null)
                     QuickAction.SHUFFLE -> mediaProvider.shuffle(mediaId, null)
                 }
             }

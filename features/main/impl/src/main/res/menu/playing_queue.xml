@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/equalizer"
+        android:title="@string/popup_equalizer"/>
+
+    <item android:id="@+id/sleepTimer"
+        android:title="@string/popup_sleep_timer"/>
+
+    <item android:id="@+id/settings"
+        android:title="@string/popup_settings"/>
+
+    <item android:id="@+id/about"
+        android:title="@string/popup_about"/>
+
+    <item android:id="@+id/savePlaylist"
+        android:title="@string/save_as_playlist"/>
+
+</menu>

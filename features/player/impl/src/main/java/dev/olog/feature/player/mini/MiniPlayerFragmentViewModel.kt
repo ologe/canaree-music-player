@@ -24,7 +24,7 @@ class MiniPlayerFragmentViewModel @Inject constructor(
     val skipToPreviousVisibility = musicPrefsUseCase
         .observeSkipToPreviousVisibility()
 
-    fun getMetadata() = musicPrefsUseCase.getLastMetadata()
+    fun getMetadata(): String = TODO()//musicPrefsUseCase.getLastMetadata()
 
     fun startShowingLeftTime(show: Boolean, duration: Long) {
         showTimeLeft = show

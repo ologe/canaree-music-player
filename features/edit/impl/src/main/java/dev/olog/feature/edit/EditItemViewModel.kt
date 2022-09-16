@@ -121,6 +121,5 @@ data class UpdateAlbumInfo(
 data class UpdateArtistInfo(
     val mediaId: MediaId,
     val name: String,
-    val albumArtist: String,
     val isPodcast: Boolean
 )

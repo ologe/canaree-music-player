@@ -14,7 +14,6 @@ import dev.olog.shared.extension.collectOnViewLifecycle
 import dev.olog.shared.extension.dimen
 import dev.olog.shared.extension.findInContext
 import dev.olog.shared.extension.lazyFast
-import dev.olog.shared.extension.subscribe
 import dev.olog.ui.BreadCrumbLayout
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
@@ -60,10 +59,12 @@ class FolderTreeFragment : BaseFragment(),
             }
 
         viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::submitList)
+            .collectOnViewLifecycle(this) {
+                adapter.submitList(it)
+            }
 
         viewModel.observeCurrentFolderIsDefaultFolder()
-            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
+            .collectOnViewLifecycle(this) { isDefaultFolder ->
                 if (isDefaultFolder){
                     fab.hide()
                 } else {

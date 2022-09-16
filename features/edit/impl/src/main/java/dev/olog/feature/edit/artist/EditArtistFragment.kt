@@ -56,7 +56,6 @@ class EditArtistFragment : BaseEditItemFragment() {
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
             artist.setText(it.title)
-            albumArtist.setText(it.albumArtist)
             val text = resources.getQuantityString(
                 localization.R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
             )
@@ -84,7 +83,6 @@ class EditArtistFragment : BaseEditItemFragment() {
             UpdateArtistInfo(
                 mediaId,
                 artist.extractText().trim(),
-                albumArtist.extractText().trim(),
                 podcast.isChecked
             )
         )

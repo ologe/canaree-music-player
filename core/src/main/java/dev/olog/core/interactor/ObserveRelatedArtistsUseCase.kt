@@ -24,7 +24,7 @@ class ObserveRelatedArtistsUseCase @Inject constructor(
     override fun buildUseCase(mediaId: MediaId): Flow<List<Artist>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeRelatedArtists(mediaId.categoryValue)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryValue)
             MediaIdCategory.GENRES -> genreGateway.observeRelatedArtists(mediaId.categoryId)
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeRelatedArtists(mediaId.categoryId)
             else -> flowOf(listOf())

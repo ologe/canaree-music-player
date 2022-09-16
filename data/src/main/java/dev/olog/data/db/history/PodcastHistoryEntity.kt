@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "podcast_song_history",
     indices = [(Index("id"))]
 )
+@Deprecated("migrate to single table")
 data class PodcastHistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dagger.Lazy
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.main.api.MainPopupDialogData
 import dev.olog.feature.main.dialog.delete.DeleteDialog
 import dev.olog.feature.main.dialog.favorite.AddFavoriteDialog
 import dev.olog.feature.main.dialog.play.later.PlayLaterDialog
@@ -27,9 +27,9 @@ class FeatureMainNavigatorImpl @Inject constructor(
     override fun toMainPopup(
         activity: FragmentActivity,
         anchor: View,
-        category: MediaIdCategory?
+        data: MainPopupDialogData
     ) {
-        mainPopup.get().show(activity, anchor, category)
+        mainPopup.get().show(activity, anchor, data)
     }
 
     override fun toSleepTimerDialog(activity: FragmentActivity) {
