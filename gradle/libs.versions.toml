@@ -1,8 +1,8 @@
 [versions]
 gradle = "7.4.0-beta02"
 kotlin = "1.7.20"
-gms = "4.3.3"
-crashlytics = "2.2.1"
+gms = "4.3.5"
+crashlytics = "2.5.1"
 dagger = "2.44"
 desugaring = "1.1.5"
 coroutines = "1.3.9"
