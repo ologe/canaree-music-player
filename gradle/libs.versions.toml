@@ -1,0 +1,126 @@
+[versions]
+gradle = "7.4.0-beta02"
+kotlin = "1.7.20"
+gms = "4.3.3"
+crashlytics = "2.2.1"
+dagger = "2.44"
+desugaring = "1.1.5"
+coroutines = "1.3.9"
+
+androidx-core = "1.3.1"
+androidx-legacy = "1.0.0"
+androidx-appcompat = "1.2.0"
+androidx-media = "1.6.0"
+androidx-recycler = "1.1.0"
+androidx-browser = "1.2.0"
+androidx-material = "1.2.0"
+androidx-preference = "1.1.1"
+androidx-palette = "1.0.0"
+androidx-annotations = "1.1.0"
+androidx-coordinator = "1.1.0"
+androidx-fragments = "1.5.3"
+androidx-constraintLayout = "2.0.0"
+androidx-lifecycle = "2.5.1"
+androidx-billing = "1.2.2"
+
+firebase-core = "17.2.0"
+firebase-analytics = "17.5.0"
+firebase-crashlytics = "17.2.1"
+
+ui-glide = "4.11.0"
+ui-lottie = "3.4.2"
+ui-customTabs = "3.0.1"
+ui-materialDialogs = "3.3.0"
+ui-scrollHelper = "1.1.4"
+ui-blurKit = "1.0.0"
+ui-colorDesaturation = "1.0.2"
+ui-tapTargetView = "2.0.0"
+
+io-room = "2.4.3"
+io-sqlContentResolver = "1.2.1"
+io-okhttp = "4.8.1"
+io-retrofit = "2.9.0"
+io-gson = "2.8.6"
+io-lastFmBinding = "0.1.2"
+
+test-junit = "4.13"
+test-mockito = "3.5.10"
+test-mockito-kotlin = "2.2.0"
+
+utils-crypto = "1.1.0"
+utils-fuzzy = "1.2.0"
+utils-leakCanary = "2.9.1"
+
+[libraries]
+plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-gms = { module = "com.google.gms:google-services", version.ref = "gms" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
+plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
+
+desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
+
+kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+hilt-core = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+hilt-test = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
+
+firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebase-core" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-legacyV4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-media = { module = "androidx.media:media", version.ref = "androidx-media" }
+androidx-recycler = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recycler" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
+androidx-material = { module = "com.google.android.material:material", version.ref = "androidx-material" }
+androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
+androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
+androidx-annotations = { module = "androidx.annotation:annotation", version.ref = "androidx-annotations" }
+androidx-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintLayout" }
+androidx-coordinator = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator" }
+androidx-fragments = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragments" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-billing = { module = "com.android.billingclient:billing", version.ref = "androidx-billing" }
+
+ui-glide = { module = "com.github.bumptech.glide:glide", version.ref = "ui-glide" }
+ui-glide-processor = { module = "com.github.bumptech.glide:compiler", version.ref = "ui-glide" }
+ui-scrollHelper = { module = "com.github.ologe:scroll-helper", version.ref = "ui-scrollHelper" }
+ui-blurKit = { module = "io.alterac.blurkit:blurkit", version.ref = "ui-blurKit" }
+ui-lottie = { module = "com.airbnb.android:lottie", version.ref = "ui-lottie" }
+ui-customTabs = { module = "saschpe.android:customtabs", version.ref = "ui-customTabs" }
+ui-dialogs-core = { module = "com.afollestad.material-dialogs:core", version.ref = "ui-materialDialogs" }
+ui-dialogs-color = { module = "com.afollestad.material-dialogs:color", version.ref = "ui-materialDialogs" }
+ui-colorDesaturation = { module = "com.github.ologe:color-desaturation", version.ref = "ui-colorDesaturation" }
+ui-tapTargetView = { module = "com.github.ologe:taptargetview", version.ref = "ui-tapTargetView" }
+
+io-sqlContentResolver = { module = "com.github.ologe:android-content-resolver-SQL", version.ref = "io-sqlContentResolver" }
+io-room = { module = "androidx.room:room-runtime", version.ref = "io-room" }
+io-room-ktx = { module = "androidx.room:room-ktx", version.ref = "io-room" }
+io-room-processor = { module = "androidx.room:room-compiler", version.ref = "io-room" }
+io-room-testing = { module = "androidx.room:room-testing", version.ref = "io-room" }
+io-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "io-okhttp" }
+io-okhttp-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "io-okhttp" }
+io-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "io-retrofit" }
+io-retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "io-retrofit" }
+io-gson = { module = "com.google.code.gson:gson", version.ref = "io-gson" }
+io-lastFmBinding = { module = "de.u-mass:lastfm-java", version.ref = "io-lastFmBinding" }
+
+test-junit = { module = "junit:junit", version.ref = "test-junit" }
+test-mockito = { module = "org.mockito:mockito-inline", version.ref = "test-mockito" }
+test-mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "test-mockito-kotlin" }
+
+utils-crypto = { module = "com.github.tozny:java-aes-crypto", version.ref = "utils-crypto" }
+utils-fuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "utils-fuzzy" }
+utils-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "utils-leakCanary" }

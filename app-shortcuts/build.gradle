@@ -1,10 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-android {
-    //kotlinOptions.allWarningsAsErrors = true
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.hilt")
 }
 
 dependencies {
@@ -12,15 +8,9 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':intents')
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.androidx.core
+    implementation libs.androidx.core
+    implementation libs.androidx.appcompat
 
-    implementation lib_x.core
-    implementation lib_x.core_ktx
-    implementation lib_x.appcompat
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-
-    implementation lib_ui.glide
+    implementation libs.ui.glide
 }

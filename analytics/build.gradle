@@ -1,36 +1,15 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-android {
-
-    defaultConfig {
-
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.hilt")
 }
 
 dependencies {
     implementation project(':core')
     implementation project(':shared')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.core
 
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.core_ktx
-
-    implementation lib_analytics.analytics
+    implementation libs.firebase.analytics
 
 }

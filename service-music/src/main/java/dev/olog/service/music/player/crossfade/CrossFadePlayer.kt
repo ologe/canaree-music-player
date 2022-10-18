@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.Config
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
@@ -34,9 +35,15 @@ internal class CrossFadePlayer @Inject internal constructor(
     musicPreferencesUseCase: MusicPreferencesGateway,
     private val eventDispatcher: EventDispatcher,
     private val volume: IMaxAllowedPlayerVolume,
-    private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
-
-) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
+    private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener,
+    config: Config,
+) : AbsPlayer<CrossFadePlayer.Model>(
+    context = context,
+    lifecycle = lifecycle,
+    mediaSourceFactory = mediaSourceFactory,
+    volume = volume,
+    config = config,
+),
     ExoPlayerListenerWrapper,
     CoroutineScope by MainScope() {
 

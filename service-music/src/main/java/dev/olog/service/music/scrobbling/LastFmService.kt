@@ -5,8 +5,8 @@ import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
+import dev.olog.core.Config
 import dev.olog.core.entity.UserCredentials
-import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
@@ -16,7 +16,9 @@ import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 
-internal class LastFmService @Inject constructor(): CoroutineScope by CustomScope(Dispatchers.IO) {
+internal class LastFmService @Inject constructor(
+    private val config: Config,
+): CoroutineScope by CustomScope(Dispatchers.IO) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -37,8 +39,8 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
             session = Authenticator.getMobileSession(
                 credentials.username,
                 credentials.password,
-                BuildConfig.LAST_FM_KEY,
-                BuildConfig.LAST_FM_SECRET
+                config.lastFmKey,
+                config.lastFmSecret
             )
             userCredentials = credentials
         } catch (ex: Throwable) {

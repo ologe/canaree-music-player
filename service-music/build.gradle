@@ -1,36 +1,12 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.hilt")
 }
-
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
-}
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared')
@@ -38,19 +14,14 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.androidx.media
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.service
+    implementation libs.androidx.lifecycle.java8
 
-    implementation lib_x.media
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_service
-    implementation lib_x.lifecycle_java8
+    implementation libs.ui.glide
 
-    implementation lib_ui.glide
-
-    implementation lib_utils.last_fm_binding
+    implementation libs.io.lastFmBinding
 
 
     implementation project(':exoplayer-library-core')

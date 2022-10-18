@@ -1,24 +1,11 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
+plugins {
+    id("dev.olog.msc.library")
+    id("kotlin-android-extensions")
+    id("dev.olog.msc.hilt")
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared')
@@ -27,24 +14,19 @@ dependencies {
     implementation project(':media')
     implementation project(':offline-lyrics')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.androidx.core
+    implementation libs.androidx.media
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.service
+    implementation libs.androidx.lifecycle.java8
 
-    implementation lib_x.core_ktx
-    implementation lib_x.media
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_service
-    implementation lib_x.lifecycle_java8
+    implementation libs.androidx.constraintLayout
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.material
+    implementation libs.androidx.recycler
 
-    implementation lib_x.constraint_layout
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.recycler
-
-    implementation lib_ui.blur_kit
+    implementation libs.ui.blurKit
 
 
-    implementation lib_ui.glide
+    implementation libs.ui.glide
 }

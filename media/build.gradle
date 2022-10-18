@@ -1,12 +1,5 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-
-android {
-    //kotlinOptions.allWarningsAsErrors = true
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+plugins {
+    id("dev.olog.msc.library")
 }
 
 dependencies {
@@ -15,10 +8,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_core.coroutines
-    implementation lib_x.media
-    implementation lib_x.appcompat
-    implementation lib_x.lifecycle_livedata
-
-    testImplementation lib_test.mockito
+    implementation libs.androidx.media
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.lifecycle.livedata
 }

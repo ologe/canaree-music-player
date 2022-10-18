@@ -1,41 +1,17 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-    }
-
-//    kotlinOptions.allWarningsAsErrors = true
-
+plugins {
+    id("dev.olog.msc.library")
+    id("kotlin-android-extensions")
+    id("dev.olog.msc.hilt")
 }
 
 androidExtensions {
     experimental = true
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':analytics')
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
@@ -47,42 +23,33 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.ui.scrollHelper
+    implementation libs.ui.glide
 
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.material
+    implementation libs.androidx.core
+    implementation libs.androidx.constraintLayout
+    implementation libs.androidx.palette
+    implementation libs.androidx.media
+    implementation libs.androidx.browser
+    implementation libs.androidx.preference
+    implementation libs.androidx.coordinator
+    implementation libs.androidx.billing
+    implementation libs.androidx.fragments
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core_ktx
-    implementation lib_x.constraint_layout
-    implementation lib_x.palette
-    implementation lib_x.media
-    implementation lib_x.browser
-    implementation lib_x.preference
-    implementation lib_x.coordinator
-    implementation lib_x.billing
-    implementation lib_x.fragments
+    implementation libs.ui.lottie
+    implementation libs.ui.tapTargetView
 
-    implementation lib_ui.lottie
-    implementation lib_ui.tap_target_view
+    implementation libs.ui.dialogs.core
+    implementation libs.ui.dialogs.color
+    implementation libs.ui.blurKit
+    implementation libs.ui.customTabs
+    implementation libs.ui.colorDesaturation
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
+    implementation libs.io.lastFmBinding
 
-    implementation lib_ui.dialogs_core
-    implementation lib_ui.dialogs_color
-    implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
-    implementation lib_ui.color_desaturation
-
-    implementation lib_utils.last_fm_binding
-
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.lifecycle.viewmodel
 }

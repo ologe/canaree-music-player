@@ -45,8 +45,13 @@ abstract class CoreModule {
 
         @Provides
         fun provideConfig() = Config(
+            isDebug = BuildConfig.DEBUG,
             versionCode = BuildConfig.VERSION_CODE,
             versionName = BuildConfig.VERSION_NAME,
+            lastFmBaseUrl = "http://ws.audioscrobbler.com/2.0/",
+            lastFmKey = BuildConfig.LAST_FM_KEY,
+            lastFmSecret = BuildConfig.LAST_FM_SECRET,
+            aesPassword = BuildConfig.AES_PASSWORD
         )
 
     }

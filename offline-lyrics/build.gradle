@@ -1,16 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
+plugins {
+    id("dev.olog.msc.library")
+    id("kotlin-kapt")
+    id("dev.olog.msc.hilt")
 }
 
 dependencies {
@@ -20,12 +11,8 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
 
-    implementation lib_core.hilt
-    kapt lib_core.hilt_processor
-    implementation lib_core.coroutines
-
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.core_ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.material
+    implementation libs.androidx.core
+    implementation libs.androidx.core
 }
