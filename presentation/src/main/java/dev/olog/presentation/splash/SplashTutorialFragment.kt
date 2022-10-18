@@ -40,7 +40,7 @@ class SplashTutorialFragment : Fragment(),
 
         swipeableView.isTouching()
             .asLiveData()
-            .subscribe(this) {
+            .subscribe(viewLifecycleOwner) {
                 viewPager.isSwipeEnabled = !it
             }
 
