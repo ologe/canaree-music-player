@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -44,8 +43,6 @@ class LibraryFragment : BaseFragment() {
     internal lateinit var presenter: LibraryFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
 
     private val isPodcast by lazyFast {
         getArgument<Boolean>(
@@ -149,9 +146,6 @@ class LibraryFragment : BaseFragment() {
 
             override fun onPageSelected(position: Int) {
                 presenter.setViewPagerLastPage(position, isPodcast)
-                pagerAdapter.getCategoryAtPosition(position)?.let {
-                    trackerFacade.trackScreen(it.toString(), null)
-                }
 
             }
         }
