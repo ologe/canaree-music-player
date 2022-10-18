@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
@@ -24,6 +26,7 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
@@ -33,7 +36,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
+    private val media by lazyFast { requireActivity().findInContext<MediaProvider>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
@@ -58,7 +61,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
+        lifecycleScope.launch {
             presenter.observePodcastProgress(progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
                 .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left

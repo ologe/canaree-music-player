@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
@@ -22,6 +23,7 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
+@AndroidEntryPoint
 class SplashTutorialFragment : Fragment(),
     SwipeableView.SwipeListener {
 

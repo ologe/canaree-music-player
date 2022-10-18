@@ -5,7 +5,6 @@ package dev.olog.shared.android.extensions
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlin.coroutines.CoroutineContext
 
 
@@ -18,7 +17,13 @@ fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit)
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return Transformations.distinctUntilChanged(this)
+    val result = MediatorLiveData<T>()
+    result.addSource(this) { x ->
+        if (result.value != x) {
+            result.value = x
+        }
+    }
+    return result
 }
 
 inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<T> {

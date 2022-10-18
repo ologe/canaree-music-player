@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.flow
 inline fun <T> Flow<T>.assertBackground(): Flow<T> {
     return channelFlow {
         assertBackgroundThread()
-        collect { offer(it) }
+        collect { trySend(it) }
     }
 }

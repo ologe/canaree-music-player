@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     //kotlinOptions.allWarningsAsErrors = true
@@ -9,6 +11,9 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':intents')
+
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
     implementation lib_x.core
     implementation lib_x.core_ktx

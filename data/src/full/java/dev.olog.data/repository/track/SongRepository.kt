@@ -7,7 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore.Audio
 import android.util.Log
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway

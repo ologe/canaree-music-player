@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
 
@@ -16,8 +17,8 @@ apply from: '../kapt.gradle'
 dependencies {
     implementation project(':shared')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
     implementation lib_core.coroutines
 
     implementation lib_x.annotations

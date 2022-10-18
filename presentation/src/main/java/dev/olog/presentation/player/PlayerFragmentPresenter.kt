@@ -1,7 +1,7 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.pro.IBilling
@@ -63,11 +63,11 @@ internal class PlayerFragmentPresenter @Inject constructor(
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.offer(palette)
+        processorPublisher.trySend(palette)
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.offer(palette)
+        palettePublisher.trySend(palette)
     }
 
 

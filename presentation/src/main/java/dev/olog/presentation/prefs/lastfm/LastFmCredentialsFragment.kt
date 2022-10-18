@@ -9,20 +9,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
+@AndroidEntryPoint
+class LastFmCredentialsFragment : DialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
@@ -63,7 +69,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = launch {
+            job = lifecycleScope.launch {
 
                 val user = UserCredentials(
                     userName.text.toString(),

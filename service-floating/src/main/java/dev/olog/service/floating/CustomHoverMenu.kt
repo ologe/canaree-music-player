@@ -1,19 +1,17 @@
 package dev.olog.service.floating
 
-import android.content.Context
+import android.app.Service
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceContext
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -22,7 +20,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
-    @ServiceContext private val context: Context,
+    private val service: Service,
     @ServiceLifecycle lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -35,9 +33,9 @@ class CustomHoverMenu @Inject constructor(
     private val offlineLyricsColors = intArrayOf(0xFFa3ffaa.toInt(), 0xFF1bffbc.toInt())
 
     private val lyricsContent =
-        LyricsContent(lifecycle, context, musicServiceBinder)
-    private val videoContent = VideoContent(lifecycle, context)
-    private val offlineLyricsContent = OfflineLyricsContent(context, musicServiceBinder, offlineLyricsContentPresenter)
+        LyricsContent(lifecycle, service, musicServiceBinder)
+    private val videoContent = VideoContent(lifecycle, service)
+    private val offlineLyricsContent = OfflineLyricsContent(service, musicServiceBinder, offlineLyricsContentPresenter)
 
     private var disposable: Job? = null
 
@@ -92,7 +90,7 @@ class CustomHoverMenu @Inject constructor(
     )
 
     private fun createTabView(backgroundColors: IntArray, @DrawableRes icon: Int): TabView {
-        return TabView(context, backgroundColors, icon)
+        return TabView(service, backgroundColors, icon)
     }
 
     override fun getId(): String = "menu id"

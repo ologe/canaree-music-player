@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -85,21 +86,19 @@ dependencies {
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
+    implementation lib_x.lifecycle_process
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
 
     implementation lib_x.core_ktx
     implementation lib_x.appcompat
     implementation lib_x.browser
+    implementation lib_x.media
     implementation lib_x.preference
 
     // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
@@ -113,4 +112,6 @@ dependencies {
     implementation lib_analytics.core
     implementation lib_analytics.crashlytics
     implementation lib_analytics.perf
+
+    implementation lib_utils.aes_crypto
 }

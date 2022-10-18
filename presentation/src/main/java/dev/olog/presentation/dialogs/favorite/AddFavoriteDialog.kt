@@ -1,7 +1,10 @@
 package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -13,6 +16,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddFavoriteDialog : BaseDialog() {
 
     companion object {
@@ -48,7 +52,7 @@ class AddFavoriteDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             var message: String
             try {
                 presenter.execute(mediaId)

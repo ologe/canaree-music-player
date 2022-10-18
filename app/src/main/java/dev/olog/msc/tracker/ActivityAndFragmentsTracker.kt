@@ -26,17 +26,15 @@ class ActivityAndFragmentsTracker @Inject constructor(
     }
 
     override fun onActivityResumed(activity: Activity) {
-        try {
-            (activity as FragmentActivity).supportFragmentManager
-                .registerFragmentLifecycleCallbacks(fragmentObserver, true)
-        } catch (ignored: Throwable){}
+        (activity as? FragmentActivity)
+            ?.supportFragmentManager
+            ?.registerFragmentLifecycleCallbacks(fragmentObserver, true)
     }
 
     override fun onActivityPaused(activity: Activity) {
-        try {
-            (activity as FragmentActivity).supportFragmentManager
-                .unregisterFragmentLifecycleCallbacks(fragmentObserver)
-        } catch (ignored: Throwable){}
+        (activity as? FragmentActivity)
+            ?.supportFragmentManager
+            ?.unregisterFragmentLifecycleCallbacks(fragmentObserver)
     }
 
     override fun onActivityStarted(activity: Activity) {

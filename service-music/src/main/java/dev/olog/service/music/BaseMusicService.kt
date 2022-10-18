@@ -2,6 +2,7 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.content.Intent
+import android.os.IBinder
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -11,10 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IServiceLifecycleController
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -33,8 +34,25 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
     private var serviceStarted = false
 
+    override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
+        super.onCreate()
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
+        return super.onBind(intent)
+    }
+
+    @SuppressWarnings("deprecation")
+    override fun onStart(intent: Intent?, startId: Int) {
+        dispatcher.onServicePreSuperOnStart()
+        super.onStart(intent, startId)
+    }
+
     @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         serviceStarted = true
 
         handleIntent(intent)
@@ -67,6 +85,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             MusicServiceAction.PLAY_PAUSE -> handlePlayPause(intent)
             MusicServiceAction.SKIP_NEXT -> handleSkipNext(intent)
             MusicServiceAction.SKIP_PREVIOUS -> handleSkipPrevious(intent)
+            else -> {}
         }
 
         when (musicServiceCustomAction){

@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.intents.Classes
 
+@AndroidEntryPoint
 class ShortcutsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

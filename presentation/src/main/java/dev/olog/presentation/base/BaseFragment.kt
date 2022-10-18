@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import dev.olog.shared.android.extensions.findInContext
 
-abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,12 +25,7 @@ abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
     protected abstract fun provideLayoutId(): Int
 
     fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
-        return (activity as HasSlidingPanel).getSlidingPanel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cancel()
+        return (requireActivity().findInContext<HasSlidingPanel>()).getSlidingPanel()
     }
 
     fun restoreUpperWidgetsTranslation(){

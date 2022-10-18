@@ -7,16 +7,23 @@ import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import dev.olog.core.PendingIntentFactory
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 internal class NotificationImpl26 @Inject constructor(
-        service: Service,
-        mediaSession: MediaSessionCompat
-
-) : NotificationImpl24(service, mediaSession) {
+    service: Service,
+    mediaSession: MediaSessionCompat,
+    pendingIntentFactory: PendingIntentFactory,
+    notificationActions: NotificationActions,
+) : NotificationImpl24(
+    service = service,
+    mediaSession = mediaSession,
+    pendingIntentFactory = pendingIntentFactory,
+    notificationActions = notificationActions
+) {
 
     override fun extendInitialization() {
         builder.setColorized(true)

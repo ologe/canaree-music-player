@@ -1,4 +1,4 @@
-package dev.olog.injection
+package dev.olog.msc.app
 
 import android.app.Application
 import android.content.ContentResolver
@@ -8,37 +8,47 @@ import android.net.ConnectivityManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.msc.BuildConfig
+import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.presentation.model.PresentationPreferencesImpl
+import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class CoreModule {
 
     @Binds
-    @ApplicationContext
-    internal abstract fun provideContext(instance: Application): Context
-
-    @Binds
+    @Singleton
     abstract fun provideEncrypter(impl: EncrypterImpl): IEncrypter
 
-    @Module
+    @Binds
+    abstract fun providePresentationPrefs(impl: PresentationPreferencesImpl): PresentationPreferencesGateway
+
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideResources(instance: Application): Resources = instance.resources
 
         @Provides
-        @JvmStatic
         internal fun provideContentResolver(instance: Application): ContentResolver {
             return instance.contentResolver
         }
 
         @Provides
-        @JvmStatic
         fun provideConnectivityManager(instance: Application): ConnectivityManager {
             return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         }
+
+        @Provides
+        fun provideConfig() = Config(
+            versionCode = BuildConfig.VERSION_CODE,
+            versionName = BuildConfig.VERSION_NAME,
+        )
+
     }
 
 }

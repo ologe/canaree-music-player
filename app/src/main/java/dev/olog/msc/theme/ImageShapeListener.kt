@@ -2,7 +2,7 @@ package dev.olog.msc.theme
 
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -18,7 +18,7 @@ internal class ImageShapeListener @Inject constructor(
 
     override fun onPrefsChanged() {
         val imageShape = getValue()
-        imageShapePublisher.offer(imageShape)
+        imageShapePublisher.trySend(imageShape)
     }
 
     override fun getValue(): ImageShape {

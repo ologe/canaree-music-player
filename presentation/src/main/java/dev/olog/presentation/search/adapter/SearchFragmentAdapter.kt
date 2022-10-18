@@ -8,10 +8,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
 import kotlinx.android.synthetic.main.item_search_album.view.cover
@@ -92,6 +89,7 @@ class SearchFragmentAdapter(
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
             is DisplayableAlbum -> bindAlbum(holder, item)
+            is DisplayableNestedListPlaceholder -> {}
         }
     }
 

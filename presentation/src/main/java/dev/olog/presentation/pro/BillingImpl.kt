@@ -45,7 +45,7 @@ internal class BillingImpl @Inject constructor(
     private val trialPublisher = ConflatedBroadcastChannel(lastTrial)
 
     private var isPremiumState by Delegates.observable(lastPremium) { _, _, new ->
-        premiumPublisher.offer(new)
+        premiumPublisher.trySend(new)
         billingPrefs.setLastPremium(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
@@ -53,7 +53,7 @@ internal class BillingImpl @Inject constructor(
     }
 
     private var isTrialState by Delegates.observable(lastTrial) { _, _, new ->
-        trialPublisher.offer(new)
+        trialPublisher.trySend(new)
         billingPrefs.setLastTrial(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()

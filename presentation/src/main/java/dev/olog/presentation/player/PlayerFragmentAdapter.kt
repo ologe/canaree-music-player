@@ -213,7 +213,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context as FragmentActivity).fragmentTransaction {
+            (view.context.findInContext<FragmentActivity>()).fragmentTransaction {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,
@@ -348,7 +348,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
@@ -359,13 +359,13 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }

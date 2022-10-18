@@ -1,5 +1,6 @@
 package dev.olog.service.music
 
+import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,14 +9,13 @@ import android.media.AudioManager
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class Noisy @Inject constructor(
-    @ServiceContext private val context: Context,
+    private val service: Service,
     private val eventDispatcher: EventDispatcher
 
 ) : DefaultLifecycleObserver {
@@ -34,12 +34,12 @@ internal class Noisy @Inject constructor(
     }
 
     fun register() {
-        if (registered){
+        if (registered) {
             Log.w(TAG, "trying to re-register")
             return
         }
         Log.v(TAG, "register")
-        context.registerReceiver(receiver, noisyFilter)
+        service.registerReceiver(receiver, noisyFilter)
         registered = true
     }
 
@@ -50,7 +50,7 @@ internal class Noisy @Inject constructor(
         }
 
         Log.v(TAG, "unregister")
-        context.unregisterReceiver(receiver)
+        service.unregisterReceiver(receiver)
         registered = false
     }
 

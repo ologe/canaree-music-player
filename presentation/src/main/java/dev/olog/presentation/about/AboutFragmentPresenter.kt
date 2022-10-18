@@ -3,22 +3,18 @@ package dev.olog.presentation.about
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dev.olog.core.Config
 import dev.olog.core.MediaId
-import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.pro.IBilling
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 
 class AboutFragmentPresenter(
     context: Context,
-    private val billing: IBilling
-) : CoroutineScope by MainScope() {
+    private val billing: IBilling,
+    config: Config,
+) {
 
     companion object {
         @JvmStatic
@@ -65,7 +61,7 @@ class AboutFragmentPresenter(
             type = R.layout.item_about,
             mediaId = MediaId.headerId("version id"),
             title = context.getString(R.string.about_version),
-            subtitle = BuildConfig.VERSION_NAME
+            subtitle = config.versionName,
         ),
 
         DisplayableHeader(
@@ -146,23 +142,11 @@ class AboutFragmentPresenter(
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 
     init {
-//        launch {
-//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-//                when {
-//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-//                    state.isTrial -> listOf(havoc, trial) + (data)
-//                    else -> listOf(havoc, noPro) + (data)
-//                }
-//            }.flowOn(Dispatchers.Default)
-//                .collect {
-//                    dataLiveData.value = it
-//                }
-//        }
         dataLiveData.value = data
     }
 
     fun onCleared() {
-        cancel()
+
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData

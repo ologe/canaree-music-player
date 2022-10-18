@@ -1,13 +1,13 @@
 package dev.olog.service.music
 
 import android.util.Log
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
-@PerService
+@ServiceScoped
 internal class MediaButton @Inject internal constructor(
     private val eventDispatcher: EventDispatcher
 

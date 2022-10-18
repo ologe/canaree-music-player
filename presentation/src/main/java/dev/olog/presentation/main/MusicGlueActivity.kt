@@ -20,15 +20,12 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
-    OnConnectionChanged,
-    CoroutineScope by MainScope() {
+    OnConnectionChanged {
 
     @Inject
     internal lateinit var trackerFacade: TrackerFacade

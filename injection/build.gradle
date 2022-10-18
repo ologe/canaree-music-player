@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -32,8 +33,8 @@ dependencies {
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.appcompat

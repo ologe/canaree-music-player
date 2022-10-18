@@ -5,11 +5,14 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
@@ -37,6 +40,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabFragment : BaseFragment(), SetupNestedList {
 
     companion object {
@@ -52,8 +56,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
@@ -80,9 +82,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<TabFragmentViewModel>(
+        ownerProducer = { requireParentFragment() },
+    )
 
     internal val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
@@ -90,7 +92,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(lifecycle, navigator, act.findInContext(), viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
@@ -136,7 +138,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
+        lifecycleScope.launch {
             viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
@@ -145,7 +147,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        lifecycleScope.launch {
             viewModel.observeSpanCount(category)
                 .drop(1) // drop initial value, already used
                 .collect {
@@ -157,7 +159,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        lifecycleScope.launch {
             when (category) {
                 TabCategory.ALBUMS -> {
                     viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)

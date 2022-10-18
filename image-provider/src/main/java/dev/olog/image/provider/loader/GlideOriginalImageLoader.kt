@@ -6,14 +6,14 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
-internal class GlideOriginalImageLoader(
+class GlideOriginalImageLoader(
     private val context: Context,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway

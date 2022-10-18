@@ -6,11 +6,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.db.dao.AppDatabase
 import javax.inject.Singleton
 
-@Module(includes = [DatabaseModule::class])
+@Module
+@InstallIn(SingletonComponent::class)
 object RepositoryHelperModule {
 
     @Provides

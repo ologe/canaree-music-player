@@ -2,7 +2,8 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.core.Config
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
@@ -15,6 +16,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AboutFragment : BaseFragment() {
 
     companion object {
@@ -26,8 +28,11 @@ class AboutFragment : BaseFragment() {
     lateinit var navigator: NavigatorAbout
     @Inject
     lateinit var billing: IBilling
+    @Inject
+    lateinit var config: Config
+
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing)
+        AboutFragmentPresenter(ctx.applicationContext, billing, config)
     }
     private val adapter by lazyFast {
         AboutFragmentAdapter(lifecycle, navigator, presenter)

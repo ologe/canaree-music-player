@@ -5,7 +5,7 @@ import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
@@ -26,9 +26,9 @@ internal class FolderNavigatorRepository @Inject constructor(
     override fun observeFolderChildren(file: File): Flow<List<FileType>> {
         return channelFlow {
 
-            offer(queryFileChildren(file))
+            trySend(queryFileChildren(file))
 
-            val observer = ActionContentObserver { offer(queryFileChildren(file)) }
+            val observer = ActionContentObserver { trySend(queryFileChildren(file)) }
 
             context.contentResolver.registerContentObserver(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

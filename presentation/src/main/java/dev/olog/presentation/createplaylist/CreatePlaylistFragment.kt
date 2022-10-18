@@ -3,8 +3,10 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -18,12 +20,11 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
@@ -38,11 +39,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
         CreatePlaylistFragmentAdapter(
             lifecycle,
@@ -78,7 +75,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
+        lifecycleScope.launch {
             adapter.observeData(false)
                 .filter { it.isNotEmpty() }
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
@@ -86,7 +83,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
+        lifecycleScope.launch {
             editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)

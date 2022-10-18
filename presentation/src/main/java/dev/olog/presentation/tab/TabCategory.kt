@@ -2,7 +2,7 @@ package dev.olog.presentation.tab
 
 import dev.olog.core.MediaIdCategory
 
-internal enum class TabCategory {
+enum class TabCategory {
     FOLDERS,
     PLAYLISTS,
     SONGS,

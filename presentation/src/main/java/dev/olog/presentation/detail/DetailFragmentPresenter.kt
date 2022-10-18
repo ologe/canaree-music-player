@@ -10,14 +10,16 @@ import dev.olog.presentation.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
     private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
     private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) {
 
-    suspend fun removeFromPlaylist(item: DisplayableTrack) {
+    suspend fun removeFromPlaylist(
+        mediaId: MediaId,
+        item: DisplayableTrack
+    ) {
         mediaId.assertPlaylist()
         val playlistId = mediaId.categoryId
         val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
@@ -35,7 +37,10 @@ class DetailFragmentPresenter @Inject constructor(
         }
     }
 
-    suspend fun moveInPlaylist(moveList: List<Pair<Int, Int>>){
+    suspend fun moveInPlaylist(
+        mediaId: MediaId,
+        moveList: List<Pair<Int, Int>>
+    ){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
         moveItemInPlaylistUseCase.execute(

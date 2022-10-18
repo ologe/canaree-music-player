@@ -1,9 +1,7 @@
 package dev.olog.presentation.pro
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.dagger.ApplicationContext
 import javax.inject.Inject
 
 internal class BillingPreferences @Inject constructor(

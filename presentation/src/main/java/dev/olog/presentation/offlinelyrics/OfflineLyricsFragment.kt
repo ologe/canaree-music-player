@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -15,6 +17,7 @@ import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
@@ -32,6 +35,7 @@ import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
@@ -46,7 +50,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
 
-    private val mediaProvider by lazy { activity as MediaProvider }
+    private val mediaProvider by lazy { requireActivity().findInContext<MediaProvider>() }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 
@@ -70,7 +74,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                launch { loadImage(it.mediaId) }
+                lifecycleScope.launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
@@ -119,7 +123,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            launch {
+            lifecycleScope.launch {
                 EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -134,7 +138,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
-            launch {
+            lifecycleScope.launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         ctx,

@@ -2,7 +2,10 @@ package dev.olog.presentation.edit.song
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
@@ -12,11 +15,10 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_track.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditTrackFragment : BaseEditItemFragment() {
 
     companion object {
@@ -31,14 +33,8 @@ class EditTrackFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory)
-    }
-    private val editItemViewModel by lazyFast {
-        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<EditTrackFragmentViewModel>()
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
     private val mediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
@@ -50,7 +46,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
+        lifecycleScope.launch {
             title.afterTextChange()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
@@ -78,7 +74,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            lifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {

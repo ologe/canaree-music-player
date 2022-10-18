@@ -1,6 +1,5 @@
 package dev.olog.presentation.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -8,6 +7,7 @@ import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -16,7 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
@@ -36,10 +36,10 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener,
-    CoroutineScope by MainScope() {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         @JvmStatic
@@ -84,11 +84,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         )
     }
 
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
@@ -101,7 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
 
-        val state = (act as HasBilling).billing.getBillingsState()
+        val state = (act.findInContext<HasBilling>()).billing.getBillingsState()
         val premiumEnabled = state.isPremiumEnabled()
         preferenceScreen.forEach {
             it.isEnabled = premiumEnabled || !paidSettings.contains(it)
@@ -200,7 +195,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> lifecycleScope.launch { clearGlideCache() } }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }
