@@ -18,6 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
+rootProject.name = "canaree"
 include(":app")
 
 include(":data")
