@@ -34,7 +34,6 @@ dependencies {
     implementation libs.androidx.browser
     implementation libs.androidx.preference
     implementation libs.androidx.coordinator
-    implementation libs.androidx.billing
     implementation libs.androidx.fragments
 
     implementation libs.ui.lottie

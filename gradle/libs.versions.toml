@@ -21,7 +21,6 @@ androidx-coordinator = "1.1.0"
 androidx-fragments = "1.5.3"
 androidx-constraintLayout = "2.0.0"
 androidx-lifecycle = "2.5.1"
-androidx-billing = "1.2.2"
 
 firebase-core = "17.2.0"
 firebase-analytics = "17.5.0"
@@ -92,7 +91,6 @@ androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", 
 androidx-lifecycle-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
-androidx-billing = { module = "com.android.billingclient:billing", version.ref = "androidx-billing" }
 
 ui-glide = { module = "com.github.bumptech.glide:glide", version.ref = "ui-glide" }
 ui-glide-processor = { module = "com.github.bumptech.glide:compiler", version.ref = "ui-glide" }

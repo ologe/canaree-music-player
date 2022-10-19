@@ -24,10 +24,6 @@
     <string name="about_privacy_policy">गोपनीयता नीति</string>
     <string name="about_privacy_policy_description">हम दोनों के लिए मत्वपूर्ण</string>
 
-    <string name="about_buy_pro">पेशेवर संस्करण खरीदें</string>
-    <string name="about_buy_pro_description">सभी फीचर्स इस्तेमाल करने के लिए पेशेवर संस्करण खरीदें</string>
-    <string name="about_buy_pro_description_trial">परीक्षण संस्करण, सभी फीचर खुले हैं</string>
-
     <string name="about_icon_made_by_x_from_y">आइकन %1$s ने बनाया %2$s से</string>
 
 </resources>

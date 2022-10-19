@@ -12,8 +12,6 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.presentation.navigator.NavigatorAboutImpl
 import dev.olog.presentation.navigator.NavigatorImpl
-import dev.olog.presentation.pro.BillingMock
-import dev.olog.presentation.pro.IBilling
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -26,10 +24,6 @@ abstract class ActivityModule {
     @Binds
     @ActivityScoped
     abstract fun provideNavigatorAbout(navigatorImpl: NavigatorAboutImpl): NavigatorAbout
-
-    @Binds
-    @ActivityScoped
-    internal abstract fun provideBilling(impl: BillingMock): IBilling
 
     companion object {
 

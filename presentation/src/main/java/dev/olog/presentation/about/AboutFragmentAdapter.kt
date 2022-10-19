@@ -26,12 +26,10 @@ class AboutFragmentAdapter(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutFragmentPresenter.HAVOC_ID -> navigator.toHavocPage()
                 AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
                 AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
                 AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
                 AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentPresenter.BUY_PRO -> presenter.buyPro()
                 AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
                 AboutFragmentPresenter.BETA -> navigator.joinBeta()
                 AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
@@ -44,9 +42,6 @@ class AboutFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableHeader)
         holder.itemView.apply {
-            if (item.mediaId == AboutFragmentPresenter.BUY_PRO) {
-                title.setTextColor(ColorStateList.valueOf(context.colorAccent()))
-            }
             title.text = item.title
             subtitle.text = item.subtitle   
         }

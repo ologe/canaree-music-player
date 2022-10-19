@@ -8,49 +8,27 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.pro.IBilling
 
 class AboutFragmentPresenter(
     context: Context,
-    private val billing: IBilling,
     config: Config,
 ) {
 
     companion object {
-        @JvmStatic
-        val HAVOC_ID = MediaId.headerId("havoc id")
-        @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
-        @JvmStatic
         val THIRD_SW_ID = MediaId.headerId("third sw")
-        @JvmStatic
         val COMMUNITY = MediaId.headerId("community")
-        @JvmStatic
         val BETA = MediaId.headerId("beta")
-        @JvmStatic
         val SPECIAL_THANKS_ID = MediaId.headerId("special thanks to")
-        @JvmStatic
         val TRANSLATION = MediaId.headerId("Translation")
-        @JvmStatic
         val RATE_ID = MediaId.headerId("rate")
-        @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
-        @JvmStatic
-        val BUY_PRO = MediaId.headerId("pro")
-        @JvmStatic
         val CHANGELOG = MediaId.headerId("changelog")
-        @JvmStatic
         val GITHUB = MediaId.headerId("github")
     }
 
 
     private val data = listOf(
-        DisplayableHeader(
-            type = R.layout.item_about_promotion,
-            mediaId = HAVOC_ID,
-            title = context.getString(R.string.about_havoc),
-            subtitle = context.getString(R.string.about_translations_description)
-        ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
@@ -151,9 +129,4 @@ class AboutFragmentPresenter(
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 
-    fun buyPro() {
-        if (!billing.getBillingsState().isPremiumStrict()) {
-            billing.purchasePremium()
-        }
-    }
 }

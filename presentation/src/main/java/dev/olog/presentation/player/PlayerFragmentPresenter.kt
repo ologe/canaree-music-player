@@ -2,9 +2,7 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +12,6 @@ import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val billing: IBilling,
-    private val prefsGateway: AppPreferencesGateway,
     private val presentationPrefs: PresentationPreferencesGateway
 ) {
 
@@ -23,10 +19,7 @@ internal class PlayerFragmentPresenter @Inject constructor(
     private val palettePublisher = ConflatedBroadcastChannel<PaletteColors>()
 
     fun observePlayerControlsVisibility(): Flow<Boolean> {
-
-        return billing.observeBillingsState().map { it.isPremiumEnabled() }
-            .combine(presentationPrefs.observePlayerControlsVisibility())
-            { premium, show -> premium && show }
+        return presentationPrefs.observePlayerControlsVisibility()
     }
 
     // allow adaptive color on flat appearance
