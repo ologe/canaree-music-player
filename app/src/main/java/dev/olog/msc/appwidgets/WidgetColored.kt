@@ -6,12 +6,11 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.image.provider.loading.ImageSize
+import dev.olog.image.provider.loading.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*
-
-private const val IMAGE_SIZE = 300
 
 @AndroidEntryPoint
 class WidgetColored : BaseWidget() {
@@ -21,10 +20,10 @@ class WidgetColored : BaseWidget() {
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.Main) {
-            val bitmap = withContext(Dispatchers.IO){
-                context.getCachedBitmap(MediaId.songId(metadata.id), IMAGE_SIZE)
-            } ?: return@launch
-            yield()
+            val bitmap = context.getCachedBitmap(
+                mediaId = MediaId.songId(metadata.id),
+                imageSize = ImageSize.Custom(300),
+            ) ?: return@launch
             val remote = remoteViews ?: RemoteViews(context.packageName, layoutId)
             remote.setTextViewText(R.id.title, metadata.title)
             remote.setTextViewText(R.id.subtitle, metadata.subtitle)

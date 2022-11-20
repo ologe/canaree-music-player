@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -174,12 +173,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         withContext(Dispatchers.IO) {
             GlideApp.get(ctx.applicationContext).clearDiskCache()
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()
-                ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()
-                ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles()
-                ?.forEach { it.delete() }
         }
         ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
     }

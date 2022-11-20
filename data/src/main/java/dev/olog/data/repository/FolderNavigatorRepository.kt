@@ -51,7 +51,13 @@ internal class FolderNavigatorRepository @Inject constructor(
 
         return sortFolders(children) + folderGateway
             .getTrackListByParam(file.path)
-            .map { FileType.Track(it.title, it.path) }
+            .map {
+                FileType.Track(
+                    id = it.id,
+                    title = it.title,
+                    path = it.path
+                )
+            }
     }
 
     private fun sortFolders(files: List<File>): List<FileType> {

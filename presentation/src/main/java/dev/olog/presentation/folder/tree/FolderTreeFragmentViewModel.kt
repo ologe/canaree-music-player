@@ -176,10 +176,10 @@ class FolderTreeFragmentViewModel @Inject constructor(
     )
 
     private fun FileType.Track.toDisplayableItem(): DisplayableFile {
-
+        val parentId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path)
         return DisplayableFile(
             type = R.layout.item_folder_tree_track,
-            mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
+            mediaId = MediaId.playableItem(parentId, this.id),
             title = this.title,
             path = this.path
         )

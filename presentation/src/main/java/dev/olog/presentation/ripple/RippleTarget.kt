@@ -18,7 +18,6 @@ class RippleTarget(
     private val fallbackColor: Int = 0x40_606060,
     private val darkAlpha: Float = .1f,
     private val lightAlpha: Float = .2f
-
 ) : DrawableImageViewTarget(imageView) {
 
     private var job: Job? = null
@@ -33,16 +32,14 @@ class RippleTarget(
         }
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         super.onDestroy()
         job?.cancel()
     }
 
     private suspend fun generateRipple(drawable: Drawable) {
         val bitmap = drawable.toBitmap()
-        yield()
         val palette = generatePalette(bitmap)
-        yield()
         onGenerated(palette)
     }
 

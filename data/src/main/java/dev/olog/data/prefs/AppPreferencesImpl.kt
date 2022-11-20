@@ -80,11 +80,6 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun canAutoCreateImages(): Boolean {
-        assertBackgroundThread()
-        return preferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
-    }
-
     private fun setDefaultFolderView() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)

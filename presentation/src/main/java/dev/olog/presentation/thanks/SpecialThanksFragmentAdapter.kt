@@ -3,6 +3,7 @@ package dev.olog.presentation.thanks
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -22,7 +23,7 @@ class SpecialThanksFragmentAdapter(
         holder.itemView.apply {
             GlideApp.with(context)
                 .load(ContextCompat.getDrawable(context, item.image))
-                .into(image)
+                .into(DrawableImageViewTarget(image))
 
             title.text = item.title
         }

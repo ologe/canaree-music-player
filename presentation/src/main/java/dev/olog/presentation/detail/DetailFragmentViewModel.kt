@@ -7,6 +7,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.core.getOrNull
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
@@ -110,8 +111,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
+                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId).getOrNull()?.wiki
+                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId).getOrNull()?.wiki
                     else -> null
                 }
                 withContext(Dispatchers.Main) {

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
@@ -25,14 +26,12 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     protected fun loadImage(mediaId: MediaId) {
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
-        GlideApp.with(ctx).clear(image)
-
         GlideApp.with(ctx)
             .load(mediaId)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .override(500)
             .priority(Priority.IMMEDIATE)
-            .into(image)
+            .into(DrawableImageViewTarget(image))
     }
 
     protected fun showLoader(@StringRes resId: Int) {

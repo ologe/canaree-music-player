@@ -4,55 +4,64 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.olog.data.db.entities.*
+import dev.olog.data.db.entities.LastFmAlbumEntity
+import dev.olog.data.db.entities.LastFmArtistEntity
+import dev.olog.data.db.entities.LastFmTrackEntity
 
-private const val CACHE_TIME = "1 month"
+private const val CACHE_TIME = "1 year"
 
 @Dao
+@Deprecated(message = "delete")
 internal abstract class LastFmDao {
 
     // track
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM last_fm_track_v2
         WHERE id = :id
         AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
-    """)
-     abstract fun getTrack(id: Long): LastFmTrackEntity?
+    """
+    )
+    abstract suspend fun getTrack(id: Long): LastFmTrackEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     abstract fun insertTrack(entity: LastFmTrackEntity): Long
+    abstract suspend fun insertTrack(entity: LastFmTrackEntity): Long
 
     @Query("DELETE FROM last_fm_track_v2 WHERE id = :trackId")
-     abstract fun deleteTrack(trackId: Long)
+    abstract suspend fun deleteTrack(trackId: Long)
 
     // album
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM last_fm_album_v2
         WHERE id = :id
         AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
-    """)
-     abstract fun getAlbum(id: Long): LastFmAlbumEntity?
+    """
+    )
+    abstract suspend fun getAlbum(id: Long): LastFmAlbumEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     abstract fun insertAlbum(entity: LastFmAlbumEntity): Long
+    abstract suspend fun insertAlbum(entity: LastFmAlbumEntity): Long
 
     @Query("DELETE FROM last_fm_album_v2 WHERE id = :albumId")
-     abstract fun deleteAlbum(albumId: Long)
+    abstract suspend fun deleteAlbum(albumId: Long)
 
     // artist
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM last_fm_artist_v2
         WHERE id = :id
         AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
-    """)
-     abstract fun getArtist(id: Long): LastFmArtistEntity?
+    """
+    )
+    abstract suspend fun getArtist(id: Long): LastFmArtistEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     abstract fun insertArtist(entity: LastFmArtistEntity): Long
+    abstract suspend fun insertArtist(entity: LastFmArtistEntity): Long
 
     @Query("DELETE FROM last_fm_artist_v2 WHERE id = :artistId")
-     abstract fun deleteArtist(artistId: Long)
+    abstract suspend fun deleteArtist(artistId: Long)
 }

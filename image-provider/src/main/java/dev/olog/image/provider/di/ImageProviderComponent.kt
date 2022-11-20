@@ -1,21 +1,20 @@
 package dev.olog.image.provider.di
 
+import com.bumptech.glide.load.engine.cache.DiskCache
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.Config
-import dev.olog.image.provider.loader.GlideImageRetrieverLoader
-import dev.olog.image.provider.loader.GlideMergedImageLoader
-import dev.olog.image.provider.loader.GlideOriginalImageLoader
+import dev.olog.image.provider.loader.MediaIdLoader
+import okhttp3.OkHttpClient
 
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
-interface ImageProviderComponent {
+internal interface ImageProviderComponent {
 
-    fun lastFmFactory(): GlideImageRetrieverLoader.Factory
-    fun originalFactory(): GlideOriginalImageLoader.Factory
-    fun mergedFactory(): GlideMergedImageLoader.Factory
-    fun config(): Config
+    fun mediaIdFactory(): MediaIdLoader.Factory
+    fun okHttpClient(): OkHttpClient
+    fun diskCache(): DiskCache
 
 }
+

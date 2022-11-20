@@ -7,7 +7,8 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dev.olog.core.MediaId
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.image.provider.loading.ImageSize
+import dev.olog.image.provider.loading.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
@@ -37,7 +38,11 @@ class AppShortcutsImp(
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 
-                val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() }) ?: return@launch
+                val bitmap = context.getCachedBitmap(
+                    mediaId = mediaId,
+                    imageSize = ImageSize.Medium,
+                    extension = { circleCrop() }
+                ) ?: return@launch
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                     .setShortLabel(title)
                     .setIcon(IconCompat.createWithBitmap(bitmap))

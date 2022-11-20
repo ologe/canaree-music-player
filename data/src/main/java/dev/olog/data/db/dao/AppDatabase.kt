@@ -67,8 +67,6 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun lastPlayedPodcastArtistDao(): LastPlayedPodcastArtistDao
     abstract fun lastPlayedPodcastAlbumDao(): LastPlayedPodcastAlbumDao
 
-    abstract fun lastFmDao(): LastFmDao
-
     abstract fun offlineLyricsDao(): OfflineLyricsDao
 
     abstract fun playlistDao(): PlaylistDao

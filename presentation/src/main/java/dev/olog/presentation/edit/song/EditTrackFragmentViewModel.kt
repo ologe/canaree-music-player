@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
+import dev.olog.core.getOrNull
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
@@ -59,7 +60,7 @@ class EditTrackFragmentViewModel @Inject constructor(
         fetchJob = viewModelScope.launch {
             try {
                 val lastFmTrack = withContext(Dispatchers.IO) {
-                    presenter.fetchData(mediaId.resolveId)
+                    presenter.fetchData(mediaId.resolveId).getOrNull()
                 }
                 var currentSong = displayableSongLiveData.value!!
                 currentSong = currentSong.copy(

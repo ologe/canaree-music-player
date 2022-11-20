@@ -11,8 +11,6 @@ interface AppPreferencesGateway {
     fun getSleepTime() : Long
     fun getSleepFrom() : Long
 
-    fun canAutoCreateImages(): Boolean
-
     fun getLastFmCredentials(): UserCredentials
     fun observeLastFmCredentials(): Flow<UserCredentials>
     fun setLastFmCredentials(user: UserCredentials)

@@ -57,7 +57,7 @@ dependencies {
     implementation libs.ui.customTabs
 
     // debug
-    debugImplementation libs.utils.leakCanary
+//    debugImplementation libs.utils.leakCanary todo restore
 
     // firebase
     implementation libs.firebase.core

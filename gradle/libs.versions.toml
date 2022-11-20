@@ -1,5 +1,5 @@
 [versions]
-gradle = "7.4.0-beta02"
+gradle = "7.4.0-beta05"
 kotlin = "1.7.20"
 gms = "4.3.5"
 crashlytics = "2.5.1"
@@ -26,7 +26,7 @@ firebase-core = "17.2.0"
 firebase-analytics = "17.5.0"
 firebase-crashlytics = "17.2.1"
 
-ui-glide = "4.11.0"
+ui-glide = "4.14.2"
 ui-lottie = "3.4.2"
 ui-customTabs = "3.0.1"
 ui-materialDialogs = "3.3.0"
@@ -41,6 +41,7 @@ io-okhttp = "4.8.1"
 io-retrofit = "2.9.0"
 io-gson = "2.8.6"
 io-lastFmBinding = "0.1.2"
+io-resilience4j = "1.7.1"
 
 test-junit = "4.13"
 test-mockito = "3.5.10"
@@ -94,6 +95,7 @@ androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmode
 
 ui-glide = { module = "com.github.bumptech.glide:glide", version.ref = "ui-glide" }
 ui-glide-processor = { module = "com.github.bumptech.glide:compiler", version.ref = "ui-glide" }
+ui-glide-okhttp = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "ui-glide" }
 ui-scrollHelper = { module = "com.github.ologe:scroll-helper", version.ref = "ui-scrollHelper" }
 ui-blurKit = { module = "io.alterac.blurkit:blurkit", version.ref = "ui-blurKit" }
 ui-lottie = { module = "com.airbnb.android:lottie", version.ref = "ui-lottie" }
@@ -114,6 +116,8 @@ io-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "io-re
 io-retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "io-retrofit" }
 io-gson = { module = "com.google.code.gson:gson", version.ref = "io-gson" }
 io-lastFmBinding = { module = "de.u-mass:lastfm-java", version.ref = "io-lastFmBinding" }
+io-resilience-ratelimiter = { module = "io.github.resilience4j:resilience4j-ratelimiter", version.ref = "io-resilience4j" }
+io-resilience-kotlin = { module = "io.github.resilience4j:resilience4j-kotlin", version.ref = "io-resilience4j" }
 
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-mockito = { module = "org.mockito:mockito-inline", version.ref = "test-mockito" }
