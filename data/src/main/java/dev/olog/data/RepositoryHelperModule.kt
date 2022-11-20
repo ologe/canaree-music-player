@@ -24,7 +24,12 @@ object RepositoryHelperModule {
         typeConverters: CustomTypeConverters,
     ): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-            .addMigrations(Migration_15_16, Migration_16_17, Migration_17_18)
+            .addMigrations(
+                Migration_15_16,
+                Migration_16_17,
+                Migration_17_18,
+                Migration_18_19,
+            )
             .allowMainThreadQueries()
             .addTypeConverter(typeConverters)
             .build()
@@ -203,6 +208,14 @@ object RepositoryHelperModule {
             database.execSQL("DROP TABLE used_image_track_2")
             database.execSQL("DROP TABLE used_image_album_2")
             database.execSQL("DROP TABLE used_image_artist_2")
+        }
+    }
+
+    private val Migration_18_19 = object : Migration(18, 19) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("DROP TABLE last_fm_track_v2")
+            database.execSQL("DROP TABLE last_fm_album_v2")
+            database.execSQL("DROP TABLE last_fm_artist_v2")
         }
     }
 

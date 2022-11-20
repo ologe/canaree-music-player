@@ -26,10 +26,6 @@ import dev.olog.data.db.entities.*
         LastPlayedPodcastAlbumEntity::class,
         LastPlayedPodcastArtistEntity::class,
 
-        LastFmTrackEntity::class,
-        LastFmAlbumEntity::class,
-        LastFmArtistEntity::class,
-
         OfflineLyricsEntity::class,
 
         PlaylistEntity::class,
@@ -43,7 +39,7 @@ import dev.olog.data.db.entities.*
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 18, exportSchema = true
+    ), version = 19, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
