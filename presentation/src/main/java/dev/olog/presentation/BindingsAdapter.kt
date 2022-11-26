@@ -26,7 +26,7 @@ object BindingsAdapter {
             .load(mediaId)
             .override(imageSize.size)
             .priority(priority)
-            .placeholder(CoverUtils.getGradient(context, mediaId))
+            .placeholder(CoverUtils.full(context, mediaId))
 
         if (mediaId.isLeaf) {
             builder.into(DrawableImageViewTarget(view))
@@ -63,7 +63,7 @@ object BindingsAdapter {
             .override(ImageSize.Large.size)
             .priority(Priority.IMMEDIATE)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .onlyRetrieveFromCache(true)
             .into(RippleTarget(view))
     }

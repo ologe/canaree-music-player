@@ -1,28 +1,33 @@
 package dev.olog.core
 
 import kotlinx.coroutines.CancellationException
+import java.io.IOException
 
-sealed class IoResult<out T> {
+sealed interface IoResult<out T> {
 
-    data class Success<T>(val value: T) : IoResult<T>()
+    data class Success<T>(val value: T) : IoResult<T>
 
-    sealed class Failure : IoResult<Nothing>() {
+    sealed interface Failure : IoResult<Nothing> {
 
-        abstract val exception: Throwable
+        val exception: Throwable
+            get() = when (this) {
+                is Http -> this
+                is Network -> this
+                is Unknown -> this
+            }
 
-        data class Http(
-            val status: Int,
-            val message: String,
-            override val exception: Throwable
-        ) : Failure() {
+        class Http(
+            private val status: Int,
+            message: String,
+        ) : RuntimeException(message), Failure {
 
             val isServerError: Boolean
                 get() = status in 500..599
 
         }
 
-        data class Network(override val exception: Throwable) : Failure()
-        data class Unknown(override val exception: Throwable) : Failure()
+        class Network(cause: Throwable) : IOException(cause), Failure
+        class Unknown(cause: Throwable) : RuntimeException(cause), Failure
     }
 
 
@@ -55,9 +60,9 @@ inline fun <T, R> IoResult<T>.fold(
 
 inline fun <T, R> IoResult<T>.map(mapper: (T) -> R): IoResult<R> = when (this) {
     is IoResult.Success -> IoResult.of { mapper(value) }
-    is IoResult.Failure.Http -> IoResult.Failure.Http(status, message, exception)
-    is IoResult.Failure.Network -> IoResult.Failure.Network(exception)
-    is IoResult.Failure.Unknown -> IoResult.Failure.Unknown(exception)
+    is IoResult.Failure.Http -> this
+    is IoResult.Failure.Network -> this
+    is IoResult.Failure.Unknown -> this
 }
 
 inline fun <T, R> IoResult<T>.flatMap(mapper: (T) -> IoResult<R>): IoResult<R> = when (this) {
@@ -72,9 +77,9 @@ inline fun <T, R> IoResult<T>.flatMap(mapper: (T) -> IoResult<R>): IoResult<R> =
             IoResult.Failure.Unknown(ex)
         }
     }
-    is IoResult.Failure.Http -> IoResult.Failure.Http(status, message, exception)
-    is IoResult.Failure.Network -> IoResult.Failure.Network(exception)
-    is IoResult.Failure.Unknown -> IoResult.Failure.Unknown(exception)
+    is IoResult.Failure.Http -> this
+    is IoResult.Failure.Network -> this
+    is IoResult.Failure.Unknown -> this
 }
 
 inline fun <T> IoResult<T>.doOnSuccess(block: (T) -> Unit): IoResult<T> {

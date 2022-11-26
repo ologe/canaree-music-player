@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.util.Log
 import androidx.annotation.Keep
 import com.bumptech.glide.Glide
@@ -23,9 +24,9 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.EntryPoints
 import dev.olog.core.MediaId
 import dev.olog.image.provider.animation.RemoteOnlyTransitionFactory
+import dev.olog.image.provider.decoder.LayerDrawableBitmapDecoder
 import dev.olog.image.provider.di.ImageProviderComponent
 import dev.olog.image.provider.internal.CanareeUncaughtThrowableStrategy
-import dev.olog.image.provider.loader.DrawableToBitmapLoader
 import java.io.InputStream
 
 @Keep
@@ -67,12 +68,10 @@ class GlideModule : AppGlideModule() {
         val component = component(context)
 
         registry.append(MediaId::class.java, InputStream::class.java, component.mediaIdFactory())
+        registry.append(LayerDrawable::class.java, Bitmap::class.java, LayerDrawableBitmapDecoder(glide.bitmapPool))
 
         // custom implementation of OkHttpLibraryGlideModule to reuse existing existing okhttp
         registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(component.okHttpClient()));
-        // allow to load drawables and convert them to bitmap using
-        // TODO not working?
-        registry.append(Drawable::class.java, Bitmap::class.java, DrawableToBitmapLoader.Factory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

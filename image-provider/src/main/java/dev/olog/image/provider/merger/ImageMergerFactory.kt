@@ -4,12 +4,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
+import androidx.core.graphics.drawable.toDrawable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.ImageRetrieverResult
 import dev.olog.image.provider.loading.ImageSize
-import dev.olog.image.provider.loading.getDrawable
+import dev.olog.image.provider.loading.LoadErrorStrategy
+import dev.olog.image.provider.loading.loadImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -60,7 +62,11 @@ internal class ImageMergerFactory @Inject constructor(
 
     private suspend fun getDrawable(context: Context, albumId: Long): Drawable? {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, albumId.toString())
-        return context.getDrawable(mediaId, ImageSize.Large)
+        return context.loadImage(
+            mediaId = mediaId,
+            loadError = LoadErrorStrategy.None,
+            imageSize = ImageSize.Large,
+        )?.toDrawable(context.resources) // todo check
     }
 
 }

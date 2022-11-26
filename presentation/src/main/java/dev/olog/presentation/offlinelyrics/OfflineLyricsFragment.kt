@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.loading.ImageSize
-import dev.olog.image.provider.loading.getCachedBitmap
+import dev.olog.image.provider.loading.LoadErrorStrategy
+import dev.olog.image.provider.loading.Priority
+import dev.olog.image.provider.loading.loadImage
 import dev.olog.media.MediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
@@ -179,10 +181,11 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
         try {
-            val original = requireContext().getCachedBitmap(
+            val original = requireContext().loadImage(
                 mediaId = mediaId,
+                loadError = LoadErrorStrategy.Gradient,
                 imageSize = ImageSize.Custom(300),
-                gradientOnly = true,
+                priority = Priority.High,
             )
             val blurred = BlurKit.getInstance().blur(original, 20)
             withContext(Dispatchers.Main){

@@ -8,8 +8,10 @@ import androidx.annotation.RequiresApi
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.PendingIntentFactory
-import dev.olog.image.provider.loading.getCachedBitmap
-import dev.olog.service.music.interfaces.INotification
+import dev.olog.image.provider.loading.ImageSize
+import dev.olog.image.provider.loading.LoadErrorStrategy
+import dev.olog.image.provider.loading.Priority
+import dev.olog.image.provider.loading.loadImage
 import dev.olog.shared.TextUtils
 import javax.inject.Inject
 
@@ -52,7 +54,12 @@ internal open class NotificationImpl24 @Inject constructor(
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
         val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
-        val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
+        val bitmap = service.loadImage(
+            mediaId = mediaId,
+            loadError = LoadErrorStrategy.Full,
+            imageSize = ImageSize.Custom(1000),
+            priority = Priority.Immediate,
+        )
         builder.setLargeIcon(bitmap)
             .setContentTitle(title)
             .setContentText(artist)

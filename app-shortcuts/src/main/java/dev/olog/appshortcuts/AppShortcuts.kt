@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 
 class AppShortcuts private constructor(context: Context) {
 
-    private val appShortcuts = AppShortcutsImp(context.applicationContext)
+    private val appShortcuts = AppShortcutsImpl(context.applicationContext)
 
     companion object {
         @JvmStatic

@@ -14,6 +14,7 @@ internal suspend fun DataFetcher<InputStream>.loadDataSuspend(priority: Priority
             }
 
             override fun onLoadFailed(e: Exception) {
+                e.printStackTrace()
                 continuation.resume(null)
             }
         })

@@ -50,11 +50,11 @@ object CoverUtils {
         }
     }
 
-    fun getGradient(context: Context, mediaId: MediaId): Drawable {
-        return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
+    fun full(context: Context, mediaId: MediaId): Drawable {
+        return full(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
     }
 
-    fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
+    fun full(context: Context, position: Int, source: Int = 2): Drawable {
         return get(
             context,
             position,

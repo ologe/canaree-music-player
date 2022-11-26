@@ -6,7 +6,6 @@ import okio.IOException
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
 
 class IoResultCall<T : Any>(
@@ -23,14 +22,13 @@ class IoResultCall<T : Any>(
                     )
                 } else {
                     @Suppress("ThrowableNotThrown")
-                    val httpException = HttpException(response)
+                    val message = "HTTP ${response.code()} ${response.message()} - url ${call.request().url}"
                     callback.onResponse(
                         this@IoResultCall,
                         Response.success(
                             IoResult.Failure.Http(
-                                status = httpException.code(),
-                                message = "${httpException.message()} - url ${call.request().url}",
-                                exception = httpException,
+                                status = response.code(),
+                                message = message,
                             )
                         )
                     )
@@ -38,7 +36,7 @@ class IoResultCall<T : Any>(
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
-                val response = if (t is IOException) {
+                val response: IoResult.Failure = if (t is IOException) {
                     IoResult.Failure.Network(t)
                 } else {
                     IoResult.Failure.Unknown(t)

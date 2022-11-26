@@ -28,7 +28,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
         GlideApp.with(ctx)
             .load(mediaId)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .placeholder(CoverUtils.full(ctx, mediaId))
             .override(500)
             .priority(Priority.IMMEDIATE)
             .into(DrawableImageViewTarget(image))
