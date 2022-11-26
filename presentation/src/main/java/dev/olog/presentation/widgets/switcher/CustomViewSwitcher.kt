@@ -132,7 +132,7 @@ class CustomViewSwitcher(
         GlideApp.with(context)
             .load(mediaId)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(ImageSize.Large.size)
             .onlyRetrieveFromCache(true)
@@ -186,7 +186,7 @@ class CustomViewSwitcher(
             showNext()
 
             if (model is MediaId) {
-                val defaultCover = CoverUtils.getGradient(context, model)
+                val defaultCover = CoverUtils.full(context, model)
                 adaptiveImageHelper.setImageDrawable(defaultCover)
                 blurBackground?.loadImage(model, defaultCover)
             }

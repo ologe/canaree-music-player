@@ -42,7 +42,7 @@ open class PlayerImageView (
     open fun loadImage(mediaId: MediaId) {
         GlideApp.with(context)
             .load(mediaId)
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(500)
             .onlyRetrieveFromCache(true)

@@ -2,7 +2,6 @@ package dev.olog.presentation.splash
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
-import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
@@ -115,7 +113,7 @@ class SplashTutorialFragment : Fragment(),
 
     private fun loadImage(position: Int){
         GlideApp.with(ctx)
-            .load(CoverUtils.getGradient(ctx, position))
+            .load(CoverUtils.full(ctx, position))
             .centerCrop()
             .into(DrawableImageViewTarget(cover))
     }
