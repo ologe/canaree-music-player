@@ -10,14 +10,15 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.image.provider.OnImageLoadingError
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.image.provider.loading.ImageSize
+import dev.olog.image.provider.loading.LoadErrorStrategy
+import dev.olog.image.provider.loading.Priority
+import dev.olog.image.provider.loading.loadImage
 import dev.olog.media.MediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
@@ -31,7 +32,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -181,7 +181,12 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
         try {
-            val original = requireContext().getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
+            val original = requireContext().loadImage(
+                mediaId = mediaId,
+                loadError = LoadErrorStrategy.Gradient,
+                imageSize = ImageSize.Custom(300),
+                priority = Priority.High,
+            )
             val blurred = BlurKit.getInstance().blur(original, 20)
             withContext(Dispatchers.Main){
                 image.setImageBitmap(blurred)

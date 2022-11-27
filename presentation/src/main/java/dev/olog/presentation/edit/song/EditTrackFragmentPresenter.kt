@@ -1,5 +1,6 @@
 package dev.olog.presentation.edit.song
 
+import dev.olog.core.IoResult
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
@@ -29,8 +30,8 @@ class EditTrackFragmentPresenter @Inject constructor(
         )
     }
 
-    suspend fun fetchData(id: Id): LastFmTrack? {
-        return lastFmGateway.getTrack(id)
+    suspend fun fetchData(id: Id): IoResult<LastFmTrack?> {
+        return lastFmGateway.getSong(id)
     }
 
 }

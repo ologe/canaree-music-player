@@ -40,11 +40,9 @@ open class PlayerImageView (
     fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
 
     open fun loadImage(mediaId: MediaId) {
-        GlideApp.with(context).clear(this)
-
         GlideApp.with(context)
             .load(mediaId)
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(500)
             .onlyRetrieveFromCache(true)

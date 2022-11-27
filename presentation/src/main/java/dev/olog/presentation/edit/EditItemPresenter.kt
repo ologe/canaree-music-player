@@ -1,30 +1,15 @@
 package dev.olog.presentation.edit
 
-import dev.olog.core.MediaId
-import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.presentation.edit.domain.UpdateTrackUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 
 class EditItemPresenter @Inject constructor(
-    private val lastFmGateway: ImageRetrieverGateway,
     private val updateTrackUseCase: UpdateTrackUseCase,
     private val updateMultipleTracksUseCase: UpdateMultipleTracksUseCase
 
 ) {
-
-    suspend fun deleteTrack(id: Long) {
-        return lastFmGateway.deleteTrack(id)
-    }
-
-    suspend fun deleteAlbum(mediaId: MediaId) {
-        return lastFmGateway.deleteAlbum(mediaId.categoryId)
-    }
-
-    suspend fun deleteArtist(mediaId: MediaId) {
-        return lastFmGateway.deleteArtist(mediaId.categoryId)
-    }
 
     fun updateSingle(info: UpdateSongInfo) {
         val albumArtist = if (info.albumArtist.isBlank()) info.artist else info.albumArtist

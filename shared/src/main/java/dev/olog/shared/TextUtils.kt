@@ -51,12 +51,4 @@ object TextUtils {
         return result
     }
 
-    @JvmStatic
-    fun addSpacesToDash(original: String): String{
-        return original
-                .trim()
-                .replace("-", " - ")
-                .replace("\\s+".toRegex(), " ")
-    }
-
 }

@@ -8,6 +8,7 @@ sealed class FileType {
     ) : FileType()
 
     data class Track(
+        val id: Long,
         val title: String,
         val path: String
     ) : FileType()

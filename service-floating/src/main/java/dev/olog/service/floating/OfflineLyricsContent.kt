@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import dev.olog.core.MediaId
-import dev.olog.image.provider.OnImageLoadingError
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.image.provider.loading.ImageSize
+import dev.olog.image.provider.loading.LoadErrorStrategy
+import dev.olog.image.provider.loading.loadImage
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
@@ -15,7 +16,6 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -32,7 +32,11 @@ class OfflineLyricsContent(
 
     private suspend fun loadImage(mediaId: MediaId) {
         try {
-            val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
+            val original = context.loadImage(
+                mediaId = mediaId,
+                loadError = LoadErrorStrategy.Gradient,
+                imageSize = ImageSize.Custom(300),
+            )
             val blurred = BlurKit.getInstance().blur(original, 20)
             withContext(Dispatchers.Main){
                 content.image.setImageBitmap(blurred)

@@ -56,11 +56,11 @@ class FolderTreeFragmentAdapter(
             firstText.text = item.title
         }
         when (holder.itemViewType){
-            R.layout.item_folder_tree_directory -> {
-                BindingsAdapter.loadDirImage(holder.imageView!!, item)
-            }
-            R.layout.item_folder_tree_track -> {
-                BindingsAdapter.loadFile(holder.imageView!!, item)
+            R.layout.item_folder_tree_directory,
+            R.layout.item_folder_tree_track-> {
+                if (item.mediaId != FolderTreeFragmentViewModel.BACK_HEADER_ID) {
+                    BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+                }
             }
         }
     }

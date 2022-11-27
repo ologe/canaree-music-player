@@ -2,7 +2,6 @@ package dev.olog.presentation.splash
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.image.provider.CoverUtils
@@ -98,26 +98,23 @@ class SplashTutorialFragment : Fragment(),
 
     private fun loadPhoneImage(view: View){
         GlideApp.with(requireContext())
-                .asBitmap()
-                .load(R.drawable.phone_black)
-                .priority(Priority.IMMEDIATE)
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        view.findViewById<ImageView>(R.id.phoneImage).setImageBitmap(resource)
-                    }
+            .asBitmap()
+            .load(R.drawable.phone_black)
+            .priority(Priority.IMMEDIATE)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    view.findViewById<ImageView>(R.id.phoneImage).setImageBitmap(resource)
+                }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                    }
-                })
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
     }
 
     private fun loadImage(position: Int){
-        GlideApp.with(ctx).clear(cover)
-
         GlideApp.with(ctx)
-                .load(Uri.EMPTY)
-                .centerCrop()
-                .placeholder(CoverUtils.getGradient(ctx, position))
-                .into(cover)
+            .load(CoverUtils.full(ctx, position))
+            .centerCrop()
+            .into(DrawableImageViewTarget(cover))
     }
 }

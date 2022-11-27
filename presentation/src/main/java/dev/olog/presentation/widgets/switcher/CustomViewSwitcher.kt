@@ -17,7 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
+import dev.olog.image.provider.loading.ImageSize
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
@@ -129,14 +129,12 @@ class CustomViewSwitcher(
 
         val imageView = getImageView(getNextView())
 
-        GlideApp.with(context).clear(imageView)
-
         GlideApp.with(context)
             .load(mediaId)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .priority(Priority.IMMEDIATE)
-            .override(GlideUtils.OVERRIDE_BIG)
+            .override(ImageSize.Large.size)
             .onlyRetrieveFromCache(true)
             .listener(this@CustomViewSwitcher)
             .into(RippleTarget(imageView)) // TODO ripple not working
@@ -144,7 +142,9 @@ class CustomViewSwitcher(
         GlideApp.with(context)
             .load(mediaId)
             .priority(Priority.IMMEDIATE)
-            .override(GlideUtils.OVERRIDE_BIG)
+            .override(ImageSize.Large.size)
+            // TODO use DrawableImageViewTarget?
+            //   see https://bumptech.github.io/glide/doc/targets.html
             .into(object : CustomTarget<Drawable>(){
                 override fun onLoadCleared(placeholder: Drawable?) {
 
@@ -186,7 +186,7 @@ class CustomViewSwitcher(
             showNext()
 
             if (model is MediaId) {
-                val defaultCover = CoverUtils.getGradient(context, model)
+                val defaultCover = CoverUtils.full(context, model)
                 adaptiveImageHelper.setImageDrawable(defaultCover)
                 blurBackground?.loadImage(model, defaultCover)
             }

@@ -16,11 +16,6 @@ class DatabaseModule {
     }
 
     @Provides
-    internal fun provideLastFmDao(db: AppDatabase): LastFmDao {
-        return db.lastFmDao()
-    }
-
-    @Provides
     internal fun provideEqualizerPresetDao(db: AppDatabase): EqualizerPresetsDao {
         return db.equalizerPresetsDao()
     }

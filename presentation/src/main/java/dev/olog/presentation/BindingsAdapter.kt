@@ -4,60 +4,32 @@ import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.model.AudioFileCover
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.image.provider.loading.ImageSize
 import dev.olog.presentation.ripple.RippleTarget
 
 object BindingsAdapter {
 
     @JvmStatic
-    fun loadFile(view: ImageView, item: DisplayableFile) {
-        val context = view.context
-        GlideApp.with(context).clear(view)
-
-        GlideApp.with(context)
-                .load(AudioFileCover(item.path!!))
-                .override(GlideUtils.OVERRIDE_SMALL)
-                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
-                .into(view)
-    }
-
-    @JvmStatic
-    fun loadDirImage(view: ImageView, item: DisplayableFile) {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
-        loadImageImpl(
-            view,
-            mediaId,
-            GlideUtils.OVERRIDE_SMALL
-        )
-    }
-
-    @JvmStatic
     private fun loadImageImpl(
         view: ImageView,
         mediaId: MediaId,
-        override: Int,
+        imageSize: ImageSize,
         priority: Priority = Priority.HIGH
     ) {
         val context = view.context
 
-        GlideApp.with(context).clear(view)
-
         val builder = GlideApp.with(context)
             .load(mediaId)
-            .override(override)
+            .override(imageSize.size)
             .priority(priority)
-            .placeholder(CoverUtils.getGradient(context, mediaId))
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .placeholder(CoverUtils.full(context, mediaId))
 
         if (mediaId.isLeaf) {
-            builder.into(view)
+            builder.into(DrawableImageViewTarget(view))
         } else {
             builder.into(RippleTarget(view))
         }
@@ -68,7 +40,7 @@ object BindingsAdapter {
         loadImageImpl(
             view,
             mediaId,
-            GlideUtils.OVERRIDE_SMALL
+            ImageSize.Small
         )
     }
 
@@ -77,7 +49,7 @@ object BindingsAdapter {
         loadImageImpl(
             view,
             mediaId,
-            GlideUtils.OVERRIDE_MID,
+            ImageSize.Medium,
             Priority.HIGH
         )
     }
@@ -86,14 +58,12 @@ object BindingsAdapter {
     fun loadBigAlbumImage(view: ImageView, mediaId: MediaId) {
         val context = view.context
 
-        GlideApp.with(context).clear(view)
-
         GlideApp.with(context)
             .load(mediaId)
-            .override(GlideUtils.OVERRIDE_BIG)
+            .override(ImageSize.Large.size)
             .priority(Priority.IMMEDIATE)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
+            .error(CoverUtils.full(context, mediaId))
             .onlyRetrieveFromCache(true)
             .into(RippleTarget(view))
     }

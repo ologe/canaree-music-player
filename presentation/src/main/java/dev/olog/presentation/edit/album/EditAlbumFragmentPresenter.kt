@@ -1,10 +1,7 @@
 package dev.olog.presentation.edit.album
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
@@ -16,7 +13,6 @@ import javax.inject.Inject
 class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val lastFmGateway: ImageRetrieverGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
@@ -41,10 +37,6 @@ class EditAlbumFragmentPresenter @Inject constructor(
 
     suspend fun getPath(mediaId: MediaId): String = withContext(Dispatchers.IO) {
         getSongListByParamUseCase(mediaId).first().path
-    }
-
-    suspend fun fetchData(id: Id): LastFmAlbum? {
-        return lastFmGateway.getAlbum(id)
     }
 
 }

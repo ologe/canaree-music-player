@@ -3,106 +3,46 @@ package dev.olog.data.mapper
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.data.api.lastfm.album.AlbumInfo
-import dev.olog.data.api.lastfm.album.AlbumSearch
-import dev.olog.data.api.lastfm.artist.ArtistInfo
-import dev.olog.data.api.lastfm.track.TrackInfo
-import dev.olog.data.api.lastfm.track.TrackSearch
-import me.xdrop.fuzzywuzzy.FuzzySearch
+import dev.olog.data.api.lastfm.album.LastFmAlbumInfoDto
+import dev.olog.data.api.lastfm.artist.LastFmArtistInfoDto
+import dev.olog.data.api.lastfm.track.LastFmTrackInfoDto
 
-fun TrackInfo.toDomain(id: Long): LastFmTrack {
-    val track = this.track
-    val title = track.name
-    val artist = track.artist.name
-    val album = track.album.title
-    val image = track.album.image.reversed().find { it.text.isNotBlank() }!!.text
+fun LastFmTrackInfoDto.toDomain(id: Long): LastFmTrack? {
+    val track = this.track ?: return null
+    val artist = track.artist ?: return null
+    val album = track.album ?: return null
+    val image = album.image.reversed().find { it.text?.isNotBlank() == true }?.text
 
     return LastFmTrack(
-        id,
-        title,
-        artist,
-        album,
-        image,
-        track.mbid ?: "",
-        track.artist.mbid ?: "",
-        track.album.mbid ?: ""
+        id = id,
+        title = track.name.orEmpty(),
+        artist = track.artist.name.orEmpty(),
+        album = track.album.title.orEmpty(),
+        image = image.orEmpty(),
+        mbid = track.mbid.orEmpty(),
+        artistMbid = artist.mbid.orEmpty(),
+        albumMbid = album.mbid.orEmpty()
     )
 }
 
-fun TrackSearch.toDomain(id: Long): LastFmTrack? {
-    try {
-        val track = this.results.trackmatches.track[0]
-
-        return LastFmTrack(
-            id,
-            track.name ?: "",
-            track.artist ?: "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        )
-    } catch (ex: Throwable) {
-        ex.printStackTrace()
-        return LastFmTrack(
-            id,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        )
-    }
-}
-
-fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
-    val album = this.album
+fun LastFmAlbumInfoDto.toDomain(id: Long): LastFmAlbum? {
+    val album = this.album ?: return null
     return LastFmAlbum(
-        id,
-        album.name,
-        album.artist,
-        album.image.reversed().find { it.text.isNotBlank() }?.text!!,
-        album.mbid ?: "",
-        album.wiki.content ?: ""
+        id = id,
+        title = album.name.orEmpty(),
+        artist = album.artist.orEmpty(),
+        image = album.image.reversed().find { it.text?.isNotBlank() == true }?.text.orEmpty(),
+        mbid = album.mbid.orEmpty(),
+        wiki = album.wiki?.content.orEmpty(),
     )
 }
 
-fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
-    try {
-        val results = this.results.albummatches.album
-        val bestArtist = FuzzySearch.extractOne(originalArtist, results.map { it.artist }).string
-        val best = results.first { it.artist == bestArtist }
-
-        return LastFmAlbum(
-            id,
-            best.name,
-            best.artist,
-            "",
-            "",
-            ""
-        )
-    } catch (ex: Throwable) {
-        ex.printStackTrace()
-        return LastFmAlbum(
-            id,
-            "",
-            "",
-            "",
-            "",
-            ""
-        )
-    }
-}
-
-fun ArtistInfo.toDomain(id: Long): LastFmArtist? {
-    val artist = this.artist
+fun LastFmArtistInfoDto.toDomain(id: Long): LastFmArtist? {
+    val artist = this.artist ?: return null
     return LastFmArtist(
-        id,
-        "",
-        artist.mbid ?: "",
-        artist.bio.content ?: ""
+        id = id,
+        image = "",
+        mbid = artist.mbid.orEmpty(),
+        wiki = artist.bio?.content.orEmpty()
     )
 }

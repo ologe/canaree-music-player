@@ -5,8 +5,8 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
@@ -34,7 +34,6 @@ class EditItemViewModel @Inject constructor(
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
         withContext(Dispatchers.IO) {
-            presenter.deleteTrack(data.originalSong.id)
             presenter.updateSingle(data)
         }
 
@@ -56,8 +55,6 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO) {
-
-            presenter.deleteAlbum(data.mediaId)
             presenter.updateAlbum(data)
         }
         withContext(Dispatchers.Main) {
@@ -77,7 +74,6 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO) {
-            presenter.deleteArtist(data.mediaId)
             presenter.updateArtist(data)
         }
         withContext(Dispatchers.Main) {

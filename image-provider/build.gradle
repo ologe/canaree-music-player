@@ -12,9 +12,13 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':intents')
 
+    implementation(libs.io.resilience.ratelimiter)
+    implementation(libs.io.resilience.kotlin)
+
     implementation libs.ui.colorDesaturation
     implementation libs.ui.glide
     kapt libs.ui.glide.processor
+    implementation(libs.ui.glide.okhttp)
 
     implementation libs.androidx.core
     implementation libs.androidx.preference

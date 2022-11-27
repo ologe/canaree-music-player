@@ -1,13 +1,12 @@
 package dev.olog.data.api.lastfm
 
 import androidx.annotation.IntRange
-import dev.olog.data.api.lastfm.album.AlbumInfo
-import dev.olog.data.api.lastfm.album.AlbumSearch
-import dev.olog.data.api.lastfm.artist.ArtistInfo
-import dev.olog.data.api.lastfm.artist.ArtistSearch
-import dev.olog.data.api.lastfm.track.TrackInfo
-import dev.olog.data.api.lastfm.track.TrackSearch
-import retrofit2.Response
+import dev.olog.core.IoResult
+import dev.olog.data.api.lastfm.album.LastFmAlbumInfoDto
+import dev.olog.data.api.lastfm.album.LastFmAlbumSearchDto
+import dev.olog.data.api.lastfm.artist.LastFmArtistInfoDto
+import dev.olog.data.api.lastfm.track.LastFmTrackInfoDto
+import dev.olog.data.api.lastfm.track.LastFmTrackSearchDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,44 +17,35 @@ private const val DEFAULT_SEARCH_PAGES = 5L
 interface LastFmService {
 
     @GET("?method=track.getInfo")
-    suspend fun getTrackInfoAsync(
-            @Query("track", encoded = true) track: String,
-            @Query("artist", encoded = true) artist: String,
-    ) : Response<TrackInfo>
+    suspend fun getTrackInfo(
+            @Query("track") track: String,
+            @Query("artist") artist: String,
+    ) : IoResult<LastFmTrackInfoDto>
 
     @GET("?method=track.search")
-    suspend fun searchTrackAsync(
-            @Query("track", encoded = true) track: String,
-            @Query("artist", encoded = true) artist: String = "",
+    suspend fun searchTrack(
+            @Query("track") track: String,
+            @Query("artist") artist: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<TrackSearch>
+    ): IoResult<LastFmTrackSearchDto>
 
     @GET("?method=artist.getinfo")
-    suspend fun getArtistInfoAsync(
-        @Query("artist", encoded = true) artist: String,
-        @Query("lang") language: String = "en"
-    ): Response<ArtistInfo>
-
-    @GET("?method=artist.search")
-    suspend fun searchArtistAsync(
-            @Query("artist", encoded = true) artist: String,
-            @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
-            @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<ArtistSearch>
+    suspend fun getArtistInfo(
+        @Query("artist") artist: String,
+    ): IoResult<LastFmArtistInfoDto>
 
     @GET("?method=album.getinfo")
-    suspend fun getAlbumInfoAsync(
-        @Query("album", encoded = true) album: String,
-        @Query("artist", encoded = true) artist: String,
-        @Query("lang") language: String = "en"
-    ): Response<AlbumInfo>
+    suspend fun getAlbumInfo(
+        @Query("album") album: String,
+        @Query("artist") artist: String,
+    ): IoResult<LastFmAlbumInfoDto>
 
     @GET("?method=album.search")
-    suspend fun searchAlbumAsync(
-            @Query("album", encoded = true) album: String,
+    suspend fun searchAlbum(
+            @Query("album") album: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<AlbumSearch>
+    ): IoResult<LastFmAlbumSearchDto>
 
 }
