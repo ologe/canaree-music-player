@@ -22,84 +22,34 @@ Complete music player published in the Play Store. Heavily relies on Dagger, ~~R
 
 ## Screenshots
 <div style="dispaly:flex">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-28-235818.png" width="32%">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-001417.png" width="32%">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-002256.png" width="32%">
+    <img src="images/device-2018-10-28-235818.png" width="32%">
+    <img src="images/device-2018-10-29-001417.png" width="32%">
+    <img src="images/device-2018-10-29-002256.png" width="32%">
 </div>
 
-## Build
-Compilation can be done in 2 ways. Using the first method will prevent you from supporting FFMPEG, FLAC and OPUS formats.  
-#### Method 1 (Fast)
-In `build.gradle` service-music module.
-* Uncomment
-```gradle
-implementation 'com.google.android.exoplayer:exoplayer-core:$latest_exoplayer_version
+
+### Setup
+The repository has [ExoPlayer](https://github.com/google/ExoPlayer) as git submodule, so you have clone the repository recursively:
 ```
-* Comment 
-```gradle
-implementation project(':exoplayer-library-core')
-implementation project(':exoplayer-extension-flac')
-implementation project(':exoplayer-extension-opus')
-implementation project(':exoplayer-extension-ffmpeg')
+git clone --recursive git@github.com:ologe/canaree-music-player.git
+```
+Or if you're already cloned the repository, use the following commands to fetch submodules:
+```
+git submodule init
+git submodule update
 ```
 
-Open `setting.gradle` and comment the last three lines like below:
-```gradle
-//gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
-//gradle.ext.exoplayerModulePrefix = 'exoplayer-'
-//apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+After that, you'll need to add the following properties to `local.properties`
+```properties
+last_fm_key=your_last_fm_key
+last_fm_secret=your_last_fm_secret
 ```
 
-#### Method 2
-* Clone [ExoPlayer](https://github.com/google/ExoPlayer)
-* In `settings.gradle`:
-  - Update `gradle.ext.exoplayerRoot` to match your ExoPlayer repo path
-  - Change <br> 
-      ```gradle 
-      apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
-      ``` 
-      with</br>
-      ```gradle 
-      apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
-      ```
+### Extensions
+To support [FLAC](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac), [FFMPEG](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg) and [OPUS](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus) formats to you need to compile manually the corresponding
+ExoPlayer extensions.
 
-#### After both
-* Create `gradle.properties` in project root folder.
-```groovy
-# OPTIONAL properties
-org.gradle.jvmargs=-Xmx4096m
-org.gradle.parallel=true
-org.gradle.daemon=true
-
-android.useAndroidX=true
-android.enableJetifier=true
-android.enableSeparateAnnotationProcessing=true
-
-# incremental
-kotlin.incremental=true
-kapt.incremental.apt=true
-# parallel
-kapt.use.worker.api=true
-# compilation avoidance
-kapt.include.compile.classpath=false
-
-# proguard
-android.enableR8=true
-android.enableR8.fullMode=true
-
-# MANDATORY properties (keys)
-last_fm_key="your_key"
-last_fm_secret="your_secret"
-
-aes_password="your_aes_password"
-```
-
-### Extensions (Linux or macOS recommended)
-To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding 
-ExoPlayer extensions using <b>NDK-r17c</b> or older, newer version of NDK are not supported. 
-* [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
-* [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
-* [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
+`scripts` directory contains some scripts for building the extensions on MacOS/Intel.
 
 ## Translations
 Help translate the app to your language [here](https://canaree.oneskyapp.com/admin/project/dashboard/project/162621)
