@@ -44,4 +44,4 @@ include(":shared-widgets")
 
 gradle.ext.exoplayerRoot = 'exoplayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
-apply from: new File('buildscripts', 'exoplayer.gradle')
+apply from: new File('exoplayer', 'core_settings.gradle')
