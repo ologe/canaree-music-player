@@ -12,6 +12,7 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
@@ -26,7 +27,7 @@ class StatusBarColorBehavior @Inject constructor(
 
     private val slidingPanel: MultiListenerBottomSheetBehavior<*>? by lazyFast {
         val activity = activityRef.get() ?: return@lazyFast null
-        (activity as HasSlidingPanel).getSlidingPanel()
+        activity.findInContext<HasSlidingPanel>().getSlidingPanel()
     }
 
     init {

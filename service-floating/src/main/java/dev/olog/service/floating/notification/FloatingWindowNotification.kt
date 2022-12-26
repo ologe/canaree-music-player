@@ -10,12 +10,11 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.PendingIntentFactory
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +25,8 @@ class FloatingWindowNotification @Inject constructor(
     private val service: Service,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val notificationManager: NotificationManager,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
-
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val pendingIntentFactory: PendingIntentFactory,
 ) : DefaultLifecycleObserver {
 
     companion object {
@@ -104,7 +103,7 @@ class FloatingWindowNotification @Inject constructor(
     private fun createContentIntent(): PendingIntent {
         val intent = Intent(service, FloatingWindowService::class.java)
         intent.action = FloatingWindowService.ACTION_STOP
-        return intent.asServicePendingIntent(service, PendingIntent.FLAG_UPDATE_CURRENT)
+        return pendingIntentFactory.createForService(intent)
     }
 
 }

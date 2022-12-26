@@ -15,35 +15,16 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableSt
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import dagger.hilt.EntryPoints
 import dev.olog.core.MediaId
-import dev.olog.image.provider.di.inject
+import dev.olog.image.provider.di.ImageProviderComponent
 import dev.olog.image.provider.loader.AudioFileCoverLoader
-import dev.olog.image.provider.loader.GlideImageRetrieverLoader
-import dev.olog.image.provider.loader.GlideMergedImageLoader
-import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
-import javax.inject.Inject
 
 @GlideModule
 @Keep
 class GlideModule : AppGlideModule() {
-
-    @Inject
-    internal lateinit var lastFmFactory: GlideImageRetrieverLoader.Factory
-    @Inject
-    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-    @Inject
-    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-
-    private var injected = false
-
-    private fun injectIfNeeded(context: Context) {
-        if (!injected) {
-            injected = true
-            inject(context)
-        }
-    }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
@@ -67,15 +48,19 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        injectIfNeeded(context)
+        val component = component(context)
 
         registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
-        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.lastFmFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.mergedFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.originalFactory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false
+
+    private fun component(context: Context): ImageProviderComponent {
+        return EntryPoints.get(context, ImageProviderComponent::class.java)
+    }
 
 }

@@ -2,7 +2,10 @@ package dev.olog.presentation.edit.artist
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
@@ -17,6 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditArtistFragment : BaseEditItemFragment() {
 
     companion object {
@@ -31,18 +35,8 @@ class EditArtistFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditArtistFragmentViewModel>(
-            viewModelFactory
-        )
-    }
-    private val editItemViewModel by lazyFast {
-        activity!!.viewModelProvider<EditItemViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<EditArtistFragmentViewModel>()
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
     private val mediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))

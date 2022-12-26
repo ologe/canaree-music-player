@@ -1,9 +1,7 @@
 package dev.olog.presentation.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -21,8 +19,9 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@HiltViewModel
 internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: MediaId,
+    handle: SavedStateHandle,
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -39,12 +38,14 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val RELATED_ARTISTS_TO_SEE = 10
     }
 
+    val mediaId: MediaId = MediaId.fromString(handle[DetailFragment.ARGUMENTS_MEDIA_ID]!!)
+
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
     private val filterChannel = ConflatedBroadcastChannel("")
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterChannel.trySend(filter)
     }
 
     fun getFilter(): String = filterChannel.value
@@ -158,14 +159,14 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     fun processMove() = viewModelScope.launch {
         if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(moveList)
+            presenter.moveInPlaylist(mediaId, moveList)
         }
         moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(item)
+        presenter.removeFromPlaylist(mediaId, item)
     }
 
     fun observeSorting(): Flow<SortEntity> {

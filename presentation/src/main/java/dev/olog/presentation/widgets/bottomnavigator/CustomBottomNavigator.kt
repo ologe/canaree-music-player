@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
-import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +15,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class CustomBottomNavigator(
         context: Context,
         attrs: AttributeSet
@@ -27,10 +28,6 @@ internal class CustomBottomNavigator(
     internal lateinit var trackerFacade: TrackerFacade
 
     private val navigator = BottomNavigator()
-
-    init {
-        inject()
-    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

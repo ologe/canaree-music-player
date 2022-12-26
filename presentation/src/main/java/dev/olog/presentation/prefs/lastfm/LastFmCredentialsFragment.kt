@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
@@ -22,6 +23,7 @@ import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
 
     companion object {

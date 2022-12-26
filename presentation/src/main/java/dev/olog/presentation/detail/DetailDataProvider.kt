@@ -114,7 +114,7 @@ internal class DetailDataProvider @Inject constructor(
 
         return combine(
             observeHeader(mediaId),
-            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
+            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums(mediaId) else listOf() },
             observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
             observeRecentlyAdded(mediaId).map {
                 if (it.isNotEmpty()) headers.recent(

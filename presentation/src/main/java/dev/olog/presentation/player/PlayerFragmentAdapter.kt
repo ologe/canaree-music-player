@@ -348,7 +348,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
@@ -359,13 +359,13 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = view.context.findInContext<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }

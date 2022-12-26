@@ -1,6 +1,10 @@
-apply plugin: 'com.android.library'
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dev.olog.msc.hilt")
+}
 apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -19,8 +23,6 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
     implementation lib_core.coroutines
 
     implementation lib_x.appcompat

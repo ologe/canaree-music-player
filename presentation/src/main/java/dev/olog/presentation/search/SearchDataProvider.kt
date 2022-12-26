@@ -42,7 +42,7 @@ class SearchDataProvider @Inject constructor(
     private val queryChannel = ConflatedBroadcastChannel("")
 
     fun updateQuery(query: String) {
-        queryChannel.offer(query)
+        queryChannel.trySend(query)
     }
 
     fun observe(): Flow<List<DisplayableItem>> {

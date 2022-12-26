@@ -20,15 +20,16 @@ import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.shared.android.extensions.asActivityPendingIntent
-import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.PendingIntentFactory
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
-    private val mediaSession: MediaSessionCompat
+    private val mediaSession: MediaSessionCompat,
+    protected val notificationActions: NotificationActions,
+    protected val pendingIntentFactory: PendingIntentFactory,
 ) : INotification {
 
     protected val notificationManager by lazy {
@@ -52,18 +53,17 @@ internal open class NotificationImpl21 @Inject constructor(
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(
-                NotificationActions.buildMediaPendingIntent(
-                    service,
+                notificationActions.buildMediaPendingIntent(
                     PlaybackStateCompat.ACTION_STOP
                 )
             )
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setStyle(mediaStyle)
-            .addAction(NotificationActions.favorite(service, false))
-            .addAction(NotificationActions.skipPrevious(service, false))
-            .addAction(NotificationActions.playPause(service, false))
-            .addAction(NotificationActions.skipNext(service, false))
+            .addAction(notificationActions.favorite(false))
+            .addAction(notificationActions.skipPrevious(false))
+            .addAction(notificationActions.playPause(false))
+            .addAction(notificationActions.skipNext(false))
             .setGroup("dev.olog.msc.MUSIC")
 
         extendInitialization()
@@ -102,7 +102,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
-        builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
+        builder.mActions[2] = notificationActions.playPause(isPlaying)
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
 
@@ -114,7 +114,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     private fun updateFavorite(isFavorite: Boolean) {
-        builder.mActions[0] = NotificationActions.favorite(service, isFavorite)
+        builder.mActions[0] = notificationActions.favorite(isFavorite)
     }
 
     protected open suspend fun updateMetadataImpl(
@@ -124,8 +124,8 @@ internal open class NotificationImpl21 @Inject constructor(
         album: String,
         isPodcast: Boolean
     ) {
-        builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)
-        builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
+        builder.mActions[1] = notificationActions.skipPrevious(isPodcast)
+        builder.mActions[3] = notificationActions.skipNext(isPodcast)
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
         val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
@@ -139,7 +139,7 @@ internal open class NotificationImpl21 @Inject constructor(
     private fun buildContentIntent(): PendingIntent {
         val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
         intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return intent.asActivityPendingIntent(service)
+        return pendingIntentFactory.createForActivity(intent)
     }
 
     override fun cancel() {

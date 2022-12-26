@@ -28,8 +28,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     dexOptions {
@@ -49,7 +49,6 @@ dependencies {
     implementation lib_core.coroutines_android
     implementation lib_core.coroutines_test
 
-    implementation lib_x.lifecycle_extensions
     implementation lib_test.livedata
 
     implementation lib_test.junit

@@ -1,8 +1,13 @@
-apply plugin: 'com.android.application'
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+    id("dev.olog.msc.hilt")
+}
+
 apply plugin: 'com.google.firebase.firebase-perf'
 apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -60,9 +65,6 @@ android {
 //    kotlinOptions.allWarningsAsErrors = true
 }
 
-apply from: '../kapt.gradle'
-
-
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':analytics')
@@ -81,25 +83,20 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
+    implementation("com.squareup:javapoet:1.13.0") // tmp fix
+
     implementation lib_core.coroutines
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
+    implementation lib_x.lifecycle_process
 
     implementation lib_x.core_ktx
     implementation lib_x.appcompat
     implementation lib_x.browser
     implementation lib_x.preference
-
-    // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
 
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs

@@ -1,10 +1,8 @@
 package dev.olog.presentation.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -16,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
@@ -35,7 +33,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-@Keep
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -82,11 +80,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             findPreference<Preference>(getString(R.string.prefs_quick_action_key))!!,
             findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!
         )
-    }
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

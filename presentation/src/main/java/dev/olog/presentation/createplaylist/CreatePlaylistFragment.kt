@@ -3,8 +3,10 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -24,6 +26,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
@@ -38,11 +41,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
         CreatePlaylistFragmentAdapter(
             lifecycle,

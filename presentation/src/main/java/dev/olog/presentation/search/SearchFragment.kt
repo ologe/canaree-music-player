@@ -3,10 +3,12 @@ package dev.olog.presentation.search
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -30,6 +32,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment(),
     SetupNestedList,
     IDragListener by DragListenerImpl() {
@@ -44,19 +47,13 @@ class SearchFragment : BaseFragment(),
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<SearchFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
             lifecycle,
             this,
-            requireActivity() as MediaProvider,
+            requireActivity().findInContext(),
             navigator,
             viewModel
         )

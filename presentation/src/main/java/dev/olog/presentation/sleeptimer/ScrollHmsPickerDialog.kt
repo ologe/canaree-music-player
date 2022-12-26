@@ -11,9 +11,11 @@ import android.view.Window
 import android.widget.Button
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
 
+@AndroidEntryPoint
 open class ScrollHmsPickerDialog : BaseDialogFragment() {
     interface HmsPickHandler {
         fun onHmsPick(reference: Int, hours: Int, minutes: Int, seconds: Int)

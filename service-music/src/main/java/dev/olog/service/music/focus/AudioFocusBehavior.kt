@@ -1,5 +1,6 @@
 package dev.olog.service.music.focus
 
+import android.app.Service
 import android.content.Context
 import android.media.AudioManager
 import android.util.Log
@@ -7,7 +8,6 @@ import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
 import dagger.Lazy
-import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
@@ -17,7 +17,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
-    @ServiceContext context: Context,
+    service: Service,
     private val player: Lazy<IPlayer>, // keep it lazy to avoid circular dependency
     private val volume: IMaxAllowedPlayerVolume
 
@@ -28,7 +28,7 @@ internal class AudioFocusBehavior @Inject constructor(
         private val TAG = "SM:${AudioFocusBehavior::class.java.simpleName}"
     }
 
-    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val audioManager = service.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     private val focusRequest by lazyFast { buildFocusRequest() }
     private var currentFocus = FocusState.NONE

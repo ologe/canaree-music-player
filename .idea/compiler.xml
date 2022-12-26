@@ -2,6 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
+      <module name="build-logic.convention" target="11" />
+      <module name="build-logic.convention.main" target="11" />
+      <module name="build-logic.convention.test" target="11" />
       <module name="canaree-music-player.analytics" target="11" />
       <module name="canaree-music-player.app" target="11" />
       <module name="canaree-music-player.app-shortcuts" target="11" />

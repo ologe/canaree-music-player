@@ -1,0 +1,12 @@
+[versions]
+gradle = "7.4.0-rc02"
+kotlin = "1.7.10"
+dagger = "2.44.2"
+
+[libraries]
+plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
+
+hilt-core = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }

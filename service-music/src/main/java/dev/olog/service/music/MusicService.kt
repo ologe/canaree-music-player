@@ -9,13 +9,14 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.di.inject
+import dev.olog.intents.Classes
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
-import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_PLAYABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_SUPPORTED
@@ -25,15 +26,14 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.PendingIntentFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     companion object {
@@ -60,9 +60,10 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
     internal lateinit var noisy: Noisy
+    @Inject
+    internal lateinit var pendingIntentFactory: PendingIntentFactory
 
     override fun onCreate() {
-        inject()
         super.onCreate()
         setupObservers()
         setupMediaSession()
@@ -216,13 +217,11 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
         intent.setClass(this, this.javaClass)
-        return intent.asServicePendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
+        return pendingIntentFactory.createForService(intent)
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
-        return PendingIntent.getActivity(
-            this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val intent = Intent(this, Class.forName(Classes.ACTIVITY_MAIN))
+        return pendingIntentFactory.createForActivity(intent)
     }
 }

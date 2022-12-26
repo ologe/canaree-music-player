@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
 
+@AndroidEntryPoint
 class SettingsFragmentWrapper : Fragment() {
 
     companion object {

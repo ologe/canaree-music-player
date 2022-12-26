@@ -3,6 +3,7 @@ package dev.olog.presentation.dialogs.delete
 import android.app.RecoverableSecurityException
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
@@ -16,6 +17,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeleteDialog: BaseDialog() {
 
     companion object {

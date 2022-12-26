@@ -15,7 +15,7 @@ fun EditText.afterTextChange(): Flow<String> {
     val watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             if (!channel.isClosedForSend) {
-                channel.offer(s!!.toString())
+                channel.trySend(s!!.toString())
             }
         }
 

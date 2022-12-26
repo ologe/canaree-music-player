@@ -14,7 +14,7 @@ import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -23,7 +23,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class CurrentSong @Inject constructor(
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
     insertHistorySongUseCase: InsertHistorySongUseCase,
@@ -88,7 +88,7 @@ internal class CurrentSong @Inject constructor(
     }
 
     override fun onMetadataChanged(metadata: MetadataEntity) {
-        channel.offer(metadata.entity)
+        channel.trySend(metadata.entity)
         updateFavorite(metadata.entity)
         saveLastMetadata(metadata.entity)
     }

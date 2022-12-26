@@ -8,10 +8,13 @@ import android.net.ConnectivityManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class CoreModule {
 
     @Binds
@@ -21,21 +24,17 @@ abstract class CoreModule {
     @Binds
     abstract fun provideEncrypter(impl: EncrypterImpl): IEncrypter
 
-    @Module
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideResources(instance: Application): Resources = instance.resources
 
         @Provides
-        @JvmStatic
         internal fun provideContentResolver(instance: Application): ContentResolver {
             return instance.contentResolver
         }
 
         @Provides
-        @JvmStatic
         fun provideConnectivityManager(instance: Application): ConnectivityManager {
             return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         }

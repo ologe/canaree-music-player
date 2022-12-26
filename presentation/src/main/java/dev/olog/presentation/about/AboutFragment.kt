@@ -3,6 +3,7 @@ package dev.olog.presentation.about
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
@@ -15,6 +16,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AboutFragment : BaseFragment() {
 
     companion object {

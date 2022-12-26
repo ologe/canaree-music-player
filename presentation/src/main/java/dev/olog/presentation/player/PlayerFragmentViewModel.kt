@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
@@ -48,10 +50,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
+    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrThrow()
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.trySend(trackId)
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(

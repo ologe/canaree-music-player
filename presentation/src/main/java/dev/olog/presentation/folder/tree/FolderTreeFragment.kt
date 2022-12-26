@@ -2,9 +2,11 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -14,13 +16,14 @@ import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class FolderTreeFragment : BaseFragment(),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
@@ -34,21 +37,15 @@ class FolderTreeFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
-    private val viewModel by lazyFast {
-        viewModelProvider<FolderTreeFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle,
-            viewModel,
-            activity as MediaProvider,
-            navigator
+            lifecycle = lifecycle,
+            viewModel = viewModel,
+            mediaProvider = requireActivity().findInContext(),
+            navigator = navigator
         )
         fab.shrink()
 

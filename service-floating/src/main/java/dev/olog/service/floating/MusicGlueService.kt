@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
@@ -24,7 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle
