@@ -27,7 +27,6 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':analytics')
     implementation project(':data')
     implementation project(':shared')
     implementation project(':equalizer')

@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -24,9 +24,6 @@ internal class CustomBottomNavigator(
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
-    @Inject
-    internal lateinit var trackerFacade: TrackerFacade
-
     private val navigator = BottomNavigator()
 
     override fun onAttachedToWindow() {
@@ -38,7 +35,7 @@ internal class CustomBottomNavigator(
             val navigationPage = menu.itemId.toBottomNavigationPage()
             val libraryPage = presentationPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+            navigator.navigate(context.findInContext(), navigationPage, libraryPage)
             true
         }
     }
@@ -55,7 +52,7 @@ internal class CustomBottomNavigator(
     fun navigateToLastPage(){
         val navigationPage = presentationPrefs.getLastBottomViewPage()
         val libraryPage = presentationPrefs.getLastLibraryPage()
-        navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+        navigator.navigate(context.findInContext(), navigationPage, libraryPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
