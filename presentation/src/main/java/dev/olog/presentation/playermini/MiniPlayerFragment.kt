@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -17,9 +18,7 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
@@ -59,12 +58,11 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
-            presenter.observePodcastProgress(progressBar.observeProgress())
-                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
-                .collect { artist.text = it }
-        }
+        presenter.observePodcastProgress(progressBar.observeProgress())
+            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+            .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
+            .onEach { artist.text = it }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         media.observePlaybackState()
             .filter { it.isPlayOrPause }

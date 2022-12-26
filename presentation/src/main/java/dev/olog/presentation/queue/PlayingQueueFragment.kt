@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,22 +67,20 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-        launch {
-            adapter.observeData(false)
-                .take(1)
-                .map {
-                    val idInPlaylist = viewModel.getLastIdInPlaylist()
-                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
-                }
-                .filter { it != RecyclerView.NO_POSITION } // filter only valid position
-                .flowOn(Dispatchers.Default)
-                .collect { position ->
-                    layoutManager.scrollToPositionWithOffset(
-                        position,
-                        ctx.dip(20)
-                    )
-                }
-        }
+        adapter.observeData(false)
+            .take(1)
+            .map {
+                val idInPlaylist = viewModel.getLastIdInPlaylist()
+                it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+            }
+            .filter { it != RecyclerView.NO_POSITION } // filter only valid position
+            .flowOn(Dispatchers.Default)
+            .onEach { position ->
+                layoutManager.scrollToPositionWithOffset(
+                    position,
+                    ctx.dip(20)
+                )
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {

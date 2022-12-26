@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
@@ -20,9 +21,7 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -77,22 +76,19 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
+        adapter.observeData(false)
+            .filter { it.isNotEmpty() }
+            .onEach { emptyStateText.toggleVisibility(it.isEmpty(), true) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
-            editText.afterTextChange()
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .debounce(250)
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounce(250)
+            .onEach {
+                viewModel.updateFilter(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {

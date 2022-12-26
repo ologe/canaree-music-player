@@ -7,6 +7,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,8 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -137,58 +140,51 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
-            viewModel.observeData(category)
-                .subscribe(viewLifecycleOwner) { list ->
-                    handleEmptyStateVisibility(list.isEmpty())
-                    adapter.updateDataSet(list)
-                    sidebar.onDataChanged(list)
-                }
-        }
+        viewModel.observeData(category)
+            .subscribe(viewLifecycleOwner) { list ->
+                handleEmptyStateVisibility(list.isEmpty())
+                adapter.updateDataSet(list)
+                sidebar.onDataChanged(list)
+            }
 
-        launch {
-            viewModel.observeSpanCount(category)
-                .drop(1) // drop initial value, already used
-                .collect {
-                    if (list != null && list.isLaidOut) {
-                        TransitionManager.beginDelayedTransition(list)
-                        (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
-                        adapter.notifyDataSetChanged()
-                    }
+        viewModel.observeSpanCount(category)
+            .drop(1) // drop initial value, already used
+            .onEach {
+                if (list != null && list.isLaidOut) {
+                    TransitionManager.beginDelayedTransition(list)
+                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
+                    adapter.notifyDataSetChanged()
                 }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        launch {
-            when (category) {
-                TabCategory.ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                else -> {/*making lint happy*/
-                }
+        when (category) {
+            TabCategory.ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
+                    .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
+                    .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
+            }
+            TabCategory.ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
+                    .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
+                    .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
+            }
+            TabCategory.PODCASTS_ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
+                    .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
+                    .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
+            }
+            TabCategory.PODCASTS_ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
+                    .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
+                    .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
+            }
+            else -> {/*making lint happy*/
             }
         }
-
     }
 
     override fun onDestroyView() {

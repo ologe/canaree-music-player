@@ -51,7 +51,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
         return listOf(
             createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
             createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),

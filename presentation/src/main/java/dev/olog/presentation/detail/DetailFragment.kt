@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -27,9 +28,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -147,14 +146,12 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isEmpty() || it.length >= 2 }
+            .onEach {
+                viewModel.updateFilter(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
