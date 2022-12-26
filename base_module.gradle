@@ -26,16 +26,6 @@ android {
         }
     }
 
-    flavorDimensions "version"
-    productFlavors {
-        mock {
-            dimension "version"
-        }
-        full {
-            dimension "version"
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
