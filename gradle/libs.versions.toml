@@ -1,5 +1,5 @@
 [versions]
-gradle = "7.4.0-beta02"
+gradle = "7.4.0-rc02"
 kotlin = "1.7.20"
 gms = "4.3.5"
 crashlytics = "2.5.1"
