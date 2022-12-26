@@ -7,7 +7,6 @@ import dev.olog.core.Config
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.presentation.pro.IBilling
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
@@ -27,11 +26,9 @@ class AboutFragment : BaseFragment() {
     @Inject
     lateinit var navigator: NavigatorAbout
     @Inject
-    lateinit var billing: IBilling
-    @Inject
     lateinit var config: Config
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing, config)
+        AboutFragmentPresenter(ctx.applicationContext, config)
     }
     private val adapter by lazyFast {
         AboutFragmentAdapter(lifecycle, navigator, presenter)
