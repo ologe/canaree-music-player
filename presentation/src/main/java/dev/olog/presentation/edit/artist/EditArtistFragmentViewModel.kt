@@ -35,11 +35,6 @@ class EditArtistFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<DisplayableArtist> = displayableArtistLiveData
 
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     private fun Artist.toDisplayableArtist(): DisplayableArtist {
         return DisplayableArtist(
             id = this.id,

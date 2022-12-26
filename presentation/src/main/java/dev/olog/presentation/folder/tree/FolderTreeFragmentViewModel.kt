@@ -12,7 +12,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
@@ -66,10 +66,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
             { current, default -> current.path == default.path }
                 .collect { isCurrentFolderDefaultFolder.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {

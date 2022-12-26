@@ -56,10 +56,6 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data
 
     fun recalculatePositionsAfterRemove(position: Int) =

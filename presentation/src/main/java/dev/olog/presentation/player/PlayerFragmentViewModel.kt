@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -44,10 +44,6 @@ internal class PlayerFragmentViewModel @Inject constructor(
                 .flowOn(Dispatchers.Default)
                 .collect { favoriteLiveData.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrThrow()

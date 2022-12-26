@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
@@ -48,7 +48,6 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     override fun onCleared() {
         fetchJob?.cancel()
-        viewModelScope.cancel()
     }
 
     fun fetchSongInfo(mediaId: MediaId): Boolean {

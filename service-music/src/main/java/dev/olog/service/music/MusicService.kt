@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,14 +28,12 @@ import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.shared.android.PendingIntentFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
+class MusicService : BaseMusicService() {
 
     companion object {
         @JvmStatic
@@ -197,7 +196,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             return
         }
         result.detach()
-        launch(Dispatchers.Default) {
+        lifecycleScope.launch(Dispatchers.Default) {
 
             val mediaIdCategory = MediaIdCategory.values()
                 .toList()

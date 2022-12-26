@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
@@ -95,10 +95,6 @@ class EditItemViewModel @Inject constructor(
             is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
             else -> context.toast(R.string.popup_error_message)
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
 }

@@ -27,7 +27,8 @@ import java.io.InputStream
 class GlideModule : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
+        val component = component(context)
+        val level = if (component.config().isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))

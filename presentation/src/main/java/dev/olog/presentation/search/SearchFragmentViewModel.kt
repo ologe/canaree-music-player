@@ -79,11 +79,6 @@ class SearchFragmentViewModel @Inject constructor(
     fun observePlaylistsData(): LiveData<List<DisplayableItem>> = playlistsData
     fun observeFoldersData(): LiveData<List<DisplayableItem>> = foldersData
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
-
     fun updateQuery(newQuery: String) {
         dataProvider.updateQuery(newQuery.trim())
     }

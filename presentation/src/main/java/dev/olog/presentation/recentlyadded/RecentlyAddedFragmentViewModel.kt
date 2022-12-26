@@ -48,10 +48,6 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
     fun observeData(): LiveData<List<DisplayableItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
         return DisplayableTrack(
             type = R.layout.item_recently_added,

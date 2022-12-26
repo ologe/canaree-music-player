@@ -4,11 +4,8 @@ import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import dev.olog.core.dagger.ApplicationContext
+import androidx.lifecycle.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.MediaExposer
@@ -33,8 +30,9 @@ class MusicGlueService @Inject constructor(
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            context,
-            this
+            context = context,
+            lifecycleScope = lifecycle.coroutineScope,
+            onConnectionChanged = this
         )
     }
     private var mediaController: MediaControllerCompat? = null

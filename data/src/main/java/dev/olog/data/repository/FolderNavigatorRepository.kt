@@ -5,7 +5,7 @@ import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway

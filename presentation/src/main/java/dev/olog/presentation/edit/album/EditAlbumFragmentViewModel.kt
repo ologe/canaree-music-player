@@ -39,10 +39,6 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<DisplayableAlbum> = displayableAlbumLiveData
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {
         val path = presenter.getPath(mediaId)
         val audioFile = AudioFileIO.read(File(path))

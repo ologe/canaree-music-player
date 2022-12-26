@@ -50,10 +50,6 @@ class RelatedArtistFragmentViewModel @Inject constructor(
     fun observeData(): LiveData<List<DisplayableItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         val songs =
             resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)

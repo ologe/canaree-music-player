@@ -19,6 +19,7 @@ dependencies {
     implementation lib_x.media
     implementation lib_x.appcompat
     implementation lib_x.lifecycle_livedata
+    implementation lib_x.lifecycle_runtime
 
     testImplementation lib_test.mockito
 }

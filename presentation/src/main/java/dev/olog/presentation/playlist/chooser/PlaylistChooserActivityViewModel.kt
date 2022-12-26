@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.presentation.R
@@ -36,10 +36,6 @@ class PlaylistChooserActivityViewModel @Inject constructor(
                 .flowOn(Dispatchers.IO)
                 .collect { data.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data

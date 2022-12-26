@@ -6,19 +6,9 @@ plugins {
 }
 apply from: '../base_module.gradle'
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
 android {
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
     //kotlinOptions.allWarningsAsErrors = true

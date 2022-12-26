@@ -46,10 +46,6 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 
     fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()

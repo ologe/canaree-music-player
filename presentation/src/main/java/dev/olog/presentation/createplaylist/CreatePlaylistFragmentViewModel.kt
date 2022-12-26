@@ -68,10 +68,6 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun updateFilter(filter: String) {
         filterChannel.trySend(filter)
     }

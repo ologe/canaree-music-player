@@ -5,15 +5,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.data.BuildConfig
+import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -22,18 +20,19 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
+    internal fun provideOkHttp(
+        config: Config,
+        lastFmInterceptor: LastFmInterceptor,
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addNetworkInterceptor(logInterceptor())
-            .addInterceptor(headerInterceptor(context))
-            .connectTimeout(1, TimeUnit.SECONDS)
-            .readTimeout(1, TimeUnit.SECONDS)
+            .addNetworkInterceptor(logInterceptor(config))
+            .addInterceptor(lastFmInterceptor)
             .build()
     }
 
-    private fun logInterceptor(): Interceptor {
+    private fun logInterceptor(config: Config): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG) {
+        if (config.isDebug) {
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         } else {
             // disable retrofit log on release
@@ -42,23 +41,14 @@ class NetworkModule {
         return loggingInterceptor
     }
 
-    private fun headerInterceptor(context: Context): Interceptor {
-        return Interceptor {
-            val original = it.request()
-            val request = original.newBuilder()
-                .header("User-Agent", context.packageName)
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .method(original.method, original.body)
-                .build()
-            it.proceed(request)
-        }
-    }
-
     @Provides
     @Singleton
-    internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
+    internal fun provideLastFmRetrofit(
+        client: OkHttpClient,
+        config: Config,
+    ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://ws.audioscrobbler.com/2.0/")
+            .baseUrl(config.lastFmBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

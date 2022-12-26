@@ -2,8 +2,8 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.core.Config
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
@@ -28,8 +28,10 @@ class AboutFragment : BaseFragment() {
     lateinit var navigator: NavigatorAbout
     @Inject
     lateinit var billing: IBilling
+    @Inject
+    lateinit var config: Config
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing)
+        AboutFragmentPresenter(ctx.applicationContext, billing, config)
     }
     private val adapter by lazyFast {
         AboutFragmentAdapter(lifecycle, navigator, presenter)
@@ -51,11 +53,6 @@ class AboutFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         back.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleared()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_about

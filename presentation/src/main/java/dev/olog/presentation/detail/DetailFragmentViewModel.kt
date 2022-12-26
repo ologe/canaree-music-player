@@ -119,10 +119,6 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData
     fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
     fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
