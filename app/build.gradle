@@ -6,7 +6,6 @@ plugins {
     id("dev.olog.msc.hilt")
 }
 
-apply plugin: 'com.google.firebase.firebase-perf'
 apply from: '../base_module.gradle'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -109,5 +108,4 @@ dependencies {
     // firebase
     implementation lib_analytics.core
     implementation lib_analytics.crashlytics
-    implementation lib_analytics.perf
 }
