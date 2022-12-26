@@ -6,16 +6,11 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.*
 import dev.olog.core.Config
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.IPlayerDelegate
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
@@ -31,15 +26,14 @@ internal abstract class AbsPlayer<T>(
     private val config: Config,
 
 ) : IPlayerDelegate<T>,
-    ExoPlayerListenerWrapper,
+    Player.Listener,
     DefaultLifecycleObserver {
 
-    private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context).apply {
         setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
 
     }
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+    protected val player: ExoPlayer = ExoPlayer.Builder(context, factory).build()
 
     init {
         lifecycle.addObserver(this)
@@ -111,19 +105,23 @@ internal abstract class AbsPlayer<T>(
     }
 
     @CallSuper
-    override fun onPlayerError(error: ExoPlaybackException) {
-        val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: $error"
-        }
-        error.printStackTrace()
+    override fun onPlayerError(error: PlaybackException) {
+        if (error is ExoPlaybackException) {
+            val what = when (error.type) {
+                ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
+                ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
+                ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
+                else -> "Unknown: $error"
+            }
+            error.printStackTrace()
 
-        if (config.isDebug) {
-            Log.e("Player", "onPlayerError $what")
+            if (config.isDebug) {
+                Log.e("Player", "onPlayerError $what")
+            }
+            context.applicationContext.toast(R.string.music_player_error)
+        } else {
+            // TODO
         }
-        context.applicationContext.toast(R.string.music_player_error)
     }
 
 }
