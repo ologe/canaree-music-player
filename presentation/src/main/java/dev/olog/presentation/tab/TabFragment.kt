@@ -155,7 +155,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
                     adapter.notifyDataSetChanged()
                 }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleScope)
 
         when (category) {
             TabCategory.ALBUMS -> {

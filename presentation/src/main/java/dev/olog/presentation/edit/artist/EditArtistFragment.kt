@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
@@ -15,10 +14,10 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditArtistFragment : BaseEditItemFragment() {
@@ -48,11 +47,10 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
-            artist.afterTextChange()
-                .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
-        }
+        artist.afterTextChange()
+            .map { it.isNotBlank() }
+            .onEach { okButton.isEnabled = it }
+            .launchIn(viewLifecycleScope)
 
         loadImage(mediaId)
 
@@ -70,7 +68,7 @@ class EditArtistFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            viewLifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
     }

@@ -134,7 +134,7 @@ class SearchFragment : BaseFragment(),
             .debounce(200)
             .filter { it.isBlank() || it.trim().length >= 2 }
             .onEach { viewModel.updateQuery(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+            .launchIn(viewLifecycleScope)
     }
 
 

@@ -90,7 +90,7 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-            lifecycleScope.launch {
+            viewLifecycleScope.launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
             }

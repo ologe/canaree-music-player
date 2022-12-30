@@ -62,7 +62,7 @@ class MiniPlayerFragment : BaseFragment(){
             .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
             .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
             .onEach { artist.text = it }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+            .launchIn(viewLifecycleScope)
 
         media.observePlaybackState()
             .filter { it.isPlayOrPause }

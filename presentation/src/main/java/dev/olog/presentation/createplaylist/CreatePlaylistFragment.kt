@@ -79,7 +79,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         adapter.observeData(false)
             .filter { it.isNotEmpty() }
             .onEach { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+            .launchIn(viewLifecycleScope)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
@@ -88,7 +88,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             .debounce(250)
             .onEach {
                 viewModel.updateFilter(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleScope)
     }
 
     override fun onResume() {

@@ -1,6 +1,7 @@
 package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -9,6 +10,7 @@ import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.viewLifecycleScope
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
@@ -50,7 +52,7 @@ class AddFavoriteDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        viewLifecycleScope.launch {
             var message: String
             try {
                 presenter.execute(mediaId)

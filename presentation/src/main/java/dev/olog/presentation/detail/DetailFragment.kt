@@ -151,7 +151,7 @@ class DetailFragment : BaseFragment(),
             .filter { it.isEmpty() || it.length >= 2 }
             .onEach {
                 viewModel.updateFilter(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleScope)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

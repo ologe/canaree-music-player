@@ -6,22 +6,25 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.viewLifecycleScope
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
-import kotlinx.coroutines.*
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by MainScope() {
+internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
         const val TAG = "EqualizerFragment"
@@ -70,7 +73,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             }
     }
 
-    private fun animateBar(bar: BoxedVertical, gain: Float) = launch {
+    private fun animateBar(bar: BoxedVertical, gain: Float) = viewLifecycleScope.launch {
         var duration = 150f
         val timeDelta = 16f
         val progressDelta = (gain - bar.value) * (timeDelta / duration)
@@ -138,7 +141,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     }
 
     private fun changePreset() {
-        launch {
+        viewLifecycleScope.launch {
             val presets = withContext(Dispatchers.IO) {
                 presenter.getPresets()
             }

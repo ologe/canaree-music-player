@@ -1,5 +1,7 @@
 package dev.olog.service.music.scrobbling
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
@@ -7,8 +9,8 @@ import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.Config
 import dev.olog.core.entity.UserCredentials
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -18,7 +20,8 @@ import javax.inject.Inject
 
 internal class LastFmService @Inject constructor(
     private val config: Config,
-): CoroutineScope by CustomScope(Dispatchers.IO) {
+    @ServiceLifecycle private val lifecycle: Lifecycle,
+) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -48,17 +51,13 @@ internal class LastFmService @Inject constructor(
         }
     }
 
-    fun dispose(){
-        scrobbleJob?.cancel()
-    }
-
     fun scrobble(entity: MediaEntity){
         if (session == null || userCredentials == null){
             return
         }
 
         scrobbleJob?.cancel()
-        scrobbleJob = launch {
+        scrobbleJob = lifecycle.coroutineScope.launch {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()
             Track.scrobble(scrobbleData, session)

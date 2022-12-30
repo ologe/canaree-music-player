@@ -73,7 +73,6 @@ class MusicService : BaseMusicService() {
             addObserver(currentSong)
             addObserver(playerMetadata)
             addObserver(notification)
-            addObserver(lastFmScrobbling)
             addObserver(noisy)
         }
     }

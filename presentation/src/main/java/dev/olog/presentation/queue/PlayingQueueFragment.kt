@@ -80,7 +80,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
                     position,
                     ctx.dip(20)
                 )
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleScope)
     }
 
     override fun onResume() {

@@ -20,11 +20,12 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.viewLifecycleScope
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
+class LastFmCredentialsFragment : BaseDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
@@ -67,7 +68,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = launch {
+            job = viewLifecycleScope.launch {
 
                 val user = UserCredentials(
                     userName.text.toString(),
