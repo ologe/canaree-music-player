@@ -15,6 +15,14 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("LibraryConventionPlugin") {
+            id = "dev.olog.msc.library"
+            implementationClass = "LibraryConventionPlugin"
+        }
+        register("FeatureConventionPlugin") {
+            id = "dev.olog.msc.feature"
+            implementationClass = "FeatureConventionPlugin"
+        }
         register("HiltConventionPlugin") {
             id = "dev.olog.msc.hilt"
             implementationClass = "HiltConventionPlugin"
