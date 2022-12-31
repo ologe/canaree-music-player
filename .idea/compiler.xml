@@ -8,6 +8,7 @@
       <module name="canaree-music-player.analytics" target="11" />
       <module name="canaree-music-player.app" target="11" />
       <module name="canaree-music-player.app-shortcuts" target="11" />
+      <module name="canaree-music-player.common.ui" target="11" />
       <module name="canaree-music-player.core" target="11" />
       <module name="canaree-music-player.data" target="11" />
       <module name="canaree-music-player.equalizer" target="11" />

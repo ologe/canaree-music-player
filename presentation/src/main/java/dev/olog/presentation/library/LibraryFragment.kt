@@ -3,10 +3,9 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.feature.floating.api.FeatureFloatingNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
@@ -43,6 +42,8 @@ class LibraryFragment : BaseFragment() {
     internal lateinit var presenter: LibraryFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureFloatingNavigator: FeatureFloatingNavigator
 
     private val isPodcast by lazyFast {
         getArgument<Boolean>(
@@ -131,7 +132,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureFloatingNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     private val onPageChangeListener =

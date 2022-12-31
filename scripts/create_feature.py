@@ -9,7 +9,7 @@ package = f"dev.olog.feature.{feature_package}"
 
 # api module
 dirs = package.replace(".", "/")
-os.makedirs(f"feature/{name}/api/src/main/java/{dirs}", exist_ok=True)
+os.makedirs(f"feature/{name}/api/src/main/java/{dirs}/api", exist_ok=True)
 
 with open(f"feature/{name}/api/src/main/AndroidManifest.xml", "w+") as f:
     f.write(
@@ -19,7 +19,7 @@ f"""<?xml version="1.0" encoding="utf-8"?>
 """
     )
 
-with open(f"feature/{name}/api/build.gradle.kts", "w+") as f:
+with open(f"feature/{name}/api/build.gradle", "w+") as f:
     f.write(
 f"""plugins {{
     id("dev.olog.msc.library")
@@ -29,7 +29,7 @@ f"""plugins {{
 
 # impl module
 dirs = package.replace(".", "/")
-os.makedirs(f"feature/{name}/impl/src/main/java/{dirs}", exist_ok=True)
+os.makedirs(f"feature/{name}/impl/src/main/java/{dirs}/impl", exist_ok=True)
 
 with open(f"feature/{name}/impl/src/main/AndroidManifest.xml", "w+") as f:
     f.write(
@@ -39,14 +39,14 @@ f"""<?xml version="1.0" encoding="utf-8"?>
 """
     )
 
-with open(f"feature/{name}/impl/build.gradle.kts", "w+") as f:
+with open(f"feature/{name}/impl/build.gradle", "w+") as f:
     f.write(
 f"""plugins {{
     id("dev.olog.msc.feature")
 }}
 
 dependencies {{
-    implementation(projects.feature.{name}.api)
+    api(projects.feature.{name}.api)
 }}
 """
     )

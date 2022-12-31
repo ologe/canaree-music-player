@@ -30,6 +30,9 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
+    implementation project(':common:ui')
+
+    implementation project(':feature:floating:api')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.MediaProvider
-import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.feature.floating.api.FeatureFloatingNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -28,7 +25,6 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -97,6 +93,9 @@ class SearchFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureFloatingNavigator: FeatureFloatingNavigator
+
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -188,7 +187,7 @@ class SearchFragment : BaseFragment(),
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureFloatingNavigator.startServiceOrRequestOverlayPermission(activity!!)
     }
 
 

@@ -6,17 +6,16 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.floating.api.FeatureFloatingNavigator
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
+import dev.olog.feature.floating.api.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
@@ -57,6 +56,8 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
+    @Inject
+    lateinit var featureFloatingNavigator: FeatureFloatingNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +123,7 @@ class MainActivity : MusicGlueActivity(),
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+                featureFloatingNavigator.startServiceIfHasOverlayPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
@@ -151,8 +152,8 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
-            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+        if (requestCode == FeatureFloatingNavigator.REQUEST_CODE_HOVER_PERMISSION) {
+            featureFloatingNavigator.startServiceIfHasOverlayPermission(this)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

@@ -101,12 +101,6 @@
             </intent-filter>
         </receiver>
 
-        <!--floating window service-->
-        <service
-            android:name="dev.olog.service.floating.FloatingWindowService"
-            android:exported="false" />
-
-
         <uses-library
             android:name="android.test.runner"
             android:required="false" />

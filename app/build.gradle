@@ -79,10 +79,11 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':service-music')
-    implementation project(':service-floating')
     implementation project(':offline-lyrics')
     implementation project(':intents')
     implementation project(':shared')
+
+    implementation project(':feature:floating:impl')
 
     implementation("com.squareup:javapoet:1.13.0") // tmp fix
 

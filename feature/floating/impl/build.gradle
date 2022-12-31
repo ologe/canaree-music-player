@@ -1,0 +1,37 @@
+plugins {
+    id("dev.olog.msc.feature")
+}
+
+dependencies {
+    implementation(projects.feature.floating.api)
+
+    implementation project(':core')
+    implementation project(':common:ui')
+    implementation project(':injection')
+    implementation project(':image-provider')
+    implementation project(':shared-android')
+    implementation project(':shared')
+    implementation project(':shared-widgets')
+    implementation project(':prefs-keys')
+    implementation project(':media')
+    implementation project(':offline-lyrics')
+
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_android
+
+    implementation lib_x.core_ktx
+    implementation lib_x.media
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_java8
+    implementation lib_x.lifecycle_service
+
+    implementation lib_x.constraint_layout
+    implementation lib_x.appcompat
+    implementation lib_x.material
+    implementation lib_x.recycler
+
+    implementation lib_ui.blur_kit
+
+
+    implementation lib_ui.glide
+}
