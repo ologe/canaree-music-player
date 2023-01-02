@@ -7,12 +7,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 

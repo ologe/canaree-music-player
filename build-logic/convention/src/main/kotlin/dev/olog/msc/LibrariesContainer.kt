@@ -5,16 +5,15 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.provider.Provider
-import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.getByType
 
 internal class LibrariesContainer(
     project: Project
-) {
+) : DependencyHandler by project.dependencies {
 
     private val catalog = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
-    private val scope = DependencyHandlerScope.of(project.dependencies)
 
     fun implementation(
         dependency: String,
@@ -68,12 +67,12 @@ internal class LibrariesContainer(
         configurationAction: Action<Dependency>?
     ) {
         if (configurationAction == null) {
-            scope.add(configuration, dependencyNotation)
+            add(configuration, dependencyNotation)
             return
         }
-        val dependency = scope.create(dependencyNotation.get())
+        val dependency = create(dependencyNotation.get())
         configurationAction.execute(dependency)
-        scope.add(configuration, dependency)
+        add(configuration, dependency)
     }
 
 }

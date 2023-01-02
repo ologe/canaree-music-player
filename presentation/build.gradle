@@ -24,7 +24,6 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':prefs-keys')
-    implementation project(':media')
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
@@ -33,6 +32,7 @@ dependencies {
     implementation project(':common:ui')
 
     implementation project(':feature:floating:api')
+    implementation project(':feature:media:api')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

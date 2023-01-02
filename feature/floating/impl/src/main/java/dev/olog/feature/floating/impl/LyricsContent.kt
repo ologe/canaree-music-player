@@ -2,7 +2,7 @@ package dev.olog.feature.floating.impl
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import dev.olog.media.model.PlayerState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.map

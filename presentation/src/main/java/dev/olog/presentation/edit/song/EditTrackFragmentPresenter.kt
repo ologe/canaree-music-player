@@ -7,6 +7,7 @@ import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
+import dev.olog.feature.media.api.MusicConstants
 import dev.olog.intents.AppConstants
 import javax.inject.Inject
 
@@ -24,8 +25,8 @@ class EditTrackFragmentPresenter @Inject constructor(
             songGateway.getByParam(mediaId.leaf!!)!!
         }
         return song.copy(
-            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
-            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
+            artist = if (song.artist == MusicConstants.UNKNOWN) "" else song.artist,
+            album = if (song.album == MusicConstants.UNKNOWN) "" else song.album
         )
     }
 

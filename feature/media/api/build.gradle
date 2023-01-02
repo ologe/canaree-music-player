@@ -1,0 +1,13 @@
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.hilt")
+}
+
+dependencies {
+    implementation(projects.core)
+    implementation(projects.shared)
+    implementation(projects.sharedAndroid)
+
+    implementation lib_x.media
+    implementation lib_x.appcompat
+}

@@ -8,7 +8,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.intents.AppConstants
+import dev.olog.feature.media.api.MusicConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
             artistId = album.artistId,
             albumArtist = album.albumArtist,
             title = album.title,
-            artist = if (album.artist == AppConstants.UNKNOWN) "" else album.artist,
+            artist = if (album.artist == MusicConstants.UNKNOWN) "" else album.artist,
             hasSameNameAsFolder = album.hasSameNameAsFolder,
             songs = album.songs,
             isPodcast = album.isPodcast

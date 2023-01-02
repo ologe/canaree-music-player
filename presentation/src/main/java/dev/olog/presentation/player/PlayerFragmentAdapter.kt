@@ -9,10 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
+import dev.olog.feature.media.api.MediaProvider
+import dev.olog.feature.media.api.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerPlaybackState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

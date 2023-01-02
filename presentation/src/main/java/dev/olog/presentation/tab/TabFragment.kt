@@ -6,8 +6,6 @@ import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +15,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
-import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -35,11 +32,9 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

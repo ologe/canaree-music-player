@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.toggleVisibility

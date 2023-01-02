@@ -2,18 +2,15 @@ package dev.olog.presentation.player
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl

@@ -28,7 +28,7 @@
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_refresh" />
 
-    <dev.olog.media.widget.CustomProgressBar
+    <dev.olog.feature.media.api.widget.CustomProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="2dp"

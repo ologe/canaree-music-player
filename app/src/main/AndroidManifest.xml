@@ -83,24 +83,6 @@
         <!--app shortcust playlist chooser-->
         <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
 
-        <!--music service-->
-        <service
-            android:name="dev.olog.service.music.MusicService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-
-        <!--media button receiver-->
-        <receiver
-            android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
         <uses-library
             android:name="android.test.runner"
             android:required="false" />

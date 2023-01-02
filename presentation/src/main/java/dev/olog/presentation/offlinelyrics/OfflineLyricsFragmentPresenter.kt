@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.feature.media.api.MusicConstants
 import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
@@ -29,7 +30,7 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
 
     fun getInfoMetadata(): String {
         var result = currentTitle
-        if (currentArtist != AppConstants.UNKNOWN) {
+        if (currentArtist != MusicConstants.UNKNOWN) {
             result += " $currentArtist"
         }
         result += " lyrics"

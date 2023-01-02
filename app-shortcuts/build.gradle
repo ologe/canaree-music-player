@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.hilt")
+}
 apply from: '../base_module.gradle'
 
 android {
@@ -9,6 +12,8 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':intents')
+
+    implementation project(':feature:media:api')
 
     implementation lib_x.core
     implementation lib_x.core_ktx

@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
-include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer'
+include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':app-shortcuts', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer'
 
 gradle.ext.exoplayerRoot = 'ExoPlayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
@@ -28,3 +28,5 @@ include ':common:ui'
 
 include ":feature:floating:api"
 include ":feature:floating:impl"
+include ":feature:media:api"
+include ":feature:media:impl"

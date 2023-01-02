@@ -8,28 +8,31 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.feature.media.api.MediaExposer
+import dev.olog.feature.media.api.MediaProvider
+import dev.olog.feature.media.api.connection.OnConnectionChanged
+import dev.olog.feature.media.api.model.*
+import dev.olog.feature.media.api.extension.playPause
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.media.MediaExposer
-import dev.olog.media.MediaProvider
-import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.model.*
-import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
     OnConnectionChanged {
 
+    @Inject
+    lateinit var mediaExposerFactory: MediaExposer.Factory
+
     private val mediaExposer by lazyFast {
-        MediaExposer(
+        mediaExposerFactory.create(
             context = this,
-            lifecycleScope = lifecycleScope,
+            lifecycle = lifecycle,
             onConnectionChanged = this
         )
     }

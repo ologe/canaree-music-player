@@ -36,6 +36,8 @@
       <module name="canaree-music-player.exoplayer-testutils-robolectric" target="11" />
       <module name="canaree-music-player.feature.floating.api" target="11" />
       <module name="canaree-music-player.feature.floating.impl" target="11" />
+      <module name="canaree-music-player.feature.media.api" target="11" />
+      <module name="canaree-music-player.feature.media.impl" target="11" />
       <module name="canaree-music-player.image-provider" target="11" />
       <module name="canaree-music-player.injection" target="11" />
       <module name="canaree-music-player.intents" target="11" />

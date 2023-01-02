@@ -8,30 +8,27 @@ import androidx.lifecycle.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.media.MediaExposer
-import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.media.playPause
-import dev.olog.media.skipToNext
-import dev.olog.media.skipToPrevious
-import dev.olog.shared.CustomScope
+import dev.olog.feature.media.api.MediaExposer
+import dev.olog.feature.media.api.connection.OnConnectionChanged
+import dev.olog.feature.media.api.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerPlaybackState
+import dev.olog.feature.media.api.extension.playPause
+import dev.olog.feature.media.api.extension.skipToNext
+import dev.olog.feature.media.api.extension.skipToPrevious
 import dev.olog.shared.lazyFast
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
-
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val mediaExposerFactory: MediaExposer.Factory,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
-        MediaExposer(
+        mediaExposerFactory.create(
             context = context,
-            lifecycleScope = lifecycle.coroutineScope,
+            lifecycle = lifecycle,
             onConnectionChanged = this
         )
     }

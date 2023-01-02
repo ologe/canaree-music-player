@@ -15,7 +15,7 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.msc.R
 import dev.olog.presentation.main.MainActivity
-import dev.olog.service.music.MusicService
+import dev.olog.feature.media.impl.MusicService
 import dev.olog.shared.android.PendingIntentFactory
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.palette.ImageProcessorResult

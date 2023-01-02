@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 package dev.olog.msc
 
 import com.android.build.api.dsl.CommonExtension
@@ -26,8 +28,22 @@ fun Project.configureKotlinAndroid(
     kotlinOptions {
         jvmTarget = config.javaVersion.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
-
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
+    }
+
+    libraries {
+        implementation("kotlin")
+        implementation("coroutines")
+
+        add("testImplementation", project(":test-shared"))
+        testImplementation("coroutines-test")
+        testImplementation("test-junit")
+        testImplementation("test-mockito")
+        testImplementation("test-mockito-inline")
+        testImplementation("test-mockito-kotlin")
+        testImplementation("test-livedata")
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.feature.media.api.MusicConstants
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -78,7 +79,7 @@ class SetRingtoneDialog : BaseDialog() {
     private fun generateItemDescription(): String{
         var title = arguments!!.getString(ARGUMENTS_TITLE)!!
         val artist = arguments!!.getString(ARGUMENTS_ARTIST)
-        if (artist != AppConstants.UNKNOWN){
+        if (artist != MusicConstants.UNKNOWN){
             title += " $artist"
         }
         return title

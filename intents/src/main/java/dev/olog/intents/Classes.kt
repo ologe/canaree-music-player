@@ -5,8 +5,6 @@ object Classes {
     const val ACTIVITY_SHORTCUTS = "dev.olog.appshortcuts.ShortcutsActivity"
     const val ACTIVITY_PLAYLIST_CHOOSER = "dev.olog.presentation.playlist.chooser.PlaylistChooserActivity"
 
-    const val SERVICE_MUSIC = "dev.olog.service.music.MusicService"
-
     const val WIDGET_COLORED = "dev.olog.msc.appwidgets.WidgetColored"
 
     @JvmStatic
