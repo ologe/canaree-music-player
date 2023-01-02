@@ -3,6 +3,7 @@ package dev.olog.feature.media.impl.player
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.injection.dagger.ServiceLifecycle
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -26,7 +27,7 @@ internal class PlayerVolume @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     musicPreferencesUseCase: MusicPreferencesGateway
 
-) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver, CoroutineScope by MainScope() {
+) : IMaxAllowedPlayerVolume {
 
     override var listener: IMaxAllowedPlayerVolume.Listener? = null
 
@@ -34,10 +35,8 @@ internal class PlayerVolume @Inject constructor(
     private var isDucking = false
 
     init {
-        lifecycle.addObserver(this)
-
         // observe to preferences
-        launch {
+        lifecycle.coroutineScope.launch {
             musicPreferencesUseCase.isMidnightMode()
                 .collect { lowerAtNight ->
                     volume = if (!lowerAtNight) {
@@ -49,7 +48,7 @@ internal class PlayerVolume @Inject constructor(
                     listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
                 }
         }
-        launch {
+        lifecycle.coroutineScope.launch {
             // observe at interval of 15 mins to detect if is day or night when
             // settigs is on
             musicPreferencesUseCase.isMidnightMode()
@@ -61,6 +60,12 @@ internal class PlayerVolume @Inject constructor(
                     listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
                 }
         }
+
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                listener = null
+            }
+        })
     }
 
     private fun isNight(): Boolean {
@@ -78,11 +83,6 @@ internal class PlayerVolume @Inject constructor(
         } else {
             Volume()
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
-        listener = null
     }
 
     override fun normal(): Float {

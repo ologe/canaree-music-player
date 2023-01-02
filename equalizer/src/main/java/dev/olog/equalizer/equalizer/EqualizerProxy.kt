@@ -32,9 +32,9 @@ internal class EqualizerProxy @Inject constructor(
         retrieveImpl(callerHash).onAudioSessionIdChanged(audioSessionId)
     }
 
-    override fun onDestroy(callerHash: Int) {
-        cache[callerHash]?.onDestroy()
-        cache.remove(callerHash)
+    override fun onDestroy() {
+        equalizer1.onDestroy()
+        equalizer2.onDestroy()
     }
 
     override fun setEnabled(enabled: Boolean) {

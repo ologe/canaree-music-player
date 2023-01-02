@@ -3,23 +3,22 @@ package dev.olog.feature.media.impl.queue
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
+import androidx.lifecycle.coroutineScope
 import dev.olog.feature.media.impl.model.MediaEntity
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
+import dev.olog.injection.dagger.ServiceLifecycle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val mediaSession: MediaSessionCompat
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -31,15 +30,13 @@ internal class MediaSessionQueue @Inject constructor(
     private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
     init {
-        lifecycle.addObserver(this)
-
-        launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Default) {
             delayedChannel.asFlow()
                 .debounce(DELAY)
                 .collect { publish(it) }
         }
 
-        launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Default) {
             immediateChannel.asFlow()
                 .collect { publish(it) }
         }
@@ -62,10 +59,6 @@ internal class MediaSessionQueue @Inject constructor(
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
         immediateChannel.trySend(list)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

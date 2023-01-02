@@ -23,13 +23,12 @@ import dev.olog.shared.clamp
  */
 internal abstract class AbsPlayer<T>(
     private val context: Context,
-    lifecycle: Lifecycle,
+    protected val lifecycle: Lifecycle,
     private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume
 
 ) : IPlayerDelegate<T>,
-    ExoPlayerListenerWrapper,
-    DefaultLifecycleObserver {
+    ExoPlayerListenerWrapper {
 
     private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context).apply {
@@ -39,18 +38,17 @@ internal abstract class AbsPlayer<T>(
     protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
 
     init {
-        lifecycle.addObserver(this)
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                player.release()
+            }
+        })
 
         volume.listener = object : IMaxAllowedPlayerVolume.Listener {
             override fun onMaxAllowedVolumeChanged(volume: Float) {
                 player.volume = volume
             }
         }
-    }
-
-    @CallSuper
-    override fun onDestroy(owner: LifecycleOwner) {
-        player.release()
     }
 
     @CallSuper

@@ -43,8 +43,8 @@ internal class BassBoostProxy @Inject constructor(
         bassBoost2.setEnabled(enabled)
     }
 
-    override fun onDestroy(callerHash: Int) {
-        cache[callerHash]?.onDestroy()
-        cache.remove(callerHash)
+    override fun onDestroy() {
+        bassBoost1.onDestroy()
+        bassBoost2.onDestroy()
     }
 }

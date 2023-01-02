@@ -5,7 +5,9 @@ import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dagger.hilt.android.scopes.ServiceScoped
@@ -15,7 +17,7 @@ import dev.olog.feature.media.impl.model.Event
 import dev.olog.feature.media.impl.model.MediaEntity
 import dev.olog.feature.media.impl.model.MetadataEntity
 import dev.olog.feature.media.impl.model.MusicNotificationState
-import dev.olog.shared.CustomScope
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -25,11 +27,11 @@ import javax.inject.Inject
 @ServiceScoped
 internal class MusicNotificationManager @Inject constructor(
     private val service: Service,
+    @ServiceLifecycle lifecycle: Lifecycle,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: IPlayerLifecycle
-
-) : DefaultLifecycleObserver, CoroutineScope by CustomScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -62,7 +64,7 @@ internal class MusicNotificationManager @Inject constructor(
     init {
         playerLifecycle.addListener(playerListener)
 
-        launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Default) {
             publisher.consumeAsFlow()
                 .filter { event ->
                     when (event) {
@@ -73,11 +75,17 @@ internal class MusicNotificationManager @Inject constructor(
                 }.collect { consumeEvent(it) }
         }
 
-        launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Default) {
             observeFavoriteUseCase()
                 .map { it == FavoriteEnum.FAVORITE }
                 .collect { onNextFavorite(it) }
         }
+
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                stopForeground()
+            }
+        })
     }
 
     private suspend fun consumeEvent(event: Event){
@@ -127,12 +135,6 @@ internal class MusicNotificationManager @Inject constructor(
         } else {
             pauseForeground()
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        stopForeground()
-        publishJob?.cancel()
-        cancel()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {

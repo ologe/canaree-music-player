@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 interface IEqualizer {
 
     fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int)
-    fun onDestroy(callerHash: Int)
+    fun onDestroy()
 
     fun setEnabled(enabled: Boolean)
 

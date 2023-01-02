@@ -2,8 +2,10 @@ package dev.olog.feature.media.impl.player.crossfade
 
 import android.content.Context
 import androidx.core.math.MathUtils
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -37,8 +39,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper,
-    CoroutineScope by MainScope() {
+    ExoPlayerListenerWrapper {
 
     companion object {
         private const val MIN_CROSSFADE_FOR_GAPLESS = 1500
@@ -57,7 +58,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
-        launch {
+        lifecycle.coroutineScope.launch {
             flowInterval(1, TimeUnit.SECONDS)
                 .filter { crossFadeTime > 0 } // crossFade enabled
                 .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
@@ -70,7 +71,7 @@ internal class CrossFadePlayer @Inject internal constructor(
                 }
         }
 
-        launch {
+        lifecycle.coroutineScope.launch {
             musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
             { crossfade, gapless ->
                 if (gapless){
@@ -84,18 +85,19 @@ internal class CrossFadePlayer @Inject internal constructor(
                 crossFadeTime = it
             }
         }
-        launch {
+        lifecycle.coroutineScope.launch {
             musicPreferencesUseCase.observeGapless()
                 .collect { gapless = it }
         }
-    }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        super.onDestroy(owner)
-        player.removeListener(this)
-        player.removeAudioListener(onAudioSessionIdChangeListener)
-        cancelFade()
-        cancel()
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                player.removeListener(this@CrossFadePlayer)
+                player.removeAudioListener(onAudioSessionIdChangeListener)
+                cancelFade()
+                onAudioSessionIdChangeListener.releaseAll()
+            }
+        })
     }
 
     override fun setPlaybackSpeed(speed: Float) {
@@ -172,7 +174,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.volume = min
 
         fadeDisposable?.cancel()
-        fadeDisposable = launch {
+        fadeDisposable = lifecycle.coroutineScope.launch {
             flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume < max }
                 .collect {
@@ -204,7 +206,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeDisposable = launch {
+        fadeDisposable = lifecycle.coroutineScope.launch {
             flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume > min }
                 .collect {

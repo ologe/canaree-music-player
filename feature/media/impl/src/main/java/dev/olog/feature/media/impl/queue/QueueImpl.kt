@@ -4,6 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -29,7 +30,7 @@ import javax.inject.Inject
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -37,8 +38,7 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) {
 
     private var savePlayingQueueJob: Job? = null
 
@@ -47,14 +47,14 @@ internal class QueueImpl @Inject constructor(
     private var currentSongPosition = -1
 
     init {
-        lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        persist(playingQueue)
-        playingQueue.getOrNull(currentSongPosition)?.let {
-            musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
-        }
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                persist(playingQueue)
+                playingQueue.getOrNull(currentSongPosition)?.let {
+                    musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
+                }
+            }
+        })
     }
 
     internal fun isEmpty() = playingQueue.isEmpty()
@@ -92,7 +92,7 @@ internal class QueueImpl @Inject constructor(
 
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueJob?.cancel()
-        savePlayingQueueJob = launch {
+        savePlayingQueueJob = lifecycle.coroutineScope.launch(Dispatchers.Default) {
             assertBackgroundThread()
 
             val request = songList.map {
@@ -120,7 +120,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Default) {
             assertBackgroundThread()
 
             val safePosition = ensurePosition(list, currentPosition)

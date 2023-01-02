@@ -64,16 +64,7 @@ class MusicService : BaseMusicService() {
 
     override fun onCreate() {
         super.onCreate()
-        setupObservers()
         setupMediaSession()
-    }
-
-    private fun setupObservers(){
-        lifecycle.run {
-            addObserver(currentSong)
-            addObserver(notification)
-            addObserver(noisy)
-        }
     }
 
     private fun setupMediaSession(){

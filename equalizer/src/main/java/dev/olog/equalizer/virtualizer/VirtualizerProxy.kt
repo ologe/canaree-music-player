@@ -43,8 +43,8 @@ internal class VirtualizerProxy @Inject constructor(
         virtualizer2.setEnabled(enabled)
     }
 
-    override fun onDestroy(callerHash: Int) {
-        cache[callerHash]?.onDestroy()
-        cache.remove(callerHash)
+    override fun onDestroy() {
+        virtualizer1.onDestroy()
+        virtualizer2.onDestroy()
     }
 }

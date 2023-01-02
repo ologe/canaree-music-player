@@ -12,6 +12,6 @@ interface IBassBoost {
 
     fun setEnabled(enabled: Boolean)
 
-    fun onDestroy(callerHash: Int)
+    fun onDestroy()
 
 }

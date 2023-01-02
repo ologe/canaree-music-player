@@ -8,30 +8,37 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.feature.media.impl.EventDispatcher.Event
+import dev.olog.injection.dagger.ServiceLifecycle
 import javax.inject.Inject
 
 @ServiceScoped
 internal class Noisy @Inject constructor(
     private val service: Service,
+    @ServiceLifecycle lifecycle: Lifecycle,
     private val eventDispatcher: EventDispatcher
 
-) : DefaultLifecycleObserver {
+) {
 
     companion object {
         @JvmStatic
         private val TAG = "SM:${Noisy::class.java.simpleName}"
     }
 
+    init {
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                unregister()
+            }
+        })
+    }
+
     private val noisyFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
     private var registered: Boolean = false
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        unregister()
-    }
 
     fun register() {
         if (registered){
