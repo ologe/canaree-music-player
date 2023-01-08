@@ -1,14 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
+    id("dev.olog.msc.application")
     id("kotlin-android-extensions")
-    id("kotlin-kapt")
-    id("dev.olog.msc.hilt")
 }
-
-apply from: '../base_module.gradle'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -28,43 +21,15 @@ android {
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
-    bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
             applicationIdSuffix ".debug"
-            multiDexEnabled true
         }
     }
-
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {

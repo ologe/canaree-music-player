@@ -1,18 +1,11 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("dev.olog.msc.library")
     id("dev.olog.msc.hilt")
 }
-apply from: '../base_module.gradle'
 
 android {
 
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -27,8 +20,6 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {

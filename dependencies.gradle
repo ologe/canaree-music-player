@@ -56,7 +56,7 @@ ext {
     ]
 
     lib_core = [
-            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10",
             coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
             coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",

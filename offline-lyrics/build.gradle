@@ -1,19 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("dev.olog.msc.library")
     id("dev.olog.msc.hilt")
-}
-apply from: '../base_module.gradle'
-
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
 
 dependencies {

@@ -2,11 +2,7 @@ plugins {
     id("dev.olog.msc.library")
     id("dev.olog.msc.hilt")
 }
-apply from: '../base_module.gradle'
 
-android {
-    //kotlinOptions.allWarningsAsErrors = true
-}
 
 dependencies {
     implementation project(':core')

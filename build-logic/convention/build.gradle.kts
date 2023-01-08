@@ -19,6 +19,10 @@ gradlePlugin {
             id = "dev.olog.msc.library"
             implementationClass = "LibraryConventionPlugin"
         }
+        register("ApplicationConventionPlugin") {
+            id = "dev.olog.msc.application"
+            implementationClass = "ApplicationConventionPlugin"
+        }
         register("FeatureConventionPlugin") {
             id = "dev.olog.msc.feature"
             implementationClass = "FeatureConventionPlugin"

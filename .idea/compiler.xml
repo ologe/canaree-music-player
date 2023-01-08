@@ -6,50 +6,50 @@
       <module name="build-logic.convention.main" target="11" />
       <module name="build-logic.convention.test" target="11" />
       <module name="canaree-music-player.analytics" target="11" />
-      <module name="canaree-music-player.app" target="11" />
-      <module name="canaree-music-player.app-shortcuts" target="11" />
-      <module name="canaree-music-player.common.ui" target="11" />
-      <module name="canaree-music-player.core" target="11" />
-      <module name="canaree-music-player.data" target="11" />
-      <module name="canaree-music-player.equalizer" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-cast" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-cronet" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-ffmpeg" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-flac" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-gvr" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-ima" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-jobdispatcher" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-leanback" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-mediasession" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-okhttp" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-opus" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-rtmp" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-vp9" target="11" />
-      <module name="canaree-music-player.exoplayer-extension-workmanager" target="11" />
-      <module name="canaree-music-player.exoplayer-library" target="11" />
-      <module name="canaree-music-player.exoplayer-library-core" target="11" />
-      <module name="canaree-music-player.exoplayer-library-dash" target="11" />
-      <module name="canaree-music-player.exoplayer-library-hls" target="11" />
-      <module name="canaree-music-player.exoplayer-library-smoothstreaming" target="11" />
-      <module name="canaree-music-player.exoplayer-library-ui" target="11" />
-      <module name="canaree-music-player.exoplayer-testutils" target="11" />
-      <module name="canaree-music-player.exoplayer-testutils-robolectric" target="11" />
-      <module name="canaree-music-player.feature.floating.api" target="11" />
-      <module name="canaree-music-player.feature.floating.impl" target="11" />
-      <module name="canaree-music-player.feature.media.api" target="11" />
-      <module name="canaree-music-player.feature.media.impl" target="11" />
-      <module name="canaree-music-player.image-provider" target="11" />
-      <module name="canaree-music-player.injection" target="11" />
-      <module name="canaree-music-player.intents" target="11" />
+      <module name="canaree-music-player.app" target="17" />
+      <module name="canaree-music-player.app-shortcuts" target="17" />
+      <module name="canaree-music-player.common.ui" target="17" />
+      <module name="canaree-music-player.core" target="17" />
+      <module name="canaree-music-player.data" target="17" />
+      <module name="canaree-music-player.equalizer" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-cast" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-cronet" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-ffmpeg" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-flac" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-gvr" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-ima" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-jobdispatcher" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-leanback" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-mediasession" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-okhttp" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-opus" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-rtmp" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-vp9" target="17" />
+      <module name="canaree-music-player.exoplayer-extension-workmanager" target="17" />
+      <module name="canaree-music-player.exoplayer-library" target="17" />
+      <module name="canaree-music-player.exoplayer-library-core" target="17" />
+      <module name="canaree-music-player.exoplayer-library-dash" target="17" />
+      <module name="canaree-music-player.exoplayer-library-hls" target="17" />
+      <module name="canaree-music-player.exoplayer-library-smoothstreaming" target="17" />
+      <module name="canaree-music-player.exoplayer-library-ui" target="17" />
+      <module name="canaree-music-player.exoplayer-testutils" target="17" />
+      <module name="canaree-music-player.exoplayer-testutils-robolectric" target="17" />
+      <module name="canaree-music-player.feature.floating.api" target="17" />
+      <module name="canaree-music-player.feature.floating.impl" target="17" />
+      <module name="canaree-music-player.feature.media.api" target="17" />
+      <module name="canaree-music-player.feature.media.impl" target="17" />
+      <module name="canaree-music-player.image-provider" target="17" />
+      <module name="canaree-music-player.injection" target="17" />
+      <module name="canaree-music-player.intents" target="17" />
       <module name="canaree-music-player.media" target="11" />
-      <module name="canaree-music-player.offline-lyrics" target="11" />
-      <module name="canaree-music-player.prefs-keys" target="11" />
-      <module name="canaree-music-player.presentation" target="11" />
+      <module name="canaree-music-player.offline-lyrics" target="17" />
+      <module name="canaree-music-player.prefs-keys" target="17" />
+      <module name="canaree-music-player.presentation" target="17" />
       <module name="canaree-music-player.service-floating" target="11" />
       <module name="canaree-music-player.service-music" target="11" />
-      <module name="canaree-music-player.shared-android" target="11" />
-      <module name="canaree-music-player.shared-widgets" target="11" />
-      <module name="canaree-music-player.test-shared" target="11" />
+      <module name="canaree-music-player.shared-android" target="17" />
+      <module name="canaree-music-player.shared-widgets" target="17" />
+      <module name="canaree-music-player.test-shared" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

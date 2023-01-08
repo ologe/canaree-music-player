@@ -1,10 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("dev.olog.msc.library")
     id("dev.olog.msc.hilt")
 }
-apply from: '../base_module.gradle'
 
 dependencies {
     implementation project(':core')

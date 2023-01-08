@@ -1,16 +1,8 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript { 
-
-    ext {
-        kotlin_version = '1.7.10'
-        google_services = '4.3.3'
-        crashlytics = '2.2.1'
-    }
-
+buildscript {
 
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
@@ -19,34 +11,14 @@ buildscript {
         classpath(libs.plugin.gradle)
         classpath(libs.plugin.kotlin)
         classpath(libs.plugin.hilt)
-        classpath "com.google.gms:google-services:$google_services"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
+        classpath(libs.plugin.gms)
+        classpath(libs.plugin.crashlytics)
     }
-
-
-    
     
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    // Sdk and tools
-    minSdkVersion = 21
-    targetSdkVersion = 31
-    compileSdkVersion = 31
-    buildToolsVersion = '30.0.2'
-
-    /*  version code
-        999 - for old compatibility
-        27 - android version
-        X.xxx - X major version, xxx minor version
-     */
-    versionCode = 999_29_3_3_01
-    versionName = '3.3.1'
-
 }
 
 apply from: 'dependencies.gradle'
