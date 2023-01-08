@@ -3,6 +3,10 @@ plugins {
     id("dev.olog.msc.hilt")
 }
 
+android {
+    namespace 'dev.olog.core'
+}
+
 dependencies {
     implementation project(':shared-android')
     implementation project(':shared')

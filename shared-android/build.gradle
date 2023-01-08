@@ -4,6 +4,8 @@ plugins {
 }
 
 android {
+    namespace 'dev.olog.shared.android'
+
     //kotlinOptions.allWarningsAsErrors = true
 }
 

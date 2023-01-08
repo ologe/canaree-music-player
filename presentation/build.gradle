@@ -4,6 +4,10 @@ plugins {
     id("kotlin-android-extensions")
 }
 
+android {
+    namespace 'dev.olog.presentation'
+}
+
 androidExtensions {
     experimental = true
 }

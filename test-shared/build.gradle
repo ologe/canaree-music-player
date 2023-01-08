@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 
 android {
 
+    namespace 'dev.olog.test.shared'
+
     compileSdkVersion 31
 
     defaultConfig {

@@ -13,6 +13,8 @@ if (localPropertiesFile.exists()) {
 
 android {
 
+    namespace 'dev.olog.msc'
+
     defaultConfig {
         applicationId "dev.olog.msc"
 

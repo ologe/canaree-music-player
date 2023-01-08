@@ -3,6 +3,10 @@ plugins {
     id("dev.olog.msc.hilt")
 }
 
+android {
+    namespace 'dev.olog.shared.widgets'
+}
+
 dependencies {
     implementation project(':prefs-keys')
     implementation project(':shared-android')

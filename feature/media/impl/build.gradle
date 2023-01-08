@@ -2,6 +2,10 @@ plugins {
     id("dev.olog.msc.feature")
 }
 
+android {
+    namespace 'dev.olog.feature.media.impl'
+}
+
 dependencies {
     api(projects.feature.media.api)
 

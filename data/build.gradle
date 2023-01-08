@@ -5,6 +5,8 @@ plugins {
 
 android {
 
+    namespace 'dev.olog.data'
+
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {

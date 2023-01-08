@@ -3,6 +3,10 @@ plugins {
     id("dev.olog.msc.hilt")
 }
 
+android {
+    namespace 'dev.olog.injection'
+}
+
 dependencies {
     implementation project(':core')
     implementation project(':data')

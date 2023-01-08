@@ -3,6 +3,9 @@ plugins {
     id("dev.olog.msc.hilt")
 }
 
+android {
+    namespace 'dev.olog.appshortcuts'
+}
 
 dependencies {
     implementation project(':core')
