@@ -15,9 +15,6 @@ android {
     }
 
     buildTypes {
-        release {
-            debuggable false
-        }
 
         debug {
 //            debuggable false
