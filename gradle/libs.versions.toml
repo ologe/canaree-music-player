@@ -12,6 +12,8 @@ test-junit = "4.13"
 test-mockito = "3.5.10"
 test-mockito-kotlin = "2.2.0"
 test-livedata = "1.1.2"
+test-robolectric = "4.8.1"
+testui-androidx = "1.4.0"
 
 [libraries]
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -33,3 +35,6 @@ test-mockito = { module = "org.mockito:mockito-android", version.ref = "test-moc
 test-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "test-mockito" }
 test-mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "test-mockito-kotlin" }
 test-livedata = { module = "com.jraska.livedata:testing-ktx", version.ref = "test-livedata" }
+test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
+testui-runner = { module = "androidx.test:runner", version.ref = "testui-androidx" }
+testui-rules = { module = "androidx.test:rules", version.ref = "testui-androidx" }

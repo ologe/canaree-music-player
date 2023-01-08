@@ -43,6 +43,10 @@ fun Project.configureKotlinAndroid(
         testImplementation("test-mockito-inline")
         testImplementation("test-mockito-kotlin")
         testImplementation("test-livedata")
+        testImplementation("test-robolectric")
+
+        androidTestImplementation("testui-runner")
+        androidTestImplementation("testui-rules")
     }
 
 }

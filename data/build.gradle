@@ -47,4 +47,5 @@ dependencies {
     implementation lib_data.room_ktx
     kapt lib_data.room_processor
 
+    androidTestImplementation lib_data.roomTesting
 }

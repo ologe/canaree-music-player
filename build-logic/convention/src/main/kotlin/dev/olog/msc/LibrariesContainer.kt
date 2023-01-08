@@ -37,6 +37,17 @@ internal class LibrariesContainer(
         )
     }
 
+    fun androidTestImplementation(
+        dependency: String,
+        configurationAction: Action<Dependency>? = null,
+    ) {
+        addDependencyTo(
+            configuration = "androidTestImplementation",
+            dependencyNotation = catalog.findLibrary(dependency).get(),
+            configurationAction = configurationAction,
+        )
+    }
+
     fun kapt(
         dependency: String,
         configurationAction: Action<Dependency>? = null,
