@@ -5,13 +5,13 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.prefs.SortPreferences
 import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")
 abstract class BaseQueries(
-    protected val blacklistPrefs: BlacklistPreferences,
+    protected val blacklistPrefs: BlacklistGateway,
     protected val sortPrefs: SortPreferences,
     protected val isPodcast: Boolean
 ) {
@@ -39,7 +39,8 @@ abstract class BaseQueries(
     }
 
     protected fun notBlacklisted(): Pair<String, Array<String>> {
-        val blacklist = blacklistPrefs.getBlackList()
+//        val blacklist = blacklistPrefs.getBlacklist() TODO
+        val blacklist = emptyList<String>()
         val params = blacklist.map { "?" }
         val blackListed = blacklist.toTypedArray()
         return "$folderProjection NOT IN (${params.joinToString()})" to blackListed

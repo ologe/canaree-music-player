@@ -59,7 +59,7 @@ internal abstract class PlaylistDao {
     """)
     abstract fun getPlaylistTracksImpl(playlistId: Long): List<PlaylistTrackEntity>
 
-    fun getPlaylistTracks(playlistId: Long, songGateway: SongGateway): List<Song> {
+    suspend fun getPlaylistTracks(playlistId: Long, songGateway: SongGateway): List<Song> {
         assertBackgroundThread()
         val trackList = getPlaylistTracksImpl(playlistId)
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }

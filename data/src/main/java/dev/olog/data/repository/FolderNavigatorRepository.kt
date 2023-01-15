@@ -7,9 +7,9 @@ import android.os.Looper
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.data.utils.assertBackground
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 internal class FolderNavigatorRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val blacklistGateway: BlacklistPreferences,
+    private val blacklistGateway: BlacklistGateway,
     private val folderGateway: FolderGateway
 ) : FolderNavigatorGateway {
 
@@ -28,7 +28,9 @@ internal class FolderNavigatorRepository @Inject constructor(
 
             trySend(queryFileChildren(file))
 
-            val observer = ActionContentObserver { trySend(queryFileChildren(file)) }
+            val observer = ActionContentObserver {
+//                trySend(queryFileChildren(file)) TODO
+            }
 
             context.contentResolver.registerContentObserver(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -40,8 +42,8 @@ internal class FolderNavigatorRepository @Inject constructor(
         }.assertBackground()
     }
 
-    private fun queryFileChildren(file: File): List<FileType> {
-        val blacklisted = blacklistGateway.getBlackList()
+    private suspend fun queryFileChildren(file: File): List<FileType> {
+        val blacklisted = blacklistGateway.getBlacklist()
         val children = file.listFiles()
             ?.asSequence()
             ?.filter { it.isDirectory && !it.name.startsWith(".") }

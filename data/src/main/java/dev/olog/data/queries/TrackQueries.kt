@@ -6,14 +6,14 @@ import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
-@Suppress("DEPRECATION")
+@Deprecated("delete")
 internal class TrackQueries(
     private val contentResolver: ContentResolver,
-    blacklistPrefs: BlacklistPreferences,
+    blacklistPrefs: BlacklistGateway,
     sortPrefs: SortPreferences,
     isPodcast: Boolean
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {

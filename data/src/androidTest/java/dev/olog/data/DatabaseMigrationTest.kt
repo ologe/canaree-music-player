@@ -7,6 +7,7 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.migrations.Migration15to16
 import dev.olog.data.migrations.Migration16to17
 import dev.olog.data.migrations.Migration17to18
+import dev.olog.data.migrations.Migration18to19
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,6 +36,11 @@ class DatabaseMigrationTest {
     @Test
     fun migrate17to18() {
         testMigration(Migration17to18())
+    }
+
+    @Test
+    fun migrate18to19() {
+        testMigration(Migration18to19())
     }
 
     private fun testMigration(migration: Migration) {

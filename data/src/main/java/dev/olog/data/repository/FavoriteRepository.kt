@@ -33,14 +33,14 @@ internal class FavoriteRepository @Inject constructor(
         favoriteStatePublisher.trySend(state)
     }
 
-    override fun getTracks(): List<Song> {
+    override suspend fun getTracks(): List<Song> {
         assertBackgroundThread()
         val historyList = favoriteDao.getAllTracksImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
     }
 
-    override fun getPodcasts(): List<Song> {
+    override suspend fun getPodcasts(): List<Song> {
         assertBackgroundThread()
         val historyList = favoriteDao.getAllPodcastsImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }

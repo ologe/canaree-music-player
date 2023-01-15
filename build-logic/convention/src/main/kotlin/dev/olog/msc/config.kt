@@ -6,7 +6,7 @@ import org.gradle.api.JavaVersion
 object config {
 
     const val minSdk = 21
-    const val targetSdk = 31
+    const val targetSdk = 33
     const val compileSdk = targetSdk
 
     /*  version code
@@ -14,8 +14,8 @@ object config {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    const val versionCode = 999_29_3_3_01
-    const val versionName = "3.3.1"
+    const val versionCode = 999_33_4_0_00
+    const val versionName = "4.0.0"
 
     val javaVersion = JavaVersion.VERSION_11
 

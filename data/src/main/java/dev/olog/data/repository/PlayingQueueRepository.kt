@@ -19,7 +19,7 @@ internal class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
-    override fun getAll(): List<PlayingQueueSong> {
+    override suspend fun getAll(): List<PlayingQueueSong> {
         try {
 //            assertBackgroundThread()
             val playingQueue =

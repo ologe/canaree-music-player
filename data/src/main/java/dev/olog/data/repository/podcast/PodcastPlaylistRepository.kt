@@ -83,7 +83,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override suspend fun getTrackListByParam(param: Id): List<Song> {
         assertBackgroundThread()
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
@@ -99,7 +99,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
 
-    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private suspend fun getAutoPlaylistsTracks(param: Id): List<Song> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()

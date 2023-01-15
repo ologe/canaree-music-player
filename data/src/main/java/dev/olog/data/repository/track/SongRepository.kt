@@ -1,131 +1,69 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore.Audio
-import android.util.Log
-import dev.olog.contentresolversql.querySql
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.comparator.SongComparators
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.mapper.toSong
-import dev.olog.data.queries.TrackQueries
-import dev.olog.data.repository.BaseRepository
-import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.*
+import dev.olog.data.mediastore.MediaStoreUtils
+import dev.olog.data.mediastore.audio.MediaStoreAudioDao
+import dev.olog.data.mediastore.audio.toSong
+import dev.olog.shared.filterListItem
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import java.io.File
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
+    private val dao: MediaStoreAudioDao,
+    private val mediaStoreUtils: MediaStoreUtils,
+    private val sortPreferences: SortPreferences,
+) : SongGateway {
 
-    private val queries = TrackQueries(
-        contentResolver, blacklistPrefs,
-        sortPrefs, false
-    )
-
-    init {
-        firstQuery()
+    override suspend fun getAll(): List<Song> {
+        return observeAll().first()
     }
 
-    override fun registerMainContentUri(): ContentUri {
-        return ContentUri(Audio.Media.EXTERNAL_CONTENT_URI, true)
+    override fun observeAll(): Flow<List<Song>> {
+        val itemsFlow = dao.observeAll()
+            .filterListItem { !it.isPodcast }
+            .mapListItem { it.toSong() }
+        val sortFlow = sortPreferences.observeAllTracksSort()
+        return combine(itemsFlow, sortFlow) { items, sort ->
+            items.sortedWith(SongComparators.invoke(sort))
+        }
     }
 
-    override fun queryAll(): List<Song> {
-//        assertBackgroundThread()
-        val cursor = queries.getAll()
-        return contentResolver.queryAll(cursor) { it.toSong() }
+    override suspend fun getByParam(id: Long): Song? {
+        return observeByParam(id).first()
     }
 
-    override fun getByParam(param: Id): Song? {
-        assertBackgroundThread()
-        val cursor = queries.getByParam(param)
-        return contentResolver.queryOne(cursor) { it.toSong() }
+    override fun observeByParam(id: Long): Flow<Song?> {
+        return dao.observeById(id.toString())
+            .map { it?.toSong() }
     }
 
-    override fun observeByParam(param: Id): Flow<Song?> {
-        val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, param)
-        val contentUri = ContentUri(uri, true)
-        return observeByParamInternal(contentUri) { getByParam(param) }
-            .distinctUntilChanged()
-            .assertBackground()
-    }
-
-    override suspend fun deleteSingle(id: Id) {
-        return deleteInternal(id)
+    override suspend fun deleteSingle(id: Long) {
+        mediaStoreUtils.deleteSingle(id) {
+            getByParam(id)?.path
+        }
     }
 
     override suspend fun deleteGroup(ids: List<Song>) {
-        for (id in ids) {
-            deleteInternal(id.id)
+        mediaStoreUtils.deleteGroup(ids) { id ->
+            getByParam(id)?.path
         }
     }
 
-    private fun deleteInternal(id: Id) {
-        assertBackgroundThread()
-        val path = getByParam(id)!!.path
-        val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
-        val deleted = contentResolver.delete(uri, null, null)
-        if (deleted < 1) {
-            Log.w("SongRepo", "song not found $id")
-            return
-        }
-
-        val file = File(path)
-        if (file.exists()) {
-            file.delete()
+    override suspend fun getByUri(uri: Uri): Song? {
+        return mediaStoreUtils.getByUri(uri) { displayName ->
+            dao.getByDisplayName(displayName)?.toSong()
         }
     }
 
-    override fun getByUri(uri: Uri): Song? {
-        try {
-            val id = getByUriInternal(uri) ?: return null
-            return getByParam(id)
-        } catch (ex: Exception){
-            ex.printStackTrace()
-            return null
-        }
-    }
-
-    private fun getByUriInternal(uri: Uri): Long? {
-        // https://developer.android.com/training/secure-file-sharing/retrieve-info
-        // content uri has only two field [_id, _display_name]
-        val fileQuery = """
-            SELECT ${Audio.Media.DISPLAY_NAME}
-            FROM $uri
-        """
-        val displayName = contentResolver.querySql(fileQuery).use {
-            it.moveToFirst()
-            it.getString(Audio.Media.DISPLAY_NAME)
-        }
-
-        val itemQuery = """
-            SELECT ${Audio.Media._ID}
-            FROM ${Audio.Media.EXTERNAL_CONTENT_URI}
-            WHERE ${Audio.Media.DISPLAY_NAME} = ?
-        """
-        val id = contentResolver.querySql(itemQuery, arrayOf(displayName)).use {
-            it.moveToFirst()
-            it.getLong(Audio.Media._ID)
-        }
-        return id
-    }
-
-    override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+    override suspend fun getByAlbumId(albumId: Long): Song? {
+        return dao.getByAlbumId(albumId.toString())?.toSong()
     }
 }

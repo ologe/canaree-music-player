@@ -18,8 +18,9 @@ import dev.olog.feature.media.api.connection.MusicServiceConnectionState
 import dev.olog.feature.media.api.connection.OnConnectionChanged
 import dev.olog.feature.media.api.model.*
 import dev.olog.feature.media.impl.MusicService
-import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.android.permission.Permission
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,18 +35,21 @@ import java.lang.IllegalStateException
 class MediaExposerImpl(
     private val context: Context,
     private val lifecycleScope: CoroutineScope,
-    private val onConnectionChanged: OnConnectionChanged
+    private val onConnectionChanged: OnConnectionChanged,
+    private val permissionManager: PermissionManager,
 ) : MediaExposer {
 
     class Factory : MediaExposer.Factory {
         override fun create(
             context: Context,
             lifecycle: Lifecycle,
-            onConnectionChanged: OnConnectionChanged
+            onConnectionChanged: OnConnectionChanged,
+            permissionManager: PermissionManager,
         ): MediaExposer = MediaExposerImpl(
             context = context,
             lifecycleScope = lifecycle.coroutineScope,
-            onConnectionChanged = onConnectionChanged
+            onConnectionChanged = onConnectionChanged,
+            permissionManager = permissionManager,
         )
     }
 
@@ -71,7 +75,7 @@ class MediaExposerImpl(
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
 
     override fun connect() {
-        if (!Permissions.canReadStorage(context)) {
+        if (!permissionManager.hasMandatoryPermissions()) {
             Log.w("MediaExposer", "Storage permission is not granted")
             return
         }

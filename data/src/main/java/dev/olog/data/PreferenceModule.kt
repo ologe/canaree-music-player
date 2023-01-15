@@ -38,10 +38,6 @@ abstract class PreferenceModule {
     @Singleton
     internal abstract fun provideSortPreferences(impl: AppSortingImpl): SortPreferences
 
-    @Binds
-    @Singleton
-    internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
-
     companion object {
         @Provides
         @Singleton

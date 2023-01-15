@@ -20,6 +20,7 @@ fun Project.configureKotlinAndroid(
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = config.javaVersion
         targetCompatibility = config.javaVersion
     }
@@ -35,6 +36,7 @@ fun Project.configureKotlinAndroid(
     libraries {
         implementation("kotlin")
         implementation("coroutines")
+        add("coreLibraryDesugaring", "desugar")
 
         add("testImplementation", project(":test-shared"))
         testImplementation("coroutines-test")

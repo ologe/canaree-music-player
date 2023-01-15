@@ -10,6 +10,7 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.data.blacklist.BlacklistRepository
 import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
@@ -94,5 +95,9 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideEqualzierRepository(repository: EqualizerRepository): EqualizerGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideBlacklistGateway(impl: BlacklistRepository): BlacklistGateway
 
 }

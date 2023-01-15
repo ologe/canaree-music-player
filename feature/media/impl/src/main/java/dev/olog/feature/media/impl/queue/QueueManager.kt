@@ -22,6 +22,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ internal class QueueManager @Inject constructor(
 
 ) : IQueue {
 
-    override fun prepare(): PlayerMediaEntity? {
+    override fun prepare(): PlayerMediaEntity? = runBlocking {
         assertMainThread()
 
         val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
@@ -52,7 +53,7 @@ internal class QueueManager @Inject constructor(
             playingQueue.lastIndex
         )
 
-        val result = playingQueue.getOrNull(currentPosition) ?: return null
+        val result = playingQueue.getOrNull(currentPosition) ?: return@runBlocking null
 
         queueImpl.updateState(
             playingQueue, currentPosition,
@@ -61,7 +62,7 @@ internal class QueueManager @Inject constructor(
 
 
 
-        return result.toPlayerMediaEntity(
+        return@runBlocking result.toPlayerMediaEntity(
             queueImpl.computePositionInQueue(playingQueue, currentPosition),
             getLastSessionBookmark(result)
         )

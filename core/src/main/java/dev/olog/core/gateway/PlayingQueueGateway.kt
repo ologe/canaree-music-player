@@ -12,7 +12,7 @@ interface PlayingQueueGateway {
 
     fun observeAll(): Flow<List<PlayingQueueSong>>
 
-    fun getAll(): List<PlayingQueueSong>
+    suspend fun getAll(): List<PlayingQueueSong>
 
     fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
 

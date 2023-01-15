@@ -3,22 +3,25 @@ package dev.olog.presentation.prefs.blacklist
 import android.os.Environment
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
     folderGateway: FolderGateway,
-    private val appPreferencesUseCase: BlacklistPreferences
+    private val appPreferencesUseCase: BlacklistGateway
 ) {
 
-    val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
-        folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+    val data : Flow<List<BlacklistModel>> = flow {
+        val blacklisted = appPreferencesUseCase.getBlacklist().map { it.toLowerCase(Locale.getDefault()) }
+        val items = folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+        emit(items)
     }
 
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
@@ -31,11 +34,10 @@ class BlacklistFragmentPresenter @Inject constructor(
         )
     }
 
-    fun saveBlacklisted(data: List<BlacklistModel>) {
+    suspend fun saveBlacklisted(data: List<BlacklistModel>) {
         val blacklisted = data.filter { it.isBlacklisted }
             .map { it.path }
-            .toSet()
-        appPreferencesUseCase.setBlackList(blacklisted)
+        appPreferencesUseCase.setBlacklist(blacklisted)
     }
 
 

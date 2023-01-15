@@ -8,6 +8,7 @@ import dev.olog.feature.media.api.connection.IMediaConnectionCallback
 import dev.olog.feature.media.api.connection.OnConnectionChanged
 import dev.olog.feature.media.api.controller.IMediaControllerCallback
 import dev.olog.feature.media.api.model.*
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 
 interface MediaExposer :
@@ -31,6 +32,7 @@ interface MediaExposer :
             context: Context,
             lifecycle: Lifecycle,
             onConnectionChanged: OnConnectionChanged,
+            permissionManager: PermissionManager,
         ): MediaExposer
     }
 

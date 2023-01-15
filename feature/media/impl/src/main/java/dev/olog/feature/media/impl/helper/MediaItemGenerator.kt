@@ -24,7 +24,7 @@ internal class MediaItemGenerator @Inject constructor(
 ) {
 
 
-    fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
+    suspend fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
         assertBackgroundThread()
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
@@ -37,7 +37,7 @@ internal class MediaItemGenerator @Inject constructor(
         }.toMutableList()
     }
 
-    fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
+    suspend fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
         return getSongListByParamUseCase(parentId)
             .map { it.toChildMediaItem(parentId) }
             .toMutableList()

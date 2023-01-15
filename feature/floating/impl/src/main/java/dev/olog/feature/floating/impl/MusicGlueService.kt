@@ -15,6 +15,7 @@ import dev.olog.feature.media.api.model.PlayerPlaybackState
 import dev.olog.feature.media.api.extension.playPause
 import dev.olog.feature.media.api.extension.skipToNext
 import dev.olog.feature.media.api.extension.skipToPrevious
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
@@ -23,13 +24,15 @@ class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val mediaExposerFactory: MediaExposer.Factory,
+    private val permissionManager: PermissionManager,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         mediaExposerFactory.create(
             context = context,
             lifecycle = lifecycle,
-            onConnectionChanged = this
+            onConnectionChanged = this,
+            permissionManager = permissionManager,
         )
     }
     private var mediaController: MediaControllerCompat? = null

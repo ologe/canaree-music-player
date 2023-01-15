@@ -7,10 +7,10 @@ import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.base.HasLastPlayed
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.LastPlayedPodcastAlbumDao
@@ -22,6 +22,7 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -29,10 +30,11 @@ internal class PodcastAlbumRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    blacklistPrefs: BlacklistGateway,
     private val lastPlayedDao: LastPlayedPodcastAlbumDao,
-    schedulers: Schedulers
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers), PodcastAlbumGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Album, Id>(context, contentResolver, schedulers, permissionManager), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
 

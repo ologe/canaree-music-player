@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoriteGateway {
 
-    fun getTracks(): List<Song>
-    fun getPodcasts(): List<Song>
+    suspend fun getTracks(): List<Song>
+    suspend fun getPodcasts(): List<Song>
 
     fun observeTracks(): Flow<List<Song>>
     fun observePodcasts(): Flow<List<Song>>

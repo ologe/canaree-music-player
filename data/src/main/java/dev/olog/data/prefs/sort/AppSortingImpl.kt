@@ -7,6 +7,9 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.utils.observeKey
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 internal class AppSortingImpl @Inject constructor(
@@ -35,6 +38,18 @@ internal class AppSortingImpl @Inject constructor(
             SortType.values()[sort],
             SortArranging.values()[arranging]
         )
+    }
+
+    override fun observeAllTracksSort(): Flow<SortEntity> {
+        return combine(
+            preferences.observeKey(ALL_SONGS_SORT_ORDER, SortType.TITLE.ordinal),
+            preferences.observeKey(ALL_SONGS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal),
+        ) { type, direction ->
+            SortEntity(
+                SortType.values()[type],
+                SortArranging.values()[direction]
+            )
+        }
     }
 
     override fun getAllAlbumsSort(): SortEntity {

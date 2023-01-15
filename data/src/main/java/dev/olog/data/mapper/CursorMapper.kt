@@ -12,6 +12,7 @@ import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getStringOrNull
 import java.io.File
 
+@Deprecated("delete")
 fun Cursor.toSong(): Song {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
@@ -45,7 +46,9 @@ fun Cursor.toSong(): Song {
         dateAdded = dateAdded,
         dateModified = dateModified,
         path = path,
-        trackColumn = track,
+        directoryPath = path,
+        trackNumber = track,
+        discNumber = track,
         idInPlaylist = -1,
         isPodcast = isPodcast
     )
@@ -85,7 +88,9 @@ fun Cursor.toPlaylistSong(): Song {
         dateAdded = dateAdded,
         dateModified = dateModified,
         path = path,
-        trackColumn = track,
+        directoryPath = path,
+        trackNumber = track,
+        discNumber = track,
         idInPlaylist = idInPlaylist,
         isPodcast = isPodcast
     )

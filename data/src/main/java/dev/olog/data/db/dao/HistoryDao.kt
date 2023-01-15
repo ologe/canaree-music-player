@@ -67,7 +67,7 @@ internal abstract class HistoryDao {
     """)
     abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
-    fun getTracks(songGateway: SongGateway): List<Song> {
+    suspend fun getTracks(songGateway: SongGateway): List<Song> {
         assertBackgroundThread()
         val historyList = getAllTracksImpl()
         val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }

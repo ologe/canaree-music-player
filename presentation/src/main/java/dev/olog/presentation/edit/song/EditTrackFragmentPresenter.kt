@@ -18,7 +18,7 @@ class EditTrackFragmentPresenter @Inject constructor(
 
 ) {
 
-    fun getSong(mediaId: MediaId): Song {
+    suspend fun getSong(mediaId: MediaId): Song {
         val song = if (mediaId.isPodcast) {
             podcastGateway.getByParam(mediaId.leaf!!)!!
         } else {

@@ -9,10 +9,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.base.Path
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.FolderMostPlayedDao
@@ -26,10 +26,13 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.android.permission.PermissionManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
@@ -37,11 +40,12 @@ internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    blacklistPrefs: BlacklistGateway,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
-    schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Folder, Path>(context, contentResolver, schedulers, permissionManager), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 
@@ -108,10 +112,9 @@ internal class FolderRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getAllBlacklistedIncluded(): List<Folder> {
-        assertBackgroundThread()
+    override suspend fun getAllBlacklistedIncluded(): List<Folder> = withContext(Dispatchers.IO) {
         val cursor = queries.getAll(true)
-        return extractFolders(cursor)
+        return@withContext extractFolders(cursor)
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {

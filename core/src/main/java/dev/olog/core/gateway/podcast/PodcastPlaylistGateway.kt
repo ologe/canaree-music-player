@@ -1,13 +1,20 @@
 package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.base.*
+import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.base.BaseGateway
+import dev.olog.core.gateway.base.HasRelatedArtists
+import dev.olog.core.gateway.base.HasSiblings
+import dev.olog.core.gateway.base.Id
+import kotlinx.coroutines.flow.Flow
 
 interface PodcastPlaylistGateway :
     BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id>,
     HasSiblings<Playlist, Id>,
     HasRelatedArtists<Id> {
+
+    suspend fun getTrackListByParam(id: Long): List<Song>
+    fun observeTrackListByParam(id: Long): Flow<List<Song>>
 
     fun getAllAutoPlaylists(): List<Playlist>
 
