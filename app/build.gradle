@@ -105,8 +105,6 @@ dependencies {
     // debug
     debugImplementation lib_debug.leak_canary_debug
 
-    debugImplementation lib_debug.stetho
-
     // firebase
     implementation lib_analytics.core
     implementation lib_analytics.crashlytics
