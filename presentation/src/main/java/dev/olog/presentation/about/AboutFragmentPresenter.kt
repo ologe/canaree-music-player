@@ -16,8 +16,6 @@ class AboutFragmentPresenter(
 
     companion object {
         @JvmStatic
-        val HAVOC_ID = MediaId.headerId("havoc id")
-        @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
         @JvmStatic
         val THIRD_SW_ID = MediaId.headerId("third sw")
@@ -41,12 +39,6 @@ class AboutFragmentPresenter(
 
 
     private val data = listOf(
-        DisplayableHeader(
-            type = R.layout.item_about_promotion,
-            mediaId = HAVOC_ID,
-            title = context.getString(R.string.about_havoc),
-            subtitle = context.getString(R.string.about_translations_description)
-        ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
