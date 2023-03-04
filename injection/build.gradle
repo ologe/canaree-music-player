@@ -25,7 +25,6 @@ apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
-    implementation project(':analytics')
     implementation project(':data')
     implementation project(':shared')
     implementation project(':equalizer')
@@ -41,8 +40,6 @@ dependencies {
     implementation lib_network.ok_http
     implementation lib_network.retrofit
     implementation lib_data.room
-
-    implementation lib_analytics.analytics
 
     implementation lib_utils.aes_crypto
 }
