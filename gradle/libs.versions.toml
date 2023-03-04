@@ -79,7 +79,6 @@ androidx-material = { module = "com.google.android.material:material", version.r
 androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
 androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
 androidx-annotations-core = { module = "androidx.annotation:annotation", version.ref = "androidx-annotations" }
-androidx-annotations-support = { module = "com.android.support:support-annotations", version = "28.0.0" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-coordinator = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator" }
 androidx-fragments = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragments" }

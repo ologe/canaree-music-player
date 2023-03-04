@@ -16,8 +16,6 @@ dependencies {
     implementation libs.ui.colordesaturation
     implementation libs.ui.glide.core
     kapt libs.ui.glide.processor
-    // mandatory for glide 4.9.0 or below compatibility
-    kapt libs.androidx.annotations.support
 
     implementation libs.androidx.core
     implementation libs.androidx.preference
