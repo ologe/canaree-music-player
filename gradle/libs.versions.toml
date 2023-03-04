@@ -49,7 +49,6 @@ leak-canary = "2.4"
 junit = "4.13"
 mockito-core = "3.5.10"
 mockito-kotlin = "2.2.0"
-livedata-test = "1.1.2"
 
 [libraries]
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -121,4 +120,3 @@ utils-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", vers
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockito-core = { module = "org.mockito:mockito-android", version.ref = "mockito-core" }
 test-mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockito-kotlin" }
-test-livedata = { module = "com.jraska.livedata:testing-ktx", version.ref = "livedata-test" }
