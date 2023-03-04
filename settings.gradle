@@ -1,5 +1,47 @@
-include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer'
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+rootProject.name = "canaree"
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
 
 gradle.ext.exoplayerRoot = 'exoplayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
+
+include ':app'
+include ':injection'
+include ':core'
+include ':presentation'
+include ':shared-android'
+include ':data'
+include ':image-provider'
+include ':prefs-keys'
+include ':jaudiotagger'
+include ':media'
+include ':app-shortcuts'
+include ':service-music'
+include ':service-floating'
+include ':offline-lyrics'
+include ':test-shared'
+include ':intents'
+include ':shared'
+include ':shared-widgets'
+include ':equalizer'

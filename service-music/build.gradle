@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -13,17 +14,10 @@ if (localPropertiesFile.exists()) {
 android {
 
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -37,19 +31,14 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.androidx.media
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.java8
 
-    implementation lib_x.media
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
-    implementation lib_x.lifecycle_java8
+    implementation libs.ui.glide.core
 
-    implementation lib_ui.glide
-
-    implementation lib_utils.last_fm_binding
+    implementation libs.utils.lastfmbinding
 
 
 //    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.4'

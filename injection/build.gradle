@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -12,16 +13,9 @@ if (localPropertiesFile.exists()) {
 
 android {
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
@@ -29,17 +23,12 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.appcompat
 
-    implementation lib_x.lifecycle_viewmodel
-    implementation lib_x.appcompat
+    implementation libs.data.okhttp.core
+    implementation libs.data.retrofit.core
+    implementation libs.data.room.core
 
-    implementation lib_network.ok_http
-    implementation lib_network.retrofit
-    implementation lib_data.room
-
-    implementation lib_utils.aes_crypto
+    implementation libs.utils.aescrypto
 }

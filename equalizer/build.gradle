@@ -1,13 +1,10 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-
-apply from: '../kapt.gradle'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 dependencies {
     implementation project(':core')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_x.annotations
+    implementation libs.androidx.annotations.core
 }

@@ -1,9 +1,10 @@
-apply plugin: 'com.android.application'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id("dev.msc.application")
+    id("dev.msc.hilt")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -22,18 +23,6 @@ android {
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
-    bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -44,22 +33,9 @@ android {
         debug {
             minifyEnabled false
             applicationIdSuffix ".debug"
-            multiDexEnabled true
         }
     }
-
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-    }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 
 dependencies {
@@ -79,33 +55,24 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_core.coroutines
-
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.lifecycle.viewmodel
 
-    implementation lib_x.core_ktx
-    implementation lib_x.appcompat
-    implementation lib_x.browser
-    implementation lib_x.preference
+    implementation libs.androidx.core
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.browser
+    implementation libs.androidx.preference
 
-    // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
-
-    implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
+    implementation libs.ui.blurkit
+    implementation libs.ui.customtabs
 
     // debug
-    debugImplementation lib_debug.leak_canary_debug
+    debugImplementation libs.utils.leakcanary
 
     // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
+    implementation libs.firebase.core
+    implementation libs.firebase.crashlytics
 }

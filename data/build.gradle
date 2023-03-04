@@ -1,6 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+    id("kotlin-kapt")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -13,10 +15,6 @@ if (localPropertiesFile.exists()) {
 android {
 
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -34,37 +32,27 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
     implementation project(':shared')
     implementation project(':prefs-keys')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
+    implementation libs.androidx.core
+    implementation libs.androidx.preference
+    implementation libs.androidx.lifecycle.extensions
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.utils.fuzzywuzzy
+    implementation libs.data.gson
+    implementation libs.data.retrofit.core
+    implementation libs.data.retrofit.gson
+    implementation libs.data.okhttp.core
+    implementation libs.data.okhttp.interceptor
 
-    implementation lib_x.core_ktx
-    implementation lib_x.preference
-    implementation lib_x.lifecycle_extensions
-
-    implementation lib_utils.fuzzy
-    implementation lib_network.gson
-    implementation lib_network.retrofit
-    implementation lib_network.retrofit_gson
-    implementation lib_network.ok_http
-    implementation lib_network.ok_http_interceptor
-
-    implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
+    implementation libs.data.sqlcontentresolver
+    implementation libs.data.room.core
+    implementation libs.data.room.ktx
+    kapt libs.data.room.processor
 
 }

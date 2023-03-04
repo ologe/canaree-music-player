@@ -1,74 +1,20 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript { 
-
-    ext {
-        kotlin_version = '1.6.0'
-        google_services = '4.3.3'
-        crashlytics = '2.2.1'
-    }
-
+buildscript {
 
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_services"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
-    }
-
-
-    
-    
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-//        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
-    }
-    gradle.projectsEvaluated { // TODO remove after coroutines became stable
-        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
-            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
-            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-            kotlinOptions.jvmTarget = "1.8"
-        }
-    }
-    afterEvaluate {
-        extensions.findByName('kapt')?.arguments {
-            arg("dagger.fastInit", "enabled")
-            arg("dagger.formatGeneratedSource", "disabled")
-//            arg("dagger.fullBindingGraphValidation", "ERROR")
-        }
+        classpath(libs.plugin.gradle)
+        classpath(libs.plugin.kotlin)
+        classpath(libs.plugin.gms)
+        classpath(libs.plugin.crashlytics)
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    // Sdk and tools
-    minSdkVersion = 21
-    targetSdkVersion = 30
-    compileSdkVersion = 30
-    buildToolsVersion = '30.0.2'
-
-    /*  version code
-        999 - for old compatibility
-        27 - android version
-        X.xxx - X major version, xxx minor version
-     */
-    versionCode = 999_29_3_3_01
-    versionName = '3.3.1'
-
-}
-
-apply from: 'dependencies.gradle'

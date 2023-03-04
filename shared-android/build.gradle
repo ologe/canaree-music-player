@@ -1,26 +1,17 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-
-android {
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
+plugins {
+    id("dev.msc.library")
 }
 
 dependencies {
     implementation project(':prefs-keys')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_x.material
-    implementation lib_x.core_ktx
-    implementation lib_x.palette
-    implementation lib_x.constraint_layout
-    implementation lib_x.preference
+    implementation libs.androidx.material
+    implementation libs.androidx.core
+    implementation libs.androidx.palette
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.preference
 
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
 }
