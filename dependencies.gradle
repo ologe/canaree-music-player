@@ -18,7 +18,6 @@ ext {
     android_x_fragments = '1.2.5'
     constraint_layout = '2.0.0'
     lifecycle = '2.2.0'
-    billing = '1.2.2'
 
 //    ui
     glide = '4.11.0'
@@ -93,8 +92,6 @@ ext {
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
-
-            billing             : "com.android.billingclient:billing:$billing",
     ]
 
     lib_ui = [

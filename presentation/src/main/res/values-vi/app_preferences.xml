@@ -4,11 +4,7 @@
     <!--entry values are used as keys, do not translate-->
     <!--however, entries are human readable -->
 
-    <string name="premium_ad_key_title">Hiển thị quảng cáo để mở khóa các tính năng cao cấp</string>
-
     <string name="settings">Thiết lập</string>
-
-    <string name="prefs_not_premium_action">Mua</string>
 
     <!--categories-->
     <string name="prefs_category_library">Thư viện</string>

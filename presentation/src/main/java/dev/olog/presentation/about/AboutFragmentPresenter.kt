@@ -8,16 +8,10 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.pro.IBilling
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 
 class AboutFragmentPresenter(
     context: Context,
-    private val billing: IBilling
 ) : CoroutineScope by MainScope() {
 
     companion object {
@@ -39,8 +33,6 @@ class AboutFragmentPresenter(
         val RATE_ID = MediaId.headerId("rate")
         @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
-        @JvmStatic
-        val BUY_PRO = MediaId.headerId("pro")
         @JvmStatic
         val CHANGELOG = MediaId.headerId("changelog")
         @JvmStatic
@@ -123,41 +115,10 @@ class AboutFragmentPresenter(
             subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
-//
-//    private val trial = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description_trial)
-//    )
-//    private val noPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description)
-//    )
-//    private val alreadyPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.premium_already_premium)
-//    )
 
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 
     init {
-//        launch {
-//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-//                when {
-//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-//                    state.isTrial -> listOf(havoc, trial) + (data)
-//                    else -> listOf(havoc, noPro) + (data)
-//                }
-//            }.flowOn(Dispatchers.Default)
-//                .collect {
-//                    dataLiveData.value = it
-//                }
-//        }
         dataLiveData.value = data
     }
 
@@ -167,9 +128,4 @@ class AboutFragmentPresenter(
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 
-    fun buyPro() {
-        if (!billing.getBillingsState().isPremiumStrict()) {
-            billing.purchasePremium()
-        }
-    }
 }
