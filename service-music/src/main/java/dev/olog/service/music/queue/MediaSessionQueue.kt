@@ -4,11 +4,9 @@ import android.app.Service
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -18,9 +16,9 @@ import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
     service: Service,
+    schedulers: Schedulers,
     private val mediaSession: MediaSessionCompat
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -32,15 +30,13 @@ internal class MediaSessionQueue @Inject constructor(
     private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
     init {
-        service.lifecycle.addObserver(this)
-
-        launch {
+        service.lifecycleScope.launch(schedulers.cpu) {
             delayedChannel.asFlow()
                 .debounce(DELAY)
                 .collect { publish(it) }
         }
 
-        launch {
+        service.lifecycleScope.launch(schedulers.cpu) {
             immediateChannel.asFlow()
                 .collect { publish(it) }
         }
@@ -63,10 +59,6 @@ internal class MediaSessionQueue @Inject constructor(
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
         immediateChannel.offer(list)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

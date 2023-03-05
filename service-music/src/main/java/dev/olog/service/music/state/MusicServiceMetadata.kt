@@ -1,16 +1,14 @@
 package dev.olog.service.music.state
 
+import android.app.Service
 import android.appwidget.AppWidgetManager
-import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.service.music.interfaces.IPlayerLifecycle
@@ -21,22 +19,21 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ServiceScoped
 internal class MusicServiceMetadata @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val service: Service,
+    private val schedulers: Schedulers,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
     private val musicPrefs: MusicPreferencesGateway
 
-) : IPlayerLifecycle.Listener,
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) : IPlayerLifecycle.Listener {
 
     companion object {
         @JvmStatic
@@ -50,7 +47,7 @@ internal class MusicServiceMetadata @Inject constructor(
     init {
         playerLifecycle.addListener(this)
 
-        launch {
+        service.lifecycleScope.launch(schedulers.cpu) {
             musicPrefs.observeShowLockscreenArtwork()
                 .collect { showLockScreenArtwork = it }
         }
@@ -65,14 +62,10 @@ internal class MusicServiceMetadata @Inject constructor(
         notifyWidgets(metadata.entity)
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
-    }
-
     private fun update(metadata: MetadataEntity) {
         Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        launch {
+        service.lifecycleScope.launch(schedulers.cpu) {
 
             val entity = metadata.entity
 
@@ -92,7 +85,7 @@ internal class MusicServiceMetadata @Inject constructor(
             yield()
 
             if (showLockScreenArtwork) {
-                val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
+                val bitmap = service.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
                 yield()
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
             }
@@ -104,9 +97,9 @@ internal class MusicServiceMetadata @Inject constructor(
         Log.v(TAG, "notify widgets ${entity.title}")
 
         for (clazz in Classes.widgets) {
-            val ids = context.getAppWidgetsIdsFor(clazz)
+            val ids = service.getAppWidgetsIdsFor(clazz)
 
-            val intent = Intent(context, clazz).apply {
+            val intent = Intent(service, clazz).apply {
                 action = WidgetConstants.METADATA_CHANGED
                 putExtra(WidgetConstants.ARGUMENT_SONG_ID, entity.id)
                 putExtra(WidgetConstants.ARGUMENT_TITLE, entity.title)
@@ -114,7 +107,7 @@ internal class MusicServiceMetadata @Inject constructor(
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             }
 
-            context.sendBroadcast(intent)
+            service.sendBroadcast(intent)
         }
 
     }

@@ -6,9 +6,9 @@ import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.entity.UserCredentials
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -16,7 +16,9 @@ import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 
-internal class LastFmService @Inject constructor(): CoroutineScope by CustomScope(Dispatchers.IO) {
+internal class LastFmService @Inject constructor(
+    private val schedulers: Schedulers,
+) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -24,8 +26,6 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
 
     private var session: Session? = null
     private var userCredentials: UserCredentials? = null
-
-    private var scrobbleJob: Job? = null
 
     init {
         Caller.getInstance().userAgent = "dev.olog.msc"
@@ -46,22 +46,15 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
         }
     }
 
-    fun dispose(){
-        scrobbleJob?.cancel()
-    }
-
-    fun scrobble(entity: MediaEntity){
+    suspend fun scrobble(entity: MediaEntity) = withContext(schedulers.io) {
         if (session == null || userCredentials == null){
-            return
+            return@withContext
         }
 
-        scrobbleJob?.cancel()
-        scrobbleJob = launch {
-            delay(SCROBBLE_DELAY)
-            val scrobbleData = entity.toScrollData()
-            Track.scrobble(scrobbleData, session)
-            Track.updateNowPlaying(scrobbleData, session)
-        }
+        delay(SCROBBLE_DELAY)
+        val scrobbleData = entity.toScrollData()
+        Track.scrobble(scrobbleData, session)
+        Track.updateNowPlaying(scrobbleData, session)
     }
 
     private fun MediaEntity.toScrollData(): ScrobbleData {

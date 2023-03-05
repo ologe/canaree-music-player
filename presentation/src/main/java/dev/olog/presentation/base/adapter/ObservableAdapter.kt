@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -21,7 +20,7 @@ abstract class ObservableAdapter<T : BaseModel>(
 
 ) : RecyclerView.Adapter<DataBoundViewHolder>(),
     DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    CoroutineScope by CoroutineScope(SupervisorJob() + Dispatchers.Default) {
 
     protected val dataSet = mutableListOf<T>()
     private var neverEmitted = true

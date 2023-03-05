@@ -13,6 +13,7 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.clamp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -32,8 +33,7 @@ internal class PlayerImpl @Inject constructor(
 
 ) : IPlayer,
     DefaultLifecycleObserver,
-    IPlayerLifecycle,
-    CoroutineScope by MainScope() {
+    IPlayerLifecycle {
 
     private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
@@ -42,7 +42,7 @@ internal class PlayerImpl @Inject constructor(
     init {
         service.lifecycle.addObserver(this)
 
-        launch {
+        service.lifecycleScope.launch {
             // TODO combine with max allowed volume changes
             musicPrefsUseCase.observeVolume()
                 .flowOn(Dispatchers.Default)
@@ -52,7 +52,7 @@ internal class PlayerImpl @Inject constructor(
                 }
         }
 
-        launch {
+        service.lifecycleScope.launch {
             musicPrefsUseCase.observePlaybackSpeed()
                 .collect {
                     currentSpeed = it
@@ -65,7 +65,6 @@ internal class PlayerImpl @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {

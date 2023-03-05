@@ -2,25 +2,20 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.audio.AudioListener
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 internal class OnAudioSessionIdChangeListener @Inject constructor(
-    service: Service,
+    private val service: Service,
     private val equalizer: IEqualizer,
     private val virtualizer: IVirtualizer,
     private val bassBoost: IBassBoost
-
-) : AudioListener,
-    DefaultLifecycleObserver,
-    CoroutineScope by MainScope() {
+) : AudioListener {
 
     companion object {
         @JvmStatic
@@ -32,17 +27,9 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 
     private val hash by lazy { hashCode() }
 
-    init {
-        service.lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        job?.cancel()
-    }
-
     override fun onAudioSessionId(audioSessionId: Int) {
         job?.cancel()
-        job = launch {
+        job = service.lifecycleScope.launch {
             delay(DELAY)
             onAudioSessionIdInternal(audioSessionId)
         }

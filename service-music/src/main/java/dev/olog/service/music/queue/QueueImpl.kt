@@ -11,12 +11,13 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
@@ -29,7 +30,8 @@ import javax.inject.Inject
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
-    service: Service,
+    private val service: Service,
+    private val schedulers: Schedulers,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -37,8 +39,7 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) : DefaultLifecycleObserver {
 
     private var savePlayingQueueJob: Job? = null
 
@@ -92,7 +93,7 @@ internal class QueueImpl @Inject constructor(
 
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueJob?.cancel()
-        savePlayingQueueJob = launch {
+        savePlayingQueueJob = service.lifecycleScope.launch(schedulers.cpu) {
             assertBackgroundThread()
 
             val request = songList.map {
@@ -120,7 +121,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        launch {
+        service.lifecycleScope.launch(schedulers.cpu) {
             assertBackgroundThread()
 
             val safePosition = ensurePosition(list, currentPosition)
