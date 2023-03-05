@@ -34,11 +34,7 @@ class AudioFileCoverFetcher(
     }
 
     override fun cleanup() {
-        try {
-            stream?.close()
-        } catch (ex: Exception){
-            ex.printStackTrace()
-        }
+
     }
 
     override fun cancel() {
