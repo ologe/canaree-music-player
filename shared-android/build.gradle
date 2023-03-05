@@ -10,6 +10,7 @@ dependencies {
     implementation libs.androidx.palette
     implementation libs.androidx.constraintlayout
     implementation libs.androidx.preference
+    implementation libs.androidx.annotations.core
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime

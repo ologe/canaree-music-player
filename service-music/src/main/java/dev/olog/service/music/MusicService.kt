@@ -27,7 +27,7 @@ import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.core.PendingIntentFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,6 +59,8 @@ class MusicService : BaseMusicService() {
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
     internal lateinit var noisy: Noisy
+    @Inject
+    lateinit var pendingIntentFactory: PendingIntentFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -203,13 +205,11 @@ class MusicService : BaseMusicService() {
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
         intent.setClass(this, this.javaClass)
-        return intent.asServicePendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
+        return pendingIntentFactory.createForService(intent)
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
-        return PendingIntent.getActivity(
-            this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val intent = Intent(this, Class.forName(Classes.ACTIVITY_MAIN))
+        return pendingIntentFactory.createForActivity(intent)
     }
 }

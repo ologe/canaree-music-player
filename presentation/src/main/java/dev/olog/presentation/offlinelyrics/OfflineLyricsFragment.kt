@@ -1,5 +1,6 @@
 package dev.olog.presentation.offlinelyrics
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -52,10 +53,10 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (requireActivity().packageManager.isIntentSafe(intent)) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, uri)
                 requireActivity().startActivity(intent)
-            } else {
+            } catch (ex: ActivityNotFoundException) {
                 requireActivity().toast(R.string.common_browser_not_found)
             }
         }

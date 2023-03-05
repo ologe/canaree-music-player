@@ -68,6 +68,7 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.androidx.browser
     implementation libs.androidx.preference
+    implementation libs.androidx.media
 
     implementation libs.ui.blurkit
     implementation libs.ui.customtabs

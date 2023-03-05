@@ -9,15 +9,22 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.service.music.interfaces.INotification
+import dev.olog.core.PendingIntentFactory
 import dev.olog.shared.android.utils.TextUtils
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 internal open class NotificationImpl24 @Inject constructor(
     service: Service,
-    mediaSession: MediaSessionCompat
-
-) : NotificationImpl21(service, mediaSession) {
+    mediaSession: MediaSessionCompat,
+    notificationActions: NotificationActions,
+    pendingIntentFactory: PendingIntentFactory,
+) : NotificationImpl21(
+    service,
+    mediaSession,
+    notificationActions,
+    pendingIntentFactory,
+) {
 
     override fun startChronometer(bookmark: Long) {
         builder.setWhen(System.currentTimeMillis() - bookmark)
@@ -41,8 +48,8 @@ internal open class NotificationImpl24 @Inject constructor(
         album: String,
         isPodcast: Boolean
     ) {
-        builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)
-        builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
+        builder.mActions[1] = notificationActions.skipPrevious(isPodcast)
+        builder.mActions[3] = notificationActions.skipNext(isPodcast)
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
         val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)

@@ -1,5 +1,6 @@
 package dev.olog.presentation.navigator
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +12,6 @@ import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
 import dev.olog.presentation.translations.TranslationsFragment
 import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.PlayStoreUtils
 import saschpe.android.customtabs.CustomTabsHelper
@@ -23,12 +23,7 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
+            uri?.let { openUri(it) }
         }
     }
 
@@ -46,7 +41,7 @@ class NavigatorAboutImpl @Inject internal constructor(
             .build()
         CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
 
-        val uri = Uri.parse("https://github.com/ologe/canaree-music-player/blob/master/CHANGELOG.md")
+        val uri = Uri.parse("https://github.com/ologe/canaree-music-player/blob/main/CHANGELOG.md")
         CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
@@ -76,37 +71,19 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun toPrivacyPolicy() {
         if (allowed()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/privacy-policy")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
+            openUri("https://deveugeniuolog.wixsite.com/next/privacy-policy")
         }
     }
 
     override fun joinCommunity() {
         if (allowed()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.reddit.com/r/canaree/")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
+            openUri("https://www.reddit.com/r/canaree/")
         }
     }
 
     override fun joinBeta() {
         if (allowed()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://play.google.com/apps/testing/dev.olog.msc")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
+            openUri("https://play.google.com/apps/testing/dev.olog.msc")
         }
     }
 
@@ -119,13 +96,21 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun requestTranslation() {
         if (allowed()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://canaree.oneskyapp.com/collaboration/project/162621")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
+            openUri("https://canaree.oneskyapp.com/collaboration/project/162621")
         }
     }
+
+    private fun openUri(uri: String) {
+        openUri(Uri.parse(uri))
+    }
+
+    private fun openUri(uri: Uri) {
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        try {
+            activity.startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            activity.toast(R.string.common_browser_not_found)
+        }
+    }
+
 }
