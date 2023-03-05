@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
@@ -23,10 +24,10 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+// TODO double check is working correctly
 @AndroidEntryPoint
 class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
-    ScrollHmsPickerDialog.HmsPickHandler,
-    CoroutineScope by MainScope() {
+    ScrollHmsPickerDialog.HmsPickHandler {
 
     private var countDownDisposable: Job? = null
 
@@ -40,11 +41,15 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)!!
-
         okButton = view.findViewById(R.id.button_ok)
+        pickListener = this
+        return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val sleepModel = sleepTimerUseCase.getLast()
         val sleepTime = sleepModel.sleepTime
         val sleepFrom = sleepModel.fromWhen
@@ -57,8 +62,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
         toggleButtons(sleepTime > 0)
 
         if (sleepTime > 0) {
-
-            countDownDisposable = launch {
+            countDownDisposable = viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     flowInterval(1, TimeUnit.SECONDS)
                         .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
@@ -72,10 +76,6 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                 }
             }
         }
-
-        pickListener = this
-
-        return view
     }
 
     override fun onResume() {
@@ -114,11 +114,6 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
     override fun onPause() {
         super.onPause()
         okButton.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        countDownDisposable?.cancel()
     }
 
     private fun toggleButtons(isCountDown: Boolean) {
