@@ -11,7 +11,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
@@ -34,7 +34,7 @@ abstract class WebViewContent(
     private val refresh = content.findViewById<View>(R.id.refresh)
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
         try {
             webView.webChromeClient = object : WebChromeClient() {

@@ -11,7 +11,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import javax.inject.Inject
 
 @ServiceScoped
@@ -31,7 +31,7 @@ internal class Noisy @Inject constructor(
     private var registered: Boolean = false
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

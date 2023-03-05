@@ -18,7 +18,7 @@ import dev.olog.media.skipToPrevious
 import dev.olog.shared.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import javax.inject.Inject
 
 @ServiceScoped
@@ -28,14 +28,15 @@ class MusicGlueService @Inject constructor(
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            service,
-            this
+            context = service,
+            lifecycleOwner = service.lifecycleOwner,
+            onConnectionChanged = this,
         )
     }
     private var mediaController: MediaControllerCompat? = null
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
         mediaExposer.connect()
     }
 

@@ -12,7 +12,7 @@ import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.clamp
 import kotlinx.coroutines.*
@@ -40,7 +40,7 @@ internal class PlayerImpl @Inject constructor(
     private var currentSpeed = 1f
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
 
         service.lifecycleScope.launch {
             // TODO combine with max allowed volume changes

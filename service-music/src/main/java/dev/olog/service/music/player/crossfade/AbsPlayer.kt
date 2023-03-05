@@ -16,7 +16,7 @@ import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
 
@@ -40,7 +40,7 @@ internal abstract class AbsPlayer<T>(
     protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(service, factory, trackSelector)
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
 
         volume.listener = object : IMaxAllowedPlayerVolume.Listener {
             override fun onMaxAllowedVolumeChanged(volume: Float) {

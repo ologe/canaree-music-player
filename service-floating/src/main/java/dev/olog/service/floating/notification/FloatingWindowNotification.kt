@@ -10,7 +10,7 @@ import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -41,7 +41,7 @@ class FloatingWindowNotification @Inject constructor(
     private var notificationTitle = ""
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
 
     }
 

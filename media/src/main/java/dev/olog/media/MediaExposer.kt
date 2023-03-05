@@ -8,8 +8,10 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.intents.Classes
 import dev.olog.media.connection.IMediaConnectionCallback
@@ -31,9 +33,9 @@ import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
+    private val lifecycleOwner: LifecycleOwner,
     private val onConnectionChanged: OnConnectionChanged
-) : CoroutineScope by MainScope(),
-    IMediaControllerCallback,
+) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
@@ -63,7 +65,7 @@ class MediaExposer(
             return
         }
         job?.cancel()
-        job = launch {
+        job = lifecycleOwner.lifecycleScope.launch {
             for (state in connectionPublisher.openSubscription()) {
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
@@ -135,7 +137,7 @@ class MediaExposer(
         if (queue == null) {
             return
         }
-        launch(Dispatchers.Default) {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
             queuePublisher.offer(result)
         }

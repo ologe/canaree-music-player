@@ -16,7 +16,7 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
@@ -48,7 +48,7 @@ internal class QueueImpl @Inject constructor(
     private var currentSongPosition = -1
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

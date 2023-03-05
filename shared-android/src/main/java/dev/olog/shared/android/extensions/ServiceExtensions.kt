@@ -1,7 +1,6 @@
 package dev.olog.shared.android.extensions
 
 import android.app.Service
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -12,8 +11,8 @@ val Service.lifecycleScope: LifecycleCoroutineScope
         return lifecycle.coroutineScope
     }
 
-val Service.lifecycle: Lifecycle
+val Service.lifecycleOwner: LifecycleOwner
     get() {
         require(this is LifecycleOwner)
-        return lifecycle
+        return this
     }

@@ -30,8 +30,9 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            this,
-            this
+            context = this,
+            lifecycleOwner = this,
+            onConnectionChanged = this,
         )
     }
 

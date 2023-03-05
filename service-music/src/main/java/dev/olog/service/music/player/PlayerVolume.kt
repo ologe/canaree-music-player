@@ -7,7 +7,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IDuckVolume
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -37,7 +37,7 @@ internal class PlayerVolume @Inject constructor(
     private var isDucking = false
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
 
         // observe to preferences
         service.lifecycleScope.launch {

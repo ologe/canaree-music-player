@@ -10,5 +10,6 @@ dependencies {
 
     implementation libs.androidx.media
     implementation libs.androidx.appcompat
+    implementation libs.androidx.lifecycle.runtime
     implementation libs.androidx.lifecycle.livedata
 }

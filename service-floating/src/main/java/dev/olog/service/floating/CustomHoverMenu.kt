@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
-import dev.olog.shared.android.extensions.lifecycle
+import dev.olog.shared.android.extensions.lifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -47,7 +47,7 @@ class CustomHoverMenu @Inject constructor(
     })
 
     init {
-        service.lifecycle.addObserver(this)
+        service.lifecycleOwner.lifecycle.addObserver(this)
     }
 
     fun startObserving(){
