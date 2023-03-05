@@ -3,24 +3,25 @@ package dev.olog.presentation.base.drag
 import android.graphics.Canvas
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import kotlinx.android.synthetic.main.item_detail_song.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class TouchHelperAdapterCallback(
+    private val lifecycleOwner: LifecycleOwner,
     private val adapter: TouchableAdapter,
     horizontalDirections: Int
 
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
-), CoroutineScope by MainScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -58,14 +59,14 @@ class TouchHelperAdapterCallback(
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
             when (direction) {
                 ItemTouchHelper.RIGHT -> {
-                    launch {
+                    lifecycleOwner.lifecycleScope.launch {
                         adapter.onSwipedRight(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeRight(viewHolder)
                     }
                 }
                 ItemTouchHelper.LEFT -> {
-                    launch {
+                    lifecycleOwner.lifecycleScope.launch {
                         adapter.onSwipedLeft(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeLeft(viewHolder)

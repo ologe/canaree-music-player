@@ -54,7 +54,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner, list, ItemTouchHelper.LEFT)
 
         viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
 

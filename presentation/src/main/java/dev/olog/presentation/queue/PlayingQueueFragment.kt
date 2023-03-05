@@ -58,7 +58,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT)
+        setupDragListener(viewLifecycleOwner, list, ItemTouchHelper.RIGHT)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)

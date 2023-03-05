@@ -67,7 +67,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner, list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha

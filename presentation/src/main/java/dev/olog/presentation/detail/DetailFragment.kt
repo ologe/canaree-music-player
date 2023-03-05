@@ -113,7 +113,7 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(list, swipeDirections)
+        setupDragListener(viewLifecycleOwner, list, swipeDirections)
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)

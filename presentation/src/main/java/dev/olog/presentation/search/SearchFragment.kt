@@ -107,7 +107,7 @@ class SearchFragment : BaseFragment(),
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleOwner, list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
