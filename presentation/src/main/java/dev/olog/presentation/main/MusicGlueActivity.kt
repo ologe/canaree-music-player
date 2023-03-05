@@ -19,14 +19,11 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
-    OnConnectionChanged,
-    CoroutineScope by MainScope() {
+    OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
