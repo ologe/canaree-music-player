@@ -1,6 +1,7 @@
 package dev.olog.msc
 
 import com.tozny.crypto.android.AesCbcWithIntegrity
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import javax.inject.Inject
 
@@ -10,12 +11,12 @@ private val SALT = byteArrayOf(
 )
 
 class EncrypterImpl @Inject constructor(
-
+    private val config: Config,
 ) : IEncrypter {
 
     private val key by lazy {
         AesCbcWithIntegrity.generateKeyFromPassword(
-            BuildConfig.AES_PASSWORD,
+            config.aesPassword,
             SALT
         )
     }

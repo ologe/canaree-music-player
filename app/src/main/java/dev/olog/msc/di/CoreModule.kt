@@ -11,8 +11,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.msc.BuildConfig
 import dev.olog.msc.EncrypterImpl
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
@@ -51,6 +53,17 @@ abstract class CoreModule {
         internal fun provideNotificationManager(instance: Application): NotificationManager {
             return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         }
+
+        @Provides
+        fun provideConfig() = Config(
+            isDebug = BuildConfig.DEBUG,
+            versionCode = BuildConfig.VERSION_CODE,
+            versionName = BuildConfig.VERSION_NAME,
+            lastFmBaseUrl = "http://ws.audioscrobbler.com/2.0/",
+            lastFmKey = BuildConfig.LAST_FM_KEY,
+            lastFmSecret = BuildConfig.LAST_FM_SECRET,
+            aesPassword = BuildConfig.AES_PASSWORD,
+        )
 
     }
 

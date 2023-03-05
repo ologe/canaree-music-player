@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AboutFragmentViewModel @Inject constructor(
     @ApplicationContext context: Context,
+    config: Config,
 ) : ViewModel() {
 
     companion object {
@@ -52,7 +54,7 @@ class AboutFragmentViewModel @Inject constructor(
             type = R.layout.item_about,
             mediaId = MediaId.headerId("version id"),
             title = context.getString(R.string.about_version),
-            subtitle = "BuildConfig.VERSION_NAME" // TODO
+            subtitle = config.versionName
         ),
 
         DisplayableHeader(
