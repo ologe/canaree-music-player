@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
@@ -75,7 +76,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.observeData(false)
                 .filter { it.isNotEmpty() }
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
@@ -83,7 +84,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)

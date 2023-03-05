@@ -8,11 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.interfaces.HasRestorableWidgets
 import dev.olog.shared.android.extensions.findInContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
-abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,11 +21,6 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cancel()
-    }
 
     fun restoreUpperWidgetsTranslation(){
         (requireActivity().findInContext<HasRestorableWidgets>()).restoreUpperWidgetsTranslation()

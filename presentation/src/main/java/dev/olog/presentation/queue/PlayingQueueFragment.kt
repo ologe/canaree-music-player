@@ -3,6 +3,7 @@ package dev.olog.presentation.queue
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +65,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.observeData(false)
                 .take(1)
                 .map {
