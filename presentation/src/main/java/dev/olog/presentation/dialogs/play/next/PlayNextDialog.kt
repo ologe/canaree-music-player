@@ -13,6 +13,8 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -61,7 +63,8 @@ class PlayNextDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        // TODO refactor
+        GlobalScope.launch(Dispatchers.Main) {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(act)

@@ -3,6 +3,7 @@ package dev.olog.presentation.dialogs.delete
 import android.app.RecoverableSecurityException
 import android.content.Context
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -15,6 +16,8 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,7 +56,8 @@ class DeleteDialog: BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        // TODO refactor
+        GlobalScope.launch(Dispatchers.Main) {
             catchRecoverableSecurityException(this@DeleteDialog) {
                 tryExecute()
             }

@@ -1,6 +1,8 @@
 package dev.olog.presentation.dialogs
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -9,10 +11,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.Runnable
 
 abstract class BaseEditTextDialog : BaseDialog() {
 
@@ -20,7 +20,10 @@ abstract class BaseEditTextDialog : BaseDialog() {
     private lateinit var editTextLayout: TextInputLayout
 
     private var errorJob: Job? = null
-    private var showJeyboardJob: Job? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val showKeyboardRunnable = Runnable {
+        editText.showIme()
+    }
 
     @CallSuper
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
@@ -33,11 +36,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
 
-        showJeyboardJob?.cancel()
-        showJeyboardJob = launch {
-            delay(500)
-            editText.showIme()
-        }
+        handler.postDelayed(showKeyboardRunnable, 500)
     }
 
     protected open fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {}
@@ -49,7 +48,8 @@ abstract class BaseEditTextDialog : BaseDialog() {
         } else if (!isStringValid(string)) {
             showError(provideMessageForInvalid())
         } else {
-            launch(Dispatchers.Main) {
+            // TODO refactor
+            GlobalScope.launch(Dispatchers.Main) {
                 onItemValid(string)
                 dismiss()
             }
@@ -73,7 +73,8 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.isErrorEnabled = true
 
         errorJob?.cancel()
-        errorJob = launch(Dispatchers.Main) {
+        // TODO refactor
+        errorJob = GlobalScope.launch(Dispatchers.Main) {
             delay(2000)
             editTextLayout.isErrorEnabled = false
         }
@@ -81,7 +82,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
 
     override fun onStop() {
         super.onStop()
-        showJeyboardJob?.cancel()
+        handler.removeCallbacks(showKeyboardRunnable)
         errorJob?.cancel()
     }
 

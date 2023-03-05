@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.utils.isQ
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-abstract class BaseDialog : DialogFragment(), CoroutineScope by MainScope() {
+abstract class BaseDialog : DialogFragment() {
 
     companion object {
         const val ACCESS_CODE = 101
@@ -79,7 +79,8 @@ abstract class BaseDialog : DialogFragment(), CoroutineScope by MainScope() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACCESS_CODE && resultCode == Activity.RESULT_OK){
-            launch { onRecoverableSecurityExceptionRecovered() }
+            // TODO refactor
+            GlobalScope.launch(Dispatchers.Main) { onRecoverableSecurityExceptionRecovered() }
         }
     }
 
