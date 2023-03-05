@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.PlayStoreUtils
 import kotlinx.coroutines.*
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 private var counterAlreadyIncreased = false
@@ -21,19 +20,15 @@ private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
-    activity: FragmentActivity
+    private val activity: FragmentActivity
 
 ) : DefaultLifecycleObserver {
-
-    private val activityRef = WeakReference(activity)
 
     private var disposable: Job? = null
 
     init {
-        activityRef.get()?.let {
-            it.lifecycle.addObserver(this)
-            check(it)
-        }
+        activity.lifecycle.addObserver(this)
+        check(activity)
     }
 
     private fun check(activity: FragmentActivity) {
@@ -47,7 +42,6 @@ class RateAppDialog @Inject constructor(
     }
 
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
-        val activity = activityRef.get() ?: return@withContext
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.rate_app_title)
             .setMessage(R.string.rate_app_message)

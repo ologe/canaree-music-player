@@ -13,20 +13,16 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import dev.olog.shared.android.extensions.toast
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
-
-    private val activityRef = WeakReference(activity)
-
 
     private lateinit var playlist: Playlist
     private var song: Song? = null
@@ -47,9 +43,6 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
-
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), playlist.size, playlist.title)
@@ -93,8 +86,6 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        val activity = activityRef.get() ?: return
-
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
@@ -103,8 +94,6 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playShuffle() {
-        val activity = activityRef.get() ?: return
-
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
