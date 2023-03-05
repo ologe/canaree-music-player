@@ -2,7 +2,7 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.util.Log
-import com.google.android.exoplayer2.audio.AudioListener
+import com.google.android.exoplayer2.Player
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
@@ -15,7 +15,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     private val equalizer: IEqualizer,
     private val virtualizer: IVirtualizer,
     private val bassBoost: IBassBoost
-) : AudioListener {
+) : Player.Listener {
 
     companion object {
         @JvmStatic
@@ -27,7 +27,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 
     private val hash by lazy { hashCode() }
 
-    override fun onAudioSessionId(audioSessionId: Int) {
+    override fun onAudioSessionIdChanged(audioSessionId: Int) {
         job?.cancel()
         job = service.lifecycleScope.launch {
             delay(DELAY)

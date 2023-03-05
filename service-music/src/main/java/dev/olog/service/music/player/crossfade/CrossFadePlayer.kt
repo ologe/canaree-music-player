@@ -9,7 +9,6 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
@@ -34,7 +33,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ) : AbsPlayer<CrossFadePlayer.Model>(service, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper {
+    Player.Listener {
 
     companion object {
         private const val MIN_CROSSFADE_FOR_GAPLESS = 1500
@@ -50,8 +49,8 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     init {
         player.addListener(this)
-        player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
-        player.addAudioListener(onAudioSessionIdChangeListener)
+        player.setPlaybackParameters(PlaybackParameters(1f, 1f))
+        player.addListener(onAudioSessionIdChangeListener)
 
         service.lifecycleScope.launch {
             flowInterval(1, TimeUnit.SECONDS)
@@ -89,13 +88,13 @@ internal class CrossFadePlayer @Inject internal constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         player.removeListener(this)
-        player.removeAudioListener(onAudioSessionIdChangeListener)
+        player.removeListener(onAudioSessionIdChangeListener)
         cancelFade()
     }
 
     override fun setPlaybackSpeed(speed: Float) {
         // skip silence
-        player.setPlaybackParameters(PlaybackParameters(speed, 1f, false))
+        player.setPlaybackParameters(PlaybackParameters(speed, 1f))
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {

@@ -7,7 +7,7 @@ object config {
     // Sdk and tools
     const val minSdkVersion = 21
     const val targetSdkVersion = 31
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 33
 
     /*  version code
         999 - for old compatibility

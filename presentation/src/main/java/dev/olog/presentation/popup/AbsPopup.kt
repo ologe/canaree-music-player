@@ -22,7 +22,7 @@ abstract class AbsPopup(
 
     fun addPlaylistChooser(context: Context, playlists: List<Playlist>){
         val addToPlaylistMenuItem = menu.findItem(R.id.addToPlaylist)
-        val addToPlaylistSubMenu = addToPlaylistMenuItem.subMenu
+        val addToPlaylistSubMenu = addToPlaylistMenuItem.subMenu!!
 
         playlists.forEach { addToPlaylistSubMenu.add(Menu.NONE, it.id.toInt(), Menu.NONE, it.title) }
         val spannableString = SpannableString("${context.getString(R.string.popup_new_playlist)}..")

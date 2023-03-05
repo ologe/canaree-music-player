@@ -39,7 +39,7 @@ git submodule init
 git submodule update
 ```
 
-Current exoplayer version used is `r2.10.4`
+Current exoplayer version used is `r2.18.3`
 
 After that, you'll need to add the following properties to `local.properties`
 ```properties
