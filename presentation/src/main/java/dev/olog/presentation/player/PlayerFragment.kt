@@ -24,7 +24,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
-import dev.olog.shared.mapListItem
+import dev.olog.shared.android.extensions.mapListItem
+import dev.olog.shared.android.utils.assertBackground
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers

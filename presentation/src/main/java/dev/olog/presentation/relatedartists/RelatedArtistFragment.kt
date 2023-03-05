@@ -12,7 +12,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 

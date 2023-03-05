@@ -14,7 +14,7 @@ import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.lifecycleScope
-import dev.olog.shared.clamp
+import dev.olog.shared.android.utils.clamp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn

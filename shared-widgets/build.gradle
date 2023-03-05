@@ -5,7 +5,6 @@ plugins {
 dependencies {
     implementation project(':prefs-keys')
     implementation project(':shared-android')
-    implementation project(':shared')
 
     implementation libs.androidx.material
     implementation libs.androidx.core

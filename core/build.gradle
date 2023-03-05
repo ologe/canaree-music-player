@@ -4,7 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation project(':shared')
-
     implementation libs.androidx.annotations.core
 }

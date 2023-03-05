@@ -1,6 +1,7 @@
-package dev.olog.data.utils
+package dev.olog.shared.android.extensions
 
 import android.content.SharedPreferences
+import dev.olog.shared.android.utils.assertBackground
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

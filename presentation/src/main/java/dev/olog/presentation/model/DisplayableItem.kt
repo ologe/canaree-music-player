@@ -3,7 +3,7 @@ package dev.olog.presentation.model
 import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.utils.TextUtils
 
 sealed class DisplayableItem(
     override val type: Int,

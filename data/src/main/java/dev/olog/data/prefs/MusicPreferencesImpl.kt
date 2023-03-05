@@ -7,8 +7,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.assertBackgroundThread
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.android.extensions.observeKey
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

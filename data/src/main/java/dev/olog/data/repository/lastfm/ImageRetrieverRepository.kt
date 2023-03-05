@@ -18,8 +18,8 @@ import dev.olog.data.api.deezer.DeezerArtistResponse
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
-import dev.olog.shared.TextUtils
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.TextUtils
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.data.utils.networkCall
 import dev.olog.data.utils.safeNetworkCall
 import javax.inject.Inject

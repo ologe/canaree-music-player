@@ -10,12 +10,11 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,

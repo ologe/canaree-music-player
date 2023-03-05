@@ -9,8 +9,8 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

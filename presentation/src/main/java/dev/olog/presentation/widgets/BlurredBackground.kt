@@ -9,10 +9,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.getCachedDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
 

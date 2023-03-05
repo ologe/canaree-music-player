@@ -14,7 +14,6 @@ import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 @ServiceScoped
@@ -119,7 +118,7 @@ internal class MusicServicePlaybackState @Inject constructor(
             SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
             SkipType.NONE,
             SkipType.RESTART,
-            SkipType.TRACK_ENDED -> throwNotHandled("skip type=$skipType")
+            SkipType.TRACK_ENDED -> error("skip type=$skipType")
         }
 
         builder.setState(state, 0, 1f)

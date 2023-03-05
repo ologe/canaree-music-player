@@ -6,7 +6,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.shared.safeResume
+import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object GlideUtils {
@@ -37,31 +37,29 @@ suspend fun Context.getCachedDrawable(
         .into(object : CustomTarget<Drawable>() {
 
             override fun onLoadCleared(placeholder: Drawable?) {
-                continuation.safeResume(null)
             }
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                continuation.safeResume(resource)
+                continuation.resume(resource)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 if (withError) {
                     error.into(object : CustomTarget<Drawable>() {
                         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                            continuation.safeResume(resource)
+                            continuation.resume(resource)
                         }
 
                         override fun onLoadFailed(errorDrawable: Drawable?) {
-                            continuation.safeResume(null)
+                            continuation.resume(null)
                         }
 
                         override fun onLoadCleared(placeholder: Drawable?) {
-                            continuation.safeResume(null)
                         }
                     })
 
                 } else {
-                    continuation.safeResume(null)
+                    continuation.resume(null)
                 }
             }
         })

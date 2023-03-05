@@ -16,7 +16,7 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
-import dev.olog.shared.indexOfClosest
+import dev.olog.shared.android.utils.indexOfClosest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

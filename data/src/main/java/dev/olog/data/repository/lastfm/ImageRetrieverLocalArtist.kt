@@ -6,7 +6,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class ImageRetrieverLocalArtist @Inject constructor(

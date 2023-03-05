@@ -8,7 +8,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.shared.safeResume
+import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 sealed class OnImageLoadingError {
@@ -34,11 +34,10 @@ suspend fun Context.getCachedBitmap(
         .into(object : CustomTarget<Bitmap>() {
 
             override fun onLoadCleared(placeholder: Drawable?) {
-                continuation.safeResume(null)
             }
 
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                continuation.safeResume(resource)
+                continuation.resume(resource)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
@@ -59,24 +58,19 @@ suspend fun Context.getCachedBitmap(
                                 resource: Bitmap,
                                 transition: Transition<in Bitmap>?
                             ) {
-                                continuation.safeResume(resource)
+                                continuation.resume(resource)
                             }
 
                             override fun onLoadFailed(errorDrawable: Drawable?) {
-                                continuation.safeResume(null)
+                                continuation.resume(null)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                try {
-                                    continuation.safeResume(null)
-                                } catch (ex: Throwable){
-                                    // already resumed
-                                }
                             }
                         })
 
                 } else {
-                    continuation.safeResume(null)
+                    continuation.resume(null)
                 }
             }
         })

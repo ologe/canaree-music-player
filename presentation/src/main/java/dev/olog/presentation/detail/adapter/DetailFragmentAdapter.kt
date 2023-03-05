@@ -28,8 +28,8 @@ import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.exhaustive
-import dev.olog.shared.swap
+import dev.olog.shared.android.extensions.exhaustive
+import dev.olog.shared.android.extensions.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title

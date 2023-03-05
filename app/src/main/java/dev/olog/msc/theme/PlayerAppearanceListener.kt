@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.msc.R
-import dev.olog.shared.mutableLazy
+import dev.olog.shared.android.mutableLazy
 import dev.olog.shared.android.theme.PlayerAppearance
 import javax.inject.Inject
 

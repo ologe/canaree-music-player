@@ -12,7 +12,7 @@ import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 
 @AndroidEntryPoint
 class NewPlaylistDialog : BaseEditTextDialog() {

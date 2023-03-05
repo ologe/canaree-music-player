@@ -57,7 +57,6 @@ dependencies {
     implementation project(':service-floating')
     implementation project(':offline-lyrics')
     implementation project(':intents')
-    implementation project(':shared')
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime

@@ -17,7 +17,7 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.lifecycleOwner
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.clamp
+import dev.olog.shared.android.utils.clamp
 
 /**
  * This class handles playback

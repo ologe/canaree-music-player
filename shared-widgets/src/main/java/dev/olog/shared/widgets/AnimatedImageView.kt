@@ -9,7 +9,7 @@ import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.theme.HasPlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 
 class AnimatedImageView(
     context: Context,

@@ -19,8 +19,8 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

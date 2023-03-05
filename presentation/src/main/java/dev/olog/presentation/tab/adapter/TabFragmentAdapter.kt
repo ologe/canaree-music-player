@@ -12,7 +12,7 @@ import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.setGone
-import dev.olog.shared.exhaustive
+import dev.olog.shared.android.extensions.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
 import kotlinx.android.synthetic.main.item_tab_album.view.secondText

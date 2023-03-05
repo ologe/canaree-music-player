@@ -16,7 +16,7 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

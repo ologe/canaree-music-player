@@ -8,7 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.android.extensions.findParentByType
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.shared.widgets.AutoScrollTextView
 
 class SlidingParentAutoScrollTextView(

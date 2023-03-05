@@ -10,8 +10,8 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.swap
+import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.android.utils.assertBackground
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

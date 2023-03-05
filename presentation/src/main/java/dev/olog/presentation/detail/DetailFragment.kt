@@ -25,7 +25,7 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce

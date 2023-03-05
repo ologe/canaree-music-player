@@ -18,7 +18,7 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.coroutines.flow.Flow
 
 abstract class MusicGlueActivity : BaseActivity(),

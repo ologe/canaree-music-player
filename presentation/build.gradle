@@ -18,7 +18,6 @@ dependencies {
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
-    implementation project(':shared')
     implementation project(':equalizer')
 
     implementation libs.ui.scrollhelper

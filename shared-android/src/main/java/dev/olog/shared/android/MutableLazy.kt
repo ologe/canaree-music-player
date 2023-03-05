@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.shared.android
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

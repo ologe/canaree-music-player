@@ -6,7 +6,6 @@ dependencies {
     implementation project(':core')
     implementation project(':shared-android')
     implementation project(':intents')
-    implementation project(':shared')
 
     implementation libs.androidx.media
     implementation libs.androidx.appcompat

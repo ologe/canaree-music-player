@@ -6,9 +6,9 @@ import android.net.Uri
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
-import dev.olog.data.utils.PermissionsUtils
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.Permissions
+import dev.olog.shared.android.utils.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
@@ -32,7 +32,7 @@ internal abstract class BaseRepository<T, Param>(
 
             do {
                 delay(200)
-            } while (!PermissionsUtils.canReadStorage(context))
+            } while (!Permissions.canReadStorage(context))
 
             val contentUri = registerMainContentUri()
 

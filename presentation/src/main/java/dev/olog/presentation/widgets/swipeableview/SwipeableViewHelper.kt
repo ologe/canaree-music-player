@@ -7,7 +7,7 @@ import android.view.ViewConfiguration
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

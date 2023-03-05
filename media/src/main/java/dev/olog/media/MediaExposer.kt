@@ -23,7 +23,7 @@ import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

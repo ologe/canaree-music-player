@@ -8,7 +8,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 
 @AndroidEntryPoint

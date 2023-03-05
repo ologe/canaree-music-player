@@ -9,9 +9,8 @@ import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlin.math.abs
 
 class HeaderVisibilityScrollListener(
     private val fragment: DetailFragment

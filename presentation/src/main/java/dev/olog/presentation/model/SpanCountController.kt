@@ -3,7 +3,6 @@ package dev.olog.presentation.model
 import android.content.Context
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.android.extensions.configuration
-import dev.olog.shared.throwNotHandled
 
 internal object SpanCountController {
 
@@ -24,7 +23,7 @@ internal object SpanCountController {
             TabCategory.ARTISTS,
             TabCategory.PODCASTS_ARTISTS -> if (isTablet) 4 else 3
             TabCategory.GENRES -> if (isTablet) 4 else 3
-            else -> throwNotHandled("invalid $category")
+            else -> error("invalid $category")
         }
     }
 
