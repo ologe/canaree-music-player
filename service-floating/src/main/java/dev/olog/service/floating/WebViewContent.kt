@@ -1,5 +1,6 @@
 package dev.olog.service.floating
 
+import android.app.Service
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,14 @@ import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
+import dev.olog.shared.android.extensions.lifecycle
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
-    lifecycle: Lifecycle,
-    context: Context,
+    service: Service,
     @LayoutRes layoutRes: Int
-
 ) : Content(), DefaultLifecycleObserver {
 
     var item by Delegates.observable("", { _, _, new ->
@@ -26,7 +25,7 @@ abstract class WebViewContent(
         webView.loadUrl(getUrl(new))
     })
 
-    val content: View = LayoutInflater.from(context).inflate(layoutRes, null)
+    val content: View = LayoutInflater.from(service).inflate(layoutRes, null)
 
     private val webView = content.findViewById<WebView>(R.id.webView)
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)
@@ -35,7 +34,7 @@ abstract class WebViewContent(
     private val refresh = content.findViewById<View>(R.id.refresh)
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
         try {
             webView.webChromeClient = object : WebChromeClient() {

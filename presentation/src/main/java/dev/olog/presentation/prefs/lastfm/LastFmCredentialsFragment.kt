@@ -9,20 +9,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
+@AndroidEntryPoint
+class LastFmCredentialsFragment : DialogFragment(), CoroutineScope by MainScope() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"

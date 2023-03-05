@@ -3,10 +3,8 @@ package dev.olog.presentation.createplaylist
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -27,14 +25,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class CreatePlaylistFragmentViewModel @Inject constructor(
-    private val playlistType: PlaylistType,
+    handle: SavedStateHandle,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
 
+    private val playlistType = PlaylistType.values()[handle.get(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)!!]
     private val data = MutableLiveData<List<DisplayableItem>>()
 
     private val selectedIds = LongSparseArray<Long>()

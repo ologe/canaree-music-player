@@ -1,10 +1,9 @@
 package dev.olog.service.music.player.crossfade
 
-import android.content.Context
+import android.app.Service
 import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
@@ -17,6 +16,7 @@ import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
+import dev.olog.shared.android.extensions.lifecycle
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
 
@@ -24,8 +24,7 @@ import dev.olog.shared.clamp
  * This class handles playback
  */
 internal abstract class AbsPlayer<T>(
-    private val context: Context,
-    lifecycle: Lifecycle,
+    private val service: Service,
     private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume
 
@@ -34,14 +33,14 @@ internal abstract class AbsPlayer<T>(
     DefaultLifecycleObserver {
 
     private val trackSelector = DefaultTrackSelector()
-    private val factory = DefaultRenderersFactory(context).apply {
+    private val factory = DefaultRenderersFactory(service).apply {
         setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
 
     }
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(service, factory, trackSelector)
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
 
         volume.listener = object : IMaxAllowedPlayerVolume.Listener {
             override fun onMaxAllowedVolumeChanged(volume: Float) {
@@ -122,7 +121,7 @@ internal abstract class AbsPlayer<T>(
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError $what")
         }
-        context.applicationContext.toast(R.string.music_player_error)
+        service.applicationContext.toast(R.string.music_player_error)
     }
 
 }

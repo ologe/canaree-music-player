@@ -11,6 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.theme.HasPlayerAppearance
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
@@ -25,7 +26,8 @@ class ShuffleButton(
     private var enabledColor: Int
     private var shuffleMode = PlayerShuffleMode.NOT_SET
 
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
+    private val playerAppearance: HasPlayerAppearance
+        get() = context.hasPlayerAppearance()
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {

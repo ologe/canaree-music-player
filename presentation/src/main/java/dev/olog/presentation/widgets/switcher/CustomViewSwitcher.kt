@@ -24,6 +24,7 @@ import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
+import dev.olog.shared.android.theme.HasPlayerAppearance
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import java.lang.IllegalStateException
@@ -52,7 +53,8 @@ class CustomViewSwitcher(
             context
         )
     }
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
+    private val playerAppearance: HasPlayerAppearance
+        get() = context.hasPlayerAppearance()
 
     private enum class Direction {
         NONE,

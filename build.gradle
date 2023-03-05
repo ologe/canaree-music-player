@@ -12,6 +12,7 @@ buildscript {
         classpath(libs.plugin.kotlin)
         classpath(libs.plugin.gms)
         classpath(libs.plugin.crashlytics)
+        classpath(libs.plugin.hilt)
     }
 }
 

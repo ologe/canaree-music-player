@@ -4,26 +4,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.model.PlayerState
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
-import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
@@ -31,41 +32,39 @@ class MiniPlayerFragment : BaseFragment(){
         private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
-    @Inject lateinit var presenter: MiniPlayerFragmentPresenter
-
-    private val media by lazyFast { requireActivity() as MediaProvider }
+    private val viewModel by viewModels<MiniPlayerFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
-        val lastMetadata = presenter.getMetadata()
+        val lastMetadata = viewModel.getMetadata()
         title.text = lastMetadata.title
         artist.text = lastMetadata.subtitle
 
-        media.observeMetadata()
+        mediaProvider.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.title
-                    presenter.startShowingLeftTime(it.isPodcast, it.duration)
+                    viewModel.startShowingLeftTime(it.isPodcast, it.duration)
                     if (!it.isPodcast){
                         artist.text = it.artist
                     }
                     updateProgressBarMax(it.duration)
                 }
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
                 .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
         launch {
-            presenter.observePodcastProgress(progressBar.observeProgress())
+            viewModel.observePodcastProgress(progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
                 .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
                 .collect { artist.text = it }
         }
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
@@ -77,17 +76,17 @@ class MiniPlayerFragment : BaseFragment(){
                 }
             }
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
             .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
-        presenter.skipToNextVisibility
+        viewModel.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
                     next.updateVisibility(it)
                 }
 
-        presenter.skipToPreviousVisibility
+        viewModel.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
                     previous.updateVisibility(it)
                 }
@@ -95,17 +94,17 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
-        view?.setOnClickListener { getSlidingPanel()?.expand() }
-        view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
-        next.setOnClickListener { media.skipToNext() }
-        playPause.setOnClickListener { media.playPause() }
-        previous.setOnClickListener { media.skipToPrevious() }
+        slidingPanel.addPanelSlideListener(slidingPanelListener)
+        view?.setOnClickListener { slidingPanel.expand() }
+        view?.toggleVisibility(!slidingPanel.isExpanded(), true)
+        next.setOnClickListener { mediaProvider.skipToNext() }
+        playPause.setOnClickListener { mediaProvider.playPause() }
+        previous.setOnClickListener { mediaProvider.skipToPrevious() }
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
+        slidingPanel.removePanelSlideListener(slidingPanelListener)
         view?.setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)
@@ -114,19 +113,19 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(BUNDLE_IS_VISIBLE, getSlidingPanel().isCollapsed())
+        outState.putBoolean(BUNDLE_IS_VISIBLE, slidingPanel.isCollapsed())
     }
 
     private fun playAnimation() {
-        playPause.animationPlay(getSlidingPanel().isCollapsed())
+        playPause.animationPlay(slidingPanel.isCollapsed())
     }
 
     private fun pauseAnimation() {
-        playPause.animationPause(getSlidingPanel().isCollapsed())
+        playPause.animationPause(slidingPanel.isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {
-        if (getSlidingPanel().isExpanded()) return
+        if (slidingPanel.isExpanded()) return
 
         if (toNext) {
             next.playAnimation()

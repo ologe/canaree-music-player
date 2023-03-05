@@ -7,15 +7,15 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
-import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_PLAYABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_SUPPORTED
@@ -28,13 +28,12 @@ import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.extensions.asServicePendingIntent
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
+@AndroidEntryPoint
+class MusicService : BaseMusicService() {
 
     companion object {
         @JvmStatic
@@ -62,7 +61,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var noisy: Noisy
 
     override fun onCreate() {
-        inject()
         super.onCreate()
         setupObservers()
         setupMediaSession()
@@ -196,7 +194,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             return
         }
         result.detach()
-        launch(Dispatchers.Default) {
+        lifecycleScope.launch(Dispatchers.Default) {
 
             val mediaIdCategory = MediaIdCategory.values()
                 .toList()

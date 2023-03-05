@@ -7,8 +7,9 @@ import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.collapse
+import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.scrimBackground
@@ -23,7 +24,8 @@ class SlidingPanelFade(
         (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
     }
 
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel: MultiListenerBottomSheetBehavior<*>
+        get() = context.slidingPanel
     private val isTablet = context.isTablet
 
     var parallax = context.dip(20)

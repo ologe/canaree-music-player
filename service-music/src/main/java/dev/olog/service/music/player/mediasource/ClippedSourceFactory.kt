@@ -1,14 +1,14 @@
 package dev.olog.service.music.player.mediasource
 
+import android.app.Service
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
+import dev.olog.shared.android.extensions.lifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class ClippedSourceFactory @Inject constructor (
-    @ServiceLifecycle lifecycle: Lifecycle,
+    service: Service,
     private val sourceFactory: DefaultSourceFactory,
     musicPrefsUseCase: MusicPreferencesGateway
 
@@ -37,7 +37,7 @@ internal class ClippedSourceFactory @Inject constructor (
     private var isGapless = false
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
 
         launch {
             musicPrefsUseCase.observeGapless()

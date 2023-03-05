@@ -1,7 +1,8 @@
 package dev.olog.service.floating
 
+import android.app.Service
 import android.content.Context
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.media.model.PlayerState
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.android.extensions.filter
@@ -11,11 +12,9 @@ import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 
 class LyricsContent(
-    lifecycle: Lifecycle,
-    context: Context,
+    service: Service,
     private val glueService: MusicGlueService
-
-) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player) {
+) : WebViewContent(service, R.layout.content_web_view_with_player) {
 
     override fun onShown() {
         super.onShown()

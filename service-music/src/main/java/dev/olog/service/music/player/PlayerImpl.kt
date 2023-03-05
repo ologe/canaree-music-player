@@ -1,10 +1,9 @@
 package dev.olog.service.music.player
 
+import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.state.MusicServicePlaybackState
@@ -13,6 +12,7 @@ import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
+import dev.olog.shared.android.extensions.lifecycle
 import dev.olog.shared.clamp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class PlayerImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    service: Service,
     private val playerState: MusicServicePlaybackState,
     private val noisy: Noisy,
     private val serviceLifecycle: IServiceLifecycleController,
@@ -40,7 +40,7 @@ internal class PlayerImpl @Inject constructor(
     private var currentSpeed = 1f
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
 
         launch {
             // TODO combine with max allowed volume changes

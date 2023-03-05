@@ -3,6 +3,8 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -19,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LibraryFragment : BaseFragment() {
 
     companion object {
@@ -36,8 +39,7 @@ class LibraryFragment : BaseFragment() {
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
+    private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
 
@@ -49,7 +51,7 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            act.applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
         )
     }
 
@@ -72,7 +74,7 @@ class LibraryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+        viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
         viewPager.offscreenPageLimit = 5
 
         pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
@@ -82,11 +84,11 @@ class LibraryFragment : BaseFragment() {
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
-        if (!presenter.canShowPodcasts()){
+        if (!viewModel.canShowPodcasts()){
             podcasts.setGone()
         }
 
-        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+        if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
             launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
@@ -119,7 +121,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun changeLibraryPage(page: LibraryPage) {
-        presenter.setLibraryPage(page)
+        viewModel.setLibraryPage(page)
         (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
@@ -142,7 +144,7 @@ class LibraryFragment : BaseFragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                presenter.setViewPagerLastPage(position, isPodcast)
+                viewModel.setViewPagerLastPage(position, isPodcast)
             }
         }
 

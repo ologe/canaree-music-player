@@ -1,7 +1,7 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.hasPlayerAppearance

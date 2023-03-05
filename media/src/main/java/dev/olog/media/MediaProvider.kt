@@ -1,10 +1,19 @@
 package dev.olog.media
 
+import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.model.*
+import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.flow.Flow
+
+val Context.mediaProvider: MediaProvider
+    get() = this.findInContext()
+
+inline val Fragment.mediaProvider: MediaProvider
+    get() = requireContext().mediaProvider
 
 interface MediaProvider {
 

@@ -23,7 +23,7 @@ internal class LibrariesContainer(
     ) {
         addDependencyTo(
             configuration = "implementation",
-            dependencyNotation = catalog.findDependency(dependency).get(),
+            dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
     }
@@ -34,7 +34,7 @@ internal class LibrariesContainer(
     ) {
         addDependencyTo(
             configuration = "testImplementation",
-            dependencyNotation = catalog.findDependency(dependency).get(),
+            dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
     }
@@ -45,7 +45,7 @@ internal class LibrariesContainer(
     ) {
         addDependencyTo(
             configuration = "androidTestImplementation",
-            dependencyNotation = catalog.findDependency(dependency).get(),
+            dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
     }
@@ -56,7 +56,7 @@ internal class LibrariesContainer(
     ) {
         addDependencyTo(
             configuration = "kapt",
-            dependencyNotation = catalog.findDependency(dependency).get(),
+            dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
     }
@@ -68,7 +68,7 @@ internal class LibrariesContainer(
     ) {
         addDependencyTo(
             configuration = configurationName,
-            dependencyNotation = catalog.findDependency(dependency).get(),
+            dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
     }

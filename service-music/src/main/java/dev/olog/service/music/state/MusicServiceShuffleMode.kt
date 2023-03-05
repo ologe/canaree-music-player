@@ -3,12 +3,12 @@ package dev.olog.service.music.state
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
 import android.util.Log
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-@PerService
+@ServiceScoped
 internal class MusicServiceShuffleMode @Inject constructor(
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway

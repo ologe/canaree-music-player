@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.theme.HasPlayerAppearance
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
@@ -17,7 +18,8 @@ class AnimatedPlayPauseImageView(
     IPlayPauseBehavior,
     IColorDelegate by ColorDelegateImpl {
 
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
+    private val playerAppearance: HasPlayerAppearance
+        get() = context.hasPlayerAppearance()
     private val behavior = PlayPauseBehaviorImpl(this)
 
     private val isDarkMode by lazyFast { context.isDarkMode() }

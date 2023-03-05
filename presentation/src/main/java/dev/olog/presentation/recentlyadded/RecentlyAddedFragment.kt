@@ -2,24 +2,24 @@ package dev.olog.presentation.recentlyadded
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -37,20 +37,17 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            lifecycle, navigator, act as MediaProvider, this
+            lifecycle = lifecycle,
+            navigator = navigator,
+            mediaProvider = mediaProvider,
+            dragListener = this
         )
     }
 
-    private val viewModel by lazyFast {
-        viewModelProvider<RecentlyAddedFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<RecentlyAddedFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.adapter = adapter

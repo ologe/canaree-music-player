@@ -3,7 +3,7 @@ package dev.olog.presentation.detail
 import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -114,7 +114,7 @@ internal class DetailDataProvider @Inject constructor(
 
         return combine(
             observeHeader(mediaId),
-            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
+            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums(mediaId) else listOf() },
             observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
             observeRecentlyAdded(mediaId).map {
                 if (it.isNotEmpty()) headers.recent(

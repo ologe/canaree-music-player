@@ -2,12 +2,12 @@ package dev.olog.presentation.queue
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -34,21 +35,17 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
-            lifecycle,
-            act as MediaProvider,
-            navigator,
-            this,
-            viewModel
+            lifecycle = lifecycle,
+            mediaProvider = mediaProvider,
+            navigator = navigator,
+            dragListener = this,
+            viewModel = viewModel
         )
     }
 

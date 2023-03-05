@@ -1,14 +1,11 @@
 package dev.olog.service.music.player.crossfade
 
-import android.content.Context
+import android.app.Service
 import androidx.core.math.MathUtils
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
@@ -28,15 +25,14 @@ import kotlin.math.abs
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
  */
 internal class CrossFadePlayer @Inject internal constructor(
-    @ApplicationContext context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    service: Service,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
     private val eventDispatcher: EventDispatcher,
     private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
+) : AbsPlayer<CrossFadePlayer.Model>(service, mediaSourceFactory, volume),
     ExoPlayerListenerWrapper,
     CoroutineScope by MainScope() {
 

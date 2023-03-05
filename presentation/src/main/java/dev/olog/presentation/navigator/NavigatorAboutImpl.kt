@@ -15,15 +15,11 @@ import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.PlayStoreUtils
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class NavigatorAboutImpl @Inject internal constructor(
-    activity: FragmentActivity
-
+    private val activity: FragmentActivity
 ) : NavigatorAbout {
-
-    private val activityRef = WeakReference(activity)
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
@@ -37,8 +33,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toLicensesFragment() {
-        val activity = activityRef.get() ?: return
-
         superCerealTransition(
             activity, LicensesFragment(), LicensesFragment.TAG,
             FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
@@ -46,8 +40,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toChangelog() {
-        val activity = activityRef.get() ?: return
-
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
             .setToolbarColor(activity.colorSurface())
@@ -59,8 +51,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toGithub() {
-        val activity = activityRef.get() ?: return
-
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
             .setToolbarColor(activity.colorSurface())
@@ -72,8 +62,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toSpecialThanksFragment() {
-        val activity = activityRef.get() ?: return
-
         superCerealTransition(
             activity, SpecialThanksFragment(), SpecialThanksFragment.TAG,
             FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
@@ -81,16 +69,12 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toMarket() {
-        val activity = activityRef.get() ?: return
-
         if (allowed()) {
             PlayStoreUtils.open(activity)
         }
     }
 
     override fun toPrivacyPolicy() {
-        val activity = activityRef.get() ?: return
-
         if (allowed()) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/privacy-policy")
@@ -103,8 +87,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun joinCommunity() {
-        val activity = activityRef.get() ?: return
-
         if (allowed()) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://www.reddit.com/r/canaree/")
@@ -117,8 +99,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun joinBeta() {
-        val activity = activityRef.get() ?: return
-
         if (allowed()) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://play.google.com/apps/testing/dev.olog.msc")
@@ -131,8 +111,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toTranslations() {
-        val activity = activityRef.get() ?: return
-
         superCerealTransition(
             activity, TranslationsFragment(), TranslationsFragment.TAG,
             FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
@@ -140,8 +118,6 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun requestTranslation() {
-        val activity = activityRef.get() ?: return
-
         if (allowed()) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://canaree.oneskyapp.com/collaboration/project/162621")

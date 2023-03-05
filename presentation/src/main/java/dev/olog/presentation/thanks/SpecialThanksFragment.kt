@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_special_thanks.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 
+@AndroidEntryPoint
 class SpecialThanksFragment : Fragment() {
 
     companion object {
@@ -19,9 +21,7 @@ class SpecialThanksFragment : Fragment() {
         val TAG = SpecialThanksFragment::class.java.name
     }
 
-    private val presenter by lazyFast {
-        SpecialThanksPresenter(act.applicationContext)
-    }
+    private val viewModel by viewModels<SpecialThanksViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,7 @@ class SpecialThanksFragment : Fragment() {
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
 
-        adapter.updateDataSet(presenter.data)
+        adapter.updateDataSet(viewModel.data)
     }
 
     override fun onResume() {

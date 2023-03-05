@@ -1,21 +1,19 @@
 package dev.olog.image.provider.di
 
-import dagger.Component
-import dev.olog.image.provider.GlideModule
-import dev.olog.injection.CoreComponent
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.olog.image.provider.loader.GlideImageRetrieverLoader
+import dev.olog.image.provider.loader.GlideMergedImageLoader
+import dev.olog.image.provider.loader.GlideOriginalImageLoader
 
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+internal interface ImageProviderComponent {
 
-@Component(dependencies = [CoreComponent::class])
-@PerImageProvider
-interface ImageProviderComponent {
+    fun lastFmFactory(): GlideImageRetrieverLoader.Factory
+    fun originalFactory(): GlideOriginalImageLoader.Factory
+    fun mergedFactory(): GlideMergedImageLoader.Factory
 
-    fun inject(instance: GlideModule)
-
-    @Component.Factory
-    interface Factory {
-
-        fun create(component: CoreComponent): ImageProviderComponent
-
-    }
 
 }

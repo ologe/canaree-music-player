@@ -23,7 +23,7 @@ import dev.olog.presentation.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
@@ -36,29 +36,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
 
 ) : DefaultLifecycleObserver, Navigator {
 
-    private val activityRef = WeakReference(activity)
-
     override fun toFirstAccess() {
-        val activity = activityRef.get() ?: return
         activity.fragmentTransaction {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
         }
     }
 
     override fun toDetailFragment(mediaId: MediaId) {
-        val activity = activityRef.get() ?: return
-        (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
+        activity.slidingPanel.collapse()
 
         val newTag = createBackStackTag(DetailFragment.TAG)
         superCerealTransition(
@@ -69,7 +64,6 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
-        val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
         superCerealTransition(
             activity,
@@ -79,7 +73,6 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
-        val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
         superCerealTransition(
             activity,
@@ -89,7 +82,6 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toOfflineLyrics() {
-        val activity = activityRef.get() ?: return
         if (!allowed()) {
             return
         }
@@ -106,7 +98,6 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toEditInfoFragment(mediaId: MediaId) {
-        val activity = activityRef.get() ?: return
         if (allowed()) {
             when {
                 mediaId.isLeaf -> {
@@ -133,7 +124,6 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
         superCerealTransition(
             activity,
@@ -158,55 +148,46 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
-        val activity = activityRef.get() ?: return
         val fragment = SetRingtoneDialog.newInstance(mediaId, title, artist)
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 
     override fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = AddFavoriteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
     override fun toPlayLater(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = PlayLaterDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, PlayLaterDialog.TAG)
     }
 
     override fun toPlayNext(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = PlayNextDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, PlayNextDialog.TAG)
     }
 
     override fun toRenameDialog(mediaId: MediaId, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = RenameDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 
     override fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 
     override fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
     override fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = ClearPlaylistDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
     }
 
     override fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String) {
-        val activity = activityRef.get() ?: return
         val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
     }

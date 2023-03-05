@@ -1,8 +1,8 @@
 package dev.olog.service.music.queue
 
+import android.app.Service
 import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -11,12 +11,12 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
+import dev.olog.shared.android.extensions.lifecycle
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
@@ -29,7 +29,7 @@ import javax.inject.Inject
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    service: Service,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -47,7 +47,7 @@ internal class QueueImpl @Inject constructor(
     private var currentSongPosition = -1
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

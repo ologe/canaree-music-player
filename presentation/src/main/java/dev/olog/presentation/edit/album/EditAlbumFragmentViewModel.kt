@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.presentation.utils.safeGet
@@ -17,6 +18,7 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 import javax.inject.Inject
 
+@HiltViewModel
 class EditAlbumFragmentViewModel @Inject constructor(
     private val presenter: EditAlbumFragmentPresenter
 

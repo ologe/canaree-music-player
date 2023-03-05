@@ -1,6 +1,11 @@
 package dev.olog.shared.android.theme
 
 import android.content.Context
+import dev.olog.shared.android.extensions.findInContext
+
+fun Context.hasPlayerAppearance(): HasPlayerAppearance {
+    return applicationContext.findInContext()
+}
 
 interface HasPlayerAppearance {
     fun playerAppearance(): PlayerAppearance
@@ -17,5 +22,3 @@ interface HasPlayerAppearance {
 enum class PlayerAppearance {
     DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE, CLEAN, MINI;
 }
-
-fun Context.hasPlayerAppearance(): HasPlayerAppearance = applicationContext as HasPlayerAppearance

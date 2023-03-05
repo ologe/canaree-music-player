@@ -1,9 +1,11 @@
 package dev.olog.presentation.dialogs.playlist.rename
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
@@ -12,8 +14,8 @@ import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class RenameDialog : BaseEditTextDialog() {
 
     companion object {
@@ -30,7 +32,7 @@ class RenameDialog : BaseEditTextDialog() {
         }
     }
 
-    @Inject lateinit var presenter: RenameDialogPresenter
+    private val viewModel by viewModels<RenameDialogViewModel>()
 
     private val mediaId: MediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
@@ -58,7 +60,7 @@ class RenameDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(mediaId, string)
             message = successMessage(act, string)
         } catch (ex: Throwable) {
             ex.printStackTrace()

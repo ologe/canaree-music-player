@@ -5,16 +5,17 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
-import dev.olog.media.MediaProvider
+import dev.olog.media.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -37,6 +38,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabFragment : BaseFragment(), SetupNestedList {
 
     companion object {
@@ -52,8 +54,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
@@ -80,9 +80,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<TabFragmentViewModel>(
+        ownerProducer = { requireParentFragment() }
+    )
 
     internal val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
@@ -90,7 +90,13 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(
+            lifecycle = lifecycle,
+            navigator = navigator,
+            mediaProvider = mediaProvider,
+            viewModel = viewModel,
+            setupNestedList = this
+        )
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

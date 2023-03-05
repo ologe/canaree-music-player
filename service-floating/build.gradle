@@ -5,7 +5,6 @@ plugins {
 
 dependencies {
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared')
