@@ -1,8 +1,7 @@
 package dev.olog.msc.theme
 
-import android.content.Context
+import android.app.Application
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.msc.R
@@ -11,13 +10,10 @@ import dev.olog.shared.android.theme.PlayerAppearance
 import javax.inject.Inject
 
 internal class PlayerAppearanceListener @Inject constructor(
-    @ApplicationContext context: Context,
+    application: Application,
     prefs: SharedPreferences
-) : BaseThemeUpdater<PlayerAppearance>(
-    context,
-    prefs,
-    context.getString(R.string.prefs_appearance_key)
-), ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
+) : BaseThemeUpdater<PlayerAppearance>(application, prefs, application.getString(R.string.prefs_appearance_key)),
+    ActivityLifecycleCallbacks by CurrentActivityObserver(application) {
 
     var playerAppearance by mutableLazy { getValue() }
         private set

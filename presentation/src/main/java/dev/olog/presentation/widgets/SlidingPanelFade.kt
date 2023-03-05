@@ -11,6 +11,7 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.collapse
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.scrimBackground
 import dev.olog.shared.lazyFast
@@ -21,7 +22,7 @@ class SlidingPanelFade(
 ) : View(context, attrs) {
 
     private val fragmentContainer by lazyFast {
-        (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
+        findActivity().findViewById<View>(R.id.fragmentContainer)
     }
 
     private val slidingPanel: MultiListenerBottomSheetBehavior<*>

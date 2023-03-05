@@ -41,6 +41,7 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
+    HasRestorableWidgets,
     OnPermissionChanged {
 
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -207,7 +208,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreUpperWidgetsTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }

@@ -212,7 +212,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context as FragmentActivity).fragmentTransaction {
+            (view.findActivity()).fragmentTransaction {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,

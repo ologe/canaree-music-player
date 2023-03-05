@@ -12,6 +12,7 @@ import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
+import androidx.fragment.app.FragmentActivity
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -132,4 +133,8 @@ fun<T> ViewGroup.map(action: (View) -> T): List<T> {
         result.add(action(it))
     }
     return result
+}
+
+fun View.findActivity(): FragmentActivity {
+    return context.findInContext()
 }

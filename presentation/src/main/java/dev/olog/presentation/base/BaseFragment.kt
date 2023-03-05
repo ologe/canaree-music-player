@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.main.MainActivity
+import dev.olog.presentation.interfaces.HasRestorableWidgets
+import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -30,7 +31,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+        (requireActivity().findInContext<HasRestorableWidgets>()).restoreUpperWidgetsTranslation()
     }
 
 }

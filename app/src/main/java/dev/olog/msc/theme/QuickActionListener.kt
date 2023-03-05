@@ -1,21 +1,16 @@
 package dev.olog.msc.theme
 
-import android.content.Context
+import android.app.Application
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.QuickAction
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 
 internal class QuickActionListener @Inject constructor(
-    @ApplicationContext context: Context,
+    application: Application,
     prefs: SharedPreferences
-) : BaseThemeUpdater<QuickAction>(
-    context,
-    prefs,
-    context.getString(R.string.prefs_quick_action_key)
-) {
+) : BaseThemeUpdater<QuickAction>(application, prefs, application.getString(R.string.prefs_quick_action_key)) {
 
     val quickActionPublisher by lazy { ConflatedBroadcastChannel(getValue()) }
     fun quickAction() = quickActionPublisher.value

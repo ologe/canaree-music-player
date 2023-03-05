@@ -20,6 +20,7 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
+import dev.olog.shared.android.extensions.findActivity
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
@@ -101,7 +102,7 @@ internal class MainPopupDialog @Inject constructor(
         val current = presentationPrefs.getSpanCount(category)
         presentationPrefs.setSpanCount(category, spanCount)
         if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
-            (view.context as Activity).recreate()
+            (view.findActivity()).recreate()
         }
     }
 

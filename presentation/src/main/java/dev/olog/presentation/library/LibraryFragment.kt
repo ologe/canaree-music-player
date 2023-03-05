@@ -122,7 +122,7 @@ class LibraryFragment : BaseFragment() {
 
     private fun changeLibraryPage(page: LibraryPage) {
         viewModel.setLibraryPage(page)
-        (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
+        (requireActivity().findInContext<HasBottomNavigation>()).navigate(BottomNavigationPage.LIBRARY)
     }
 
     private fun createMediaId(): MediaIdCategory? {

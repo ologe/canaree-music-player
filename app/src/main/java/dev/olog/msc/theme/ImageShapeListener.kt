@@ -1,17 +1,16 @@
 package dev.olog.msc.theme
 
-import android.content.Context
+import android.app.Application
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
-    @ApplicationContext context: Context,
+    application: Application,
     prefs: SharedPreferences
-) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(R.string.prefs_icon_shape_key)) {
+) : BaseThemeUpdater<ImageShape>(application, prefs, application.getString(R.string.prefs_icon_shape_key)) {
 
     val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
     fun imageShape() = imageShapePublisher.value
