@@ -19,7 +19,7 @@ import javax.inject.Inject
 internal class CustomBottomNavigator(
         context: Context,
         attrs: AttributeSet
-) : BottomNavigationView(context, attrs), CoroutineScope by MainScope() {
+) : BottomNavigationView(context, attrs) {
 
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway
@@ -56,8 +56,7 @@ internal class CustomBottomNavigator(
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
-
-        launch(Dispatchers.Default) { presentationPrefs.setLastBottomViewPage(page) }
+        presentationPrefs.setLastBottomViewPage(page)
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this){
