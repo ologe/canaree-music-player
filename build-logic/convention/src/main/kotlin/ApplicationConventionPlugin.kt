@@ -12,7 +12,6 @@ class ApplicationConventionPlugin : Plugin<Project> {
         with(pluginManager) {
             apply("com.android.application")
             apply("kotlin-android")
-            apply("kotlin-android-extensions")
         }
 
         configureApp {
@@ -31,7 +30,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
             }
 
             lint {
-                isCheckReleaseBuilds = false
+                checkReleaseBuilds = false
                 disable.add("MissingTranslation")
             }
         }

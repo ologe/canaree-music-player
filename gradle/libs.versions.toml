@@ -1,6 +1,6 @@
 [versions]
-gradle = "7.0.2"
-kotlin = "1.6.0"
+gradle = "7.4.2"
+kotlin = "1.6.21"
 gms = "4.3.3"
 crashlytics = "2.2.1"
 

@@ -9,7 +9,6 @@ class LibraryConventionPlugin : Plugin<Project> {
         with(pluginManager) {
             apply("com.android.library")
             apply("kotlin-android")
-            apply("kotlin-android-extensions")
         }
 
         configureLibrary {

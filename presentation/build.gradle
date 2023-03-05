@@ -1,10 +1,7 @@
 plugins {
     id("dev.msc.library")
     id("dev.msc.hilt")
-}
-
-androidExtensions {
-    experimental = true
+    id("kotlin-android-extensions")
 }
 
 dependencies {
