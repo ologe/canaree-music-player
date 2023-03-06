@@ -43,7 +43,6 @@ dependencies {
     implementation libs.utils.lastfmbinding
 
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.extensions
     implementation libs.androidx.lifecycle.java8
     implementation libs.androidx.lifecycle.viewmodel
 }

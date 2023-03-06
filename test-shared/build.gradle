@@ -5,6 +5,4 @@ plugins {
 dependencies {
     implementation(libs.coroutines.test)
     implementation(libs.test.junit)
-
-    implementation libs.androidx.lifecycle.extensions
 }

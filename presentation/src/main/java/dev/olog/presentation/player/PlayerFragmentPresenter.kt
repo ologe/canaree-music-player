@@ -59,11 +59,11 @@ internal class PlayerFragmentPresenter @Inject constructor(
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.offer(palette)
+        processorPublisher.trySend(palette)
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.offer(palette)
+        palettePublisher.trySend(palette)
     }
 
 

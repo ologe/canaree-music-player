@@ -82,7 +82,7 @@ internal class CurrentSong @Inject constructor(
     }
 
     override fun onMetadataChanged(metadata: MetadataEntity) {
-        channel.offer(metadata.entity)
+        channel.trySend(metadata.entity)
         updateFavorite(metadata.entity)
         saveLastMetadata(metadata.entity)
     }

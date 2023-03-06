@@ -38,6 +38,6 @@ fun runOnMainThread(func: () -> Unit) {
 inline fun <T> Flow<T>.assertBackground(): Flow<T> {
     return channelFlow {
         assertBackgroundThread()
-        collect { offer(it) }
+        collect { trySend(it) }
     }
 }

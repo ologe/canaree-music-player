@@ -111,7 +111,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
     fun updateDataSet(data: List<T>) {
-        channel.offer(data)
+        channel.trySend(data)
     }
 
     private fun updateDataSetInternal(data: List<T>) {

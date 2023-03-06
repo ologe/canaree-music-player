@@ -53,12 +53,12 @@ internal class MediaSessionQueue @Inject constructor(
 
     fun onNext(list: List<MediaEntity>) {
         Log.v(TAG, "on next delayed")
-        delayedChannel.offer(list)
+        delayedChannel.trySend(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
-        immediateChannel.offer(list)
+        immediateChannel.trySend(list)
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

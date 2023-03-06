@@ -30,7 +30,6 @@ dependencies {
 
     implementation libs.androidx.core
     implementation libs.androidx.preference
-    implementation libs.androidx.lifecycle.extensions
 
     implementation libs.utils.fuzzywuzzy
     implementation libs.data.gson

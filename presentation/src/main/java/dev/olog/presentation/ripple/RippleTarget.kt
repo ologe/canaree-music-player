@@ -61,15 +61,14 @@ class RippleTarget(
                 lightAlpha, fallbackColor, true
             )
         }
-        if (view is ParallaxImageView) {
-            view.setScrimColor(
-                RippleUtils.createColor(
-                    palette,
-                    darkAlpha,
-                    lightAlpha,
-                    fallbackColor
-                )
+
+        (view as? ParallaxImageView)?.setScrimColor(
+            RippleUtils.createColor(
+                palette,
+                darkAlpha,
+                lightAlpha,
+                fallbackColor
             )
-        }
+        )
     }
 }

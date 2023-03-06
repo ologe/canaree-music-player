@@ -14,5 +14,4 @@ dependencies {
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.extensions
 }

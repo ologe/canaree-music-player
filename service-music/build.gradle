@@ -15,8 +15,8 @@ dependencies {
 
     implementation libs.androidx.media
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.extensions
     implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.lifecycle.service
 
     implementation libs.ui.glide.core
 

@@ -18,7 +18,13 @@ fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit)
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return Transformations.distinctUntilChanged(this)
+    val result = MediatorLiveData<T>()
+    result.addSource(this) { x ->
+        if (result.value != x) {
+            result.value = x
+        }
+    }
+    return result
 }
 
 inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<T> {
