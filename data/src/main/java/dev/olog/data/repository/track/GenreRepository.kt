@@ -27,6 +27,7 @@ import dev.olog.shared.android.utils.assertBackground
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -40,8 +41,9 @@ internal class GenreRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
-    schedulers: Schedulers
-) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Genre, Id>(context, contentResolver, schedulers, permissionManager), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
 

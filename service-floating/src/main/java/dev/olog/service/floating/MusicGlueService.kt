@@ -17,11 +17,13 @@ import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.shared.android.extensions.lifecycleOwner
+import dev.olog.shared.android.permission.PermissionManager
 import javax.inject.Inject
 
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     private val service: Service,
+    private val permissionManager: PermissionManager,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
@@ -29,6 +31,7 @@ class MusicGlueService @Inject constructor(
             context = service,
             lifecycleOwner = service.lifecycleOwner,
             onConnectionChanged = this,
+            permissionManager = permissionManager,
         )
     }
     private var mediaController: MediaControllerCompat? = null

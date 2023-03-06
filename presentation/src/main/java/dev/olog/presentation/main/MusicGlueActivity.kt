@@ -19,17 +19,23 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
     OnConnectionChanged {
+
+    @Inject
+    lateinit var permissionManager: PermissionManager
 
     private val mediaExposer by lazyFast {
         MediaExposer(
             context = this,
             lifecycleOwner = this,
             onConnectionChanged = this,
+            permissionManager = permissionManager,
         )
     }
 

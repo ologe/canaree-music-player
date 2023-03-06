@@ -22,6 +22,7 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.shared.android.utils.assertBackground
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -31,8 +32,9 @@ internal class PodcastAlbumRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedPodcastAlbumDao,
-    schedulers: Schedulers
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers), PodcastAlbumGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Album, Id>(context, contentResolver, schedulers, permissionManager), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
 

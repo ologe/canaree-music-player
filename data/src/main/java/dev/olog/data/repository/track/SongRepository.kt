@@ -19,6 +19,7 @@ import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
+import dev.olog.shared.android.permission.PermissionManager
 import dev.olog.shared.android.utils.assertBackground
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
@@ -31,8 +32,9 @@ internal class SongRepository @Inject constructor(
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Song, Id>(context, contentResolver, schedulers, permissionManager), SongGateway {
 
     private val queries = TrackQueries(
         contentResolver, blacklistPrefs,

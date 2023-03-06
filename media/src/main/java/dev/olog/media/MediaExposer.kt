@@ -21,9 +21,10 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.permission.Permission
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +35,8 @@ import java.lang.IllegalStateException
 class MediaExposer(
     private val context: Context,
     private val lifecycleOwner: LifecycleOwner,
-    private val onConnectionChanged: OnConnectionChanged
+    private val onConnectionChanged: OnConnectionChanged,
+    private val permissionManager: PermissionManager,
 ) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
@@ -60,7 +62,7 @@ class MediaExposer(
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
 
     fun connect() {
-        if (!Permissions.canReadStorage(context)) {
+        if (!permissionManager.hasPermissions(Permission.Storage)) {
             Log.w("MediaExposer", "Storage permission is not granted")
             return
         }
@@ -80,21 +82,22 @@ class MediaExposer(
             }
         }
 
-        if (!mediaBrowser.isConnected){
-            try {
-                mediaBrowser.connect()
-            } catch (ex: IllegalStateException){
-//                TODO leak ??
-//                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
-//                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
-            }
+        try {
+            mediaBrowser.connect()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+//            TODO leak ??
+//            connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
+//            connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
         }
     }
 
     fun disconnect() {
         job?.cancel()
-        if (mediaBrowser.isConnected){
+        try {
             mediaBrowser.disconnect()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 

@@ -90,11 +90,9 @@ class MainActivity : MusicGlueActivity(),
         intent?.let { handleIntent(it) }
     }
 
-    override fun onPermissionGranted(permission: Permission) = when (permission){
-        Permission.STORAGE -> {
-            navigateToLastPage()
-            connect()
-        }
+    override fun onMandatoryPermissionGranted() {
+        navigateToLastPage()
+        connect()
     }
 
     private fun setupSlidingPanel(){

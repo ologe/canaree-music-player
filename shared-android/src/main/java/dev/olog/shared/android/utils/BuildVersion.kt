@@ -35,3 +35,7 @@ inline fun isP(): Boolean {
 inline fun isQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 }
+
+inline fun isTiramisu(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+}

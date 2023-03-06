@@ -26,6 +26,7 @@ import dev.olog.shared.android.utils.assertBackground
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.android.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -40,8 +41,9 @@ internal class FolderRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
-    schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
+    schedulers: Schedulers,
+    permissionManager: PermissionManager,
+) : BaseRepository<Folder, Path>(context, contentResolver, schedulers, permissionManager), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 
