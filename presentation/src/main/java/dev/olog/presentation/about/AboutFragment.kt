@@ -18,7 +18,6 @@ import javax.inject.Inject
 class AboutFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
         val TAG = AboutFragment::class.java.name
     }
 

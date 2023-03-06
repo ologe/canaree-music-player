@@ -24,7 +24,6 @@ import javax.inject.Inject
 abstract class BaseWidget : AbsWidgetApp() {
 
     companion object {
-        @JvmStatic
         private var IS_PLAYING = false
     }
 

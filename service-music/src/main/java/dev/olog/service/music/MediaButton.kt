@@ -16,7 +16,6 @@ internal class MediaButton @Inject internal constructor(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MediaButton::class.java.simpleName}"
         internal const val DELAY = 300L
         internal const val MAX_ALLOWED_CLICKS = 3

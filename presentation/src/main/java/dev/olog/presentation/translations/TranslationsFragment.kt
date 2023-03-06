@@ -43,15 +43,12 @@ class TranslationsFragment : BaseFragment() {
 
     companion object {
 
-        @JvmStatic
         val TAG = TranslationsFragment::class.java.name
 
-        @JvmStatic
         fun newInstance(): Fragment {
             return TranslationsFragment()
         }
 
-        @JvmStatic
         val contributors: List<String>
             get() {
                 return listOf(

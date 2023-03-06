@@ -16,7 +16,6 @@ internal class MusicServiceRepeatMode @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MusicServiceRepeatMode::class.java.simpleName}"
     }
 

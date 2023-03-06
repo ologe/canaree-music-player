@@ -20,9 +20,7 @@ internal class ClippedSourceFactory @Inject constructor (
 ) : ISourceFactory<CrossFadePlayer.Model> {
 
     companion object {
-        @JvmStatic
         private val clipStart = TimeUnit.SECONDS.toMicros(2)
-        @JvmStatic
         private val clipEnd = TimeUnit.SECONDS.toMicros(4)
     }
 

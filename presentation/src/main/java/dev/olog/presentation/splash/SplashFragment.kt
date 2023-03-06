@@ -22,7 +22,6 @@ import javax.inject.Inject
 class SplashFragment : Fragment() {
 
     companion object {
-        @JvmStatic
         val TAG = SplashFragment::class.java.name
     }
 

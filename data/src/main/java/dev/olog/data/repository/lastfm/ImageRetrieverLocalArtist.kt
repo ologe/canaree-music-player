@@ -14,7 +14,6 @@ internal class ImageRetrieverLocalArtist @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "D:${ImageRetrieverLocalArtist::class.java.simpleName}"
     }
 

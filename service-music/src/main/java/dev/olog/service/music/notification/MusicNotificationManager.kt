@@ -35,7 +35,6 @@ internal class MusicNotificationManager @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MusicNotificationManager::class.java.simpleName}"
         private const val METADATA_PUBLISH_DELAY = 350L
         private const val STATE_PUBLISH_DELAY = 100L

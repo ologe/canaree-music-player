@@ -36,7 +36,6 @@ import javax.inject.Inject
 class MusicService : BaseMusicService() {
 
     companion object {
-        @JvmStatic
         val TAG = "SM:${MusicService::class.java.simpleName}"
     }
 

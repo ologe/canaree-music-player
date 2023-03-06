@@ -26,7 +26,6 @@ class EditTrackFragment : BaseEditItemFragment() {
         const val TAG = "EditTrackFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): EditTrackFragment {
             return EditTrackFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId.toString()

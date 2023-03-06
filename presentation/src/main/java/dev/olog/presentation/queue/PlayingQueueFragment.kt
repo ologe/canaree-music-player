@@ -30,7 +30,6 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     companion object {
         val TAG = PlayingQueueFragment::class.java.name
 
-        @JvmStatic
         fun newInstance(): PlayingQueueFragment {
             return PlayingQueueFragment()
         }

@@ -19,13 +19,10 @@ import javax.inject.Inject
 class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
 
     companion object {
-        @JvmStatic
         val TAG = PlayerVolumeFragment::class.java.name
-        @JvmStatic
         private val ARGUMENT_LAYOUT_ID = "$TAG.argument.layoutid"
         private val ARGUMENT_Y_POSITION = "$TAG.argument.y_position"
 
-        @JvmStatic
         fun newInstance(layoutId: Int, yPosition: Float = -1f): PlayerVolumeFragment {
             return PlayerVolumeFragment().withArguments(
                 ARGUMENT_LAYOUT_ID to layoutId,

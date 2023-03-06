@@ -18,7 +18,6 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 ) : Player.Listener {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${OnAudioSessionIdChangeListener::class.java.simpleName}"
         internal const val DELAY = 500L
     }

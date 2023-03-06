@@ -21,7 +21,6 @@ internal class MediaSessionQueue @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MediaSessionQueue::class.java.simpleName}"
         private const val DELAY = 1000L
     }

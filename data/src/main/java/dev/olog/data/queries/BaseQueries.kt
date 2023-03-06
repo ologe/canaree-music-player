@@ -17,7 +17,6 @@ abstract class BaseQueries(
 ) {
 
     companion object {
-        @JvmStatic
         private val RECENTLY_ADDED_TIME = TimeUnit.SECONDS.convert(14, TimeUnit.DAYS)
     }
 

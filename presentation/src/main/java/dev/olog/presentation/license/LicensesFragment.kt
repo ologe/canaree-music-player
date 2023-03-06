@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_licenses.view.*
 class LicensesFragment : Fragment() {
 
     companion object {
-        @JvmStatic
         val TAG = LicensesFragment::class.java.name
     }
 

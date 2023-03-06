@@ -8,7 +8,6 @@ internal object SpanCountController {
 
     const val SPAN_COUNT = 60
 
-    @JvmStatic
     fun getDefaultSpan(context: Context, category: TabCategory): Int {
         val smallestWidthDip = context.configuration.smallestScreenWidthDp
         val isTablet = smallestWidthDip >= 600

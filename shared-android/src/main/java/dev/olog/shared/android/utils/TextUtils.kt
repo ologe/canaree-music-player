@@ -9,12 +9,10 @@ object TextUtils {
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
     @Suppress("NOTHING_TO_INLINE")
-    @JvmStatic
     inline fun formatMillis(millis: Int): String {
         return formatMillis(millis.toLong())
     }
 
-    @JvmStatic
     fun formatMillis(millis: Long, maintainZeros: Boolean = false): String {
 
         val isNegative = millis < 0L
@@ -51,7 +49,6 @@ object TextUtils {
         return result
     }
 
-    @JvmStatic
     fun addSpacesToDash(original: String): String{
         return original
                 .trim()

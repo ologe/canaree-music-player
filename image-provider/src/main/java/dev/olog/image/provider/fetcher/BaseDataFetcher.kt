@@ -25,7 +25,6 @@ abstract class BaseDataFetcher(
 
     companion object {
         private const val TIMEOUT = 5000
-        @JvmStatic
         private var requestCounter = AtomicLong(1)
     }
 

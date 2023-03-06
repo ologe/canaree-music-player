@@ -19,7 +19,6 @@ class StatusBarView(
     companion object {
         // workaround: caching value because when changing page in bottom navigation view
         // setOnApplyWindowInsetsListener is not called
-        @JvmStatic
         var viewHeight = -1
     }
 

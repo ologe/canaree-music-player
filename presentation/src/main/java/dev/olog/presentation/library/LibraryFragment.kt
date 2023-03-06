@@ -26,13 +26,10 @@ import javax.inject.Inject
 class LibraryFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
         val TAG_TRACK = LibraryFragment::class.java.name
-        @JvmStatic
         val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
         const val IS_PODCAST = "IS_PODCAST"
 
-        @JvmStatic
         fun newInstance(isPodcast: Boolean): LibraryFragment {
             return LibraryFragment().withArguments(
                 IS_PODCAST to isPodcast

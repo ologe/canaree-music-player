@@ -47,7 +47,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
         private const val TAG = "TabFragment"
         const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
-        @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
             return TabFragment().withArguments(ARGUMENTS_SOURCE to category.toString())
         }

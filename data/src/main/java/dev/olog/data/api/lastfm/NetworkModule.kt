@@ -29,7 +29,6 @@ object NetworkModule {
             .build()
     }
 
-    @JvmStatic
     private fun logInterceptor(config: Config): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (config.isDebug) {

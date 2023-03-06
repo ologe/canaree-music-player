@@ -24,7 +24,6 @@ class TouchHelperAdapterCallback(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "P:${TouchHelperAdapterCallback::class.java.simpleName}"
         private const val SWIPE_DURATION = DEFAULT_SWIPE_ANIMATION_DURATION.toLong() - 50
     }

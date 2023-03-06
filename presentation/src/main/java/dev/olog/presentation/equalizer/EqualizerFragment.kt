@@ -25,7 +25,6 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         const val TAG = "EqualizerFragment"
         const val DEFAULT_BAR_ALPHA = .75f
 
-        @JvmStatic
         fun newInstance(): EqualizerFragment {
             return EqualizerFragment()
         }
