@@ -20,25 +20,25 @@ private fun millisToFormattedDate(value: Long): String {
 
 fun LastFmTrackEntity.toDomain(): LastFmTrack {
     return LastFmTrack(
-        this.id,
-        this.title,
-        this.artist,
-        this.album,
-        this.image,
-        this.mbid,
-        this.artistMbid,
-        this.albumMbid
+        id = this.id,
+        title = this.title,
+        artist = this.artist,
+        album = this.album,
+        image = this.image,
+        mbid = this.mbid,
+        artistMbid = this.artistMbid,
+        albumMbid = this.albumMbid
     )
 }
 
 fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
     return LastFmAlbum(
-        this.id,
-        this.title,
-        this.artist,
-        this.image,
-        this.mbid,
-        this.wiki
+        id = this.id,
+        title = this.title,
+        artist = this.artist,
+        image = this.image,
+        mbid = this.mbid,
+        wiki = this.wiki
     )
 }
 
@@ -46,15 +46,15 @@ fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
 
 fun LastFmTrack.toModel(): LastFmTrackEntity {
     return LastFmTrackEntity(
-        this.id,
-        this.title,
-        this.artist,
-        this.album,
-        this.image,
-        millisToFormattedDate(System.currentTimeMillis()),
-        this.mbid,
-        this.artistMbid,
-        this.albumMbid
+        id = this.id,
+        title = this.title,
+        artist = this.artist,
+        album = this.album,
+        image = this.image,
+        added = millisToFormattedDate(System.currentTimeMillis()),
+        mbid = this.mbid,
+        artistMbid = this.artistMbid,
+        albumMbid = this.albumMbid
     )
 }
 
@@ -62,32 +62,32 @@ fun LastFmTrack.toModel(): LastFmTrackEntity {
 
 fun LastFmAlbum.toModel(): LastFmAlbumEntity {
     return LastFmAlbumEntity(
-        this.id,
-        this.title,
-        this.artist,
-        this.image,
-        millisToFormattedDate(System.currentTimeMillis()),
-        this.mbid,
-        this.wiki
+        id = this.id,
+        title = this.title,
+        artist = this.artist,
+        image = this.image,
+        added = millisToFormattedDate(System.currentTimeMillis()),
+        mbid = this.mbid,
+        wiki = this.wiki
     )
 }
 
 fun LastFmArtistEntity.toDomain(): LastFmArtist {
     return LastFmArtist(
-        this.id,
-        this.image,
-        this.mbid,
-        this.wiki
+        id = this.id,
+        image = this.image,
+        mbid = this.mbid,
+        wiki = this.wiki
     )
 }
 
 fun LastFmArtist.toModel() : LastFmArtistEntity{
     return LastFmArtistEntity(
-        this.id,
-        this.image,
-        millisToFormattedDate(System.currentTimeMillis()),
-        this.mbid,
-        this.wiki
+        id = this.id,
+        image = this.image,
+        added = millisToFormattedDate(System.currentTimeMillis()),
+        mbid = this.mbid,
+        wiki = this.wiki
     )
 }
 
@@ -95,37 +95,37 @@ object LastFmNulls {
 
     fun createNullTrack(trackId: Long): LastFmTrackEntity {
         return LastFmTrackEntity(
-            trackId,
-            "",
-            "",
-            "",
-            "",
-            millisToFormattedDate(System.currentTimeMillis()),
-            "",
-            "",
-            ""
+            id = trackId,
+            title = "",
+            artist = "",
+            album = "",
+            image = "",
+            added = millisToFormattedDate(System.currentTimeMillis()),
+            mbid = "",
+            artistMbid = "",
+            albumMbid = ""
         )
     }
 
     fun createNullArtist(artistId: Long): LastFmArtistEntity {
         return LastFmArtistEntity(
-            artistId,
-            "",
-            millisToFormattedDate(System.currentTimeMillis()),
-            "",
-            ""
+            id = artistId,
+            image = "",
+            added = millisToFormattedDate(System.currentTimeMillis()),
+            mbid = "",
+            wiki = ""
         )
     }
 
     fun createNullAlbum(albumId: Long): LastFmAlbumEntity {
         return LastFmAlbumEntity(
-            albumId,
-            "",
-            "",
-            "",
-            millisToFormattedDate(System.currentTimeMillis()),
-            "",
-            ""
+            id = albumId,
+            title = "",
+            artist = "",
+            image = "",
+            added = millisToFormattedDate(System.currentTimeMillis()),
+            mbid = "",
+            wiki = ""
         )
     }
 

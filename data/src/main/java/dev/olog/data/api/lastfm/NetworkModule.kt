@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
+import dev.olog.data.network.TryCallAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,6 +50,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl(config.lastFmBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(TryCallAdapter.Factory())
             .client(client)
             .build()
     }

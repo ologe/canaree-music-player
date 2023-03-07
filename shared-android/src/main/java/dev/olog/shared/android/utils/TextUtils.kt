@@ -49,11 +49,4 @@ object TextUtils {
         return result
     }
 
-    fun addSpacesToDash(original: String): String{
-        return original
-                .trim()
-                .replace("-", " - ")
-                .replace("\\s+".toRegex(), " ")
-    }
-
 }

@@ -1,41 +1,29 @@
 package dev.olog.data.repository.lastfm
 
-import android.util.Log
 import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
-import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class ImageRetrieverLocalArtist @Inject constructor(
     private val lastFmDao: LastFmDao
 ) {
 
-    companion object {
-        private val TAG = "D:${ImageRetrieverLocalArtist::class.java.simpleName}"
-    }
-
-    fun mustFetch(artistId: Long): Boolean {
-        assertBackgroundThread()
+    suspend fun mustFetch(artistId: Long): Boolean {
         return lastFmDao.getArtist(artistId) == null
     }
 
-    fun getCached(id: Id): LastFmArtist? {
+    suspend fun getCached(id: Long): LastFmArtist? {
         return lastFmDao.getArtist(id)?.toDomain()
     }
 
-    fun cache(model: LastFmArtist) {
-        Log.v(TAG, "cache ${model.id}")
-        assertBackgroundThread()
+    suspend fun cache(model: LastFmArtist) {
         val entity = model.toModel()
         lastFmDao.insertArtist(entity)
     }
 
-    fun delete(artistId: Long) {
-        Log.v(TAG, "delete $artistId")
-        assertBackgroundThread()
+    suspend fun delete(artistId: Long) {
         lastFmDao.deleteArtist(artistId)
     }
 
