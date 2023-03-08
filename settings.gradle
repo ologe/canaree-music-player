@@ -26,9 +26,17 @@ gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
 
 include ':app'
+
 include ':core'
-include ':presentation'
+include ':common:shared'
+include ':common:platform'
+include ':common:ui'
+
+include ':shared-widgets'
 include ':shared-android'
+include ':test-shared'
+
+include ':presentation'
 include ':data'
 include ':image-provider'
 include ':prefs-keys'
@@ -38,7 +46,5 @@ include ':app-shortcuts'
 include ':service-music'
 include ':service-floating'
 include ':offline-lyrics'
-include ':test-shared'
 include ':intents'
-include ':shared-widgets'
 include ':equalizer'
