@@ -32,6 +32,9 @@ include ':common:shared'
 include ':common:platform'
 include ':common:ui'
 
+include ':feature:media:api'
+include ':feature:media:impl'
+
 include ':shared-widgets'
 include ':shared-android'
 include ':test-shared'
