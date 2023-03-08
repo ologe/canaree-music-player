@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class QueueManager @Inject constructor(
+class QueueManager @Inject constructor(
     private val queueImpl: QueueImpl,
     private val playingQueueGateway: PlayingQueueGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,

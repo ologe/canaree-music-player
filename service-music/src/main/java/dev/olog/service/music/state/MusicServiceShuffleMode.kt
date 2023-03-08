@@ -9,7 +9,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @ServiceScoped
-internal class MusicServiceShuffleMode @Inject constructor(
+class MusicServiceShuffleMode @Inject constructor(
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway
 ) {

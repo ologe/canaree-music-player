@@ -13,7 +13,7 @@ import dev.olog.core.PendingIntentFactory
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
-internal class NotificationImpl26 @Inject constructor(
+class NotificationImpl26 @Inject constructor(
     service: Service,
     mediaSession: MediaSessionCompat,
     notificationActions: NotificationActions,

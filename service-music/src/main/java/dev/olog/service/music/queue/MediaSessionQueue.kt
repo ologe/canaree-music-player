@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
-internal class MediaSessionQueue @Inject constructor(
+class MediaSessionQueue @Inject constructor(
     service: Service,
     schedulers: Schedulers,
     private val mediaSession: MediaSessionCompat

@@ -15,7 +15,7 @@ import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.shared.android.utils.assertMainThread
 import javax.inject.Inject
 
-internal class AudioFocusBehavior @Inject constructor(
+class AudioFocusBehavior @Inject constructor(
     service: Service,
     private val player: Lazy<IPlayer>, // keep it lazy to avoid circular dependency
     private val volume: IMaxAllowedPlayerVolume

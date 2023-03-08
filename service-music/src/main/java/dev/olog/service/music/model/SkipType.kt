@@ -1,6 +1,6 @@
 package dev.olog.service.music.model
 
-internal enum class SkipType {
+enum class SkipType {
     NONE,
     RESTART,
     SKIP_PREVIOUS,

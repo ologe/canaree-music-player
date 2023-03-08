@@ -21,7 +21,7 @@ import dev.olog.shared.android.utils.clamp
 /**
  * This class handles playback
  */
-internal abstract class AbsPlayer<T>(
+abstract class AbsPlayer<T>(
     private val service: Service,
     private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume

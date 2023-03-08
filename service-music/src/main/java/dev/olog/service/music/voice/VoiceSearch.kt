@@ -6,7 +6,7 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
 
-internal object VoiceSearch {
+object VoiceSearch {
 
     fun noFilter(songList: List<Song>): List<MediaEntity> {
         val mediaId = MediaId.songId(-1)

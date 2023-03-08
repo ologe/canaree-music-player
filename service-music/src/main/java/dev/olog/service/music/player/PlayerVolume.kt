@@ -24,7 +24,7 @@ private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 @ServiceScoped
-internal class PlayerVolume @Inject constructor(
+class PlayerVolume @Inject constructor(
     service: Service,
     musicPreferencesUseCase: MusicPreferencesGateway
 

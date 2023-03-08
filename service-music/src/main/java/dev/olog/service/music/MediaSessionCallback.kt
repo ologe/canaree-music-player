@@ -28,7 +28,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MediaSessionCallback @Inject constructor(
+class MediaSessionCallback @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     private val queue: IQueue,

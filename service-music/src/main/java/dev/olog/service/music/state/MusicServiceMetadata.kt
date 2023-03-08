@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MusicServiceMetadata @Inject constructor(
+class MusicServiceMetadata @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     private val mediaSession: MediaSessionCompat,

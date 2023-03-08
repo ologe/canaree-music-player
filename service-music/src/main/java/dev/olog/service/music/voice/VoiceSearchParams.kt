@@ -28,7 +28,7 @@ import android.text.TextUtils
  * @param query the query parameter from a voice search
  * @param extras the extras parameter from a voice search
  */
-internal class VoiceSearchParams(
+class VoiceSearchParams(
         val query: String, extras: Bundle?
 
 ) {

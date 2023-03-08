@@ -9,7 +9,7 @@ import javax.inject.Inject
 import kotlin.math.min
 
 @ServiceScoped
-internal class EnhancedShuffle @Inject constructor(
+class EnhancedShuffle @Inject constructor(
     playerLifecycle: IPlayerLifecycle
 
 ) : IPlayerLifecycle.Listener {

@@ -3,7 +3,7 @@ package dev.olog.service.music.model
 import android.support.v4.media.session.PlaybackStateCompat
 import java.util.concurrent.TimeUnit
 
-internal sealed class Event {
+sealed class Event {
 
     data class Metadata(
         val entity: MediaEntity
@@ -23,7 +23,7 @@ internal sealed class Event {
  * Used to sync 3 different data sources,
  * metadata, state and favorite
  */
-internal data class MusicNotificationState(
+data class MusicNotificationState(
     var id: Long = -1,
     var title: String = "",
     var artist: String = "",

@@ -17,7 +17,7 @@ import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MusicServicePlaybackState @Inject constructor(
+class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway

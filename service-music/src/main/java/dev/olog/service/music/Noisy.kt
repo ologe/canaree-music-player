@@ -15,7 +15,7 @@ import dev.olog.shared.android.extensions.lifecycleOwner
 import javax.inject.Inject
 
 @ServiceScoped
-internal class Noisy @Inject constructor(
+class Noisy @Inject constructor(
     private val service: Service,
     private val eventDispatcher: EventDispatcher
 

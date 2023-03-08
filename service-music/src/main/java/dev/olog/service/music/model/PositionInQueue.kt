@@ -1,6 +1,6 @@
 package dev.olog.service.music.model
 
-internal enum class PositionInQueue {
+enum class PositionInQueue {
     /**
      * Has only next songs
      */

@@ -1,6 +1,6 @@
 package dev.olog.service.music.interfaces
 
-internal interface IMaxAllowedPlayerVolume {
+interface IMaxAllowedPlayerVolume {
 
     var listener: Listener?
 

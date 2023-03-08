@@ -1,6 +1,6 @@
 package dev.olog.service.music.helper
 
-internal object CarHelper {
+object CarHelper {
 
     val AUTO_APP_PACKAGE_NAME = "com.google.android.projection.gearhead"
 

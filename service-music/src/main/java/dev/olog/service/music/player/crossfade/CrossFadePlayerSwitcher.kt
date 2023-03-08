@@ -14,7 +14,7 @@ private enum class CurrentPlayer {
 /**
  * Delegates calls to the right player [CrossFadePlayer]
  */
-internal class CrossFadePlayerSwitcher @Inject internal constructor(
+class CrossFadePlayerSwitcher @Inject constructor(
     private val playerOne: CrossFadePlayer,
     private val playerTwo: CrossFadePlayer
 

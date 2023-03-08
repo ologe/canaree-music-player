@@ -12,11 +12,11 @@ import dev.olog.shared.android.utils.isOreo
 
 @Module
 @InstallIn(ServiceComponent::class)
-internal object NotificationModule {
+object NotificationModule {
 
     @Provides
     @ServiceScoped
-    internal fun provideNotificationImpl(
+    fun provideNotificationImpl(
         notificationImpl26: Lazy<NotificationImpl26>,
         notificationImpl24: Lazy<NotificationImpl24>,
         notificationImpl: Lazy<NotificationImpl21>

@@ -10,7 +10,7 @@ import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
-internal class MediaItemGenerator @Inject constructor(
+class MediaItemGenerator @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val songGateway: SongGateway,

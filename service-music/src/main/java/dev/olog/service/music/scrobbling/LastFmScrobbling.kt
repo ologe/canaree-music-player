@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class LastFmScrobbling @Inject constructor(
+class LastFmScrobbling @Inject constructor(
     private val service: Service,
     observeLastFmUserCredentials: ObserveLastFmUserCredentials,
     private val lastFmService: LastFmService

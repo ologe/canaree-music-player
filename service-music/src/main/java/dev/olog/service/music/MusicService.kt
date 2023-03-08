@@ -40,24 +40,24 @@ class MusicService : BaseMusicService() {
     }
 
     @Inject
-    internal lateinit var mediaSession: MediaSessionCompat
+    lateinit var mediaSession: MediaSessionCompat
     @Inject
-    internal lateinit var callback: MediaSessionCallback
+    lateinit var callback: MediaSessionCallback
 
     @Inject
-    internal lateinit var currentSong: CurrentSong
+    lateinit var currentSong: CurrentSong
     @Inject
-    internal lateinit var playerMetadata: MusicServiceMetadata
+    lateinit var playerMetadata: MusicServiceMetadata
     @Inject
-    internal lateinit var notification: MusicNotificationManager
+    lateinit var notification: MusicNotificationManager
     @Inject
-    internal lateinit var sleepTimerUseCase: SleepTimerUseCase
+    lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject
-    internal lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
+    lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
     @Inject
-    internal lateinit var lastFmScrobbling: LastFmScrobbling
+    lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
-    internal lateinit var noisy: Noisy
+    lateinit var noisy: Noisy
     @Inject
     lateinit var pendingIntentFactory: PendingIntentFactory
 

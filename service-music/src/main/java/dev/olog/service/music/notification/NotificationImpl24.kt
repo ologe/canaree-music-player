@@ -14,7 +14,7 @@ import dev.olog.shared.android.utils.TextUtils
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-internal open class NotificationImpl24 @Inject constructor(
+open class NotificationImpl24 @Inject constructor(
     service: Service,
     mediaSession: MediaSessionCompat,
     notificationActions: NotificationActions,

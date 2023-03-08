@@ -10,15 +10,15 @@ import javax.inject.Inject
 
 
 @ServiceScoped
-internal class MediaButton @Inject internal constructor(
+class MediaButton @Inject constructor(
     private val service: Service,
     private val eventDispatcher: EventDispatcher,
 ) {
 
     companion object {
         private val TAG = "SM:${MediaButton::class.java.simpleName}"
-        internal const val DELAY = 300L
-        internal const val MAX_ALLOWED_CLICKS = 3
+        const val DELAY = 300L
+        const val MAX_ALLOWED_CLICKS = 3
     }
 
     private var clicks = 0

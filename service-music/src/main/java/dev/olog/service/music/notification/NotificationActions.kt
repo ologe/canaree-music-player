@@ -14,7 +14,7 @@ import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.core.PendingIntentFactory
 import javax.inject.Inject
 
-internal class NotificationActions @Inject constructor(
+class NotificationActions @Inject constructor(
     @ApplicationContext private val context: Context,
     private val pendingIntentFactory: PendingIntentFactory,
 ) {

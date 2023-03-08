@@ -20,27 +20,27 @@ import dev.olog.service.music.queue.QueueManager
 
 @Module
 @InstallIn(ServiceComponent::class)
-internal abstract class MusicServiceModule {
+abstract class MusicServiceModule {
 
     @Binds
     @ServiceScoped
-    internal abstract fun provideQueue(queue: QueueManager): IQueue
+    abstract fun provideQueue(queue: QueueManager): IQueue
 
     @Binds
     @ServiceScoped
-    internal abstract fun providePlayer(player: PlayerImpl): IPlayer
+    abstract fun providePlayer(player: PlayerImpl): IPlayer
 
     @Binds
     @ServiceScoped
-    internal abstract fun providePlayerLifecycle(player: IPlayer): IPlayerLifecycle
+    abstract fun providePlayerLifecycle(player: IPlayer): IPlayerLifecycle
 
     @Binds
     @ServiceScoped
-    internal abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
+    abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
 
     @Binds
     @ServiceScoped
-    internal abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
+    abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
 
     companion object {
 
@@ -52,7 +52,7 @@ internal abstract class MusicServiceModule {
 
         @Provides
         @ServiceScoped
-        internal fun provideMediaSession(instance: Service): MediaSessionCompat {
+        fun provideMediaSession(instance: Service): MediaSessionCompat {
             return MediaSessionCompat(
                 instance,
                 MusicService.TAG,

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-internal class ClippedSourceFactory @Inject constructor (
+class ClippedSourceFactory @Inject constructor (
     service: Service,
     private val sourceFactory: DefaultSourceFactory,
     musicPrefsUseCase: MusicPreferencesGateway

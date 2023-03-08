@@ -15,7 +15,7 @@ import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.model.MediaEntity
 import javax.inject.Inject
 
-internal class DefaultSourceFactory @Inject constructor(
+class DefaultSourceFactory @Inject constructor(
     @ApplicationContext context: Context
 
 ) : ISourceFactory<MediaEntity> {

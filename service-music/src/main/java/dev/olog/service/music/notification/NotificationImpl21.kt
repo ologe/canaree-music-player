@@ -25,7 +25,7 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 
-internal open class NotificationImpl21 @Inject constructor(
+open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
     private val mediaSession: MediaSessionCompat,
     protected val notificationActions: NotificationActions,

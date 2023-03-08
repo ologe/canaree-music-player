@@ -6,7 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.PositionInQueue
 
-internal interface IQueue {
+interface IQueue {
 
     fun getCurrentPositionInQueue(): PositionInQueue
 

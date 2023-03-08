@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
-internal class QueueImpl @Inject constructor(
+class QueueImpl @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
@@ -58,7 +58,7 @@ internal class QueueImpl @Inject constructor(
         }
     }
 
-    internal fun isEmpty() = playingQueue.isEmpty()
+    fun isEmpty() = playingQueue.isEmpty()
 
     /**
      * @param persist when true a new queue must be selected, queue and index will be persisted

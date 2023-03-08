@@ -3,7 +3,7 @@ package dev.olog.service.music.interfaces
 import android.app.Notification
 import dev.olog.service.music.model.MusicNotificationState
 
-internal interface INotification {
+interface INotification {
 
     companion object {
         const val NOTIFICATION_ID: Int = 0x6d7363

@@ -10,7 +10,7 @@ import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-internal class OnAudioSessionIdChangeListener @Inject constructor(
+class OnAudioSessionIdChangeListener @Inject constructor(
     private val service: Service,
     private val equalizer: IEqualizer,
     private val virtualizer: IVirtualizer,
@@ -19,7 +19,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 
     companion object {
         private val TAG = "SM:${OnAudioSessionIdChangeListener::class.java.simpleName}"
-        internal const val DELAY = 500L
+        const val DELAY = 500L
     }
 
     private var job: Job? = null

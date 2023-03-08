@@ -24,7 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject
 
 @ServiceScoped
-internal class CurrentSong @Inject constructor(
+class CurrentSong @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,

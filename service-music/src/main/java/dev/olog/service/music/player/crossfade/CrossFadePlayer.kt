@@ -24,7 +24,7 @@ import kotlin.math.abs
 /**
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
  */
-internal class CrossFadePlayer @Inject internal constructor(
+class CrossFadePlayer @Inject constructor(
     private val service: Service,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,

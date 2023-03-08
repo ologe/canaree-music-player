@@ -1,6 +1,6 @@
 package dev.olog.service.music.interfaces
 
-internal interface IPlayerDelegate<T> {
+interface IPlayerDelegate<T> {
 
     fun prepare(mediaEntity: T, bookmark: Long)
 

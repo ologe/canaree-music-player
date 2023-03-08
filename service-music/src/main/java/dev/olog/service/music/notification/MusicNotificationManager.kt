@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @ServiceScoped
-internal class MusicNotificationManager @Inject constructor(
+class MusicNotificationManager @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     private val notificationImpl: INotification,

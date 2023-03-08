@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.KeyEvent
 import javax.inject.Inject
 
-internal class EventDispatcher @Inject constructor(
+class EventDispatcher @Inject constructor(
     service: Service
 ) {
 

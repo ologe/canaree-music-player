@@ -16,7 +16,7 @@ import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 
-internal class LastFmService @Inject constructor(
+class LastFmService @Inject constructor(
     private val schedulers: Schedulers,
     private val config: Config,
 ) {
