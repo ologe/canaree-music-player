@@ -2,6 +2,7 @@ plugins {
     id("dev.msc.library")
     id("dev.msc.hilt")
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -32,9 +33,9 @@ dependencies {
     implementation libs.androidx.preference
 
     implementation libs.utils.fuzzywuzzy
-    implementation libs.data.gson
+    implementation libs.kotlin.serialization
     implementation libs.data.retrofit.core
-    implementation libs.data.retrofit.gson
+    implementation libs.data.retrofit.serialization
     implementation libs.data.okhttp.core
     implementation libs.data.okhttp.interceptor
 

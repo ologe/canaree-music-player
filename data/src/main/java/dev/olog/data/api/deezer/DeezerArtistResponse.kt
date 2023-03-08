@@ -1,20 +1,23 @@
 package dev.olog.data.api.deezer
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class DeezerArtistResponse(
     val data: List<Album>?,
 ) {
 
+    @Serializable
     class Album(
         val picture: String?,
-        @SerializedName("picture_big")
+        @SerialName("picture_big")
         val pictureBig: String?,
-        @SerializedName("picture_medium")
+        @SerialName("picture_medium")
         val pictureMedium: String?,
-        @SerializedName("picture_small")
+        @SerialName("picture_small")
         val pictureSmall: String?,
-        @SerializedName("picture_xl")
+        @SerialName("picture_xl")
         val pictureXl: String?,
     )
 }

@@ -9,7 +9,7 @@ java {
 
 dependencies {
     implementation(libs.plugin.gradle)
-    implementation(libs.plugin.kotlin)
+    implementation(libs.plugin.kotlin.core)
 }
 
 gradlePlugin {

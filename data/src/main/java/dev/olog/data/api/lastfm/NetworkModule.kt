@@ -1,5 +1,6 @@
 package dev.olog.data.api.lastfm
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,16 +8,26 @@ import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.data.api.deezer.DeezerService
 import dev.olog.data.network.TryCallAdapter
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideSerializer(): Json {
+        return Json {
+            isLenient = true
+        }
+    }
 
     @Provides
     @Singleton
@@ -43,13 +54,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @OptIn(ExperimentalSerializationApi::class)
     internal fun provideLastFmRetrofit(
         client: OkHttpClient,
         config: Config,
+        serializer: Json,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(config.lastFmBaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                serializer.asConverterFactory("application/json".toMediaType())
+            )
             .addCallAdapterFactory(TryCallAdapter.Factory())
             .client(client)
             .build()

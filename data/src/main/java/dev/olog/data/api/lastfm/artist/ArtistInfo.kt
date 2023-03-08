@@ -1,11 +1,14 @@
 package dev.olog.data.api.lastfm.artist
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class ArtistInfo(
     val artist: Artist?,
 ) {
 
+    @Serializable
     class Artist(
         val name: String?,
         val mbid: String?,
@@ -14,12 +17,14 @@ class ArtistInfo(
         val bio: Bio?,
     )
 
+    @Serializable
     class Image(
-        @SerializedName("#text")
+        @SerialName("#text")
         val text: String?,
         val size: String?,
     )
 
+    @Serializable
     class Bio(
         val links: Links?,
         val published: String?,
@@ -27,12 +32,14 @@ class ArtistInfo(
         val content: String?,
     )
 
+    @Serializable
     class Links(
         val link: Link?,
     )
 
+    @Serializable
     class Link(
-        @SerializedName("#text")
+        @SerialName("#text")
         val text: String?,
         val rel: String?,
         val href: String?,

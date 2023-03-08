@@ -1,19 +1,24 @@
 package dev.olog.data.api.lastfm.track
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class TrackSearch(
     val results: Results?,
 ) {
 
+    @Serializable
     class Results(
         val trackmatches: Trackmatches?,
     )
 
+    @Serializable
     class Trackmatches(
         val track: List<Track>?
     )
 
+    @Serializable
     class Track(
         val name: String?,
         val artist: String?,
@@ -22,8 +27,9 @@ class TrackSearch(
         val mbid: String?
     )
 
+    @Serializable
     class Image(
-        @SerializedName("#text")
+        @SerialName("#text")
         val text: String?,
         val size: String?,
     )

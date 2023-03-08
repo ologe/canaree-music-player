@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.CustomTypeConverters
 import javax.inject.Singleton
 
 @Module
@@ -18,9 +19,13 @@ object RepositoryHelperModule {
 
     @Provides
     @Singleton
-    internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
+    internal fun provideRoomDatabase(
+        @ApplicationContext context: Context,
+        converter: CustomTypeConverters,
+    ): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(Migration_15_16, Migration_16_17, Migration_17_18)
+            .addTypeConverter(converter)
             .allowMainThreadQueries()
             .build()
     }

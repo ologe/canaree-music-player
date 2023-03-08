@@ -1,11 +1,14 @@
 package dev.olog.data.api.lastfm.track
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class TrackInfo(
     val track: Track?
 ) {
 
+    @Serializable
     class Track(
         val name: String?,
         val mbid: String?,
@@ -15,12 +18,14 @@ class TrackInfo(
         val wiki: Wiki?,
     )
 
+    @Serializable
     class Image(
-        @SerializedName("#text")
+        @SerialName("#text")
         val text: String?,
         val size: String?,
     )
 
+    @Serializable
     class Album(
         val artist: String?,
         val title: String?,
@@ -29,12 +34,14 @@ class TrackInfo(
         val image: List<Image>?,
     )
 
+    @Serializable
     class Artist(
         val name: String?,
         val mbid: String?,
         val url: String?,
     )
 
+    @Serializable
     class Wiki(
         val summary: String?,
         val content: String?,

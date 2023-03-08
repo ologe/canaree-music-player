@@ -1,24 +1,24 @@
 package dev.olog.data.db.entities
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-internal object CustomTypeConverters {
-
-    private val gson by lazy { Gson() }
+@ProvidedTypeConverter
+class CustomTypeConverters @Inject constructor(
+    private val serializer: Json,
+) {
 
     @TypeConverter
-    @JvmStatic
     fun fromString(value: String): List<EqualizerBandEntity> {
-        val listType = object : TypeToken<List<EqualizerBandEntity>>() {}.type
-        return gson.fromJson(value, listType)
+        return serializer.decodeFromString(value)
     }
 
     @TypeConverter
-    @JvmStatic
     fun fromArrayList(list: List<EqualizerBandEntity>): String {
-        val listType = object : TypeToken<List<EqualizerBandEntity>>() {}.type
-        return gson.toJson(list, listType)
+        return serializer.encodeToString(list)
     }
 }

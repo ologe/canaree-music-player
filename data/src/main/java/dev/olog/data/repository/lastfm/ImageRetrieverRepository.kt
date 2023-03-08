@@ -18,6 +18,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
+// TODO fix returning null on any error
 internal class ImageRetrieverRepository @Inject constructor(
     private val lastFmService: LastFmService,
     private val deezerService: DeezerService,
