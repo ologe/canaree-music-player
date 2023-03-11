@@ -1,6 +1,5 @@
 package dev.olog.msc
 
-import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.music.MusicService
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.playlist.chooser.PlaylistChooserActivity
@@ -17,7 +16,6 @@ class ClassTest {
         Assert.assertEquals(Classes.ACTIVITY_PLAYLIST_CHOOSER, PlaylistChooserActivity::class.java.name)
         // services
         Assert.assertEquals(Classes.SERVICE_MUSIC, MusicService::class.java.name)
-        Assert.assertEquals(Classes.SERVICE_FLOATING, FloatingWindowService::class.java.name)
     }
 
 }

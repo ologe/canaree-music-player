@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.shortcuts.api.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
@@ -20,7 +21,6 @@ import dev.olog.platform.extension.dip
 import dev.olog.platform.extension.getTopFragment
 import dev.olog.platform.extension.isTablet
 import dev.olog.platform.extension.setHeight
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
@@ -64,6 +64,8 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +129,7 @@ class MainActivity : MusicGlueActivity(),
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+                featureBubbleNavigator.startServiceIfHasOverlayPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
@@ -156,8 +158,8 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
-            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+        if (requestCode == FeatureBubbleNavigator.REQUEST_CODE_HOVER_PERMISSION) {
+            featureBubbleNavigator.startServiceIfHasOverlayPermission(this)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

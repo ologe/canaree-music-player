@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
+import dev.olog.feature.bubble.api.FeatureBubbleNavigator
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.findInContext
 import dev.olog.platform.extension.getArgument
@@ -15,7 +16,6 @@ import dev.olog.platform.extension.textColorPrimary
 import dev.olog.platform.extension.textColorSecondary
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.platform.extension.withArguments
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
@@ -47,6 +47,8 @@ class LibraryFragment : BaseFragment() {
     private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
+    @Inject
+    lateinit var featureBubbleNavigator: FeatureBubbleNavigator
 
     private val isPodcast by lazyFast {
         getArgument<Boolean>(
@@ -135,7 +137,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        featureBubbleNavigator.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     private val onPageChangeListener =

@@ -22,6 +22,7 @@ dependencies {
 
     implementation project(':feature:media:api')
     implementation project(':feature:shortcuts:api')
+    implementation project(':feature:bubble:api')
 
     implementation libs.ui.scrollhelper
     implementation libs.ui.glide.core
