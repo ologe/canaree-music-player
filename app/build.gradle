@@ -49,6 +49,7 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
 
+    implementation project(':feature:main:api')
     implementation project(':feature:media:impl')
     implementation project(':feature:widget:impl')
     implementation project(':feature:shortcuts:impl')

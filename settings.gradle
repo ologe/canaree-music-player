@@ -33,6 +33,7 @@ include ':common:platform'
 include ':common:ui'
 include ':common:localization'
 
+include ':feature:main:api'
 include ':feature:media:api', ':feature:media:impl'
 include ':feature:bubble:api', ':feature:bubble:impl'
 include ':feature:widget:api', ':feature:widget:impl'
