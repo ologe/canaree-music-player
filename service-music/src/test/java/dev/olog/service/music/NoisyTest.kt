@@ -2,6 +2,7 @@ package dev.olog.service.music
 
 import android.content.Context
 import com.nhaarman.mockitokotlin2.*
+import dev.olog.feature.media.impl.Noisy
 import org.junit.Test
 
 class NoisyTest {

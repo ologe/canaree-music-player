@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.feature.media.api.FeatureMediaNavigator
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
@@ -24,11 +25,13 @@ import javax.inject.Inject
 class MusicGlueService @Inject constructor(
     private val service: Service,
     private val permissionManager: PermissionManager,
+    private val featureMediaNavigator: FeatureMediaNavigator,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
             context = service,
+            componentName = featureMediaNavigator.createComponentName(),
             lifecycleOwner = service.lifecycleOwner,
             onConnectionChanged = this,
             permissionManager = permissionManager,

@@ -12,8 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.shortcuts.api.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.feature.bubble.api.FeatureBubbleNavigator
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
+import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.feature.media.api.MusicServiceAction
 import dev.olog.platform.extension.dimen
@@ -132,11 +131,9 @@ class MainActivity : MusicGlueActivity(),
                 featureBubbleNavigator.startServiceIfHasOverlayPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
+            FeatureMainNavigator.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
-                ContextCompat.startForegroundService(this, serviceIntent)
+                featureMediaNavigator.startService(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH)
             }
             Shortcuts.DETAIL -> {
                 lifecycleScope.launch {
@@ -147,10 +144,7 @@ class MainActivity : MusicGlueActivity(),
                 }
             }
             Intent.ACTION_VIEW -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MusicServiceAction.PLAY_URI.name
-                serviceIntent.data = intent.data
-                ContextCompat.startForegroundService(this, serviceIntent)
+                featureMediaNavigator.startService(MusicServiceAction.PLAY_URI.name, intent.data)
             }
         }
         intent.action = null

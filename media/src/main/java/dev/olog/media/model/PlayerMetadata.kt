@@ -2,7 +2,8 @@ package dev.olog.media.model
 
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
-import dev.olog.intents.MusicConstants
+import dev.olog.feature.media.api.MusicConstants
+import dev.olog.feature.media.api.getBoolean
 import dev.olog.platform.TextUtils
 
 class PlayerMetadata(private val metadata: MediaMetadataCompat) {
@@ -25,10 +26,6 @@ class PlayerMetadata(private val metadata: MediaMetadataCompat) {
     val isSkippingToPrevious = metadata.getBoolean(MusicConstants.SKIP_PREVIOUS)
 
     val readableDuration: String = TextUtils.formatMillis(duration)
-
-    private fun MediaMetadataCompat.getBoolean(key: String): Boolean {
-        return getLong(key) != 0L
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is PlayerMetadata) {

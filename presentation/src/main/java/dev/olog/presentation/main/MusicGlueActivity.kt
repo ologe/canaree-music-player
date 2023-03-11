@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.feature.media.api.FeatureMediaNavigator
 import dev.olog.feature.media.api.MusicServiceAction
 import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
@@ -29,10 +30,13 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     @Inject
     lateinit var permissionManager: PermissionManager
+    @Inject
+    lateinit var featureMediaNavigator: FeatureMediaNavigator
 
     private val mediaExposer by lazyFast {
         MediaExposer(
             context = this,
+            componentName = featureMediaNavigator.createComponentName(),
             lifecycleOwner = this,
             onConnectionChanged = this,
             permissionManager = permissionManager,

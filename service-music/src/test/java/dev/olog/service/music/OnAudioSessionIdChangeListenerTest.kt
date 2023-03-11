@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.feature.media.impl.OnAudioSessionIdChangeListener
 import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

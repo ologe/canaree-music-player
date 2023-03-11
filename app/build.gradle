@@ -62,7 +62,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':presentation')
     implementation project(':shared-widgets')
-    implementation project(':service-music')
     implementation project(':offline-lyrics')
     implementation project(':intents')
 

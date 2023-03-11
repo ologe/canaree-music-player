@@ -3,7 +3,7 @@ package dev.olog.service.music
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.service.music.EventDispatcher.Event
+import dev.olog.feature.media.impl.EventDispatcher.Event
 import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

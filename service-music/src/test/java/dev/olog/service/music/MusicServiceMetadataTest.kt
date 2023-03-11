@@ -5,11 +5,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.service.music.interfaces.IPlayerLifecycle
-import dev.olog.service.music.model.MetadataEntity
-import dev.olog.service.music.model.SkipType
+import dev.olog.feature.media.impl.interfaces.IPlayerLifecycle
+import dev.olog.feature.media.impl.model.MetadataEntity
+import dev.olog.feature.media.impl.model.SkipType
 import dev.olog.service.music.shared.MusicServiceData
-import dev.olog.service.music.state.MusicServiceMetadata
+import dev.olog.feature.media.impl.state.MusicServiceMetadata
 import dev.olog.test.shared.MainCoroutineRule
 import org.junit.Rule
 import org.junit.Test

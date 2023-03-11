@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     api(projects.feature.bubble.api)
+    implementation(projects.feature.media.api)
 
     implementation(projects.core)
     implementation(projects.imageProvider)

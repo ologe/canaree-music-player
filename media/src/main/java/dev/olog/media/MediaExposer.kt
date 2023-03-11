@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 class MediaExposer(
     private val context: Context,
+    private val componentName: ComponentName,
     private val lifecycleOwner: LifecycleOwner,
     private val onConnectionChanged: OnConnectionChanged,
     private val permissionManager: PermissionManager,
@@ -42,7 +43,7 @@ class MediaExposer(
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, Classes.SERVICE_MUSIC),
+            componentName,
             MusicServiceConnection(this),
             null
         )

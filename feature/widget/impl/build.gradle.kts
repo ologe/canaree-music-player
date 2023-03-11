@@ -15,5 +15,6 @@ dependencies {
     implementation(projects.imageProvider)
     implementation(projects.intents)
 
+    implementation(projects.feature.main.api)
     implementation(projects.feature.media.api)
 }

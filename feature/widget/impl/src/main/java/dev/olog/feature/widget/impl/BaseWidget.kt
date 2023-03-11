@@ -14,6 +14,8 @@ import dev.olog.ui.palette.ImageProcessorResult
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.core.PendingIntentFactory
+import dev.olog.feature.main.api.FeatureMainNavigator
+import dev.olog.feature.media.api.FeatureMediaNavigator
 import dev.olog.feature.media.api.MusicServiceAction
 import javax.inject.Inject
 
@@ -27,6 +29,10 @@ abstract class BaseWidget : AbsWidgetApp() {
     lateinit var musicPrefsUseCase: MusicPreferencesGateway
     @Inject
     lateinit var pendingIntentFactory: PendingIntentFactory
+    @Inject
+    lateinit var featureMediaNavigator: FeatureMediaNavigator
+    @Inject
+    lateinit var featureMainNavigator: FeatureMainNavigator
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -49,10 +55,10 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
-        remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(MusicServiceAction.SKIP_NEXT.name))
+        remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent())
 
         val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
         onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
@@ -69,10 +75,10 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
-        remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(MusicServiceAction.SKIP_NEXT.name))
+        remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent())
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
@@ -86,9 +92,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         val previousVisibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
         val nextVisibility = if (showNext) View.VISIBLE else View.INVISIBLE
 
-        val previousPendingIntent = if (showPrevious) buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name)
+        val previousPendingIntent = if (showPrevious) buildPendingIntent(MusicServiceAction.SKIP_PREVIOUS.name)
             else null
-        val nextPendingIntent = if (showNext) buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name)
+        val nextPendingIntent = if (showNext) buildPendingIntent(MusicServiceAction.SKIP_NEXT.name)
             else null
 
         remoteViews.setViewVisibility(R.id.previous, previousVisibility)
@@ -99,15 +105,13 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
-    private fun buildPendingIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, Class.forName(Classes.SERVICE_MUSIC))
-        intent.action = action
+    private fun buildPendingIntent(action: String): PendingIntent {
+        val intent = featureMediaNavigator.createIntent(action)
         return pendingIntentFactory.createForService(intent)
     }
 
-    private fun buildContentIntent(context: Context): PendingIntent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
-        intent.action = AppConstants.ACTION_CONTENT_VIEW
+    private fun buildContentIntent(): PendingIntent {
+        val intent = featureMainNavigator.createContentViewIntent()
         return pendingIntentFactory.createForActivity(intent)
     }
 

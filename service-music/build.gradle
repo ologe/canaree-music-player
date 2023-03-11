@@ -17,6 +17,7 @@ dependencies {
     implementation project(':equalizer')
 
     implementation project(':feature:media:api')
+    implementation project(':feature:media:impl')
     implementation project(':feature:widget:api')
 
     implementation libs.androidx.media

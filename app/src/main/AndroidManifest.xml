@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -82,25 +81,6 @@
 
         <!--app shortcust playlist chooser-->
         <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
-
-        <!--music service-->
-        <service
-            android:name="dev.olog.service.music.MusicService"
-            android:exported="true"
-            android:foregroundServiceType="mediaPlayback">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-
-        <!--media button receiver-->
-        <receiver
-            android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
 
         <uses-library
             android:name="android.test.runner"

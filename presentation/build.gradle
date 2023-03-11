@@ -20,6 +20,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
+    implementation project(':feature:main:api')
     implementation project(':feature:media:api')
     implementation project(':feature:shortcuts:api')
     implementation project(':feature:bubble:api')
