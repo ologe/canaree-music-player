@@ -13,7 +13,7 @@ import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.feature.media.api.interactor.SleepTimerUseCase
 import dev.olog.feature.media.impl.notification.MusicNotificationManager
 import dev.olog.feature.media.impl.scrobbling.LastFmScrobbling
 import dev.olog.feature.media.impl.state.MusicServiceMetadata

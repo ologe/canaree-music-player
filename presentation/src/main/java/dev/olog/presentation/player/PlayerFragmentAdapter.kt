@@ -8,10 +8,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
+import dev.olog.feature.media.api.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerPlaybackState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.platform.extension.findActivity
 import dev.olog.platform.extension.fragmentTransaction
 import dev.olog.platform.extension.toggleVisibility
@@ -30,8 +29,8 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.platform.TextUtils
-import dev.olog.platform.extension.*
+import dev.olog.feature.media.api.DurationUtils
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.asLiveData
 import dev.olog.shared.distinctUntilChanged
@@ -189,7 +188,7 @@ internal class PlayerFragmentAdapter(
 
         view.seekBar.setListener(
             onProgressChanged = {
-                view.bookmark.text = TextUtils.formatMillis(it)
+                view.bookmark.text = DurationUtils.formatMillis(it)
             }, onStartTouch = {
 
             }, onStopTouch = {

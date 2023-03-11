@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.bubble.api.FeatureBubbleNavigator
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.afterTextChange
 import dev.olog.platform.extension.toggleVisibility

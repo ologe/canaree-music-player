@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.feature.media.api.MusicConstants
 import dev.olog.feature.media.impl.interfaces.IPlayer
 import dev.olog.feature.media.impl.interfaces.IServiceLifecycleController
 import dev.olog.feature.media.api.MusicServiceAction
@@ -103,7 +103,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             null -> stop()
             ACTION_KEEP_SERVICE_ALIVE -> {
             }
-            SleepTimerUseCase.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
+            MusicConstants.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> handlePlayFromVoiceSearch(intent)
             else -> handleMediaButton(intent)
         }

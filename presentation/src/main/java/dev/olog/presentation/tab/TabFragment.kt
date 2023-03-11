@@ -16,7 +16,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.dimen
 import dev.olog.platform.extension.getArgument
 import dev.olog.platform.extension.toggleVisibility
@@ -34,7 +34,7 @@ import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 import dev.olog.platform.extension.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
@@ -251,7 +251,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         val scrollableItem = sidebar.scrollableLayoutId
 
         val position = when (letter) {
-            TextUtils.MIDDLE_DOT -> -1
+            DurationUtils.MIDDLE_DOT -> -1
             "#" -> adapter.indexOf {
                 if (it.type != scrollableItem) {
                     false

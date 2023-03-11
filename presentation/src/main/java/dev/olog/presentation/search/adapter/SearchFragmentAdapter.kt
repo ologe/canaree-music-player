@@ -2,7 +2,7 @@ package dev.olog.presentation.search.adapter
 
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

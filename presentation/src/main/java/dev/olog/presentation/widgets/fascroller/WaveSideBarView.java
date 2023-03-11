@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import dev.olog.platform.extension.ContextExtensionKt;
 import dev.olog.presentation.R;
-import dev.olog.platform.TextUtils;
+import dev.olog.feature.media.api.DurationUtils;
 
 public class WaveSideBarView extends View {
 
@@ -228,7 +228,7 @@ public class WaveSideBarView extends View {
         if (mChoose != -1 && mRatio >= 0.9f) {
 
             String target = mLetters.get(mChoose);
-            if(target.equals(TextUtils.MIDDLE_DOT)){
+            if(target.equals(DurationUtils.MIDDLE_DOT)){
                 target = getClosestLetter(mChoose);
             }
             Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
@@ -247,12 +247,12 @@ public class WaveSideBarView extends View {
 
             if(backward.hasPrevious()){
                 String tmp = backward.previous();
-                if(!tmp.equals(TextUtils.MIDDLE_DOT)) return tmp;
+                if(!tmp.equals(DurationUtils.MIDDLE_DOT)) return tmp;
             }
 
             if(forward.hasNext()){
                 String tmp = forward.next();
-                if(!tmp.equals(TextUtils.MIDDLE_DOT)) return tmp;
+                if(!tmp.equals(DurationUtils.MIDDLE_DOT)) return tmp;
             }
         }
 

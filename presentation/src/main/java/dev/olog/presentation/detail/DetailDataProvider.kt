@@ -20,7 +20,7 @@ import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 import dev.olog.platform.TimeUtils
 import dev.olog.shared.component6
 import dev.olog.shared.exhaustive
@@ -202,7 +202,7 @@ internal class DetailDataProvider @Inject constructor(
         return DisplayableHeader(
             type = R.layout.item_detail_song_footer,
             mediaId = MediaId.headerId("duration footer"),
-            title = songs + TextUtils.MIDDLE_DOT_SPACED + time
+            title = songs + DurationUtils.MIDDLE_DOT_SPACED + time
         )
     }
 

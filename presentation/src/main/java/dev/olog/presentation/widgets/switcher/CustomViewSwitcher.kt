@@ -18,7 +18,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
-import dev.olog.media.model.PlayerMetadata
+import dev.olog.feature.media.api.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground

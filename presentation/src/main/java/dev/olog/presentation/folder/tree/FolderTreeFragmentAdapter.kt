@@ -1,7 +1,7 @@
 package dev.olog.presentation.folder.tree
 
 import androidx.lifecycle.Lifecycle
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder

@@ -10,7 +10,6 @@ dependencies {
 
     implementation(projects.core)
     implementation(projects.imageProvider)
-    implementation(projects.media)
     implementation(projects.offlineLyrics)
     implementation(projects.sharedWidgets)
 

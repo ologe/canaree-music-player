@@ -22,7 +22,7 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
@@ -158,7 +158,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         list.stopScroll()
 
         val position = when (letter) {
-            TextUtils.MIDDLE_DOT -> -1
+            DurationUtils.MIDDLE_DOT -> -1
             "#" -> 0
             "?" -> adapter.lastIndex()
             else -> adapter.indexOf { item ->

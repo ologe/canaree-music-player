@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 import dev.olog.shared.runOnMainThread
 
 class RxWaveSideBarView(
@@ -41,7 +41,7 @@ class RxWaveSideBarView(
                 .map { it.toString() }
                 .toList()
 
-        val letters = LETTERS.map { letter -> list.firstOrNull { it == letter } ?: TextUtils.MIDDLE_DOT }
+        val letters = LETTERS.map { letter -> list.firstOrNull { it == letter } ?: DurationUtils.MIDDLE_DOT }
                 .toMutableList()
         list.firstOrNull { it < "A" }?.let { letters[0] = "#" }
         list.firstOrNull { it > "Z" }?.let { letters[letters.lastIndex] = "?" }

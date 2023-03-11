@@ -11,8 +11,6 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.ui.palette.ImageProcessorResult
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.core.PendingIntentFactory
 import dev.olog.feature.main.api.FeatureMainNavigator
 import dev.olog.feature.media.api.FeatureMediaNavigator

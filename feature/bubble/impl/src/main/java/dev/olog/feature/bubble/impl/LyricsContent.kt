@@ -1,8 +1,7 @@
 package dev.olog.feature.bubble.impl
 
 import android.app.Service
-import dev.olog.feature.bubble.impl.WebViewContent
-import dev.olog.media.model.PlayerState
+import dev.olog.feature.media.api.model.PlayerState
 import dev.olog.shared.distinctUntilChanged
 import dev.olog.shared.filter
 import dev.olog.shared.map

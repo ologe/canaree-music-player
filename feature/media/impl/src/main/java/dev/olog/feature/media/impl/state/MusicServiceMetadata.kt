@@ -15,7 +15,7 @@ import dev.olog.platform.extension.lifecycleScope
 import dev.olog.feature.media.impl.interfaces.IPlayerLifecycle
 import dev.olog.feature.media.impl.model.MetadataEntity
 import dev.olog.feature.media.impl.model.SkipType
-import dev.olog.feature.media.api.putBoolean
+import dev.olog.feature.media.api.extension.putBoolean
 import dev.olog.feature.media.impl.model.MediaEntity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield

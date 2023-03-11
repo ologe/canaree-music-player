@@ -58,7 +58,6 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
     implementation project(':shared-widgets')

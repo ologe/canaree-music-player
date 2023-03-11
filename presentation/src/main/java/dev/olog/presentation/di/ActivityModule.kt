@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.scopes.ActivityScoped
-import dev.olog.media.MediaProvider
+import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.presentation.navigator.NavigatorAboutImpl

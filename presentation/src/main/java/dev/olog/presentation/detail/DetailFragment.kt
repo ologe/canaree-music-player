@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.afterTextChange
 import dev.olog.platform.extension.colorControlNormal

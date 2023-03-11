@@ -11,7 +11,7 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.feature.media.impl.interfaces.INotification
 import dev.olog.core.PendingIntentFactory
 import dev.olog.feature.main.api.FeatureMainNavigator
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -41,7 +41,7 @@ open class NotificationImpl24 @Inject constructor(
             .setShowWhen(false)
             .setUsesChronometer(false)
 
-        builder.setSubText(TextUtils.formatMillis(bookmark, true))
+        builder.setSubText(DurationUtils.formatMillis(bookmark, true))
     }
 
     override suspend fun updateMetadataImpl(

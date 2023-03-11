@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.feature.media.api.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.toast

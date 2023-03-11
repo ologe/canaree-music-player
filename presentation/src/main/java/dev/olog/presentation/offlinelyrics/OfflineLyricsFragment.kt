@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.animateBackgroundColor

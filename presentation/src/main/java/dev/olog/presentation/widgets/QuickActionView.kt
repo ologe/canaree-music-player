@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.presentation.R
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.platform.theme.HasQuickAction

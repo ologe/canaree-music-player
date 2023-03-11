@@ -8,8 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.model.PlayerState
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.model.PlayerState
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -17,7 +17,6 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.platform.extension.*
 import dev.olog.shared.distinctUntilChanged
 import dev.olog.shared.filter
 import dev.olog.shared.map

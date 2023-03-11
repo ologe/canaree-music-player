@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.feature.bubble.api.FeatureBubbleNavigator
-import dev.olog.media.mediaProvider
+import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.ctx
 import dev.olog.platform.extension.dip
 import dev.olog.platform.extension.toggleVisibility

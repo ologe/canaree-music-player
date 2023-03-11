@@ -3,7 +3,7 @@ package dev.olog.presentation.model
 import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.platform.TextUtils
+import dev.olog.feature.media.api.DurationUtils
 
 sealed class DisplayableItem(
     override val type: Int,
@@ -21,7 +21,7 @@ data class DisplayableTrack(
 
 ) : DisplayableItem(type, mediaId) {
 
-    val subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+    val subtitle = "$artist${DurationUtils.MIDDLE_DOT_SPACED}$album"
 
 }
 
