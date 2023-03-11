@@ -33,8 +33,8 @@ include ':common:platform'
 include ':common:ui'
 include ':common:localization'
 
-include ':feature:media:api'
-include ':feature:media:impl'
+include ':feature:media:api', ':feature:media:impl'
+include ':feature:widget:api', ':feature:widget:impl'
 
 include ':shared-widgets'
 include ':test-shared'

@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget.impl
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -7,9 +7,13 @@ import android.widget.RemoteViews
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.msc.R
 import dev.olog.ui.palette.ImageProcessor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 private const val IMAGE_SIZE = 300
 

@@ -10,7 +10,7 @@ import androidx.media.session.MediaButtonReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.R
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.core.PendingIntentFactory
 import javax.inject.Inject
 

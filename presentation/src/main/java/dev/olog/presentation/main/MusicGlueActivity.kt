@@ -10,8 +10,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
 import dev.olog.media.MediaProvider
 import dev.olog.media.connection.OnConnectionChanged

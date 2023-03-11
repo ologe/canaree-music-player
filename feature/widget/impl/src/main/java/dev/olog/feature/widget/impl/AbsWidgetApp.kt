@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget.impl
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
-import dev.olog.intents.WidgetConstants
+import dev.olog.feature.widget.impl.navigation.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
 

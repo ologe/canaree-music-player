@@ -1,4 +1,4 @@
-package dev.olog.intents
+package dev.olog.feature.media.api
 
 enum class MusicServiceCustomAction {
     SHUFFLE,

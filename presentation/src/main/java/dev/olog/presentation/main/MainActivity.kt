@@ -14,7 +14,7 @@ import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
+import dev.olog.feature.media.api.MusicServiceAction
 import dev.olog.platform.extension.dimen
 import dev.olog.platform.extension.dip
 import dev.olog.platform.extension.getTopFragment

@@ -1,27 +1,20 @@
 package dev.olog.service.music.state
 
-import android.appwidget.AppWidgetManager
-import android.content.Context
-import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.intents.Classes
-import dev.olog.intents.WidgetConstants
+import dev.olog.feature.widget.api.FeatureWidgetNavigator
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import dev.olog.platform.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
 @ServiceScoped
 class MusicServicePlaybackState @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
-
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) {
 
     companion object {
@@ -142,35 +135,17 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
-        Log.v(TAG, "notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
-        for (clazz in Classes.widgets) {
-            val ids = context.getAppWidgetsIdsFor(clazz)
-
-            val intent = Intent(context, clazz).apply {
-                action = WidgetConstants.STATE_CHANGED
-                putExtra(WidgetConstants.ARGUMENT_IS_PLAYING, isPlaying)
-                putExtra(WidgetConstants.ARGUMENT_BOOKMARK, bookmark)
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            }
-
-            context.sendBroadcast(intent)
-        }
+        featureWidgetNavigator.updateState(
+            isPlaying = isPlaying,
+            bookmark = bookmark
+        )
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
-        Log.v(TAG, "notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
-        for (clazz in Classes.widgets) {
-            val ids = context.getAppWidgetsIdsFor(clazz)
-
-            val intent = Intent(context, clazz).apply {
-                action = WidgetConstants.ACTION_CHANGED
-                putExtra(WidgetConstants.ARGUMENT_SHOW_PREVIOUS, showPrevious)
-                putExtra(WidgetConstants.ARGUMENT_SHOW_NEXT, showNext)
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            }
-
-            context.sendBroadcast(intent)
-        }
+        featureWidgetNavigator.updateActions(
+            showPrevious = showPrevious,
+            showNext = showNext
+        )
     }
 
 }

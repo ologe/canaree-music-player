@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.widget.impl
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -8,17 +8,13 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.msc.R
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.MusicService
-import dev.olog.presentation.main.MainActivity
 import dev.olog.ui.palette.ImageProcessorResult
-import dev.olog.platform.extension.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
 import dev.olog.core.PendingIntentFactory
+import dev.olog.feature.media.api.MusicServiceAction
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -35,11 +31,12 @@ abstract class BaseWidget : AbsWidgetApp() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
-            val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
-            for (clazz in Classes.widgets) {
-                val ids = context.getAppWidgetsIdsFor(clazz)
-                onUpdate(context, appWidgetManager, ids)
-            }
+//            todo
+//            val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
+//            for (clazz in Classes.widgets) {
+//                val ids = context.getAppWidgetsIdsFor(clazz)
+//                onUpdate(context, appWidgetManager, ids)
+//            }
         }
     }
 
@@ -103,13 +100,13 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun buildPendingIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, MusicService::class.java)
+        val intent = Intent(context, Class.forName(Classes.SERVICE_MUSIC))
         intent.action = action
         return pendingIntentFactory.createForService(intent)
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
         intent.action = AppConstants.ACTION_CONTENT_VIEW
         return pendingIntentFactory.createForActivity(intent)
     }

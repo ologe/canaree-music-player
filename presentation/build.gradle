@@ -21,6 +21,8 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
+    implementation project(':feature:media:api')
+
     implementation libs.ui.scrollhelper
     implementation libs.ui.glide.core
 

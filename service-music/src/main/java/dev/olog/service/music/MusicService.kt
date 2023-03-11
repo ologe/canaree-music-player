@@ -26,7 +26,7 @@ import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.core.PendingIntentFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

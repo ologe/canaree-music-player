@@ -8,12 +8,4 @@ object Classes {
     const val SERVICE_MUSIC = "dev.olog.service.music.MusicService"
     const val SERVICE_FLOATING = "dev.olog.service.floating.FloatingWindowService"
 
-    const val WIDGET_COLORED = "dev.olog.msc.appwidgets.WidgetColored"
-
-    val widgets: List<Class<*>> by lazy {
-        listOf(
-            Class.forName(WIDGET_COLORED)
-        )
-    }
-
 }

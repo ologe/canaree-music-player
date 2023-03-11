@@ -20,7 +20,7 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.feature.media.api.MusicServiceCustomAction
 import dev.olog.platform.extension.lifecycleScope
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.shared.assertMainThread

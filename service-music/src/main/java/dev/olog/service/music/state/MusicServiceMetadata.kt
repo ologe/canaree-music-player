@@ -1,27 +1,24 @@
 package dev.olog.service.music.state
 
 import android.app.Service
-import android.appwidget.AppWidgetManager
-import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.feature.widget.api.FeatureWidgetNavigator
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
+import dev.olog.intents.MusicConstants
+import dev.olog.platform.extension.lifecycleScope
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicConstants
-import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
-import dev.olog.platform.extension.getAppWidgetsIdsFor
-import dev.olog.platform.extension.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 @ServiceScoped
@@ -30,8 +27,8 @@ class MusicServiceMetadata @Inject constructor(
     private val schedulers: Schedulers,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
-    private val musicPrefs: MusicPreferencesGateway
-
+    private val musicPrefs: MusicPreferencesGateway,
+    private val featureWidgetNavigator: FeatureWidgetNavigator,
 ) : IPlayerLifecycle.Listener {
 
     companion object {
@@ -92,22 +89,11 @@ class MusicServiceMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
-        Log.v(TAG, "notify widgets ${entity.title}")
-
-        for (clazz in Classes.widgets) {
-            val ids = service.getAppWidgetsIdsFor(clazz)
-
-            val intent = Intent(service, clazz).apply {
-                action = WidgetConstants.METADATA_CHANGED
-                putExtra(WidgetConstants.ARGUMENT_SONG_ID, entity.id)
-                putExtra(WidgetConstants.ARGUMENT_TITLE, entity.title)
-                putExtra(WidgetConstants.ARGUMENT_SUBTITLE, entity.artist)
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            }
-
-            service.sendBroadcast(intent)
-        }
-
+        featureWidgetNavigator.updateMetadata(
+            audioId = entity.id,
+            title = entity.title,
+            artist = entity.artist,
+        )
     }
 
 }

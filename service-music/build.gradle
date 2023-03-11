@@ -17,6 +17,9 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
+    implementation project(':feature:media:api')
+    implementation project(':feature:widget:api')
+
     implementation libs.androidx.media
     implementation libs.androidx.lifecycle.runtime
     implementation libs.androidx.lifecycle.java8
