@@ -3,10 +3,10 @@ package dev.olog.presentation.popup.genre
 import android.view.View
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.platform.isQ
 
 class GenrePopup(
     view: View,
@@ -27,7 +27,7 @@ class GenrePopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (isQ() && song == null) {
+        if (BuildVersion.isQ() && song == null) {
             // works bad on Q
             menu.removeItem(R.id.delete)
         }

@@ -7,13 +7,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.toast
 import dev.olog.platform.extension.withArguments
-import dev.olog.platform.isQ
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -68,7 +68,7 @@ class DeleteDialog: BaseDialog() {
             viewModel.execute(mediaId)
             message = successMessage(act)
         } catch (ex: Throwable) {
-            if (isQ() && ex is RecoverableSecurityException){
+            if (BuildVersion.isQ() && ex is RecoverableSecurityException){
                 throw ex
             }
             ex.printStackTrace()

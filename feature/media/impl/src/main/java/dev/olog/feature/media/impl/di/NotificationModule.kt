@@ -10,8 +10,7 @@ import dev.olog.feature.media.impl.interfaces.INotification
 import dev.olog.feature.media.impl.notification.NotificationImpl21
 import dev.olog.feature.media.impl.notification.NotificationImpl24
 import dev.olog.feature.media.impl.notification.NotificationImpl26
-import dev.olog.platform.isNougat
-import dev.olog.platform.isOreo
+import dev.olog.platform.BuildVersion
 
 @Module
 @InstallIn(ServiceComponent::class)
@@ -26,8 +25,8 @@ object NotificationModule {
 
     ): INotification {
         return when {
-            isOreo() -> notificationImpl26.get()
-            isNougat() -> notificationImpl24.get()
+            BuildVersion.isOreo() -> notificationImpl26.get()
+            BuildVersion.isNougat() -> notificationImpl24.get()
             else -> notificationImpl.get()
         }
     }

@@ -3,10 +3,10 @@ package dev.olog.presentation.popup.folder
 import android.view.View
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.platform.isQ
 
 class FolderPopup(
     view: View,
@@ -28,7 +28,7 @@ class FolderPopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (isQ() && song == null) {
+        if (BuildVersion.isQ() && song == null) {
             // works bad on Q
             menu.removeItem(R.id.delete)
         }

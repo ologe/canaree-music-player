@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.feature.media.api.mediaProvider
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -20,10 +21,8 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.platform.extension.*
 import dev.olog.platform.theme.PlayerAppearance
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.platform.isMarshmallow
 import dev.olog.shared.asLiveData
 import dev.olog.shared.mapListItem
 import dev.olog.shared.assertBackground
@@ -72,7 +71,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
         setupDragListener(viewLifecycleOwner, list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
-        val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
+        val statusBarAlpha = if (!BuildVersion.isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
 
         mediaProvider.observeQueue()
@@ -124,7 +123,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            if (!isMarshmallow() && slideOffset in .9f..1f) {
+            if (!BuildVersion.isMarshmallow() && slideOffset in .9f..1f) {
                 val alpha = (1 - slideOffset) * 10
                 statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
             }

@@ -11,8 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.olog.platform.BuildVersion
 import dev.olog.platform.extension.act
-import dev.olog.platform.isQ
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,7 +59,7 @@ abstract class BaseDialog : DialogFragment() {
         fragment: Fragment,
         action: suspend () -> Unit
     ) {
-        if (isQ()) {
+        if (BuildVersion.isQ()) {
             try {
                 action()
             } catch (rse: RecoverableSecurityException) {

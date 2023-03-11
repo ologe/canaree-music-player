@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
-import dev.olog.platform.isMarshmallow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class SetRingtoneDialogViewModel @Inject constructor(
     @Suppress("IMPLICIT_CAST_TO_ANY")
     suspend fun execute(activity: FragmentActivity, mediaId: MediaId) =
         withContext(Dispatchers.IO) {
-            if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(activity)) {
+            if (!BuildVersion.isMarshmallow() || (BuildVersion.isMarshmallow()) && Settings.System.canWrite(activity)) {
                 setRingtone(activity, mediaId)
             } else {
                 requestWritingSettingsPermission(activity)

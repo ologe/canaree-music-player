@@ -7,13 +7,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.platform.isMarshmallow
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
@@ -28,7 +28,7 @@ class StatusBarColorBehavior @Inject constructor(
     }
 
     override fun onResume(owner: LifecycleOwner) {
-        if (!isMarshmallow()){
+        if (!BuildVersion.isMarshmallow()){
             return
         }
 
@@ -37,7 +37,7 @@ class StatusBarColorBehavior @Inject constructor(
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        if (!isMarshmallow()){
+        if (!BuildVersion.isMarshmallow()){
             return
         }
 
@@ -46,7 +46,7 @@ class StatusBarColorBehavior @Inject constructor(
     }
 
     override fun onBackStackChanged() {
-        if (!isMarshmallow()){
+        if (!BuildVersion.isMarshmallow()){
             return
         }
 

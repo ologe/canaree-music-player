@@ -11,9 +11,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.PendingIntentFactory
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.platform.BuildVersion
 import dev.olog.platform.extension.colorControlNormal
 import dev.olog.platform.extension.lifecycleOwner
-import dev.olog.platform.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filter
@@ -80,7 +80,7 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     private fun createChannel() {
-        if (!isOreo()){
+        if (!BuildVersion.isOreo()){
             return
         }
         val nowPlayingChannelExists = notificationManager.getNotificationChannel(CHANNEL_ID) != null

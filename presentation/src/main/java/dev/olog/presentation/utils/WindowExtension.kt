@@ -2,11 +2,10 @@ package dev.olog.presentation.utils
 
 import android.view.View
 import android.view.Window
+import dev.olog.platform.BuildVersion
 import dev.olog.platform.extension.colorSurface
 import dev.olog.platform.extension.isDarkMode
 import dev.olog.platform.theme.isImmersiveMode
-import dev.olog.platform.isMarshmallow
-import dev.olog.platform.isOreo
 
 fun Window.setLightStatusBar() {
     decorView.systemUiVisibility = 0
@@ -24,10 +23,10 @@ fun Window.setLightStatusBar() {
         navigationBarColor = context.colorSurface()
     }
 
-    if (isMarshmallow() && !isDarkMode) {
+    if (BuildVersion.isMarshmallow() && !isDarkMode) {
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-        if (isOreo()) {
+        if (BuildVersion.isOreo()) {
             navigationBarColor = context.colorSurface()
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
@@ -51,8 +50,8 @@ fun Window.removeLightStatusBar() {
         navigationBarColor = context.colorSurface()
     }
 
-    if (isMarshmallow() && !isDarkMode) {
-        if (isOreo()) {
+    if (BuildVersion.isMarshmallow() && !isDarkMode) {
+        if (BuildVersion.isOreo()) {
             navigationBarColor = context.colorSurface()
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }

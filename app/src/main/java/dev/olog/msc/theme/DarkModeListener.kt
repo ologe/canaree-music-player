@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
+import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
-import dev.olog.platform.isQ
 import javax.inject.Inject
 
 internal class DarkModeListener @Inject constructor(
@@ -32,7 +32,7 @@ internal class DarkModeListener @Inject constructor(
 
         return when (value) {
             context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> {
-                if (isQ()) {
+                if (BuildVersion.isQ()) {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 } else {
                     AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY

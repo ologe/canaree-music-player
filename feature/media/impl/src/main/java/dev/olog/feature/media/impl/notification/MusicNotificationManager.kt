@@ -16,9 +16,9 @@ import dev.olog.feature.media.impl.model.Event
 import dev.olog.feature.media.impl.model.MediaEntity
 import dev.olog.feature.media.impl.model.MetadataEntity
 import dev.olog.feature.media.impl.model.MusicNotificationState
+import dev.olog.platform.BuildVersion
 import dev.olog.platform.extension.lifecycleOwner
 import dev.olog.platform.extension.lifecycleScope
-import dev.olog.platform.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -110,7 +110,7 @@ class MusicNotificationManager @Inject constructor(
         require(currentState !== state) // to avoid concurrency problems a copy is passed
 
         Log.v(TAG, "publish notification request with delay ${delay}ms, state=$state")
-        if (!isForeground && isOreo()) {
+        if (!isForeground && BuildVersion.isOreo()) {
             // oreo needs to post notification immediately after calling startForegroundService
             issueNotification(state)
         } else {
