@@ -43,7 +43,6 @@ internal fun Project.configureKotlinAndroid(
         testImplementation("test-junit")
         testImplementation("test-mockito-core")
         testImplementation("test-mockito-kotlin")
-        add("testImplementation", project(":test-shared"))
     }
 
 }

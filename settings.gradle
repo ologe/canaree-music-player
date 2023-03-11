@@ -40,7 +40,6 @@ include ':feature:widget:api', ':feature:widget:impl'
 include ':feature:shortcuts:api', ':feature:shortcuts:impl'
 
 include ':shared-widgets'
-include ':test-shared'
 
 include ':presentation'
 include ':data'

@@ -1,8 +1,0 @@
-plugins {
-    id("dev.msc.library")
-}
-
-dependencies {
-    implementation(libs.coroutines.test)
-    implementation(libs.test.junit)
-}
