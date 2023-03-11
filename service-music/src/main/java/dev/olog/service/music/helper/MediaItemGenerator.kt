@@ -7,7 +7,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(

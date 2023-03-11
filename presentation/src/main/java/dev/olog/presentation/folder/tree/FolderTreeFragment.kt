@@ -12,11 +12,11 @@ import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.utils.clamp
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.ctx
+import dev.olog.platform.extension.dimen
+import dev.olog.shared.subscribe
+import dev.olog.shared.clamp
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
 

@@ -11,8 +11,8 @@ import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.lazyFast
+import dev.olog.shared.assertMainThread
 import javax.inject.Inject
 
 class AudioFocusBehavior @Inject constructor(

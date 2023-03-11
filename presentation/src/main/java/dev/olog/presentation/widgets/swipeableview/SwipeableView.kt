@@ -8,8 +8,8 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.slidingPanel
-import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.dipf
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 
 class SwipeableView(

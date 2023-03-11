@@ -21,9 +21,9 @@ import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.android.extensions.lifecycleScope
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.platform.extension.lifecycleScope
+import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.assertMainThread
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

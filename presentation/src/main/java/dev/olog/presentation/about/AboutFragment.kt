@@ -8,9 +8,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.act
+import dev.olog.shared.subscribe
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 

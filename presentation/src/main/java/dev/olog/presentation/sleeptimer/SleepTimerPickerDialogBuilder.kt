@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.annotation.ColorRes
 import androidx.fragment.app.FragmentManager
-import dev.olog.shared.android.extensions.colorPrimaryId
+import dev.olog.platform.extension.colorPrimaryId
 
 class SleepTimerPickerDialogBuilder(
     context: Context,

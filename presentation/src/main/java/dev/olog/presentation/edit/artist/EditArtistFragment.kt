@@ -7,15 +7,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.platform.extension.afterTextChange
+import dev.olog.platform.extension.ctx
+import dev.olog.platform.extension.extractText
+import dev.olog.platform.extension.toast
+import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 

@@ -9,12 +9,11 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.core.PendingIntentFactory
-import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.lifecycleOwner
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.platform.extension.colorControlNormal
+import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.platform.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject

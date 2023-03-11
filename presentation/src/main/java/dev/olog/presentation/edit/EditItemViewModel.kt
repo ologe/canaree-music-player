@@ -10,7 +10,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.toast
+import dev.olog.platform.extension.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext

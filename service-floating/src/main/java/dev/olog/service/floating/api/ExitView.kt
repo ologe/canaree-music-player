@@ -27,10 +27,10 @@ import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.extensions.setGone
-import dev.olog.shared.android.extensions.setVisible
+import dev.olog.platform.extension.dimen
+import dev.olog.shared.lazyFast
+import dev.olog.platform.extension.setGone
+import dev.olog.platform.extension.setVisible
 import kotlin.math.pow
 import kotlin.math.sqrt
 

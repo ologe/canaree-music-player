@@ -19,10 +19,9 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
-import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.getAppWidgetsIdsFor
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ServiceScoped

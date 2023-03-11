@@ -3,7 +3,7 @@ package dev.olog.msc.theme
 import android.app.Application
 import android.content.SharedPreferences
 import dev.olog.presentation.R
-import dev.olog.shared.android.theme.QuickAction
+import dev.olog.platform.theme.QuickAction
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 

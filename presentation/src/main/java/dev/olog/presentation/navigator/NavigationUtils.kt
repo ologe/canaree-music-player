@@ -9,8 +9,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
-import dev.olog.shared.android.extensions.fragmentTransaction
-import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.platform.extension.fragmentTransaction
+import dev.olog.platform.extension.getTopFragment
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
 

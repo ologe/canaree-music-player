@@ -44,6 +44,11 @@ android {
 
 
 dependencies {
+    implementation project(':common:localization')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
+
     implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':data')
@@ -51,7 +56,6 @@ dependencies {
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':service-music')
     implementation project(':service-floating')

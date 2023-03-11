@@ -10,9 +10,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.withArguments
+import dev.olog.shared.lazyFast
 
 @AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {

@@ -9,10 +9,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.toast
+import dev.olog.platform.extension.withArguments
+import dev.olog.shared.lazyFast
 
 @AndroidEntryPoint
 class NewPlaylistDialog : BaseEditTextDialog() {

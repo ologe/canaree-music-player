@@ -1,6 +1,5 @@
 package dev.olog.presentation.popup.main
 
-import android.app.Activity
 import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
@@ -20,7 +19,7 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
-import dev.olog.shared.android.extensions.findActivity
+import dev.olog.platform.extension.findActivity
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(

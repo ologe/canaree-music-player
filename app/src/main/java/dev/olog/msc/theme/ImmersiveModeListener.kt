@@ -6,7 +6,7 @@ import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StatusBarView
-import dev.olog.shared.android.mutableLazy
+import dev.olog.shared.mutableLazy
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(

@@ -3,8 +3,10 @@ plugins {
 }
 
 dependencies {
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+
     implementation project(':core')
-    implementation project(':shared-android')
     implementation project(':intents')
 
     implementation libs.androidx.media

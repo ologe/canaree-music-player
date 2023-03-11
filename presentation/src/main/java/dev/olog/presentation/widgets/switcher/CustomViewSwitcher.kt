@@ -23,10 +23,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
-import dev.olog.shared.android.extensions.findChild
-import dev.olog.shared.android.theme.HasPlayerAppearance
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.platform.extension.findChild
+import dev.olog.platform.theme.HasPlayerAppearance
+import dev.olog.shared.lazyFast
+import dev.olog.platform.theme.hasPlayerAppearance
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 

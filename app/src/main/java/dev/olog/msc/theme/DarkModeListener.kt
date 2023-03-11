@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
-import dev.olog.shared.android.utils.isQ
+import dev.olog.platform.isQ
 import javax.inject.Inject
 
 internal class DarkModeListener @Inject constructor(

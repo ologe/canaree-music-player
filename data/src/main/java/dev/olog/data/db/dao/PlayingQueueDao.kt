@@ -12,7 +12,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

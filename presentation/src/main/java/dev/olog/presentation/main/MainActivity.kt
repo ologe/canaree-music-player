@@ -15,6 +15,11 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
+import dev.olog.platform.extension.dimen
+import dev.olog.platform.extension.dip
+import dev.olog.platform.extension.getTopFragment
+import dev.olog.platform.extension.isTablet
+import dev.olog.platform.extension.setHeight
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
@@ -29,9 +34,9 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.platform.extension.*
+import dev.olog.platform.theme.hasPlayerAppearance
+import dev.olog.platform.theme.isImmersiveMode
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay

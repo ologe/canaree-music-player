@@ -12,10 +12,10 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.android.extensions.doIf
-import dev.olog.shared.android.extensions.mapListItem
-import dev.olog.shared.android.extensions.startWith
-import dev.olog.shared.android.extensions.startWithIfNotEmpty
+import dev.olog.shared.doIf
+import dev.olog.shared.mapListItem
+import dev.olog.shared.startWith
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

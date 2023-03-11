@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.model.*
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.platform.extension.findInContext
 import kotlinx.coroutines.flow.Flow
 
 val Context.mediaProvider: MediaProvider

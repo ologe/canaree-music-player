@@ -8,8 +8,8 @@ import dev.olog.data.db.dao.HistoryDao
 import dev.olog.data.db.dao.PlaylistDao
 import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

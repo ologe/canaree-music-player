@@ -19,8 +19,8 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.toast
+import dev.olog.platform.extension.ctx
+import dev.olog.platform.extension.toast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

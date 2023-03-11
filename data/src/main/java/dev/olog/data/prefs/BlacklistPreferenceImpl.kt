@@ -3,7 +3,7 @@ package dev.olog.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import javax.inject.Inject
 
 class BlacklistPreferenceImpl @Inject constructor(

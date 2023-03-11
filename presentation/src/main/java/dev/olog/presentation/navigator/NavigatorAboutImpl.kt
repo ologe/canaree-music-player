@@ -11,9 +11,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
 import dev.olog.presentation.translations.TranslationsFragment
-import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.platform.extension.colorSurface
+import dev.olog.platform.extension.toast
+import dev.olog.platform.PlayStoreUtils
 import saschpe.android.customtabs.CustomTabsHelper
 import javax.inject.Inject
 

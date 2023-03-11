@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.*
 

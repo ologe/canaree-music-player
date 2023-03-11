@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.interfaces.HasRestorableWidgets
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.platform.extension.findInContext
 
 abstract class BaseFragment : Fragment() {
 

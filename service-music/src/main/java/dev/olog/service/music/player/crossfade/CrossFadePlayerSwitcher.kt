@@ -2,7 +2,7 @@ package dev.olog.service.music.player.crossfade
 
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.interfaces.IPlayerDelegate
-import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.assertMainThread
 import javax.inject.Inject
 
 private enum class CurrentPlayer {

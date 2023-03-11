@@ -4,9 +4,8 @@ import android.app.Service
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject

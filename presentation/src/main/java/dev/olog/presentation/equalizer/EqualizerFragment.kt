@@ -8,12 +8,15 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.platform.extension.ctx
+import dev.olog.platform.extension.toggleVisibility
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.*
+import dev.olog.platform.extension.*
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*

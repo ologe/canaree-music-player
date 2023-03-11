@@ -23,8 +23,8 @@ import android.widget.FrameLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.setGone
-import dev.olog.shared.android.extensions.setVisible
+import dev.olog.platform.extension.setGone
+import dev.olog.platform.extension.setVisible
 
 
 /**

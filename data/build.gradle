@@ -26,7 +26,8 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':shared-android')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
     implementation project(':prefs-keys')
 
     implementation libs.androidx.core

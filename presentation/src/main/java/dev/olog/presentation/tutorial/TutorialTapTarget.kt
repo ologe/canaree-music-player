@@ -1,6 +1,5 @@
 package dev.olog.presentation.tutorial
 
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -8,9 +7,9 @@ import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.colorBackground
-import dev.olog.shared.android.extensions.findActivity
+import dev.olog.platform.extension.colorAccent
+import dev.olog.platform.extension.colorBackground
+import dev.olog.platform.extension.findActivity
 
 object TutorialTapTarget {
 

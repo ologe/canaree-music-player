@@ -8,8 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.shared.android.extensions.observeKey
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.platform.extension.observeKey
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File

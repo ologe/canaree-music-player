@@ -7,11 +7,10 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
-import dev.olog.shared.android.extensions.lifecycleOwner
+import dev.olog.platform.extension.lifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch

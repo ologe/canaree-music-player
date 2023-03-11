@@ -15,12 +15,11 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.platform.theme.PlayerAppearance
+import dev.olog.platform.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject

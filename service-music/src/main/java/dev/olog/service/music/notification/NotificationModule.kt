@@ -7,8 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.interfaces.INotification
-import dev.olog.shared.android.utils.isNougat
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.platform.isNougat
+import dev.olog.platform.isOreo
 
 @Module
 @InstallIn(ServiceComponent::class)

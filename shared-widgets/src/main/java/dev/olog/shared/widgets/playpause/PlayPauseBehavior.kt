@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.widgets.R
-import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
+import dev.olog.platform.extension.getAnimatedVectorDrawable
 
 interface IPlayPauseBehavior {
 

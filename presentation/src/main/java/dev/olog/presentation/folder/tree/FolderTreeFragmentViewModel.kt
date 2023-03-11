@@ -18,9 +18,9 @@ import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.startWithIfNotEmpty
+import dev.olog.shared.asLiveData
+import dev.olog.shared.distinctUntilChanged
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

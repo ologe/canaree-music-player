@@ -8,9 +8,14 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
+import dev.olog.platform.extension.animateBackgroundColor
+import dev.olog.platform.extension.animateTextColor
+import dev.olog.platform.extension.toggleVisibility
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.*
+import dev.olog.shared.asLiveData
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*

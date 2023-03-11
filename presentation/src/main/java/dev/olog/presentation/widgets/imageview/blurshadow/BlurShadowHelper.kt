@@ -5,7 +5,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.android.extensions.dpToPx
+import dev.olog.platform.extension.dpToPx
 import kotlinx.coroutines.*
 
 class BlurShadowHelper(

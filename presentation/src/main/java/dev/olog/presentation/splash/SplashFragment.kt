@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.shared.android.extensions.alertDialog
-import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.platform.extension.alertDialog
+import dev.olog.platform.extension.findInContext
+import dev.olog.shared.lazyFast
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
 

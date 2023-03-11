@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.theme.HasPlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.getAnimatedVectorDrawable
+import dev.olog.platform.extension.isDarkMode
+import dev.olog.platform.theme.HasPlayerAppearance
+import dev.olog.platform.theme.hasPlayerAppearance
+import dev.olog.shared.lazyFast
 
 class AnimatedImageView(
     context: Context,

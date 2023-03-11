@@ -1,7 +1,6 @@
 package dev.olog.service.floating
 
 import android.app.Service
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
@@ -11,7 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.lifecycleOwner
+import dev.olog.platform.extension.lifecycleOwner
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(

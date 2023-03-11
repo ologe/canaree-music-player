@@ -11,6 +11,14 @@ import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.mediaProvider
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.afterTextChange
+import dev.olog.platform.extension.colorControlNormal
+import dev.olog.platform.extension.getArgument
+import dev.olog.platform.extension.isDarkMode
+import dev.olog.platform.extension.isTablet
+import dev.olog.platform.extension.toggleVisibility
+import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -24,10 +32,9 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch

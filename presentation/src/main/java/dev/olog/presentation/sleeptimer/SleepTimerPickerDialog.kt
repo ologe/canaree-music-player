@@ -10,12 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.utils.TimeUtils
-import dev.olog.shared.android.flowInterval
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.toast
+import dev.olog.platform.TimeUtils
+import dev.olog.shared.flowInterval
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch

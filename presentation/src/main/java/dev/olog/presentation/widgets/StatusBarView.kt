@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.setHeight
-import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.platform.extension.colorSurface
+import dev.olog.platform.extension.setHeight
+import dev.olog.platform.isMarshmallow
 
 /**
  * Custom status bar to handle device notch

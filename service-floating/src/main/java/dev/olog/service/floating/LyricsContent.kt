@@ -1,13 +1,11 @@
 package dev.olog.service.floating
 
 import android.app.Service
-import android.content.Context
-import androidx.lifecycle.LifecycleOwner
 import dev.olog.media.model.PlayerState
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.distinctUntilChanged
+import dev.olog.shared.filter
+import dev.olog.shared.map
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 

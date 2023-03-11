@@ -12,7 +12,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.shared.android.extensions.toast
+import dev.olog.platform.extension.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(

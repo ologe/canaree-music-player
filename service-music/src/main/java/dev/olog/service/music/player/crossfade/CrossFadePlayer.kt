@@ -12,9 +12,9 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.shared.android.extensions.lifecycleScope
-import dev.olog.shared.android.utils.clamp
-import dev.olog.shared.android.flowInterval
+import dev.olog.platform.extension.lifecycleScope
+import dev.olog.shared.clamp
+import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit

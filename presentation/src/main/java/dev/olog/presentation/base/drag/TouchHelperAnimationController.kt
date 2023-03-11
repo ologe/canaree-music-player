@@ -8,9 +8,12 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.platform.extension.colorControlNormal
+import dev.olog.platform.extension.colorSwipeBackground
+import dev.olog.platform.extension.setVisible
+import dev.olog.platform.extension.toggleVisibility
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import kotlin.math.hypot
 
 internal class TouchHelperAnimationController {

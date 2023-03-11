@@ -4,7 +4,7 @@ import android.app.Service
 import android.util.Log
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.Player
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

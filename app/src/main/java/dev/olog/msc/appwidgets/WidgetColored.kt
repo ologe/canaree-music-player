@@ -8,7 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
-import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.ui.palette.ImageProcessor
 import kotlinx.coroutines.*
 
 private const val IMAGE_SIZE = 300

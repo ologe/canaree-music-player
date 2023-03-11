@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 
 open class AdaptiveColorImageView(
         context: Context,

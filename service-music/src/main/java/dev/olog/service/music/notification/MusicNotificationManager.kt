@@ -16,9 +16,9 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.android.extensions.lifecycleOwner
-import dev.olog.shared.android.extensions.lifecycleScope
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.platform.extension.lifecycleScope
+import dev.olog.platform.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*

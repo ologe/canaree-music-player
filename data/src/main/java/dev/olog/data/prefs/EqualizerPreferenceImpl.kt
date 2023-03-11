@@ -3,8 +3,8 @@ package dev.olog.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.shared.android.extensions.observeKey
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.platform.extension.observeKey
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

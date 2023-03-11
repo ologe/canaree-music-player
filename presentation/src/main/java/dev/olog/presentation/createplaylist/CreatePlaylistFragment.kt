@@ -8,6 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.afterTextChange
+import dev.olog.platform.extension.toast
+import dev.olog.platform.extension.toggleSelected
+import dev.olog.platform.extension.toggleVisibility
+import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
@@ -16,11 +22,10 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.utils.TextUtils
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.TextUtils
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch

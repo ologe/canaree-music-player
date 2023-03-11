@@ -4,11 +4,15 @@ plugins {
 }
 
 dependencies {
+    implementation project(':common:localization')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+    implementation project(':common:ui')
+
     implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
     implementation project(':core')
     implementation project(':image-provider')
-    implementation project(':shared-android')
     implementation project(':prefs-keys')
     implementation project(':intents')
     implementation project(':equalizer')

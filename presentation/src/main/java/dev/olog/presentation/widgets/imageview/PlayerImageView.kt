@@ -10,7 +10,7 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 
 open class PlayerImageView (
     context: Context,

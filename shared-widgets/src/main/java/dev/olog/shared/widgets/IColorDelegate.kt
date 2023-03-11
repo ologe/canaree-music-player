@@ -2,8 +2,8 @@ package dev.olog.shared.widgets
 
 import android.content.Context
 import android.graphics.Color
-import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.theme.HasPlayerAppearance
+import dev.olog.platform.extension.colorControlNormal
+import dev.olog.platform.theme.HasPlayerAppearance
 
 interface IColorDelegate {
 

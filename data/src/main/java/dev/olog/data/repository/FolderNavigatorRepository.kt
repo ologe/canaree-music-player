@@ -10,7 +10,7 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.shared.android.utils.assertBackground
+import dev.olog.shared.assertBackground
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow

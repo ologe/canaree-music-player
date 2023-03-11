@@ -6,9 +6,9 @@ import android.net.Uri
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
-import dev.olog.shared.android.permission.Permission
-import dev.olog.shared.android.permission.PermissionManager
-import dev.olog.shared.android.utils.assertBackground
+import dev.olog.platform.permission.Permission
+import dev.olog.platform.permission.PermissionManager
+import dev.olog.shared.assertBackground
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose

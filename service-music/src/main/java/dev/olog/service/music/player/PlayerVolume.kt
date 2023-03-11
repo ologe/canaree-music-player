@@ -7,10 +7,9 @@ import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IDuckVolume
-import dev.olog.shared.android.extensions.lifecycleOwner
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import java.util.*

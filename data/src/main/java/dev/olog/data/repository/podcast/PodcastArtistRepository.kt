@@ -19,10 +19,10 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.shared.android.utils.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import dev.olog.data.utils.queryAll
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 

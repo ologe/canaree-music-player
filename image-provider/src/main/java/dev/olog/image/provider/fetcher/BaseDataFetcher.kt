@@ -8,7 +8,7 @@ import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
 import dev.olog.image.provider.R
-import dev.olog.shared.android.utils.NetworkUtils
+import dev.olog.platform.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
 import java.lang.RuntimeException

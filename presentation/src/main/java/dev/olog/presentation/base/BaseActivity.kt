@@ -1,5 +1,6 @@
 package dev.olog.presentation.base
 
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -8,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.platform.theme.isImmersiveMode
 
 abstract class BaseActivity : AppCompatActivity(), ThemedActivity {
 
@@ -34,7 +35,7 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity {
     override fun getResources(): Resources {
         if (customResources == null){
             val res = super.getResources()
-            val isDarkMode = res.getBoolean(R.bool.is_dark_mode)
+            val isDarkMode = (res.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
             customResources = DarkDesaturatedResources(isDarkMode, res)
         }
         return customResources!!

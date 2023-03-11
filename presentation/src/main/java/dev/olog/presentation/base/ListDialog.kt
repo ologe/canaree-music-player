@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.ctx
+import dev.olog.platform.extension.ctx
 
 abstract class ListDialog : DialogFragment() {
 

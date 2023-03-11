@@ -3,8 +3,8 @@ package dev.olog.presentation.main
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.permission.Permission
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.platform.permission.Permission
+import dev.olog.platform.permission.PermissionManager
 import javax.inject.Inject
 
 @HiltViewModel

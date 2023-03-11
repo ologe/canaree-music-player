@@ -18,9 +18,9 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.asLiveData
+import dev.olog.platform.extension.ctx
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
 @AndroidEntryPoint

@@ -12,11 +12,10 @@ import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.android.extensions.lifecycleOwner
-import dev.olog.shared.android.extensions.lifecycleScope
-import dev.olog.shared.android.utils.clamp
+import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.platform.extension.lifecycleScope
+import dev.olog.shared.clamp
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

@@ -12,7 +12,7 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.shared.android.extensions.ctx
+import dev.olog.platform.extension.ctx
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 

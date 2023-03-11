@@ -18,7 +18,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject

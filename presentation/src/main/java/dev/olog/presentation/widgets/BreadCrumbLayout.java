@@ -21,9 +21,10 @@ import java.util.Vector;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+
+import dev.olog.platform.extension.ContextExtensionKt;
 import dev.olog.presentation.R;
-import dev.olog.shared.android.extensions.ContextExtensionKt;
-import dev.olog.shared.android.utils.ThreadUtilsKt;
+import dev.olog.shared.ThreadUtilsKt;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 

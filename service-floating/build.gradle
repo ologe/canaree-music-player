@@ -6,8 +6,11 @@ plugins {
 
 dependencies {
     implementation project(':core')
+    implementation project(':common:localization')
+    implementation project(':common:shared')
+    implementation project(':common:platform')
+
     implementation project(':image-provider')
-    implementation project(':shared-android')
     implementation project(':shared-widgets')
     implementation project(':prefs-keys')
     implementation project(':media')

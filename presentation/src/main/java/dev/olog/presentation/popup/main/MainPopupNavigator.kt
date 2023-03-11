@@ -10,7 +10,7 @@ import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
-import dev.olog.shared.android.extensions.toast
+import dev.olog.platform.extension.toast
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(

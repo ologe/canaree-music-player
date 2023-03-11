@@ -5,9 +5,11 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.common.shared)
+    implementation(projects.common.platform)
+
     implementation project(':jaudiotagger')
     implementation project(':core')
-    implementation project(':shared-android')
     implementation project(':prefs-keys')
     implementation project(':intents')
 

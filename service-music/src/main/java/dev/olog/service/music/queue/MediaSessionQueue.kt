@@ -6,11 +6,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 

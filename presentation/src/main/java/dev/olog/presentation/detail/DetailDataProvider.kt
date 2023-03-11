@@ -20,11 +20,11 @@ import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.utils.TextUtils
-import dev.olog.shared.android.utils.TimeUtils
-import dev.olog.shared.android.extensions.component6
-import dev.olog.shared.android.extensions.exhaustive
-import dev.olog.shared.android.extensions.mapListItem
+import dev.olog.platform.TextUtils
+import dev.olog.platform.TimeUtils
+import dev.olog.shared.component6
+import dev.olog.shared.exhaustive
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 

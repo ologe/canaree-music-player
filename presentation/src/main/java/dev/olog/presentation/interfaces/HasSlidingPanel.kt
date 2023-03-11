@@ -3,7 +3,7 @@ package dev.olog.presentation.interfaces
 import android.content.Context
 import androidx.fragment.app.Fragment
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.android.extensions.findInContext
+import dev.olog.platform.extension.findInContext
 
 interface HasSlidingPanel {
 

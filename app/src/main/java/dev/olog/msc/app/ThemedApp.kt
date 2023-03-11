@@ -2,7 +2,13 @@ package dev.olog.msc.app
 
 import android.app.Application
 import dev.olog.msc.theme.*
-import dev.olog.shared.android.theme.*
+import dev.olog.platform.theme.HasImageShape
+import dev.olog.platform.theme.HasPlayerAppearance
+import dev.olog.platform.theme.HasQuickAction
+import dev.olog.platform.theme.ImageShape
+import dev.olog.platform.theme.PlayerAppearance
+import dev.olog.platform.theme.QuickAction
+import dev.olog.platform.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 

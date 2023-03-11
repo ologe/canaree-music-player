@@ -5,7 +5,7 @@ import android.content.res.Resources
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.platform.theme.isImmersiveMode
 
 interface ThemedActivity {
 

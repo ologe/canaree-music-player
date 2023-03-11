@@ -12,8 +12,8 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.platform.theme.hasPlayerAppearance
+import dev.olog.platform.isMarshmallow
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(

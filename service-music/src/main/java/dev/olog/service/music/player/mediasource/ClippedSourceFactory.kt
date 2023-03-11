@@ -6,8 +6,7 @@ import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
-import dev.olog.shared.android.extensions.lifecycleScope
-import kotlinx.coroutines.flow.collect
+import dev.olog.platform.extension.lifecycleScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

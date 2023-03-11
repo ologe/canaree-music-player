@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.lib.ColorDesaturationUtils
-import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.platform.extension.isDarkMode
 import kotlin.math.abs
 
 object CoverUtils {

@@ -17,6 +17,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.media.mediaProvider
+import dev.olog.platform.extension.dimen
+import dev.olog.platform.extension.getArgument
+import dev.olog.platform.extension.toggleVisibility
+import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -30,11 +34,11 @@ import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
-import dev.olog.shared.android.utils.TextUtils
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.TextUtils
+import dev.olog.platform.extension.*
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject

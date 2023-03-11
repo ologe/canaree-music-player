@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

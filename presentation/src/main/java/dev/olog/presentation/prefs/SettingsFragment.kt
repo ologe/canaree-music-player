@@ -21,6 +21,11 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.ctx
+import dev.olog.platform.extension.fragmentTransaction
+import dev.olog.platform.extension.isDarkMode
+import dev.olog.platform.extension.toast
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -28,7 +33,6 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

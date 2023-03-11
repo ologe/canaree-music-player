@@ -23,11 +23,11 @@ import dev.olog.data.mapper.toPlaylistSong
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.shared.android.utils.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged

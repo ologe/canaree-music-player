@@ -21,7 +21,7 @@ import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.core.PendingIntentFactory
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 

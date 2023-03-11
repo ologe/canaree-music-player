@@ -3,10 +3,10 @@ package dev.olog.shared.widgets.playpause
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.theme.HasPlayerAppearance
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.platform.extension.isDarkMode
+import dev.olog.platform.theme.HasPlayerAppearance
+import dev.olog.shared.lazyFast
+import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
 

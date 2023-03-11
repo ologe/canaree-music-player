@@ -8,9 +8,9 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.math.MathUtils
 import androidx.palette.graphics.Palette
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.palette.ColorUtil
-import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.platform.extension.*
+import dev.olog.ui.palette.ColorUtil
+import dev.olog.ui.palette.ImageProcessor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

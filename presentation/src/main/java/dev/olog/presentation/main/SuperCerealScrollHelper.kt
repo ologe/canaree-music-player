@@ -16,8 +16,8 @@ import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.findViewByIdNotRecursive
-import dev.olog.shared.android.extensions.setMargin
+import dev.olog.platform.extension.findViewByIdNotRecursive
+import dev.olog.platform.extension.setMargin
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,

@@ -13,11 +13,11 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.shared.android.extensions.lifecycleOwner
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.platform.permission.PermissionManager
 import javax.inject.Inject
 
 @ServiceScoped

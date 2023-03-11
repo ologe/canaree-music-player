@@ -10,10 +10,10 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.theme.HasImageShape
-import dev.olog.shared.android.theme.ImageShape
-import dev.olog.shared.android.theme.hasImageShape
+import dev.olog.platform.extension.dipf
+import dev.olog.platform.theme.HasImageShape
+import dev.olog.platform.theme.ImageShape
+import dev.olog.platform.theme.hasImageShape
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 

@@ -9,7 +9,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.platform.PlayStoreUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

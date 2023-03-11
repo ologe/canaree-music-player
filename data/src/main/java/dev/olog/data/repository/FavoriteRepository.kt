@@ -8,8 +8,8 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.shared.android.utils.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.mediaProvider
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.afterTextChange
+import dev.olog.platform.extension.toggleVisibility
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -23,10 +26,10 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.extension.*
+import dev.olog.shared.lazyFast
+import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch

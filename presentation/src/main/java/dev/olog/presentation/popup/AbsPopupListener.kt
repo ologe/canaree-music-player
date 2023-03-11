@@ -13,9 +13,9 @@ import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.FileProvider
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.platform.FileProvider
+import dev.olog.platform.extension.toast
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

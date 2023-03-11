@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.shared.android.utils.TextUtils
-import dev.olog.shared.android.utils.runOnMainThread
+import dev.olog.platform.TextUtils
+import dev.olog.shared.runOnMainThread
 
 class RxWaveSideBarView(
         context: Context,

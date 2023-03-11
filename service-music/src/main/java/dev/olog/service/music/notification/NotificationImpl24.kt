@@ -10,7 +10,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.core.PendingIntentFactory
-import dev.olog.shared.android.utils.TextUtils
+import dev.olog.platform.TextUtils
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)

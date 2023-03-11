@@ -17,9 +17,9 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.assertMainThread
+import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext

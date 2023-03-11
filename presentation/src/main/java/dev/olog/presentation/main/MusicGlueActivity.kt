@@ -18,8 +18,8 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.shared.lazyFast
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

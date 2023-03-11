@@ -9,9 +9,9 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.platform.extension.act
+import dev.olog.platform.extension.toast
+import dev.olog.platform.extension.withArguments
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

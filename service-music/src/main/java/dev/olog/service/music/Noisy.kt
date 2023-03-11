@@ -11,7 +11,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
-import dev.olog.shared.android.extensions.lifecycleOwner
+import dev.olog.platform.extension.lifecycleOwner
 import javax.inject.Inject
 
 @ServiceScoped

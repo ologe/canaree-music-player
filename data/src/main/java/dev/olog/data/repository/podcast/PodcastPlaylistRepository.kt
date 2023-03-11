@@ -18,10 +18,10 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.shared.android.extensions.mapListItem
-import dev.olog.shared.android.extensions.swap
-import dev.olog.shared.android.utils.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.mapListItem
+import dev.olog.shared.swap
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

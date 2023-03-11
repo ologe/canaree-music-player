@@ -21,16 +21,15 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.permission.Permission
-import dev.olog.shared.android.permission.PermissionManager
+import dev.olog.shared.distinctUntilChanged
+import dev.olog.shared.lazyFast
+import dev.olog.platform.permission.Permission
+import dev.olog.platform.permission.PermissionManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
