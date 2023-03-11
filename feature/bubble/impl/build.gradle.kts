@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.common.platform)
     implementation(projects.common.ui)
 
+    implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.androidx.recycler)
     implementation(libs.androidx.media)

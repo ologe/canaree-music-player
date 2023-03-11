@@ -32,7 +32,7 @@ import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.feature.media.api.DurationUtils
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.platform.theme.hasPlayerAppearance
-import dev.olog.shared.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.distinctUntilChanged
 import dev.olog.shared.filter
 import dev.olog.shared.map

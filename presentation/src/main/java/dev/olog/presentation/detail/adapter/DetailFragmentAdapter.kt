@@ -24,7 +24,7 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.subscribe
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.shared.exhaustive

@@ -29,7 +29,7 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.platform.extension.*
-import dev.olog.shared.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.filter
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe

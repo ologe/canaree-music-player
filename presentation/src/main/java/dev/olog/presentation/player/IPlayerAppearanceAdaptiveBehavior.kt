@@ -12,7 +12,7 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.platform.extension.*
 import dev.olog.ui.palette.ColorUtil
 import dev.olog.platform.theme.PlayerAppearance
-import dev.olog.shared.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist

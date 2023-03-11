@@ -4,8 +4,6 @@ package dev.olog.shared
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlin.coroutines.EmptyCoroutineContext
 
 
 fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit) {
@@ -41,8 +39,4 @@ inline fun <T, R> LiveData<T>.map(crossinline function: (T) -> R): LiveData<R> {
     return Transformations.map(this) {
         function(it)
     }
-}
-
-fun <T> Flow<T>.asLiveData(): LiveData<T> {
-    return asLiveData(EmptyCoroutineContext)
 }

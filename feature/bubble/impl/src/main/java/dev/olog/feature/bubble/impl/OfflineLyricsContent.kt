@@ -12,7 +12,7 @@ import dev.olog.platform.extension.animateBackgroundColor
 import dev.olog.platform.extension.animateTextColor
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.feature.bubble.impl.api.Content
-import dev.olog.shared.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
 import io.alterac.blurkit.BlurKit
