@@ -10,7 +10,6 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
 
-    implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':shared-widgets')
@@ -22,6 +21,7 @@ dependencies {
     implementation project(':equalizer')
 
     implementation project(':feature:media:api')
+    implementation project(':feature:shortcuts:api')
 
     implementation libs.ui.scrollhelper
     implementation libs.ui.glide.core

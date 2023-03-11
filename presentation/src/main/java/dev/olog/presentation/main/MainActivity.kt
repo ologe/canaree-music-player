@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.appshortcuts.Shortcuts
+import dev.olog.feature.shortcuts.api.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes

@@ -9,7 +9,6 @@ dependencies {
     implementation project(':common:platform')
     implementation project(':common:ui')
 
-    implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
     implementation project(':core')
     implementation project(':image-provider')

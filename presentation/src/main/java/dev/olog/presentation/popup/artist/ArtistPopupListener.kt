@@ -2,12 +2,12 @@ package dev.olog.presentation.popup.artist
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
-import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.feature.shortcuts.api.FeatureShortcutsNavigator
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
@@ -20,8 +20,8 @@ class ArtistPopupListener @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
-
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val featureShortcutsNavigator: FeatureShortcutsNavigator,
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var artist: Artist
@@ -59,9 +59,9 @@ class ArtistPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, artist.getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
-                getMediaId(),
-                artist.name
+            R.id.addHomeScreen -> featureShortcutsNavigator.addDetailShortcut(
+                mediaId = getMediaId(),
+                title = artist.name
             )
         }
 

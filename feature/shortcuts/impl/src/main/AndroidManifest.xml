@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="dev.olog.feature.shortcuts.impl"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    todo needed? is permission correct? check both https://developer.android.com/reference/android/Manifest.permission#INSTALL_SHORTCUT-->
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <application>
+
+        <activity android:name="dev.olog.feature.shortcuts.impl.ShortcutsActivity"
+            android:theme="@style/TransparentTheme"/>
+
+    </application>
+
+</manifest>

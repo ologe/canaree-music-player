@@ -4,19 +4,29 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.shortcuts.api.FeatureShortcutsNavigator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.subscribe
 import dev.olog.platform.extension.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PlaylistChooserActivity : BaseActivity() {
 
+    @Inject
+    lateinit var featureShortcutsNavigator: FeatureShortcutsNavigator
+
     private val viewModel by viewModels<PlaylistChooserActivityViewModel>()
 
-    private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
+    private val adapter by lazyFast {
+        PlaylistChooserActivityAdapter(
+            activity = this,
+            featureShortcutsNavigator = featureShortcutsNavigator,
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

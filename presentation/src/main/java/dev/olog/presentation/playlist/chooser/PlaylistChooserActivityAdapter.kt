@@ -2,7 +2,7 @@ package dev.olog.presentation.playlist.chooser
 
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.feature.shortcuts.api.FeatureShortcutsNavigator
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
@@ -14,8 +14,8 @@ import dev.olog.presentation.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(
-    private val activity: FragmentActivity
-
+    private val activity: FragmentActivity,
+    private val featureShortcutsNavigator: FeatureShortcutsNavigator,
 ) : ObservableAdapter<DisplayableItem>(
     activity.lifecycle,
     DiffCallbackDisplayableItem
@@ -34,7 +34,10 @@ class PlaylistChooserActivityAdapter(
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
             .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                AppShortcuts.instance(activity).addDetailShortcut(item.mediaId, item.title)
+                featureShortcutsNavigator.addDetailShortcut(
+                    mediaId = item.mediaId,
+                    title = item.title
+                )
                 activity.finish()
             }
             .setNegativeButton(R.string.popup_negative_no, null)
