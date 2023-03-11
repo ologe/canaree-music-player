@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.delete
 
 import android.app.RecoverableSecurityException
 import android.content.Context
+import androidx.core.text.parseAsHtml
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -10,7 +11,6 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
-import dev.olog.presentation.utils.asHtml
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.toast
 import dev.olog.platform.extension.withArguments
@@ -48,7 +48,7 @@ class DeleteDialog: BaseDialog() {
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_delete)
-            .setMessage(createMessage().asHtml())
+            .setMessage(createMessage().parseAsHtml())
             .setPositiveButton(R.string.popup_positive_delete, null)
             .setNegativeButton(R.string.popup_negative_no, null)
     }
