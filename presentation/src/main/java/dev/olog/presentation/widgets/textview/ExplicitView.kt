@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.platform.extension.textColorPrimary
 import dev.olog.platform.extension.toggleVisibility
+import dev.olog.ui.palette.textColorPrimary
 import kotlinx.coroutines.*
 
 class ExplicitView(

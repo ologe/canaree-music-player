@@ -24,7 +24,7 @@ public class ColorUtil {
     }
 
     public static int getAccentColor(Context context, Palette palette) {
-        int mutedColor = palette.getMutedColor(ContextExtensionKt.colorAccent(context));
+        int mutedColor = palette.getMutedColor(ThemeUtilsKt.colorAccent(context));
         int lightVibrant = palette.getLightVibrantColor(mutedColor);
         return palette.getVibrantColor(lightVibrant);
     }

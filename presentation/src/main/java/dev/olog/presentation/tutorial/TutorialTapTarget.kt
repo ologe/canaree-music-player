@@ -7,9 +7,9 @@ import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.R
-import dev.olog.platform.extension.colorAccent
-import dev.olog.platform.extension.colorBackground
 import dev.olog.platform.extension.findActivity
+import dev.olog.ui.palette.colorAccent
+import dev.olog.ui.palette.colorBackground
 
 object TutorialTapTarget {
 

@@ -5,11 +5,11 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.platform.extension.colorSurface
 import dev.olog.platform.extension.ctx
 import dev.olog.platform.extension.dimen
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.shared.lazyFast
+import dev.olog.ui.palette.colorSurface
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class HeaderVisibilityScrollListener(

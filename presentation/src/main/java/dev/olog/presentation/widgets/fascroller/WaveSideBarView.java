@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import dev.olog.platform.extension.ContextExtensionKt;
 import dev.olog.presentation.R;
 import dev.olog.feature.media.api.DurationUtils;
+import dev.olog.ui.palette.ThemeUtilsKt;
 
 public class WaveSideBarView extends View {
 
@@ -119,7 +120,7 @@ public class WaveSideBarView extends View {
         mLettersPaint.setAntiAlias(true);
         mLettersPaint.setTextSize(mTextSize);
         mLettersPaint.setTextAlign(Paint.Align.CENTER);
-        mLettersPaint.setColor(ContextExtensionKt.textColorPrimary(getContext()));
+        mLettersPaint.setColor(ThemeUtilsKt.textColorPrimary(getContext()));
 
         mSelectedLetterPaint.setAntiAlias(true);
         mSelectedLetterPaint.setTextSize(mTextSize);

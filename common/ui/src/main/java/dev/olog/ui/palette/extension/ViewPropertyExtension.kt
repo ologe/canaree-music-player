@@ -1,4 +1,4 @@
-package dev.olog.platform.extension
+package dev.olog.ui.palette.extension
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.olog.ui.palette.colorSurface
 
 private val colorEvaluator by lazy { ArgbEvaluator() }
 

@@ -16,9 +16,8 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.feature.media.api.mediaProvider
 import dev.olog.offlinelyrics.*
 import dev.olog.platform.extension.act
-import dev.olog.platform.extension.animateBackgroundColor
-import dev.olog.platform.extension.animateTextColor
-import dev.olog.platform.extension.colorSurface
+import dev.olog.ui.palette.extension.animateBackgroundColor
+import dev.olog.ui.palette.extension.animateTextColor
 import dev.olog.platform.extension.ctx
 import dev.olog.platform.extension.toast
 import dev.olog.platform.extension.toggleVisibility
@@ -33,6 +32,7 @@ import androidx.lifecycle.asLiveData
 import dev.olog.shared.filter
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
+import dev.olog.ui.palette.colorSurface
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*

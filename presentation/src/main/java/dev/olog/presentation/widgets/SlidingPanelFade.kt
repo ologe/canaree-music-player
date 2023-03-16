@@ -12,8 +12,8 @@ import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.platform.extension.dip
 import dev.olog.platform.extension.findActivity
 import dev.olog.platform.extension.isTablet
-import dev.olog.platform.extension.scrimBackground
 import dev.olog.shared.lazyFast
+import dev.olog.ui.palette.scrimBackground
 
 class SlidingPanelFade(
         context: Context,

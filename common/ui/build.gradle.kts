@@ -8,4 +8,5 @@ dependencies {
 
     implementation(libs.androidx.palette)
     implementation(libs.androidx.preference)
+    implementation(libs.androidx.material)
 }

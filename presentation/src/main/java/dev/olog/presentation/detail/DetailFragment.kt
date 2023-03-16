@@ -13,7 +13,6 @@ import dev.olog.core.MediaId
 import dev.olog.feature.media.api.mediaProvider
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.afterTextChange
-import dev.olog.platform.extension.colorControlNormal
 import dev.olog.platform.extension.getArgument
 import dev.olog.platform.extension.isDarkMode
 import dev.olog.platform.extension.isTablet
@@ -34,6 +33,7 @@ import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
+import dev.olog.ui.palette.colorControlNormal
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter

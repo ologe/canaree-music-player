@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.platform.BuildVersion
-import dev.olog.platform.extension.colorSurface
 import dev.olog.platform.extension.setHeight
+import dev.olog.ui.palette.colorSurface
 
 /**
  * Custom status bar to handle device notch

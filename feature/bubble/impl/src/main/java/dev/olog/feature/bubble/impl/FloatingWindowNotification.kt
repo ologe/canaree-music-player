@@ -12,8 +12,8 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.PendingIntentFactory
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.platform.BuildVersion
-import dev.olog.platform.extension.colorControlNormal
 import dev.olog.platform.extension.lifecycleOwner
+import dev.olog.ui.palette.colorControlNormal
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filter

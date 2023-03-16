@@ -66,69 +66,9 @@ fun Context.vibrate(time: Long){
     }
 }
 
-inline fun Context.scrimBackground(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
-}
-
-inline fun Context.textColorPrimary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorPrimary)
-}
-
-inline fun Context.textColorSecondary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorSecondary)
-}
-
-inline fun Context.colorSurface(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorSurface)
-}
-
-inline fun Context.colorBackground():Int {
-    return themeAttributeToColor(android.R.attr.colorBackground)
-}
-
-inline fun Context.colorPrimary(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorPrimary)
-}
-
-inline fun Context.colorAccent(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorAccent)
-}
-
-inline fun Context.colorControlNormal(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorControlNormal)
-}
-
-inline fun Context.colorPrimaryId(): Int {
-    return themeAttributeToResId(com.google.android.material.R.attr.colorPrimary)
-}
-
 inline fun Context.isDarkMode(): Boolean {
     val configuration = resources.configuration
     return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-}
-
-inline fun Context.colorSwipeBackground(): Int {
-    return themeAttributeToColor(R.attr.colorSwipeBackground)
-}
-
-fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
-    val outValue = TypedValue()
-    val theme = this.theme
-    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
-    if (resolved) {
-        return ContextCompat.getColor(this, outValue.resourceId)
-    }
-    return fallbackColor
-}
-
-fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
-    val outValue = TypedValue()
-    val theme = this.theme
-    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
-    if (resolved) {
-        return outValue.resourceId
-    }
-    return -1
 }
 
 inline fun <reified T : Any> Context.findInContext(): T {

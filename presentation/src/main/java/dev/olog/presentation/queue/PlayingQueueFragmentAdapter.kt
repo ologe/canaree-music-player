@@ -12,9 +12,9 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.platform.extension.textColorPrimary
-import dev.olog.platform.extension.textColorSecondary
 import dev.olog.shared.swap
+import dev.olog.ui.palette.textColorPrimary
+import dev.olog.ui.palette.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(

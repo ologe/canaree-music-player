@@ -8,7 +8,6 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.feature.media.api.model.PlayerShuffleMode
 import dev.olog.presentation.R
-import dev.olog.platform.extension.colorAccent
 import dev.olog.platform.extension.getAnimatedVectorDrawable
 import dev.olog.platform.extension.isDarkMode
 import dev.olog.platform.theme.HasPlayerAppearance
@@ -16,6 +15,7 @@ import dev.olog.shared.lazyFast
 import dev.olog.platform.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
+import dev.olog.ui.palette.colorAccent
 import java.lang.IllegalStateException
 
 class ShuffleButton(

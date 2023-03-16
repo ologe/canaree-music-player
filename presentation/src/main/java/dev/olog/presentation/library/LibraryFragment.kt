@@ -12,8 +12,6 @@ import dev.olog.platform.extension.act
 import dev.olog.platform.extension.findInContext
 import dev.olog.platform.extension.getArgument
 import dev.olog.platform.extension.setGone
-import dev.olog.platform.extension.textColorPrimary
-import dev.olog.platform.extension.textColorSecondary
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
@@ -24,6 +22,8 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.lazyFast
+import dev.olog.ui.palette.textColorPrimary
+import dev.olog.ui.palette.textColorSecondary
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -3,9 +3,9 @@ package dev.olog.presentation.utils
 import android.view.View
 import android.view.Window
 import dev.olog.platform.BuildVersion
-import dev.olog.platform.extension.colorSurface
 import dev.olog.platform.extension.isDarkMode
 import dev.olog.platform.theme.isImmersiveMode
+import dev.olog.ui.palette.colorSurface
 
 fun Window.setLightStatusBar() {
     decorView.systemUiVisibility = 0

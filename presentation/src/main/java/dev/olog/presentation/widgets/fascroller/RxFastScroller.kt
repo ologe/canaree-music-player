@@ -20,8 +20,8 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.platform.extension.colorAccent
-import dev.olog.platform.extension.colorControlNormal
+import dev.olog.ui.palette.colorAccent
+import dev.olog.ui.palette.colorControlNormal
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

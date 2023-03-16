@@ -11,6 +11,10 @@ import androidx.palette.graphics.Palette
 import dev.olog.platform.extension.*
 import dev.olog.ui.palette.ColorUtil
 import dev.olog.ui.palette.ImageProcessor
+import dev.olog.ui.palette.colorAccent
+import dev.olog.ui.palette.colorBackground
+import dev.olog.ui.palette.textColorPrimary
+import dev.olog.ui.palette.textColorSecondary
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

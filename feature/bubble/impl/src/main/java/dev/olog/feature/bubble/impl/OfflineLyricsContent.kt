@@ -8,8 +8,8 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
-import dev.olog.platform.extension.animateBackgroundColor
-import dev.olog.platform.extension.animateTextColor
+import dev.olog.ui.palette.extension.animateBackgroundColor
+import dev.olog.ui.palette.extension.animateTextColor
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.feature.bubble.impl.api.Content
 import androidx.lifecycle.asLiveData
