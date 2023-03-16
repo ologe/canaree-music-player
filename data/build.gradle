@@ -7,8 +7,12 @@ plugins {
 
 android {
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        test.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     ksp {
@@ -38,5 +42,5 @@ dependencies {
     implementation libs.data.room.core
     implementation libs.data.room.ktx
     ksp libs.data.room.processor
-
+    testImplementation(libs.data.room.testing)
 }

@@ -43,6 +43,7 @@ internal fun Project.configureKotlinAndroid(
         testImplementation("test-junit")
         testImplementation("test-mockito-core")
         testImplementation("test-mockito-kotlin")
+        testImplementation("test-robolectric")
     }
 
 }
