@@ -7,4 +7,5 @@ dependencies {
     implementation(projects.common.platform)
 
     implementation(libs.androidx.palette)
+    implementation(libs.androidx.preference)
 }
