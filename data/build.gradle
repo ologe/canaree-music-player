@@ -1,26 +1,20 @@
 plugins {
     id("dev.msc.library")
     id("dev.msc.hilt")
-    id("kotlin-kapt")
+    id("dev.msc.ksp")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
 
-    defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"
-                ]
-            }
-        }
-    }
-
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas".toString())
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
     }
 }
 
@@ -43,6 +37,6 @@ dependencies {
     implementation libs.data.sqlcontentresolver
     implementation libs.data.room.core
     implementation libs.data.room.ktx
-    kapt libs.data.room.processor
+    ksp libs.data.room.processor
 
 }

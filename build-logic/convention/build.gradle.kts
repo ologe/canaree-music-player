@@ -30,5 +30,9 @@ gradlePlugin {
             id = "dev.msc.hilt"
             implementationClass = "HiltConventionPlugin"
         }
+        register("KspConventionPlugin") {
+            id = "dev.msc.ksp"
+            implementationClass = "KspConventionPlugin"
+        }
     }
 }

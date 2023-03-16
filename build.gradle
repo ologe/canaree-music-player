@@ -11,6 +11,7 @@ buildscript {
         classpath(libs.plugin.gradle)
         classpath(libs.plugin.kotlin.core)
         classpath(libs.plugin.kotlin.serialization)
+        classpath(libs.plugin.kotlin.ksp)
         classpath(libs.plugin.gms)
         classpath(libs.plugin.crashlytics)
         classpath(libs.plugin.hilt)

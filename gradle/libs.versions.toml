@@ -1,6 +1,7 @@
 [versions]
 gradle = "7.4.2"
-kotlin = "1.7.21"
+kotlin = "1.7.22"
+kotlin-ksp = "1.7.22-1.0.8"
 kotlin-serialization = "1.4.1"
 gms = "4.3.15"
 crashlytics = "2.9.4"
@@ -54,6 +55,7 @@ mockito-kotlin = "2.2.0"
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 plugin-kotlin-core = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+plugin-kotlin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "kotlin-ksp" }
 plugin-gms = { module = "com.google.gms:google-services", version.ref = "gms" }
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
