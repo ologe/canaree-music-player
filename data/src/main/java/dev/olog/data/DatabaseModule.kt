@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.dao.*
 
 @Module

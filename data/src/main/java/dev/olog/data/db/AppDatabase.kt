@@ -1,8 +1,26 @@
-package dev.olog.data.db.dao
+package dev.olog.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dev.olog.data.db.dao.EqualizerPresetsDao
+import dev.olog.data.db.dao.FavoriteDao
+import dev.olog.data.db.dao.FolderMostPlayedDao
+import dev.olog.data.db.dao.GenreMostPlayedDao
+import dev.olog.data.db.dao.HistoryDao
+import dev.olog.data.db.dao.LastFmDao
+import dev.olog.data.db.dao.LastPlayedAlbumDao
+import dev.olog.data.db.dao.LastPlayedArtistDao
+import dev.olog.data.db.dao.LastPlayedPodcastAlbumDao
+import dev.olog.data.db.dao.LastPlayedPodcastArtistDao
+import dev.olog.data.db.dao.LyricsSyncAdjustmentDao
+import dev.olog.data.db.dao.OfflineLyricsDao
+import dev.olog.data.db.dao.PlayingQueueDao
+import dev.olog.data.db.dao.PlaylistDao
+import dev.olog.data.db.dao.PlaylistMostPlayedDao
+import dev.olog.data.db.dao.PodcastPlaylistDao
+import dev.olog.data.db.dao.PodcastPositionDao
+import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
 
 
