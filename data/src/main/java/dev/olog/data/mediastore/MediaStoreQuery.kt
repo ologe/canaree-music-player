@@ -20,7 +20,19 @@ class MediaStoreQuery @Inject constructor(
             BuildVersion.isQ() -> Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             else -> Media.EXTERNAL_CONTENT_URI
         }
-        val cursor = context.contentResolver.query(uri, null, null, null, null) ?: return emptyList()
+        val selection = buildString {
+            append("${AudioColumns.IS_ALARM} = 0")
+            if (BuildVersion.isQ()) {
+                append(" AND ${AudioColumns.IS_AUDIOBOOK} = 0")
+            }
+            append(" AND ${AudioColumns.IS_NOTIFICATION} = 0")
+            if (BuildVersion.isS()) {
+                append(" AND ${AudioColumns.IS_RECORDING} = 0")
+            }
+            append(" AND ${AudioColumns.IS_RINGTONE} = 0")
+        }
+
+        val cursor = context.contentResolver.query(uri, null, selection, null, null) ?: return emptyList()
         try {
             val result = mutableListOf<MediaStoreAudioEntity>()
 
@@ -44,20 +56,12 @@ class MediaStoreQuery @Inject constructor(
             val albumIdColumn = cursor.getColumnIndexOrThrow(AudioColumns.ALBUM_ID)
             val artistIdColumn = cursor.getColumnIndexOrThrow(AudioColumns.ARTIST_ID)
             val bookmarkColumn = cursor.getColumnIndexOrThrow(AudioColumns.BOOKMARK)
-            val isAlarmColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_ALARM)
-            val isAudiobookColumn = if (BuildVersion.isQ()) cursor.getColumnIndex(AudioColumns.IS_AUDIOBOOK) else -1
-            val isMusicColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_MUSIC)
-            val isNotificationColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_NOTIFICATION)
             val isPodcastColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_PODCAST)
-            val isRecordingColumn = if (BuildVersion.isS()) cursor.getColumnIndex(AudioColumns.IS_RECORDING) else -1
-            val isRingtoneColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_RINGTONE)
             val trackColumn = cursor.getColumnIndexOrThrow(AudioColumns.TRACK)
             val authorColumn = cursor.getColumnIndexOrThrow(AudioColumns.AUTHOR)
             val compilationColumn = cursor.getColumnIndexOrThrow(AudioColumns.COMPILATION)
             val composerColumn = cursor.getColumnIndexOrThrow(AudioColumns.COMPOSER)
             val writerColumn = cursor.getColumnIndexOrThrow(AudioColumns.WRITER)
-            val generationAddedColumn = cursor.getColumnIndexOrThrow(AudioColumns.GENERATION_ADDED)
-            val generationModifiedColumn = cursor.getColumnIndexOrThrow(AudioColumns.GENERATION_MODIFIED)
 
             while (cursor.moveToNext()) {
                 result += MediaStoreAudioEntity(
@@ -81,20 +85,12 @@ class MediaStoreQuery @Inject constructor(
                     albumId = cursor.getLong(albumIdColumn),
                     artistId = cursor.getLong(artistIdColumn),
                     bookmark = cursor.getIntOrNull(bookmarkColumn),
-                    isAlarm = cursor.getInt(isAlarmColumn),
-                    isAudiobook = cursor.getIntOrNull(isAudiobookColumn) ?: 0,
-                    isMusic = cursor.getInt(isMusicColumn),
-                    isNotification = cursor.getInt(isNotificationColumn),
                     isPodcast = cursor.getInt(isPodcastColumn),
-                    isRecording = cursor.getIntOrNull(isRecordingColumn) ?: 0,
-                    isRingtone = cursor.getInt(isRingtoneColumn),
                     track = cursor.getIntOrNull(trackColumn),
                     author = cursor.getStringOrNull(authorColumn),
                     compilation = cursor.getStringOrNull(compilationColumn),
                     composer = cursor.getStringOrNull(composerColumn),
                     writer = cursor.getStringOrNull(writerColumn),
-                    generationAdded = cursor.getLong(generationAddedColumn),
-                    generationModified = cursor.getLong(generationModifiedColumn),
                 )
             }
 

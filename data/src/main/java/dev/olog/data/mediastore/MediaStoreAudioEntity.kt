@@ -47,20 +47,8 @@ data class MediaStoreAudioEntity(
     val displayName: String, // file name
 
     // audio type
-    @ColumnInfo(name = AudioColumns.IS_ALARM)
-    val isAlarm: Int,
-    @ColumnInfo(name = "is_audiobook") // AudioColumns.IS_AUDIOBOOK
-    val isAudiobook: Int,
-    @ColumnInfo(name = AudioColumns.IS_MUSIC)
-    val isMusic: Int,
-    @ColumnInfo(name = AudioColumns.IS_NOTIFICATION)
-    val isNotification: Int,
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
     val isPodcast: Int,
-    @ColumnInfo(name = "is_recording") // AudioColumns.IS_RECORDING
-    val isRecording: Int,
-    @ColumnInfo(name = AudioColumns.IS_RINGTONE)
-    val isRingtone: Int,
 
     // duration
     @ColumnInfo(name = AudioColumns.BOOKMARK)
@@ -93,10 +81,4 @@ data class MediaStoreAudioEntity(
     val dateAdded: Long,
     @ColumnInfo(name = AudioColumns.DATE_MODIFIED)
     val dateModified: Long,
-
-    // generation
-    @ColumnInfo(name = AudioColumns.GENERATION_ADDED)
-    val generationAdded: Long,
-    @ColumnInfo(name = AudioColumns.GENERATION_MODIFIED)
-    val generationModified: Long,
 )

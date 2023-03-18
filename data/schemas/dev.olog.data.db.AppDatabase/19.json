@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "23007bfd96d528d6cf8b71f7b9692f39",
+    "identityHash": "7bddd34b40f70b9cc7703c6316658e77",
     "entities": [
       {
         "tableName": "mediastore_audio",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE UNICODE, `album` TEXT COLLATE UNICODE, `album_artist` TEXT COLLATE UNICODE, `artist` TEXT COLLATE UNICODE, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_alarm` INTEGER NOT NULL, `is_audiobook` INTEGER NOT NULL, `is_music` INTEGER NOT NULL, `is_notification` INTEGER NOT NULL, `is_podcast` INTEGER NOT NULL, `is_recording` INTEGER NOT NULL, `is_ringtone` INTEGER NOT NULL, `bookmark` INTEGER, `duration` INTEGER NOT NULL, `author` TEXT, `bitrate` INTEGER NOT NULL, `compilation` TEXT, `composer` TEXT, `_size` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `writer` TEXT, `is_favorite` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL, `generation_added` INTEGER NOT NULL, `generation_modified` INTEGER NOT NULL, PRIMARY KEY(`_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE UNICODE, `album` TEXT COLLATE UNICODE, `album_artist` TEXT COLLATE UNICODE, `artist` TEXT COLLATE UNICODE, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_podcast` INTEGER NOT NULL, `bookmark` INTEGER, `duration` INTEGER NOT NULL, `author` TEXT, `bitrate` INTEGER NOT NULL, `compilation` TEXT, `composer` TEXT, `_size` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `writer` TEXT, `is_favorite` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL, PRIMARY KEY(`_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -81,44 +81,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "isAlarm",
-            "columnName": "is_alarm",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isAudiobook",
-            "columnName": "is_audiobook",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isMusic",
-            "columnName": "is_music",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isNotification",
-            "columnName": "is_notification",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "isPodcast",
             "columnName": "is_podcast",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isRecording",
-            "columnName": "is_recording",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isRingtone",
-            "columnName": "is_ringtone",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -197,18 +161,6 @@
           {
             "fieldPath": "dateModified",
             "columnName": "date_modified",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "generationAdded",
-            "columnName": "generation_added",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "generationModified",
-            "columnName": "generation_modified",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -1307,7 +1259,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23007bfd96d528d6cf8b71f7b9692f39')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7bddd34b40f70b9cc7703c6316658e77')"
     ]
   }
 }
