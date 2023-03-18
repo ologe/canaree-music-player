@@ -6,10 +6,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.dao.*
+import dev.olog.data.mediastore.MediaStoreAudioDao
 
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
+
+    @Provides
+    internal fun provideMediaStoreAudioDao(db: AppDatabase): MediaStoreAudioDao {
+        return db.mediaStoreAudioDao()
+    }
 
     @Provides
     internal fun provideFavoritedDao(db: AppDatabase): FavoriteDao {

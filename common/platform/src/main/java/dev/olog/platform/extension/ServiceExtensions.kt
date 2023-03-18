@@ -3,12 +3,11 @@ package dev.olog.platform.extension
 import android.app.Service
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 
 val Service.lifecycleScope: LifecycleCoroutineScope
     get() {
-        require(this is LifecycleOwner)
-        return lifecycle.coroutineScope
+        return lifecycleOwner.lifecycleScope
     }
 
 val Service.lifecycleOwner: LifecycleOwner

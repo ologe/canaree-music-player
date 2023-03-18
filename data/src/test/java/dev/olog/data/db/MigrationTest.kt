@@ -8,6 +8,7 @@ import dev.olog.data.db.entities.CustomTypeConverters
 import dev.olog.data.db.migration.Migration15To16
 import dev.olog.data.db.migration.Migration16To17
 import dev.olog.data.db.migration.Migration17To18
+import dev.olog.data.db.migration.Migration18To19
 import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.Test
@@ -33,6 +34,7 @@ class MigrationTest {
             Migration15To16(),
             Migration16To17(),
             Migration17To18(),
+            Migration18To19(),
         )
 
         val db = Room.inMemoryDatabaseBuilder(
@@ -59,6 +61,11 @@ class MigrationTest {
     @Test
     fun testMigration17to18() {
         testSchemaMigration(Migration17To18())
+    }
+
+    @Test
+    fun testMigration18To19() {
+        testSchemaMigration(Migration18To19())
     }
 
     private fun testSchemaMigration(migration: Migration) {

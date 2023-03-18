@@ -12,6 +12,7 @@ import dev.olog.data.db.entities.CustomTypeConverters
 import dev.olog.data.db.migration.Migration15To16
 import dev.olog.data.db.migration.Migration16To17
 import dev.olog.data.db.migration.Migration17To18
+import dev.olog.data.db.migration.Migration18To19
 import javax.inject.Singleton
 
 @Module
@@ -29,6 +30,7 @@ object RepositoryHelperModule {
                 Migration15To16(),
                 Migration16To17(),
                 Migration17To18(),
+                Migration18To19(),
             )
             .addTypeConverter(converter)
             .allowMainThreadQueries()

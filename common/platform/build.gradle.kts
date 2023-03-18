@@ -9,4 +9,6 @@ dependencies {
 
     implementation(libs.androidx.fragments)
     implementation(libs.androidx.material)
+
+    implementation(libs.androidx.lifecycle.process)
 }

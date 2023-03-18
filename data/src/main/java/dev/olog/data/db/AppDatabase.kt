@@ -22,10 +22,14 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
+import dev.olog.data.mediastore.MediaStoreAudioDao
+import dev.olog.data.mediastore.MediaStoreAudioEntity
 
 
 @Database(
     entities = arrayOf(
+        MediaStoreAudioEntity::class,
+
         PlayingQueueEntity::class,
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
@@ -61,10 +65,12 @@ import dev.olog.data.db.entities.*
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 18, exportSchema = true
+    ), version = 19, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
 
     abstract fun playingQueueDao(): PlayingQueueDao
 
