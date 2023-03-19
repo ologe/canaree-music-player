@@ -10,4 +10,9 @@ enum class SortArranging {
         return "DESC"
     }
 
+    operator fun not(): SortArranging = when (this) {
+        ASCENDING -> DESCENDING
+        DESCENDING -> ASCENDING
+    }
+
 }

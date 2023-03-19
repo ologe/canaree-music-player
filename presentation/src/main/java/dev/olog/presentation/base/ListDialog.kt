@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
 import dev.olog.platform.extension.ctx
 
+// TODO fix, it's crashing on opening
 abstract class ListDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

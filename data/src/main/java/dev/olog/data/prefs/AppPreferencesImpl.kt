@@ -53,21 +53,6 @@ class AppPreferencesImpl @Inject constructor(
         return preferences.getLong(SLEEP_FROM, -1)
     }
 
-    override fun setDefault() {
-        assertBackgroundThread()
-        // LIBRARY -> folder tree
-        @Suppress("DEPRECATION")
-        setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
-        setDefaultFolderView()
-
-        // USER INTERFACE
-        setDefaultPlayerAppearance()
-        setDefaultAdaptiveColors()
-        setDefaultImmersive()
-        hideQuickAction()
-        setDefaultIconShape()
-    }
-
     private fun setDefaultAdaptiveColors() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)

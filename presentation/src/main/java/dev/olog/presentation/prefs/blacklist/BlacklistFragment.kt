@@ -1,21 +1,20 @@
 package dev.olog.presentation.prefs.blacklist
 
-import android.provider.MediaStore
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
 import dev.olog.platform.extension.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dev.olog.presentation.R
+import kotlinx.android.synthetic.main.fragment_blacklist.cancel_button
+import kotlinx.android.synthetic.main.fragment_blacklist.list
+import kotlinx.android.synthetic.main.fragment_blacklist.save_button
 
+// TODO rewrite, and redo UI
 @AndroidEntryPoint
-class BlacklistFragment : ListDialog() {
+class BlacklistFragment : Fragment(R.layout.fragment_blacklist) {
 
     companion object {
         const val TAG = "BlacklistFragment"
@@ -29,45 +28,34 @@ class BlacklistFragment : ListDialog() {
 
     private lateinit var adapter: BlacklistFragmentAdapter
 
-    override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return builder
-            .setTitle(R.string.prefs_blacklist_title)
-            .setMessage(R.string.prefs_blacklist_description)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-            .setPositiveButton(R.string.popup_positive_save, null)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        list.layoutManager = GridLayoutManager(context, 3)
 
-    override fun setupRecyclerView(list: RecyclerView) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val data = withContext(Dispatchers.Default) {
-                viewModel.data
-            }
-            adapter = BlacklistFragmentAdapter(data)
+        viewModel.data.observe(viewLifecycleOwner) {
+            adapter = BlacklistFragmentAdapter(it)
             list.adapter = adapter
-            list.layoutManager = GridLayoutManager(context, 3)
+        }
+
+        save_button.setOnClickListener {
+            onSaveClick()
+        }
+        cancel_button.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 
-    override fun positiveAction() {
+    private fun onSaveClick() {
         val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
         if (allIsBlacklisted){
             showErrorMessage()
         } else {
             viewModel.saveBlacklisted(adapter.getData())
-            notifyMediaStore()
-            dismiss()
+            requireActivity().onBackPressed()
         }
     }
 
-    private fun notifyMediaStore(){
-        val contentResolver = context!!.contentResolver
-        contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-        contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-        contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
-    }
-
     private fun showErrorMessage(){
-        activity!!.toast(R.string.prefs_blacklist_error)
+        requireActivity().toast(R.string.prefs_blacklist_error)
     }
 
 }

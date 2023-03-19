@@ -3,6 +3,8 @@ package dev.olog.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dev.olog.data.blacklist.BlacklistDao
+import dev.olog.data.blacklist.BlacklistEntity
 import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.dao.FavoriteDao
 import dev.olog.data.db.dao.FolderMostPlayedDao
@@ -23,12 +25,14 @@ import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
 import dev.olog.data.mediastore.MediaStoreAudioDao
-import dev.olog.data.mediastore.MediaStoreAudioEntity
+import dev.olog.data.mediastore.MediaStoreAudioInternalEntity
+import dev.olog.data.mediastore.MediaStoreAudioView
 
 
 @Database(
     entities = arrayOf(
-        MediaStoreAudioEntity::class,
+        MediaStoreAudioInternalEntity::class,
+        BlacklistEntity::class,
 
         PlayingQueueEntity::class,
         FolderMostPlayedEntity::class,
@@ -65,12 +69,18 @@ import dev.olog.data.mediastore.MediaStoreAudioEntity
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 19, exportSchema = true
+    ),
+    views = [
+        MediaStoreAudioView::class,
+    ],
+    version = 19,
+    exportSchema = true,
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
+    abstract fun blacklistDao(): BlacklistDao
 
     abstract fun playingQueueDao(): PlayingQueueDao
 

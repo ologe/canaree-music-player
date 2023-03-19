@@ -1,44 +1,52 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
+import dev.olog.core.gateway.BlacklistGateway
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.lazyFast
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+// TODO rewrite
 @HiltViewModel
 class BlacklistFragmentViewModel @Inject constructor(
     folderGateway: FolderGateway,
-    private val appPreferencesUseCase: BlacklistPreferences
+    private val blacklistGateway: BlacklistGateway,
+    schedulers: Schedulers,
 ) : ViewModel() {
 
-    val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
-        folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+    val data: LiveData<List<BlacklistModel>> = liveData(schedulers.io) {
+        val blacklisted = blacklistGateway.getAll().map { it.lowercase() }
+        val data = folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+        emit(data)
     }
 
+    // TODO ensure path is relative path and not full path
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
         return BlacklistModel(
-            R.layout.dialog_blacklist_item,
-            getMediaId(),
-            this.title,
-            this.path,
-            blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
+            type = R.layout.dialog_blacklist_item,
+            mediaId = getMediaId(),
+            title = this.title,
+            path = this.path,
+            isBlacklisted = blacklisted.contains(this.path.lowercase())
         )
     }
 
     fun saveBlacklisted(data: List<BlacklistModel>) {
-        val blacklisted = data.filter { it.isBlacklisted }
-            .map { it.path }
-            .toSet()
-        appPreferencesUseCase.setBlackList(blacklisted)
+        viewModelScope.launch {
+            val blacklisted = data.filter { it.isBlacklisted }.map { it.path }
+            blacklistGateway.setAll(blacklisted)
+        }
     }
 
 

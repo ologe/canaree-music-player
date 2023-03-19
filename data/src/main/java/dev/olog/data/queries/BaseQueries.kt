@@ -5,13 +5,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import java.util.concurrent.TimeUnit
 
-@Suppress("DEPRECATION")
 abstract class BaseQueries(
-    protected val blacklistPrefs: BlacklistPreferences,
     protected val sortPrefs: SortPreferences,
     protected val isPodcast: Boolean
 ) {
@@ -35,13 +32,6 @@ abstract class BaseQueries(
         // TODO also tried with julianday, same crash
 //        return "strftime('%s','now') - $DATE_ADDED <= $RECENTLY_ADDED_TIME"
         return ""
-    }
-
-    protected fun notBlacklisted(): Pair<String, Array<String>> {
-        val blacklist = blacklistPrefs.getBlackList()
-        val params = blacklist.map { "?" }
-        val blackListed = blacklist.toTypedArray()
-        return "$folderProjection NOT IN (${params.joinToString()})" to blackListed
     }
 
     protected fun songListSortOrder(category: MediaIdCategory, default: String): String {

@@ -15,7 +15,7 @@ class MediaStoreQuery @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
 
-    fun queryAllAudio(): List<MediaStoreAudioEntity> {
+    fun queryAllAudio(): List<MediaStoreAudioInternalEntity> {
         val uri: Uri = when {
             BuildVersion.isQ() -> Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             else -> Media.EXTERNAL_CONTENT_URI
@@ -34,7 +34,7 @@ class MediaStoreQuery @Inject constructor(
 
         val cursor = context.contentResolver.query(uri, null, selection, null, null) ?: return emptyList()
         try {
-            val result = mutableListOf<MediaStoreAudioEntity>()
+            val result = mutableListOf<MediaStoreAudioInternalEntity>()
 
             val idColumn = cursor.getColumnIndexOrThrow(AudioColumns._ID)
             val albumColumn = cursor.getColumnIndexOrThrow(AudioColumns.ALBUM)
@@ -45,7 +45,6 @@ class MediaStoreQuery @Inject constructor(
             val bucketIdColumn = cursor.getColumnIndexOrThrow(AudioColumns.BUCKET_ID)
             val dataColumn = cursor.getColumnIndexOrThrow(AudioColumns.DATA)
             val dateAddedColumn = cursor.getColumnIndexOrThrow(AudioColumns.DATE_ADDED)
-            val dateModifiedColumn = cursor.getColumnIndexOrThrow(AudioColumns.DATE_MODIFIED)
             val displayNameColumn = cursor.getColumnIndexOrThrow(AudioColumns.DISPLAY_NAME)
             val durationColumn = cursor.getColumnIndexOrThrow(AudioColumns.DURATION)
             val isFavoriteColumn = cursor.getColumnIndexOrThrow(AudioColumns.IS_FAVORITE)
@@ -64,7 +63,7 @@ class MediaStoreQuery @Inject constructor(
             val writerColumn = cursor.getColumnIndexOrThrow(AudioColumns.WRITER)
 
             while (cursor.moveToNext()) {
-                result += MediaStoreAudioEntity(
+                result += MediaStoreAudioInternalEntity(
                     id = cursor.getLong(idColumn),
                     album = cursor.getStringOrNull(albumColumn),
                     albumArtist = cursor.getStringOrNull(albumArtistColumn),
@@ -74,7 +73,6 @@ class MediaStoreQuery @Inject constructor(
                     bucketId = cursor.getLong(bucketIdColumn),
                     data = cursor.getStringOrNull(dataColumn),
                     dateAdded = cursor.getLong(dateAddedColumn),
-                    dateModified = cursor.getLong(dateModifiedColumn),
                     displayName = cursor.getString(displayNameColumn),
                     duration = cursor.getLong(durationColumn),
                     isFavorite = cursor.getInt(isFavoriteColumn),

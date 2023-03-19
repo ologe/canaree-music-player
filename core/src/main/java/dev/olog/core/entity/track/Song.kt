@@ -14,14 +14,16 @@ data class Song(
     val album: String,
     val duration: Long,
     val dateAdded: Long,
-    val dateModified: Long,
     val path: String,
     val trackColumn: Int,
+    @Deprecated(message = "remove")
     val idInPlaylist: Int,
     val isPodcast: Boolean
-
 ) {
 
+    @Deprecated(message = "remove")
+    val dateModified: Long
+        get() = dateAdded // TODO remove
 
     val discNumber: Int
         get() {
@@ -69,7 +71,6 @@ data class Song(
             album = album,
             duration = duration,
             dateAdded = dateAdded,
-            dateModified = dateModified,
             path = path,
             trackColumn = trackColumn,
             idInPlaylist = idInPlaylist,

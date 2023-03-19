@@ -1,21 +1,18 @@
 package dev.olog.data.mediastore
 
-import android.provider.MediaStore.Audio.AudioColumns
+import android.provider.MediaStore
+import android.provider.MediaStore.Audio.*
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
+import androidx.room.DatabaseView
+import dev.olog.core.entity.track.Song
 
-@Entity(
-    tableName = "mediastore_audio",
-    primaryKeys = [AudioColumns._ID],
-    indices = [
-        Index(AudioColumns._ID),
-        Index(AudioColumns.ALBUM_ID),
-        Index(AudioColumns.ARTIST_ID),
-        Index(AudioColumns.BUCKET_ID),
-    ]
-)
-data class MediaStoreAudioEntity(
+@DatabaseView("""
+SELECT mediastore_audio_internal.*
+FROM mediastore_audio_internal LEFT JOIN blacklist 
+    ON mediastore_audio_internal.relative_path = blacklist.directory
+WHERE blacklist.directory IS NULL
+""", viewName = "mediastore_audio")
+data class MediaStoreAudioView(
     // ids
     @ColumnInfo(name = AudioColumns._ID)
     val id: Long,
@@ -25,13 +22,13 @@ data class MediaStoreAudioEntity(
     val artistId: Long,
 
     // basic info
-    @ColumnInfo(name = AudioColumns.TITLE, collate = ColumnInfo.UNICODE)
+    @ColumnInfo(name = AudioColumns.TITLE)
     val title: String,
-    @ColumnInfo(name = AudioColumns.ALBUM, collate = ColumnInfo.UNICODE)
+    @ColumnInfo(name = AudioColumns.ALBUM)
     val album: String?,
-    @ColumnInfo(name = AudioColumns.ALBUM_ARTIST, collate = ColumnInfo.UNICODE)
+    @ColumnInfo(name = AudioColumns.ALBUM_ARTIST)
     val albumArtist: String?,
-    @ColumnInfo(name = AudioColumns.ARTIST, collate = ColumnInfo.UNICODE)
+    @ColumnInfo(name = AudioColumns.ARTIST)
     val artist: String?,
 
     // directory/folder
@@ -79,6 +76,22 @@ data class MediaStoreAudioEntity(
     // date
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
     val dateAdded: Long,
-    @ColumnInfo(name = AudioColumns.DATE_MODIFIED)
-    val dateModified: Long,
 )
+
+fun MediaStoreAudioView.toSong(): Song {
+    return Song(
+        id = id,
+        artistId = artistId,
+        albumId = albumId,
+        title = title,
+        artist = artist ?: MediaStore.UNKNOWN_STRING,
+        albumArtist = albumArtist ?: MediaStore.UNKNOWN_STRING,
+        album = album ?: MediaStore.UNKNOWN_STRING,
+        duration = duration,
+        dateAdded = dateAdded,
+        path = data.orEmpty(),
+        trackColumn = track ?: 0,
+        idInPlaylist = 0,
+        isPodcast = isPodcast == 1,
+    )
+}

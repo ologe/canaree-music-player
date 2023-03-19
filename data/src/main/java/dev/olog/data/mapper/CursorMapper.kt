@@ -28,7 +28,6 @@ fun Cursor.toSong(): Song {
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
-    val dateModified = getLong(MediaStore.MediaColumns.DATE_MODIFIED)
 
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
@@ -43,7 +42,6 @@ fun Cursor.toSong(): Song {
         album = album,
         duration = duration,
         dateAdded = dateAdded,
-        dateModified = dateModified,
         path = path,
         trackColumn = track,
         idInPlaylist = -1,
@@ -68,7 +66,6 @@ fun Cursor.toPlaylistSong(): Song {
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
-    val dateModified = getLong(MediaStore.MediaColumns.DATE_MODIFIED)
 
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
@@ -83,7 +80,6 @@ fun Cursor.toPlaylistSong(): Song {
         album = album,
         duration = duration,
         dateAdded = dateAdded,
-        dateModified = dateModified,
         path = path,
         trackColumn = track,
         idInPlaylist = idInPlaylist,

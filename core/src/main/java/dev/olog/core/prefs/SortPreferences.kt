@@ -9,6 +9,7 @@ interface SortPreferences: SortAll, SortDetail
 
 interface SortAll {
     fun getAllTracksSort(): SortEntity
+    fun observeAllTracksSort(): Flow<SortEntity>
     fun getAllAlbumsSort(): SortEntity
     fun getAllArtistsSort(): SortEntity
 

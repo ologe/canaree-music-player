@@ -8,7 +8,6 @@ import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
 import dev.olog.platform.extension.observeKey
-import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -103,13 +102,6 @@ class MusicPreferencesImpl @Inject constructor(
     override fun observeLastMetadata(): Flow<LastMetadata> {
         return preferences.observeKey(LAST_TITLE, "")
                 .map { getLastMetadata() }
-    }
-
-    override fun setDefault() {
-        assertBackgroundThread()
-        setMidnightMode(false)
-        setCrossFade(0)
-        setGapless(false)
     }
 
     private fun setMidnightMode(enable: Boolean){

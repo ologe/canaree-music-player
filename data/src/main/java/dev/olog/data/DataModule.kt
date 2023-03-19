@@ -12,6 +12,7 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.data.blacklist.BlacklistRepository
 import dev.olog.data.mediastore.MediaStoreAudioRepository
 import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
@@ -29,6 +30,10 @@ abstract class DataModule {
     @Binds
     @IntoSet
     abstract fun provideMediaStoreInitializer(impl: MediaStoreAudioRepository): AppInitializer
+
+    @Binds
+    @Singleton
+    abstract fun provideBlacklistRepository(impl: BlacklistRepository): BlacklistGateway
 
     // tracks
 

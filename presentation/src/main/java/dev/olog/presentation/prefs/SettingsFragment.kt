@@ -96,9 +96,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         blacklist.setOnPreferenceClickListener {
+            // TODO fix
             act.fragmentTransaction {
-                setReorderingAllowed(true)
-                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
+                add(android.R.id.list_container, BlacklistFragment.newInstance(), BlacklistFragment.TAG)
+                addToBackStack(BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             }
             true

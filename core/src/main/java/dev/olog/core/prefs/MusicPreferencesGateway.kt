@@ -26,8 +26,6 @@ interface MusicPreferencesGateway {
     fun setLastMetadata(metadata: LastMetadata)
     fun observeLastMetadata(): Flow<LastMetadata>
 
-    fun setDefault()
-
     /**
      * in millis
      */

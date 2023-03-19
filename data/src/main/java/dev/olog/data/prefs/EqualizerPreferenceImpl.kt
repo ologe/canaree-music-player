@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.platform.extension.observeKey
-import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -61,8 +60,4 @@ class EqualizerPreferenceImpl @Inject constructor(
         preferences.edit { putString(VIRTUALIZER_SETTINGS, settings) }
     }
 
-    override fun setDefault() {
-        assertBackgroundThread()
-        setEqualizerEnabled(false)
-    }
 }

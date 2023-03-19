@@ -12,7 +12,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Path
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.FolderMostPlayedDao
@@ -38,14 +37,13 @@ internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers,
     permissionManager: PermissionManager,
 ) : BaseRepository<Folder, Path>(context, contentResolver, schedulers, permissionManager), FolderGateway {
 
-    private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
+    private val queries = FolderQueries(contentResolver, sortPrefs)
 
     init {
         firstQuery()
@@ -110,8 +108,7 @@ internal class FolderRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getAllBlacklistedIncluded(): List<Folder> {
-        assertBackgroundThread()
+    override suspend fun getAllBlacklistedIncluded(): List<Folder> {
         val cursor = queries.getAll(true)
         return extractFolders(cursor)
     }

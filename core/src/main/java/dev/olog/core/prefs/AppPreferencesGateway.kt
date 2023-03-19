@@ -20,7 +20,5 @@ interface AppPreferencesGateway {
     fun observeDefaultMusicFolder(): Flow<File>
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
-
-    fun setDefault()
 }
 

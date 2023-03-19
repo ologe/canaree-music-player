@@ -16,6 +16,5 @@ interface EqualizerPreferencesGateway {
 
     fun getVirtualizerSettings(): String
     fun getBassBoostSettings(): String
-    fun setDefault()
 
 }

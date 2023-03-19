@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.data.blacklist.BlacklistDao
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.dao.*
 import dev.olog.data.mediastore.MediaStoreAudioDao
@@ -15,6 +16,11 @@ class DatabaseModule {
     @Provides
     internal fun provideMediaStoreAudioDao(db: AppDatabase): MediaStoreAudioDao {
         return db.mediaStoreAudioDao()
+    }
+
+    @Provides
+    internal fun provideBlacklistDao(db: AppDatabase): BlacklistDao {
+        return db.blacklistDao()
     }
 
     @Provides
