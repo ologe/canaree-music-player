@@ -28,8 +28,8 @@ class NewPlaylistDialogViewModel @Inject constructor(
 
         val trackToInsert = when {
             mediaId.isPlayingQueue -> playingQueueGateway.getAll().map { it.song.id }
-            mediaId.isLeaf && mediaId.isPodcast -> listOf(podcastGateway.getByParam(mediaId.resolveId)!!.id)
-            mediaId.isLeaf -> listOf(songGateway.getByParam(mediaId.resolveId)!!.id)
+            mediaId.isLeaf && mediaId.isPodcast -> listOf(podcastGateway.getById(mediaId.resolveId)!!.id)
+            mediaId.isLeaf -> listOf(songGateway.getById(mediaId.resolveId)!!.id)
             else -> getSongListByParamUseCase(mediaId).map { it.id }
         }
         insertCustomTrackListToPlaylist(InsertCustomTrackListRequest(playlistTitle, trackToInsert, playlistType))

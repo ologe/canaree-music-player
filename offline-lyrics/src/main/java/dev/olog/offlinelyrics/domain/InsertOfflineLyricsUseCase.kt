@@ -18,7 +18,7 @@ class InsertOfflineLyricsUseCase @Inject constructor(
 )  {
 
     suspend operator fun invoke(offlineLyrics: OfflineLyrics) = withContext(Dispatchers.IO){
-        val song = songGateway.getByParam(offlineLyrics.trackId)
+        val song = songGateway.getById(offlineLyrics.trackId)
         if (song != null){
             saveLyricsOnMetadata(song, offlineLyrics.lyrics)
         }

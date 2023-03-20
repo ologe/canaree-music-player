@@ -8,8 +8,8 @@ interface PodcastGateway {
     fun getAll(): List<Song>
     fun observeAll(): Flow<List<Song>>
 
-    fun getByParam(id: Long): Song?
-    fun observeByParam(id: Long): Flow<Song?>
+    fun getById(id: Long): Song?
+    fun observeById(id: Long): Flow<Song?>
 
     fun getCurrentPosition(podcastId: Long, duration: Long): Long
     fun saveCurrentPosition(podcastId: Long, position: Long)

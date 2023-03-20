@@ -40,7 +40,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         if (cached != null) {
             return@coroutineScope cached
         }
-        val song = songGateway.getByParam(trackId) ?: return@coroutineScope null
+        val song = songGateway.getById(trackId) ?: return@coroutineScope null
 
         val title = QuerySanitizer.sanitize(song.title)
         val artist = QuerySanitizer.sanitize(song.artist)

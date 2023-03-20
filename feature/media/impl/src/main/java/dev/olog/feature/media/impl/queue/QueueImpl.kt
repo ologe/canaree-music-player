@@ -396,9 +396,9 @@ class QueueImpl @Inject constructor(
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
-                podcastGateway.getByParam(id)
+                podcastGateway.getById(id)
             } else {
-                songGateway.getByParam(id)
+                songGateway.getById(id)
             }
             track
         }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
@@ -429,9 +429,9 @@ class QueueImpl @Inject constructor(
 
         val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
-                podcastGateway.getByParam(id)
+                podcastGateway.getById(id)
             } else {
-                songGateway.getByParam(id)
+                songGateway.getById(id)
             }
             track
         }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }

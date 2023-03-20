@@ -55,7 +55,7 @@ internal abstract class RecentSearchesDao {
                 recentList.mapNotNull { recentEntity ->
                     when (recentEntity.dataType) {
                         SONG -> {
-                            val item = songList.getByParam(recentEntity.itemId)
+                            val item = songList.getById(recentEntity.itemId)
                             songMapper(recentEntity, item)
                         }
                         ALBUM -> {
@@ -79,7 +79,7 @@ internal abstract class RecentSearchesDao {
                             folderMapper(recentEntity, item)
                         }
                         PODCAST -> {
-                            val item = podcastList.getByParam(recentEntity.itemId)
+                            val item = podcastList.getById(recentEntity.itemId)
                             songMapper(recentEntity, item)
                         }
                         PODCAST_PLAYLIST -> {

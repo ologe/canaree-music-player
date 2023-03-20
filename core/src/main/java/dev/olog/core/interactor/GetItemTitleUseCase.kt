@@ -32,12 +32,12 @@ class GetItemTitleUseCase @Inject constructor(
         return when (param.category){
             MediaIdCategory.FOLDERS -> getFolderUseCase.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.PLAYLISTS -> getPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
-            MediaIdCategory.SONGS -> getSongUseCase.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.SONGS -> getSongUseCase.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.ALBUMS -> getAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.ARTISTS -> getArtistUseCase.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.GENRES -> getGenreUseCase.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS -> getPodcastUseCase.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.PODCASTS -> getPodcastUseCase.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistUseCase.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
             else -> throw IllegalArgumentException("invalid media category ${param.category}")

@@ -26,11 +26,11 @@ internal class PodcastRepository @Inject constructor(
             .mapListItem { it.toSong() }
     }
 
-    override fun getByParam(id: Long): Song? {
+    override fun getById(id: Long): Song? {
         return queries.getById(id)?.toSong()
     }
 
-    override fun observeByParam(id: Long): Flow<Song?> {
+    override fun observeById(id: Long): Flow<Song?> {
         return queries.observeById(id).map { it?.toSong() }
     }
 

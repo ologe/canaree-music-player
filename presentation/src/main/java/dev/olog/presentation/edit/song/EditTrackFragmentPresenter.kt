@@ -19,9 +19,9 @@ class EditTrackFragmentPresenter @Inject constructor(
 
     fun getSong(mediaId: MediaId): Song {
         val song = if (mediaId.isPodcast) {
-            podcastGateway.getByParam(mediaId.leaf!!)!!
+            podcastGateway.getById(mediaId.leaf!!)!!
         } else {
-            songGateway.getByParam(mediaId.leaf!!)!!
+            songGateway.getById(mediaId.leaf!!)!!
         }
         return song.copy(
             artist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist,

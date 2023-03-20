@@ -36,8 +36,8 @@ class GlideOriginalImageFetcher(
         val song: Song? = when {
             mediaId.isAlbum -> songGateway.getByAlbumId(id)
             mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
-            mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
-            mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
+            mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getById(id)
+            mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getById(id)
             else -> {
                 callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                 return@runBlocking
