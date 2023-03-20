@@ -1,5 +1,6 @@
 package dev.olog.data.queries
 
+import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -8,6 +9,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.mediastore.MediaStoreAudioView
 import dev.olog.data.mediastore.MediaStoreAudioViewsDao
+import dev.olog.data.mediastore.MediaStoreQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
@@ -15,6 +17,7 @@ import javax.inject.Inject
 internal class AudioQueries @Inject constructor(
     private val dao: MediaStoreAudioViewsDao,
     private val sortPrefs: SortPreferences,
+    private val query: MediaStoreQuery,
 ) {
 
     fun getAll(isPodcast: Boolean): List<MediaStoreAudioView> {
@@ -65,6 +68,12 @@ internal class AudioQueries @Inject constructor(
 
     fun getByAlbumId(id: Long): MediaStoreAudioView? {
         return dao.getByAlbumId(id)
+    }
+
+    // TODO ensure works as expected
+    fun getByUri(uri: Uri): MediaStoreAudioView? {
+        val displayName = query.getDisplayNameByUri(uri) ?: return null
+        return dao.getByDisplayName(displayName)
     }
 
     private fun podcastSortOrder(): String {

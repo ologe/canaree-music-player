@@ -98,4 +98,20 @@ class MediaStoreQuery @Inject constructor(
         }
     }
 
+    // TODO check if works with _ID as well
+    fun getDisplayNameByUri(uri: Uri): String? {
+        // https://developer.android.com/training/secure-file-sharing/retrieve-info
+        // content uri has only two field [_id, _display_name]
+        return context.contentResolver.query(
+            uri,
+            arrayOf(AudioColumns.DISPLAY_NAME),
+            null,
+            null,
+            null,
+        )?.use {
+            it.moveToFirst()
+            it.getStringOrNull(0)
+        }
+    }
+
 }

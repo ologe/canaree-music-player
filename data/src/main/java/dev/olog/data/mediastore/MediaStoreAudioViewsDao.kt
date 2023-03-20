@@ -26,6 +26,8 @@ interface MediaStoreAudioDao {
     fun observeById(id: Long): Flow<MediaStoreAudioView?>
     @Query("SELECT * FROM mediastore_audio WHERE album_id = :albumId LIMIT 1")
     fun getByAlbumId(albumId: Long): MediaStoreAudioView?
+    @Query("SELECT * FROM mediastore_audio WHERE _display_name = :displayName LIMIT 1")
+    fun getByDisplayName(displayName: String): MediaStoreAudioView?
 
 }
 
