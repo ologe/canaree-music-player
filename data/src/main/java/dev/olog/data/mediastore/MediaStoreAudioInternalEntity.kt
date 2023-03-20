@@ -48,7 +48,7 @@ data class MediaStoreAudioInternalEntity(
 
     // audio type
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
-    val isPodcast: Int,
+    val isPodcast: Boolean,
 
     // duration
     @ColumnInfo(name = AudioColumns.BOOKMARK)
@@ -74,7 +74,7 @@ data class MediaStoreAudioInternalEntity(
     @ColumnInfo(name = AudioColumns.WRITER)
     val writer: String?,
     @ColumnInfo(name = AudioColumns.IS_FAVORITE)
-    val isFavorite: Int, // TODO use this?
+    val isFavorite: Boolean, // TODO use this?
 
     // date
     @ColumnInfo(name = AudioColumns.DATE_ADDED)

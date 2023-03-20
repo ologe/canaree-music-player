@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.data.db.entities.FolderMostPlayedEntity
-import dev.olog.data.mediastore.MediaStoreAudioView
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
 import dev.olog.data.queries.QueryUtils
 import kotlinx.coroutines.flow.Flow
 
@@ -21,7 +21,7 @@ internal abstract class FolderMostPlayedDao {
         ORDER BY count(*) DESC
         LIMIT ${QueryUtils.MOST_PLAYED_LIMIT}
     """)
-    abstract fun observe(folderId: Long): Flow<List<MediaStoreAudioView>>
+    abstract fun observe(folderId: Long): Flow<List<MediaStoreAudioEntity>>
 
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)

@@ -37,16 +37,16 @@ internal abstract class RecentSearchesDao {
     abstract fun getAllImpl(): Flow<List<RecentSearchesEntity>>
 
     fun getAll(
-        songList: SongGateway,
-        albumList: AlbumGateway,
-        artistList: ArtistGateway,
-        playlistList: PlaylistGateway,
-        genreList: GenreGateway,
-        folderList: FolderGateway,
-        podcastList: PodcastGateway,
-        podcastPlaylistList: PodcastPlaylistGateway,
-        podcastAlbumList: PodcastAlbumGateway,
-        podcastArtistList: PodcastArtistGateway
+        songGateway: SongGateway,
+        albumGateway: AlbumGateway,
+        artistGateway: ArtistGateway,
+        playlistGateway: PlaylistGateway,
+        genreGateway: GenreGateway,
+        folderGateway: FolderGateway,
+        podcastGateway: PodcastGateway,
+        podcastPlaylistGateway: PodcastPlaylistGateway,
+        podcastAlbumGateway: PodcastAlbumGateway,
+        podcastArtistGateway: PodcastArtistGateway
     ): Flow<List<SearchResult>> {
 
         return getAllImpl()
@@ -55,43 +55,43 @@ internal abstract class RecentSearchesDao {
                 recentList.mapNotNull { recentEntity ->
                     when (recentEntity.dataType) {
                         SONG -> {
-                            val item = songList.getById(recentEntity.itemId)
+                            val item = songGateway.getById(recentEntity.itemId)
                             songMapper(recentEntity, item)
                         }
                         ALBUM -> {
-                            val item = albumList.getByParam(recentEntity.itemId)
+                            val item = albumGateway.getByParam(recentEntity.itemId)
                             albumMapper(recentEntity, item)
                         }
                         ARTIST -> {
-                            val item = artistList.getByParam(recentEntity.itemId)
+                            val item = artistGateway.getById(recentEntity.itemId)
                             artistMapper(recentEntity, item)
                         }
                         PLAYLIST -> {
-                            val item = playlistList.getByParam(recentEntity.itemId)
+                            val item = playlistGateway.getByParam(recentEntity.itemId)
                             playlistMapper(recentEntity, item)
                         }
                         GENRE -> {
-                            val item = genreList.getByParam(recentEntity.itemId)
+                            val item = genreGateway.getByParam(recentEntity.itemId)
                             genreMapper(recentEntity, item)
                         }
                         FOLDER -> {
-                            val item = folderList.getById(recentEntity.itemId)
+                            val item = folderGateway.getById(recentEntity.itemId)
                             folderMapper(recentEntity, item)
                         }
                         PODCAST -> {
-                            val item = podcastList.getById(recentEntity.itemId)
+                            val item = podcastGateway.getById(recentEntity.itemId)
                             songMapper(recentEntity, item)
                         }
                         PODCAST_PLAYLIST -> {
-                            val item = podcastPlaylistList.getByParam(recentEntity.itemId)
+                            val item = podcastPlaylistGateway.getByParam(recentEntity.itemId)
                             playlistMapper(recentEntity, item)
                         }
                         PODCAST_ALBUM -> {
-                            val item = podcastAlbumList.getByParam(recentEntity.itemId)
+                            val item = podcastAlbumGateway.getByParam(recentEntity.itemId)
                             albumMapper(recentEntity, item)
                         }
                         PODCAST_ARTIST -> {
-                            val item = podcastArtistList.getByParam(recentEntity.itemId)
+                            val item = podcastArtistGateway.getById(recentEntity.itemId)
                             artistMapper(recentEntity, item)
                         }
                         else -> throw IllegalArgumentException("invalid recent element type ${recentEntity.dataType}")

@@ -59,7 +59,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.ARTISTS -> artistGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
@@ -67,7 +67,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,

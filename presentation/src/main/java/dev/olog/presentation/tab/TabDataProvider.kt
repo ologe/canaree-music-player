@@ -60,7 +60,7 @@ internal class TabDataProvider @Inject constructor(
             )
         }
         TabCategory.LAST_PLAYED_ALBUMS -> albumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
-        TabCategory.LAST_PLAYED_ARTISTS -> artistGateway.observeLastPlayed().mapListItem {
+        TabCategory.LAST_PLAYED_ARTISTS -> artistGateway.observeRecentlyPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
             )
@@ -79,7 +79,7 @@ internal class TabDataProvider @Inject constructor(
             )
         }
         TabCategory.LAST_PLAYED_PODCAST_ALBUMS -> podcastAlbumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
-        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastArtistGateway.observeLastPlayed().mapListItem {
+        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastArtistGateway.observeRecentlyPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
             )
@@ -149,7 +149,7 @@ internal class TabDataProvider @Inject constructor(
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = artistGateway.observeLastPlayed()
+        val recentlyPlayedFlow = artistGateway.observeRecentlyPlayed()
             .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
@@ -219,7 +219,7 @@ internal class TabDataProvider @Inject constructor(
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = podcastArtistGateway.observeLastPlayed()
+        val recentlyPlayedFlow = podcastArtistGateway.observeRecentlyPlayed()
             .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }

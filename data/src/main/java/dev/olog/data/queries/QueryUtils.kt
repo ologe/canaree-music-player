@@ -9,6 +9,7 @@ object QueryUtils {
 
     const val MOST_PLAYED_HAVE_AT_LEAST = 5
     const val MOST_PLAYED_LIMIT = 10
+    const val LAST_PLAYED_MAX_ITEM_TO_SHOW = 10
 
     private const val DISC_NUMBER_PROJECTION = "CASE WHEN ${AudioColumns.TRACK} >= 1000 THEN substr(${AudioColumns.TRACK}, 1, 1) ELSE 0 END"
     private const val TRACK_NUMBER_PROJECTION = "CASE WHEN ${AudioColumns.TRACK} >= 1000 THEN ${AudioColumns.TRACK} % 1000 ELSE ${AudioColumns.TRACK} END"

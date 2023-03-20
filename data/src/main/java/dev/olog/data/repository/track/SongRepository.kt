@@ -3,7 +3,7 @@ package dev.olog.data.repository.track
 import android.net.Uri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.mediastore.toSong
+import dev.olog.data.mediastore.audio.toSong
 import dev.olog.data.queries.AudioQueries
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow

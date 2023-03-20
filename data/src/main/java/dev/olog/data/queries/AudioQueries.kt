@@ -7,20 +7,20 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.mediastore.MediaStoreAudioView
-import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 import dev.olog.data.mediastore.MediaStoreQuery
+import dev.olog.data.mediastore.audio.MediaStoreAudioDao
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 internal class AudioQueries @Inject constructor(
-    private val dao: MediaStoreAudioViewsDao,
+    private val dao: MediaStoreAudioDao,
     private val sortPrefs: SortPreferences,
     private val query: MediaStoreQuery,
 ) {
 
-    fun getAll(isPodcast: Boolean): List<MediaStoreAudioView> {
+    fun getAll(isPodcast: Boolean): List<MediaStoreAudioEntity> {
         if (isPodcast) {
             return dao.getAll(SimpleSQLiteQuery(getPodcastQuery()))
         }
@@ -28,7 +28,7 @@ internal class AudioQueries @Inject constructor(
         return dao.getAll(SimpleSQLiteQuery(getSongQuery(sort)))
     }
 
-    fun observeAll(isPodcast: Boolean): Flow<List<MediaStoreAudioView>> {
+    fun observeAll(isPodcast: Boolean): Flow<List<MediaStoreAudioEntity>> {
         if (isPodcast) {
             return dao.observeAll(SimpleSQLiteQuery(getPodcastQuery()))
         }
@@ -58,20 +58,20 @@ internal class AudioQueries @Inject constructor(
         """
     }
 
-    fun getById(id: Long): MediaStoreAudioView? {
+    fun getById(id: Long): MediaStoreAudioEntity? {
         return dao.getById(id)
     }
 
-    fun observeById(id: Long): Flow<MediaStoreAudioView?> {
+    fun observeById(id: Long): Flow<MediaStoreAudioEntity?> {
         return dao.observeById(id)
     }
 
-    fun getByAlbumId(id: Long): MediaStoreAudioView? {
+    fun getByAlbumId(id: Long): MediaStoreAudioEntity? {
         return dao.getByAlbumId(id)
     }
 
     // TODO ensure works as expected
-    fun getByUri(uri: Uri): MediaStoreAudioView? {
+    fun getByUri(uri: Uri): MediaStoreAudioEntity? {
         val displayName = query.getDisplayNameByUri(uri) ?: return null
         return dao.getByDisplayName(displayName)
     }

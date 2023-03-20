@@ -8,9 +8,9 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.data.db.dao.FolderMostPlayedDao
 import dev.olog.data.db.entities.FolderMostPlayedEntity
-import dev.olog.data.mediastore.toArtist
-import dev.olog.data.mediastore.toFolder
-import dev.olog.data.mediastore.toSong
+import dev.olog.data.mediastore.artist.toArtist
+import dev.olog.data.mediastore.audio.toSong
+import dev.olog.data.mediastore.folder.toFolder
 import dev.olog.data.queries.FolderQueries
 import dev.olog.shared.filterListItem
 import dev.olog.shared.mapListItem

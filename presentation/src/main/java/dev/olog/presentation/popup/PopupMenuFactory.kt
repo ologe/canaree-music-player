@@ -85,7 +85,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getArtistPopup(view: View, mediaId: MediaId): PopupMenu {
-        val artist = getArtistUseCase.getByParam(mediaId.categoryId)!!
+        val artist = getArtistUseCase.getById(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getById(mediaId.leaf!!)
             ArtistPopup(view, artist, song, listenerFactory.artist(artist, song))
@@ -130,7 +130,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPodcastArtistPopup(view: View, mediaId: MediaId): PopupMenu {
-        val artist = getPodcastArtistUseCase.getByParam(mediaId.categoryId)!!
+        val artist = getPodcastArtistUseCase.getById(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getById(mediaId.leaf!!)
             ArtistPopup(view, artist, song, listenerFactory.artist(artist, song))

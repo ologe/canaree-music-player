@@ -1,8 +1,8 @@
 package dev.olog.core.interactor.lastplayed
 
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.track.ArtistGateway
 import javax.inject.Inject
 
 class InsertLastPlayedArtistUseCase @Inject constructor(
@@ -13,9 +13,9 @@ class InsertLastPlayedArtistUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId) {
         if (mediaId.isPodcastArtist) {
-            podcastGateway.addLastPlayed(mediaId.categoryValue.toLong())
+            podcastGateway.addRecentlyPlayed(mediaId.categoryId)
         } else {
-            artistGateway.addLastPlayed(mediaId.categoryValue.toLong())
+            artistGateway.addRecentlyPlayed(mediaId.categoryId)
         }
     }
 }

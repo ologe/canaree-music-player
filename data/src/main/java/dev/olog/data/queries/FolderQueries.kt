@@ -4,48 +4,48 @@ import android.provider.MediaStore.Audio.AudioColumns
 import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.mediastore.MediaStoreArtistView
-import dev.olog.data.mediastore.MediaStoreAudioView
-import dev.olog.data.mediastore.MediaStoreAudioViewsDao
-import dev.olog.data.mediastore.MediaStoreFolderView
+import dev.olog.data.mediastore.artist.MediaStoreArtistEntity
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
+import dev.olog.data.mediastore.folder.MediaStoreFolderDao
+import dev.olog.data.mediastore.folder.MediaStoreFolderEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 internal class FolderQueries @Inject constructor(
-    private val dao: MediaStoreAudioViewsDao,
+    private val dao: MediaStoreFolderDao,
     private val sortPrefs: SortPreferences,
 ) {
 
-    fun getAll(): List<MediaStoreFolderView> {
-        return dao.getAllFolders()
+    fun getAll(): List<MediaStoreFolderEntity> {
+        return dao.getAll()
     }
 
-    suspend fun getAllFoldersBlacklistIncluded(): List<MediaStoreFolderView> {
-        return dao.getAllFoldersBlacklistIncluded()
+    suspend fun getAllFoldersBlacklistIncluded(): List<MediaStoreFolderEntity> {
+        return dao.getAllBlacklistIncluded()
     }
 
-    fun observeAll(): Flow<List<MediaStoreFolderView>> {
-        return dao.observeAllFolders()
+    fun observeAll(): Flow<List<MediaStoreFolderEntity>> {
+        return dao.observeAll()
     }
 
-    fun getById(id: Long): MediaStoreFolderView? {
-        return dao.getByFolderId(id)
+    fun getById(id: Long): MediaStoreFolderEntity? {
+        return dao.getById(id)
     }
 
-    fun observeById(id: Long): Flow<MediaStoreFolderView?> {
-        return dao.observeByFolderId(id)
+    fun observeById(id: Long): Flow<MediaStoreFolderEntity?> {
+        return dao.observeById(id)
     }
 
-    fun getSongList(id: Long): List<MediaStoreAudioView> {
+    fun getSongList(id: Long): List<MediaStoreAudioEntity> {
         val sort = sortPrefs.getDetailFolderSort()
-        return dao.getFolderTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+        return dao.getTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
     }
 
-    fun observeSongList(id: Long): Flow<List<MediaStoreAudioView>> {
+    fun observeSongList(id: Long): Flow<List<MediaStoreAudioEntity>> {
         return sortPrefs.observeDetailFolderSort()
             .flatMapLatest { sort ->
-                dao.observeFolderTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+                dao.observeTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
             }
     }
 
@@ -59,23 +59,23 @@ internal class FolderQueries @Inject constructor(
         """
     }
 
-    fun observeRecentlyAdded(id: Long): Flow<List<MediaStoreAudioView>> {
+    fun observeRecentlyAdded(id: Long): Flow<List<MediaStoreAudioEntity>> {
         return dao.observeRecentlyAdded(id)
     }
 
-    fun observeRelatedArtists(id: Long): Flow<List<MediaStoreArtistView>> {
-        return dao.observeFolderRelatedArtists(id)
+    fun observeRelatedArtists(id: Long): Flow<List<MediaStoreArtistEntity>> {
+        return dao.observeRelatedArtists(id)
     }
 
     fun observeRelativePaths(): Flow<List<String>> {
         return dao.observeAllRelativePaths()
     }
 
-    fun observeDirectories(relativePaths: List<String>): Flow<List<MediaStoreFolderView>> {
+    fun observeDirectories(relativePaths: List<String>): Flow<List<MediaStoreFolderEntity>> {
         return dao.observeDirectories(relativePaths)
     }
 
-    fun observeDirectorySongs(relativePath: String): Flow<List<MediaStoreAudioView>> {
+    fun observeDirectorySongs(relativePath: String): Flow<List<MediaStoreAudioEntity>> {
         return dao.observeDirectorySongs(relativePath)
     }
 

@@ -211,7 +211,7 @@ internal class ImageRetrieverRepository @Inject constructor(
             return@coroutineScope cached
         }
 
-        val artist = artistGateway.getByParam(artistId) ?: return@coroutineScope null
+        val artist = artistGateway.getById(artistId) ?: return@coroutineScope null
         val artistName = QuerySanitizer.sanitize(artist.name)
 
         val lastFmCall = async { lastFmService.getArtistInfo(artistName).getOrNull()?.toDomain(artistId) }

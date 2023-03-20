@@ -74,6 +74,18 @@ internal class AppSortingImpl @Inject constructor(
         )
     }
 
+    override fun observeAllArtistsSort(): Flow<SortEntity> {
+        return combine(
+            preferences.observeKey(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal),
+            preferences.observeKey(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal),
+        ) { sort, direction ->
+            SortEntity(
+                type = SortType.values()[sort],
+                arranging = SortArranging.values()[direction]
+            )
+        }
+    }
+
     override fun setAllTracksSort(sortType: SortEntity) {
         preferences.edit {
             putInt(ALL_SONGS_SORT_ORDER, sortType.type.ordinal)

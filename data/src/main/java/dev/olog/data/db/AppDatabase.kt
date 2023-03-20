@@ -24,12 +24,14 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
-import dev.olog.data.mediastore.MediaStoreArtistView
+import dev.olog.data.mediastore.artist.MediaStoreArtistEntity
 import dev.olog.data.mediastore.MediaStoreAudioInternalDao
 import dev.olog.data.mediastore.MediaStoreAudioInternalEntity
-import dev.olog.data.mediastore.MediaStoreAudioView
-import dev.olog.data.mediastore.MediaStoreFolderView
-import dev.olog.data.mediastore.MediaStoreAudioViewsDao
+import dev.olog.data.mediastore.artist.MediaStoreArtistDao
+import dev.olog.data.mediastore.audio.MediaStoreAudioDao
+import dev.olog.data.mediastore.folder.MediaStoreFolderEntity
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
+import dev.olog.data.mediastore.folder.MediaStoreFolderDao
 
 
 @Database(
@@ -74,9 +76,9 @@ import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 
     ),
     views = [
-        MediaStoreAudioView::class,
-        MediaStoreFolderView::class,
-        MediaStoreArtistView::class,
+        MediaStoreAudioEntity::class,
+        MediaStoreFolderEntity::class,
+        MediaStoreArtistEntity::class,
     ],
     version = 19,
     exportSchema = true,
@@ -85,7 +87,9 @@ import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun mediaStoreAudioInternalDao(): MediaStoreAudioInternalDao
-    abstract fun mediaStoreAudioDao(): MediaStoreAudioViewsDao
+    abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
+    abstract fun mediaStoreFolderDao(): MediaStoreFolderDao
+    abstract fun mediaStoreArtistDao(): MediaStoreArtistDao
     abstract fun blacklistDao(): BlacklistDao
 
     abstract fun playingQueueDao(): PlayingQueueDao

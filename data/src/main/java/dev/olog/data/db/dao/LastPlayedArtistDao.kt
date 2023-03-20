@@ -2,38 +2,26 @@ package dev.olog.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import dev.olog.data.db.entities.LastPlayedArtistEntity
+import dev.olog.data.mediastore.artist.MediaStoreArtistEntity
+import dev.olog.data.queries.QueryUtils
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class LastPlayedArtistDao {
+abstract class LastPlayedArtistDao {
 
-    @Query(
-        """
-        SELECT * FROM last_played_artists
-        ORDER BY dateAdded DESC
-        LIMIT 20
-    """
-    )
-    abstract fun getAll(): Flow<List<LastPlayedArtistEntity>>
+    @Query("""
+        SELECT mediastore_artists.*
+        FROM last_played_artists JOIN mediastore_artists
+            ON last_played_artists.id = mediastore_artists.artist_id
+        ORDER BY last_played_artists.dateAdded DESC
+        LIMIT ${QueryUtils.LAST_PLAYED_MAX_ITEM_TO_SHOW}
+    """)
+    abstract fun observeAll(): Flow<List<MediaStoreArtistEntity>>
 
-    @Insert
-    internal abstract suspend fun insertImpl(entity: LastPlayedArtistEntity)
-
-    @Query(
-        """
-        DELETE FROM last_played_artists
-        WHERE id = :artistId
-    """
-    )
-    internal abstract suspend fun deleteImpl(artistId: Long)
-
-    @Transaction
-    open suspend fun insertOne(id: Long) {
-        deleteImpl(id)
-        insertImpl(LastPlayedArtistEntity(id))
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertOne(entity: LastPlayedArtistEntity)
 
 }

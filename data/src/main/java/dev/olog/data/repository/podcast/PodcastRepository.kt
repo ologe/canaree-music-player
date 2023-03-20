@@ -4,7 +4,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.entities.PodcastPositionEntity
-import dev.olog.data.mediastore.toSong
+import dev.olog.data.mediastore.audio.toSong
 import dev.olog.data.queries.AudioQueries
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.shared.mapListItem

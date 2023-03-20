@@ -13,34 +13,34 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetItemTitleUseCase @Inject constructor(
-    private val getFolderUseCase: FolderGateway,
-    private val getPlaylistUseCase: PlaylistGateway,
-    private val getSongUseCase: SongGateway,
-    private val getAlbumUseCase: AlbumGateway,
-    private val getArtistUseCase: ArtistGateway,
-    private val getGenreUseCase: GenreGateway,
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val genreGateway: GenreGateway,
 
-    private val getPodcastPlaylistUseCase: PodcastPlaylistGateway,
-    private val getPodcastUseCase: PodcastGateway,
-    private val getPodcastAlbumUseCase: PodcastAlbumGateway,
-    private val getPodcastArtistUseCase: PodcastArtistGateway
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastGateway: PodcastGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastArtistGateway: PodcastArtistGateway
 
 ) : FlowUseCaseWithParam<String, MediaId>() {
 
 
     override fun buildUseCase(param: MediaId): Flow<String> {
         return when (param.category){
-            MediaIdCategory.FOLDERS -> getFolderUseCase.observeById(param.categoryId).map { it?.title }
-            MediaIdCategory.PLAYLISTS -> getPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
-            MediaIdCategory.SONGS -> getSongUseCase.observeById(param.categoryId).map { it?.title }
-            MediaIdCategory.ALBUMS -> getAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
-            MediaIdCategory.ARTISTS -> getArtistUseCase.observeByParam(param.categoryId).map { it?.name }
-            MediaIdCategory.GENRES -> getGenreUseCase.observeByParam(param.categoryId).map { it?.name }
-            MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS -> getPodcastUseCase.observeById(param.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistUseCase.observeByParam(param.categoryId).map { it?.name }
-            MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
-            else -> throw IllegalArgumentException("invalid media category ${param.category}")
+            MediaIdCategory.FOLDERS -> folderGateway.observeById(param.categoryId).map { it?.title }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.SONGS -> songGateway.observeById(param.categoryId).map { it?.title }
+            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.ARTISTS -> artistGateway.observeById(param.categoryId).map { it?.name }
+            MediaIdCategory.GENRES -> genreGateway.observeByParam(param.categoryId).map { it?.name }
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.PODCASTS -> podcastGateway.observeById(param.categoryId).map { it?.title }
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(param.categoryId).map { it?.name }
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(param.categoryId).map { it?.title }
+            else -> error("invalid media category ${param.category}")
         }.map { it ?: "" }
     }
 
