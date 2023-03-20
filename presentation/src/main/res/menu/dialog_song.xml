@@ -37,7 +37,4 @@
     <item android:id="@+id/setRingtone"
         android:title="@string/popup_set_as_ringtone"/>
 
-    <item android:id="@+id/delete"
-        android:title="@string/popup_delete"/>
-
 </menu>

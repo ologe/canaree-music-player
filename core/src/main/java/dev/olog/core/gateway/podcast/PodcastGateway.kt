@@ -11,11 +11,6 @@ interface PodcastGateway {
     fun getByParam(id: Long): Song?
     fun observeByParam(id: Long): Flow<Song?>
 
-    @Deprecated(message = "remove deletion support")
-    suspend fun deleteSingle(id: Long)
-    @Deprecated(message = "remove deletion support")
-    suspend fun deleteGroup(podcastList: List<Song>)
-
     fun getCurrentPosition(podcastId: Long, duration: Long): Long
     fun saveCurrentPosition(podcastId: Long, position: Long)
 

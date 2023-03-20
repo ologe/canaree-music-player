@@ -52,7 +52,6 @@ class GenrePopupListener @Inject constructor(
             R.id.addToFavorite -> addToFavorite()
             R.id.playLater -> playLater()
             R.id.playNext -> playNext()
-            R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
             R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
@@ -105,14 +104,6 @@ class GenrePopupListener @Inject constructor(
             navigator.toAddToFavoriteDialog(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
-        }
-    }
-
-    private fun delete() {
-        if (song == null) {
-            navigator.toDeleteDialog(getMediaId(), genre.size, genre.name)
-        } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
         }
     }
 

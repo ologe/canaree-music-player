@@ -31,35 +31,6 @@ internal class SongRepository @Inject constructor(
         return queries.observeById(id).map { it?.toSong() }
     }
 
-    override suspend fun deleteSingle(id: Long) {
-        TODO()
-//        return deleteInternal(id)
-    }
-
-    override suspend fun deleteGroup(ids: List<Song>) {
-        TODO()
-//        for (id in ids) {
-//            deleteInternal(id.id)
-//        }
-    }
-
-    private fun deleteInternal(id: Long) {
-        TODO()
-//        assertBackgroundThread()
-//        val path = getByParam(id)!!.path
-//        val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
-//        val deleted = contentResolver.delete(uri, null, null)
-//        if (deleted < 1) {
-//            Log.w("SongRepo", "song not found $id")
-//            return
-//        }
-//
-//        val file = File(path)
-//        if (file.exists()) {
-//            file.delete()
-//        }
-    }
-
     override fun getByUri(uri: Uri): Song? {
         TODO()
 //        try {

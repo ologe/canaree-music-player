@@ -13,11 +13,6 @@ interface SongGateway {
     fun getByParam(id: Long): Song?
     fun observeByParam(id: Long): Flow<Song?>
 
-    @Deprecated(message = "remove deletion support")
-    suspend fun deleteSingle(id: Id)
-    @Deprecated(message = "remove deletion support")
-    suspend fun deleteGroup(ids: List<Song>)
-
     fun getByUri(uri: Uri): Song?
 
     @Deprecated(message = "remove")
