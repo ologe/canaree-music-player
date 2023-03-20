@@ -10,9 +10,9 @@ import androidx.room.PrimaryKey
 )
 data class FolderMostPlayedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val songId: Long,
-    val folderPath: String
+    val folderId: Long,
 )
 
 @Entity(

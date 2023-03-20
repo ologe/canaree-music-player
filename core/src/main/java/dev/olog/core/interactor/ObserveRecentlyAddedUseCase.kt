@@ -19,7 +19,7 @@ class ObserveRecentlyAddedUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category){
-            MediaIdCategory.FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryId)
             MediaIdCategory.GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId)
             else -> flowOf(listOf())
         }

@@ -2,7 +2,6 @@ package dev.olog.data.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Environment
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.UserCredentials
@@ -12,7 +11,6 @@ import dev.olog.platform.extension.observeKey
 import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.io.File
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
@@ -30,8 +28,7 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME_2"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD_2"
-
-        private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER_2"
+        private const val LAST_FOLDER_PATH = "$TAG.LAST_FOLDER_PATH"
     }
 
     override fun resetSleepTimer() {
@@ -127,33 +124,13 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun defaultFolder(): String {
-        val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-        var startFolder = Environment.getRootDirectory()
-        if (musicDir.exists() && musicDir.isDirectory) {
-            startFolder = musicDir
-        } else {
-            val externalStorage = Environment.getExternalStorageDirectory()
-            if (externalStorage.exists() && externalStorage.isDirectory) {
-                startFolder = externalStorage
-            }
-        }
-        return startFolder.absolutePath
+    override fun getLastFolderPath(): String? {
+        return preferences.getString(LAST_FOLDER_PATH, null)
     }
 
-    override fun observeDefaultMusicFolder(): Flow<File> {
-        return preferences.observeKey(DEFAULT_MUSIC_FOLDER, defaultFolder())
-            .map { File(it) }
-    }
-
-    override fun getDefaultMusicFolder(): File {
-        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())!!)
-    }
-
-    override fun setDefaultMusicFolder(file: File) {
+    override fun setLastFolderPath(relativePath: String) {
         preferences.edit {
-            putString(DEFAULT_MUSIC_FOLDER, file.absolutePath)
+            putString(LAST_FOLDER_PATH, relativePath)
         }
     }
 }

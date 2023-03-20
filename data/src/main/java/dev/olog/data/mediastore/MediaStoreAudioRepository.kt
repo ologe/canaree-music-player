@@ -16,7 +16,7 @@ class MediaStoreAudioRepository @Inject constructor(
     private val preferences: MediaStoreVersionPreferences,
     private val permissionManager: PermissionManager,
     private val mediaStoreQuery: MediaStoreQuery,
-    private val dao: MediaStoreAudioDao,
+    private val dao: MediaStoreAudioInternalDao,
     private val schedulers: Schedulers,
 ) : AppInitializer {
 

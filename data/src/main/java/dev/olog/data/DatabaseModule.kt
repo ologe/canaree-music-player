@@ -7,14 +7,20 @@ import dagger.hilt.components.SingletonComponent
 import dev.olog.data.blacklist.BlacklistDao
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.dao.*
-import dev.olog.data.mediastore.MediaStoreAudioDao
+import dev.olog.data.mediastore.MediaStoreAudioInternalDao
+import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     @Provides
-    internal fun provideMediaStoreAudioDao(db: AppDatabase): MediaStoreAudioDao {
+    internal fun provideMediaStoreAudioInternalDao(db: AppDatabase): MediaStoreAudioInternalDao {
+        return db.mediaStoreAudioInternalDao()
+    }
+
+    @Provides
+    internal fun provideMediaStoreAudioDao(db: AppDatabase): MediaStoreAudioViewsDao {
         return db.mediaStoreAudioDao()
     }
 

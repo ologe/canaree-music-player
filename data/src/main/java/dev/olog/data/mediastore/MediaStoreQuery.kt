@@ -69,7 +69,7 @@ class MediaStoreQuery @Inject constructor(
                     albumArtist = cursor.getStringOrNull(albumArtistColumn),
                     artist = cursor.getStringOrNull(artistColumn),
                     bitrate = cursor.getInt(bitrateColumn),
-                    bucketDisplayName = cursor.getString(bucketDisplayNameColumn),
+                    bucketDisplayName = cursor.getStringOrNull(bucketDisplayNameColumn) ?: MediaStore.UNKNOWN_STRING,
                     bucketId = cursor.getLong(bucketIdColumn),
                     data = cursor.getStringOrNull(dataColumn),
                     dateAdded = cursor.getLong(dateAddedColumn),

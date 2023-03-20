@@ -1,77 +1,82 @@
 package dev.olog.data.queries
 
-import android.content.ContentResolver
-import android.database.Cursor
-import android.provider.MediaStore.Audio.Media.*
-import dev.olog.contentresolversql.querySql
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.base.Path
+import android.provider.MediaStore.Audio.AudioColumns
+import androidx.sqlite.db.SimpleSQLiteQuery
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.mediastore.MediaStoreArtistView
+import dev.olog.data.mediastore.MediaStoreAudioView
+import dev.olog.data.mediastore.MediaStoreAudioViewsDao
+import dev.olog.data.mediastore.MediaStoreFolderView
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import javax.inject.Inject
 
-internal class FolderQueries(
-    private val contentResolver: ContentResolver,
-    sortPrefs: SortPreferences
-) : BaseQueries(sortPrefs, false) {
+internal class FolderQueries @Inject constructor(
+    private val dao: MediaStoreAudioViewsDao,
+    private val sortPrefs: SortPreferences,
+) {
 
-    fun getAll(includeBlackListed: Boolean): Cursor {
-        val query = """
-            SELECT $DATA
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(includeBlackListed)}
-        """
-        if (includeBlackListed){
-            return contentResolver.querySql(query)
-        }
-        return contentResolver.querySql(query)
+    fun getAll(): List<MediaStoreFolderView> {
+        return dao.getAllFolders()
     }
 
-    fun getSongList(folderPath: String): Cursor {
-        val query = """
-            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
-                $DURATION, $DATA, $YEAR,
-                $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ?
-            ORDER BY ${songListSortOrder(MediaIdCategory.FOLDERS, DEFAULT_SORT_ORDER)}
-        """
-        return contentResolver.querySql(query, arrayOf(folderPath))
+    suspend fun getAllFoldersBlacklistIncluded(): List<MediaStoreFolderView> {
+        return dao.getAllFoldersBlacklistIncluded()
     }
 
-    fun getRecentlyAdded(folderPath: String): Cursor {
-        val query = """
-            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
-                $DURATION, $DATA, $YEAR,
-                $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ? AND ${isRecentlyAdded()}
-            ORDER BY lower($TITLE) COLLATE UNICODE ASC
-        """
-        return contentResolver.querySql(query, arrayOf(folderPath))
+    fun observeAll(): Flow<List<MediaStoreFolderView>> {
+        return dao.observeAllFolders()
     }
 
-    fun getRelatedArtists(path: Path): Cursor {
-        val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ?
-            ORDER BY lower($ARTIST) COLLATE UNICODE ASC
-        """
-
-        return contentResolver.querySql(query, arrayOf(path))
+    fun getById(id: Long): MediaStoreFolderView? {
+        return dao.getByFolderId(id)
     }
 
-    private fun defaultSelection(includeBlackListed: Boolean): String {
-        if (includeBlackListed) {
-            // TODO query from mediastore audio internal
-            return isPodcast()
-        }
-        return "${isPodcast()}"
+    fun observeById(id: Long): Flow<MediaStoreFolderView?> {
+        return dao.observeByFolderId(id)
+    }
+
+    fun getSongList(id: Long): List<MediaStoreAudioView> {
+        val sort = sortPrefs.getDetailFolderSort()
+        return dao.getFolderTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+    }
+
+    fun observeSongList(id: Long): Flow<List<MediaStoreAudioView>> {
+        return sortPrefs.observeDetailFolderSort()
+            .flatMapLatest { sort ->
+                dao.observeFolderTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+            }
+    }
+
+    private fun getSongListQuery(
+        sort: SortEntity
+    ): String {
+        return """
+            SELECT * FROM mediastore_audio
+            WHERE ${AudioColumns.BUCKET_ID} = ?
+            ORDER BY ${QueryUtils.songListSortOrder(sort, AudioColumns.TITLE)}
+        """
+    }
+
+    fun observeRecentlyAdded(id: Long): Flow<List<MediaStoreAudioView>> {
+        return dao.observeRecentlyAdded(id)
+    }
+
+    fun observeRelatedArtists(id: Long): Flow<List<MediaStoreArtistView>> {
+        return dao.observeFolderRelatedArtists(id)
+    }
+
+    fun observeRelativePaths(): Flow<List<String>> {
+        return dao.observeAllRelativePaths()
+    }
+
+    fun observeDirectories(relativePaths: List<String>): Flow<List<MediaStoreFolderView>> {
+        return dao.observeDirectories(relativePaths)
+    }
+
+    fun observeDirectorySongs(relativePath: String): Flow<List<MediaStoreAudioView>> {
+        return dao.observeDirectorySongs(relativePath)
     }
 
 }

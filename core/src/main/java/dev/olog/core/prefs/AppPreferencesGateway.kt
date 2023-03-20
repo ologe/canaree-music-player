@@ -17,8 +17,8 @@ interface AppPreferencesGateway {
     fun observeLastFmCredentials(): Flow<UserCredentials>
     fun setLastFmCredentials(user: UserCredentials)
 
-    fun observeDefaultMusicFolder(): Flow<File>
-    fun getDefaultMusicFolder(): File
-    fun setDefaultMusicFolder(file: File)
+    fun getLastFolderPath(): String?
+    fun setLastFolderPath(relativePath: String)
+
 }
 

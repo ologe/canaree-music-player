@@ -24,9 +24,12 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
-import dev.olog.data.mediastore.MediaStoreAudioDao
+import dev.olog.data.mediastore.MediaStoreArtistView
+import dev.olog.data.mediastore.MediaStoreAudioInternalDao
 import dev.olog.data.mediastore.MediaStoreAudioInternalEntity
 import dev.olog.data.mediastore.MediaStoreAudioView
+import dev.olog.data.mediastore.MediaStoreFolderView
+import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 
 
 @Database(
@@ -72,6 +75,8 @@ import dev.olog.data.mediastore.MediaStoreAudioView
     ),
     views = [
         MediaStoreAudioView::class,
+        MediaStoreFolderView::class,
+        MediaStoreArtistView::class,
     ],
     version = 19,
     exportSchema = true,
@@ -79,7 +84,8 @@ import dev.olog.data.mediastore.MediaStoreAudioView
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun mediaStoreAudioDao(): MediaStoreAudioDao
+    abstract fun mediaStoreAudioInternalDao(): MediaStoreAudioInternalDao
+    abstract fun mediaStoreAudioDao(): MediaStoreAudioViewsDao
     abstract fun blacklistDao(): BlacklistDao
 
     abstract fun playingQueueDao(): PlayingQueueDao

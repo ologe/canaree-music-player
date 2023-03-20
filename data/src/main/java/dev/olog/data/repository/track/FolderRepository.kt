@@ -1,165 +1,103 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
-import android.content.Context
-import android.database.Cursor
-import android.provider.MediaStore
 import dev.olog.core.MediaId
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.entity.VirtualFileSystemTree
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Path
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.SortPreferences
-import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.FolderMostPlayedDao
 import dev.olog.data.db.entities.FolderMostPlayedEntity
-import dev.olog.data.mapper.toArtist
-import dev.olog.data.mapper.toSong
+import dev.olog.data.mediastore.toArtist
+import dev.olog.data.mediastore.toFolder
+import dev.olog.data.mediastore.toSong
 import dev.olog.data.queries.FolderQueries
-import dev.olog.data.repository.BaseRepository
-import dev.olog.data.repository.ContentUri
-import dev.olog.shared.assertBackground
-import dev.olog.shared.assertBackgroundThread
-import dev.olog.data.utils.getString
-import dev.olog.data.utils.queryAll
-import dev.olog.platform.permission.PermissionManager
+import dev.olog.shared.filterListItem
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import java.io.File
 import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
-    private val songGateway2: SongGateway,
+    private val queries: FolderQueries,
     private val mostPlayedDao: FolderMostPlayedDao,
-    schedulers: Schedulers,
-    permissionManager: PermissionManager,
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers, permissionManager), FolderGateway {
+) : FolderGateway {
 
-    private val queries = FolderQueries(contentResolver, sortPrefs)
-
-    init {
-        firstQuery()
+    override fun getAll(): List<Folder> {
+        return queries.getAll().map { it.toFolder() }
     }
 
-    override fun registerMainContentUri(): ContentUri {
-        return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+    override fun observeAll(): Flow<List<Folder>> {
+        return queries.observeAll()
+            .mapListItem { it.toFolder() }
     }
 
-    @Suppress("DEPRECATION")
-    private fun extractFolders(cursor: Cursor): List<Folder> {
-        assertBackgroundThread()
-        val pathList = contentResolver.queryAll(cursor) {
-            val data = it.getString(MediaStore.Audio.Media.DATA)
-            data.substring(0, data.lastIndexOf(File.separator)) // path
-        }
-        return pathList.asSequence()
-            .groupBy { it }
-            .entries
-            .map { (path, list) ->
-                val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
-                Folder(
-                    dirName.capitalize(),
-                    path,
-                    list.size
-                )
-            }.sortedBy { it.title }
+    override fun getById(id: Long): Folder? {
+        return queries.getById(id)?.toFolder()
     }
 
-    override fun queryAll(): List<Folder> {
-        assertBackgroundThread()
-        val cursor = queries.getAll(false)
-        return extractFolders(cursor)
+    override fun observeById(id: Long): Flow<Folder?> {
+        return queries.observeById(id).map { it?.toFolder() }
     }
 
-    override fun getByParam(param: Path): Folder? {
-        assertBackgroundThread()
-        return channel.valueOrNull?.find { it.path == param }
+    override fun getTrackListById(id: Long): List<Song> {
+        return queries.getSongList(id).map { it.toSong() }
     }
 
-    override fun getByHashCode(hashCode: Int): Folder? {
-        assertBackgroundThread()
-        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
+    override fun observeTrackListById(id: Long): Flow<List<Song>> {
+        return queries.observeSongList(id)
+            .mapListItem { it.toSong() }
     }
 
-    override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow()
-            .map { list -> list.find { it.path == param } }
-            .distinctUntilChanged()
-            .assertBackground()
-    }
-
-    override fun getTrackListByParam(param: Path): List<Song> {
-        assertBackgroundThread()
-        val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toSong() }
-    }
-
-    override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
-        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+    override fun observeTrackListByPath(relativePath: String): Flow<List<Song>> {
+        return queries.observeDirectorySongs(relativePath)
+            .mapListItem { it.toSong() }
     }
 
     override suspend fun getAllBlacklistedIncluded(): List<Folder> {
-        val cursor = queries.getAll(true)
-        return extractFolders(cursor)
+        return queries.getAllFoldersBlacklistIncluded().map { it.toFolder() }
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        val folderPath = mediaId.categoryValue
-        return mostPlayedDao.getAll(folderPath, songGateway2)
-            .distinctUntilChanged()
-            .assertBackground()
+        return mostPlayedDao.observe(mediaId.categoryId)
+            .mapListItem { it.toSong() }
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
-        assertBackgroundThread()
-        mostPlayedDao.insertOne(
-            FolderMostPlayedEntity(
-                0,
-                mediaId.leaf!!,
-                mediaId.categoryValue
-            )
+        val entity = FolderMostPlayedEntity(
+            songId = mediaId.leaf!!,
+            folderId = mediaId.categoryId,
         )
+        mostPlayedDao.insertOne(entity)
     }
 
-    override fun observeSiblings(param: Path): Flow<List<Folder>> {
-        return observeAll()
-            .map { it.filter { it.path != param } }
-            .distinctUntilChanged()
-            .assertBackground()
+    override fun observeSiblings(id: Long): Flow<List<Folder>> {
+        return observeAll().filterListItem { it.id != id }
     }
 
-    override fun observeRelatedArtists(params: Path): Flow<List<Artist>> {
-        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
-            .distinctUntilChanged()
-            .assertBackground()
+    override fun observeRelatedArtists(id: Long): Flow<List<Artist>> {
+        return queries.observeRelatedArtists(id)
+            .mapListItem { it.toArtist() }
     }
 
-    override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {
-        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(path)
-            contentResolver.queryAll(cursor) { it.toSong() }
-        }
+    override fun observeRecentlyAdded(id: Long): Flow<List<Song>> {
+        return queries.observeRecentlyAdded(id)
+            .mapListItem { it.toSong() }
     }
 
-    private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
-        return contentResolver.queryAll(cursor) { it.toArtist() }
-            .groupBy { it.id }
-            .map { (_, list) ->
-                val artist = list[0]
-                artist.withSongs(list.size)
+    override fun observeFileSystem(): Flow<VirtualFileSystemTree> {
+        return queries.observeRelativePaths()
+            .map {  relativePaths ->
+                VirtualFileSystemTree().apply {
+                    for (relativePath in relativePaths) {
+                        addPathRecursively(relativePath)
+                    }
+                }
             }
+    }
+
+    override fun observeDirectories(relativePaths: List<String>): Flow<List<Folder>> {
+        return queries.observeDirectories(relativePaths)
+            .mapListItem { it.toFolder() }
     }
 }

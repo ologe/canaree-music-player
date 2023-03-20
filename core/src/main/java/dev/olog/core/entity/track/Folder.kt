@@ -4,6 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 
 data class Folder(
+    val id: Long,
     val title: String,
     val path: String,
     val size: Int
@@ -11,7 +12,7 @@ data class Folder(
 
 
     fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path)
+        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.id.toString())
     }
 
 }

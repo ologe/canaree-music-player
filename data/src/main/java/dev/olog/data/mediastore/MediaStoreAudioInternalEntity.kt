@@ -37,7 +37,7 @@ data class MediaStoreAudioInternalEntity(
     // directory/folder
     @ColumnInfo(name = AudioColumns.BUCKET_ID)
     val bucketId: Long, // directory id
-    @ColumnInfo(name = AudioColumns.BUCKET_DISPLAY_NAME)
+    @ColumnInfo(name = AudioColumns.BUCKET_DISPLAY_NAME, collate = ColumnInfo.UNICODE)
     val bucketDisplayName: String, // directory name
     @ColumnInfo(name = AudioColumns.DATA)
     val data: String?, // full path

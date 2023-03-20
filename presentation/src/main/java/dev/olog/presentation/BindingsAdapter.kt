@@ -6,35 +6,12 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.model.AudioFileCover
-import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
 
 object BindingsAdapter {
-
-    fun loadFile(view: ImageView, item: DisplayableFile) {
-        val context = view.context
-        GlideApp.with(context).clear(view)
-
-        GlideApp.with(context)
-                .load(AudioFileCover(item.path!!))
-                .override(GlideUtils.OVERRIDE_SMALL)
-                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
-                .into(view)
-    }
-
-    fun loadDirImage(view: ImageView, item: DisplayableFile) {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
-        loadImageImpl(
-            view,
-            mediaId,
-            GlideUtils.OVERRIDE_SMALL
-        )
-    }
 
     private fun loadImageImpl(
         view: ImageView,

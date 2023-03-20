@@ -110,7 +110,7 @@ class MediaId private constructor(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isHeader -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -118,7 +118,7 @@ class MediaId private constructor(
     val categoryId: Long
         get() {
             return when {
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isHeader -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }

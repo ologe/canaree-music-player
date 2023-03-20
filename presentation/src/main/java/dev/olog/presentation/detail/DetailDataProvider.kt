@@ -53,7 +53,7 @@ internal class DetailDataProvider @Inject constructor(
 
     fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
         val item = when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
@@ -151,7 +151,7 @@ internal class DetailDataProvider @Inject constructor(
     }
 
     fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
-        MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).mapListItem {
+        MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryId).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )

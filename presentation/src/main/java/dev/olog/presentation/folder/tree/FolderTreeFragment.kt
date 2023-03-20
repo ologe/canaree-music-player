@@ -43,7 +43,6 @@ class FolderTreeFragment : BaseFragment(),
             mediaProvider,
             navigator
         )
-        fab.shrink()
 
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
@@ -54,19 +53,13 @@ class FolderTreeFragment : BaseFragment(),
 
         viewModel.observeCurrentDirectoryFileName()
             .subscribe(viewLifecycleOwner) {
-                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it))
             }
 
         viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
-
-        viewModel.observeCurrentFolderIsDefaultFolder()
-            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
-                if (isDefaultFolder){
-                    fab.hide()
-                } else {
-                    fab.show()
-                }
+            .subscribe(viewLifecycleOwner) {
+                adapter.updateDataSet(it)
+                // TODO scroll to top on change
             }
     }
 
@@ -74,14 +67,12 @@ class FolderTreeFragment : BaseFragment(),
         super.onResume()
         bread_crumbs.setCallback(this)
         list.addOnScrollListener(scrollListener)
-        fab.setOnClickListener { onFabClick() }
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
         list.removeOnScrollListener(scrollListener)
-        fab.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
@@ -89,16 +80,8 @@ class FolderTreeFragment : BaseFragment(),
         list.adapter = null
     }
 
-    private fun onFabClick(){
-        if (!fab.isExtended){
-            fab.extend()
-            return
-        }
-        viewModel.updateDefaultFolder()
-    }
-
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {
-        viewModel.nextFolder(crumb.file.absoluteFile)
+        viewModel.nextFolder(crumb.file.path)
     }
 
     override fun handleOnBackPressed(): Boolean {

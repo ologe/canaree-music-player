@@ -6,14 +6,14 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.mediastore.MediaStoreAudioDao
 import dev.olog.data.mediastore.MediaStoreAudioView
+import dev.olog.data.mediastore.MediaStoreAudioViewsDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 internal class AudioQueries @Inject constructor(
-    private val dao: MediaStoreAudioDao,
+    private val dao: MediaStoreAudioViewsDao,
     private val sortPrefs: SortPreferences,
 ) {
 
@@ -21,7 +21,8 @@ internal class AudioQueries @Inject constructor(
         if (isPodcast) {
             return dao.getAll(SimpleSQLiteQuery(getPodcastQuery()))
         }
-        return dao.getAll(SimpleSQLiteQuery(getSongQuery()))
+        val sort = sortPrefs.getAllTracksSort()
+        return dao.getAll(SimpleSQLiteQuery(getSongQuery(sort)))
     }
 
     fun observeAll(isPodcast: Boolean): Flow<List<MediaStoreAudioView>> {
@@ -35,7 +36,7 @@ internal class AudioQueries @Inject constructor(
     }
 
     private fun getSongQuery(
-        sort: SortEntity = sortPrefs.getAllTracksSort()
+        sort: SortEntity
     ): String {
         return """
             SELECT * FROM mediastore_audio
@@ -76,10 +77,11 @@ internal class AudioQueries @Inject constructor(
             SortType.TITLE -> "${AudioColumns.TITLE} $direction"
             SortType.ARTIST -> "CASE WHEN ${AudioColumns.ARTIST} = '${MediaStore.UNKNOWN_STRING}' THEN -1 END, ${AudioColumns.ARTIST} $direction, ${AudioColumns.TITLE} $direction"
             SortType.ALBUM -> "CASE WHEN ${AudioColumns.ALBUM} = '${MediaStore.UNKNOWN_STRING}' THEN -1 END, ${AudioColumns.ALBUM} $direction, ${AudioColumns.TITLE} $direction"
-            SortType.ALBUM_ARTIST -> "${AudioColumns.ALBUM_ARTIST} $direction, ${AudioColumns.ALBUM_ARTIST} $direction"
+            SortType.ALBUM_ARTIST -> "${AudioColumns.ALBUM_ARTIST} $direction, ${AudioColumns.TITLE} $direction"
             SortType.DURATION -> "${AudioColumns.DURATION} $direction"
             SortType.RECENTLY_ADDED -> "${AudioColumns.DATE_ADDED} ${!direction}, ${AudioColumns.TITLE} $direction"
-            else -> "${AudioColumns.TITLE} $direction"
+            SortType.TRACK_NUMBER,
+            SortType.CUSTOM -> AudioColumns.TITLE
         }
     }
 

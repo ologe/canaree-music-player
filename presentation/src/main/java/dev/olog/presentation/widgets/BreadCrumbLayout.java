@@ -1,7 +1,6 @@
 package dev.olog.presentation.widgets;
 
 import android.content.Context;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -22,9 +21,8 @@ import java.util.Vector;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import dev.olog.platform.extension.ContextExtensionKt;
+import dev.olog.core.entity.VirtualFileSystemTree;
 import dev.olog.presentation.R;
-import dev.olog.shared.ThreadUtilsKt;
 import dev.olog.ui.palette.ThemeUtilsKt;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
@@ -52,7 +50,7 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
         }
 
         public String getTitle() {
-            return file.getPath().equals("/") ? "root" : file.getName();
+            return file.getPath().equals(VirtualFileSystemTree.ROOT_PATH) ? VirtualFileSystemTree.ROOT_PATH : file.getName();
         }
 
         public File getFile() {
@@ -278,9 +276,7 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
             mChildFrame.getChildAt(i).setTag(i);
     }
 
-    public void setActiveOrAdd(@NonNull Crumb crumb, boolean forceRecreate) {
-        ThreadUtilsKt.assertMainThread();
-
+    public void setActiveOrAdd(@NonNull Crumb crumb) {
         clearCrumbs();
         final List<File> newPathSet = new ArrayList<>();
 
@@ -291,11 +287,8 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
             newPathSet.add(0, p);
         }
 
-        String externalDir = Environment.getExternalStorageDirectory().getPath();
-        for (File file : new Vector<>(newPathSet)) {
-            if (!file.getPath().contains(externalDir)){
-                newPathSet.remove(file);
-            }
+        if (!crumb.getFile().getPath().equals(VirtualFileSystemTree.ROOT_PATH)) {
+            newPathSet.add(0, new File(VirtualFileSystemTree.ROOT_PATH));
         }
 
         for (int index = 0; index < newPathSet.size(); index++) {

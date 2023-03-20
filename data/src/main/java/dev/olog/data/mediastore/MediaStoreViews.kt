@@ -1,9 +1,11 @@
 package dev.olog.data.mediastore
 
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.*
+import android.provider.MediaStore.Audio.AudioColumns
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
 
 @DatabaseView("""
@@ -92,6 +94,57 @@ fun MediaStoreAudioView.toSong(): Song {
         path = data.orEmpty(),
         trackColumn = track ?: 0,
         idInPlaylist = 0,
+        isPodcast = isPodcast == 1,
+    )
+}
+
+@DatabaseView("""
+SELECT bucket_id, bucket_display_name, relative_path, count(*) as size
+FROM mediastore_audio
+GROUP BY bucket_id
+""", viewName = "mediastore_folders")
+data class MediaStoreFolderView(
+    @ColumnInfo(name = AudioColumns.BUCKET_ID)
+    val id: Long,
+    @ColumnInfo(name = AudioColumns.BUCKET_DISPLAY_NAME)
+    val title: String,
+    @ColumnInfo(name = AudioColumns.RELATIVE_PATH)
+    val path: String,
+    val size: Int,
+)
+
+fun MediaStoreFolderView.toFolder(): Folder {
+    return Folder(
+        id = id,
+        title = title,
+        path = path,
+        size = size,
+    )
+}
+
+@DatabaseView("""
+SELECT artist_id, artist, album_artist, is_podcast, count(*) as size
+FROM mediastore_audio
+GROUP BY artist_id
+""", viewName = "mediastore_artists")
+data class MediaStoreArtistView(
+    @ColumnInfo(name = AudioColumns.ARTIST_ID)
+    val id: Long,
+    @ColumnInfo(name = AudioColumns.ARTIST)
+    val name: String?,
+    @ColumnInfo(name = AudioColumns.ALBUM_ARTIST)
+    val albumArtist: String?,
+    @ColumnInfo(name = AudioColumns.IS_PODCAST)
+    val isPodcast: Int,
+    val size: Int,
+)
+
+fun MediaStoreArtistView.toArtist(): Artist {
+    return Artist(
+        id = id,
+        name = name ?: MediaStore.UNKNOWN_STRING,
+        albumArtist = albumArtist ?: MediaStore.UNKNOWN_STRING,
+        songs = size,
         isPodcast = isPodcast == 1,
     )
 }

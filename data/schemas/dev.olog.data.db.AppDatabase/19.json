@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "845434b6599a05bd8d05611755785c97",
+    "identityHash": "2ca99868293ce5f6258502116ceff66b",
     "entities": [
       {
         "tableName": "mediastore_audio_internal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE LOCALIZED, `album` TEXT COLLATE LOCALIZED, `album_artist` TEXT COLLATE LOCALIZED, `artist` TEXT COLLATE LOCALIZED, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_podcast` INTEGER NOT NULL, `bookmark` INTEGER, `duration` INTEGER NOT NULL, `author` TEXT, `bitrate` INTEGER NOT NULL, `compilation` TEXT, `composer` TEXT, `_size` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `writer` TEXT, `is_favorite` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, PRIMARY KEY(`_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE LOCALIZED, `album` TEXT COLLATE LOCALIZED, `album_artist` TEXT COLLATE LOCALIZED, `artist` TEXT COLLATE LOCALIZED, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL COLLATE UNICODE, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_podcast` INTEGER NOT NULL, `bookmark` INTEGER, `duration` INTEGER NOT NULL, `author` TEXT, `bitrate` INTEGER NOT NULL, `compilation` TEXT, `composer` TEXT, `_size` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `writer` TEXT, `is_favorite` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, PRIMARY KEY(`_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -291,7 +291,7 @@
       },
       {
         "tableName": "most_played_folder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `songId` INTEGER NOT NULL, `folderPath` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `songId` INTEGER NOT NULL, `folderId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -306,9 +306,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "folderPath",
-            "columnName": "folderPath",
-            "affinity": "TEXT",
+            "fieldPath": "folderId",
+            "columnName": "folderId",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -1284,11 +1284,19 @@
       {
         "viewName": "mediastore_audio",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT mediastore_audio_internal.*\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL"
+      },
+      {
+        "viewName": "mediastore_folders",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT bucket_id, bucket_display_name, relative_path, count(*) as size\nFROM mediastore_audio\nGROUP BY bucket_id"
+      },
+      {
+        "viewName": "mediastore_artists",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT artist_id, artist, album_artist, is_podcast, count(*) as size\nFROM mediastore_audio\nGROUP BY artist_id"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '845434b6599a05bd8d05611755785c97')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ca99868293ce5f6258502116ceff66b')"
     ]
   }
 }

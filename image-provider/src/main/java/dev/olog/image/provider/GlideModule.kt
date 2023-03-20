@@ -18,8 +18,6 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.EntryPoints
 import dev.olog.core.MediaId
 import dev.olog.image.provider.di.ImageProviderComponent
-import dev.olog.image.provider.loader.AudioFileCoverLoader
-import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
 
 @GlideModule
@@ -50,8 +48,6 @@ class GlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         val component = component(context)
-
-        registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
         registry.prepend(MediaId::class.java, InputStream::class.java, component.lastFmFactory())
         registry.prepend(MediaId::class.java, InputStream::class.java, component.mergedFactory())

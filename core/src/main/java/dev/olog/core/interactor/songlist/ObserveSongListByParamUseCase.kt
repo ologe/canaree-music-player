@@ -30,7 +30,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListById(mediaId.categoryId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.SONGS -> songDataStore.observeAll()
             MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryId)

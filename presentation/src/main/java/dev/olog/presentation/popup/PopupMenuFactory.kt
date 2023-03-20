@@ -50,7 +50,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getFolderPopup(view: View, mediaId: MediaId): PopupMenu {
-        val folder = getFolderUseCase.getByParam(mediaId.categoryValue)!!
+        val folder = getFolderUseCase.getById(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getByParam(mediaId.leaf!!)
             FolderPopup(view, folder, song, listenerFactory.folder(folder, song))

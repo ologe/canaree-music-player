@@ -1,27 +1,14 @@
 package dev.olog.data.queries
 
-import android.provider.MediaStore.Audio.Media.*
+import android.provider.MediaStore.Audio.Media.IS_PODCAST
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import java.util.concurrent.TimeUnit
 
 abstract class BaseQueries(
     protected val sortPrefs: SortPreferences,
     protected val isPodcast: Boolean
 ) {
-
-    companion object {
-        private val RECENTLY_ADDED_TIME = TimeUnit.SECONDS.convert(14, TimeUnit.DAYS)
-    }
-
-    protected val folderProjection: String
-        get() = "substr($DATA, 1, length($DATA) - length($DISPLAY_NAME) - 1)"
-
-    private  val discNumberProjection = "CASE WHEN $TRACK >= 1000 THEN substr($TRACK, 1, 1) ELSE 0 END"
-    private  val trackNumberProjection = "CASE WHEN $TRACK >= 1000 THEN $TRACK % 1000 ELSE $TRACK END"
 
     protected fun isPodcast(): String {
         return if (isPodcast) "$IS_PODCAST <> 0" else "$IS_PODCAST = 0"
@@ -35,40 +22,7 @@ abstract class BaseQueries(
     }
 
     protected fun songListSortOrder(category: MediaIdCategory, default: String): String {
-
-        val sortEntity = getSortType(category)
-        var sort = when (sortEntity.type) {
-            SortType.TITLE -> "lower($TITLE)"
-            SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM -> "lower($ALBUM)"
-            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
-            SortType.RECENTLY_ADDED -> DATE_ADDED // DESC
-            SortType.DURATION -> DURATION
-            SortType.TRACK_NUMBER -> "$discNumberProjection ${sortEntity.arranging}, $trackNumberProjection ${sortEntity.arranging}, $TITLE"
-            SortType.CUSTOM -> default
-            else -> "lower($TITLE)"
-        }
-
-        if (sortEntity.type == SortType.CUSTOM) {
-            return sort
-        }
-
-        sort += " COLLATE UNICODE "
-
-        if (sortEntity.arranging == SortArranging.ASCENDING && sortEntity.type == SortType.RECENTLY_ADDED) {
-            // recently added works in reverse
-            sort += " DESC"
-        }
-        if (sortEntity.arranging == SortArranging.DESCENDING) {
-            if (sortEntity.type == SortType.RECENTLY_ADDED) {
-                // recently added works in reverse
-                sort += " ASC"
-            } else {
-                sort += " DESC"
-            }
-
-        }
-        return sort
+        return QueryUtils.songListSortOrder(getSortType(category), default)
     }
 
     private fun getSortType(category: MediaIdCategory): SortEntity {

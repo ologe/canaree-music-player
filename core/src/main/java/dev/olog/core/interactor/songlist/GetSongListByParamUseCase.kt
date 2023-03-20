@@ -27,7 +27,7 @@ class GetSongListByParamUseCase @Inject constructor(
 
     operator fun invoke(mediaId: MediaId): List<Song> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.getTrackListById(mediaId.categoryId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.SONGS -> songDataStore.getAll()
             MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId)
