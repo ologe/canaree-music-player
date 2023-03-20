@@ -20,7 +20,7 @@ internal class ArtistQueries(
              SELECT
                 $ARTIST_ID,
                 $ARTIST,
-                ${Columns.ALBUM_ARTIST},
+                ${ALBUM_ARTIST},
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection()}
@@ -33,7 +33,7 @@ internal class ArtistQueries(
     fun getSongList(id: Long): Cursor {
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
+                $TITLE, $ARTIST, $ALBUM, ${ALBUM_ARTIST},
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
@@ -48,7 +48,7 @@ internal class ArtistQueries(
              SELECT
                 $ARTIST_ID,
                 $ARTIST,
-                ${Columns.ALBUM_ARTIST},
+                ${ALBUM_ARTIST},
                 $DATA,
                 $IS_PODCAST
             FROM ${EXTERNAL_CONTENT_URI}
@@ -75,7 +75,7 @@ internal class ArtistQueries(
         val sortEntity = sortPrefs.getAllArtistsSort()
         var sort = when (sortEntity.type) {
             SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
+            SortType.ALBUM_ARTIST -> "lower(${ALBUM_ARTIST})"
             else -> "lower($ARTIST)"
         }
         sort += " COLLATE UNICODE "

@@ -38,7 +38,7 @@ internal class GenreQueries(
              SELECT
                 ${Members.ARTIST_ID},
                 ${Members.ARTIST},
-                ${Columns.ALBUM_ARTIST},
+                ${Members.ALBUM_ARTIST},
                 ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection()}
@@ -51,7 +51,7 @@ internal class GenreQueries(
     fun getRecentlyAdded(genreId: Id): Cursor {
         val query = """
             SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
-                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
+                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Members.ALBUM_ARTIST},
                 ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
                 ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}
@@ -64,7 +64,7 @@ internal class GenreQueries(
     fun getSongList(genreId: Id): Cursor {
         val query = """
             SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
-                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
+                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Members.ALBUM_ARTIST},
                 ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
                 ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}

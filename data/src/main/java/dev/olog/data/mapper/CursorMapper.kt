@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.core.entity.track.*
-import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getStringOrNull
@@ -24,7 +23,7 @@ fun Cursor.toSong(): Song {
     val artist = getStringOrNull(MediaStore.Audio.AudioColumns.ARTIST) ?: ""
     val album = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM) ?: ""
 
-    val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
+    val albumArtist = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM_ARTIST) ?: artist
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -62,7 +61,7 @@ fun Cursor.toPlaylistSong(): Song {
     val artist = getStringOrNull(MediaStore.Audio.AudioColumns.ARTIST) ?: ""
     val album = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM) ?: ""
 
-    val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
+    val albumArtist = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM_ARTIST) ?: artist
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -90,7 +89,7 @@ fun Cursor.toPlaylistSong(): Song {
 fun Cursor.toAlbum(): Album {
     val title = getStringOrNull(MediaStore.Audio.Media.ALBUM) ?: ""
     val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
-    val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
+    val albumArtist = getStringOrNull(MediaStore.Audio.Media.ALBUM_ARTIST) ?: artist
 
     val dirName = try {
         val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
@@ -116,7 +115,7 @@ fun Cursor.toAlbum(): Album {
 
 fun Cursor.toArtist(): Artist {
     val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
-    val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
+    val albumArtist = getStringOrNull(MediaStore.Audio.Media.ALBUM_ARTIST) ?: artist
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Artist(

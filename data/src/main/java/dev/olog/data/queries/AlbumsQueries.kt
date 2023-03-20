@@ -23,7 +23,7 @@ internal class AlbumsQueries(
                 $ARTIST_ID,
                 $ARTIST,
                 $ALBUM,
-                ${Columns.ALBUM_ARTIST},
+                ${ALBUM_ARTIST},
                 $DATA,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
@@ -37,7 +37,7 @@ internal class AlbumsQueries(
     fun getSongList(id: Id): Cursor {
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
+                $TITLE, $ARTIST, $ALBUM, ${ALBUM_ARTIST},
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
@@ -54,7 +54,7 @@ internal class AlbumsQueries(
                 $ARTIST_ID,
                 $ARTIST,
                 $ALBUM,
-                ${Columns.ALBUM_ARTIST},
+                ${ALBUM_ARTIST},
                 $DATA,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
@@ -78,7 +78,7 @@ internal class AlbumsQueries(
         var sort = when (sortEntity.type) {
             SortType.ALBUM -> "lower($ALBUM)"
             SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
+            SortType.ALBUM_ARTIST -> "lower(${ALBUM_ARTIST})"
             else -> "lower($ALBUM)"
         }
 
