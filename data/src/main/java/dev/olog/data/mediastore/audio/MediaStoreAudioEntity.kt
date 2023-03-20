@@ -7,7 +7,15 @@ import androidx.room.DatabaseView
 import dev.olog.core.entity.track.Song
 
 @DatabaseView("""
-SELECT mediastore_audio_internal.*
+SELECT _id, album_id, artist_id, title, 
+    CASE -- remove album as folder name when behaviour
+        WHEN album = bucket_display_name THEN '${MediaStore.UNKNOWN_STRING}'
+        ELSE album
+    END AS ${AudioColumns.ALBUM},
+    album_artist, artist, 
+    bucket_id, bucket_display_name, _data, relative_path, _display_name,
+    is_podcast, bookmark, duration, author, bitrate, compilation, composer,
+    _size, track, year, writer, is_favorite, date_added
 FROM mediastore_audio_internal LEFT JOIN blacklist 
     ON mediastore_audio_internal.relative_path = blacklist.directory
 WHERE blacklist.directory IS NULL

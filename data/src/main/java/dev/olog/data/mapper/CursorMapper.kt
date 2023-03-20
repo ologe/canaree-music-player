@@ -91,14 +91,6 @@ fun Cursor.toAlbum(): Album {
     val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
     val albumArtist = getStringOrNull(MediaStore.Audio.Media.ALBUM_ARTIST) ?: artist
 
-    val dirName = try {
-        val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
-        val path = data.substring(1, data.lastIndexOf(File.separator))
-        path.substring(path.lastIndexOf(File.separator) + 1)
-    } catch (ex: Throwable){
-        ex.printStackTrace()
-        ""
-    }
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Album(
@@ -107,8 +99,7 @@ fun Cursor.toAlbum(): Album {
         title = title,
         artist = artist,
         albumArtist = albumArtist,
-        songs = 0,
-        hasSameNameAsFolder = dirName == title,
+        size = 0,
         isPodcast = isPodcast
     )
 }

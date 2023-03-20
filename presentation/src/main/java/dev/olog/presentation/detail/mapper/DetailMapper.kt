@@ -112,8 +112,8 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
-            this.songs,
-            this.songs
+            this.size,
+            this.size
         ).toLowerCase()
     )
 }

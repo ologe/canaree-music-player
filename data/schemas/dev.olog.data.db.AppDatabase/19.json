@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "2ca99868293ce5f6258502116ceff66b",
+    "identityHash": "68b37d0e77e92e5de99098888732034c",
     "entities": [
       {
         "tableName": "mediastore_audio_internal",
@@ -1283,7 +1283,7 @@
     "views": [
       {
         "viewName": "mediastore_audio",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT mediastore_audio_internal.*\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT _id, album_id, artist_id, title, \n    CASE -- remove album as folder name when behaviour\n        WHEN album = bucket_display_name THEN '<unknown>'\n        ELSE album\n    END AS album,\n    album_artist, artist, \n    bucket_id, bucket_display_name, _data, relative_path, _display_name,\n    is_podcast, bookmark, duration, author, bitrate, compilation, composer,\n    _size, track, year, writer, is_favorite, date_added\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL"
       },
       {
         "viewName": "mediastore_folders",
@@ -1296,7 +1296,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ca99868293ce5f6258502116ceff66b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '68b37d0e77e92e5de99098888732034c')"
     ]
   }
 }

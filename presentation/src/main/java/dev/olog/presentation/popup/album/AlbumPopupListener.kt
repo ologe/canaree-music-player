@@ -44,7 +44,7 @@ class AlbumPopupListener @Inject constructor(
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), album.songs, album.title)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), album.size, album.title)
 
         when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -69,7 +69,7 @@ class AlbumPopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), album.songs, album.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), album.size, album.title)
         } else {
             navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
         }
@@ -85,7 +85,7 @@ class AlbumPopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            navigator.toPlayLater(getMediaId(), album.songs, album.title)
+            navigator.toPlayLater(getMediaId(), album.size, album.title)
         } else {
             navigator.toPlayLater(getMediaId(), -1, song!!.title)
         }
@@ -93,7 +93,7 @@ class AlbumPopupListener @Inject constructor(
 
     private fun playNext() {
         if (song == null) {
-            navigator.toPlayNext(getMediaId(), album.songs, album.title)
+            navigator.toPlayNext(getMediaId(), album.size, album.title)
         } else {
             navigator.toPlayNext(getMediaId(), -1, song!!.title)
         }
@@ -102,7 +102,7 @@ class AlbumPopupListener @Inject constructor(
 
     private fun addToFavorite() {
         if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), album.songs, album.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), album.size, album.title)
         } else {
             navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
         }

@@ -14,7 +14,7 @@ class Migration18To19 : Migration(18, 19) {
         database.execSQL("CREATE INDEX IF NOT EXISTS `index_mediastore_audio_internal_bucket_id` ON `mediastore_audio_internal` (`bucket_id`)")
 
         // mediastore audio view
-        database.execSQL("CREATE VIEW `mediastore_audio` AS SELECT mediastore_audio_internal.*\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL")
+        database.execSQL("CREATE VIEW `mediastore_audio` AS SELECT _id, album_id, artist_id, title, \n    CASE -- remove album as folder name when behaviour\n        WHEN album = bucket_display_name THEN '<unknown>'\n        ELSE album\n    END AS album,\n    album_artist, artist, \n    bucket_id, bucket_display_name, _data, relative_path, _display_name,\n    is_podcast, bookmark, duration, author, bitrate, compilation, composer,\n    _size, track, year, writer, is_favorite, date_added\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL")
 
         // mediastore folders view
         database.execSQL("CREATE VIEW `mediastore_folders` AS SELECT bucket_id, bucket_display_name, relative_path, count(*) as size\nFROM mediastore_audio\nGROUP BY bucket_id")
