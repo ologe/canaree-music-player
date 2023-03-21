@@ -12,8 +12,8 @@ interface ArtistGateway {
     fun getById(id: Long): Artist?
     fun observeById(id: Long): Flow<Artist?>
 
-    fun getTrackListByParam(id: Long): List<Song>
-    fun observeTrackListByParam(id: Long): Flow<List<Song>>
+    fun getTrackListById(id: Long): List<Song>
+    fun observeTrackListById(id: Long): Flow<List<Song>>
 
     fun observeRecentlyAdded(): Flow<List<Artist>>
 

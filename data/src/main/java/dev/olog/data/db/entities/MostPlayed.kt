@@ -32,7 +32,7 @@ data class PlaylistMostPlayedEntity(
 )
 data class GenreMostPlayedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val songId: Long,
     val genreId: Long
 )

@@ -15,6 +15,7 @@ GROUP BY artist_id
 /**
  * keep in sync with similar queries:
  *   [dev.olog.data.mediastore.folder.MediaStoreFolderDao.observeRelatedArtists]
+ *   [dev.olog.data.mediastore.genre.MediaStoreGenreDao.observeRelatedArtists]
  */
 data class MediaStoreArtistEntity(
     @ColumnInfo(name = AudioColumns.ARTIST_ID)

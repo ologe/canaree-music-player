@@ -1,6 +1,7 @@
 package dev.olog.data.mediastore
 
 import android.app.Application
+import android.os.Build
 import dev.olog.core.AppInitializer
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.platform.extension.lifecycleScope
@@ -26,6 +27,12 @@ class MediaStoreAudioRepository @Inject constructor(
             permissionManager.awaitPermissions(Permission.Storage)
             preferences.onVersionChanged {
                 dao.replaceAll(mediaStoreQuery.queryAllAudio())
+                // genres depends on audio, caching must run after
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                    // cache genres only on sdk 29 and below,
+                    // from sdk 30 are automatically populated
+                    dao.updateGenres(mediaStoreQuery.queryAllTrackGenres())
+                }
             }
         }
     }

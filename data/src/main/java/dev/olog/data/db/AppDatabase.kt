@@ -34,6 +34,8 @@ import dev.olog.data.mediastore.audio.MediaStoreAudioDao
 import dev.olog.data.mediastore.folder.MediaStoreFolderEntity
 import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
 import dev.olog.data.mediastore.folder.MediaStoreFolderDao
+import dev.olog.data.mediastore.genre.MediaStoreGenreDao
+import dev.olog.data.mediastore.genre.MediaStoreGenreEntity
 
 
 @Database(
@@ -82,6 +84,7 @@ import dev.olog.data.mediastore.folder.MediaStoreFolderDao
         MediaStoreFolderEntity::class,
         MediaStoreArtistEntity::class,
         MediaStoreAlbumEntity::class,
+        MediaStoreGenreEntity::class,
     ],
     version = 19,
     exportSchema = true,
@@ -94,6 +97,7 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaStoreFolderDao(): MediaStoreFolderDao
     abstract fun mediaStoreArtistDao(): MediaStoreArtistDao
     abstract fun mediaStoreAlbumDao(): MediaStoreAlbumDao
+    abstract fun mediaStoreGenreDao(): MediaStoreGenreDao
     abstract fun blacklistDao(): BlacklistDao
 
     abstract fun playingQueueDao(): PlayingQueueDao

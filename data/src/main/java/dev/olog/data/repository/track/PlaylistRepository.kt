@@ -12,7 +12,6 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
@@ -60,7 +59,7 @@ internal class PlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getByParam(param: Id): Playlist? {
+    override fun getByParam(param: Long): Playlist? {
         assertBackgroundThread()
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
@@ -69,7 +68,7 @@ internal class PlaylistRepository @Inject constructor(
         }
     }
 
-    override fun observeByParam(param: Id): Flow<Playlist?> {
+    override fun observeByParam(param: Long): Flow<Playlist?> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return flow { emit(getByParam(param)) }
         }
@@ -81,7 +80,7 @@ internal class PlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         assertBackgroundThread()
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
@@ -90,7 +89,7 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.getPlaylistTracks(param, songGateway)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
@@ -99,7 +98,7 @@ internal class PlaylistRepository @Inject constructor(
         return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
-    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private fun getAutoPlaylistsTracks(param: Long): List<Song> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.getAll().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
@@ -108,7 +107,7 @@ internal class PlaylistRepository @Inject constructor(
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
+    private fun observeAutoPlaylistsTracks(param: Long): Flow<List<Song>> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
@@ -147,14 +146,14 @@ internal class PlaylistRepository @Inject constructor(
         )
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Playlist>> {
+    override fun observeSiblings(param: Long): Flow<List<Playlist>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
+    override fun observeRelatedArtists(params: Long): Flow<List<Artist>> {
         return observeTrackListByParam(params)
             .map {  songList ->
                 val artists = songList.groupBy { it.artistId }

@@ -13,6 +13,7 @@ import androidx.room.Index
         Index(AudioColumns.ALBUM_ID),
         Index(AudioColumns.ARTIST_ID),
         Index(AudioColumns.BUCKET_ID),
+        Index("genre_id"),
     ]
 )
 data class MediaStoreAudioInternalEntity(
@@ -79,4 +80,10 @@ data class MediaStoreAudioInternalEntity(
     // date
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
     val dateAdded: Long,
+
+    // genre
+    @ColumnInfo(name = "genre_id")
+    val genreId: Long?,
+    @ColumnInfo(name = "genre", collate = ColumnInfo.UNICODE)
+    val genre: String?,
 )

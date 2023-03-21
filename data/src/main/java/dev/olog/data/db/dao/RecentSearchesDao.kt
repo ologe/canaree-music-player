@@ -71,7 +71,7 @@ internal abstract class RecentSearchesDao {
                             playlistMapper(recentEntity, item)
                         }
                         GENRE -> {
-                            val item = genreGateway.getByParam(recentEntity.itemId)
+                            val item = genreGateway.getById(recentEntity.itemId)
                             genreMapper(recentEntity, item)
                         }
                         FOLDER -> {

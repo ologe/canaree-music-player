@@ -12,8 +12,8 @@ interface AlbumGateway {
     fun getById(id: Long): Album?
     fun observeById(id: Long): Flow<Album?>
 
-    fun getTrackListByParam(id: Long): List<Song>
-    fun observeTrackListByParam(id: Long): Flow<List<Song>>
+    fun getTrackListById(id: Long): List<Song>
+    fun observeTrackListById(id: Long): Flow<List<Song>>
 
     fun observeRecentlyPlayed(): Flow<List<Album>>
     suspend fun addRecentlyPlayed(id: Long)

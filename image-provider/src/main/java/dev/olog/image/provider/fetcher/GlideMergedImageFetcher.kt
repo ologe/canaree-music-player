@@ -58,7 +58,7 @@ class GlideMergedImageFetcher(
     private suspend fun makeGenreImage(genreId: Long): InputStream? {
 //        ImagesFolderUtils.forGenre(context, id) --contains current image
 
-        val albumsId = genreGateway.getTrackListByParam(genreId).map { it.albumId }
+        val albumsId = genreGateway.getTrackListById(genreId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.GENRE
         val file = MergedImagesCreator.makeImages(

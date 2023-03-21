@@ -9,7 +9,6 @@ import dev.olog.core.entity.track.*
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getStringOrNull
-import java.io.File
 
 fun Cursor.toSong(): Song {
     val id = getLong(BaseColumns._ID)
@@ -83,47 +82,5 @@ fun Cursor.toPlaylistSong(): Song {
         trackColumn = track,
         idInPlaylist = idInPlaylist,
         isPodcast = isPodcast
-    )
-}
-
-fun Cursor.toAlbum(): Album {
-    val title = getStringOrNull(MediaStore.Audio.Media.ALBUM) ?: ""
-    val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
-    val albumArtist = getStringOrNull(MediaStore.Audio.Media.ALBUM_ARTIST) ?: artist
-
-    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
-
-    return Album(
-        id = getLong(MediaStore.Audio.Media.ALBUM_ID),
-        artistId = getLong(MediaStore.Audio.Media.ARTIST_ID),
-        title = title,
-        artist = artist,
-        albumArtist = albumArtist,
-        size = 0,
-        isPodcast = isPodcast
-    )
-}
-
-fun Cursor.toArtist(): Artist {
-    val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
-    val albumArtist = getStringOrNull(MediaStore.Audio.Media.ALBUM_ARTIST) ?: artist
-    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
-
-    return Artist(
-        id = getLong(MediaStore.Audio.Media.ARTIST_ID),
-        name = artist,
-        albumArtist = albumArtist,
-        songs = 0,
-        isPodcast = isPodcast
-    )
-}
-
-internal fun Cursor.toGenre(): Genre {
-    val id = this.getLong(BaseColumns._ID)
-    val name = this.getStringOrNull(MediaStore.Audio.GenresColumns.NAME)?.capitalize() ?: ""
-    return Genre(
-        id = id,
-        name = name,
-        size = 0 // wil be updated later
     )
 }

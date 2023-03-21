@@ -22,4 +22,22 @@ abstract class MediaStoreAudioInternalDao {
         insertAll(items)
     }
 
+    @Query("""
+        UPDATE mediastore_audio_internal
+        SET genre_id = :genreId, genre = :genre
+        WHERE _id = :trackId
+    """)
+    abstract suspend fun updateGenre(genreId: Long, genre: String, trackId: Long)
+
+    @Transaction
+    open suspend fun updateGenres(trackGenres: List<MediaStoreQuery.TrackGenre>) {
+        for (item in trackGenres) {
+            updateGenre(
+                genreId = item.genre.id,
+                genre = item.genre.name,
+                trackId = item.trackId,
+            )
+        }
+    }
+
 }

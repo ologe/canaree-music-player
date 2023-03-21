@@ -35,11 +35,11 @@ class ArtistRepository @Inject constructor(
             .map { it?.toArtist() }
     }
 
-    override fun getTrackListByParam(id: Long): List<Song> {
+    override fun getTrackListById(id: Long): List<Song> {
         return queries.getSongList(false, id).map { it.toSong() }
     }
 
-    override fun observeTrackListByParam(id: Long): Flow<List<Song>> {
+    override fun observeTrackListById(id: Long): Flow<List<Song>> {
         return queries.observeSongList(false, id)
             .mapListItem { it.toSong() }
     }

@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns
+import android.provider.MediaStore.Audio.Genres
 import android.provider.MediaStore.Audio.Media
 import androidx.core.database.getIntOrNull
+import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.platform.BuildVersion
@@ -61,6 +63,8 @@ class MediaStoreQuery @Inject constructor(
             val compilationColumn = cursor.getColumnIndexOrThrow(AudioColumns.COMPILATION)
             val composerColumn = cursor.getColumnIndexOrThrow(AudioColumns.COMPOSER)
             val writerColumn = cursor.getColumnIndexOrThrow(AudioColumns.WRITER)
+            val genreIdColumn = if (BuildVersion.isR()) cursor.getColumnIndexOrThrow(AudioColumns.GENRE_ID) else -1
+            val genreColumn = if (BuildVersion.isR()) cursor.getColumnIndexOrThrow(AudioColumns.GENRE) else -1
 
             while (cursor.moveToNext()) {
                 result += MediaStoreAudioInternalEntity(
@@ -89,6 +93,8 @@ class MediaStoreQuery @Inject constructor(
                     compilation = cursor.getStringOrNull(compilationColumn),
                     composer = cursor.getStringOrNull(composerColumn),
                     writer = cursor.getStringOrNull(writerColumn),
+                    genreId = cursor.getLongOrNull(genreIdColumn),
+                    genre = cursor.getStringOrNull(genreColumn),
                 )
             }
 
@@ -113,5 +119,73 @@ class MediaStoreQuery @Inject constructor(
             it.getStringOrNull(0)
         }
     }
+
+    fun queryAllTrackGenres(): List<TrackGenre> {
+        val uri = when {
+            BuildVersion.isQ() -> Genres.getContentUri(MediaStore.VOLUME_EXTERNAL)
+            else -> Genres.EXTERNAL_CONTENT_URI
+        }
+
+        val genres = mutableListOf<Genre>()
+        val cursor = context.contentResolver.query(uri, null, null, null, null) ?: return emptyList()
+        try {
+            val idColumn = cursor.getColumnIndexOrThrow(Genres._ID)
+            val nameColumn = cursor.getColumnIndexOrThrow(Genres.NAME)
+
+            while (cursor.moveToNext()) {
+                genres += Genre(
+                    id = cursor.getLong(idColumn),
+                    name = cursor.getStringOrNull(nameColumn) ?: continue
+                )
+            }
+        } finally {
+            cursor.close()
+        }
+
+        return queryAllTrackGenresInternal(genres)
+    }
+
+    private fun queryAllTrackGenresInternal(genres: List<Genre>): List<TrackGenre> {
+        val result = mutableListOf<TrackGenre>()
+
+        for (genre in genres) {
+            val uri = when {
+                BuildVersion.isQ() -> Genres.Members.getContentUri(MediaStore.VOLUME_EXTERNAL, genre.id)
+                // TODO make sure it works
+                else -> Genres.Members.getContentUri("external", genre.id)
+            }
+            val cursor = context.contentResolver.query(
+                uri,
+                arrayOf(Genres.Members.AUDIO_ID),
+                null,
+                null,
+                null
+            ) ?: continue
+
+            try {
+                val audioIdColumn = cursor.getColumnIndexOrThrow(Genres.Members.AUDIO_ID)
+                while (cursor.moveToNext()) {
+                    result += TrackGenre(
+                        genre = genre,
+                        trackId = cursor.getLongOrNull(audioIdColumn) ?: continue
+                    )
+                }
+            } finally {
+                cursor.close()
+            }
+        }
+
+        return result
+    }
+
+    data class Genre(
+        val id: Long,
+        val name: String,
+    )
+
+    data class TrackGenre(
+        val genre: Genre,
+        val trackId: Long,
+    )
 
 }

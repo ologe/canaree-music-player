@@ -1,81 +1,66 @@
 package dev.olog.data.queries
 
-import android.content.ContentResolver
-import android.database.Cursor
-import android.provider.MediaStore.Audio.Genres.*
-import dev.olog.contentresolversql.querySql
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.base.Id
+import android.provider.MediaStore
+import androidx.sqlite.db.SimpleSQLiteQuery
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.mediastore.artist.MediaStoreArtistEntity
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
+import dev.olog.data.mediastore.genre.MediaStoreGenreDao
+import dev.olog.data.mediastore.genre.MediaStoreGenreEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import javax.inject.Inject
 
-internal class GenreQueries(
-    private val contentResolver: ContentResolver,
-    sortPrefs: SortPreferences
-) : BaseQueries(sortPrefs, false) {
+internal class GenreQueries @Inject constructor(
+    private val dao: MediaStoreGenreDao,
+    private val sortPrefs: SortPreferences,
+) {
 
-    fun getAll(): Cursor {
-
-        val query = """
-            SELECT $_ID, $NAME
-            FROM $EXTERNAL_CONTENT_URI
-            ORDER BY $DEFAULT_SORT_ORDER
-        """
-
-        return contentResolver.querySql(query)
+    fun getAll(): List<MediaStoreGenreEntity> {
+        return dao.getAll()
     }
 
-    fun countGenreSize(genreId: Id): Cursor {
-        val query = """
-            SELECT ${Members._ID}, ${Members.AUDIO_ID}
-            FROM ${Members.getContentUri("external", genreId)}
-            WHERE ${defaultSelection()}
-        """
-        return contentResolver.querySql(query)
+    fun observeAll(): Flow<List<MediaStoreGenreEntity>> {
+        return dao.observeAll()
     }
 
-    fun getRelatedArtists(genreId: Id): Cursor {
-        val query = """
-             SELECT
-                ${Members.ARTIST_ID},
-                ${Members.ARTIST},
-                ${Members.ALBUM_ARTIST},
-                ${Members.IS_PODCAST}
-            FROM ${Members.getContentUri("external", genreId)}
-            WHERE ${defaultSelection()}
-            ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
-        """
-
-        return contentResolver.querySql(query)
+    fun getById(id: Long): MediaStoreGenreEntity? {
+        return dao.getById(id)
     }
 
-    fun getRecentlyAdded(genreId: Id): Cursor {
-        val query = """
-            SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
-                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Members.ALBUM_ARTIST},
-                ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
-                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
-            FROM ${Members.getContentUri("external", genreId)}
-            WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
-            ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
-        """
-        return contentResolver.querySql(query)
+    fun observeById(id: Long): Flow<MediaStoreGenreEntity?> {
+        return dao.observeById(id)
     }
 
-    fun getSongList(genreId: Id): Cursor {
-        val query = """
-            SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
-                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Members.ALBUM_ARTIST},
-                ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
-                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
-            FROM ${Members.getContentUri("external", genreId)}
-            WHERE ${defaultSelection()}
-            ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
-        """
-        return contentResolver.querySql(query)
+    fun observeRelatedArtists(id: Long): Flow<List<MediaStoreArtistEntity>> {
+        return dao.observeRelatedArtists(id)
     }
 
-    private fun defaultSelection(): String {
-        return "${isPodcast()}"
+    fun observeRecentlyAddedSongs(id: Long): Flow<List<MediaStoreAudioEntity>> {
+        return dao.observeRecentlyAddedSongs(id)
+    }
+
+    fun getSongList(id: Long): List<MediaStoreAudioEntity> {
+        val sort = sortPrefs.getDetailGenreSort()
+        return dao.getTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+    }
+
+    fun observeSongList(id: Long): Flow<List<MediaStoreAudioEntity>> {
+        return sortPrefs.observeDetailGenreSort()
+            .flatMapLatest { sort ->
+                dao.observeTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+            }
+    }
+
+    private fun getSongListQuery(
+        sort: SortEntity
+    ): String {
+        return """
+            SELECT * FROM mediastore_audio
+            WHERE genre_id = ?
+            ORDER BY ${QueryUtils.songListSortOrder(sort, MediaStore.Audio.AudioColumns.TITLE)}
+        """
     }
 
 }

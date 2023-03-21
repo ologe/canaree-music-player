@@ -2,7 +2,6 @@ package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import kotlinx.coroutines.flow.Flow
 
 interface PodcastAlbumGateway {
@@ -23,5 +22,5 @@ interface PodcastAlbumGateway {
 
     fun observeSiblings(id: Long): Flow<List<Album>>
 
-    fun observeArtistsAlbums(artistId: Id): Flow<List<Album>>
+    fun observeArtistsAlbums(artistId: Long): Flow<List<Album>>
 }

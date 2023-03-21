@@ -15,7 +15,7 @@ SELECT _id, album_id, artist_id, title,
     album_artist, artist, 
     bucket_id, bucket_display_name, _data, relative_path, _display_name,
     is_podcast, bookmark, duration, author, bitrate, compilation, composer,
-    _size, track, year, writer, is_favorite, date_added
+    _size, track, year, writer, is_favorite, date_added, genre_id, genre
 FROM mediastore_audio_internal LEFT JOIN blacklist 
     ON mediastore_audio_internal.relative_path = blacklist.directory
 WHERE blacklist.directory IS NULL
@@ -84,6 +84,12 @@ data class MediaStoreAudioEntity(
     // date
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
     val dateAdded: Long,
+
+    // genre
+    @ColumnInfo(name = "genre_id")
+    val genreId: Long?,
+    @ColumnInfo(name = "genre")
+    val genre: String?,
 )
 
 fun MediaStoreAudioEntity.toSong(): Song {

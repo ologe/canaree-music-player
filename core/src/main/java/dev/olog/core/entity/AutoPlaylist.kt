@@ -1,14 +1,12 @@
 package dev.olog.core.entity
 
-import dev.olog.core.gateway.base.Id
-
 enum class AutoPlaylist {
     LAST_ADDED,
     FAVORITE,
     HISTORY;
 
     companion object {
-        fun isAutoPlaylist(id: Id): Boolean {
+        fun isAutoPlaylist(id: Long): Boolean {
             return values().find { it.id == id } != null
         }
     }

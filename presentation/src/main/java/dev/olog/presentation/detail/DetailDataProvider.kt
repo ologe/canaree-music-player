@@ -61,7 +61,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.ARTISTS -> artistGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.GENRES -> genreGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }

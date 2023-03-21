@@ -5,7 +5,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
 import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
@@ -42,7 +41,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
         getSongListByParamUseCase(mediaId).first().path
     }
 
-    suspend fun fetchData(id: Id): LastFmAlbum? {
+    suspend fun fetchData(id: Long): LastFmAlbum? {
         return lastFmGateway.getAlbum(id)
     }
 

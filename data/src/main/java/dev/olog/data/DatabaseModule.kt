@@ -12,6 +12,7 @@ import dev.olog.data.mediastore.album.MediaStoreAlbumDao
 import dev.olog.data.mediastore.artist.MediaStoreArtistDao
 import dev.olog.data.mediastore.audio.MediaStoreAudioDao
 import dev.olog.data.mediastore.folder.MediaStoreFolderDao
+import dev.olog.data.mediastore.genre.MediaStoreGenreDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -40,6 +41,11 @@ class DatabaseModule {
     @Provides
     internal fun provideMediaStoreAlbumDao(db: AppDatabase): MediaStoreAlbumDao {
         return db.mediaStoreAlbumDao()
+    }
+
+    @Provides
+    internal fun provideMediaStoreGenreDao(db: AppDatabase): MediaStoreGenreDao {
+        return db.mediaStoreGenreDao()
     }
 
     @Provides

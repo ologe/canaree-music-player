@@ -53,7 +53,7 @@ object VoiceSearch {
         val genre = genreGateway.getAll().find { it.name == query } ?: return emptyList()
         val parentMediaId = genre.getMediaId()
 
-        return genreGateway.getTrackListByParam(genre.id)
+        return genreGateway.getTrackListById(genre.id)
             .mapIndexed { index, song -> song.toMediaEntity(index, parentMediaId) }
     }
 

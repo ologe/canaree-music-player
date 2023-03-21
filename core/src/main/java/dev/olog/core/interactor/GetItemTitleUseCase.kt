@@ -35,7 +35,7 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.SONGS -> songGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.ALBUMS -> albumGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.ARTISTS -> artistGateway.observeById(param.categoryId).map { it?.name }
-            MediaIdCategory.GENRES -> genreGateway.observeByParam(param.categoryId).map { it?.name }
+            MediaIdCategory.GENRES -> genreGateway.observeById(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS -> podcastGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(param.categoryId).map { it?.name }

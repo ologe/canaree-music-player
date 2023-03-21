@@ -95,7 +95,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getGenrePopup(view: View, mediaId: MediaId): PopupMenu {
-        val genre = getGenreUseCase.getByParam(mediaId.categoryId)!!
+        val genre = getGenreUseCase.getById(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getById(mediaId.leaf!!)
             GenrePopup(view, genre, song, listenerFactory.genre(genre, song))

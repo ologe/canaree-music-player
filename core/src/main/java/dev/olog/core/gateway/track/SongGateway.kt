@@ -2,7 +2,6 @@ package dev.olog.core.gateway.track
 
 import android.net.Uri
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import kotlinx.coroutines.flow.Flow
 
 interface SongGateway {
@@ -16,6 +15,6 @@ interface SongGateway {
     fun getByUri(uri: Uri): Song?
 
     @Deprecated(message = "remove")
-    fun getByAlbumId(albumId: Id): Song?
+    fun getByAlbumId(albumId: Long): Song?
 
 }
