@@ -57,7 +57,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.ALBUMS -> albumGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.ARTISTS -> artistGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
@@ -65,7 +65,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }

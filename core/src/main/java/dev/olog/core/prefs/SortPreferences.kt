@@ -11,6 +11,7 @@ interface SortAll {
     fun getAllTracksSort(): SortEntity
     fun observeAllTracksSort(): Flow<SortEntity>
     fun getAllAlbumsSort(): SortEntity
+    fun observeAllAlbumsSort(): Flow<SortEntity>
     fun getAllArtistsSort(): SortEntity
     fun observeAllArtistsSort(): Flow<SortEntity>
 

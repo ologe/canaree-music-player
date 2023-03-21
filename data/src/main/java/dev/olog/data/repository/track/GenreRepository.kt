@@ -124,7 +124,7 @@ internal class GenreRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeRecentlyAdded(path: Id): Flow<List<Song>> {
+    override fun observeRecentlyAddedSongs(path: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
             val cursor = queries.getRecentlyAdded(path)

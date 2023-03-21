@@ -59,7 +59,7 @@ internal class TabDataProvider @Inject constructor(
                 resources
             )
         }
-        TabCategory.LAST_PLAYED_ALBUMS -> albumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
+        TabCategory.LAST_PLAYED_ALBUMS -> albumGateway.observeRecentlyPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
         TabCategory.LAST_PLAYED_ARTISTS -> artistGateway.observeRecentlyPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
@@ -78,7 +78,7 @@ internal class TabDataProvider @Inject constructor(
                 resources
             )
         }
-        TabCategory.LAST_PLAYED_PODCAST_ALBUMS -> podcastAlbumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
+        TabCategory.LAST_PLAYED_PODCAST_ALBUMS -> podcastAlbumGateway.observeRecentlyPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
         TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastArtistGateway.observeRecentlyPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
@@ -122,7 +122,7 @@ internal class TabDataProvider @Inject constructor(
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = albumGateway.observeLastPlayed()
+        val recentlyPlayedFlow = albumGateway.observeRecentlyPlayed()
             .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
@@ -191,7 +191,7 @@ internal class TabDataProvider @Inject constructor(
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = podcastAlbumGateway.observeLastPlayed()
+        val recentlyPlayedFlow = podcastAlbumGateway.observeRecentlyPlayed()
             .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }

@@ -7,10 +7,15 @@ import androidx.room.DatabaseView
 import dev.olog.core.entity.track.Artist
 
 @DatabaseView("""
-SELECT artist_id, artist, album_artist, is_podcast, count(*) as size
+SELECT artist_id, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS ${AudioColumns.DATE_ADDED}
 FROM mediastore_audio
+WHERE artist <> '${UNKNOWN_STRING}'
 GROUP BY artist_id
 """, viewName = "mediastore_artists")
+/**
+ * keep in sync with similar queries:
+ *   [dev.olog.data.mediastore.folder.MediaStoreFolderDao.observeRelatedArtists]
+ */
 data class MediaStoreArtistEntity(
     @ColumnInfo(name = AudioColumns.ARTIST_ID)
     val id: Long,
@@ -20,6 +25,8 @@ data class MediaStoreArtistEntity(
     val albumArtist: String?,
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
     val isPodcast: Boolean,
+    @ColumnInfo(name = AudioColumns.DATE_ADDED)
+    val dateAdded: Long,
     val size: Int,
 )
 

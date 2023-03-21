@@ -59,8 +59,8 @@ internal class FolderQueries @Inject constructor(
         """
     }
 
-    fun observeRecentlyAdded(id: Long): Flow<List<MediaStoreAudioEntity>> {
-        return dao.observeRecentlyAdded(id)
+    fun observeRecentlyAddedSongs(id: Long): Flow<List<MediaStoreAudioEntity>> {
+        return dao.observeRecentlyAddedSongs(id)
     }
 
     fun observeRelatedArtists(id: Long): Flow<List<MediaStoreArtistEntity>> {

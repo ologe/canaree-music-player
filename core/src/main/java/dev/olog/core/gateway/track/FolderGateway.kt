@@ -27,7 +27,7 @@ interface FolderGateway {
 
     fun observeRelatedArtists(id: Long): Flow<List<Artist>>
 
-    fun observeRecentlyAdded(id: Long): Flow<List<Song>>
+    fun observeRecentlyAddedSongs(id: Long): Flow<List<Song>>
 
     fun observeFileSystem(): Flow<VirtualFileSystemTree>
     fun observeDirectories(relativePaths: List<String>): Flow<List<Folder>>

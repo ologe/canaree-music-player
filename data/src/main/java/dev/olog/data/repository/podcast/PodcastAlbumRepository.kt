@@ -1,127 +1,71 @@
 package dev.olog.data.repository.podcast
 
-import android.content.ContentResolver
-import android.content.Context
-import android.database.Cursor
-import android.provider.MediaStore
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.HasLastPlayed
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.core.prefs.SortPreferences
-import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.LastPlayedPodcastAlbumDao
-import dev.olog.data.mapper.toAlbum
-import dev.olog.data.mapper.toSong
+import dev.olog.data.db.entities.LastPlayedPodcastAlbumEntity
+import dev.olog.data.mediastore.album.toAlbum
+import dev.olog.data.mediastore.audio.toSong
 import dev.olog.data.queries.AlbumsQueries
-import dev.olog.data.repository.BaseRepository
-import dev.olog.data.repository.ContentUri
-import dev.olog.shared.assertBackground
-import dev.olog.shared.assertBackgroundThread
-import dev.olog.data.utils.queryAll
-import dev.olog.platform.permission.PermissionManager
+import dev.olog.shared.filterListItem
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-internal class PodcastAlbumRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
+class PodcastAlbumRepository @Inject constructor(
+    private val queries: AlbumsQueries,
     private val lastPlayedDao: LastPlayedPodcastAlbumDao,
-    schedulers: Schedulers,
-    permissionManager: PermissionManager,
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers, permissionManager), PodcastAlbumGateway {
+) : PodcastAlbumGateway {
 
-    private val queries = AlbumsQueries(contentResolver, sortPrefs, true)
-
-    init {
-        firstQuery()
+    override fun getAll(): List<Album> {
+        return queries.getAll(true).map { it.toAlbum() }
     }
 
-    override fun registerMainContentUri(): ContentUri {
-        return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+    override fun observeAll(): Flow<List<Album>> {
+        return queries.observeAll(true)
+            .mapListItem { it.toAlbum() }
     }
 
-    private fun extractAlbums(cursor: Cursor): List<Album> {
-        assertBackgroundThread()
-        return contentResolver.queryAll(cursor) { it.toAlbum() }
-            .groupBy { it.id }
-            .map { (_, list) ->
-                val album = list[0]
-                album.copy(size = list.size)
-            }
+    override fun getById(id: Long): Album? {
+        return queries.getById(id)?.toAlbum()
     }
 
-    override fun queryAll(): List<Album> {
-        assertBackgroundThread()
-        val cursor = queries.getAll()
-        return extractAlbums(cursor)
+    override fun observeById(id: Long): Flow<Album?> {
+        return queries.observeById(id)
+            .map { it?.toAlbum() }
     }
 
-    override fun getByParam(param: Id): Album? {
-        assertBackgroundThread()
-        return channel.valueOrNull?.find { it.id == param }
+    override fun getTrackListByParam(id: Long): List<Song> {
+        return queries.getSongList(true, id).map { it.toSong() }
     }
 
-    override fun observeByParam(param: Id): Flow<Album?> {
-        return channel.asFlow().map { list -> list.find { it.id == param } }
-            .distinctUntilChanged()
-            .assertBackground()
+    override fun observeTrackListByParam(id: Long): Flow<List<Song>> {
+        return queries.observeSongList(true, id)
+            .mapListItem { it.toSong() }
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
-        val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toSong() }
+    override fun observeRecentlyPlayed(): Flow<List<Album>> {
+        return lastPlayedDao.observeAll()
+            .mapListItem { it.toAlbum() }
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
-    }
-
-    override fun observeLastPlayed(): Flow<List<Album>> {
-        return observeAll().combine(lastPlayedDao.getAll()) { all, lastPlayed ->
-            if (all.size < HasLastPlayed.MIN_ITEMS) {
-                listOf() // too few album to show recents
-            } else {
-                lastPlayed.asSequence()
-                    .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
-                    .take(HasLastPlayed.MAX_ITEM_TO_SHOW)
-                    .toList()
-            }
-        }.distinctUntilChanged()
-            .assertBackground()
-    }
-
-    override suspend fun addLastPlayed(id: Id) {
-        assertBackgroundThread()
-        lastPlayedDao.insertOne(id)
+    override suspend fun addRecentlyPlayed(id: Long) {
+        lastPlayedDao.insertOne(LastPlayedPodcastAlbumEntity(id))
     }
 
     override fun observeRecentlyAdded(): Flow<List<Album>> {
-        return flowOf(emptyList())
-        // TODO crash on android 11, see BaseQueries
-        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractAlbums(queries.getRecentlyAdded()) }
-            .distinctUntilChanged()
-            .assertBackground()
+        return queries.observeRecentlyAdded(true)
+            .mapListItem { it.toAlbum() }
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Album>> {
-        return observeAll()
-            .map { it.filter { it.id != param } }
-            .distinctUntilChanged()
-            .assertBackground()
+    override fun observeSiblings(id: Long): Flow<List<Album>> {
+        return queries.observeSiblings(id)
+            .mapListItem { it.toAlbum() }
     }
 
-    override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
+    override fun observeArtistsAlbums(artistId: Long): Flow<List<Album>> {
         return observeAll()
-            .map { it.filter { it.artistId != artistId } }
-            .distinctUntilChanged()
-            .assertBackground()
+            .filterListItem { it.artistId == artistId }
     }
 }

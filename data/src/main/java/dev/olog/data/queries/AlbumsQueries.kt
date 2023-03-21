@@ -1,93 +1,123 @@
 package dev.olog.data.queries
 
-import android.content.ContentResolver
-import android.database.Cursor
-import android.provider.MediaStore.Audio.Media.*
-import dev.olog.contentresolversql.querySql
-import dev.olog.core.MediaIdCategory
+import android.provider.MediaStore.*
+import android.provider.MediaStore.Audio.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.mediastore.album.MediaStoreAlbumDao
+import dev.olog.data.mediastore.album.MediaStoreAlbumEntity
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import javax.inject.Inject
 
-internal class AlbumsQueries(
-    private val contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
-    isPodcast: Boolean
-) : BaseQueries(sortPrefs, isPodcast) {
+class AlbumsQueries @Inject constructor(
+    private val dao: MediaStoreAlbumDao,
+    private val sortPrefs: SortPreferences,
+) {
 
-    fun getAll(): Cursor {
-        val query = """
-             SELECT
-                $ALBUM_ID,
-                $ARTIST_ID,
-                $ARTIST,
-                $ALBUM,
-                ${ALBUM_ARTIST},
-                $DATA,
-                $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection()}
-            ORDER BY ${sortOrder()}
-        """
-
-        return contentResolver.querySql(query)
-    }
-
-    fun getSongList(id: Id): Cursor {
-        val query = """
-            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${ALBUM_ARTIST},
-                $DURATION, $DATA, $YEAR,
-                $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE $ALBUM_ID = ? AND ${defaultSelection()}
-            ORDER BY ${songListSortOrder(MediaIdCategory.ALBUMS, DEFAULT_SORT_ORDER)}
-        """
-        return contentResolver.querySql(query, arrayOf("$id"))
-    }
-
-    fun getRecentlyAdded(): Cursor {
-        val query = """
-            SELECT 
-                $ALBUM_ID,
-                $ARTIST_ID,
-                $ARTIST,
-                $ALBUM,
-                ${ALBUM_ARTIST},
-                $DATA,
-                $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
-
-            ORDER BY $DATE_ADDED DESC
-        """
-        return contentResolver.querySql(query)
-    }
-
-    private fun defaultSelection(): String {
-        return "${isPodcast()}"
-    }
-
-    private fun sortOrder(): String {
+    fun getAll(isPodcast: Boolean): List<MediaStoreAlbumEntity> {
         if (isPodcast) {
-            return "lower($ALBUM) COLLATE UNICODE"
+            return dao.getAll(SimpleSQLiteQuery(getPodcastQuery()))
+        }
+        val sort = sortPrefs.getAllAlbumsSort()
+        return dao.getAll(SimpleSQLiteQuery(getSongQuery(sort)))
+    }
+
+    fun observeAll(isPodcast: Boolean): Flow<List<MediaStoreAlbumEntity>> {
+        if (isPodcast) {
+            return dao.observeAll(SimpleSQLiteQuery(getPodcastQuery()))
+        }
+        return sortPrefs.observeAllAlbumsSort()
+            .flatMapLatest { sort ->
+                dao.observeAll(SimpleSQLiteQuery(getSongQuery(sort)))
+            }
+    }
+
+    fun getById(id: Long): MediaStoreAlbumEntity? {
+        return dao.getById(id)
+    }
+
+    fun observeById(id: Long): Flow<MediaStoreAlbumEntity?> {
+        return dao.observeById(id)
+    }
+
+    fun getSongList(isPodcast: Boolean, id: Long): List<MediaStoreAudioEntity> {
+        val sort = if (isPodcast) {
+            // TODO add sort support
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        } else {
+            sortPrefs.getDetailAlbumSort()
+        }
+        return dao.getTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+    }
+
+    fun observeSongList(isPodcast: Boolean, id: Long): Flow<List<MediaStoreAudioEntity>> {
+        if (isPodcast) {
+            // TODO add sort support
+            val sort = SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+            return dao.observeTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
         }
 
-        val sortEntity = sortPrefs.getAllAlbumsSort()
-        var sort = when (sortEntity.type) {
-            SortType.ALBUM -> "lower($ALBUM)"
-            SortType.ARTIST -> "lower($ARTIST)"
-            SortType.ALBUM_ARTIST -> "lower(${ALBUM_ARTIST})"
-            else -> "lower($ALBUM)"
-        }
+        return sortPrefs.observeDetailAlbumSort()
+            .flatMapLatest { sort ->
+                dao.observeTracks(SimpleSQLiteQuery(getSongListQuery(sort), arrayOf(id)))
+            }
+    }
 
-        sort += " COLLATE UNICODE "
+    private fun getSongQuery(
+        sort: SortEntity
+    ): String {
+        return """
+            SELECT * FROM mediastore_albums
+            WHERE ${AudioColumns.IS_PODCAST} = 0
+            ORDER BY ${songSortOrder(sort)}
+        """
+    }
 
-        if (sortEntity.arranging == SortArranging.DESCENDING) {
-            sort += " DESC"
+    private fun getPodcastQuery(
+        // TODO add sort support
+    ): String {
+        return """
+            SELECT * FROM mediastore_albums
+            WHERE ${AudioColumns.IS_PODCAST} <> 0
+            ORDER BY ${podcastSortOrder()}
+        """
+    }
+
+    private fun getSongListQuery(
+        sort: SortEntity
+    ): String {
+        return """
+            SELECT * FROM mediastore_audio
+            WHERE ${AudioColumns.ALBUM_ID} = ?
+            ORDER BY ${QueryUtils.songListSortOrder(sort, AudioColumns.TITLE)}
+        """
+    }
+
+    fun observeRecentlyAdded(isPodcast: Boolean): Flow<List<MediaStoreAlbumEntity>> {
+        return dao.observeRecentlyAdded(isPodcast)
+    }
+
+    fun observeSiblings(id: Long): Flow<List<MediaStoreAlbumEntity>> {
+        return dao.observeSiblings(id)
+    }
+
+    private fun podcastSortOrder(): String {
+        return AudioColumns.ALBUM
+    }
+
+    private fun songSortOrder(sort: SortEntity): String {
+        val direction = sort.arranging
+        return when (sort.type) {
+            SortType.ALBUM -> "CASE WHEN ${AudioColumns.ALBUM} = '$UNKNOWN_STRING' THEN -1 END, ${AudioColumns.ALBUM} $direction"
+            SortType.ARTIST -> "CASE WHEN ${AudioColumns.ARTIST} = '$UNKNOWN_STRING' THEN -1 END, ${AudioColumns.ARTIST} $direction"
+            SortType.ALBUM_ARTIST -> "CASE WHEN ${AudioColumns.ALBUM_ARTIST} = '$UNKNOWN_STRING' THEN -1 END, ${AudioColumns.ALBUM_ARTIST} $direction"
+            else -> AudioColumns.ALBUM
         }
-        return sort
     }
 
 }

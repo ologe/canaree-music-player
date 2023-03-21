@@ -119,7 +119,7 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     override suspend fun getAlbum(albumId: Long): LastFmAlbum? = coroutineScope {
-        val album = albumGateway.getByParam(albumId) ?: return@coroutineScope null
+        val album = albumGateway.getById(albumId) ?: return@coroutineScope null
 
         val cached = localAlbum.getCached(albumId)
         if (cached != null) {

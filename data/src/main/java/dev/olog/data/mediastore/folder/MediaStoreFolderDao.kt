@@ -1,6 +1,7 @@
 package dev.olog.data.mediastore.folder
 
-import android.provider.MediaStore
+import android.provider.MediaStore.*
+import android.provider.MediaStore.Audio.*
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.RawQuery
@@ -37,15 +38,15 @@ interface MediaStoreFolderDao {
 
     @Query("""
         SELECT * FROM mediastore_audio
-        WHERE ${MediaStore.Audio.AudioColumns.BUCKET_ID} = :id AND ${QueryUtils.RECENTLY_ADDED}
-        ORDER BY ${MediaStore.Audio.AudioColumns.DATE_ADDED} DESC, ${MediaStore.Audio.AudioColumns.TITLE} ASC
+        WHERE ${AudioColumns.BUCKET_ID} = :id AND ${QueryUtils.RECENTLY_ADDED}
+        ORDER BY ${AudioColumns.DATE_ADDED} DESC, ${AudioColumns.TITLE} ASC
     """)
-    fun observeRecentlyAdded(id: Long): Flow<List<MediaStoreAudioEntity>>
+    fun observeRecentlyAddedSongs(id: Long): Flow<List<MediaStoreAudioEntity>>
 
     @Query("""
-        SELECT artist_id, artist, album_artist, is_podcast, count(*) as size
+        SELECT artist_id, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS ${AudioColumns.DATE_ADDED}
         FROM mediastore_audio
-        WHERE mediastore_audio.bucket_id = :id
+        WHERE mediastore_audio.bucket_id = :id AND artist <> '$UNKNOWN_STRING'
         GROUP BY artist_id
         ORDER BY artist
     """)

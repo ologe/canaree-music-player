@@ -24,7 +24,10 @@ class Migration18To19 : Migration(18, 19) {
         database.execSQL("CREATE INDEX IF NOT EXISTS `index_most_played_folder_id` ON `most_played_folder` (`id`)")
 
         // mediastore artist view
-        database.execSQL("CREATE VIEW `mediastore_artists` AS SELECT artist_id, artist, album_artist, is_podcast, count(*) as size\nFROM mediastore_audio\nGROUP BY artist_id")
+        database.execSQL("CREATE VIEW `mediastore_artists` AS SELECT artist_id, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS date_added\nFROM mediastore_audio\nWHERE artist <> '<unknown>'\nGROUP BY artist_id")
+
+        // mediastore album view
+        database.execSQL("CREATE VIEW `mediastore_albums` AS SELECT album_id, artist_id, album, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS date_added \nFROM mediastore_audio\nWHERE album <> '<unknown>' AND album_id <> (\n    -- filter out invalid album that use '0' as name from 'storage/emulated/0' device path\n    SELECT album_id\n    FROM mediastore_audio\n    WHERE album = '0' AND bucket_display_name = '<unknown>'\n)\nGROUP BY album_id")
 
         // blacklist
         database.execSQL("CREATE TABLE IF NOT EXISTS `blacklist` (`directory` TEXT NOT NULL, PRIMARY KEY(`directory`))")

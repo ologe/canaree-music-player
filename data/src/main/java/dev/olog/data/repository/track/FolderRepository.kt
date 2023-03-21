@@ -80,8 +80,8 @@ internal class FolderRepository @Inject constructor(
             .mapListItem { it.toArtist() }
     }
 
-    override fun observeRecentlyAdded(id: Long): Flow<List<Song>> {
-        return queries.observeRecentlyAdded(id)
+    override fun observeRecentlyAddedSongs(id: Long): Flow<List<Song>> {
+        return queries.observeRecentlyAddedSongs(id)
             .mapListItem { it.toSong() }
     }
 

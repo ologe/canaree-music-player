@@ -8,6 +8,7 @@ import dev.olog.data.blacklist.BlacklistDao
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.dao.*
 import dev.olog.data.mediastore.MediaStoreAudioInternalDao
+import dev.olog.data.mediastore.album.MediaStoreAlbumDao
 import dev.olog.data.mediastore.artist.MediaStoreArtistDao
 import dev.olog.data.mediastore.audio.MediaStoreAudioDao
 import dev.olog.data.mediastore.folder.MediaStoreFolderDao
@@ -34,6 +35,11 @@ class DatabaseModule {
     @Provides
     internal fun provideMediaStoreArtistDao(db: AppDatabase): MediaStoreArtistDao {
         return db.mediaStoreArtistDao()
+    }
+
+    @Provides
+    internal fun provideMediaStoreAlbumDao(db: AppDatabase): MediaStoreAlbumDao {
+        return db.mediaStoreAlbumDao()
     }
 
     @Provides

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "68b37d0e77e92e5de99098888732034c",
+    "identityHash": "42294168b251c455ba0e8981629ed871",
     "entities": [
       {
         "tableName": "mediastore_audio_internal",
@@ -1291,12 +1291,16 @@
       },
       {
         "viewName": "mediastore_artists",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT artist_id, artist, album_artist, is_podcast, count(*) as size\nFROM mediastore_audio\nGROUP BY artist_id"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT artist_id, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS date_added\nFROM mediastore_audio\nWHERE artist <> '<unknown>'\nGROUP BY artist_id"
+      },
+      {
+        "viewName": "mediastore_albums",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT album_id, artist_id, album, artist, album_artist, is_podcast, count(*) as size, MAX(date_added) AS date_added \nFROM mediastore_audio\nWHERE album <> '<unknown>' AND album_id <> (\n    -- filter out invalid album that use '0' as name from 'storage/emulated/0' device path\n    SELECT album_id\n    FROM mediastore_audio\n    WHERE album = '0' AND bucket_display_name = '<unknown>'\n)\nGROUP BY album_id"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '68b37d0e77e92e5de99098888732034c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '42294168b251c455ba0e8981629ed871')"
     ]
   }
 }

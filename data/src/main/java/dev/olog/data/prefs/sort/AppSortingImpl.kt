@@ -64,6 +64,18 @@ internal class AppSortingImpl @Inject constructor(
         )
     }
 
+    override fun observeAllAlbumsSort(): Flow<SortEntity> {
+        return combine(
+            preferences.observeKey(ALL_ALBUMS_SORT_ORDER, SortType.TITLE.ordinal),
+            preferences.observeKey(ALL_ALBUMS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal),
+        ) { sort, direction ->
+            SortEntity(
+                type = SortType.values()[sort],
+                arranging = SortArranging.values()[direction]
+            )
+        }
+    }
+
     override fun getAllArtistsSort(): SortEntity {
         val sort = preferences.getInt(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal)
         val arranging =

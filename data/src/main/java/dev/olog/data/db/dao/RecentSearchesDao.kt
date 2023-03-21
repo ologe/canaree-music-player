@@ -59,7 +59,7 @@ internal abstract class RecentSearchesDao {
                             songMapper(recentEntity, item)
                         }
                         ALBUM -> {
-                            val item = albumGateway.getByParam(recentEntity.itemId)
+                            val item = albumGateway.getById(recentEntity.itemId)
                             albumMapper(recentEntity, item)
                         }
                         ARTIST -> {
@@ -87,7 +87,7 @@ internal abstract class RecentSearchesDao {
                             playlistMapper(recentEntity, item)
                         }
                         PODCAST_ALBUM -> {
-                            val item = podcastAlbumGateway.getByParam(recentEntity.itemId)
+                            val item = podcastAlbumGateway.getById(recentEntity.itemId)
                             albumMapper(recentEntity, item)
                         }
                         PODCAST_ARTIST -> {

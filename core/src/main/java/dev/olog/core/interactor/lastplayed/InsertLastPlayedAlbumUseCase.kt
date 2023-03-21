@@ -13,9 +13,9 @@ class InsertLastPlayedAlbumUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId) {
         if (mediaId.isPodcastAlbum) {
-            podcastGateway.addLastPlayed(mediaId.categoryValue.toLong())
+            podcastGateway.addRecentlyPlayed(mediaId.categoryValue.toLong())
         } else {
-            albumGateway.addLastPlayed(mediaId.categoryValue.toLong())
+            albumGateway.addRecentlyPlayed(mediaId.categoryValue.toLong())
         }
     }
 

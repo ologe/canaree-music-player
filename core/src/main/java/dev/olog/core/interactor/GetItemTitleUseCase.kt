@@ -33,13 +33,13 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.FOLDERS -> folderGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.SONGS -> songGateway.observeById(param.categoryId).map { it?.title }
-            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.ALBUMS -> albumGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.ARTISTS -> artistGateway.observeById(param.categoryId).map { it?.name }
             MediaIdCategory.GENRES -> genreGateway.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS -> podcastGateway.observeById(param.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(param.categoryId).map { it?.name }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(param.categoryId).map { it?.title }
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeById(param.categoryId).map { it?.title }
             else -> error("invalid media category ${param.category}")
         }.map { it ?: "" }
     }

@@ -28,11 +28,10 @@ interface MediaStoreArtistDao {
     fun observeTracks(query: SupportSQLiteQuery): Flow<List<MediaStoreAudioEntity>>
 
     @Query("""
-        SELECT artist_id, artist, album_artist, is_podcast, count(*) as size
-        FROM mediastore_audio
+        SELECT *
+        FROM mediastore_artists
         WHERE is_podcast = :isPodcast AND ${QueryUtils.RECENTLY_ADDED}
-        GROUP BY artist_id
-        ORDER BY artist
+        ORDER BY date_added DESC
     """)
     fun observeRecentlyAdded(isPodcast: Boolean): Flow<List<MediaStoreArtistEntity>>
 
