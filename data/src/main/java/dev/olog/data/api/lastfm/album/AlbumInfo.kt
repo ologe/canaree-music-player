@@ -5,30 +5,30 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class AlbumInfo(
-    val album: Album?,
+    val album: Album? = null,
 ) {
 
     @Serializable
     class Album(
-        val name: String?,
-        val artist: String?,
-        val mbid: String?,
-        val url: String?,
-        val image: List<Image>?,
-        val wiki: Wiki?,
+        val name: String? = null,
+        val artist: String? = null,
+        val mbid: String? = null,
+        val url: String? = null,
+        val image: List<Image>? = null,
+        val wiki: Wiki? = null,
     )
 
     @Serializable
     class Image(
         @SerialName("#text")
-        val text: String?,
-        val size: String?,
+        val text: String? = null,
+        val size: String? = null,
     )
 
     @Serializable
     class Wiki(
-        val published: String?,
-        val summary: String?,
-        val content: String?,
+        val published: String? = null,
+        val summary: String? = null,
+        val content: String? = null,
     )
 }

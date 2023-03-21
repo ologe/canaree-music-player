@@ -1,6 +1,7 @@
 package dev.olog.core
 
 import androidx.annotation.CheckResult
+import java.io.IOException
 import java.util.concurrent.CancellationException
 
 sealed class Try<out T> {
@@ -32,7 +33,15 @@ sealed class Try<out T> {
 }
 
 @CheckResult
-fun <T> Try<T>.getOrNull(): T? = (this as? Try.Success)?.value
+fun <T> Try<T>.getOrNull(): T? = when (this) {
+    is Try.Success -> value
+    is Try.Failure -> {
+        if (throwable !is IOException) {
+            throwable.printStackTrace()
+        }
+        null
+    }
+}
 
 @CheckResult
 inline fun <T, R> Try<T>.map(crossinline transform: (T) -> R): Try<R> = when (this) {

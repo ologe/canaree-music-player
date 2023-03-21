@@ -5,19 +5,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class DeezerAlbumResponse(
-    val data: List<Data>?,
+    val data: List<Data>? = null,
 ) {
 
     @Serializable
     class Data(
-        val cover: String?,
+        val cover: String? = null,
         @SerialName("cover_big")
-        val coverBig: String?,
+        val coverBig: String? = null,
         @SerialName("cover_medium")
-        val coverMedium: String?,
+        val coverMedium: String? = null,
         @SerialName("cover_small")
-        val coverSmall: String?,
+        val coverSmall: String? = null,
         @SerialName("cover_xl")
-        val coverXl: String?,
+        val coverXl: String? = null,
     )
 }

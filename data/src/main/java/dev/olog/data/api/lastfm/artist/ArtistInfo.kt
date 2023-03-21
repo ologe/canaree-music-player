@@ -5,44 +5,44 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class ArtistInfo(
-    val artist: Artist?,
+    val artist: Artist? = null,
 ) {
 
     @Serializable
     class Artist(
-        val name: String?,
-        val mbid: String?,
-        val url: String?,
-        val image: List<Image>?,
-        val bio: Bio?,
+        val name: String? = null,
+        val mbid: String? = null,
+        val url: String? = null,
+        val image: List<Image>? = null,
+        val bio: Bio? = null,
     )
 
     @Serializable
     class Image(
         @SerialName("#text")
-        val text: String?,
-        val size: String?,
+        val text: String? = null,
+        val size: String? = null,
     )
 
     @Serializable
     class Bio(
-        val links: Links?,
-        val published: String?,
-        val summary: String?,
-        val content: String?,
+        val links: Links? = null,
+        val published: String? = null,
+        val summary: String? = null,
+        val content: String? = null,
     )
 
     @Serializable
     class Links(
-        val link: Link?,
+        val link: Link? = null,
     )
 
     @Serializable
     class Link(
         @SerialName("#text")
-        val text: String?,
-        val rel: String?,
-        val href: String?,
+        val text: String? = null,
+        val rel: String? = null,
+        val href: String? = null,
     )
 
 }

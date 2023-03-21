@@ -5,21 +5,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class Albummatches(
-    val album: List<Album>?,
+    val album: List<Album>? = null,
 ) {
 
     @Serializable
     class Album(
-        val name: String?,
-        val artist: String?,
-        val url: String?,
-        val image: List<Image>?,
-        val mbid: String?,
+        val name: String? = null,
+        val artist: String? = null,
+        val url: String? = null,
+        val image: List<Image>? = null,
+        val mbid: String? = null,
     )
 
     @Serializable
     class Image(
         @SerialName("#text")
-        val text: String?,
+        val text: String? = null,
     )
 }

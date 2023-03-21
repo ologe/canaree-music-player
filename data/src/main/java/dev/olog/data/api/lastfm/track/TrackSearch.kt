@@ -5,33 +5,33 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class TrackSearch(
-    val results: Results?,
+    val results: Results? = null,
 ) {
 
     @Serializable
     class Results(
-        val trackmatches: Trackmatches?,
+        val trackmatches: Trackmatches? = null,
     )
 
     @Serializable
     class Trackmatches(
-        val track: List<Track>?
+        val track: List<Track>? = null
     )
 
     @Serializable
     class Track(
-        val name: String?,
-        val artist: String?,
-        val url: String?,
-        val image: List<Image>?,
-        val mbid: String?
+        val name: String? = null,
+        val artist: String? = null,
+        val url: String? = null,
+        val image: List<Image>? = null,
+        val mbid: String? = null
     )
 
     @Serializable
     class Image(
         @SerialName("#text")
-        val text: String?,
-        val size: String?,
+        val text: String? = null,
+        val size: String? = null,
     )
 
 }

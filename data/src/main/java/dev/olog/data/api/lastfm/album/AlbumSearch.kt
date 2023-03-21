@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class AlbumSearch(
-    val results: Results?,
+    val results: Results? = null,
 ) {
 
     @Serializable
     class Results(
-        val albummatches: Albummatches?,
+        val albummatches: Albummatches? = null,
     )
 }

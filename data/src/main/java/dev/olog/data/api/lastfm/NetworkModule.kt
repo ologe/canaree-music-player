@@ -26,6 +26,7 @@ object NetworkModule {
     fun provideSerializer(): Json {
         return Json {
             isLenient = true
+            ignoreUnknownKeys = true
         }
     }
 
