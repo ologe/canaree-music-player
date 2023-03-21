@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="common_last_added">Aggiunti di recente</string>
-    <string name="common_favorites">Preferiti</string>
-    <string name="common_history">Cronologia</string>
-</resources>
