@@ -15,6 +15,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.*
 
+@Deprecated("delete")
 class TextViewDialog(
     private val context: Context,
     private val title: String,

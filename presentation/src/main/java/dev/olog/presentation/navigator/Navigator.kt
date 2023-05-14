@@ -3,7 +3,7 @@ package dev.olog.presentation.navigator
 import android.view.View
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.PlaylistType
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
 
 interface Navigator {
 
@@ -15,7 +15,7 @@ interface Navigator {
 
     fun toRecentlyAdded(mediaId: MediaId)
 
-    fun toChooseTracksForPlaylistFragment(type: PlaylistType)
+    fun toChooseTracksForPlaylistFragment(isPodcast: Boolean)
 
     fun toEditInfoFragment(mediaId: MediaId)
 
@@ -25,9 +25,7 @@ interface Navigator {
 
     fun toMainPopup(anchor: View, category: MediaIdCategory?)
 
-    fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
-
-    fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
+    fun toCreatePlaylistDialog(navArgs: NewPlaylistDialog.NavArgs)
 
     fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
@@ -39,7 +37,7 @@ interface Navigator {
 
     fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String)
 
-    fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
+    fun toDeletePlaylistDialog(mediaId: MediaId, itemTitle: String)
 
     fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String)
 }

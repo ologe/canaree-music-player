@@ -124,8 +124,7 @@ open class NotificationImpl21 @Inject constructor(
         builder.mActions[1] = notificationActions.skipPrevious(isPodcast)
         builder.mActions[3] = notificationActions.skipNext(isPodcast)
 
-        val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
+        val mediaId = MediaId.ofTrack(id, isPodcast)
         val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
             .setContentTitle(title)

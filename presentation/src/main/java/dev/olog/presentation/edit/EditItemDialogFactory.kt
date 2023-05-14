@@ -30,11 +30,11 @@ class EditItemDialogFactory @Inject constructor(
 
     fun toEditTrack(mediaId: MediaId, action: () -> Unit) = GlobalScope.launch(Dispatchers.IO) {
         try {
-            if (mediaId.isAnyPodcast) {
-                val song = getPodcastUseCase.getById(mediaId.resolveId)!!
+            if (mediaId.isPodcast) {
+                val song = getPodcastUseCase.getById(mediaId.id)!!
                 checkItem(song)
             } else {
-                val song = getSongUseCase.getById(mediaId.resolveId)!!
+                val song = getSongUseCase.getById(mediaId.id)!!
                 checkItem(song)
             }
             withContext(Dispatchers.Main) {

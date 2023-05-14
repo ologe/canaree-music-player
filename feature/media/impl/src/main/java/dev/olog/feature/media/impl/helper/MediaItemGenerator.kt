@@ -5,11 +5,13 @@ import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
+import dev.olog.core.gateway.QueryMode
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.shared.assertBackgroundThread
 import javax.inject.Inject
 
+// TODO podcast support
 class MediaItemGenerator @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
@@ -25,7 +27,7 @@ class MediaItemGenerator @Inject constructor(
         assertBackgroundThread()
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.getAll(QueryMode.Songs).map { it.toMediaItem() }
             MediaIdCategory.SONGS -> songGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.ALBUMS -> albumGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.ARTISTS -> artistGateway.getAll().map { it.toMediaItem() }
@@ -72,9 +74,10 @@ class MediaItemGenerator @Inject constructor(
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
+    // TODO parent id needed?
     private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(MediaId.playableItem(parentId, this.id).toString())
+            .setMediaId(getMediaId().toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)

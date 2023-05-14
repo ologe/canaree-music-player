@@ -11,18 +11,19 @@ class GetDetailSortUseCase @Inject constructor(
 
 ) {
 
+    // TODO separate sort (songs and podcasts)
     operator fun invoke(mediaId: MediaId): SortEntity {
         val category = mediaId.category
         return when (category) {
             MediaIdCategory.FOLDERS -> gateway.getDetailFolderSort()
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.getDetailPlaylistSort()
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.getDetailAlbumSort()
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> gateway.getDetailArtistSort()
+            MediaIdCategory.AUTO_PLAYLISTS -> gateway.getDetailPlaylistSort()
+            MediaIdCategory.ALBUMS -> gateway.getDetailAlbumSort()
+            MediaIdCategory.ARTISTS -> gateway.getDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.getDetailGenreSort()
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
+            MediaIdCategory.SONGS,
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE -> error("invalid media id $mediaId")
         }
     }
 

@@ -1,28 +1,18 @@
 package dev.olog.core.entity.track
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 
+// TODO maybe split it in a sealed class/interface? playlist and autoplaylist
 data class Playlist(
     val id: Long,
     val title: String,
     val size: Int,
-    val isPodcast: Boolean
+    val isPodcast: Boolean,
+    val path: String?,
 ) {
 
     fun getMediaId(): MediaId {
-        val category =
-            if (isPodcast) MediaIdCategory.PODCASTS_PLAYLIST else MediaIdCategory.PLAYLISTS
-        return MediaId.createCategoryValue(category, id.toString())
-    }
-
-    fun withSongs(songs: Int): Playlist {
-        return Playlist(
-            id = id,
-            title = title,
-            size = songs,
-            isPodcast = isPodcast
-        )
+        return MediaId.ofPlaylist(id, isPodcast)
     }
 
 }

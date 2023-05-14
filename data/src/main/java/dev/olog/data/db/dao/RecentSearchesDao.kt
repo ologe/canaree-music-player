@@ -16,7 +16,6 @@ import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
 import dev.olog.shared.assertBackground
@@ -44,7 +43,6 @@ internal abstract class RecentSearchesDao {
         genreGateway: GenreGateway,
         folderGateway: FolderGateway,
         podcastGateway: PodcastGateway,
-        podcastPlaylistGateway: PodcastPlaylistGateway,
         podcastAlbumGateway: PodcastAlbumGateway,
         podcastArtistGateway: PodcastArtistGateway
     ): Flow<List<SearchResult>> {
@@ -66,8 +64,9 @@ internal abstract class RecentSearchesDao {
                             val item = artistGateway.getById(recentEntity.itemId)
                             artistMapper(recentEntity, item)
                         }
-                        PLAYLIST -> {
-                            val item = playlistGateway.getByParam(recentEntity.itemId)
+                        PLAYLIST,
+                        PODCAST_PLAYLIST -> {
+                            val item = playlistGateway.getById(recentEntity.itemId)
                             playlistMapper(recentEntity, item)
                         }
                         GENRE -> {
@@ -81,10 +80,6 @@ internal abstract class RecentSearchesDao {
                         PODCAST -> {
                             val item = podcastGateway.getById(recentEntity.itemId)
                             songMapper(recentEntity, item)
-                        }
-                        PODCAST_PLAYLIST -> {
-                            val item = podcastPlaylistGateway.getByParam(recentEntity.itemId)
-                            playlistMapper(recentEntity, item)
                         }
                         PODCAST_ALBUM -> {
                             val item = podcastAlbumGateway.getById(recentEntity.itemId)

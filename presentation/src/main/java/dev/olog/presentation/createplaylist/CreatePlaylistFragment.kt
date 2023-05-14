@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.entity.PlaylistType
 import dev.olog.platform.extension.act
 import dev.olog.platform.extension.afterTextChange
 import dev.olog.platform.extension.toast
@@ -16,33 +15,38 @@ import dev.olog.platform.extension.toggleVisibility
 import dev.olog.platform.extension.withArguments
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.media.api.DurationUtils
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.lazyFast
 import dev.olog.shared.subscribe
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
-        val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
+        val ARGUMENT_IS_PODCAST = "$TAG.argument.is_podcast"
 
-        fun newInstance(type: PlaylistType): CreatePlaylistFragment {
+        fun newInstance(isPodcast: Boolean): CreatePlaylistFragment {
             return CreatePlaylistFragment().withArguments(
-                ARGUMENT_PLAYLIST_TYPE to type.ordinal
+                ARGUMENT_IS_PODCAST to isPodcast
             )
         }
     }
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
@@ -135,23 +139,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun showCreateDialog() {
-        TextViewDialog(act, getString(R.string.popup_new_playlist), null)
-            .addTextView(customizeWrapper = {
-                hint = getString(R.string.new_playlist_hint)
-            })
-            .show(
-                positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
-                    val text = it[0].editableText.toString()
-                    if (text.isNotBlank()){
-                        viewModel.savePlaylist(text)
-                    } else {
-                        false
-                    }
-                }, dismissAction = {
-                    dismiss()
-                    act.onBackPressed()
-                }
-            )
+        val selectedIds = viewModel.selectedIds
+        navigator.toCreatePlaylistDialog(NewPlaylistDialog.NavArgs.FromIds(selectedIds))
+        // TODO not the best UX to close it, maybe use fragment result to wait for completion
+        //   and then close it
+        act.onBackPressed()
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->

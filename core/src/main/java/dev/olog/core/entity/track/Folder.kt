@@ -1,8 +1,8 @@
 package dev.olog.core.entity.track
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 
+// TODO ensure only songs, or add support to podcast as well
 data class Folder(
     val id: Long,
     val title: String,
@@ -12,7 +12,7 @@ data class Folder(
 
 
     fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.id.toString())
+        return MediaId.ofFolder(id, false)
     }
 
 }

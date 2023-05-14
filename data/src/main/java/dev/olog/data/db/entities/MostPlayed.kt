@@ -21,7 +21,7 @@ data class FolderMostPlayedEntity(
 )
 data class PlaylistMostPlayedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val songId: Long,
     val playlistId: Long
 )

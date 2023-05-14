@@ -135,7 +135,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
             artist = this.artist, // TODO show something else?
             album = this.album, // TODO show something else?
             idInPlaylist = idInPlaylist,
-            dataModified = dateModified,
         )
     }
 

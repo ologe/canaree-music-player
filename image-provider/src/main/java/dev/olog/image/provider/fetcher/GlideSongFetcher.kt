@@ -14,7 +14,7 @@ class GlideSongFetcher(
 
 ) : BaseDataFetcher(context) {
 
-    private val id = mediaId.resolveId
+    private val id = mediaId.id
 
     override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
         return imageRetrieverGateway.getTrack(id)!!.image

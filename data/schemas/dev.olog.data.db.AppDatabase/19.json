@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "2763d7c7ad3c6e8ad3a2f0e147f68822",
+    "identityHash": "172fda2cde92d8d140b52d2837631945",
     "entities": [
       {
         "tableName": "mediastore_audio_internal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE LOCALIZED, `album` TEXT COLLATE LOCALIZED, `album_artist` TEXT COLLATE LOCALIZED, `artist` TEXT COLLATE LOCALIZED, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL COLLATE UNICODE, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_podcast` INTEGER NOT NULL, `bookmark` INTEGER, `duration` INTEGER NOT NULL, `author` TEXT, `bitrate` INTEGER NOT NULL, `compilation` TEXT, `composer` TEXT, `_size` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `writer` TEXT, `is_favorite` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, `genre_id` INTEGER, `genre` TEXT COLLATE UNICODE, PRIMARY KEY(`_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `album_id` INTEGER NOT NULL, `artist_id` INTEGER NOT NULL, `title` TEXT NOT NULL COLLATE LOCALIZED, `album` TEXT COLLATE LOCALIZED, `album_artist` TEXT COLLATE LOCALIZED, `artist` TEXT COLLATE LOCALIZED, `bucket_id` INTEGER NOT NULL, `bucket_display_name` TEXT NOT NULL COLLATE UNICODE, `_data` TEXT, `relative_path` TEXT NOT NULL, `_display_name` TEXT NOT NULL, `is_podcast` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `track` INTEGER, `year` INTEGER, `date_added` INTEGER NOT NULL, `genre_id` INTEGER, `genre` TEXT COLLATE UNICODE, PRIMARY KEY(`_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -87,44 +87,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "bookmark",
-            "columnName": "bookmark",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "duration",
             "columnName": "duration",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "author",
-            "columnName": "author",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "bitrate",
-            "columnName": "bitrate",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "compilation",
-            "columnName": "compilation",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "composer",
-            "columnName": "composer",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "size",
-            "columnName": "_size",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -139,18 +103,6 @@
             "columnName": "year",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "writer",
-            "columnName": "writer",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "isFavorite",
-            "columnName": "is_favorite",
-            "affinity": "INTEGER",
-            "notNull": true
           },
           {
             "fieldPath": "dateAdded",
@@ -224,6 +176,128 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_audio_internal_genre_id` ON `${TABLE_NAME}` (`genre_id`)"
           }
         ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "mediastore_playlist_internal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `name` TEXT NOT NULL COLLATE LOCALIZED, `_data` TEXT, PRIMARY KEY(`_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "_data",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_mediastore_playlist_internal__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_internal__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "mediastore_playlist_members_internal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `audio_id` INTEGER NOT NULL, `playlist_id` INTEGER NOT NULL, `play_order` INTEGER NOT NULL, PRIMARY KEY(`_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audioId",
+            "columnName": "audio_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playlistId",
+            "columnName": "playlist_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playOrder",
+            "columnName": "play_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_mediastore_playlist_members_internal__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_mediastore_playlist_members_internal__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "playlist_directory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `documentUri` TEXT, `path` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "documentUri",
+            "columnName": "documentUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
         "foreignKeys": []
       },
       {
@@ -1007,190 +1081,6 @@
         "foreignKeys": []
       },
       {
-        "tableName": "playlist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `size` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "size",
-            "columnName": "size",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "playlist_tracks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `idInPlaylist` INTEGER NOT NULL, `trackId` INTEGER NOT NULL, `playlistId` INTEGER NOT NULL, FOREIGN KEY(`playlistId`) REFERENCES `playlist`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "idInPlaylist",
-            "columnName": "idInPlaylist",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "trackId",
-            "columnName": "trackId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "playlistId",
-            "columnName": "playlistId",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_playlist_tracks_playlistId",
-            "unique": false,
-            "columnNames": [
-              "playlistId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_playlist_tracks_playlistId` ON `${TABLE_NAME}` (`playlistId`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "playlist",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "playlistId"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "podcast_playlist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `size` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "size",
-            "columnName": "size",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "podcast_playlist_tracks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `idInPlaylist` INTEGER NOT NULL, `podcastId` INTEGER NOT NULL, `playlistId` INTEGER NOT NULL, FOREIGN KEY(`playlistId`) REFERENCES `podcast_playlist`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "idInPlaylist",
-            "columnName": "idInPlaylist",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "podcastId",
-            "columnName": "podcastId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "playlistId",
-            "columnName": "playlistId",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_podcast_playlist_tracks_playlistId",
-            "unique": false,
-            "columnNames": [
-              "playlistId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_podcast_playlist_tracks_playlistId` ON `${TABLE_NAME}` (`playlistId`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "podcast_playlist",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "playlistId"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
-      },
-      {
         "tableName": "podcast_position",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `position` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
@@ -1304,7 +1194,7 @@
     "views": [
       {
         "viewName": "mediastore_audio",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT _id, album_id, artist_id, title, \n    CASE -- remove album as folder name when behaviour\n        WHEN album = bucket_display_name THEN '<unknown>'\n        ELSE album\n    END AS album,\n    album_artist, artist, \n    bucket_id, bucket_display_name, _data, relative_path, _display_name,\n    is_podcast, bookmark, duration, author, bitrate, compilation, composer,\n    _size, track, year, writer, is_favorite, date_added, genre_id, genre\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT _id, album_id, artist_id, title, \n    CASE -- remove album as folder name when behaviour\n        WHEN album = bucket_display_name THEN '<unknown>'\n        ELSE album\n    END AS album,\n    album_artist, artist, \n    bucket_id, bucket_display_name, _data, relative_path, _display_name,\n    is_podcast, duration, track, year, date_added, genre_id, genre\nFROM mediastore_audio_internal LEFT JOIN blacklist \n    ON mediastore_audio_internal.relative_path = blacklist.directory\nWHERE blacklist.directory IS NULL"
       },
       {
         "viewName": "mediastore_folders",
@@ -1320,12 +1210,16 @@
       },
       {
         "viewName": "mediastore_genres",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT genre_id, genre, count(*) as size\nFROM mediastore_audio\nWHERE genre_id IS NOT NULL AND is_podcast = false \nGROUP BY genre_id"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT genre_id, genre, count(*) as size\nFROM mediastore_audio\nWHERE genre_id IS NOT NULL AND is_podcast = 0 \nGROUP BY genre_id"
+      },
+      {
+        "viewName": "mediastore_playlists",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT playlists._id, playlists.name, playlists._data, count(members._id) as size, CASE WHEN (count(CASE WHEN is_podcast = 0 THEN 1 else null END)) >= (count(CASE WHEN is_podcast <> 0 THEN 1 else null END)) THEN 0 ELSE 1 END AS is_podcast \nFROM mediastore_playlist_internal AS playlists \n    LEFT JOIN mediastore_playlist_members_internal AS members ON playlists._id = members.playlist_id\n    LEFT JOIN mediastore_audio AS audio ON audio._id = members.audio_id\n    JOIN playlist_directory -- playlist_directory must contain only 1 row, so just append path for computation \nWHERE CASE \n    WHEN (playlist_directory.id = -1) THEN 1 -- 1 mean true, no filter here\n    ELSE playlists._data LIKE playlist_directory.path || '%'\nEND\nGROUP BY playlists._id"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2763d7c7ad3c6e8ad3a2f0e147f68822')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '172fda2cde92d8d140b52d2837631945')"
     ]
   }
 }

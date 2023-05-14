@@ -18,6 +18,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
@@ -58,12 +59,15 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
+            context = act.applicationContext,
+            fragmentManager = childFragmentManager,
+            categories = viewModel.getCategories(isPodcast),
+            isPodcast = isPodcast,
         )
     }
 
     fun isCurrentFragmentFolderTree(): Boolean {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == MediaIdCategory.FOLDERS &&
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == LibraryCategoryBehavior.Category.FOLDERS &&
                 pagerAdapter.showFolderAsHierarchy()
     }
 
@@ -133,7 +137,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun createMediaId(): MediaIdCategory? {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)?.toMediaId()
     }
 
     private fun startServiceOrRequestOverlayPermission() {

@@ -13,14 +13,10 @@ internal object SpanCountController {
         val isTablet = smallestWidthDip >= 600
         return when (category) {
             TabCategory.FOLDERS -> if (isTablet) 4 else 3
-            TabCategory.PLAYLISTS,
-            TabCategory.PODCASTS_PLAYLIST -> if (isTablet) 4 else 3
-            TabCategory.SONGS,
-            TabCategory.PODCASTS -> 1
-            TabCategory.ALBUMS,
-            TabCategory.PODCASTS_ALBUMS -> if (isTablet) 4 else 2
-            TabCategory.ARTISTS,
-            TabCategory.PODCASTS_ARTISTS -> if (isTablet) 4 else 3
+            TabCategory.PLAYLISTS -> if (isTablet) 4 else 3
+            TabCategory.SONGS -> 1
+            TabCategory.ALBUMS -> if (isTablet) 4 else 2
+            TabCategory.ARTISTS -> if (isTablet) 4 else 3
             TabCategory.GENRES -> if (isTablet) 4 else 3
             else -> error("invalid $category")
         }

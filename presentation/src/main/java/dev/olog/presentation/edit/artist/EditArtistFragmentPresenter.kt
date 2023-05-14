@@ -16,10 +16,10 @@ class EditArtistFragmentPresenter @Inject constructor(
 ) {
 
     fun getArtist(mediaId: MediaId): Artist {
-        val artist = if (mediaId.isPodcastArtist) {
-            podcastArtistGateway.getById(mediaId.categoryId)!!
+        val artist = if (mediaId.isPodcast) {
+            podcastArtistGateway.getById(mediaId.id)!!
         } else {
-            artistGateway.getById(mediaId.categoryId)!!
+            artistGateway.getById(mediaId.id)!!
         }
         return Artist(
             id = artist.id,

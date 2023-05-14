@@ -13,18 +13,19 @@ class ObserveDetailSortUseCase @Inject constructor(
 
 ) : FlowUseCaseWithParam<SortEntity, MediaId>() {
 
+    // TODO separate sort (songs and podcasts)
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<SortEntity> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> gateway.observeDetailFolderSort()
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.observeDetailPlaylistSort()
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.observeDetailAlbumSort()
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> gateway.observeDetailArtistSort()
+            MediaIdCategory.AUTO_PLAYLISTS -> gateway.observeDetailPlaylistSort()
+            MediaIdCategory.ALBUMS -> gateway.observeDetailAlbumSort()
+            MediaIdCategory.ARTISTS -> gateway.observeDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.observeDetailGenreSort()
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
+            MediaIdCategory.SONGS,
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE -> error("invalid media id $mediaId")
         }
     }
 

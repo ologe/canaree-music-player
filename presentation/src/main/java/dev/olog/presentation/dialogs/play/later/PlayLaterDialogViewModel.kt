@@ -5,6 +5,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.feature.media.api.MusicServiceCustomAction
 import kotlinx.coroutines.Dispatchers
@@ -17,13 +18,12 @@ class PlayLaterDialogViewModel @Inject constructor(
 ) : ViewModel() {
 
     suspend fun execute(mediaController: MediaControllerCompat, mediaId: MediaId) = withContext(Dispatchers.IO) {
-        val items = if (mediaId.isLeaf) {
-            listOf(mediaId.leaf!!)
-        } else {
-            getSongListByParamUseCase(mediaId).map { it.id }
+        val items = when (mediaId.category) {
+            MediaIdCategory.SONGS -> listOf(mediaId.id)
+            else -> getSongListByParamUseCase(mediaId).map { it.id }
         }
         val bundle = bundleOf(
-            MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast,
+            MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isPodcast,
             MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to items.toLongArray()
         )
 

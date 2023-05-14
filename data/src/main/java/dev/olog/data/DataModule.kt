@@ -1,7 +1,9 @@
 package dev.olog.data
 
 import dagger.Binds
+import dagger.Lazy
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
@@ -10,17 +12,19 @@ import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.blacklist.BlacklistRepository
 import dev.olog.data.mediastore.MediaStoreAudioRepository
+import dev.olog.data.playlist.FilePlaylistOperations
+import dev.olog.data.playlist.MediaStorePlaylistOperations
+import dev.olog.data.playlist.PlaylistOperations
 import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
-import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.data.repository.track.*
+import dev.olog.platform.BuildVersion
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +51,10 @@ abstract class DataModule {
 
     @Binds
     @Singleton
+    internal abstract fun provideAutoPlaylistRepository(repository: AutoPlaylistRepository): AutoPlaylistGateway
+
+    @Binds
+    @Singleton
     internal abstract fun provideSongRepository(repository: SongRepository): SongGateway
 
     @Binds
@@ -60,11 +68,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
-
-    // podcasts
-    @Binds
-    @Singleton
-    internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository): PodcastPlaylistGateway
 
     @Binds
     @Singleton
@@ -101,5 +104,20 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideEqualzierRepository(repository: EqualizerRepository): EqualizerGateway
+
+    companion object {
+
+        @Provides
+        @Singleton
+        fun providePlaylistOperations(
+            filePlaylistOperations: Lazy<FilePlaylistOperations>,
+            mediaStorePlaylistOperations: Lazy<MediaStorePlaylistOperations>,
+        ): PlaylistOperations = when {
+            // android 10 introduced scoped storage and completely broke playlists
+            BuildVersion.isQ() -> filePlaylistOperations.get()
+            else -> mediaStorePlaylistOperations.get()
+        }
+
+    }
 
 }

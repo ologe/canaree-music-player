@@ -5,19 +5,17 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.yield
 import java.io.InputStream
-import java.lang.RuntimeException
 
 class GlideOriginalImageFetcher(
     private val context: Context,
     private val mediaId: MediaId,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
-
 ) : DataFetcher<InputStream> {
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
@@ -33,11 +31,9 @@ class GlideOriginalImageFetcher(
             return@runBlocking
         }
 
-        val song: Song? = when {
-            mediaId.isAlbum -> songGateway.getByAlbumId(id)
-            mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
-            mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getById(id)
-            mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getById(id)
+        val song: Song? = when (mediaId.category) {
+            MediaIdCategory.ALBUMS -> songGateway.getByAlbumId(id)
+            MediaIdCategory.SONGS -> songGateway.getById(id)
             else -> {
                 callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                 return@runBlocking
@@ -59,14 +55,10 @@ class GlideOriginalImageFetcher(
 
 
 
-    private fun getId(): Long {
-        if (mediaId.isAlbum || mediaId.isPodcastAlbum){
-            return mediaId.categoryId
-        }
-        if (mediaId.isLeaf){
-            return mediaId.leaf!!
-        }
-        return -1
+    private fun getId(): Long = when (mediaId.category) {
+        MediaIdCategory.ALBUMS,
+        MediaIdCategory.SONGS -> mediaId.id
+        else -> -1
     }
 
     override fun cleanup() {

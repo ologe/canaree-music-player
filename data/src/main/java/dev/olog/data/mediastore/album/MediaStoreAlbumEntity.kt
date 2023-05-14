@@ -1,6 +1,6 @@
 package dev.olog.data.mediastore.album
 
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
@@ -29,7 +29,7 @@ data class MediaStoreAlbumEntity(
     @ColumnInfo(name = AudioColumns.ALBUM_ARTIST)
     val albumArtist: String?,
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
-    val isPodcast: Boolean,
+    val isPodcast: Int,
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
     val dateAdded: Long,
     val size: Int,
@@ -42,7 +42,7 @@ fun MediaStoreAlbumEntity.toAlbum(): Album {
         title = title ?: UNKNOWN_STRING,
         artist = artist ?: UNKNOWN_STRING,
         albumArtist = albumArtist ?: UNKNOWN_STRING,
-        isPodcast = isPodcast,
+        isPodcast = isPodcast != 0,
         size = size,
     )
 }

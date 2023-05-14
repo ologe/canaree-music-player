@@ -94,21 +94,24 @@ internal abstract class PlayingQueueDao {
             PlayingQueueEntity(
                 songId = it.songId,
                 category = it.mediaId.category.toString(),
-                categoryValue = it.mediaId.categoryValue,
+                categoryValue = it.mediaId.id.toString(),
                 idInPlaylist = it.idInPlaylist
             )
         }
         insertAllImpl(result)
     }
 
-    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
-            : PlayingQueueSong {
-
-        val parentMediaId = MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue)
+    private fun Song.toPlayingQueueSong(
+        idInPlaylist: Int,
+        category: String,
+        categoryValue: String
+    ) : PlayingQueueSong {
+        // MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue) todo
+        val parentMediaId: MediaId? = null
 
         return PlayingQueueSong(
-            this.copy(idInPlaylist = idInPlaylist),
-            MediaId.playableItem(parentMediaId, this.id)
+            song = this.copy(idInPlaylist = idInPlaylist),
+            parentMediaId = parentMediaId,
         )
     }
 

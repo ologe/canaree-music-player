@@ -1,33 +1,25 @@
 package dev.olog.presentation.popup.album
 
+import android.provider.MediaStore
 import android.view.View
-import dev.olog.core.entity.track.Song
-import dev.olog.platform.BuildVersion
+import dev.olog.core.entity.track.Album
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
 
 class AlbumPopup(
     view: View,
-    song: Song?,
-    listener: AbsPopupListener
+    album: Album,
+    listener: AlbumPopupListener
 
 ) : AbsPopup(view) {
 
     init {
-        if (song == null) {
-            inflate(R.menu.dialog_album)
-        } else {
-            inflate(R.menu.dialog_song)
-        }
-
-        addPlaylistChooser(view.context, listener.playlists)
-
+        inflate(R.menu.dialog_album)
+        addPlaylistChooser(view.context, listener.getPlaylists(album.isPodcast))
         setOnMenuItemClickListener(listener)
 
-        if (BuildVersion.isQ() && song == null) {
-            // works bad on Q
-            menu.removeItem(R.id.delete)
+        if (album.artist == MediaStore.UNKNOWN_STRING) {
+            menu.removeItem(R.id.viewArtist)
         }
     }
 

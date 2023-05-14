@@ -19,28 +19,25 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"
-        const val TYPE = "$TAG.TYPE"
+        const val IS_PODCAST = "$TAG.IS_PODCAST"
 
-        fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
+        fun newInstance(isPodcast: Boolean): LibraryCategoriesFragment {
             return LibraryCategoriesFragment().withArguments(
-                TYPE to category.ordinal
+                IS_PODCAST to isPodcast
             )
         }
     }
 
     private val viewModel by viewModels<LibraryCategoriesFragmentViewModel>()
     private val adapter by lazyFast {
-        LibraryCategoriesFragmentAdapter(viewModel.getDataSet(category), this)
+        LibraryCategoriesFragmentAdapter(viewModel.getDataSet(isPodcast), this)
     }
 
-    private val category by lazyFast {
-        MediaIdCategory.values()[arguments!!.getInt(
-            TYPE
-        )]
-    }
+    private val isPodcast: Boolean
+        get() = arguments!!.getBoolean(IS_PODCAST)
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
+        val title = if (isPodcast) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
 
         return builder.setTitle(title)
             .setNeutralButton(R.string.popup_neutral_reset, null)
@@ -51,17 +48,17 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     override fun setupRecyclerView(list: RecyclerView) {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(viewLifecycleOwner, list, 0)
+        setupDragListener(this, list, 0)
     }
 
     override fun positiveAction() {
-        viewModel.setDataSet(category, adapter.getData())
+        viewModel.setDataSet(isPodcast, adapter.getData())
         act.recreate()
         dismiss()
     }
 
     override fun neutralAction() {
-        val defaultData = viewModel.getDefaultDataSet(category)
+        val defaultData = viewModel.getDefaultDataSet(isPodcast)
         adapter.updateDataSet(defaultData)
     }
 

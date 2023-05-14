@@ -19,11 +19,11 @@ class EditItemPresenter @Inject constructor(
     }
 
     suspend fun deleteAlbum(mediaId: MediaId) {
-        return lastFmGateway.deleteAlbum(mediaId.categoryId)
+        return lastFmGateway.deleteAlbum(mediaId.id)
     }
 
     suspend fun deleteArtist(mediaId: MediaId) {
-        return lastFmGateway.deleteArtist(mediaId.categoryId)
+        return lastFmGateway.deleteArtist(mediaId.id)
     }
 
     fun updateSingle(info: UpdateSongInfo) {

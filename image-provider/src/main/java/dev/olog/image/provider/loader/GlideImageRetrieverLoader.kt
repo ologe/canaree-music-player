@@ -7,6 +7,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
@@ -20,10 +21,14 @@ internal class GlideImageRetrieverLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isAnyPodcast) {
+        if (mediaId.isPodcast) {
             return false
         }
-        return mediaId.isLeaf || mediaId.isAlbum || mediaId.isArtist
+        return mediaId.category in arrayOf(
+            MediaIdCategory.SONGS,
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.ARTISTS,
+        )
     }
 
     override fun buildLoadData(
@@ -31,11 +36,10 @@ internal class GlideImageRetrieverLoader(
         width: Int,
         height: Int,
         options: Options
-    ): ModelLoader.LoadData<InputStream>? {
+    ): ModelLoader.LoadData<InputStream> {
 
-        return if (mediaId.isLeaf) {
-            // download track image
-            ModelLoader.LoadData(
+        return when (mediaId.category) {
+            MediaIdCategory.SONGS -> ModelLoader.LoadData(
                 MediaIdKey(mediaId),
                 GlideSongFetcher(
                     context,
@@ -43,9 +47,7 @@ internal class GlideImageRetrieverLoader(
                     imageRetrieverGateway
                 )
             )
-        } else if (mediaId.isAlbum) {
-            // download album image
-            ModelLoader.LoadData(
+            MediaIdCategory.ALBUMS -> ModelLoader.LoadData(
                 MediaIdKey(mediaId),
                 GlideAlbumFetcher(
                     context,
@@ -53,9 +55,7 @@ internal class GlideImageRetrieverLoader(
                     imageRetrieverGateway
                 )
             )
-        } else {
-            // download artist image
-            ModelLoader.LoadData(
+            MediaIdCategory.ARTISTS -> ModelLoader.LoadData(
                 MediaIdKey(mediaId),
                 GlideArtistFetcher(
                     context,
@@ -63,6 +63,7 @@ internal class GlideImageRetrieverLoader(
                     imageRetrieverGateway
                 )
             )
+            else -> error("invalid $mediaId")
         }
     }
 

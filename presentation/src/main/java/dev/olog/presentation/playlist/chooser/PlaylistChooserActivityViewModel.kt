@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
+import dev.olog.core.gateway.QueryMode
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
@@ -30,7 +31,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            playlistGateway.observeAll()
+            playlistGateway.observeAll(QueryMode.All)
                 .mapListItem { it.toDisplayableItem(context.resources) }
                 .flowOn(Dispatchers.IO)
                 .collect { data.value = it }

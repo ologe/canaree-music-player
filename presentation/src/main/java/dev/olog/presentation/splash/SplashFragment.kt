@@ -4,29 +4,32 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.platform.extension.alertDialog
 import dev.olog.platform.extension.findInContext
-import dev.olog.shared.lazyFast
 import dev.olog.platform.permission.PermissionManager
-import kotlinx.android.synthetic.main.fragment_splash.*
-import javax.inject.Inject
+import dev.olog.presentation.R
+import dev.olog.presentation.interfaces.OnPermissionChanged
+import dev.olog.shared.lazyFast
+import kotlinx.android.synthetic.main.fragment_splash.inkIndicator
+import kotlinx.android.synthetic.main.fragment_splash.next
+import kotlinx.android.synthetic.main.fragment_splash.viewPager
 
+// request order
+// 1. mandatory permissions
+// 2. playlist directory (android Q+)
 @AndroidEntryPoint
-class SplashFragment : Fragment() {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     companion object {
         val TAG = SplashFragment::class.java.name
     }
 
-    @Inject
-    lateinit var permissionManager: PermissionManager
+    private val viewModel by viewModels<SplashFragmentViewModel>()
 
     private val adapter by lazyFast {
         SplashFragmentViewPagerAdapter(
@@ -34,12 +37,25 @@ class SplashFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+    private val mandatoryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+        if (result.values.any { !it }) {
+            // exit, some permissions are not granted
+            return@registerForActivityResult
+        }
+        if (viewModel.isPlaylistDirectorySet()) {
+            onMandatoryPermissionsGranted()
+        } else {
+            playlistDirectoryLauncher.launch(null)
+        }
+    }
+
+    // TODO show something to explain directory choice
+    private val playlistDirectoryLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        if (uri == null) {
+            return@registerForActivityResult
+        }
+        viewModel.setPlaylistDirectory(uri)
+        onMandatoryPermissionsGranted()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +69,7 @@ class SplashFragment : Fragment() {
             if (viewPager.currentItem == 0) {
                 viewPager.setCurrentItem(1, true)
             } else {
-                requestStoragePermission()
+                requestMandatoryPermissions()
             }
         }
     }
@@ -63,28 +79,22 @@ class SplashFragment : Fragment() {
         next.setOnClickListener(null)
     }
 
-    private fun requestStoragePermission() {
-        if (!permissionManager.hasMandatoryPermissions()) {
-            permissionManager.requestMandatoryPermission(this)
-        } else {
-            onMandatoryPermissionsGranted()
+    private fun requestMandatoryPermissions() {
+        if (viewModel.hasUserDisabledMandatoryPermissions(this)) {
+            onMandatoryPermissionsDenied()
+            return
         }
-    }
+        if (!viewModel.hasMandatoryPermissions()) {
+            mandatoryPermissionLauncher.launch(PermissionManager.MandatoryPermissions)
+            return
+        }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (permissionManager.isMandatoryPermissionsRequestCode(requestCode)) {
-            if (permissionManager.hasMandatoryPermissions()) {
-                onMandatoryPermissionsGranted()
-            } else {
-                onMandatoryPermissionsDenied()
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (!viewModel.isPlaylistDirectorySet()) {
+            playlistDirectoryLauncher.launch(null)
+            return
         }
+
+        onMandatoryPermissionsGranted()
     }
 
     private fun onMandatoryPermissionsGranted() {
@@ -97,13 +107,11 @@ class SplashFragment : Fragment() {
     }
 
     private fun onMandatoryPermissionsDenied() {
-        if (permissionManager.hasUserDisabledMandatoryPermissions(this)) {
-            requireActivity().alertDialog {
-                setTitle(R.string.splash_storage_permission)
-                setMessage(R.string.splash_storage_permission_disabled)
-                setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })
-                setNegativeButton(R.string.popup_negative_no, null)
-            }
+        requireActivity().alertDialog {
+            setTitle(R.string.splash_storage_permission)
+            setMessage(R.string.splash_storage_permission_disabled)
+            setPositiveButton(R.string.popup_positive_ok) { _, _ -> toSettings() }
+            setNegativeButton(R.string.popup_negative_no, null)
         }
     }
 

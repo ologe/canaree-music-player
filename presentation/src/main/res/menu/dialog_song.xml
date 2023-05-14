@@ -31,10 +31,4 @@
     <item android:id="@+id/viewArtist"
         android:title="@string/popup_view_artist"/>
 
-    <item android:id="@+id/share"
-        android:title="@string/popup_share"/>
-
-    <item android:id="@+id/setRingtone"
-        android:title="@string/popup_set_as_ringtone"/>
-
 </menu>

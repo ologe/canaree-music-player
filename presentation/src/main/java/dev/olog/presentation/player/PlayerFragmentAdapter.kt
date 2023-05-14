@@ -108,7 +108,7 @@ internal class PlayerFragmentAdapter(
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
-                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId()!!)
+                        val mediaId = MediaId.ofTrack(viewModel.getCurrentTrackId()!!, false) // TODO ispodcast
                         navigator.toDialog(mediaId, view)
                     } catch (ex: NullPointerException){
                         ex.printStackTrace()

@@ -21,7 +21,7 @@ interface FolderGateway {
     fun observeTrackListByPath(relativePath: String): Flow<List<Song>>
 
     fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>>
-    suspend fun insertMostPlayed(mediaId: MediaId)
+    suspend fun insertMostPlayed(parentMediaId: MediaId, mediaId: MediaId)
 
     fun observeSiblings(id: Long): Flow<List<Folder>>
 

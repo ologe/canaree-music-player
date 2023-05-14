@@ -4,12 +4,12 @@ import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
-import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.shortcuts.api.FeatureShortcutsNavigator
 import dev.olog.presentation.R
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog.NavArgs.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -19,27 +19,19 @@ class ArtistPopupListener @Inject constructor(
     private val activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
-    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
+    playlistGateway: PlaylistGateway,
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featureShortcutsNavigator: FeatureShortcutsNavigator,
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(playlistGateway, addToPlaylistUseCase) {
 
     private lateinit var artist: Artist
-    private var song: Song? = null
 
-    fun setData(artist: Artist, song: Song?): ArtistPopupListener {
+    fun setData(artist: Artist): ArtistPopupListener {
         this.artist = artist
-        this.song = song
         return this
     }
 
-    private fun getMediaId(): MediaId {
-        if (song != null) {
-            return MediaId.playableItem(artist.getMediaId(), song!!.id)
-        } else {
-            return artist.getMediaId()
-        }
-    }
+    private fun getMediaId(): MediaId = artist.getMediaId()
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
@@ -54,10 +46,7 @@ class ArtistPopupListener @Inject constructor(
             R.id.playLater -> playLater()
             R.id.playNext -> playNext()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getArtistMediaId())
             R.id.viewArtist -> viewArtist(navigator, artist.getMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> featureShortcutsNavigator.addDetailShortcut(
                 mediaId = getMediaId(),
                 title = artist.name
@@ -69,11 +58,7 @@ class ArtistPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), artist.songs, artist.name)
-        } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
-        }
+        navigator.toCreatePlaylistDialog(FromMediaId(getMediaId(), artist.name))
     }
 
     private fun playFromMediaId() {
@@ -85,28 +70,16 @@ class ArtistPopupListener @Inject constructor(
     }
 
     private fun playLater() {
-        if (song == null) {
-            navigator.toPlayLater(getMediaId(), artist.songs, artist.name)
-        } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
-        }
+        navigator.toPlayLater(getMediaId(), artist.songs, artist.name)
     }
 
     private fun playNext() {
-        if (song == null) {
-            navigator.toPlayNext(getMediaId(), artist.songs, artist.name)
-        } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
-        }
+        navigator.toPlayNext(getMediaId(), artist.songs, artist.name)
     }
 
 
     private fun addToFavorite() {
-        if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), artist.songs, artist.name)
-        } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
-        }
+        navigator.toAddToFavoriteDialog(getMediaId(), artist.songs, artist.name)
     }
 
 }

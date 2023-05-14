@@ -31,7 +31,7 @@ interface MediaStoreAlbumDao {
         WHERE is_podcast = :isPodcast AND ${QueryUtils.RECENTLY_ADDED}
         ORDER BY date_added DESC
     """)
-    fun observeRecentlyAdded(isPodcast: Boolean): Flow<List<MediaStoreAlbumEntity>>
+    fun observeRecentlyAdded(isPodcast: Int): Flow<List<MediaStoreAlbumEntity>>
 
     @Query("""
         SELECT *

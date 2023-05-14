@@ -3,11 +3,11 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.gateway.QueryMode
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
@@ -24,13 +24,12 @@ class SearchDataProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val searchHeaders: SearchFragmentHeaders,
     private val folderGateway: FolderGateway,
-    private val playlistGateway2: PlaylistGateway,
+    private val playlistGateway: PlaylistGateway,
     private val songGateway: SongGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     // podcasts
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
@@ -199,7 +198,7 @@ class SearchDataProvider @Inject constructor(
     }
 
     private fun getPlaylists(query: String): Flow<List<DisplayableItem>> {
-        return playlistGateway2.observeAll().map {
+        return playlistGateway.observeAll(QueryMode.Songs).map {
             if (query.isBlank()) {
                 return@map listOf<DisplayableItem>()
             }
@@ -209,7 +208,7 @@ class SearchDataProvider @Inject constructor(
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
         }.combine(
-            podcastPlaylistGateway.observeAll().map {
+            playlistGateway.observeAll(QueryMode.Podcasts).map {
                 if (query.isBlank()) {
                     return@map listOf<DisplayableItem>()
                 }

@@ -3,16 +3,15 @@ package dev.olog.feature.media.impl
 import android.app.Service
 import android.util.Log
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.MediaId
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.gateway.track.AutoPlaylistGateway
 import dev.olog.core.interactor.*
 import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
-import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
-import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
+import dev.olog.core.interactor.lastplayed.InsertRecentlyPlayedUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.feature.media.impl.interfaces.IPlayerLifecycle
@@ -28,12 +27,11 @@ class CurrentSong @Inject constructor(
     private val service: Service,
     private val schedulers: Schedulers,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
-    insertHistorySongUseCase: InsertHistorySongUseCase,
+    autoPlaylistGateway: AutoPlaylistGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
     private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
-    insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-    insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
+    insertLastPlayedArtistUseCase: InsertRecentlyPlayedUseCase,
     playerLifecycle: IPlayerLifecycle
 ) : IPlayerLifecycle.Listener {
 
@@ -51,25 +49,13 @@ class CurrentSong @Inject constructor(
         service.lifecycleScope.launch(schedulers.io) {
             for (entity in channel) {
                 Log.v(TAG, "on new item ${entity.title}")
-                if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
-                    Log.v(TAG, "insert last played artist ${entity.title}")
-                    insertLastPlayedArtistUseCase(entity.mediaId)
-                } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
-                    Log.v(TAG, "insert last played album ${entity.title}")
-                    insertLastPlayedAlbumUseCase(entity.mediaId)
-                }
+                insertLastPlayedArtistUseCase(entity.mediaId)
 
                 Log.v(TAG, "insert most played ${entity.title}")
-                MediaId.playableItem(entity.mediaId, entity.id)
-                insertMostPlayedUseCase(entity.mediaId)
+                insertMostPlayedUseCase(entity.parentMediaId, entity.mediaId)
 
                 Log.v(TAG, "insert to history ${entity.title}")
-                insertHistorySongUseCase(
-                    InsertHistorySongUseCase.Input(
-                        entity.id,
-                        entity.isPodcast
-                    )
-                )
+                autoPlaylistGateway.insertToHistory(entity.mediaId)
             }
         }
 

@@ -117,7 +117,7 @@ class SplashTutorialFragment : Fragment(),
         GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(ctx, position))
+                .placeholder(CoverUtils.getTrackGradient(ctx, position.toLong()))
                 .into(cover)
     }
 }

@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
@@ -20,26 +19,41 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val autoPlaylistGateway: AutoPlaylistGateway,
 
 ) : FlowUseCaseWithParam<List<Song>, MediaId>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListById(mediaId.categoryId)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.SONGS -> songDataStore.observeAll()
-            MediaIdCategory.ALBUMS -> albumGateway.observeTrackListById(mediaId.categoryId)
-            MediaIdCategory.ARTISTS -> artistGateway.observeTrackListById(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.observeTrackListById(mediaId.categoryId)
-            MediaIdCategory.PODCASTS -> podcastGateway.observeAll()
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListById(mediaId.id)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListById(mediaId)
+            MediaIdCategory.AUTO_PLAYLISTS -> autoPlaylistGateway.observeTrackListById(mediaId.id)
+            MediaIdCategory.SONGS -> {
+                if (mediaId.isPodcast) {
+                    podcastGateway.observeAll()
+                } else {
+                    songDataStore.observeAll()
+                }
+            }
+            MediaIdCategory.ALBUMS -> {
+                if (mediaId.isPodcast) {
+                    podcastAlbumGateway.observeTrackListByParam(mediaId.id)
+                } else {
+                    albumGateway.observeTrackListById(mediaId.id)
+                }
+            }
+            MediaIdCategory.ARTISTS -> {
+                if (mediaId.isPodcast) {
+                    podcastArtistGateway.observeTrackListByParam(mediaId.id)
+                } else {
+                    artistGateway.observeTrackListById(mediaId.id)
+                }
+            }
+            MediaIdCategory.GENRES -> genreGateway.observeTrackListById(mediaId.id)
             else -> throw AssertionError("invalid media id $mediaId")
         }
     }

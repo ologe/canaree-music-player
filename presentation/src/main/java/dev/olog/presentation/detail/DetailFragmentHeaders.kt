@@ -1,8 +1,9 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
@@ -17,15 +18,16 @@ class DetailFragmentHeaders @Inject constructor(
         val RELATED_ARTISTS_SEE_ALL = MediaId.headerId("related artist header")
     }
 
-    fun biography(mediaId: MediaId): DisplayableItem? {
-        if (mediaId.isArtist || mediaId.isAlbum){
-            return DisplayableHeader(
+    fun biography(mediaId: MediaId): DisplayableItem? = when (mediaId.category) {
+        MediaIdCategory.ARTISTS,
+        MediaIdCategory.ALBUMS -> {
+            DisplayableHeader(
                 type = R.layout.item_detail_biography,
                 mediaId = MediaId.headerId("biography"),
                 title = ""
             )
         }
-        return null
+        else -> null
     }
 
     val mostPlayed: List<DisplayableItem> = listOf(
@@ -84,7 +86,8 @@ class DetailFragmentHeaders @Inject constructor(
         return DisplayableHeader(
             type = R.layout.item_detail_header_albums,
             mediaId = MediaId.headerId("detail albums"),
-            title = context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
+//            title = context.resources.getStringArray(R.array.detail_album_header)[mediaId.source],
+            title = "" // TODO separate strings
         )
     }
 

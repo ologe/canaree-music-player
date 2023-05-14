@@ -15,31 +15,20 @@ class PermissionManager @Inject constructor(
 ) {
 
     companion object {
-        private val mandatoryPermissions = arrayOf(
+        private val internalMandatoryPermissions = arrayOf(
             Permission.Storage,
         )
-
-        private const val MANDATORY_PERMISSION_CODE = 100
+        val MandatoryPermissions = internalMandatoryPermissions
+            .mapNotNull { it.manifest }
+            .toTypedArray()
     }
 
     fun hasMandatoryPermissions(): Boolean {
-        return hasPermissions(*mandatoryPermissions)
-    }
-
-    fun requestMandatoryPermission(fragment: Fragment) {
-        requestPermissions(
-            fragment,
-            MANDATORY_PERMISSION_CODE,
-            *mandatoryPermissions,
-        )
-    }
-
-    fun isMandatoryPermissionsRequestCode(requestCode: Int): Boolean {
-        return requestCode == MANDATORY_PERMISSION_CODE
+        return hasPermissions(*internalMandatoryPermissions)
     }
 
     fun hasUserDisabledMandatoryPermissions(fragment: Fragment): Boolean {
-        return hasUserDisabledPermissions(fragment, *mandatoryPermissions)
+        return hasUserDisabledPermissions(fragment, *internalMandatoryPermissions)
     }
 
     suspend fun awaitPermissions(
@@ -61,19 +50,11 @@ class PermissionManager @Inject constructor(
             }
     }
 
-    fun requestPermissions(
-        fragment: Fragment,
-        requestCode: Int,
-        vararg permission: Permission
-    ) {
-        fragment.requestPermissions(permission.map { it.manifest }.toTypedArray(), requestCode)
-    }
-
-    fun hasUserDisabledPermissions(fragment: Fragment, vararg permission: Permission): Boolean {
+    private fun hasUserDisabledPermissions(fragment: Fragment, vararg permission: Permission): Boolean {
         return permission
             .mapNotNull { it.manifest }
             .any {
-                !fragment.shouldShowRequestPermissionRationale(it)
+                fragment.shouldShowRequestPermissionRationale(it)
             }
     }
 

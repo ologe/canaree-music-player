@@ -12,22 +12,22 @@ internal class LibraryCategoriesFragmentViewModel @Inject constructor(
         private val appPreferencesUseCase: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior>{
-        if (category == MediaIdCategory.PODCASTS){
+    fun getDefaultDataSet(isPodcast: Boolean): List<LibraryCategoryBehavior>{
+        if (isPodcast){
             return appPreferencesUseCase.getDefaultPodcastLibraryCategories()
         }
         return appPreferencesUseCase.getDefaultLibraryCategories()
     }
 
-    fun getDataSet(category: MediaIdCategory) : List<LibraryCategoryBehavior> {
-        if (category == MediaIdCategory.PODCASTS){
+    fun getDataSet(isPodcast: Boolean) : List<LibraryCategoryBehavior> {
+        if (isPodcast){
             return appPreferencesUseCase.getPodcastLibraryCategories()
         }
         return appPreferencesUseCase.getLibraryCategories()
     }
 
-    fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>){
-        if (category == MediaIdCategory.PODCASTS){
+    fun setDataSet(isPodcast: Boolean, list: List<LibraryCategoryBehavior>){
+        if (isPodcast){
             appPreferencesUseCase.setPodcastLibraryCategories(list)
         } else {
             appPreferencesUseCase.setLibraryCategories(list)

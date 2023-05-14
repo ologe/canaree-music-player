@@ -33,6 +33,7 @@ internal interface PresentationPreferencesGateway {
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
 
+    // TODO separate podcasts?
     fun getSpanCount(category: TabCategory): Int
     fun observeSpanCount(category: TabCategory): Flow<Int>
     fun setSpanCount(category: TabCategory, spanCount: Int)

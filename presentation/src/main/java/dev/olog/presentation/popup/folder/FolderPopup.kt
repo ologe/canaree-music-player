@@ -1,36 +1,19 @@
 package dev.olog.presentation.popup.folder
 
 import android.view.View
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Song
-import dev.olog.platform.BuildVersion
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
-import dev.olog.presentation.popup.AbsPopupListener
 
 class FolderPopup(
     view: View,
-    @Suppress("UNUSED_PARAMETER") folder: Folder,
-    song: Song?,
-    listener: AbsPopupListener
+    listener: FolderPopupListener
 
 ) : AbsPopup(view) {
 
 
     init {
-        if (song == null) {
-            inflate(R.menu.dialog_folder)
-        } else {
-            inflate(R.menu.dialog_song)
-        }
-
-        addPlaylistChooser(view.context, listener.playlists)
-
+        inflate(R.menu.dialog_folder)
+        addPlaylistChooser(view.context, listener.getPlaylists(false))
         setOnMenuItemClickListener(listener)
-
-        if (BuildVersion.isQ() && song == null) {
-            // works bad on Q
-            menu.removeItem(R.id.delete)
-        }
     }
 }

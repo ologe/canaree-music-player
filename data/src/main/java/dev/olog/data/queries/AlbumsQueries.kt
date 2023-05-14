@@ -99,7 +99,7 @@ class AlbumsQueries @Inject constructor(
     }
 
     fun observeRecentlyAdded(isPodcast: Boolean): Flow<List<MediaStoreAlbumEntity>> {
-        return dao.observeRecentlyAdded(isPodcast)
+        return dao.observeRecentlyAdded(if (isPodcast) 1 else 0)
     }
 
     fun observeSiblings(id: Long): Flow<List<MediaStoreAlbumEntity>> {

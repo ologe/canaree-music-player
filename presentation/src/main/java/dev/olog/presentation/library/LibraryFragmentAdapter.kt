@@ -16,11 +16,12 @@ import dev.olog.shared.isInBounds
 class LibraryFragmentAdapter(
         private val context: Context,
         fragmentManager: FragmentManager,
-        private val categories : List<LibraryCategoryBehavior>
+        private val categories : List<LibraryCategoryBehavior>,
+        private val isPodcast: Boolean,
 
 ) : FragmentPagerAdapter(fragmentManager) {
 
-    fun getCategoryAtPosition(position: Int): MediaIdCategory? {
+    fun getCategoryAtPosition(position: Int): LibraryCategoryBehavior.Category? {
         if (categories.isNotEmpty() && categories.isInBounds(position)){
             return categories[position].category
         }
@@ -30,9 +31,9 @@ class LibraryFragmentAdapter(
     override fun getItem(position: Int): Fragment {
         val category = categories[position].category
 
-        return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()){
+        return if (category == LibraryCategoryBehavior.Category.FOLDERS && showFolderAsHierarchy()){
             FolderTreeFragment.newInstance()
-        } else TabFragment.newInstance(category)
+        } else TabFragment.newInstance(category.toMediaId(), isPodcast)
     }
 
     fun showFolderAsHierarchy(): Boolean {

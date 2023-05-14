@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/play"
+        android:title="@string/popup_play"/>
+
+    <item android:id="@+id/playShuffle"
+        android:title="@string/popup_play_shuffle"/>
+
+    <item android:id="@+id/playNext"
+        android:title="@string/popup_play_next"/>
+
+    <item android:id="@+id/playLater"
+        android:title="@string/popup_play_later"/>
+
+    <item android:id="@+id/addToFavorite"
+        android:title="@string/popup_add_to_favorites"/>
+
+    <item android:id="@+id/addHomeScreen"
+        android:title="@string/popup_add_to_home_screen"/>
+
+    <group>
+
+        <item
+            android:id="@+id/addToPlaylist"
+            android:title="@string/popup_add_to_playlist">
+
+            <menu/>
+
+        </item>
+
+    </group>
+
+    <item android:id="@+id/clear"
+        android:title="@string/popup_clear_playlist"/>
+
+</menu>

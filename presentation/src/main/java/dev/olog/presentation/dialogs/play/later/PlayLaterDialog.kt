@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.platform.extension.act
@@ -51,10 +52,9 @@ class PlayLaterDialog : BaseDialog() {
             .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    private fun successMessage(context: Context): String {
-        return if (mediaId.isLeaf){
-            context.getString(R.string.song_x_added_to_play_later, title)
-        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_later, listSize, listSize)
+    private fun successMessage(context: Context): String = when (mediaId.category) {
+        MediaIdCategory.SONGS -> context.getString(R.string.song_x_added_to_play_later, title)
+        else -> context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_later, listSize, listSize)
     }
 
     private fun failMessage(context: Context): String {
@@ -78,11 +78,9 @@ class PlayLaterDialog : BaseDialog() {
         }
     }
 
-    private fun createMessage() : String {
-        if (mediaId.isAll || mediaId.isLeaf){
-            return getString(R.string.add_song_x_to_play_later, title)
-        }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_play_later, listSize, listSize)
+    private fun createMessage() : String = when (mediaId.category) {
+        MediaIdCategory.SONGS -> getString(R.string.add_song_x_to_play_later, title)
+        else -> resources.getQuantityString(R.plurals.add_xx_songs_to_play_later, listSize, listSize)
     }
 
 }

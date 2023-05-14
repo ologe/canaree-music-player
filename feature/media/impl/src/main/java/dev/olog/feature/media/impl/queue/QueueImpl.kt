@@ -401,7 +401,7 @@ class QueueImpl @Inject constructor(
                 songGateway.getById(id)
             }
             track
-        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, null) }
 
         val newQueue = queue + songList
 
@@ -434,7 +434,7 @@ class QueueImpl @Inject constructor(
                 songGateway.getById(id)
             }
             track
-        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, null) }
 
         val newQueue = before + songList + after
 

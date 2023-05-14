@@ -51,22 +51,17 @@ object CoverUtils {
     }
 
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
-        return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
+        return get(context, mediaId.id.toInt(), getDrawable(mediaId))
     }
-
-    fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
-        return get(
-            context,
-            position,
-            getDrawable(source)
-        )
+    fun getTrackGradient(context: Context, id: Long): Drawable {
+        return get(context, id.toInt(), R.drawable.placeholder_musical_note)
     }
 
     fun onlyGradient(context: Context, mediaId: MediaId): Drawable {
-        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.resolveSource))!!.mutate() as LayerDrawable
+        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
-        val position = mediaId.resolveId.toInt()
+        val position = mediaId.id.toInt()
         if (!context.isDarkMode()) {
             // use custom color for light theme
             val pos = (position) % COLORS.size
@@ -95,18 +90,20 @@ object CoverUtils {
     }
 
     @DrawableRes
-    private fun getDrawable(source: Int): Int = when (source) {
-        MediaIdCategory.FOLDERS.ordinal -> R.drawable.placeholder_folder
-        MediaIdCategory.PLAYLISTS.ordinal,
-        MediaIdCategory.PODCASTS_PLAYLIST.ordinal -> R.drawable.placeholder_playlist
-        MediaIdCategory.SONGS.ordinal -> R.drawable.placeholder_musical_note
-        MediaIdCategory.ALBUMS.ordinal,
-        MediaIdCategory.PODCASTS_ALBUMS.ordinal -> R.drawable.placeholder_album
-        MediaIdCategory.ARTISTS.ordinal,
-        MediaIdCategory.PODCASTS_ARTISTS.ordinal -> R.drawable.placeholder_artist
-        MediaIdCategory.GENRES.ordinal -> R.drawable.placeholder_genre
-        MediaIdCategory.PODCASTS.ordinal -> R.drawable.placeholder_podcast
-        else -> throw IllegalArgumentException("invalid source $source")
+    private fun getDrawable(mediaId: MediaId): Int {
+        return when (mediaId.category) {
+            MediaIdCategory.FOLDERS -> R.drawable.placeholder_folder
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.AUTO_PLAYLISTS -> R.drawable.placeholder_playlist
+            MediaIdCategory.SONGS -> {
+                if (mediaId.isPodcast) R.drawable.placeholder_podcast else R.drawable.placeholder_musical_note
+            }
+            MediaIdCategory.ALBUMS -> R.drawable.placeholder_album
+            MediaIdCategory.ARTISTS -> R.drawable.placeholder_artist
+            MediaIdCategory.GENRES -> R.drawable.placeholder_genre
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE -> throw IllegalArgumentException("invalid media id $mediaId")
+        }
     }
 
 }

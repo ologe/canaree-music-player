@@ -86,12 +86,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
 
         libraryCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
+            LibraryCategoriesFragment.newInstance(false)
                 .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         podcastCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
+            LibraryCategoriesFragment.newInstance(true)
                 .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }

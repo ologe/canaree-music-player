@@ -20,6 +20,8 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
 import dev.olog.platform.extension.findActivity
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog.NavArgs.FromMediaId
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
@@ -73,11 +75,7 @@ internal class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> popupNavigator.toEqualizer()
                 R.id.settings -> popupNavigator.toSettingsActivity()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
-                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
-                    MediaId.playingQueueId,
-                    -1,
-                    ""
-                )
+                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(FromMediaId(MediaId.playingQueueId, ""))
                 R.id.gridSize1 -> updateSpanCount(anchor, category!!.toTabCategory(), 1)
                 R.id.gridSize2 -> updateSpanCount(anchor, category!!.toTabCategory(), 2)
                 R.id.gridSize3 -> updateSpanCount(anchor, category!!.toTabCategory(), 3)

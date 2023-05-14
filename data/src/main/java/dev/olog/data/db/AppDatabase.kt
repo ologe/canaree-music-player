@@ -18,15 +18,15 @@ import dev.olog.data.db.dao.LastPlayedPodcastArtistDao
 import dev.olog.data.db.dao.LyricsSyncAdjustmentDao
 import dev.olog.data.db.dao.OfflineLyricsDao
 import dev.olog.data.db.dao.PlayingQueueDao
-import dev.olog.data.db.dao.PlaylistDao
 import dev.olog.data.db.dao.PlaylistMostPlayedDao
-import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.data.db.entities.*
 import dev.olog.data.mediastore.artist.MediaStoreArtistEntity
 import dev.olog.data.mediastore.MediaStoreAudioInternalDao
 import dev.olog.data.mediastore.MediaStoreAudioInternalEntity
+import dev.olog.data.mediastore.MediaStorePlaylistInternalEntity
+import dev.olog.data.mediastore.MediaStorePlaylistMembersInternalEntity
 import dev.olog.data.mediastore.album.MediaStoreAlbumDao
 import dev.olog.data.mediastore.album.MediaStoreAlbumEntity
 import dev.olog.data.mediastore.artist.MediaStoreArtistDao
@@ -36,11 +36,17 @@ import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
 import dev.olog.data.mediastore.folder.MediaStoreFolderDao
 import dev.olog.data.mediastore.genre.MediaStoreGenreDao
 import dev.olog.data.mediastore.genre.MediaStoreGenreEntity
+import dev.olog.data.mediastore.playlist.MediaStorePlaylistDao
+import dev.olog.data.mediastore.playlist.MediaStorePlaylistDirectoryEntity
+import dev.olog.data.mediastore.playlist.MediaStorePlaylistEntity
 
 
 @Database(
     entities = arrayOf(
         MediaStoreAudioInternalEntity::class,
+        MediaStorePlaylistInternalEntity::class,
+        MediaStorePlaylistMembersInternalEntity::class,
+        MediaStorePlaylistDirectoryEntity::class,
         BlacklistEntity::class,
 
         PlayingQueueEntity::class,
@@ -67,12 +73,6 @@ import dev.olog.data.mediastore.genre.MediaStoreGenreEntity
 
         OfflineLyricsEntity::class,
 
-        PlaylistEntity::class,
-        PlaylistTrackEntity::class,
-
-        PodcastPlaylistEntity::class,
-        PodcastPlaylistTrackEntity::class,
-
         PodcastPositionEntity::class,
 
         LyricsSyncAdjustmentEntity::class,
@@ -85,6 +85,7 @@ import dev.olog.data.mediastore.genre.MediaStoreGenreEntity
         MediaStoreArtistEntity::class,
         MediaStoreAlbumEntity::class,
         MediaStoreGenreEntity::class,
+        MediaStorePlaylistEntity::class,
     ],
     version = 19,
     exportSchema = true,
@@ -98,6 +99,7 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaStoreArtistDao(): MediaStoreArtistDao
     abstract fun mediaStoreAlbumDao(): MediaStoreAlbumDao
     abstract fun mediaStoreGenreDao(): MediaStoreGenreDao
+    abstract fun mediaStorePlaylistDao(): MediaStorePlaylistDao
     abstract fun blacklistDao(): BlacklistDao
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -122,9 +124,6 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun lastFmDao(): LastFmDao
 
     abstract fun offlineLyricsDao(): OfflineLyricsDao
-
-    abstract fun playlistDao(): PlaylistDao
-    abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
     abstract fun podcastPositionDao(): PodcastPositionDao
 

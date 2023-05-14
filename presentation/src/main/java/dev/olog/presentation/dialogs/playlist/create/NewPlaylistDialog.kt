@@ -1,82 +1,100 @@
 package dev.olog.presentation.dialogs.playlist.create
 
-import android.content.Context
+import android.app.Dialog
+import android.os.Bundle
+import android.os.Parcelable
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.platform.extension.act
+import dev.olog.platform.extension.getArgument
 import dev.olog.platform.extension.toast
 import dev.olog.platform.extension.withArguments
-import dev.olog.shared.lazyFast
+import dev.olog.presentation.dialogs.EditTextDialogButton
+import dev.olog.presentation.dialogs.createEditTextDialog
+import dev.olog.presentation.dialogs.playlist.AlreadyExistingPlaylistValidator
+import dev.olog.presentation.validation.ComposedValidator
+import dev.olog.presentation.validation.NonEmptyValidator
+import kotlinx.android.parcel.Parcelize
 
 @AndroidEntryPoint
-class NewPlaylistDialog : BaseEditTextDialog() {
+class NewPlaylistDialog : DialogFragment() {
+
+    sealed interface NavArgs : Parcelable {
+        @Parcelize
+        data class FromIds(val ids: List<Long>): NavArgs
+        @Parcelize
+        data class FromMediaId(val mediaId: MediaId, val title: String): NavArgs
+    }
 
     companion object {
         const val TAG = "NewPlaylistDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+        private const val ARGUMENTS = "$TAG.arguments"
 
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): NewPlaylistDialog {
+        fun newInstance(navArgs: NavArgs): NewPlaylistDialog {
             return NewPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_LIST_SIZE to listSize,
-                    ARGUMENTS_ITEM_TITLE to itemTitle
+                ARGUMENTS to navArgs,
             )
         }
+
     }
+
+    private val navArgs: NavArgs
+        get() = getArgument(ARGUMENTS)
 
     private val viewModel by viewModels<NewPlaylistDialogViewModel>()
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
-        MediaId.fromString(mediaId)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return createEditTextDialog(
+            title = getString(R.string.popup_new_playlist),
+            positiveButton = EditTextDialogButton(R.string.popup_positive_create) {
+                createPlaylist(it)
+                dismiss()
+            },
+            negativeButton = EditTextDialogButton(R.string.popup_negative_cancel) {
+                dismiss()
+            },
+            validator = ComposedValidator(
+                NonEmptyValidator(getString(R.string.popup_playlist_name_not_valid)),
+                AlreadyExistingPlaylistValidator(
+                    existingPlaylists = viewModel.getPlaylistTitles(),
+                    message = getString(R.string.popup_playlist_name_already_exist),
+                )
+            ),
+            setupEditText = {
+                hint = getString(R.string.popup_new_playlist)
+            }
+        )
     }
-    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
-    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        return super.extendBuilder(builder)
-            .setTitle(R.string.popup_new_playlist)
-            .setPositiveButton(R.string.popup_positive_create, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-    }
-
-    override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
-        editText.hint = getString(R.string.popup_new_playlist)
-    }
-
-    override fun provideMessageForBlank(): String {
-        return getString(R.string.popup_playlist_name_not_valid)
-    }
-
-    override suspend fun onItemValid(string: String) {
-        var message: String
-        try {
-            viewModel.execute(mediaId, string)
-            message = successMessage(act, string).toString()
+    private suspend fun createPlaylist(title: String) {
+        val message = try {
+            val insertedItems = viewModel.execute(title, navArgs)
+            successMessage(title, insertedItems!!)
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            message = getString(R.string.popup_error_message)
+            getString(R.string.popup_error_message)
         }
-        act.toast(message)
+        requireActivity().toast(message)
     }
 
 
-    private fun successMessage(context: Context, currentValue: String): CharSequence {
-        if (mediaId.isPlayingQueue){
-            return context.getString(R.string.queue_saved_as_playlist, currentValue)
+    private fun successMessage(
+        playlistTitle: String,
+        insertedItems: Int,
+    ): String = when (val args = navArgs) {
+        is NavArgs.FromIds -> {
+            resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, insertedItems, insertedItems, playlistTitle)
         }
-        if (mediaId.isLeaf){
-            return context.getString(R.string.added_song_x_to_playlist_y, title, currentValue)
+        is NavArgs.FromMediaId -> {
+            val mediaId = args.mediaId
+            when (mediaId.category) {
+                MediaIdCategory.PLAYING_QUEUE -> getString(R.string.queue_saved_as_playlist, playlistTitle)
+                MediaIdCategory.SONGS -> getString(R.string.added_song_x_to_playlist_y, args.title, playlistTitle)
+                else -> resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, insertedItems, insertedItems, playlistTitle)
+            }
         }
-        return context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
-                listSize, listSize, currentValue)
     }
 }

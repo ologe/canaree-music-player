@@ -9,6 +9,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import androidx.lifecycle.asLiveData
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,14 +23,27 @@ internal class TabFragmentViewModel @Inject constructor(
     private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> =
         mutableMapOf()
 
-    fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
+    fun observeData(category: TabCategory, isPodcast: Boolean): LiveData<List<DisplayableItem>> {
         return liveDataMap.getOrPut(category) {
-            dataProvider.get(category).asLiveData()
+            dataProvider.get(category, isPodcast).asLiveData()
         }
     }
 
-    fun getAllTracksSortOrder(mediaId: MediaId): SortEntity? {
-        if (mediaId.isAnyPodcast) {
+    fun getRecentlyAddedAlbums(isPodcast: Boolean): LiveData<List<DisplayableItem>> {
+        return dataProvider.getRecentlyAddedAlbums(isPodcast).asLiveData()
+    }
+    fun getRecentlyAddedArtists(isPodcast: Boolean): LiveData<List<DisplayableItem>> {
+        return dataProvider.getRecentlyAddedArtists(isPodcast).asLiveData()
+    }
+    fun getRecentlyPlayedAlbums(isPodcast: Boolean): LiveData<List<DisplayableItem>> {
+        return dataProvider.getRecentlyPlayedAlbums(isPodcast).asLiveData()
+    }
+    fun getRecentlyPlayedArtists(isPodcast: Boolean): LiveData<List<DisplayableItem>> {
+        return dataProvider.getRecentlyPlayedArtists(isPodcast).asLiveData()
+    }
+
+    fun getAllTracksSortOrder(isPodcast: Boolean): SortEntity? {
+        if (isPodcast) {
             return null
         }
         return appPreferencesUseCase.getAllTracksSort()

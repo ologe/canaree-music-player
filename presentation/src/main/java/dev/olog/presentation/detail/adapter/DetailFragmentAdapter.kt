@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -25,6 +24,8 @@ import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import androidx.lifecycle.asLiveData
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.track.AutoPlaylist
 import dev.olog.shared.subscribe
 import dev.olog.platform.extension.toggleVisibility
 import dev.olog.shared.exhaustive
@@ -242,13 +243,14 @@ internal class DetailFragmentAdapter(
 
     val canSwipeRight: Boolean
         get() {
-            if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
-                val playlistId = mediaId.resolveId
-                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
-                    playlistId
-                )
+            return when (mediaId.category) {
+                MediaIdCategory.AUTO_PLAYLISTS -> {
+                    val id = AutoPlaylist.findPlaylistId(mediaId.id) ?: return false
+                    return !id.isLastAdded
+                }
+                MediaIdCategory.PLAYLISTS -> true
+                else -> false
             }
-            return false
         }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

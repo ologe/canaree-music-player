@@ -2,7 +2,7 @@ package dev.olog.data.queries
 
 import android.net.Uri
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
-internal class AudioQueries @Inject constructor(
+class AudioQueries @Inject constructor(
     private val dao: MediaStoreAudioDao,
     private val sortPrefs: SortPreferences,
     private val query: MediaStoreQuery,

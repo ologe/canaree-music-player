@@ -5,7 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -28,10 +28,11 @@ class GlideMergedImageFetcher(
         callback: DataFetcher.DataCallback<in InputStream>
     ) = runBlocking {
         try {
-            val inputStream = when {
-                mediaId.isFolder -> makeFolderImage(mediaId.categoryId)
-                mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
-                else -> makePlaylistImage(mediaId.categoryId)
+            val inputStream = when (mediaId.category) {
+                MediaIdCategory.FOLDERS -> makeFolderImage(mediaId.id)
+                MediaIdCategory.GENRES -> makeGenreImage(mediaId.id)
+                MediaIdCategory.PLAYLISTS -> makePlaylistImage(mediaId)
+                else -> error("$mediaId not supported")
             }
             callback.onDataReady(inputStream)
         } catch (ex: Throwable){
@@ -70,13 +71,11 @@ class GlideMergedImageFetcher(
         return file?.inputStream()
     }
 
-    private suspend fun makePlaylistImage(playlistId: Long): InputStream? {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)){
-            return null
-        }
+    private suspend fun makePlaylistImage(mediaId: MediaId): InputStream? {
+        val playlistId = mediaId.id
 
 //        ImagesFolderUtils.forPlaylist(context, id) --contains current image
-        val albumsId = playlistGateway.getTrackListByParam(playlistId).map { it.albumId }
+        val albumsId = playlistGateway.getTrackListById(mediaId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.PLAYLIST
         val file = MergedImagesCreator.makeImages(

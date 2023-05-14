@@ -4,12 +4,12 @@ import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
-import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.feature.media.api.MediaProvider
 import dev.olog.feature.shortcuts.api.FeatureShortcutsNavigator
 import dev.olog.presentation.R
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog.NavArgs.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -19,27 +19,19 @@ class AlbumPopupListener @Inject constructor(
     private val activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
-    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
+    playlistGateway: PlaylistGateway,
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val featureShortcutsNavigator: FeatureShortcutsNavigator,
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(playlistGateway, addToPlaylistUseCase) {
 
     private lateinit var album: Album
-    private var song: Song? = null
 
-    fun setData(album: Album, song: Song?): AlbumPopupListener {
+    fun setData(album: Album): AlbumPopupListener {
         this.album = album
-        this.song = song
         return this
     }
 
-    private fun getMediaId(): MediaId {
-        if (song != null) {
-            return MediaId.playableItem(album.getMediaId(), song!!.id)
-        } else {
-            return album.getMediaId()
-        }
-    }
+    private fun getMediaId(): MediaId = album.getMediaId()
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
@@ -56,8 +48,6 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist()
             R.id.viewAlbum -> viewAlbum(navigator, album.getMediaId())
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> featureShortcutsNavigator.addDetailShortcut(
                 mediaId = getMediaId(),
                 title = album.title
@@ -68,11 +58,7 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), album.size, album.title)
-        } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
-        }
+        navigator.toCreatePlaylistDialog(FromMediaId(getMediaId(), album.title))
     }
 
     private fun playFromMediaId() {
@@ -84,28 +70,16 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun playLater() {
-        if (song == null) {
-            navigator.toPlayLater(getMediaId(), album.size, album.title)
-        } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
-        }
+        navigator.toPlayLater(getMediaId(), album.size, album.title)
     }
 
     private fun playNext() {
-        if (song == null) {
-            navigator.toPlayNext(getMediaId(), album.size, album.title)
-        } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
-        }
+        navigator.toPlayNext(getMediaId(), album.size, album.title)
     }
 
 
     private fun addToFavorite() {
-        if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), album.size, album.title)
-        } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
-        }
+        navigator.toAddToFavoriteDialog(getMediaId(), album.size, album.title)
     }
 
     private fun viewArtist() {

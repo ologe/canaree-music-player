@@ -1,6 +1,5 @@
 package dev.olog.feature.media.impl.voice
 
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.feature.media.impl.model.MediaEntity
@@ -9,43 +8,38 @@ import dev.olog.feature.media.impl.model.toMediaEntity
 object VoiceSearch {
 
     fun noFilter(songList: List<Song>): List<MediaEntity> {
-        val mediaId = MediaId.songId(-1)
-        return songList.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+        return songList.mapIndexed { index, song -> song.toMediaEntity(index, null) }
     }
 
     fun filterByAlbum(songList: List<Song>, query: String): List<MediaEntity> {
-        val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.album.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, song -> song.toMediaEntity(index, null) }
             .toList()
     }
 
     fun filterByArtist(songList: List<Song>, query: String): List<MediaEntity> {
-        val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.artist.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, song -> song.toMediaEntity(index, null) }
             .toList()
     }
 
     fun filterByTrack(songList: List<Song>, query: String): List<MediaEntity> {
-        val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter { it.title.equals(query, true) }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, song -> song.toMediaEntity(index, null) }
             .toList()
     }
 
     fun search(songList: List<Song>, query: String): List<MediaEntity> {
-        val mediaId = MediaId.songId(-1)
         return songList.asSequence()
             .filter {
                 it.title.equals(query, true) ||
                         it.artist.equals(query, true) ||
                         it.album.equals(query, true)
             }
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, song -> song.toMediaEntity(index, null) }
             .toList()
     }
 

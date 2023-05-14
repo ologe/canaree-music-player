@@ -78,7 +78,7 @@ class QueueManager @Inject constructor(
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = mediaId.id
 
         val songList = getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
@@ -106,7 +106,7 @@ class QueueManager @Inject constructor(
     override suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = mediaId.id
 
         val songList = getRecentlyAddedUseCase(mediaId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
@@ -131,7 +131,7 @@ class QueueManager @Inject constructor(
     override suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = mediaId.id
 
         val songList = getMostPlayedSongsUseCase(mediaId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
@@ -210,31 +210,29 @@ class QueueManager @Inject constructor(
 
         val params = VoiceSearchParams(query, extras)
 
-        val mediaId = MediaId.songId(-1)
-
         var forceShuffle = false
 
         val songList: List<MediaEntity> = when {
             params.isUnstructured -> VoiceSearch.search(
-                getSongListByParamUseCase(mediaId),
+                songGateway.getAll(),
                 query
             )
             params.isAlbumFocus -> VoiceSearch.filterByAlbum(
-                getSongListByParamUseCase(mediaId),
+                songGateway.getAll(),
                 params.album
             )
             params.isArtistFocus -> VoiceSearch.filterByArtist(
-                getSongListByParamUseCase(mediaId),
+                songGateway.getAll(),
                 params.artist
             )
             params.isSongFocus -> VoiceSearch.filterByTrack(
-                getSongListByParamUseCase(mediaId),
+                songGateway.getAll(),
                 params.song
             )
             params.isGenreFocus -> VoiceSearch.filterByGenre(genreGateway, params.genre)
             else -> {
                 forceShuffle = true
-                VoiceSearch.noFilter(getSongListByParamUseCase(mediaId).shuffled())
+                VoiceSearch.noFilter(songGateway.getAll().shuffled())
             }
         }
 

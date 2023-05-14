@@ -8,6 +8,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -26,10 +27,14 @@ class GlideMergedImageLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf) {
+        if (mediaId.isPodcast) {
             return false
         }
-        return mediaId.isFolder || mediaId.isPlaylist || mediaId.isGenre || mediaId.isPodcastPlaylist
+        return mediaId.category in arrayOf(
+            MediaIdCategory.FOLDERS,
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.GENRES,
+        )
     }
 
     override fun buildLoadData(

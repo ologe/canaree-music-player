@@ -31,6 +31,7 @@ dependencies {
 
     implementation libs.androidx.core
     implementation libs.androidx.preference
+    implementation libs.androidx.document
 
     implementation libs.utils.fuzzywuzzy
     implementation libs.kotlin.serialization

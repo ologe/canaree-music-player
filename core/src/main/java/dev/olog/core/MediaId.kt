@@ -1,90 +1,157 @@
 package dev.olog.core
 
-enum class MediaIdCategory {
-    FOLDERS,
-    PLAYLISTS,
-    SONGS,
-    ALBUMS,
-    ARTISTS,
-    GENRES,
+import android.net.Uri
+import android.os.Parcelable
+import dev.olog.core.entity.track.AutoPlaylist
+import kotlinx.android.parcel.Parcelize
 
-    PODCASTS_PLAYLIST,
-    PODCASTS,
-    PODCASTS_ALBUMS,
-    PODCASTS_ARTISTS,
+enum class MediaIdCategory(val key: String) {
+    FOLDERS("folders"),
+    PLAYLISTS("playlists"),
+    AUTO_PLAYLISTS("auto_playlists"),
+    SONGS("tracks"),
+    ALBUMS("albums"),
+    ARTISTS("artists"),
+    GENRES("genres"),
 
-    HEADER,
-    PLAYING_QUEUE
+    @Deprecated("")
+    HEADER("headers"),
+    @Deprecated("")
+    PLAYING_QUEUE("playing_queue")
 }
 
+@Parcelize
 class MediaId private constructor(
-    val category: MediaIdCategory,
-    val categoryValue: String,
-    val leaf: Long? = null
-) {
-
-    val source : Int = category.ordinal
+    private val opaqueUri: String,
+) : Parcelable {
 
     companion object {
-        private const val CATEGORY_SEPARATOR = '/'
-        private const val LEAF_SEPARATOR = '|'
+        private const val SCHEME = "canaree"
+        private const val IS_PODCAST = "is_podcast"
 
+        @Deprecated("")
         fun headerId(value: String): MediaId {
-            return MediaId(MediaIdCategory.HEADER, value)
+            return MediaId(buildUri(MediaIdCategory.HEADER, value, false))
         }
 
-        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
+        @Deprecated("")
+        val playingQueueId: MediaId = MediaId(buildUri(MediaIdCategory.PLAYING_QUEUE, "", false))
 
-        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
-            return MediaId(category, categoryValue)
-        }
-
-        fun songId(id: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "", id)
-        }
-
-        fun playableItem(parentId: MediaId, songId: Long): MediaId {
-            return MediaId(parentId.category, parentId.categoryValue, songId)
-        }
-
+        @Deprecated("")
         fun shuffleId(): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "shuffle")
+            return MediaId(buildUri(MediaIdCategory.SONGS, "shuffle", false))
         }
 
-        fun fromString(mediaId: String): MediaId {
-            val categoryFinish = mediaId.indexOf(CATEGORY_SEPARATOR)
-            val categoryValueFinish = mediaId.indexOf(LEAF_SEPARATOR)
+        // TODO better check, rename to `of`
+        fun fromString(opaqueUri: String): MediaId {
+            require(Uri.parse(opaqueUri).scheme == SCHEME) { opaqueUri }
+            return MediaId(opaqueUri)
+        }
 
-            val category = mediaId.substring(0, categoryFinish)
-            val categoryValue = if (categoryValueFinish == -1){
-                mediaId.substring(categoryFinish + 1)
-            } else {
-                mediaId.substring(categoryFinish + 1, categoryValueFinish)
-            }
-
-            val leaf = if (categoryValueFinish == -1){
-                null
-            } else {
-                mediaId.substring(categoryValueFinish + 1).toLong()
-            }
-
-            return MediaId(
-                MediaIdCategory.valueOf(category),
-                categoryValue,
-                leaf
+        fun ofTrack(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.SONGS,
+                id = id.toString(),
+                isPodcast = isPodcast,
             )
+            return MediaId(uri)
         }
+
+        fun ofFolder(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.FOLDERS,
+                id = id.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        fun ofPlaylist(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.PLAYLISTS,
+                id = id.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        fun ofAutoPlaylist(id: AutoPlaylist.Id, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.AUTO_PLAYLISTS,
+                id = id.key.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        fun ofAlbum(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.ALBUMS,
+                id = id.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        fun ofArtist(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.ARTISTS,
+                id = id.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        fun ofGenre(id: Long, isPodcast: Boolean): MediaId {
+            val uri = buildUri(
+                category = MediaIdCategory.ARTISTS,
+                id = id.toString(),
+                isPodcast = isPodcast,
+            )
+            return MediaId(uri)
+        }
+
+        private fun buildUri(
+            category: MediaIdCategory,
+            id: String, // TODO make it Long after removing header and playing queue category?
+            isPodcast: Boolean,
+        ): String {
+            return buildString {
+                append(Uri.encode(SCHEME))
+                append(":")
+                append(Uri.encode(category.key))
+                append(":")
+                append(Uri.encode(id))
+                append(":")
+                if (isPodcast) {
+                    append(Uri.encode(IS_PODCAST))
+                }
+            }
+        }
+
     }
 
-    val isLeaf = leaf != null
-
-    override fun toString(): String {
-        var string = category.toString() + CATEGORY_SEPARATOR + categoryValue
-        if (leaf != null){
-            string += LEAF_SEPARATOR + leaf.toString()
-        }
-        return string
+    private val parts by lazy {
+        opaqueUri.split(":")
     }
+
+    val scheme: String
+        get() = parts[0]
+
+    val category: MediaIdCategory
+        get() {
+            val key = parts[1]
+            return MediaIdCategory.values().first { it.key == key }
+        }
+
+    val id: Long
+        get() = parts[2].toLong()
+
+    // TODO double check usage, now it means is any podcast type (track, album, playlist, ..)
+    val isPodcast: Boolean
+        get() = parts[3] == IS_PODCAST
+
+    override fun toString(): String = opaqueUri
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -92,67 +159,13 @@ class MediaId private constructor(
 
         other as MediaId
 
-        if (category != other.category) return false
-        if (categoryValue != other.categoryValue) return false
-        if (leaf != other.leaf) return false
+        if (opaqueUri != other.opaqueUri) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = category.name.hashCode()
-        result = 31 * result + categoryValue.hashCode()
-        result = 31 * result + (leaf?.hashCode() ?: 0)
-        return result
-    }
-
-    val resolveId: Long
-        get() {
-            return when {
-                isLeaf -> leaf!!.toLong()
-                isHeader -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
-            }
-        }
-
-    val categoryId: Long
-        get() {
-            return when {
-                isHeader -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
-            }
-        }
-
-    val resolveSource : Int
-        get() {
-            if (isLeaf && isPodcast){
-                return MediaIdCategory.PODCASTS.ordinal
-            }
-            if (isLeaf){
-                return MediaIdCategory.SONGS.ordinal
-            }
-            return source
-        }
-
-    val isHeader: Boolean = category == MediaIdCategory.HEADER
-    val isFolder : Boolean = category == MediaIdCategory.FOLDERS
-    val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
-    val isAll: Boolean = category == MediaIdCategory.SONGS
-    val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
-    val isArtist : Boolean = category == MediaIdCategory.ARTISTS
-    val isGenre : Boolean = category == MediaIdCategory.GENRES
-    val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
-    val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
-    val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
-    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
-    val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
-
-    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
-
-    fun assertPlaylist(){
-        require(isPlaylist || isPodcastPlaylist) {
-            "not a playlist, category=${this.category}"
-        }
+        return opaqueUri.hashCode()
     }
 
 }

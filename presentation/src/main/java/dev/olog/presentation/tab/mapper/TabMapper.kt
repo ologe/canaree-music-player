@@ -20,12 +20,12 @@ internal fun Folder.toTabDisplayableItem(
     )
 }
 
-internal fun Playlist.toAutoPlaylist(): DisplayableItem {
+internal fun AutoPlaylist.toAutoPlaylist(resources: Resources): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_auto_playlist,
         mediaId = getMediaId(),
         title = title,
-        subtitle = ""
+        subtitle = DisplayableAlbum.readableSongCount(resources, size)
     )
 }
 
@@ -50,7 +50,6 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
         artist = artist,
         album = album,
         idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration).toInt() else this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 

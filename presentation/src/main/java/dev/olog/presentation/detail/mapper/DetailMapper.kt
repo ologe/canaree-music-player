@@ -2,7 +2,7 @@ package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
@@ -19,34 +19,35 @@ internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
 }
 
 internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableTrack {
-    val idInPlaylist = if (parentId.isPlaylist || parentId.isPodcastPlaylist){
-        this.idInPlaylist
-    } else {
-        this.trackNumber
+    val idInPlaylist = when (parentId.category) {
+        MediaIdCategory.PLAYLISTS -> this.idInPlaylist
+        else -> this.trackNumber
     }
 
     return DisplayableTrack(
         type = computeLayoutType(parentId, sortType),
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = getMediaId(), // TODO parent id?
         title = this.title,
         artist = artist,
         album = album,
         idInPlaylist = idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 
 @Suppress("NOTHING_TO_INLINE")
 private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
     return when {
-        parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
-        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
-            val playlistId = parentId.categoryValue.toLong()
-            if (AutoPlaylist.isAutoPlaylist(playlistId)) {
+        parentId.category == MediaIdCategory.ALBUMS -> R.layout.item_detail_song_with_track
+        parentId.category == MediaIdCategory.PLAYLISTS && sortType == SortType.CUSTOM -> {
+            if (parentId.category == MediaIdCategory.AUTO_PLAYLISTS) {
                 R.layout.item_detail_song
-            } else R.layout.item_detail_song_with_drag_handle
+            } else {
+                R.layout.item_detail_song_with_drag_handle
+            }
         }
-        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
+        parentId.category == MediaIdCategory.FOLDERS && sortType == SortType.TRACK_NUMBER -> {
+            R.layout.item_detail_song_with_track_and_image
+        }
         else -> R.layout.item_detail_song
     }
 }
@@ -58,24 +59,22 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
 
     return DisplayableTrack(
         type = R.layout.item_detail_song_most_played,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = getMediaId(), // TODO parent id?
         title = this.title,
         artist = this.artist,
         album = this.album,
         idInPlaylist = position,
-        dataModified = this.dateModified
     )
 }
 
 internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
     return DisplayableTrack(
         type = R.layout.item_detail_song_recent,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = getMediaId(), // TODO parent id?
         title = this.title,
         artist = this.artist,
         album = this.album,
         idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 

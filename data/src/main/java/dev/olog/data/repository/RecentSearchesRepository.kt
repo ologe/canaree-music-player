@@ -5,7 +5,6 @@ import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.dao.RecentSearchesDao
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +20,6 @@ internal class RecentSearchesRepository @Inject constructor(
     private val folderGateway: FolderGateway,
 
     private val podcastGateway: PodcastGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway
 
@@ -36,7 +34,6 @@ internal class RecentSearchesRepository @Inject constructor(
             genreGateway,
             folderGateway,
             podcastGateway,
-            podcastPlaylistGateway,
             podcastAlbumGateway,
             podcastArtistGateway
         )

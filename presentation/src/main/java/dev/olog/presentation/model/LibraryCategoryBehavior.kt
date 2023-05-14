@@ -5,26 +5,43 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 
 data class LibraryCategoryBehavior(
-    val category: MediaIdCategory,
+    val category: Category,
     var visible: Boolean,
     var order: Int
 ) {
 
     fun asString(context: Context): String {
         val stringId = when (category) {
-            MediaIdCategory.FOLDERS -> R.string.category_folders
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> R.string.category_playlists
-            MediaIdCategory.SONGS -> R.string.category_songs
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> R.string.category_albums
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> R.string.category_artists
-            MediaIdCategory.GENRES -> R.string.category_genres
-            MediaIdCategory.PODCASTS -> R.string.category_podcasts
-            else -> 0 //will throw an exception
+            Category.FOLDERS -> R.string.category_folders
+            Category.PLAYLISTS -> R.string.category_playlists
+            Category.SONGS -> R.string.category_songs
+            Category.ALBUMS -> R.string.category_albums
+            Category.ARTISTS -> R.string.category_artists
+            Category.GENRES -> R.string.category_genres
+            Category.PODCASTS -> R.string.category_podcasts
         }
         return context.getString(stringId)
+    }
+
+    enum class Category {
+        FOLDERS,
+        PLAYLISTS,
+        SONGS,
+        PODCASTS,
+        ALBUMS,
+        ARTISTS,
+        GENRES;
+
+        fun toMediaId(): MediaIdCategory = when (this) {
+            FOLDERS -> MediaIdCategory.FOLDERS
+            PLAYLISTS -> MediaIdCategory.PLAYLISTS
+            SONGS,
+            PODCASTS -> MediaIdCategory.SONGS
+            ALBUMS -> MediaIdCategory.ALBUMS
+            ARTISTS -> MediaIdCategory.ARTISTS
+            GENRES -> MediaIdCategory.GENRES
+        }
+
     }
 
 }

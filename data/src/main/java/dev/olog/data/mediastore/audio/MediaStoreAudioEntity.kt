@@ -1,7 +1,7 @@
 package dev.olog.data.mediastore.audio
 
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 import dev.olog.core.entity.track.Song
@@ -14,8 +14,7 @@ SELECT _id, album_id, artist_id, title,
     END AS ${AudioColumns.ALBUM},
     album_artist, artist, 
     bucket_id, bucket_display_name, _data, relative_path, _display_name,
-    is_podcast, bookmark, duration, author, bitrate, compilation, composer,
-    _size, track, year, writer, is_favorite, date_added, genre_id, genre
+    is_podcast, duration, track, year, date_added, genre_id, genre
 FROM mediastore_audio_internal LEFT JOIN blacklist 
     ON mediastore_audio_internal.relative_path = blacklist.directory
 WHERE blacklist.directory IS NULL
@@ -40,46 +39,30 @@ data class MediaStoreAudioEntity(
     val artist: String?,
 
     // directory/folder
-    @ColumnInfo(name = AudioColumns.BUCKET_ID)
+    @ColumnInfo(name = "bucket_id")
     val bucketId: Long, // directory id
-    @ColumnInfo(name = AudioColumns.BUCKET_DISPLAY_NAME)
+    @ColumnInfo(name = "bucket_display_name")
     val bucketDisplayName: String, // directory name
     @ColumnInfo(name = AudioColumns.DATA)
     val data: String?, // full path
-    @ColumnInfo(name = AudioColumns.RELATIVE_PATH)
+    @ColumnInfo(name = "relative_path")
     val relativePath: String, // directory path
     @ColumnInfo(name = AudioColumns.DISPLAY_NAME)
     val displayName: String, // file name
 
     // audio type
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
-    val isPodcast: Boolean,
+    val isPodcast: Int,
 
     // duration
-    @ColumnInfo(name = AudioColumns.BOOKMARK)
-    val bookmark: Int?, // todo use this
     @ColumnInfo(name = AudioColumns.DURATION)
     val duration: Long,
 
     // more info
-    @ColumnInfo(name = AudioColumns.AUTHOR)
-    val author: String?,
-    @ColumnInfo(name = AudioColumns.BITRATE)
-    val bitrate: Int,
-    @ColumnInfo(name = AudioColumns.COMPILATION)
-    val compilation: String?,
-    @ColumnInfo(name = AudioColumns.COMPOSER)
-    val composer: String?,
-    @ColumnInfo(name = AudioColumns.SIZE)
-    val size: Long, // size in bytes
     @ColumnInfo(name = AudioColumns.TRACK)
     val track: Int?,
     @ColumnInfo(name = AudioColumns.YEAR)
     val year: Int?,
-    @ColumnInfo(name = AudioColumns.WRITER)
-    val writer: String?,
-    @ColumnInfo(name = AudioColumns.IS_FAVORITE)
-    val isFavorite: Int, // TODO use this?
 
     // date
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
@@ -106,6 +89,6 @@ fun MediaStoreAudioEntity.toSong(): Song {
         path = data.orEmpty(),
         trackColumn = track ?: 0,
         idInPlaylist = 0,
-        isPodcast = isPodcast,
+        isPodcast = isPodcast != 0,
     )
 }

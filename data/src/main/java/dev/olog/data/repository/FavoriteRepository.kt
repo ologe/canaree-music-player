@@ -5,11 +5,10 @@ import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.shared.assertBackground
+import dev.olog.data.mediastore.audio.toSong
 import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -18,9 +17,6 @@ import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
     private val favoriteDao: FavoriteDao,
-    private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
-
 ) : FavoriteGateway {
 
     private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
@@ -34,35 +30,19 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override fun getTracks(): List<Song> {
-        assertBackgroundThread()
-        val historyList = favoriteDao.getAllTracksImpl()
-        val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-        return historyList.mapNotNull { id -> songList[id]?.get(0) }
+        return favoriteDao.getAllTracks().map { it.toSong() }
     }
 
     override fun getPodcasts(): List<Song> {
-        assertBackgroundThread()
-        val historyList = favoriteDao.getAllPodcastsImpl()
-        val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-        return historyList.mapNotNull { id -> songList[id]?.get(0) }
+        return favoriteDao.getAllPodcasts().map { it.toSong() }
     }
 
     override fun observeTracks(): Flow<List<Song>> {
-        return favoriteDao.observeAllTracksImpl()
-            .map { favorites ->
-                val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
-                favorites.mapNotNull { id -> songs[id]?.get(0) }
-                    .sortedBy { it.title }
-            }.assertBackground()
+        return favoriteDao.observeAllTracks().mapListItem { it.toSong() }
     }
 
     override fun observePodcasts(): Flow<List<Song>> {
-        return favoriteDao.observeAllPodcastsImpl()
-            .map { favorites ->
-                val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
-                favorites.mapNotNull { id -> podcast[id]?.get(0) }
-                    .sortedBy { it.title }
-            }.assertBackground()
+        return favoriteDao.observeAllPodcasts().mapListItem { it.toSong() }
     }
 
     override suspend fun addSingle(type: FavoriteType, songId: Long) {
@@ -102,13 +82,17 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun deleteAll(type: FavoriteType) {
-        favoriteDao.deleteTracks()
+        when (type) {
+            FavoriteType.TRACK -> favoriteDao.deleteTracks()
+            FavoriteType.PODCAST -> favoriteDao.deleteAllPodcasts()
+        }
         val songId = favoriteStatePublisher.value.songId
         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
     }
 
-    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
-        return favoriteDao.isFavorite(songId) != null
+    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean = when (type) {
+        FavoriteType.TRACK -> favoriteDao.isFavorite(songId) != null
+        FavoriteType.PODCAST -> favoriteDao.isFavoritePodcast(songId) != null
     }
 
     override suspend fun toggleFavorite() {

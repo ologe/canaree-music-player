@@ -1,6 +1,5 @@
 package dev.olog.data.mediastore.folder
 
-import android.provider.MediaStore.Audio.AudioColumns
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 import dev.olog.core.entity.track.Folder
@@ -11,11 +10,11 @@ FROM mediastore_audio
 GROUP BY bucket_id
 """, viewName = "mediastore_folders")
 data class MediaStoreFolderEntity(
-    @ColumnInfo(name = AudioColumns.BUCKET_ID)
+    @ColumnInfo(name = "bucket_id")
     val id: Long,
-    @ColumnInfo(name = AudioColumns.BUCKET_DISPLAY_NAME)
+    @ColumnInfo(name = "bucket_display_name")
     val title: String,
-    @ColumnInfo(name = AudioColumns.RELATIVE_PATH)
+    @ColumnInfo(name = "relative_path")
     val path: String,
     val size: Int,
 )

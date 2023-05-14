@@ -1,7 +1,7 @@
 package dev.olog.data.queries
 
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 
@@ -29,7 +29,7 @@ object QueryUtils {
             SortType.DURATION -> "${AudioColumns.DURATION} $direction"
             SortType.RECENTLY_ADDED -> "${AudioColumns.DATE_ADDED} ${!direction}, ${AudioColumns.TITLE} $direction"
             SortType.TRACK_NUMBER -> "$DISC_NUMBER_PROJECTION ${direction}, $TRACK_NUMBER_PROJECTION ${direction}, ${AudioColumns.TITLE} $direction"
-            SortType.CUSTOM -> custom
+            SortType.CUSTOM -> "$custom $direction"
         }
     }
 

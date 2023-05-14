@@ -7,7 +7,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
@@ -36,10 +35,7 @@ internal class DetailDataProvider @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
-    // podcast
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val autoPlaylistGateway: AutoPlaylistGateway,
 
     private val recentlyAddedUseCase: ObserveRecentlyAddedUseCase,
     private val mostPlayedUseCase: ObserveMostPlayedSongsUseCase,
@@ -53,26 +49,21 @@ internal class DetailDataProvider @Inject constructor(
 
     fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
         val item = when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeById(mediaId.categoryId)
+            MediaIdCategory.FOLDERS -> folderGateway.observeById(mediaId.id)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeById(mediaId.id)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.ALBUMS -> albumGateway.observeById(mediaId.categoryId)
+            MediaIdCategory.AUTO_PLAYLISTS -> autoPlaylistGateway.observeById(mediaId.id)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.ALBUMS -> albumGateway.observeById(mediaId.id)
                 .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.ARTISTS -> artistGateway.observeById(mediaId.categoryId)
+            MediaIdCategory.ARTISTS -> artistGateway.observeById(mediaId.id)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.GENRES -> genreGateway.observeById(mediaId.categoryId)
-                .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
-                .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeById(mediaId.categoryId)
-                .mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeById(mediaId.categoryId)
+            MediaIdCategory.GENRES -> genreGateway.observeById(mediaId.id)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,
-            MediaIdCategory.SONGS,
-            MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
+            MediaIdCategory.SONGS -> throw IllegalArgumentException("invalid category=$mediaId")
         }.exhaustive
         return item.map { header ->
             listOf(
@@ -127,7 +118,7 @@ internal class DetailDataProvider @Inject constructor(
         ) { array ->
             val list = array.toList()
             val (header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists) = list
-            if (mediaId.isArtist) {
+            if (mediaId.category == MediaIdCategory.ARTISTS) {
 
                 header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists
             } else {
@@ -151,43 +142,28 @@ internal class DetailDataProvider @Inject constructor(
     }
 
     fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
-        MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.id).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        MediaIdCategory.AUTO_PLAYLISTS -> flowOf(emptyList())
+        MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.id).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
+        MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.id).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )
         }
-        MediaIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        // podcasts
-        MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
+        MediaIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.id).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )

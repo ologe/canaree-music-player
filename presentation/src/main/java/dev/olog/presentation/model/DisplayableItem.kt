@@ -17,8 +17,6 @@ data class DisplayableTrack(
     val artist: String,
     val album: String,
     val idInPlaylist: Int,
-    val dataModified: Long
-
 ) : DisplayableItem(type, mediaId) {
 
     val subtitle = "$artist${DurationUtils.MIDDLE_DOT_SPACED}$album"

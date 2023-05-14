@@ -51,15 +51,15 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
+    // TODO parent mediaid
     private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
         return DisplayableTrack(
             type = R.layout.item_recently_added,
-            mediaId = MediaId.playableItem(parentId, id),
+            mediaId = getMediaId(),
             title = title,
             artist = artist,
             album = album,
             idInPlaylist = idInPlaylist,
-            dataModified = this.dateModified
         )
     }
 

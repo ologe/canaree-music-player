@@ -92,9 +92,10 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         val relativePosition = computeRelativePosition(currentPosition, currentPlayingIndex)
 
+        // TODO parent media id needed?
         return DisplayableQueueSong(
             type = R.layout.item_playing_queue,
-            mediaId = mediaId,
+            mediaId = song.getMediaId(),
             title = song.title,
             artist = song.artist,
             album = song.album,

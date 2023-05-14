@@ -2,40 +2,29 @@ package dev.olog.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
-import dev.olog.data.db.entities.SongMostTimesPlayedEntity
+import dev.olog.data.mediastore.audio.MediaStoreAudioEntity
+import dev.olog.data.queries.QueryUtils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 @Dao
-internal abstract class PlaylistMostPlayedDao {
+interface PlaylistMostPlayedDao {
 
-    @Query(
-        """
-        SELECT songId, count(*) as timesPlayed
-        FROM most_played_playlist
-        WHERE playlistId = :playlistId
-        GROUP BY songId
-        HAVING count(*) >= 5
-        ORDER BY timesPlayed DESC
-        LIMIT 10
-    """
-    )
-    abstract fun query(playlistId: Long): Flow<List<SongMostTimesPlayedEntity>>
+    @Query("""
+        SELECT mediastore_audio.*
+        FROM most_played_playlist JOIN mediastore_audio 
+            ON most_played_playlist.songId = mediastore_audio._id
+        WHERE most_played_playlist.playlistId = :playlistId
+        GROUP BY most_played_playlist.songId
+        HAVING count(*) >= ${QueryUtils.MOST_PLAYED_HAVE_AT_LEAST}
+        ORDER BY count(*) DESC
+        LIMIT ${QueryUtils.MOST_PLAYED_LIMIT}
+    """)
+    fun observe(playlistId: Long): Flow<List<MediaStoreAudioEntity>>
 
-    @Insert
-    abstract fun insertOne(item: PlaylistMostPlayedEntity)
-
-    fun getAll(playlistId: Long, songGateway2: SongGateway): Flow<List<Song>> {
-        return this.query(playlistId)
-            .map { mostPlayed ->
-                val songList = songGateway2.getAll()
-                mostPlayed.sortedByDescending { it.timesPlayed }
-                    .mapNotNull { item -> songList.find { it.id == item.songId } }
-            }
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOne(item: PlaylistMostPlayedEntity)
 
 }

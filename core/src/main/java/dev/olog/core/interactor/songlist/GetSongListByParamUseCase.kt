@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import javax.inject.Inject
 
@@ -18,25 +17,39 @@ class GetSongListByParamUseCase @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
-
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val autoPlaylistGateway: AutoPlaylistGateway,
 ) {
 
     operator fun invoke(mediaId: MediaId): List<Song> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.getTrackListById(mediaId.categoryId)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.SONGS -> songDataStore.getAll()
-            MediaIdCategory.ALBUMS -> albumGateway.getTrackListById(mediaId.categoryId)
-            MediaIdCategory.ARTISTS -> artistGateway.getTrackListById(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.getTrackListById(mediaId.categoryId)
-            MediaIdCategory.PODCASTS -> podcastGateway.getAll()
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.getTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.FOLDERS -> folderGateway.getTrackListById(mediaId.id)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListById(mediaId)
+            MediaIdCategory.AUTO_PLAYLISTS -> autoPlaylistGateway.getTrackListById(mediaId.id)
+            MediaIdCategory.SONGS -> {
+                if (mediaId.isPodcast) {
+                    podcastGateway.getAll()
+                } else {
+                    songDataStore.getAll()
+                }
+            }
+            MediaIdCategory.ALBUMS -> {
+                if (mediaId.isPodcast) {
+                    podcastAlbumGateway.getTrackListByParam(mediaId.id)
+                } else {
+                    albumGateway.getTrackListById(mediaId.id)
+                }
+            }
+            MediaIdCategory.ARTISTS -> {
+                if (mediaId.isPodcast) {
+                    podcastArtistGateway.getTrackListByParam(mediaId.id)
+                } else {
+                    artistGateway.getTrackListById(mediaId.id)
+                }
+            }
+            MediaIdCategory.GENRES -> genreGateway.getTrackListById(mediaId.id)
             else -> throw AssertionError("invalid media id $mediaId")
         }
     }

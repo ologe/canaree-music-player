@@ -13,6 +13,7 @@ import dev.olog.data.mediastore.artist.MediaStoreArtistDao
 import dev.olog.data.mediastore.audio.MediaStoreAudioDao
 import dev.olog.data.mediastore.folder.MediaStoreFolderDao
 import dev.olog.data.mediastore.genre.MediaStoreGenreDao
+import dev.olog.data.mediastore.playlist.MediaStorePlaylistDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -49,6 +50,11 @@ class DatabaseModule {
     }
 
     @Provides
+    internal fun provideMediaStorePlaylistDao(db: AppDatabase): MediaStorePlaylistDao {
+        return db.mediaStorePlaylistDao()
+    }
+
+    @Provides
     internal fun provideBlacklistDao(db: AppDatabase): BlacklistDao {
         return db.blacklistDao()
     }
@@ -81,16 +87,6 @@ class DatabaseModule {
     @Provides
     internal fun providePlayingQueueDao(db: AppDatabase): PlayingQueueDao {
         return db.playingQueueDao()
-    }
-
-    @Provides
-    internal fun providePlaylistDao(db: AppDatabase): PlaylistDao {
-        return db.playlistDao()
-    }
-
-    @Provides
-    internal fun providePodcastPlaylistDao(db: AppDatabase): PodcastPlaylistDao {
-        return db.podcastPlaylistDao()
     }
 
     @Provides

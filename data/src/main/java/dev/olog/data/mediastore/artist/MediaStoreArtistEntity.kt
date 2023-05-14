@@ -1,6 +1,6 @@
 package dev.olog.data.mediastore.artist
 
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import android.provider.MediaStore.UNKNOWN_STRING
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
@@ -16,6 +16,7 @@ GROUP BY artist_id
  * keep in sync with similar queries:
  *   [dev.olog.data.mediastore.folder.MediaStoreFolderDao.observeRelatedArtists]
  *   [dev.olog.data.mediastore.genre.MediaStoreGenreDao.observeRelatedArtists]
+ *   [dev.olog.data.mediastore.playlist.MediaStorePlaylistDao.observeRelatedArtists]
  */
 data class MediaStoreArtistEntity(
     @ColumnInfo(name = AudioColumns.ARTIST_ID)
@@ -25,7 +26,7 @@ data class MediaStoreArtistEntity(
     @ColumnInfo(name = AudioColumns.ALBUM_ARTIST)
     val albumArtist: String?,
     @ColumnInfo(name = AudioColumns.IS_PODCAST)
-    val isPodcast: Boolean,
+    val isPodcast: Int,
     @ColumnInfo(name = AudioColumns.DATE_ADDED)
     val dateAdded: Long,
     val size: Int,
@@ -37,6 +38,6 @@ fun MediaStoreArtistEntity.toArtist(): Artist {
         name = name ?: UNKNOWN_STRING,
         albumArtist = albumArtist ?: UNKNOWN_STRING,
         songs = size,
-        isPodcast = isPodcast,
+        isPodcast = isPodcast != 0,
     )
 }

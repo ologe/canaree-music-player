@@ -59,14 +59,17 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        return mostPlayedDao.observe(mediaId.categoryId)
+        return mostPlayedDao.observe(mediaId.id)
             .mapListItem { it.toSong() }
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(
+        parentMediaId: MediaId,
+        mediaId: MediaId
+    ) {
         val entity = FolderMostPlayedEntity(
-            songId = mediaId.leaf!!,
-            folderId = mediaId.categoryId,
+            songId = mediaId.id,
+            folderId = parentMediaId.id,
         )
         mostPlayedDao.insertOne(entity)
     }

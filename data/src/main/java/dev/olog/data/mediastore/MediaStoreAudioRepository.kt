@@ -23,17 +23,38 @@ class MediaStoreAudioRepository @Inject constructor(
 
     // TODO use process lifecycle ON_START/ON_STOP to listen to mediastore changes?
     override fun init() {
-        application.lifecycleScope.launch(schedulers.cpu) {
+        application.lifecycleScope.launch(schedulers.io) {
             permissionManager.awaitPermissions(Permission.Storage)
-            preferences.onVersionChanged {
+//            preferences.onVersionChanged { TODO restore
                 dao.replaceAll(mediaStoreQuery.queryAllAudio())
+
                 // genres depends on audio, caching must run after
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     // cache genres only on sdk 29 and below,
                     // from sdk 30 are automatically populated
                     dao.updateGenres(mediaStoreQuery.queryAllTrackGenres())
                 }
-            }
+
+                val playlistsQueryResult = mediaStoreQuery.queryAllPlaylistsWithTracks()
+                val playlists = playlistsQueryResult.keys.toList()
+                    .map {
+                        MediaStorePlaylistInternalEntity(
+                            id = it.id,
+                            title = it.title,
+                            path = it.path,
+                        )
+                    }
+                val playlistTracks = playlistsQueryResult.values.flatten()
+                    .map {
+                        MediaStorePlaylistMembersInternalEntity(
+                            id = it.id,
+                            audioId = it.audioId,
+                            playlistId = it.playlistId,
+                            playOrder = it.playOrder,
+                        )
+                    }
+                dao.replaceAllPlaylists(playlists, playlistTracks)
+//            }
         }
     }
 

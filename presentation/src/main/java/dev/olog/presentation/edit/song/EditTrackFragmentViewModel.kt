@@ -58,9 +58,7 @@ class EditTrackFragmentViewModel @Inject constructor(
         fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
             try {
-                val lastFmTrack = withContext(Dispatchers.IO) {
-                    presenter.fetchData(mediaId.resolveId)
-                }
+                val lastFmTrack = presenter.fetchData(mediaId.id)
                 var currentSong = displayableSongLiveData.value!!
                 currentSong = currentSong.copy(
                     title = lastFmTrack?.title ?: currentSong.track,

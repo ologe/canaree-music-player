@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Genre
 @DatabaseView("""
 SELECT genre_id, genre, count(*) as size
 FROM mediastore_audio
-WHERE genre_id IS NOT NULL AND is_podcast = false 
+WHERE genre_id IS NOT NULL AND is_podcast = 0 
 GROUP BY genre_id
 """, viewName = "mediastore_genres")
 data class MediaStoreGenreEntity(

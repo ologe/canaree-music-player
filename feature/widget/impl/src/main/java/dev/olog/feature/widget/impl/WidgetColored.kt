@@ -26,7 +26,8 @@ class WidgetColored : BaseWidget() {
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.Main) {
             val bitmap = withContext(Dispatchers.IO){
-                context.getCachedBitmap(MediaId.songId(metadata.id), IMAGE_SIZE)
+                // TODO is podcast?
+                context.getCachedBitmap(MediaId.ofTrack(metadata.id, false), IMAGE_SIZE)
             } ?: return@launch
             yield()
             val remote = remoteViews ?: RemoteViews(context.packageName, layoutId)

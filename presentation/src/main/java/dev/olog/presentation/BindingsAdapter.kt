@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
@@ -30,10 +31,9 @@ object BindingsAdapter {
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .transition(DrawableTransitionOptions.withCrossFade())
 
-        if (mediaId.isLeaf) {
-            builder.into(view)
-        } else {
-            builder.into(RippleTarget(view))
+        when (mediaId.category) {
+            MediaIdCategory.SONGS -> builder.into(view)
+            else -> builder.into(RippleTarget(view))
         }
     }
 

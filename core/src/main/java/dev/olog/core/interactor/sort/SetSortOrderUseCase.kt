@@ -15,18 +15,19 @@ class SetSortOrderUseCase @Inject constructor(
         val sortType: SortType
     )
 
+    // TODO separate sort (songs and podcasts)
     operator fun invoke(param: Request) {
         val category = param.mediaId.category
         return when (category) {
             MediaIdCategory.FOLDERS -> gateway.setDetailFolderSort(param.sortType)
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.setDetailPlaylistSort(param.sortType)
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.setDetailAlbumSort(param.sortType)
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> gateway.setDetailArtistSort(param.sortType)
+            MediaIdCategory.AUTO_PLAYLISTS -> gateway.setDetailPlaylistSort(param.sortType)
+            MediaIdCategory.ALBUMS -> gateway.setDetailAlbumSort(param.sortType)
+            MediaIdCategory.ARTISTS -> gateway.setDetailArtistSort(param.sortType)
             MediaIdCategory.GENRES -> gateway.setDetailGenreSort(param.sortType)
-            else -> throw IllegalArgumentException("invalid param $param")
+            MediaIdCategory.SONGS,
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE -> error("invalid param $param")
         }
     }
 }

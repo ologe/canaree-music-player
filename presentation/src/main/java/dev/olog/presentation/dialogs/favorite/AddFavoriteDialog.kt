@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.platform.extension.act
@@ -66,24 +67,18 @@ class AddFavoriteDialog : BaseDialog() {
         }
     }
 
-    private fun successMessage(context: Context): String {
-        if (mediaId.isLeaf){
-            return context.getString(R.string.song_x_added_to_favorites, title)
-        }
-        return context.resources.getQuantityString(R.plurals.xx_songs_added_to_favorites, listSize, listSize)
+    private fun successMessage(context: Context): String = when (mediaId.category) {
+        MediaIdCategory.SONGS ->  context.getString(R.string.song_x_added_to_favorites, title)
+        else ->  context.resources.getQuantityString(R.plurals.xx_songs_added_to_favorites, listSize, listSize)
     }
 
     private fun failMessage(context: Context): String {
         return context.getString(R.string.popup_error_message)
     }
 
-    private fun createMessage() : String {
-        return if (mediaId.isLeaf) {
-            getString(R.string.add_song_x_to_favorite, title)
-        } else {
-            context!!.resources.getQuantityString(
-                    R.plurals.add_xx_songs_to_favorite, listSize, listSize)
-        }
+    private fun createMessage() : String = when (mediaId.category) {
+        MediaIdCategory.SONGS -> getString(R.string.add_song_x_to_favorite, title)
+        else -> resources.getQuantityString(R.plurals.add_xx_songs_to_favorite, listSize, listSize)
     }
 
 }

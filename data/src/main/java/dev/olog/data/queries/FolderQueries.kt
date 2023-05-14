@@ -1,6 +1,6 @@
 package dev.olog.data.queries
 
-import android.provider.MediaStore.Audio.AudioColumns
+import dev.olog.data.mediastore.columns.AudioColumns
 import androidx.sqlite.db.SimpleSQLiteQuery
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences

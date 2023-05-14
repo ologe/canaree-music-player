@@ -1,8 +1,6 @@
 package dev.olog.core.entity.track
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import java.io.File
 
 data class Song(
     val id: Long,
@@ -21,10 +19,6 @@ data class Song(
     val isPodcast: Boolean
 ) {
 
-    @Deprecated(message = "remove")
-    val dateModified: Long
-        get() = dateAdded // TODO remove
-
     val discNumber: Int
         get() {
             if (trackColumn >= 1000) {
@@ -41,41 +35,16 @@ data class Song(
             return trackColumn
         }
 
-    val folderPath: String
-        get() = path.substring(0, path.lastIndexOf(File.separator))
-
     fun getMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.createCategoryValue(category, "")
-        return MediaId.playableItem(mediaId, id)
+        return MediaId.ofTrack(id, isPodcast)
     }
 
     fun getAlbumMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
-        return MediaId.createCategoryValue(category, this.albumId.toString())
+        return MediaId.ofAlbum(albumId, isPodcast)
     }
 
     fun getArtistMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.artistId.toString())
-    }
-
-    fun withInInPlaylist(idInPlaylist: Int): Song {
-        return Song(
-            id = id,
-            artistId = artistId,
-            albumId = albumId,
-            title = title,
-            artist = artist,
-            albumArtist = albumArtist,
-            album = album,
-            duration = duration,
-            dateAdded = dateAdded,
-            path = path,
-            trackColumn = trackColumn,
-            idInPlaylist = idInPlaylist,
-            isPodcast = isPodcast
-        )
+        return MediaId.ofArtist(artistId, isPodcast)
     }
 
 }

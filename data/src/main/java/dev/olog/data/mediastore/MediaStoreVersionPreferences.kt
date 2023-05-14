@@ -17,7 +17,7 @@ class MediaStoreVersionPreferences @Inject constructor(
         private const val MEDIA_STORE_VERSION = "media_store_version"
     }
 
-
+    // TODO after small change generation changes, but not mediastore version
     suspend fun onVersionChanged(block: suspend () -> Unit) {
         val cached = prefs.getString(MEDIA_STORE_VERSION, null)
         val current = getMediaStoreVersion() // TODO needs to check also generation?

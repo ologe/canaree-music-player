@@ -99,7 +99,7 @@ class ArtistQueries @Inject constructor(
     }
 
     fun observeRecentlyAdded(isPodcast: Boolean): Flow<List<MediaStoreArtistEntity>> {
-        return dao.observeRecentlyAdded(isPodcast)
+        return dao.observeRecentlyAdded(if (isPodcast) 1 else 0)
     }
 
     private fun podcastSortOrder(): String {

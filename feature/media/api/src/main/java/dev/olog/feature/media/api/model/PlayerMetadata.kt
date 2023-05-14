@@ -8,7 +8,8 @@ import dev.olog.feature.media.api.extension.getBoolean
 
 class PlayerMetadata(private val metadata: MediaMetadataCompat) {
 
-    val id: Long = mediaId.leaf!!
+    val id: Long
+        get() = mediaId.id
     val mediaId: MediaId
         get() {
             val mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)

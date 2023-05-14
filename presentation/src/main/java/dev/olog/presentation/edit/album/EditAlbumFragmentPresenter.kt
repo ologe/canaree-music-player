@@ -21,10 +21,10 @@ class EditAlbumFragmentPresenter @Inject constructor(
 ) {
 
     fun getAlbum(mediaId: MediaId): Album {
-        val album = if (mediaId.isPodcastAlbum) {
-            podcastAlbumGateway.getById(mediaId.categoryId)!!
+        val album = if (mediaId.isPodcast) {
+            podcastAlbumGateway.getById(mediaId.id)!!
         } else {
-            albumGateway.getById(mediaId.categoryId)!!
+            albumGateway.getById(mediaId.id)!!
         }
         return Album(
             id = album.id,

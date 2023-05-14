@@ -1,13 +1,13 @@
 package dev.olog.presentation.popup.song
 
-import android.app.Activity
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
-import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog.NavArgs.FromMediaId
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -16,10 +16,10 @@ import javax.inject.Inject
 class SongPopupListener @Inject constructor(
     private val activity: FragmentActivity,
     private val navigator: Navigator,
-    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
+    playlistGateway: PlaylistGateway,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(playlistGateway, addToPlaylistUseCase) {
 
     private lateinit var song: Song
 
@@ -45,8 +45,6 @@ class SongPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, song.getAlbumMediaId())
             R.id.viewArtist -> viewArtist(navigator, song.getArtistMediaId())
-            R.id.share -> share(activity, song)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song)
         }
 
 
@@ -54,7 +52,7 @@ class SongPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        navigator.toCreatePlaylistDialog(getMediaId(), -1, song.title)
+        navigator.toCreatePlaylistDialog(FromMediaId(getMediaId(), song.title))
     }
 
     private fun playLater() {

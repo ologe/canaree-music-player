@@ -1,28 +1,28 @@
 package dev.olog.presentation.createplaylist
 
-import android.util.LongSparseArray
-import androidx.core.util.contains
-import androidx.core.util.isEmpty
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
-import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
-import dev.olog.shared.toList
-import dev.olog.shared.toggle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,14 +30,14 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     handle: SavedStateHandle,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
-    private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
-
 ) : ViewModel() {
 
-    private val playlistType = PlaylistType.values()[handle.get(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)!!]
+    private val isPodcast = handle.get<Boolean>(CreatePlaylistFragment.ARGUMENT_IS_PODCAST)!!
     private val data = MutableLiveData<List<DisplayableItem>>()
 
-    private val selectedIds = LongSparseArray<Long>()
+    private val _selectedIds = mutableListOf<Long>()
+    val selectedIds: List<Long>
+        get() = _selectedIds.toList()
     private val selectionCountLiveData = MutableLiveData<Int>()
     private val showOnlyFiltered = ConflatedBroadcastChannel(false)
 
@@ -48,7 +48,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
             showOnlyFiltered.asFlow()
                 .flatMapLatest { onlyFiltered ->
                     if (onlyFiltered){
-                        getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
+                        getPlaylistTypeTracks().map { songs -> songs.filter { _selectedIds.contains(it.id) } }
                     } else {
                         getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
                             if (filter.isNotEmpty()) {
@@ -78,16 +78,21 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
 
-    private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
-        PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
-        PlaylistType.TRACK -> getAllSongsUseCase.observeAll()
-        PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
+    private fun getPlaylistTypeTracks(): Flow<List<Song>> {
+        if (isPodcast) {
+            return getAllPodcastsUseCase.observeAll()
+        }
+        return getAllSongsUseCase.observeAll()
     }
 
     fun toggleItem(mediaId: MediaId) {
-        val id = mediaId.resolveId
-        selectedIds.toggle(id, id)
-        selectionCountLiveData.postValue(selectedIds.size())
+        val id = mediaId.id
+        if (_selectedIds.contains(id)) {
+            _selectedIds.remove(id)
+        } else {
+            _selectedIds.add(id)
+        }
+        selectionCountLiveData.postValue(_selectedIds.size)
     }
 
     fun toggleShowOnlyFiltered() {
@@ -96,27 +101,9 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun isChecked(mediaId: MediaId): Boolean {
-        val id = mediaId.resolveId
-        return selectedIds[id] != null
+        return _selectedIds.contains(mediaId.id)
     }
 
     fun observeSelectedCount(): LiveData<Int> = selectionCountLiveData
-
-    suspend fun savePlaylist(playlistTitle: String): Boolean {
-        if (selectedIds.isEmpty()) {
-            throw IllegalStateException("not supposed to happen, save button must be invisible")
-        }
-        withContext(Dispatchers.IO){
-            insertCustomTrackListToPlaylist(
-                InsertCustomTrackListRequest(
-                    playlistTitle,
-                    selectedIds.toList(),
-                    playlistType
-                )
-            )
-        }
-
-        return true
-    }
 
 }

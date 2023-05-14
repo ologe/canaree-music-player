@@ -6,11 +6,15 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
+import dev.olog.core.entity.track.AutoPlaylist
 import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.core.gateway.track.AutoPlaylistGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
@@ -23,13 +27,14 @@ import javax.inject.Inject
 internal class DetailFragmentViewModel @Inject constructor(
     private val handle: SavedStateHandle,
     private val dataProvider: DetailDataProvider,
-    private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val imageRetrieverGateway: ImageRetrieverGateway
-
+    private val imageRetrieverGateway: ImageRetrieverGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val autoPlaylistGateway: AutoPlaylistGateway,
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) : ViewModel() {
 
     companion object {
@@ -103,9 +108,9 @@ internal class DetailFragmentViewModel @Inject constructor(
         // biography
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
+                val biography = when (mediaId.category) {
+                    MediaIdCategory.ARTISTS -> imageRetrieverGateway.getArtist(mediaId.id)?.wiki
+                    MediaIdCategory.ALBUMS -> imageRetrieverGateway.getAlbum(mediaId.id)?.wiki
                     else -> null
                 }
                 withContext(Dispatchers.Main) {
@@ -158,15 +163,27 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun processMove() = viewModelScope.launch {
-        if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(mediaId, moveList)
+        // TODO check if needed for auto playlists
+        if (mediaId.category == MediaIdCategory.PLAYLISTS) {
+            val playlistId = mediaId.id
+            playlistGateway.moveItem(playlistId, moveList)
         }
         moveList.clear()
     }
 
+    // TODO fix this (playlist id_in_playlist != id)
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(mediaId, item)
+        if (mediaId.category != MediaIdCategory.PLAYLISTS) {
+            return@launch
+        }
+        val playlistId = mediaId.id
+        val autoPlaylistId = AutoPlaylist.findPlaylistId(playlistId)
+        if (autoPlaylistId != null) {
+            autoPlaylistGateway.removeFromAutoPlaylist(mediaId, item.mediaId.id)
+        } else {
+            playlistGateway.removeFromPlaylist(mediaId, item.idInPlaylist.toLong())
+        }
     }
 
     fun observeSorting(): Flow<SortEntity> {
@@ -174,7 +191,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun showSortByTutorialIfNeverShown(): Boolean {
-        return presenter.showSortByTutorialIfNeverShown()
+        return tutorialPreferenceUseCase.sortByTutorial()
     }
 
 }

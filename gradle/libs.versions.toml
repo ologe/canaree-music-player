@@ -22,8 +22,8 @@ androidx-coordinator = "1.2.0"
 androidx-fragments = "1.5.5"
 androidx-constraintlayout = "2.1.4"
 androidx-lifecycle = "2.5.1"
+androidx-document = "1.0.1"
 
-firebase-core = "21.1.1"
 firebase-crashlytics = "18.3.5"
 
 glide = "4.15.0"
@@ -50,6 +50,7 @@ leak-canary = "2.10"
 junit = "4.13"
 mockito-core = "3.5.10"
 mockito-kotlin = "2.2.0"
+mockk = "1.13.4"
 robolectric = "4.9.2"
 
 [libraries]
@@ -89,8 +90,8 @@ androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
+androidx-document = { module = "androidx.documentfile:documentfile", version.ref = "androidx-document" }
 
-firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebase-core" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 
 ui-glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
@@ -120,6 +121,8 @@ utils-fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" 
 utils-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leak-canary" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
-test-mockito-core = { module = "org.mockito:mockito-android", version.ref = "mockito-core" }
+test-mockito-core = { module = "org.mockito:mockito-inline", version.ref = "mockito-core" }
+test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockito-core" }
 test-mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockito-kotlin" }
+test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
