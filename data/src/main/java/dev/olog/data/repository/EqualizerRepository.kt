@@ -53,7 +53,7 @@ internal class EqualizerRepository @Inject constructor(
         require(preset.id == -1L)
         require(preset.isCustom)
 
-        val newId = getPresets().maxBy { it.id }!!.id + 1
+        val newId = getPresets().maxByOrNull { it.id }!!.id + 1
         equalizerDao.insertPreset(preset.toEntity().copy(id = newId))
     }
 
