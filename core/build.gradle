@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+}
 
 android {
 
@@ -11,14 +12,8 @@ android {
     //kotlinOptions.allWarningsAsErrors = true
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':shared')
-
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.coroutines
 
     implementation lib_x.annotations
 }

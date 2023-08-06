@@ -1,7 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+    id("kotlin-android-extensions")
+}
 
 android {
 
@@ -13,8 +14,6 @@ android {
 
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':core')
     implementation project(':injection')
@@ -25,11 +24,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':offline-lyrics')
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.core_ktx
     implementation lib_x.media

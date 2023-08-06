@@ -1,5 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("dev.olog.msc.library")
+}
 
 android {
     defaultConfig {
@@ -12,8 +13,6 @@ android {
 dependencies {
     implementation project(':prefs-keys')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
     implementation lib_x.material
     implementation lib_x.core_ktx
     implementation lib_x.palette

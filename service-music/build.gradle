@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -23,8 +24,6 @@ android {
 
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
@@ -36,11 +35,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':intents')
     implementation project(':equalizer')
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime

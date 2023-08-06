@@ -1,7 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+    id("kotlin-android-extensions")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -28,8 +29,6 @@ androidExtensions {
     experimental = true
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':app-shortcuts')
     implementation project(':analytics')
@@ -45,12 +44,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
-
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_ui.scroll_helper
     implementation lib_ui.glide
@@ -69,10 +62,6 @@ dependencies {
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view
-
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
 
     implementation lib_ui.dialogs_core
     implementation lib_ui.dialogs_color
