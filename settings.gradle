@@ -1,3 +1,27 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+rootProject.name = "canaree"
+
 include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
 
 gradle.ext.exoplayerRoot = 'ExoPlayer'
