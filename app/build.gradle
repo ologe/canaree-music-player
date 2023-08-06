@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.firebase.firebase-perf'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -112,5 +111,4 @@ dependencies {
     // firebase
     implementation lib_analytics.core
     implementation lib_analytics.crashlytics
-    implementation lib_analytics.perf
 }

@@ -51,13 +51,11 @@ ext {
 //    firebase
     firebase_core = '17.2.0'
     firebase_crashlytics = '17.2.1'
-    firebase_perf = '19.0.8'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             analytics  : "com.google.firebase:firebase-analytics:17.5.0",
             crashlytics: "com.google.firebase:firebase-crashlytics:$firebase_crashlytics",
-            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 
     lib_core = [
