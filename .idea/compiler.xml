@@ -2,24 +2,24 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
-      <module name="canaree-music-player.analytics" target="11" />
-      <module name="canaree-music-player.app" target="11" />
-      <module name="canaree-music-player.app-shortcuts" target="11" />
-      <module name="canaree-music-player.core" target="11" />
-      <module name="canaree-music-player.data" target="11" />
-      <module name="canaree-music-player.equalizer" target="11" />
-      <module name="canaree-music-player.image-provider" target="11" />
-      <module name="canaree-music-player.injection" target="11" />
-      <module name="canaree-music-player.intents" target="11" />
-      <module name="canaree-music-player.media" target="11" />
-      <module name="canaree-music-player.offline-lyrics" target="11" />
-      <module name="canaree-music-player.prefs-keys" target="11" />
-      <module name="canaree-music-player.presentation" target="11" />
-      <module name="canaree-music-player.service-floating" target="11" />
-      <module name="canaree-music-player.service-music" target="11" />
-      <module name="canaree-music-player.shared-android" target="11" />
-      <module name="canaree-music-player.shared-widgets" target="11" />
-      <module name="canaree-music-player.test-shared" target="11" />
+      <module name="canaree-music-player.analytics" target="17" />
+      <module name="canaree-music-player.app" target="17" />
+      <module name="canaree-music-player.app-shortcuts" target="17" />
+      <module name="canaree-music-player.core" target="17" />
+      <module name="canaree-music-player.data" target="17" />
+      <module name="canaree-music-player.equalizer" target="17" />
+      <module name="canaree-music-player.image-provider" target="17" />
+      <module name="canaree-music-player.injection" target="17" />
+      <module name="canaree-music-player.intents" target="17" />
+      <module name="canaree-music-player.media" target="17" />
+      <module name="canaree-music-player.offline-lyrics" target="17" />
+      <module name="canaree-music-player.prefs-keys" target="17" />
+      <module name="canaree-music-player.presentation" target="17" />
+      <module name="canaree-music-player.service-floating" target="17" />
+      <module name="canaree-music-player.service-music" target="17" />
+      <module name="canaree-music-player.shared-android" target="17" />
+      <module name="canaree-music-player.shared-widgets" target="17" />
+      <module name="canaree-music-player.test-shared" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
