@@ -1,5 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("dev.olog.msc.library")
+}
 
 android {
     namespace 'dev.olog.prefskeys'

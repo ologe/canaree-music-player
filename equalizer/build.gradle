@@ -1,8 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-
-apply from: '../kapt.gradle'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+}
 
 android {
     namespace 'dev.olog.equalizer'
@@ -10,8 +9,5 @@ android {
 
 dependencies {
     implementation project(':core')
-
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
     implementation lib_x.annotations
 }

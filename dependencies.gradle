@@ -1,8 +1,4 @@
 ext {
-//    core
-    coroutines = '1.3.9'
-    dagger = '2.38.1'
-
 //    android x
     android_x_core = '1.3.1'
     android_x_legacy = '1.0.0'
@@ -56,18 +52,6 @@ ext {
             core       : "com.google.firebase:firebase-core:$firebase_core",
             analytics  : "com.google.firebase:firebase-analytics:17.5.0",
             crashlytics: "com.google.firebase:firebase-crashlytics:$firebase_crashlytics",
-    ]
-
-    lib_core = [
-            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
-            dagger                  : "com.google.dagger:dagger:$dagger",
-            dagger_processor        : "com.google.dagger:dagger-compiler:$dagger",
-            dagger_android          : "com.google.dagger:dagger-android:$dagger",
-            dagger_android_support  : "com.google.dagger:dagger-android-support:$dagger",
-            dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
-            coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
-            coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
     ]
 
     lib_x = [
@@ -134,13 +118,6 @@ ext {
     lib_debug = [
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
             stetho           : "com.facebook.stetho:stetho:$stetho",
-    ]
-
-    lib_test = [
-            junit         : "junit:junit:4.13",
-            mockito       : "org.mockito:mockito-android:3.5.10",
-            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            livedata      : "com.jraska.livedata:testing-ktx:1.1.2",
     ]
 
 }

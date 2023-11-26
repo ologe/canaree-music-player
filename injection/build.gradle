@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.dagger")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -13,16 +14,9 @@ if (localPropertiesFile.exists()) {
 android {
     namespace 'dev.olog.injection'
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
@@ -30,11 +24,6 @@ dependencies {
     implementation project(':data')
     implementation project(':shared')
     implementation project(':equalizer')
-
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.appcompat

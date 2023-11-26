@@ -1,9 +1,3 @@
-apply plugin: 'kotlin'
-
-dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
+plugins {
+    id("dev.olog.msc.library.jvm")
 }
-
-sourceCompatibility = "8"
-targetCompatibility = "8"

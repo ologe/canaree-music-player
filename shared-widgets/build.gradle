@@ -1,13 +1,9 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("dev.olog.msc.library")
+}
 
 android {
     namespace 'dev.olog.shared.widgets'
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {
@@ -15,8 +11,6 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
     implementation lib_x.material
     implementation lib_x.core_ktx
     implementation lib_x.palette
