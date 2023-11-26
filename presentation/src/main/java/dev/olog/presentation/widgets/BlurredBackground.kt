@@ -63,7 +63,7 @@ class BlurredBackground(
             drawable.toBitmap(size, size)
         }
         yield()
-        val blurred = BlurKit.getInstance().blur(bitmap, BLUR_RADIUS).toDrawable(resources)
+        val blurred = BlurKit.getInstance().blur(bitmap, BLUR_RADIUS)?.toDrawable(resources)
         yield()
         withContext(Dispatchers.Main) {
             background = blurred

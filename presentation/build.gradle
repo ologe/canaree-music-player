@@ -76,7 +76,7 @@ dependencies {
 
     implementation lib_ui.dialogs_core
     implementation lib_ui.dialogs_color
-    implementation lib_ui.blur_kit
+    //implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
     implementation lib_ui.color_desaturation
 

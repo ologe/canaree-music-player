@@ -42,7 +42,7 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.recycler
 
-    implementation lib_ui.blur_kit
+    //implementation lib_ui.blur_kit
 
 
     implementation lib_ui.glide

@@ -101,7 +101,7 @@ dependencies {
     implementation lib_core.dagger_android_support
     kapt lib_core.dagger_android_processor
 
-    implementation lib_ui.blur_kit
+    //implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
 
     // debug
