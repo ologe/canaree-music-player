@@ -3,7 +3,7 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
 android {
-
+    namespace 'dev.olog.offlinelyrics'
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
     }

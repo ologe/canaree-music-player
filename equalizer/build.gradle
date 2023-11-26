@@ -4,6 +4,10 @@ apply plugin: 'kotlin-kapt'
 
 apply from: '../kapt.gradle'
 
+android {
+    namespace 'dev.olog.equalizer'
+}
+
 dependencies {
     implementation project(':core')
 

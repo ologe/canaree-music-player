@@ -11,7 +11,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-
+    namespace 'dev.olog.data'
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
 

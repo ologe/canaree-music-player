@@ -11,7 +11,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-
+    namespace 'dev.olog.service.music'
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
 
