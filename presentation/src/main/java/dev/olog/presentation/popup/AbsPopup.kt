@@ -24,10 +24,10 @@ abstract class AbsPopup(
         val addToPlaylistMenuItem = menu.findItem(R.id.addToPlaylist)
         val addToPlaylistSubMenu = addToPlaylistMenuItem.subMenu
 
-        playlists.forEach { addToPlaylistSubMenu.add(Menu.NONE, it.id.toInt(), Menu.NONE, it.title) }
+        playlists.forEach { addToPlaylistSubMenu?.add(Menu.NONE, it.id.toInt(), Menu.NONE, it.title) }
         val spannableString = SpannableString("${context.getString(R.string.popup_new_playlist)}..")
         spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, spannableString.length, 0)
-        addToPlaylistSubMenu.add(Menu.NONE,
+        addToPlaylistSubMenu?.add(Menu.NONE,
             NEW_PLAYLIST_ID, Menu.NONE, spannableString)
 
     }
