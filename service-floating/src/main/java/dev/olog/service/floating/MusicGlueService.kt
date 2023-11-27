@@ -8,9 +8,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceLifecycle
+import dev.olog.core.ServiceLifecycleOwner
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
@@ -24,14 +26,15 @@ import javax.inject.Inject
 @ServiceScoped
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
-
+    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycleOwner private val lifecycleOwner: LifecycleOwner,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            context,
-            this
+            context = context,
+            onConnectionChanged = this,
+            scope = lifecycleOwner.lifecycleScope,
         )
     }
     private var mediaController: MediaControllerCompat? = null

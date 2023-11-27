@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dev.olog.core.ServiceLifecycle
+import dev.olog.core.ServiceLifecycleOwner
 
 @Module
 @InstallIn(ServiceComponent::class)
@@ -20,6 +21,15 @@ class ServiceModule {
             "${instance::class.java} does not implement LifecycleOwner interface"
         }
         return instance.lifecycle
+    }
+
+    @Provides
+    @ServiceLifecycleOwner
+    fun provideLifecycleOwner(instance: Service): LifecycleOwner {
+        require(instance is LifecycleOwner) {
+            "${instance::class.java} does not implement LifecycleOwner interface"
+        }
+        return instance
     }
 
 }
