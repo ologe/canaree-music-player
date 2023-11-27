@@ -2,6 +2,7 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
@@ -14,7 +15,6 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
@@ -35,7 +35,7 @@ class FolderTreeFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
-    private val viewModel by viewModelProvider<FolderTreeFragmentViewModel>()
+    private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(

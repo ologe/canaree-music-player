@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
@@ -31,7 +32,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
         }
     }
 
-    private val presenter by activityViewModelProvider<EqualizerFragmentViewModel>()
+    private val presenter by activityViewModels<EqualizerFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

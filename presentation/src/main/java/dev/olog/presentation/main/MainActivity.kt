@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +47,7 @@ class MainActivity : MusicGlueActivity(),
     HasBottomNavigation,
     OnPermissionChanged {
 
-    private val viewModel by viewModelProvider<MainActivityViewModel>()
+    private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself

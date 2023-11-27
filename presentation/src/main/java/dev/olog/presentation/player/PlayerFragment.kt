@@ -3,6 +3,7 @@ package dev.olog.presentation.player
 import android.os.Bundle
 import android.view.View
 import androidx.core.math.MathUtils.clamp
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -34,7 +35,7 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
-    private val viewModel by viewModelProvider<PlayerFragmentViewModel>()
+    private val viewModel by viewModels<PlayerFragmentViewModel>()
 
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter

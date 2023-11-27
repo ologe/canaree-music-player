@@ -2,6 +2,8 @@ package dev.olog.presentation.edit.album
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.NavigationUtils
@@ -29,8 +31,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
         }
     }
 
-    private val viewModel by viewModelProvider<EditAlbumFragmentViewModel>()
-    private val editItemViewModel by activityViewModelProvider<EditItemViewModel>()
+    private val viewModel by viewModels<EditAlbumFragmentViewModel>()
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
     private val mediaId: MediaId by lazyFast {
         MediaId.fromString(getArgument(NavigationUtils.ARGUMENTS_MEDIA_ID))

@@ -4,6 +4,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.NavigationUtils
@@ -37,7 +38,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
-    private val viewModel by viewModelProvider<CreatePlaylistFragmentViewModel>()
+    private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
         CreatePlaylistFragmentAdapter(
             lifecycle,

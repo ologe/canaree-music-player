@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -53,7 +54,7 @@ class DetailFragment : BaseFragment(),
     @Inject
     lateinit var navigator: Navigator
 
-    private val viewModel by viewModelProvider<DetailFragmentViewModel>()
+    private val viewModel by viewModels<DetailFragmentViewModel>()
 
     private val mediaId by lazyFast {
         val mediaId = getArgument<String>(NavigationUtils.ARGUMENTS_MEDIA_ID)
