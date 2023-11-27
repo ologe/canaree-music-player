@@ -1,6 +1,7 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -40,7 +41,7 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(NavigationUtils.ARGUMENTS_MEDIA_ID)!!)

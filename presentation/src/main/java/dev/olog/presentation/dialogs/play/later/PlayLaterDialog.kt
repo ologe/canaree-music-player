@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.play.later
 
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -59,7 +60,7 @@ class PlayLaterDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(act)

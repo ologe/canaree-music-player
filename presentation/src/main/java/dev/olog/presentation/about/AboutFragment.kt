@@ -30,7 +30,7 @@ class AboutFragment : BaseFragment() {
     lateinit var config: Config
     private val presenter by viewModels<AboutFragmentViewModel>()
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator, presenter)
+        AboutFragmentAdapter(lifecycle, navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
