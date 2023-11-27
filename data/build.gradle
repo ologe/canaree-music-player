@@ -25,9 +25,6 @@ android {
                 ]
             }
         }
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     sourceSets {
@@ -38,6 +35,7 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':prefs-keys')
 
     implementation lib_x.core_ktx

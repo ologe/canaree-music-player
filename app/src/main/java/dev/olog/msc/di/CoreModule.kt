@@ -13,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.core.IEncrypter
+import dev.olog.msc.BuildConfig
 import dev.olog.msc.encryption.EncrypterImpl
 import javax.inject.Singleton
 
@@ -44,11 +45,17 @@ abstract class CoreModule {
             return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         }
 
-        @Provides // TODO
+        @Provides
         fun provideConfig(): Config {
             return Config(
-                versionName = "3.3.1",
-                aesPassword = "",
+                isDebug = BuildConfig.DEBUG,
+                versionCode = BuildConfig.VERSION_CODE,
+                versionName = BuildConfig.VERSION_NAME,
+                lastFmBaseUrl = "http://ws.audioscrobbler.com/2.0/",
+                lastFmKey = BuildConfig.LAST_FM_KEY,
+                lastFmSecret = BuildConfig.LAST_FM_SECRET,
+                deezerBaseUrl = "https://api.deezer.com/",
+                aesPassword = BuildConfig.AES_PASSWORD,
             )
         }
 

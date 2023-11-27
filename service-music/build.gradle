@@ -13,10 +13,6 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace 'dev.olog.service.music'
-    defaultConfig {
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
-    }
 }
 
 dependencies {

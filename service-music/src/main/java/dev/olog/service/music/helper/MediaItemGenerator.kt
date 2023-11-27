@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class MediaItemGenerator @Inject constructor(
@@ -25,7 +24,6 @@ internal class MediaItemGenerator @Inject constructor(
 
 
     fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
-        assertBackgroundThread()
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.PLAYLISTS -> playlistGateway.getAll().map { it.toMediaItem() }

@@ -22,7 +22,6 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 
@@ -80,8 +79,6 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     override suspend fun update(state: MusicNotificationState): Notification {
-        assertBackgroundThread()
-
         createIfNeeded()
 
         val title = state.title

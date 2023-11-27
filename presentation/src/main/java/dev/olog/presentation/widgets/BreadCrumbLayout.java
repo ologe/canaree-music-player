@@ -277,8 +277,6 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     }
 
     public void setActiveOrAdd(@NonNull Crumb crumb, boolean forceRecreate) {
-        ThreadUtilsKt.assertMainThread();
-
         clearCrumbs();
         final List<File> newPathSet = new ArrayList<>();
 

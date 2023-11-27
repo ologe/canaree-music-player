@@ -22,8 +22,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.Flow
@@ -55,7 +53,6 @@ internal class FolderRepository @Inject constructor(
 
     @Suppress("DEPRECATION")
     private fun extractFolders(cursor: Cursor): List<Folder> {
-        assertBackgroundThread()
         val pathList = contentResolver.queryAll(cursor) {
             val data = it.getString(MediaStore.Audio.Media.DATA)
             data.substring(0, data.lastIndexOf(File.separator)) // path
@@ -74,18 +71,15 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Folder> {
-        assertBackgroundThread()
         val cursor = queries.getAll(false)
         return extractFolders(cursor)
     }
 
     override fun getByParam(param: Path): Folder? {
-        assertBackgroundThread()
         return channel.valueOrNull?.find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
-        assertBackgroundThread()
         return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
     }
 
@@ -93,11 +87,9 @@ internal class FolderRepository @Inject constructor(
         return channel.asFlow()
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {
-        assertBackgroundThread()
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
@@ -105,11 +97,9 @@ internal class FolderRepository @Inject constructor(
     override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
-        assertBackgroundThread()
         val cursor = queries.getAll(true)
         return extractFolders(cursor)
     }
@@ -118,11 +108,9 @@ internal class FolderRepository @Inject constructor(
         val folderPath = mediaId.categoryValue
         return mostPlayedDao.getAll(folderPath, songGateway2)
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
-        assertBackgroundThread()
         mostPlayedDao.insertOne(
             FolderMostPlayedEntity(
                 0,
@@ -136,14 +124,12 @@ internal class FolderRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.path != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRelatedArtists(params: Path): Flow<List<Artist>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {
@@ -155,7 +141,6 @@ internal class FolderRepository @Inject constructor(
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
         return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->

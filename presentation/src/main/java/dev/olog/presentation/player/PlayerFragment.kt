@@ -82,7 +82,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                     listOf(viewModel.playerControls())
                 }
             }
-            .assertBackground()
             .flowOn(Dispatchers.Default)
             .asLiveData()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
