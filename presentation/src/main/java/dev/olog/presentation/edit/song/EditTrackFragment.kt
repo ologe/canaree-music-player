@@ -45,7 +45,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
+        viewLifecycleScope.launch {
             title.afterTextChange()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
@@ -73,7 +73,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            viewLifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {

@@ -44,7 +44,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
+        viewLifecycleScope.launch {
             album.afterTextChange()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
@@ -68,7 +68,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            viewLifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
     }
