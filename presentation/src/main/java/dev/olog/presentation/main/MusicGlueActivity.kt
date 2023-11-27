@@ -27,8 +27,7 @@ import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
-    OnConnectionChanged,
-    CoroutineScope by MainScope() {
+    OnConnectionChanged {
 
     @Inject
     internal lateinit var trackerFacade: TrackerFacade
