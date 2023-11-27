@@ -25,6 +25,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleService;
+
 import dev.olog.service.floating.api.HoverView;
 import dev.olog.service.floating.api.OnExitListener;
 import dev.olog.service.floating.api.SideDock;
@@ -41,7 +43,7 @@ import dev.olog.service.floating.api.overlay.OverlayPermission;
  * is no {@code Activity} to associate with the {@code HoverView}'s UI. This {@code Service} is the
  * application's link to the device's {@code Window} to display the {@code HoverView}.
  */
-public abstract class HoverMenuService extends Service {
+public abstract class HoverMenuService extends LifecycleService {
 
     private static final String TAG = "HoverMenuService";
 
@@ -60,6 +62,7 @@ public abstract class HoverMenuService extends Service {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         Log.d(TAG, "onCreate()");
         Notification foregroundNotification = getForegroundNotification();
         int notificationId = getForegroundNotificationId();
@@ -68,6 +71,7 @@ public abstract class HoverMenuService extends Service {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
         // Stop and return immediately if we don't have permission to display things above other
         // apps.
         if (!OverlayPermission.hasRuntimePermissionToDrawOverlay(getApplicationContext())) {
@@ -93,17 +97,12 @@ public abstract class HoverMenuService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Log.d(TAG, "onDestroy()");
         if (mIsRunning) {
             mHoverView.removeFromWindow();
             mIsRunning = false;
         }
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 
     private void initHoverMenu(@NonNull Intent intent) {
