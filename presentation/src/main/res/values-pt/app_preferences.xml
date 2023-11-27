@@ -2,9 +2,6 @@
 <resources>
 
     <string name="settings">Configurações</string>
-    <string name="prefs_not_premium_action">Comprar</string>
-
-    <string name="premium_ad_key_title">Mostrar anúncios para desbloquear recursos premium</string>
 
     <!-- categories -->
     <string name="prefs_category_library">Biblioteca</string>

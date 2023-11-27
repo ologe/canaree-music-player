@@ -90,15 +90,6 @@ class SplashFragment : Fragment() {
             .commitAllowingStateLoss()
 
         (requireActivity().findInContext<OnPermissionChanged>()).onPermissionGranted(Permission.STORAGE)
-
-//        ExplainTrialDialog.show(requireContext()) {
-//            requireActivity().supportFragmentManager
-//                .beginTransaction()
-//                .remove(this)
-//                .commitAllowingStateLoss()
-//
-//            (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
-//        }
     }
 
     private fun onStoragePermissionDenied() {

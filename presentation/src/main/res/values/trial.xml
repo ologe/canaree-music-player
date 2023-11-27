@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="trial_title">Trial</string>
-    <string name="trial_message">All premium features are unlocked for the first hour after install</string>
-    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
-
-</resources>

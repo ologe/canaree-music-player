@@ -2,14 +2,14 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.core.Config
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.presentation.pro.IBilling
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
@@ -25,11 +25,10 @@ class AboutFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: NavigatorAbout
+
     @Inject
-    lateinit var billing: IBilling
-    private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing)
-    }
+    lateinit var config: Config
+    private val presenter by viewModels<AboutFragmentViewModel>()
     private val adapter by lazyFast {
         AboutFragmentAdapter(lifecycle, navigator, presenter)
     }
@@ -50,11 +49,6 @@ class AboutFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         back.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleared()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_about

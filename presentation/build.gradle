@@ -38,7 +38,6 @@ dependencies {
     implementation lib_x.browser
     implementation lib_x.preference
     implementation lib_x.coordinator
-    implementation lib_x.billing
     implementation lib_x.fragments
 
     implementation lib_ui.lottie
