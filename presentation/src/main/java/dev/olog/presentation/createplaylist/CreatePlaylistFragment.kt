@@ -74,7 +74,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
+        viewLifecycleScope.launch {
             adapter.observeData(false)
                 .filter { it.isNotEmpty() }
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
@@ -82,7 +82,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
+        viewLifecycleScope.launch {
             editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)

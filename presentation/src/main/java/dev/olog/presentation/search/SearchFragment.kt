@@ -129,7 +129,7 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        launch {
+        viewLifecycleScope.launch {
             editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isBlank() || it.trim().length >= 2 }

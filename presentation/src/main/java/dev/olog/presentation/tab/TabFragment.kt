@@ -136,7 +136,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
+        viewLifecycleScope.launch {
             viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
@@ -145,7 +145,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        viewLifecycleScope.launch {
             viewModel.observeSpanCount(category)
                 .drop(1) // drop initial value, already used
                 .collect {
@@ -157,7 +157,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        viewLifecycleScope.launch {
             when (category) {
                 TabCategory.ALBUMS -> {
                     viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)

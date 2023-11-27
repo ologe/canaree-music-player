@@ -63,7 +63,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-        launch {
+        viewLifecycleScope.launch {
             adapter.observeData(false)
                 .take(1)
                 .map {

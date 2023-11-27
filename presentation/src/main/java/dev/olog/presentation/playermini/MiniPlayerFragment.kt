@@ -57,7 +57,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
+        viewLifecycleScope.launch {
             presenter.observePodcastProgress(progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
                 .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left

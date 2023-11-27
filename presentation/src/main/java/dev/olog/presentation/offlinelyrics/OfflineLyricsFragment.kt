@@ -71,7 +71,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                launch { loadImage(it.mediaId) }
+                viewLifecycleScope.launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
@@ -120,7 +120,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            launch {
+            viewLifecycleScope.launch {
                 EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -135,7 +135,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
-            launch {
+            viewLifecycleScope.launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         ctx,

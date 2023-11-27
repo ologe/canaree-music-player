@@ -143,7 +143,7 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
+        viewLifecycleScope.launch {
             editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isEmpty() || it.length >= 2 }
