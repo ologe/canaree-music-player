@@ -8,13 +8,12 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
 
 class FolderTreeFragmentAdapter(
-    @FragmentLifecycle lifecycle: Lifecycle,
+    lifecycle: Lifecycle,
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator

@@ -20,6 +20,7 @@ android {
 
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
+        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
     buildTypes {
@@ -48,7 +49,6 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':injection')
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
@@ -62,9 +62,9 @@ dependencies {
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
+    implementation lib_x.lifecycle_process
 
     implementation lib_x.core_ktx
     implementation lib_x.appcompat
@@ -82,4 +82,6 @@ dependencies {
     // firebase
     implementation lib_analytics.core
     implementation lib_analytics.crashlytics
+
+    implementation lib_utils.aes_crypto
 }

@@ -2,8 +2,10 @@ package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
@@ -13,20 +15,17 @@ import dev.olog.shared.android.extensions.withArguments
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {
 
     companion object {
         const val TAG = "SetRingtoneDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_TITLE = "$TAG.arguments.title"
-        const val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_TITLE to title,
-                    ARGUMENTS_ARTIST to artist
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                NavigationUtils.ARGUMENTS_TITLE to title,
+                NavigationUtils.ARGUMENTS_ARTIST to artist
             )
         }
     }
@@ -44,7 +43,7 @@ class SetRingtoneDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
+                val mediaId = MediaId.fromString(arguments!!.getString(NavigationUtils.ARGUMENTS_MEDIA_ID)!!)
                 presenter.execute(act, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
@@ -72,8 +71,8 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     private fun generateItemDescription(): String{
-        var title = arguments!!.getString(ARGUMENTS_TITLE)!!
-        val artist = arguments!!.getString(ARGUMENTS_ARTIST)
+        var title = arguments!!.getString(NavigationUtils.ARGUMENTS_TITLE)!!
+        val artist = arguments!!.getString(NavigationUtils.ARGUMENTS_ARTIST)
         if (artist != AppConstants.UNKNOWN){
             title += " $artist"
         }

@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
@@ -18,6 +19,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.FileNotFoundException
 import javax.inject.Inject
 
+@HiltViewModel
 class EditItemViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val presenter: EditItemPresenter

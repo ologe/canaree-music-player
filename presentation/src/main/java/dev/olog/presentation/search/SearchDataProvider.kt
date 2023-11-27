@@ -2,7 +2,7 @@ package dev.olog.presentation.search
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -42,7 +42,7 @@ class SearchDataProvider @Inject constructor(
     private val queryChannel = ConflatedBroadcastChannel("")
 
     fun updateQuery(query: String) {
-        queryChannel.offer(query)
+        queryChannel.trySend(query)
     }
 
     fun observe(): Flow<List<DisplayableItem>> {

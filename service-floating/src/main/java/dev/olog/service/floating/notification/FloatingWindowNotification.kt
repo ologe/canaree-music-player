@@ -7,7 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
@@ -15,7 +15,6 @@ import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject

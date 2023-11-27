@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.intents.Classes
+import dev.olog.shared.android.extensions.findInContext
 
 object FloatingWindowHelper {
 
@@ -19,7 +20,7 @@ object FloatingWindowHelper {
 
     @SuppressLint("NewApi")
     fun startServiceOrRequestOverlayPermission(activity: Activity){
-        val billing = (activity as HasBilling).billing
+        val billing = (activity.findInContext<HasBilling>()).billing
         if (billing.getBillingsState().isPremiumEnabled()){
             if (hasOverlayPermission(activity)){
                 val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))
@@ -37,7 +38,7 @@ object FloatingWindowHelper {
 
     @SuppressLint("NewApi")
     fun startServiceIfHasOverlayPermission(activity: Activity){
-        val billing = (activity as HasBilling).billing
+        val billing = (activity.findInContext<HasBilling>()).billing
 
         if (billing.getBillingsState().isPremiumEnabled() && hasOverlayPermission(activity)){
             val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))

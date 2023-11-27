@@ -3,8 +3,10 @@ package dev.olog.presentation.dialogs.delete
 import android.app.RecoverableSecurityException
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
@@ -16,30 +18,27 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeleteDialog: BaseDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): DeleteDialog {
             return DeleteDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_LIST_SIZE to listSize,
-                    ARGUMENTS_ITEM_TITLE to itemTitle
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                NavigationUtils.ARGUMENTS_LIST_SIZE to listSize,
+                NavigationUtils.ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
     private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = arguments!!.getString(NavigationUtils.ARGUMENTS_MEDIA_ID)!!
         MediaId.fromString(mediaId)
     }
-    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
-    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+    private val title: String by lazyFast { arguments!!.getString(NavigationUtils.ARGUMENTS_ITEM_TITLE)!! }
+    private val listSize: Int by lazyFast { arguments!!.getInt(NavigationUtils.ARGUMENTS_LIST_SIZE) }
 
     @Inject lateinit var presenter: DeleteDialogPresenter
 
@@ -94,7 +93,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     private fun createMessage() : String {
-        val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
+        val itemTitle = arguments!!.getString(NavigationUtils.ARGUMENTS_ITEM_TITLE)
 
         return when {
             mediaId.isAll || mediaId.isLeaf -> getString(R.string.delete_song_y, itemTitle)

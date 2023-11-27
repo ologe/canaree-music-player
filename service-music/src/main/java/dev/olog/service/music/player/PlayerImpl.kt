@@ -4,7 +4,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.state.MusicServicePlaybackState
@@ -15,7 +15,6 @@ import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.clamp
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

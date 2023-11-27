@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-internal class BillingMock @Inject constructor(
+class BillingMock @Inject constructor(
 
 ): IBilling {
 

@@ -2,10 +2,10 @@ package dev.olog.presentation.recentlyadded
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -13,6 +13,7 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.android.extensions.withArguments
@@ -20,37 +21,28 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
-        @JvmStatic
         val TAG = RecentlyAddedFragment::class.java.name
-        @JvmStatic
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            lifecycle, navigator, act as MediaProvider, this
+            lifecycle, navigator, act.findInContext(), this
         )
     }
 
-    private val viewModel by lazyFast {
-        viewModelProvider<RecentlyAddedFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModelProvider<RecentlyAddedFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.adapter = adapter

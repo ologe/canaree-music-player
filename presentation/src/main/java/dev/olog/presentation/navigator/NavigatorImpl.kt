@@ -31,6 +31,7 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.fragmentTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -58,7 +59,7 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDetailFragment(mediaId: MediaId) {
         val activity = activityRef.get() ?: return
-        (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
+        (activity.findInContext<HasSlidingPanel>()).getSlidingPanel().collapse()
 
         val newTag = createBackStackTag(DetailFragment.TAG)
         superCerealTransition(

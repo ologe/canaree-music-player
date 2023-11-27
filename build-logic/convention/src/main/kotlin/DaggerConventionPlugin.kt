@@ -6,15 +6,13 @@ class DaggerConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
+            apply("dagger.hilt.android.plugin")
             apply("kotlin-kapt")
         }
 
         libraries {
-            implementation("dagger")
-            kapt("dagger-processor")
-            implementation("dagger-android")
-            implementation("dagger-android-support")
-            kapt("dagger-android-processor")
+            implementation("hilt")
+            kapt("hilt-processor")
         }
     }
 }

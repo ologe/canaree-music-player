@@ -4,7 +4,9 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
@@ -14,18 +16,17 @@ import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RenameDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_ITEM_TITLE to itemTitle
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                NavigationUtils.ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
@@ -33,9 +34,9 @@ class RenameDialog : BaseEditTextDialog() {
     @Inject lateinit var presenter: RenameDialogPresenter
 
     private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+        MediaId.fromString(getArgument(NavigationUtils.ARGUMENTS_MEDIA_ID))
     }
-    private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
+    private val itemTitle by lazyFast { getArgument<String>(NavigationUtils.ARGUMENTS_ITEM_TITLE) }
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
@@ -45,7 +46,7 @@ class RenameDialog : BaseEditTextDialog() {
     }
 
     override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
-        editText.setText(arguments!!.getString(ARGUMENTS_ITEM_TITLE))
+        editText.setText(arguments!!.getString(NavigationUtils.ARGUMENTS_ITEM_TITLE))
     }
 
     override fun provideMessageForBlank(): String {

@@ -2,9 +2,12 @@ package dev.olog.data
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.olog.data.db.dao.*
 
 @Module
+@InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     @Provides

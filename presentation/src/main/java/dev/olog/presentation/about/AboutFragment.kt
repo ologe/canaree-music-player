@@ -15,6 +15,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AboutFragment : BaseFragment() {
 
     companion object {

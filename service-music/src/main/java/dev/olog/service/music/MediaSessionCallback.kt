@@ -7,9 +7,9 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.PlayerMediaEntity
@@ -25,7 +25,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
     private val queue: IQueue,
     private val player: IPlayer,

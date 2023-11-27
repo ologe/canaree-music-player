@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -21,6 +22,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@HiltViewModel
 internal class DetailFragmentViewModel @Inject constructor(
     val mediaId: MediaId,
     private val dataProvider: DetailDataProvider,
@@ -44,7 +46,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val filterChannel = ConflatedBroadcastChannel("")
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterChannel.trySend(filter)
     }
 
     fun getFilter(): String = filterChannel.value

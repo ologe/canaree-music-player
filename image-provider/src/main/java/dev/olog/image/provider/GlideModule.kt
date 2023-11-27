@@ -15,34 +15,28 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableSt
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import dev.olog.core.MediaId
-import dev.olog.image.provider.di.inject
 import dev.olog.image.provider.loader.AudioFileCoverLoader
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
-import javax.inject.Inject
 
 @GlideModule
 @Keep
 class GlideModule : AppGlideModule() {
 
-    @Inject
-    internal lateinit var lastFmFactory: GlideImageRetrieverLoader.Factory
-    @Inject
-    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-    @Inject
-    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-
-    private var injected = false
-
-    private fun injectIfNeeded(context: Context) {
-        if (!injected) {
-            injected = true
-            inject(context)
-        }
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    internal interface DaggerEntryPoint {
+        fun lastFmFactory(): GlideImageRetrieverLoader.Factory
+        fun originalFactory(): GlideOriginalImageLoader.Factory
+        fun mergedFactory(): GlideMergedImageLoader.Factory
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
@@ -67,13 +61,13 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        injectIfNeeded(context)
+        val entryPoint = EntryPointAccessors.fromApplication(context, DaggerEntryPoint::class.java)
 
         registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
-        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.lastFmFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.mergedFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.originalFactory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

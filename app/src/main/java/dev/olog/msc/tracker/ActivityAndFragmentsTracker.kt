@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import dev.olog.analytics.TrackerFacade
+import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
 class ActivityAndFragmentsTracker @Inject constructor(
@@ -27,14 +28,14 @@ class ActivityAndFragmentsTracker @Inject constructor(
 
     override fun onActivityResumed(activity: Activity) {
         try {
-            (activity as FragmentActivity).supportFragmentManager
+            (activity.findInContext<FragmentActivity>()).supportFragmentManager
                 .registerFragmentLifecycleCallbacks(fragmentObserver, true)
         } catch (ignored: Throwable){}
     }
 
     override fun onActivityPaused(activity: Activity) {
         try {
-            (activity as FragmentActivity).supportFragmentManager
+            (activity.findInContext<FragmentActivity>()).supportFragmentManager
                 .unregisterFragmentLifecycleCallbacks(fragmentObserver)
         } catch (ignored: Throwable){}
     }

@@ -10,6 +10,7 @@ buildscript {
         classpath(libs.plugin.gradle)
         classpath(libs.plugin.kotlin)
         classpath(libs.plugin.crashlytics)
+        classpath(libs.plugin.hilt)
     }
 
 }

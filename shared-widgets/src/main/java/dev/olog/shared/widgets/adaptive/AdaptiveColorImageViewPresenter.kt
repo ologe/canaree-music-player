@@ -52,15 +52,15 @@ class AdaptiveColorImageViewPresenter(
         paletteJob?.cancel()
 
         if (bitmap == null) {
-            processorPalettePublisher.offer(defaultProcessorColors)
-            palettePublisher.offer(defaultPaletteColors)
+            processorPalettePublisher.trySend(defaultProcessorColors)
+            palettePublisher.trySend(defaultPaletteColors)
             return
         }
 
         processorJob = GlobalScope.launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
             yield()
-            processorPalettePublisher.offer(
+            processorPalettePublisher.trySend(
                 ValidProcessorColors(
                     desaturate(image.background),
                     desaturate(image.primaryTextColor),
@@ -75,7 +75,7 @@ class AdaptiveColorImageViewPresenter(
                 .generate()
             yield()
             val accent = desaturate(ColorUtil.getAccentColor(context, palette))
-            palettePublisher.offer(ValidPaletteColors(accent))
+            palettePublisher.trySend(ValidPaletteColors(accent))
         }
     }
 

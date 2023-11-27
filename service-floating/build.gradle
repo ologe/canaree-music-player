@@ -10,7 +10,6 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared')
@@ -22,7 +21,7 @@ dependencies {
     implementation lib_x.core_ktx
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
+    implementation lib_x.lifecycle_service
     implementation lib_x.lifecycle_java8
 
     implementation lib_x.constraint_layout

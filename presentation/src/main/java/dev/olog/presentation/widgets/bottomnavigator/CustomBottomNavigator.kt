@@ -2,19 +2,20 @@ package dev.olog.presentation.widgets.bottomnavigator
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
-import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.extensions.findInContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class CustomBottomNavigator(
         context: Context,
         attrs: AttributeSet
@@ -28,10 +29,6 @@ internal class CustomBottomNavigator(
 
     private val navigator = BottomNavigator()
 
-    init {
-        inject()
-    }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         val lastLibraryPage = presentationPrefs.getLastBottomViewPage()
@@ -41,7 +38,7 @@ internal class CustomBottomNavigator(
             val navigationPage = menu.itemId.toBottomNavigationPage()
             val libraryPage = presentationPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+            navigator.navigate(context.findInContext(), trackerFacade, navigationPage, libraryPage)
             true
         }
     }
@@ -58,7 +55,7 @@ internal class CustomBottomNavigator(
     fun navigateToLastPage(){
         val navigationPage = presentationPrefs.getLastBottomViewPage()
         val libraryPage = presentationPrefs.getLastLibraryPage()
-        navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+        navigator.navigate(context.findInContext(), trackerFacade, navigationPage, libraryPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){

@@ -2,10 +2,9 @@ package dev.olog.presentation.playermini
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-@Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
@@ -33,7 +32,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
+    private val media by lazyFast { requireActivity().findInContext<MediaProvider>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {

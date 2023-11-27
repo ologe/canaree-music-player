@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class CreatePlaylistFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
     private val getAllSongsUseCase: SongGateway,
@@ -73,7 +75,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterChannel.trySend(filter)
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
@@ -92,7 +94,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun toggleShowOnlyFiltered() {
         val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.offer(!onlyFiltered)
+        showOnlyFiltered.trySend(!onlyFiltered)
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

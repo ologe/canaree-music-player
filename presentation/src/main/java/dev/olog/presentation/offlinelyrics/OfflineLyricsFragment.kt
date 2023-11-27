@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -28,10 +29,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
@@ -46,7 +47,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
 
-    private val mediaProvider by lazy { activity as MediaProvider }
+    private val mediaProvider by lazy { activity!!.findInContext<MediaProvider>() }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 

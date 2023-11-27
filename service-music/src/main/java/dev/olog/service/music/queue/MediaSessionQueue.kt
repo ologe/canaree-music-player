@@ -6,13 +6,12 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
@@ -57,12 +56,12 @@ internal class MediaSessionQueue @Inject constructor(
 
     fun onNext(list: List<MediaEntity>) {
         Log.v(TAG, "on next delayed")
-        delayedChannel.offer(list)
+        delayedChannel.trySend(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
-        immediateChannel.offer(list)
+        immediateChannel.trySend(list)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

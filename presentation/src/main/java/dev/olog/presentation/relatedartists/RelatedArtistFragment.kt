@@ -2,8 +2,9 @@ package dev.olog.presentation.relatedartists
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
@@ -16,33 +17,24 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RelatedArtistFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
         val TAG = RelatedArtistFragment::class.java.name
-        @JvmStatic
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
     private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
 
-    private val viewModel by lazyFast {
-        viewModelProvider<RelatedArtistFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModelProvider<RelatedArtistFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.layoutManager = OverScrollGridLayoutManager(list, 2)

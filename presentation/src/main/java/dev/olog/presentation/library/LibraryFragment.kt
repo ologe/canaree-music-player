@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
@@ -20,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LibraryFragment : BaseFragment() {
 
     companion object {
@@ -123,7 +125,7 @@ class LibraryFragment : BaseFragment() {
 
     private fun changeLibraryPage(page: LibraryPage) {
         presenter.setLibraryPage(page)
-        (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
+        (requireActivity().findInContext<HasBottomNavigation>()).navigate(BottomNavigationPage.LIBRARY)
     }
 
     private fun createMediaId(): MediaIdCategory? {

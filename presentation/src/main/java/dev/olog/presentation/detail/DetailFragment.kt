@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.media.MediaProvider
+import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -33,46 +33,38 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
     IDragListener by DragListenerImpl() {
 
     companion object {
-        @JvmStatic
         val TAG = DetailFragment::class.java.name
-        @JvmStatic
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast {
-        viewModelProvider<DetailFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModelProvider<DetailFragmentViewModel>()
 
     private val mediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
+        val mediaId = getArgument<String>(NavigationUtils.ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(lifecycle, navigator, act.findInContext())
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(lifecycle, navigator, act.findInContext())
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(lifecycle, navigator)
@@ -87,7 +79,7 @@ class DetailFragment : BaseFragment(),
             mediaId,
             this,
             navigator,
-            act as MediaProvider,
+            act.findInContext(),
             viewModel,
             this
         )
