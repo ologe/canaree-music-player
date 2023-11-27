@@ -37,6 +37,7 @@ include ':app',
         ':intents',
         ':shared',
         ':shared-widgets',
+        ':shared-compose',
         ':equalizer'
 
 gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'

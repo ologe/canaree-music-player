@@ -1,0 +1,12 @@
+plugins {
+    id("dev.olog.msc.library")
+    id("dev.olog.msc.compose")
+}
+
+android {
+    namespace 'dev.olog.shared.compose'
+}
+
+dependencies {
+
+}

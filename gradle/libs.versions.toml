@@ -5,6 +5,9 @@ coroutines = "1.3.9"
 dagger = "2.45"
 crashlytics = "2.9.9"
 
+compose-bom = "2023.10.01"
+compose-compiler = "1.2.0-rc02"
+
 junit = "4.13"
 mockito = "3.5.10"
 mockito-kotlin = "2.2.0"
@@ -22,6 +25,12 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-processor = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-foundation = { module = "androidx.compose.foundation:foundation" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockito = { module = "org.mockito:mockito-android", version.ref = "mockito" }

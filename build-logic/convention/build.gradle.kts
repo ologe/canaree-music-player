@@ -25,5 +25,9 @@ gradlePlugin {
             id = "dev.olog.msc.dagger"
             implementationClass = "DaggerConventionPlugin"
         }
+        register("ComposeConventionPlugin") {
+            id = "dev.olog.msc.compose"
+            implementationClass = "ComposeConventionPlugin"
+        }
     }
 }

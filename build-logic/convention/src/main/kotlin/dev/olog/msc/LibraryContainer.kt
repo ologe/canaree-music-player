@@ -26,6 +26,17 @@ internal class LibraryContainer(
         )
     }
 
+    fun debugImplementation(
+        dependency: String,
+        configurationAction: Action<Dependency>? = null,
+    ) {
+        addDependencyTo(
+            configuration = "debugImplementation",
+            dependencyNotation = catalog.findLibrary(dependency).get(),
+            configurationAction = configurationAction,
+        )
+    }
+
     fun kapt(
         dependency: String,
         configurationAction: Action<Dependency>? = null,
@@ -46,6 +57,10 @@ internal class LibraryContainer(
             dependencyNotation = catalog.findLibrary(dependency).get(),
             configurationAction = configurationAction,
         )
+    }
+
+    fun findLibrary(dependency: String): Provider<MinimalExternalModuleDependency> {
+        return catalog.findLibrary(dependency).get()
     }
 
     private fun addDependencyTo(
