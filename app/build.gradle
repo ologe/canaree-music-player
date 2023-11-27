@@ -45,7 +45,6 @@ android {
 
 dependencies {
     implementation project(':app-shortcuts')
-    implementation project(':analytics')
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
@@ -80,7 +79,6 @@ dependencies {
     debugImplementation lib_debug.stetho
 
     // firebase
-    implementation lib_analytics.core
     implementation lib_analytics.crashlytics
 
     implementation lib_utils.aes_crypto
