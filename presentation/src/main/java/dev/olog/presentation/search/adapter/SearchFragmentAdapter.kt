@@ -11,6 +11,7 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
@@ -92,6 +93,7 @@ class SearchFragmentAdapter(
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
             is DisplayableAlbum -> bindAlbum(holder, item)
+            is DisplayableNestedListPlaceholder -> {}
         }
     }
 

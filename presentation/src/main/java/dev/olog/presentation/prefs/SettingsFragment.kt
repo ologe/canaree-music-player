@@ -150,7 +150,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         resetTutorial.onPreferenceClickListener = null
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
         if (context == null) {
             return
             // crash workaround, don't know if crashes because of a leak or what else

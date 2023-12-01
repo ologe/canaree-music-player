@@ -11,7 +11,7 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_tab_album.view.*
+import kotlinx.android.synthetic.main.item_playlist_chooser.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity

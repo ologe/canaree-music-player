@@ -1,11 +1,16 @@
 plugins {
     id("dev.olog.msc.library")
     id("dev.olog.msc.dagger")
+    id("dev.olog.msc.compose")
     id("kotlin-android-extensions")
 }
 
 android {
     namespace 'dev.olog.presentation'
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 androidExtensions {
@@ -18,6 +23,7 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared-widgets')
+    implementation project(':shared-compose')
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':offline-lyrics')
@@ -27,7 +33,7 @@ dependencies {
     implementation project(':equalizer')
 
     implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
+    implementation(libs.glide)
 
     implementation lib_x.appcompat
     implementation lib_x.material
@@ -39,6 +45,7 @@ dependencies {
     implementation lib_x.preference
     implementation lib_x.coordinator
     implementation lib_x.fragments
+    implementation lib_x.activity
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view

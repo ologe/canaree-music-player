@@ -4,6 +4,10 @@ plugins {
 
 android {
     namespace 'dev.olog.shared.android'
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

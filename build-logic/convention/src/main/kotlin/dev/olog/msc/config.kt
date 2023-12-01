@@ -7,7 +7,7 @@ internal object config {
 
     const val minSdk = 21
     const val targetSdk = 30
-    const val compileSdk = 33
+    const val compileSdk = 34
 
     /*  version code
         999 - for old compatibility

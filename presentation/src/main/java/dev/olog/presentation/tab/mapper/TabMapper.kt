@@ -1,80 +1,85 @@
 package dev.olog.presentation.tab.mapper
 
 import android.content.res.Resources
-import dev.olog.core.entity.track.*
-import dev.olog.presentation.R
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
-import java.util.concurrent.TimeUnit
+import dev.olog.presentation.tab.adapter.TabFragmentItem
+import kotlin.time.Duration.Companion.milliseconds
 
 internal fun Folder.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): DisplayableItem {
-    return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
+): TabFragmentItem.Album {
+    return TabFragmentItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(resources, size),
+        asRow = requestedSpanSize == 1,
     )
 }
 
-internal fun Playlist.toAutoPlaylist(): DisplayableItem {
-    return DisplayableAlbum(
-        type = R.layout.item_tab_auto_playlist,
+internal fun Playlist.toAutoPlaylist(): TabFragmentItem.Album {
+    return TabFragmentItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = title,
-        subtitle = ""
+        subtitle = null,
     )
 }
 
 internal fun Playlist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): DisplayableItem {
-
-    return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
+): TabFragmentItem.Album {
+    return TabFragmentItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(resources, size),
+        asRow = requestedSpanSize == 1,
     )
 }
 
-internal fun Song.toTabDisplayableItem(): DisplayableItem {
-    return DisplayableTrack(
-        type = if (isPodcast) R.layout.item_tab_podcast else R.layout.item_tab_song,
+internal fun Song.toTabDisplayableItem(): TabFragmentItem {
+    if (isPodcast) {
+        return TabFragmentItem.Podcast(
+            mediaId = getMediaId(),
+            title = title,
+            artist = artist,
+            album = album,
+            duration = duration.milliseconds,
+        )
+    }
+    return TabFragmentItem.Track(
         mediaId = getMediaId(),
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration).toInt() else this.idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 
 
-internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem {
-    return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
+internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): TabFragmentItem.Album {
+    return TabFragmentItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
-        subtitle = artist
+        subtitle = artist,
+        asRow = requestedSpanSize == 1,
     )
 }
 
 internal fun Artist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): DisplayableItem {
-    val songs = DisplayableAlbum.readableSongCount(resources, songs)
-
-    return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_artist,
+): TabFragmentItem.Album {
+    return TabFragmentItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = name,
-        subtitle = songs
+        subtitle = DisplayableAlbum.readableSongCount(resources, songs),
+        asRow = requestedSpanSize == 1,
     )
 }
 
@@ -82,29 +87,27 @@ internal fun Artist.toTabDisplayableItem(
 internal fun Genre.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): DisplayableItem {
-    return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
+): TabFragmentItem.Album {
+    return TabFragmentItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(resources, size),
+        asRow = requestedSpanSize == 1,
     )
 }
 
-internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
-    return DisplayableAlbum(
-        type = R.layout.item_tab_album_last_played,
+internal fun Album.toTabLastPlayedDisplayableItem(): TabFragmentItem.Album {
+    return TabFragmentItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = title,
-        subtitle = artist
+        subtitle = artist,
     )
 }
 
-internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableAlbum(
-        type = R.layout.item_tab_artist_last_played,
+internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): TabFragmentItem.Album {
+    return TabFragmentItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
+        subtitle = DisplayableAlbum.readableSongCount(resources, songs),
     )
 }

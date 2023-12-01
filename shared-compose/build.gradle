@@ -5,8 +5,21 @@ plugins {
 
 android {
     namespace 'dev.olog.shared.compose'
+
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
+                "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+        ]
+    }
 }
 
 dependencies {
+    implementation(project((":core")))
+    implementation(project((":shared-widgets")))
+    implementation(project((":shared-android")))
+    implementation(project((":image-provider")))
 
+    implementation lib_x.recycler
+    implementation(libs.glide.compose)
 }

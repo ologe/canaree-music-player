@@ -16,5 +16,5 @@ dependencies {
     implementation lib_x.core_ktx
     implementation lib_x.appcompat
 
-    implementation lib_ui.glide
+    implementation(libs.glide)
 }

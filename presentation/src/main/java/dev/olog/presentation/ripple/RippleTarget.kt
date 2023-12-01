@@ -54,15 +54,16 @@ class RippleTarget(
         }
 
     private suspend fun onGenerated(palette: Palette?) = withContext(Dispatchers.Main) {
-        if (view is ForegroundImageView) {
+        val v = view
+        if (v is ForegroundImageView) {
 
-            view.foreground = RippleUtils.create(
+            v.foreground = RippleUtils.create(
                 palette, darkAlpha,
                 lightAlpha, fallbackColor, true
             )
         }
-        if (view is ParallaxImageView) {
-            view.setScrimColor(
+        if (v is ParallaxImageView) {
+            v.setScrimColor(
                 RippleUtils.createColor(
                     palette,
                     darkAlpha,

@@ -21,7 +21,13 @@ data class DisplayableTrack(
 
 ) : DisplayableItem(type, mediaId) {
 
-    val subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+    companion object {
+        fun subtitle(artist: String, album: String): String {
+            return "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+        }
+    }
+
+    val subtitle = subtitle(artist, album)
 
 }
 

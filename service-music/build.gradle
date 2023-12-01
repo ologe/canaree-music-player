@@ -31,7 +31,7 @@ dependencies {
     implementation lib_x.lifecycle_service
     implementation lib_x.lifecycle_java8
 
-    implementation lib_ui.glide
+    implementation(libs.glide)
 
     implementation lib_utils.last_fm_binding
 

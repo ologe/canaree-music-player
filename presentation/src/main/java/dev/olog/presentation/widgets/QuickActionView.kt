@@ -38,7 +38,7 @@ class QuickActionView (
     }
 
     private fun setImage() {
-        val quickAction = hasQuickAction.getQuickAction()
+        val quickAction = hasQuickAction.observeQuickAction().value
         toggleVisibility(quickAction != QuickAction.NONE, true)
 
         when (quickAction) {
@@ -52,9 +52,10 @@ class QuickActionView (
         super.onAttachedToWindow()
         setOnClickListener(this)
         job = launch {
-            for (type in hasQuickAction.observeQuickAction()) {
-                setImage()
-            }
+            hasQuickAction.observeQuickAction()
+                .collect { type ->
+                    setImage()
+                }
         }
     }
 
@@ -70,7 +71,7 @@ class QuickActionView (
 
     override fun onClick(v: View?) {
         val mediaProvider = context.findInContext<MediaProvider>()
-        when (hasQuickAction.getQuickAction()) {
+        when (hasQuickAction.observeQuickAction().value) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {

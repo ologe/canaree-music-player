@@ -99,11 +99,7 @@ internal class MainPopupDialog @Inject constructor(
     }
 
     private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
-        val current = presentationPrefs.getSpanCount(category)
         presentationPrefs.setSpanCount(category, spanCount)
-        if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
-            (view.context.findInContext<Activity>()).recreate()
-        }
     }
 
     private fun initializeTracksSort(menu: Menu): SortEntity {

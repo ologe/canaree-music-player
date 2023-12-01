@@ -5,7 +5,8 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.QuickAction
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 internal class QuickActionListener @Inject constructor(
@@ -17,13 +18,13 @@ internal class QuickActionListener @Inject constructor(
     context.getString(R.string.prefs_quick_action_key)
 ) {
 
-    val quickActionPublisher by lazy { ConflatedBroadcastChannel(getValue()) }
-    fun quickAction() = quickActionPublisher.value
+    private val _flow by lazy { MutableStateFlow(getValue()) }
+    val flow: StateFlow<QuickAction>
+        get() = _flow
 
     override fun onPrefsChanged() {
-
         val quickActon = getValue()
-        quickActionPublisher.trySend(quickActon)
+        _flow.value = quickActon
     }
 
     override fun getValue(): QuickAction {

@@ -24,6 +24,7 @@ class ComposeConventionPlugin : Plugin<Project> {
                 implementation("compose-foundation")
                 debugImplementation("compose-tooling")
                 implementation("compose-tooling-preview")
+                implementation("compose-accompanist-drawablepainter")
             }
         }
     }

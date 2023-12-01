@@ -19,6 +19,10 @@ class RxWaveSideBarView(
         updateLetters(generateLetters(list))
     }
 
+    fun onLettersChanged(letters: List<String>) {
+        updateLetters(mapLetters(letters))
+    }
+
     fun setListener(listener: OnTouchLetterChangeListener?){
         this.listener = listener
     }
@@ -41,11 +45,23 @@ class RxWaveSideBarView(
                 .map { it.toString() }
                 .toList()
 
-        val letters = LETTERS.map { letter -> list.firstOrNull { it == letter } ?: TextUtils.MIDDLE_DOT }
-                .toMutableList()
-        list.firstOrNull { it < "A" }?.let { letters[0] = "#" }
-        list.firstOrNull { it > "Z" }?.let { letters[letters.lastIndex] = "?" }
-        return letters
+        return mapLetters(list)
+    }
+
+    private fun mapLetters(letters: List<String>): List<String> = buildList {
+        for (letter in LETTERS) {
+            if (letters.contains(letter)) {
+                add(letter)
+            } else {
+                add(TextUtils.MIDDLE_DOT)
+            }
+            if (letters.firstOrNull { it < "A" } != null) {
+                set(0, "#")
+            }
+            if (letters.firstOrNull { it > "Z" } != null) {
+                set(lastIndex, "?")
+            }
+        }
     }
 
     private fun updateLetters(letters: List<String>){

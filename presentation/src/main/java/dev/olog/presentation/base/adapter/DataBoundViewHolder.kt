@@ -36,9 +36,6 @@ class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return lifecycleRegistry
-    }
-
-
+    override val lifecycle: Lifecycle
+        get() = lifecycleRegistry
 }

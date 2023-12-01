@@ -76,10 +76,11 @@ open class ShapeImageView(
 
         val hasImageShape = context.applicationContext.findInContext<HasImageShape>()
         job = GlobalScope.launch(Dispatchers.Default) {
-            for (imageShape in hasImageShape.observeImageShape()) {
-                mask = null
-                updateBackground(getShapeModel(imageShape))
-            }
+            hasImageShape.observeImageShape()
+                .collect { imageShape ->
+                    mask = null
+                    updateBackground(getShapeModel(imageShape))
+                }
         }
     }
 
@@ -104,7 +105,7 @@ open class ShapeImageView(
 
     private fun getMask(): Bitmap? {
         if (mask == null) {
-            mask = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
+            mask = buildMaskShape(getShapeModel(hasImageShape.observeImageShape().value))
         }
         return mask
     }
