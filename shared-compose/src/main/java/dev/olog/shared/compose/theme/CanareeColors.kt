@@ -48,6 +48,7 @@ data class ColorSelector(
 
 @Composable
 internal fun colors(): CanareeColors {
+    // TODO desaturate on dark mode
     val accentColor = if (LocalInspectionMode.current) {
         colorResource(R.color.defaultColorAccent)
     } else {

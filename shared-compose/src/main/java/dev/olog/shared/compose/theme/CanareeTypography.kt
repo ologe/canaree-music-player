@@ -26,6 +26,7 @@ val LocalTextStyle = compositionLocalOf<TextStyle> {
 
 @Immutable
 data class CanareeTypography(
+    val headline: TextStyle,
     val body: TextStyle,
     val header: TextStyle,
     val footer: TextStyle,
@@ -38,6 +39,10 @@ data class CanareeTypography(
 @Composable
 internal fun typography(): CanareeTypography {
     return CanareeTypography(
+        headline = TextStyle(
+            fontSize = 28.dp.toFakeSp(),
+            fontWeight = FontWeight.Black,
+        ),
         body = TextStyle(
 //            letterSpacing = 0.013.em,
         ),
