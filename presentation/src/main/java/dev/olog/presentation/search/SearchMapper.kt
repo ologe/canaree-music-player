@@ -3,13 +3,16 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.search.adapter.SearchFragmentItem
 
-internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
+internal fun SearchResult.toSearchDisplayableItem(context: Context): SearchFragmentItem.Recent {
     val subtitle = when (this.itemType) {
         RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
@@ -24,89 +27,60 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
         else -> throw IllegalArgumentException("invalid item type $itemType")
     }
 
-    val isPlayable =
-        this.itemType == RecentSearchesTypes.SONG || this.itemType == RecentSearchesTypes.PODCAST
-
-    val layout = when (this.itemType) {
-        RecentSearchesTypes.ARTIST,
-        RecentSearchesTypes.PODCAST_ARTIST -> R.layout.item_search_recent_artist
-        RecentSearchesTypes.ALBUM,
-        RecentSearchesTypes.PODCAST_ALBUM -> R.layout.item_search_recent_album
-        else -> R.layout.item_search_recent
-    }
-
-    if (isPlayable){
-        return DisplayableTrack(
-            type = layout,
-            mediaId = this.mediaId,
-            title = this.title,
-            artist = subtitle,
-            album = "",
-            idInPlaylist = -1,
-            dataModified = -1
-        )
-    }
-    return DisplayableAlbum(
-        type = layout,
+    return SearchFragmentItem.Recent(
         mediaId = this.mediaId,
         title = this.title,
-        subtitle = subtitle
+        subtitle = subtitle,
+        isPlayable = this.itemType == RecentSearchesTypes.SONG ||
+            this.itemType == RecentSearchesTypes.PODCAST
     )
 }
 
-internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
-    return DisplayableTrack(
-        type = R.layout.item_search_song,
+internal fun Song.toSearchDisplayableItem(): SearchFragmentItem.Track {
+    return SearchFragmentItem.Track(
         mediaId = getMediaId(),
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = idInPlaylist,
-        dataModified = this.dateModified
     )
 }
 
-internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_search_album,
+internal fun Album.toSearchDisplayableItem(): SearchFragmentItem.Album {
+    return SearchFragmentItem.Album(
         mediaId = getMediaId(),
         title = title,
         subtitle = artist
     )
 }
 
-internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_search_artist,
+internal fun Artist.toSearchDisplayableItem(): SearchFragmentItem.Album {
+    return SearchFragmentItem.Album(
         mediaId = getMediaId(),
         title = name,
-        subtitle = ""
+        subtitle = null
     )
 }
 
-internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_search_album,
+internal fun Playlist.toSearchDisplayableItem(): SearchFragmentItem.Album {
+    return SearchFragmentItem.Album(
         mediaId = getMediaId(),
         title = title,
-        subtitle = ""
+        subtitle = null
     )
 }
 
-internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_search_album,
+internal fun Genre.toSearchDisplayableItem(): SearchFragmentItem.Album {
+    return SearchFragmentItem.Album(
         mediaId = getMediaId(),
         title = name,
-        subtitle = ""
+        subtitle = null
     )
 }
 
-internal fun Folder.toSearchDisplayableItem(): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_search_album,
+internal fun Folder.toSearchDisplayableItem(): SearchFragmentItem.Album {
+    return SearchFragmentItem.Album(
         mediaId = getMediaId(),
         title = title,
-        subtitle = ""
+        subtitle = null,
     )
 }

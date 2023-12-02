@@ -33,6 +33,7 @@ hilt-processor = { module = "com.google.dagger:hilt-compiler", version.ref = "da
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
+compose-material = { module = "androidx.compose.material:material" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "compose-accompanist" }

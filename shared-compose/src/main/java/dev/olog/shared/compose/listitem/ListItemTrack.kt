@@ -36,18 +36,19 @@ fun ListItemTrack(
     title: String,
     subtitle: String,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(),
+    trailingContent: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
     ListItemSlots(
         modifier = modifier
-            .combinedClickable( // TODO check indication
+            .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
             )
             .scaleDownOnTouch()
-            .padding(paddingValues),
+            .padding(contentPadding),
         leadingContent = {
             AsyncImage(
                 model = mediaId,
@@ -82,6 +83,7 @@ fun ListItemTrack(
                 overflow = TextOverflow.Ellipsis,
             )
         },
+        trailingContent = trailingContent,
     )
 }
 

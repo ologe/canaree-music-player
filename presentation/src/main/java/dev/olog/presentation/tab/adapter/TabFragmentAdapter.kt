@@ -1,11 +1,14 @@
 package dev.olog.presentation.tab.adapter
 
 import android.view.View
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.navigator.Navigator
@@ -17,6 +20,7 @@ import dev.olog.shared.compose.listitem.ListItemPodcast
 import dev.olog.shared.compose.listitem.ListItemShuffle
 import dev.olog.shared.compose.listitem.ListItemTrack
 import dev.olog.shared.compose.theme.LocalScreenSpacing
+import dev.olog.presentation.R
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -31,7 +35,7 @@ internal class TabFragmentAdapter(
                 mediaId = item.mediaId,
                 title = item.title,
                 subtitle = item.subtitle,
-                paddingValues = LocalScreenSpacing.current,
+                contentPadding = LocalScreenSpacing.current,
                 onClick = {
                     val sort = viewModel.getAllTracksSortOrder(item.mediaId)
                     mediaProvider.playFromMediaId(item.mediaId, null, sort)
@@ -88,15 +92,21 @@ internal class TabFragmentAdapter(
                 )
             }
             is TabFragmentItem.List -> {
-                LazyRow(Modifier.fillMaxWidth()) {
-                    items(item.items) { item ->
-
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    // TODO content padding
+                ) {
+                    items(item.items) { nestedItem ->
+                        // TODO check how it looks
+                        Box(Modifier.width(dimensionResource(id = R.dimen.item_tab_album_last_player_width))) {
+                            Content(view, nestedItem)
+                        }
                     }
                 }
             }
             is TabFragmentItem.Shuffle -> {
                 ListItemShuffle(
-                    paddingValues = LocalScreenSpacing.current,
+                    contentPadding = LocalScreenSpacing.current,
                     onClick = {
                         mediaProvider.shuffle(MediaId.shuffleId(), null)
                     }

@@ -28,6 +28,7 @@ val LocalTextStyle = compositionLocalOf<TextStyle> {
 data class CanareeTypography(
     val body: TextStyle,
     val header: TextStyle,
+    val footer: TextStyle,
     val trackTitle: TextStyle,
     val trackSubtitle: TextStyle,
     val albumTitle: TextStyle,
@@ -42,6 +43,11 @@ internal fun typography(): CanareeTypography {
         ),
         header = TextStyle(
             fontSize = 20.dp.toFakeSp(),
+            fontWeight = FontWeight.Black,
+            letterSpacing = 0.0125.em,
+        ),
+        footer = TextStyle(
+            fontSize = 16.dp.toFakeSp(),
             fontWeight = FontWeight.Black,
             letterSpacing = 0.0125.em,
         ),

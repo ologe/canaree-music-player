@@ -28,8 +28,9 @@ abstract class BaseFragment : Fragment() {
         return (activity?.findInContext<HasSlidingPanel>())?.getSlidingPanel()
     }
 
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity().findInContext<MainActivity>()).restoreUpperWidgetsTranslation()
-    }
+}
 
+// TODO move to some fragment extension file
+fun Fragment.restoreUpperWidgetsTranslation() {
+    (requireActivity().findInContext<MainActivity>()).restoreUpperWidgetsTranslation()
 }

@@ -32,6 +32,7 @@ internal fun ListItemSlots(
     leadingContent: @Composable BoxScope.() -> Unit,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable (RowScope.() -> Unit)?,
+    trailingContent: @Composable (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -47,7 +48,9 @@ internal fun ListItemSlots(
         )
 
         Column(
-            modifier = Modifier.padding(horizontal = Theme.spacing.medium)
+            modifier = Modifier
+                .padding(horizontal = Theme.spacing.medium)
+                .weight(1f)
         ) {
             CompositionLocalProvider(
                 LocalTextStyle provides Theme.typography.trackTitle,
@@ -72,6 +75,8 @@ internal fun ListItemSlots(
                 }
             }
         }
+
+        trailingContent?.invoke()
     }
 }
 
@@ -102,6 +107,13 @@ private fun Preview() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(10.dp)
+                            .background(Theme.colors.textColorPrimary.enabled)
+                    )
+                },
+                trailingContent = {
+                    Spacer(
+                        modifier = Modifier
+                            .size(48.dp)
                             .background(Theme.colors.textColorPrimary.enabled)
                     )
                 }

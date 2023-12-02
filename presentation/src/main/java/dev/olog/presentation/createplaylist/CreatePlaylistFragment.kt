@@ -11,6 +11,7 @@ import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
+import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme

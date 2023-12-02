@@ -34,7 +34,7 @@ fun ListItemPodcast(
     subtitle: String,
     duration: String,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(),
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
@@ -45,7 +45,7 @@ fun ListItemPodcast(
                 onLongClick = onLongClick,
             )
             .scaleDownOnTouch()
-            .padding(paddingValues),
+            .padding(contentPadding),
         leadingContent = {
             AsyncImage(
                 model = mediaId,

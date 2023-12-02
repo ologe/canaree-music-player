@@ -4,9 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import dev.olog.shared.compose.ThemePreviews
@@ -19,25 +20,28 @@ import dev.olog.shared.compose.theme.Theme
 fun ListItemHeader(
     text: String,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(),
+    trailingContent: @Composable (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
-            .padding(paddingValues)
+            .padding(contentPadding)
             .padding(horizontal = Theme.spacing.mediumSmall)
     ) {
-        Text(
-            text = text,
-            style = Theme.typography.header,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = Theme.colors.textColorPrimary.enabled,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = Theme.spacing.small,
-                ),
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = Theme.spacing.small)
+        ) {
+            Text(
+                text = text,
+                style = Theme.typography.header,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Theme.colors.textColorPrimary.enabled,
+                modifier = Modifier.weight(1f),
+            )
+            trailingContent?.invoke()
+        }
         Divider(
             modifier = Modifier
                 .padding(vertical = Theme.spacing.small)
@@ -51,6 +55,9 @@ private fun Preview() {
     CanareeTheme {
         Box(Modifier.background(Theme.colors.background)) {
             ListItemHeader(text = "Header")
+            ListItemHeader(text = "Header") {
+                Text(text = "9 results")
+            }
         }
     }
 }

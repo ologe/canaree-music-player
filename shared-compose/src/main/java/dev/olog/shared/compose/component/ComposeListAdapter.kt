@@ -16,7 +16,7 @@ abstract class ComposeListAdapter<T : Any>(
 ) : ListAdapter<T, ComposeViewHolder>(diffCallback) {
 
     final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
-        return ComposeViewHolder(parent)
+        return ComposeViewHolder(parent, viewType)
     }
 
     final override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
@@ -25,6 +25,8 @@ abstract class ComposeListAdapter<T : Any>(
             Content(holder.itemView, item)
         }
     }
+
+    override fun getItemViewType(position: Int): Int = R.layout.compose_interop
 
     @Composable
     abstract fun Content(view: View, item: T)
@@ -36,11 +38,14 @@ abstract class ComposeListAdapter<T : Any>(
 }
 
 class ComposeViewHolder(
-    parent: ViewGroup
-) : RecyclerView.ViewHolder(parent.inflate(R.layout.compose_interop)) {
+    parent: ViewGroup,
+    viewType: Int,
+) : RecyclerView.ViewHolder(parent.inflate(viewType)) {
+
+    private val composeView = itemView.findViewById<ComposeView>(R.id.content)
 
     fun setContent(content: @Composable () -> Unit) {
-        (itemView as ComposeView).setContent {
+        composeView.setContent {
             CanareeTheme {
                 content()
             }

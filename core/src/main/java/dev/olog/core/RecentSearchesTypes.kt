@@ -1,5 +1,6 @@
 package dev.olog.core
 
+// TODO convert to enum?
 object RecentSearchesTypes {
     const val SONG = 0
     const val ARTIST = 1

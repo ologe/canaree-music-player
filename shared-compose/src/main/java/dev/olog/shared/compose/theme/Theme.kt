@@ -1,6 +1,8 @@
 package dev.olog.shared.compose.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -21,6 +23,7 @@ fun CanareeTheme(
         LocalTextStyle provides typography.body,
         LocalCanareeSpacing provides spacing(),
         LocalScreenSpacing provides PaddingValues(horizontal = 8.dp), // TODO big screens?
+        LocalIndication provides rememberRipple(),
     ) {
         ThemeSettings(themeSettings) {
             content()

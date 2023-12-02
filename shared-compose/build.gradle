@@ -22,4 +22,5 @@ dependencies {
 
     implementation lib_x.recycler
     implementation(libs.glide.compose)
+    implementation(libs.compose.material)
 }

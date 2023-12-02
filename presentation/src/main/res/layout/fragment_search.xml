@@ -113,10 +113,8 @@
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         tools:listitem="@layout/item_search_recent"
         tools:visibility="visible"
-        android:paddingTop="@dimen/playing_queue_margin_vertical"
-        android:paddingBottom="@dimen/playing_queue_margin_vertical"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal"/>
+        android:paddingTop="@dimen/list_vertical_spacing"
+        android:paddingBottom="@dimen/list_vertical_spacing" />
 
     <TextView
         android:id="@+id/emptyStateText"

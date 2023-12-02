@@ -25,7 +25,7 @@ import dev.olog.shared.compose.theme.toFakeSp
 @Composable
 fun ListItemShuffle(
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(),
     onClick: () -> Unit,
 ) {
     Column(
@@ -34,7 +34,7 @@ fun ListItemShuffle(
         ListItemSlots(
             modifier = Modifier
                 .clickable(onClick = onClick)
-                .padding(paddingValues),
+                .padding(contentPadding),
             leadingContent = {
                 Icon(painter = painterResource(R.drawable.vd_shuffle),)
             },
@@ -53,7 +53,7 @@ fun ListItemShuffle(
         Divider(
             Modifier
                 .padding(horizontal = dimensionResource(R.dimen.item_song_cover_margin_start))
-                .padding(paddingValues)
+                .padding(contentPadding)
         )
         Spacer(modifier = Modifier.padding(Theme.spacing.extraSmall))
     }
