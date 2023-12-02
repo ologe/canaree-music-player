@@ -15,10 +15,20 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.databinding.FragmentPlayingQueueBinding
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.viewBinding
+import dev.olog.shared.android.extensions.viewLifecycleScope
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +44,9 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
         }
     }
 
-    private val binding by viewBinding(FragmentPlayingQueueBinding::bind)
+    private val binding by viewBinding(FragmentPlayingQueueBinding::bind) { binding ->
+        binding.list.adapter = null
+    }
     private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
@@ -91,11 +103,6 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
         super.onPause()
         binding.more.setOnClickListener(null)
         binding.floatingWindow.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     private fun startServiceOrRequestOverlayPermission() {

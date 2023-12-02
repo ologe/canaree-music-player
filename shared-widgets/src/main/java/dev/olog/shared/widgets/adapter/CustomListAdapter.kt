@@ -29,6 +29,7 @@ abstract class CustomListAdapter<T : Any, VH : RecyclerView.ViewHolder>(
     fun indexOf(predicate: (T) -> Boolean): Int {
         return differ.currentList.indexOfFirst(predicate)
     }
+    fun lastIndex(): Int = differ.currentList.lastIndex
 
     fun move(from: Int, to: Int) {
         differ.move(from, to)

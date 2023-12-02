@@ -36,7 +36,6 @@ internal class TabFragmentViewModel @Inject constructor(
                 .filterIsInstance<ScrollableItem>()
                 .mapNotNull { it.getText(sort.type).firstOrNull()?.uppercase() }
                 .distinct()
-                .map { it }
                 .toList()
         }
     }

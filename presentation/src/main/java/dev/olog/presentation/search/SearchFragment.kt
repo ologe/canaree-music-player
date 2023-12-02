@@ -19,7 +19,13 @@ import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.viewBinding
+import dev.olog.shared.android.extensions.viewLifecycleScope
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -38,7 +44,9 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         }
     }
 
-    private val binding by viewBinding(FragmentSearchBinding::bind)
+    private val binding by viewBinding(FragmentSearchBinding::bind) { binding ->
+        binding.list.adapter = null
+    }
     private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
@@ -91,11 +99,6 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         binding.fab.setOnClickListener(null)
         binding.floatingWindow.setOnClickListener(null)
         binding.more.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     private fun startServiceOrRequestOverlayPermission() {

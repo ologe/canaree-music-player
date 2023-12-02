@@ -26,7 +26,6 @@ import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.getArgument
-import dev.olog.shared.android.extensions.indexOf
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.viewBinding
@@ -45,24 +44,24 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
         private const val TAG = "TabFragment"
         const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
-        @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
-            return TabFragment().withArguments(ARGUMENTS_SOURCE to category.toString())
+            return TabFragment().withArguments(ARGUMENTS_SOURCE to category)
         }
     }
 
     @Inject
     lateinit var navigator: Navigator
 
-    private val binding by viewBinding(FragmentTabBinding::bind)
+    private val binding by viewBinding(FragmentTabBinding::bind) { binding ->
+        binding.list.adapter = null
+    }
 
     private val viewModel by viewModels<TabFragmentViewModel>(
         ownerProducer = { requireParentFragment() }
     )
 
     internal val category: TabCategory by lazyFast {
-        val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
-        MediaIdCategory.valueOf(categoryString).toTabCategory()
+        getArgument<MediaIdCategory>(ARGUMENTS_SOURCE).toTabCategory()
     }
 
     private val adapter by lazyFast {
@@ -142,11 +141,6 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
                 right = requireContext().dimen(R.dimen.tab_margin_end),
             )
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     override fun onResume() {

@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import java.lang.ref.WeakReference
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -36,27 +36,35 @@ val Fragment.viewLifecycleScope: LifecycleCoroutineScope
 
 
 fun<T : ViewBinding> viewBinding(
-    factory: (View) -> T
+    factory: (View) -> T,
+    onDestroy: (T) -> Unit = {},
 ) : FragmentViewBinding<T> {
-    return FragmentViewBinding(factory)
+    return FragmentViewBinding(factory, onDestroy)
 }
 
 class FragmentViewBinding<T :ViewBinding>(
-    private val factory: (View) -> T
+    private val factory: (View) -> T,
+    private val onDestroy: (T) -> Unit,
 ) : ReadOnlyProperty<Fragment, T> {
 
-    private var _binding: WeakReference<T>? = null
+    private var _binding: T? = null
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
         if (!thisRef.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
             error("Can not get binding, fragment state=${thisRef.viewLifecycleOwner.lifecycle.currentState}")
         }
-        _binding?.get()?.let {
+        _binding?.let {
             return it
         }
 
         return factory(thisRef.requireView()).also {
-            _binding = WeakReference(it)
+            _binding = it
+            thisRef.viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    onDestroy(it)
+                    _binding = null
+                }
+            })
         }
     }
 }

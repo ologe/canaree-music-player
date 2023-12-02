@@ -1,17 +1,13 @@
 package dev.olog.presentation.createplaylist.mapper
 
 import dev.olog.core.entity.track.Song
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableTrack
 
-internal fun Song.toDisplayableItem(): DisplayableTrack {
-    return DisplayableTrack(
-        type = R.layout.item_create_playlist,
+internal fun Song.toDisplayableItem(): CreatePlaylistFragmentItem {
+    return CreatePlaylistFragmentItem(
         mediaId = getMediaId(),
         title = this.title,
-        artist = this.artist,
-        album = this.album,
-        idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
+        artist = artist,
+        album = album,
+        isChecked = false,
     )
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
@@ -32,6 +33,7 @@ data class CanareeColors(
     val textColorPrimary: ColorSelector,
     val textColorSecondary: ColorSelector,
     val accent: Color,
+    val onAccent: Color,
 )
 
 @Immutable
@@ -69,5 +71,7 @@ internal fun colors(): CanareeColors {
             disabled = colorResource(R.color.textColorSecondaryDisabled),
         ),
         accent = accentColor,
+        // TODO use different colors from plan black and plain white?
+        onAccent = if (accentColor.luminance() > .5) Color.Black else Color.White,
     )
 }

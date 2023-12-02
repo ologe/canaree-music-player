@@ -1,58 +1,67 @@
 package dev.olog.presentation.createplaylist
 
-import dagger.hilt.android.AndroidEntryPoint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.sort.SortType
 import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
+import dev.olog.presentation.databinding.FragmentCreatePlaylistBinding
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.toggleSelected
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.viewBinding
+import dev.olog.shared.android.extensions.viewLifecycleScope
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
+class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
 
-        @JvmStatic
         fun newInstance(type: PlaylistType): CreatePlaylistFragment {
             return CreatePlaylistFragment().withArguments(
-                 NavigationUtils.ARGUMENTS_PLAYLIST_TYPE to type.ordinal
+                 NavigationUtils.ARGUMENTS_PLAYLIST_TYPE to type
             )
         }
     }
 
+    private val binding by viewBinding(FragmentCreatePlaylistBinding::bind) { binding ->
+        toast?.cancel()
+        binding.list.adapter = null
+    }
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            lifecycle,
-            viewModel
-        )
+        CreatePlaylistFragmentAdapter(viewModel)
     }
 
     private var toast: Toast? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.setHasFixedSize(true)
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
             .subscribe(viewLifecycleOwner) { size ->
@@ -64,27 +73,24 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                         size
                     )
                 }
-                header.text = text
-                fab.toggleVisibility(size > 0, false)
+                binding.header.text = text
+                binding.fab.toggleVisibility(size > 0, false)
             }
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
-                sidebar.onDataChanged(it)
+                adapter.submitList(it)
                 restoreUpperWidgetsTranslation()
+                binding.emptyStateText.isVisible = it.isEmpty()
+            }
+
+        viewModel.observeLetters()
+            .subscribe(viewLifecycleOwner) {
+                binding.sidebar.onLettersChanged(it)
             }
 
         viewLifecycleScope.launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
-
-        sidebar.scrollableLayoutId = R.layout.item_create_playlist
-
-        viewLifecycleScope.launch {
-            editText.afterTextChange()
+            binding.editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)
                 .collect {
@@ -95,19 +101,19 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     override fun onResume() {
         super.onResume()
-        sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { showCreateDialog() }
-        back.setOnClickListener {
-            editText.hideIme()
+        binding.sidebar.setListener(letterTouchListener)
+        binding.fab.setOnClickListener { showCreateDialog() }
+        binding.back.setOnClickListener {
+            binding.editText.hideIme()
             act.onBackPressed()
         }
-        filterList.setOnClickListener {
-            filterList.toggleSelected()
+        binding.filterList.setOnClickListener {
+            binding.filterList.toggleSelected()
             viewModel.toggleShowOnlyFiltered()
 
             toast?.cancel()
 
-            if (filterList.isSelected) {
+            if (binding.filterList.isSelected) {
                 toast = act.toast(R.string.playlist_tracks_chooser_show_only_selected)
             } else {
                 toast = act.toast(R.string.playlist_tracks_chooser_show_all)
@@ -117,16 +123,10 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     override fun onPause() {
         super.onPause()
-        sidebar.setListener(null)
-        fab.setOnClickListener(null)
-        back.setOnClickListener(null)
-        filterList.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        toast?.cancel()
-        list.adapter = null
+        binding.sidebar.setListener(null)
+        binding.fab.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
+        binding.filterList.setOnClickListener(null)
     }
 
     private fun showCreateDialog() {
@@ -150,26 +150,25 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        list.stopScroll()
+        binding.list.stopScroll()
 
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
             "#" -> 0
             "?" -> adapter.lastIndex()
             else -> adapter.indexOf { item ->
-                require(item is DisplayableTrack)
-                if (item.title.isBlank()) {
+                val text = item.getText(SortType.TITLE)
+                if (text.isBlank()) {
                     return@indexOf false
                 }
 
-                return@indexOf item.title[0].toUpperCase().toString() == letter
+                return@indexOf text.uppercase() == letter
             }
         }
         if (position != -1) {
-            val layoutManager = list.layoutManager as LinearLayoutManager
+            val layoutManager = binding.list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
 }
