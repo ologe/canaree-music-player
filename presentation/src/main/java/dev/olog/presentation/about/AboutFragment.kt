@@ -2,21 +2,21 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.Config
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentAboutBinding
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AboutFragment : BaseFragment() {
+class AboutFragment : Fragment(R.layout.fragment_about) {
 
     companion object {
         @JvmStatic
@@ -26,30 +26,28 @@ class AboutFragment : BaseFragment() {
     @Inject
     lateinit var navigator: NavigatorAbout
 
-    @Inject
-    lateinit var config: Config
-    private val presenter by viewModels<AboutFragmentViewModel>()
+    private val binding by viewBinding(FragmentAboutBinding::bind)
+    private val viewModel by viewModels<AboutFragmentViewModel>()
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator)
+        AboutFragmentAdapter(navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
 
-        presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData()
+            .subscribe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        binding.back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_about
 }

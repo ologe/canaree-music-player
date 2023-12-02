@@ -1,47 +1,33 @@
 package dev.olog.presentation.about
 
-import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import androidx.compose.runtime.Composable
 import dev.olog.presentation.navigator.NavigatorAbout
-import kotlinx.android.synthetic.main.item_about.view.subtitle
-import kotlinx.android.synthetic.main.item_about.view.title
-
+import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
 
 class AboutFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: NavigatorAbout,
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ComposeListAdapter<AboutFragmentItem>(AboutFragmentItem) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            when (item.mediaId) {
-                AboutFragmentViewModel.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutFragmentViewModel.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutFragmentViewModel.RATE_ID -> navigator.toMarket()
-                AboutFragmentViewModel.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentViewModel.COMMUNITY -> navigator.joinCommunity()
-                AboutFragmentViewModel.BETA -> navigator.joinBeta()
-                AboutFragmentViewModel.CHANGELOG -> navigator.toChangelog()
-                AboutFragmentViewModel.GITHUB -> navigator.toGithub()
-                AboutFragmentViewModel.TRANSLATION -> navigator.toTranslations()
+    @Composable
+    override fun Content(viewHolder: ComposeViewHolder, item: AboutFragmentItem) {
+        AboutListItem(
+            title = item.title,
+            subtitle = item.subtitle,
+            onClick = when (item.type) {
+                AboutFragmentItem.Type.Author,
+                AboutFragmentItem.Type.Version -> null
+                AboutFragmentItem.Type.Community -> { { navigator.joinCommunity() } }
+                AboutFragmentItem.Type.Beta -> { { navigator.joinBeta() } }
+                AboutFragmentItem.Type.Rate -> { { navigator.toMarket() } }
+                AboutFragmentItem.Type.SpecialThanks -> { { navigator.toSpecialThanksFragment() } }
+                AboutFragmentItem.Type.Translations -> { { navigator.toTranslations() } }
+                AboutFragmentItem.Type.ChangeLog -> { { navigator.toChangelog() } }
+                AboutFragmentItem.Type.Github -> { { navigator.toGithub() } }
+                AboutFragmentItem.Type.ThirdPartySoftware -> { { navigator.toLicensesFragment() } }
+                AboutFragmentItem.Type.PrivacyPolicy -> { { navigator.toPrivacyPolicy() } }
             }
-        }
-    }
-
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableHeader)
-        holder.itemView.apply {
-            title.text = item.title
-            subtitle.text = item.subtitle   
-        }
+        )
     }
 
 }
