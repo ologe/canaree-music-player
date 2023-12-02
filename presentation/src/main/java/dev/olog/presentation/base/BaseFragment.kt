@@ -24,13 +24,13 @@ abstract class BaseFragment : Fragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
-        return (activity?.findInContext<HasSlidingPanel>())?.getSlidingPanel()
-    }
-
 }
 
 // TODO move to some fragment extension file
 fun Fragment.restoreUpperWidgetsTranslation() {
     (requireActivity().findInContext<MainActivity>()).restoreUpperWidgetsTranslation()
+}
+
+fun Fragment.getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
+    return (requireActivity().findInContext<HasSlidingPanel>())?.getSlidingPanel()
 }
