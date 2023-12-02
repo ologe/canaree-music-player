@@ -8,13 +8,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
+import dev.olog.presentation.databinding.FragmentEditAlbumBinding
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -31,6 +31,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
         }
     }
 
+    private val binding by viewBinding(FragmentEditAlbumBinding::bind)
     private val viewModel by viewModels<EditAlbumFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
@@ -45,50 +46,50 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleScope.launch {
-            album.afterTextChange()
+            binding.album.afterTextChange()
                 .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
+                .collect { binding.okButton.isEnabled = it }
         }
 
         loadImage(mediaId)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
-            album.setText(it.title)
-            artist.setText(it.artist)
-            albumArtist.setText(it.albumArtist)
-            year.setText(it.year)
-            genre.setText(it.genre)
+            binding.album.setText(it.title)
+            binding.artist.setText(it.artist)
+            binding.albumArtist.setText(it.albumArtist)
+            binding.year.setText(it.year)
+            binding.genre.setText(it.genre)
             val text = resources.getQuantityString(
                 R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
-            albumsUpdated.text =  text
-            podcast.isChecked = it.isPodcast
+            binding.albumsUpdated.text =  text
+            binding.podcast.isChecked = it.isPodcast
         }
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             viewLifecycleScope.launch { trySave() }
         }
-        cancelButton.setOnClickListener { dismiss() }
+        binding.cancelButton.setOnClickListener { dismiss() }
     }
 
     override fun onPause() {
         super.onPause()
-        okButton.setOnClickListener(null)
-        cancelButton.setOnClickListener(null)
+        binding.okButton.setOnClickListener(null)
+        binding.cancelButton.setOnClickListener(null)
     }
 
     private suspend fun trySave(){
         val result = editItemViewModel.updateAlbum(
             UpdateAlbumInfo(
                 mediaId,
-                album.extractText().trim(),
-                artist.extractText().trim(),
-                albumArtist.extractText().trim(),
-                genre.extractText().trim(),
-                year.extractText().trim(),
-                podcast.isChecked
+                binding.album.extractText().trim(),
+                binding.artist.extractText().trim(),
+                binding.albumArtist.extractText().trim(),
+                binding.genre.extractText().trim(),
+                binding.year.extractText().trim(),
+                binding.podcast.isChecked
             )
         )
 
