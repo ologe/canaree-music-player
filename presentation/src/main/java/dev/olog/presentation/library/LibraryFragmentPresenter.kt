@@ -1,5 +1,7 @@
 package dev.olog.presentation.library
 
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
@@ -7,10 +9,11 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
+@HiltViewModel
 internal class LibraryFragmentPresenter @Inject constructor(
     private val appPrefsUseCase: PresentationPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
-) {
+) : ViewModel() {
 
     fun getViewPagerLastPage(totalPages: Int, isPodcast: Boolean): Int {
         val lastPage = if (isPodcast) {

@@ -3,11 +3,13 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentLibraryBinding
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
@@ -15,13 +17,12 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LibraryFragment : BaseFragment() {
+class LibraryFragment : Fragment(R.layout.fragment_library) {
 
     companion object {
         @JvmStatic
@@ -38,8 +39,10 @@ class LibraryFragment : BaseFragment() {
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
+    private val binding by viewBinding(FragmentLibraryBinding::bind) { binding ->
+        binding.viewPager.adapter = null
+    }
+    private val viewModel by viewModels<LibraryFragmentPresenter>()
     @Inject
     lateinit var navigator: Navigator
 
@@ -51,12 +54,12 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            act.applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
         )
     }
 
     fun isCurrentFragmentFolderTree(): Boolean {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == MediaIdCategory.FOLDERS &&
+        return pagerAdapter.getCategoryAtPosition(binding.viewPager.currentItem) == MediaIdCategory.FOLDERS &&
                 pagerAdapter.showFolderAsHierarchy()
     }
 
@@ -72,65 +75,60 @@ class LibraryFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager.adapter = pagerAdapter
-        tabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-        viewPager.offscreenPageLimit = 5
+        binding.viewPager.adapter = pagerAdapter
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
+        binding.viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+        binding.viewPager.offscreenPageLimit = 5
 
-        pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
+        binding.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 
-        val selectedView: TextView = if (!isPodcast) tracks else podcasts
-        val unselectedView: TextView = if (!isPodcast) podcasts else tracks
+        val selectedView: TextView = if (!isPodcast) binding.tracks else binding.podcasts
+        val unselectedView: TextView = if (!isPodcast) binding.podcasts else binding.tracks
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
-        if (!presenter.canShowPodcasts()){
-            podcasts.setGone()
+        if (!viewModel.canShowPodcasts()){
+            binding.podcasts.setGone()
         }
 
-        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+        if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
             viewLifecycleScope.launch {
                 delay(500)
-                TutorialTapTarget.floatingWindow(floatingWindow)
+                TutorialTapTarget.floatingWindow(binding.floatingWindow)
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        binding.viewPager.addOnPageChangeListener(onPageChangeListener)
+        binding.more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
+        binding.floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
-        tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
-        podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
+        binding.tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
+        binding.podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
     }
 
     override fun onPause() {
         super.onPause()
-        viewPager.removeOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-        tracks.setOnClickListener(null)
-        podcasts.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewPager.adapter = null
+        binding.viewPager.removeOnPageChangeListener(onPageChangeListener)
+        binding.more.setOnClickListener(null)
+        binding.floatingWindow.setOnClickListener(null)
+        binding.tracks.setOnClickListener(null)
+        binding.podcasts.setOnClickListener(null)
     }
 
     private fun changeLibraryPage(page: LibraryPage) {
-        presenter.setLibraryPage(page)
+        viewModel.setLibraryPage(page)
         (requireActivity().findInContext<HasBottomNavigation>()).navigate(BottomNavigationPage.LIBRARY)
     }
 
     private fun createMediaId(): MediaIdCategory? {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
+        return pagerAdapter.getCategoryAtPosition(binding.viewPager.currentItem)
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     private val onPageChangeListener =
@@ -144,9 +142,7 @@ class LibraryFragment : BaseFragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                presenter.setViewPagerLastPage(position, isPodcast)
+                viewModel.setViewPagerLastPage(position, isPodcast)
             }
         }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_library
 }
