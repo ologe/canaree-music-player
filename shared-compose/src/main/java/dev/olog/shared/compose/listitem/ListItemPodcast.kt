@@ -46,7 +46,7 @@ fun ListItemPodcast(
             )
             .scaleDownOnTouch()
             .padding(contentPadding),
-        leadingContent = {
+        iconContent = {
             AsyncImage(
                 model = mediaId,
                 modifier = Modifier

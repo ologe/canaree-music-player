@@ -37,6 +37,7 @@ fun ListItemTrack(
     subtitle: String,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
+    leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -49,7 +50,7 @@ fun ListItemTrack(
             )
             .scaleDownOnTouch()
             .padding(contentPadding),
-        leadingContent = {
+        iconContent = {
             AsyncImage(
                 model = mediaId,
                 modifier = Modifier
@@ -83,6 +84,7 @@ fun ListItemTrack(
                 overflow = TextOverflow.Ellipsis,
             )
         },
+        leadingContent = leadingContent,
         trailingContent = trailingContent,
     )
 }

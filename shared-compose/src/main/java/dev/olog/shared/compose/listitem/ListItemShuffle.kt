@@ -35,7 +35,7 @@ fun ListItemShuffle(
             modifier = Modifier
                 .clickable(onClick = onClick)
                 .padding(contentPadding),
-            leadingContent = {
+            iconContent = {
                 Icon(painter = painterResource(R.drawable.vd_shuffle),)
             },
             titleContent = {

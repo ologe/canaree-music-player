@@ -1,6 +1,5 @@
 package dev.olog.presentation.search.adapter
 
-import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
@@ -17,6 +16,7 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
 import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
 import dev.olog.shared.compose.component.IconButton
 import dev.olog.shared.compose.component.Text
 import dev.olog.shared.compose.listitem.ListItemAlbum
@@ -33,7 +33,7 @@ class SearchFragmentAdapter(
 ) : ComposeListAdapter<SearchFragmentItem>(SearchFragmentItem), TouchableAdapter {
 
     @Composable
-    override fun Content(view: View, item: SearchFragmentItem) {
+    override fun Content(viewHolder: ComposeViewHolder, item: SearchFragmentItem) {
         when (item) {
             is SearchFragmentItem.Header -> {
                 ListItemHeader(
@@ -59,7 +59,7 @@ class SearchFragmentAdapter(
                         viewModel.insertToRecent(item.mediaId)
                     },
                     onLongClick = {
-                        navigator.toDialog(item.mediaId, view)
+                        navigator.toDialog(item.mediaId, viewHolder.itemView)
                     }
                 )
             }
@@ -74,11 +74,11 @@ class SearchFragmentAdapter(
                         viewModel.insertToRecent(item.mediaId)
                     },
                     onLongClick = {
-                        navigator.toDialog(item.mediaId, view)
+                        navigator.toDialog(item.mediaId, viewHolder.itemView)
                     },
                     trailingContent = {
                         IconButton(R.drawable.vd_more) {
-                            navigator.toDialog(item.mediaId, view)
+                            navigator.toDialog(item.mediaId, viewHolder.itemView)
                         }
                     }
                 )
@@ -90,7 +90,7 @@ class SearchFragmentAdapter(
                 ) { // TODO pager snap on scroll?
                     items(item.items) { nestedItem ->
                         Box(Modifier.width(dimensionResource(R.dimen.item_tab_album_last_player_width))) {
-                            Content(view, nestedItem)
+                            Content(viewHolder, nestedItem)
                         }
                     }
                 }
@@ -109,7 +109,7 @@ class SearchFragmentAdapter(
                         }
                     },
                     onLongClick = {
-                        navigator.toDialog(item.mediaId, view)
+                        navigator.toDialog(item.mediaId, viewHolder.itemView)
                     },
                     trailingContent = {
                         IconButton(R.drawable.vd_clear) {
@@ -127,19 +127,6 @@ class SearchFragmentAdapter(
                 }
             }
         }
-    }
-
-    override fun getItemViewType(position: Int): Int = when (getItem(position)) {
-        is SearchFragmentItem.Recent,
-        is SearchFragmentItem.Track -> R.layout.compose_interop_swipeable
-        is SearchFragmentItem.Album,
-        is SearchFragmentItem.ClearRecents,
-        is SearchFragmentItem.Header,
-        is SearchFragmentItem.List -> R.layout.compose_interop
-    }
-
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.compose_interop_swipeable
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {

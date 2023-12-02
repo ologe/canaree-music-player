@@ -5,14 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -29,27 +32,36 @@ import dev.olog.shared.compose.theme.Theme
 @Composable
 internal fun ListItemSlots(
     modifier: Modifier,
-    leadingContent: @Composable BoxScope.() -> Unit,
+    iconContent: @Composable BoxScope.() -> Unit,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable (RowScope.() -> Unit)?,
+    leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Max)
+            .padding(start = dimensionResource(R.dimen.item_song_cover_margin_start)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        if (leadingContent != null) {
+            Box(Modifier.padding(horizontal = Theme.spacing.extraSmall)) {
+                leadingContent.invoke()
+            }
+        }
+
         Box(
             modifier = Modifier
                 .padding(vertical = dimensionResource(R.dimen.item_song_cover_margin_vertical))
-                .padding(start = dimensionResource(R.dimen.item_song_cover_margin_start))
                 .size(dimensionResource(R.dimen.item_song_cover_size)),
             contentAlignment = Alignment.Center,
-            content = leadingContent,
+            content = iconContent,
         )
 
         Column(
             modifier = Modifier
-                .padding(horizontal = Theme.spacing.medium)
+                .padding(horizontal = Theme.spacing.mediumSmall)
                 .weight(1f)
         ) {
             CompositionLocalProvider(
@@ -84,39 +96,66 @@ internal fun ListItemSlots(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Box(Modifier.background(Theme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
+            val iconContent: @Composable BoxScope.() -> Unit = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Theme.colors.textColorPrimary.enabled)
+                )
+            }
+            val titleContent: @Composable () -> Unit = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(10.dp)
+                        .background(Theme.colors.textColorPrimary.enabled)
+                )
+            }
+            val subtitleContent: @Composable RowScope.() -> Unit = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(10.dp)
+                        .background(Theme.colors.textColorPrimary.enabled)
+                )
+            }
+            val leadingContent: @Composable () -> Unit = {
+                Spacer(
+                    modifier = Modifier
+                        .width(12.dp)
+                        .fillMaxHeight()
+                        .background(Theme.colors.textColorPrimary.enabled)
+                )
+            }
+            val trailingContent: @Composable () -> Unit = {
+                Spacer(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(Theme.colors.textColorPrimary.enabled)
+                )
+            }
+
             ListItemSlots(
                 modifier = Modifier,
-                leadingContent = {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Theme.colors.textColorPrimary.enabled)
-                    )
-                },
-                titleContent = {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(10.dp)
-                            .background(Theme.colors.textColorPrimary.enabled)
-                    )
-                },
-                subtitleContent = {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(10.dp)
-                            .background(Theme.colors.textColorPrimary.enabled)
-                    )
-                },
-                trailingContent = {
-                    Spacer(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(Theme.colors.textColorPrimary.enabled)
-                    )
-                }
+                iconContent = iconContent,
+                titleContent = titleContent,
+                subtitleContent = subtitleContent,
+            )
+            ListItemSlots(
+                modifier = Modifier,
+                iconContent = iconContent,
+                titleContent = titleContent,
+                subtitleContent = subtitleContent,
+                trailingContent = trailingContent,
+            )
+            ListItemSlots(
+                modifier = Modifier,
+                iconContent = iconContent,
+                titleContent = titleContent,
+                subtitleContent = subtitleContent,
+                leadingContent = leadingContent,
+                trailingContent = trailingContent,
             )
         }
     }

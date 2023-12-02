@@ -1,10 +1,13 @@
 package dev.olog.presentation.base.drag
 
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.presentation.R
 
 interface TouchableAdapter {
 
-    fun canInteractWithViewHolder(viewType: Int): Boolean
+    fun canInteractWithViewHolder(viewType: Int): Boolean {
+        return viewType == R.layout.compose_interop_swipeable
+    }
 
     fun onMoved(from: Int, to: Int) {}
 

@@ -98,10 +98,4 @@ object BindingsAdapter {
             .into(RippleTarget(view))
     }
 
-    @JvmStatic
-    fun setBoldIfTrue(view: TextView, setBold: Boolean) {
-        val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
-        view.setTypeface(null, style)
-    }
-
 }

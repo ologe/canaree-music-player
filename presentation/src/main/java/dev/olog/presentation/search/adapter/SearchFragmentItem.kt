@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.core.MediaId
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.shared.widgets.adapter.SwipeableItem
 
 @Stable
 sealed interface SearchFragmentItem {
@@ -14,7 +15,7 @@ sealed interface SearchFragmentItem {
         val title: String,
         val artist: String,
         val album: String,
-    ) : SearchFragmentItem {
+    ) : SearchFragmentItem, SwipeableItem {
         val subtitle: String = DisplayableTrack.subtitle(artist, album)
     }
 
@@ -31,7 +32,7 @@ sealed interface SearchFragmentItem {
         val title: String,
         val subtitle: String,
         val isPlayable: Boolean,
-    ) : SearchFragmentItem
+    ) : SearchFragmentItem, SwipeableItem
 
     @Stable
     object ClearRecents : SearchFragmentItem

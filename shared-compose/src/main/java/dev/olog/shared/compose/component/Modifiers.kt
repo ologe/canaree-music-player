@@ -1,5 +1,6 @@
 package dev.olog.shared.compose.component
 
+import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -18,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.olog.core.MediaId
@@ -61,7 +63,7 @@ fun Modifier.scaleDownOnTouch(scale: Float = .97f): Modifier = composed {
             coroutineScope {
                 awaitEachGesture {
                     try {
-                        awaitFirstDown(requireUnconsumed = false)
+                        awaitFirstDown(requireUnconsumed = true)
                         isTouched = true
                         waitForUpOrCancellation()
                     } finally {
@@ -70,4 +72,16 @@ fun Modifier.scaleDownOnTouch(scale: Float = .97f): Modifier = composed {
                 }
             }
         }
+}
+
+fun Modifier.onActionDown(action: () -> Unit): Modifier {
+    return this.pointerInteropFilter { event ->
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                action()
+                true
+            }
+            else -> false
+        }
+    }
 }

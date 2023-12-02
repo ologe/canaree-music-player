@@ -9,7 +9,8 @@ android {
     kotlinOptions {
         freeCompilerArgs += [
                 "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
-                "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+                "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
         ]
     }
 }

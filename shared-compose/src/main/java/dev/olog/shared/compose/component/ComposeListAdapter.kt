@@ -1,19 +1,19 @@
 package dev.olog.shared.compose.component
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.shared.android.extensions.inflate
 import dev.olog.shared.compose.R
 import dev.olog.shared.compose.theme.CanareeTheme
+import dev.olog.shared.widgets.adapter.CustomListAdapter
+import dev.olog.shared.widgets.adapter.SwipeableItem
 
 abstract class ComposeListAdapter<T : Any>(
     diffCallback: DiffUtil.ItemCallback<T>
-) : ListAdapter<T, ComposeViewHolder>(diffCallback) {
+) : CustomListAdapter<T, ComposeViewHolder>(diffCallback) {
 
     final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
         return ComposeViewHolder(parent, viewType)
@@ -22,18 +22,30 @@ abstract class ComposeListAdapter<T : Any>(
     final override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
         val item = getItem(position)
         holder.setContent {
-            Content(holder.itemView, item)
+            Content(holder, item)
         }
     }
 
-    override fun getItemViewType(position: Int): Int = R.layout.compose_interop
+    @Suppress("UNCHECKED_CAST")
+    override fun onBindViewHolder(
+        holder: ComposeViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        holder.setContent {
+            Content(holder, (payloads.getOrNull(0) as T?) ?: getItem(position))
+        }
+    }
+
+    final override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is SwipeableItem -> R.layout.compose_interop_swipeable
+            else -> R.layout.compose_interop
+        }
+    }
 
     @Composable
-    abstract fun Content(view: View, item: T)
-
-    public override fun getItem(position: Int): T {
-        return super.getItem(position)
-    }
+    abstract fun Content(viewHolder: ComposeViewHolder, item: T)
 
 }
 

@@ -23,17 +23,9 @@ fun IconButton(
     @DrawableRes drawableRes: Int,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit,
 ) {
     Box(
-        modifier = modifier
-            .clickable(
-                onClick = onClick,
-                interactionSource = remember { MutableInteractionSource() },
-                enabled = enabled,
-                indication = rememberRipple(bounded = false, 24.dp)
-            )
-            .size(48.dp),
+        modifier = modifier.size(48.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -41,6 +33,25 @@ fun IconButton(
             enabled = enabled,
         )
     }
+}
+
+@Composable
+fun IconButton(
+    @DrawableRes drawableRes: Int,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    IconButton(
+        drawableRes = drawableRes,
+        modifier = modifier.clickable(
+            onClick = onClick,
+            interactionSource = remember { MutableInteractionSource() },
+            enabled = enabled,
+            indication = rememberRipple(bounded = false, 24.dp)
+        ),
+        enabled = enabled
+    )
 }
 
 @Preview

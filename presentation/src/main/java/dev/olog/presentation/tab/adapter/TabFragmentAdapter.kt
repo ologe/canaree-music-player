@@ -1,6 +1,5 @@
 package dev.olog.presentation.tab.adapter
 
-import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
@@ -21,6 +20,7 @@ import dev.olog.shared.compose.listitem.ListItemShuffle
 import dev.olog.shared.compose.listitem.ListItemTrack
 import dev.olog.shared.compose.theme.LocalScreenSpacing
 import dev.olog.presentation.R
+import dev.olog.shared.compose.component.ComposeViewHolder
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -29,7 +29,7 @@ internal class TabFragmentAdapter(
 ) : ComposeListAdapter<TabFragmentItem>(TabFragmentItem) {
 
     @Composable
-    override fun Content(view: View, item: TabFragmentItem) {
+    override fun Content(viewHolder: ComposeViewHolder, item: TabFragmentItem) {
         when (item) {
             is TabFragmentItem.Track -> ListItemTrack(
                 mediaId = item.mediaId,
@@ -41,7 +41,7 @@ internal class TabFragmentAdapter(
                     mediaProvider.playFromMediaId(item.mediaId, null, sort)
                 },
                 onLongClick = {
-                    navigator.toDialog(item.mediaId, view)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView)
                 }
             )
             is TabFragmentItem.Podcast -> {
@@ -55,7 +55,7 @@ internal class TabFragmentAdapter(
                         mediaProvider.playFromMediaId(item.mediaId, null, sort)
                     },
                     onLongClick = {
-                        navigator.toDialog(item.mediaId, view)
+                        navigator.toDialog(item.mediaId, viewHolder.itemView)
                     }
                 )
             }
@@ -69,7 +69,7 @@ internal class TabFragmentAdapter(
                             navigator.toDetailFragment(item.mediaId)
                         },
                         onLongClick = {
-                            navigator.toDialog(item.mediaId, view)
+                            navigator.toDialog(item.mediaId, viewHolder.itemView)
                         }
                     )
                 } else {
@@ -81,7 +81,7 @@ internal class TabFragmentAdapter(
                             navigator.toDetailFragment(item.mediaId)
                         },
                         onLongClick = {
-                            navigator.toDialog(item.mediaId, view)
+                            navigator.toDialog(item.mediaId, viewHolder.itemView)
                         }
                     )
                 }
@@ -99,7 +99,7 @@ internal class TabFragmentAdapter(
                     items(item.items) { nestedItem ->
                         // TODO check how it looks
                         Box(Modifier.width(dimensionResource(id = R.dimen.item_tab_album_last_player_width))) {
-                            Content(view, nestedItem)
+                            Content(viewHolder, nestedItem)
                         }
                     }
                 }
