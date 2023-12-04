@@ -1,31 +1,26 @@
 package dev.olog.presentation.prefs
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
-import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
+import dev.olog.presentation.databinding.FragmentSettingsWrapperBinding
+import dev.olog.shared.android.extensions.viewBinding
 
-class SettingsFragmentWrapper : Fragment() {
+class SettingsFragmentWrapper : Fragment(R.layout.fragment_settings_wrapper) {
 
     companion object {
         val TAG = SettingsFragmentWrapper::class.java.name
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_settings_wrapper, container, false)
-    }
+    private val binding by viewBinding(FragmentSettingsWrapperBinding::bind)
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+        binding.back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
 
 }
