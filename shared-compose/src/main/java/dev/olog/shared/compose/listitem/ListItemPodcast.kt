@@ -48,11 +48,10 @@ fun ListItemPodcast(
             .padding(contentPadding),
         iconContent = {
             AsyncImage(
-                model = mediaId,
+                mediaId = mediaId,
                 modifier = Modifier
                     .matchParentSize()
                     .dynamicShape(mediaId),
-                placeholder = placeholder(CoverUtils.getGradient(LocalContext.current, mediaId)),
             )
         },
         titleContent = {

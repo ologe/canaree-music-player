@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior

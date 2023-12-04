@@ -21,11 +21,9 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.core.MediaId
-import dev.olog.image.provider.loader.AudioFileCoverLoader
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
-import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
 
 @GlideModule
@@ -65,8 +63,6 @@ class GlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         val entryPoint = EntryPointAccessors.fromApplication(context, DaggerEntryPoint::class.java)
-
-        registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
         registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.lastFmFactory())
         registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.mergedFactory())

@@ -1,67 +1,69 @@
 package dev.olog.presentation.folder.tree
 
-import androidx.lifecycle.Lifecycle
+import androidx.compose.runtime.Composable
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
+import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
+import dev.olog.shared.compose.listitem.ListItemHeader
+import dev.olog.shared.compose.listitem.ListItemTrack
+import dev.olog.shared.compose.theme.LocalScreenSpacing
+import java.io.File
 
 class FolderTreeFragmentAdapter(
-    lifecycle: Lifecycle,
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator
+) : ComposeListAdapter<FolderTreeFragmentItem>(FolderTreeFragmentItem) {
 
-) : ObservableAdapter<DisplayableFile>(lifecycle, DiffCallbackDisplayableFile) {
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        when (viewType) {
-            R.layout.item_folder_tree_directory,
-            R.layout.item_folder_tree_track -> {
-                viewHolder.setOnClickListener(this) { item, _, _ ->
-                    when {
-                        item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID -> viewModel.popFolder()
-                        item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
-                        else -> {
-                            viewModel.createMediaId(item)?.let { mediaId ->
-                                mediaProvider.playFromMediaId(mediaId, null, null)
-                            }
-
-                        }
+    @Composable
+    override fun Content(viewHolder: ComposeViewHolder, item: FolderTreeFragmentItem) {
+        when (item) {
+            is FolderTreeFragmentItem.Back -> {
+                ListItemTrack(
+                    mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, ""),
+                    title = "...",
+                    subtitle = null,
+                    contentPadding = LocalScreenSpacing.current,
+                    onClick = { viewModel.popFolder() },
+                    onLongClick = null,
+                )
+            }
+            is FolderTreeFragmentItem.Header -> {
+                ListItemHeader(
+                    text = item.text,
+                    contentPadding = LocalScreenSpacing.current,
+                )
+            }
+            is FolderTreeFragmentItem.Directory -> ListItemTrack(
+                mediaId = item.mediaId,
+                title = item.title,
+                subtitle = null,
+                contentPadding = LocalScreenSpacing.current,
+                onClick = {
+                    viewModel.nextFolder(File(item.path))
+                },
+                onLongClick = null, // TODO why not dialog?
+            )
+            is FolderTreeFragmentItem.Track -> ListItemTrack(
+                mediaId = item.mediaId,
+                title = item.title,
+                subtitle = null,
+                contentPadding = LocalScreenSpacing.current,
+                onClick = {
+                    viewModel.createMediaId(item)?.let { mediaId ->
+                        mediaProvider.playFromMediaId(mediaId, null, null)
+                    }
+                },
+                onLongClick = {
+                    viewModel.createMediaId(item)?.let { mediaId ->
+                        navigator.toDialog(mediaId, viewHolder.itemView)
                     }
                 }
-                viewHolder.setOnLongClickListener(this) { item, _, view ->
-                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID) {
-                        return@setOnLongClickListener
-                    }
-                    if (!item.asFile().isDirectory) {
-                        viewModel.createMediaId(item)?.let { mediaId ->
-                            navigator.toDialog(mediaId, view)
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
-        holder.itemView.apply {
-            firstText.text = item.title
-        }
-        when (holder.itemViewType){
-            R.layout.item_folder_tree_directory -> {
-                BindingsAdapter.loadDirImage(holder.imageView!!, item)
-            }
-            R.layout.item_folder_tree_track -> {
-                BindingsAdapter.loadFile(holder.imageView!!, item)
-            }
+            )
         }
     }
+
 }

@@ -34,7 +34,7 @@ import dev.olog.shared.compose.theme.ThemeSettingsOverride
 fun ListItemTrack(
     mediaId: MediaId,
     title: String,
-    subtitle: String,
+    subtitle: String?,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
     leadingContent: @Composable (() -> Unit)? = null,
@@ -52,11 +52,10 @@ fun ListItemTrack(
             .padding(contentPadding),
         iconContent = {
             AsyncImage(
-                model = mediaId,
+                mediaId = mediaId,
                 modifier = Modifier
                     .matchParentSize()
                     .dynamicShape(mediaId),
-                placeholder = placeholder(CoverUtils.getGradient(LocalContext.current, mediaId)),
             )
         },
         titleContent = {
@@ -67,23 +66,25 @@ fun ListItemTrack(
                 overflow = TextOverflow.Ellipsis,
             )
         },
-        subtitleContent = {
-            if (title.contains("explicit", ignoreCase = true)) {
-                // TODO check performance
-                Icon(
-                    painter = painterResource(R.drawable.vd_explicit),
-                    size = 16.dp,
-                    colorFilter = Theme.colors.textColorPrimary.enabled,
+        subtitleContent = if (subtitle != null) {
+            {
+                if (title.contains("explicit", ignoreCase = true)) {
+                    // TODO check performance
+                    Icon(
+                        painter = painterResource(R.drawable.vd_explicit),
+                        size = 16.dp,
+                        colorFilter = Theme.colors.textColorPrimary.enabled,
+                    )
+                }
+
+                Text(
+                    text = subtitle,
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
-
-            Text(
-                text = subtitle,
-                modifier = Modifier.fillMaxWidth(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        },
+        } else null,
         leadingContent = leadingContent,
         trailingContent = trailingContent,
     )

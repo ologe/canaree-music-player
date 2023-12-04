@@ -2,11 +2,12 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentFolderTreeBinding
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
@@ -15,19 +16,18 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.viewBinding
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FolderTreeFragment : BaseFragment(),
+class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
 
     companion object {
 
-        @JvmStatic
         fun newInstance(): FolderTreeFragment {
             return FolderTreeFragment()
         }
@@ -35,64 +35,61 @@ class FolderTreeFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
+    private val binding by viewBinding(FragmentFolderTreeBinding::bind) { binding ->
+        binding.list.adapter = null
+    }
     private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle,
-            viewModel,
-            activity!!.findInContext(),
-            navigator
+            viewModel = viewModel,
+            mediaProvider = requireActivity().findInContext(),
+            navigator = navigator
         )
-        fab.shrink()
+        binding.fab.shrink()
 
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.setHasFixedSize(true)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.setHasFixedSize(true)
 
-        fastScroller.attachRecyclerView(list)
-        fastScroller.showBubble(false)
+        binding.fastScroller.attachRecyclerView(binding.list)
+        binding.fastScroller.showBubble(false)
 
         viewModel.observeCurrentDirectoryFileName()
             .subscribe(viewLifecycleOwner) {
-                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+                binding.breadCrumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
             }
 
         viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeCurrentFolderIsDefaultFolder()
             .subscribe(viewLifecycleOwner) { isDefaultFolder ->
                 if (isDefaultFolder){
-                    fab.hide()
+                    binding.fab.hide()
                 } else {
-                    fab.show()
+                    binding.fab.show()
                 }
             }
     }
 
     override fun onResume() {
         super.onResume()
-        bread_crumbs.setCallback(this)
-        list.addOnScrollListener(scrollListener)
-        fab.setOnClickListener { onFabClick() }
+        binding.breadCrumbs.setCallback(this)
+        binding.list.addOnScrollListener(scrollListener)
+        binding.fab.setOnClickListener { onFabClick() }
     }
 
     override fun onPause() {
         super.onPause()
-        bread_crumbs.setCallback(null)
-        list.removeOnScrollListener(scrollListener)
-        fab.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
+        binding.breadCrumbs.setCallback(null)
+        binding.list.removeOnScrollListener(scrollListener)
+        binding.fab.setOnClickListener(null)
     }
 
     private fun onFabClick(){
-        if (!fab.isExtended){
-            fab.extend()
+        if (!binding.fab.isExtended){
+            binding.fab.extend()
             return
         }
         viewModel.updateDefaultFolder()
@@ -111,11 +108,10 @@ class FolderTreeFragment : BaseFragment(),
         private val toolbarHeight by lazyFast { ctx.dimen(R.dimen.toolbar) }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val currentTranlationY = crumbsWrapper.translationY
+            val currentTranlationY = binding.crumbsWrapper.translationY
             val clampedTranslation = clamp(currentTranlationY - dy, -toolbarHeight.toFloat(), 0f)
-            crumbsWrapper.translationY = clampedTranslation
+            binding.crumbsWrapper.translationY = clampedTranslation
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_folder_tree
 }

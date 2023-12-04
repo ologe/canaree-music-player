@@ -14,7 +14,7 @@ import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.CreatePlaylistFragmentItem
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers

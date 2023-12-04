@@ -12,7 +12,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.adapter.TabFragmentItem
 import dev.olog.presentation.widgets.fascroller.ScrollableItem
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.android.extensions.map
 import javax.inject.Inject
 

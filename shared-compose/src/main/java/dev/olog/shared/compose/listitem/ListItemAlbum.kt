@@ -67,11 +67,10 @@ fun ListItemAlbum(
     ) {
         Box {
             AsyncImage(
-                model = mediaId,
+                mediaId = mediaId,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .dynamicShape(mediaId),
-                placeholder = placeholder(CoverUtils.getGradient(LocalContext.current, mediaId)),
             )
             QuickAction(
                 modifier = Modifier

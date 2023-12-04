@@ -4,9 +4,6 @@ package dev.olog.shared.android.extensions
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlin.coroutines.CoroutineContext
 
 
 fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit) {
@@ -36,33 +33,4 @@ inline fun <T, R> LiveData<T>.map(crossinline function: (T) -> R): LiveData<R> {
     return Transformations.map(this) {
         function(it)
     }
-}
-
-class FlowLiveData<T>(
-    private val flow: Flow<T>,
-    private val context: CoroutineContext = Dispatchers.Unconfined
-) : LiveData<T>() {
-
-    private var job: Job? = null
-
-    override fun onActive() {
-        job = GlobalScope.launch(context) {
-            flow.collect {
-                if (it != null && it != value) {
-                    withContext(Dispatchers.Main){
-                        value = it
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onInactive() {
-        job?.cancel()
-    }
-
-}
-
-fun <T> Flow<T>.asLiveData(context: CoroutineContext = Dispatchers.Unconfined): LiveData<T> {
-    return FlowLiveData(this, context)
 }

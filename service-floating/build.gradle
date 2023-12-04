@@ -23,6 +23,7 @@ dependencies {
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_service
     implementation lib_x.lifecycle_java8
+    implementation lib_x.lifecycle_livedata
 
     implementation lib_x.constraint_layout
     implementation lib_x.appcompat
