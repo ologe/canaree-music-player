@@ -18,25 +18,23 @@ import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import androidx.lifecycle.asLiveData
+import dev.olog.presentation.databinding.FragmentSplashTutorialBinding
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
-import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
+import dev.olog.shared.android.extensions.viewBinding
 
-class SplashTutorialFragment : Fragment(),
+class SplashTutorialFragment : Fragment(R.layout.fragment_splash_tutorial),
     SwipeableView.SwipeListener {
 
     private var progressive = 0
 
     private lateinit var viewPager : StoppingViewPager
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_splash_tutorial, container, false)
-    }
+    private val binding by viewBinding(FragmentSplashTutorialBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
 
-        swipeableView.isTouching()
+        binding.swipeableView.isTouching()
             .asLiveData()
             .subscribe(this) {
                 viewPager.isSwipeEnabled = !it
@@ -48,12 +46,12 @@ class SplashTutorialFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        swipeableView.setOnSwipeListener(this)
+        binding.swipeableView.setOnSwipeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        swipeableView.setOnSwipeListener(null)
+        binding.swipeableView.setOnSwipeListener(null)
     }
 
     override fun onSwipedLeft() {
@@ -67,7 +65,7 @@ class SplashTutorialFragment : Fragment(),
     }
 
     override fun onClick() {
-        val newState = !cover.isActivated
+        val newState = !binding.cover.isActivated
         setActivated(newState)
     }
 
@@ -82,8 +80,8 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun setActivated(activated: Boolean){
-        coverWrapper.isActivated = activated
-        nowPlaying.isActivated = activated
+        binding.coverWrapper.isActivated = activated
+        binding.nowPlaying.isActivated = activated
     }
 
     private fun loadNextImage(){
@@ -110,12 +108,12 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun loadImage(position: Int){
-        GlideApp.with(ctx).clear(cover)
+        GlideApp.with(ctx).clear(binding.cover)
 
         GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
                 .placeholder(CoverUtils.getGradient(ctx, position))
-                .into(cover)
+                .into(binding.cover)
     }
 }

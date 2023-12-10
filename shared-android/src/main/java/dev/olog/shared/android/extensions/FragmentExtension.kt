@@ -35,7 +35,8 @@ val Fragment.viewLifecycleScope: LifecycleCoroutineScope
     get() = viewLifecycleOwner.lifecycleScope
 
 
-fun<T : ViewBinding> viewBinding(
+@Suppress("UnusedReceiverParameter")
+fun<T : ViewBinding> Fragment.viewBinding(
     factory: (View) -> T,
     onDestroy: (T) -> Unit = {},
 ) : FragmentViewBinding<T> {

@@ -10,7 +10,6 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlin.math.abs
 
 // TODO refactor this and image parallax

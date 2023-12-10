@@ -10,13 +10,12 @@ import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
+import dev.olog.service.floating.databinding.ContentOfflineLyricsBinding
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
-import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -27,7 +26,7 @@ class OfflineLyricsContent(
 
     private var lyricsJob: Job? = null
 
-    val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
+    private val content: ContentOfflineLyricsBinding = ContentOfflineLyricsBinding.inflate(LayoutInflater.from(context), null, false)
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(context) { glueService.playPause() } }
 
@@ -43,7 +42,7 @@ class OfflineLyricsContent(
         }
     }
 
-    override fun getView(): View = content
+    override fun getView(): View = content.root
 
     override fun isFullscreen(): Boolean = true
 

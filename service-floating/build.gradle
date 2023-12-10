@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace 'dev.olog.service.floating'
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

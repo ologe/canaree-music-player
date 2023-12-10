@@ -17,6 +17,8 @@ import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
+import dev.olog.presentation.databinding.ActivityMainBinding
+import dev.olog.presentation.databinding.ActivityMainNavigationBinding
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
@@ -32,8 +34,6 @@ import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,21 +58,24 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var rateAppDialog: RateAppDialog
 
+    private val binding by viewBinding(ActivityMainBinding::bind)
+    private val navigationBinding by viewBinding(ActivityMainNavigationBinding::bind)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if (isImmersiveMode()){
             // workaround, on some device on immersive mode bottom navigation disappears
-            rootView.fitsSystemWindows = true
-            slidingPanel.fitsSystemWindows = true
-            bottomWrapper.fitsSystemWindows = true
+            binding.rootView.fitsSystemWindows = true
+            navigationBinding.slidingPanel.fitsSystemWindows = true
+            navigationBinding.bottomWrapper.fitsSystemWindows = true
         }
 
         if (hasPlayerAppearance().isMini()){
             // TODO made a resource value
-            slidingPanelFade.parallax = 0
-            slidingPanel.setHeight(dip(300))
+            navigationBinding.slidingPanelFade.parallax = 0
+            navigationBinding.slidingPanel.setHeight(dip(300))
         }
 
         setupSlidingPanel()
@@ -99,8 +102,8 @@ class MainActivity : MusicGlueActivity(),
         if (!isTablet) {
             val scrollHelper = SuperCerealScrollHelper(
                 this, ScrollType.Full(
-                    slidingPanel = slidingPanel,
-                    bottomNavigation = bottomWrapper,
+                    slidingPanel = navigationBinding.slidingPanel,
+                    bottomNavigation = navigationBinding.bottomWrapper,
                     toolbarHeight = dimen(R.dimen.toolbar),
                     tabLayoutHeight = dimen(R.dimen.tab),
                     realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
@@ -111,7 +114,7 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun navigateToLastPage(){
-        bottomNavigation.navigateToLastPage()
+        navigationBinding.bottomNavigation.navigateToLastPage()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -124,7 +127,7 @@ class MainActivity : MusicGlueActivity(),
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
+            Shortcuts.SEARCH -> navigationBinding.bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
@@ -200,11 +203,11 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(slidingPanel) as MultiListenerBottomSheetBehavior<*>
+        return BottomSheetBehavior.from(navigationBinding.slidingPanel) as MultiListenerBottomSheetBehavior<*>
     }
 
     override fun navigate(page: BottomNavigationPage) {
-        bottomNavigation.navigate(page)
+        navigationBinding.bottomNavigation.navigate(page)
     }
 
     fun restoreUpperWidgetsTranslation(){

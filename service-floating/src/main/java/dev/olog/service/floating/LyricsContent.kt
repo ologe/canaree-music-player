@@ -3,12 +3,11 @@ package dev.olog.service.floating
 import android.content.Context
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.model.PlayerState
+import dev.olog.service.floating.databinding.ContentWebViewWithPlayerBinding
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
-import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 
 class LyricsContent(
     lifecycle: Lifecycle,
@@ -17,12 +16,14 @@ class LyricsContent(
 
 ) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player) {
 
+    private val binding = ContentWebViewWithPlayerBinding.bind(content)
+
     override fun onShown() {
         super.onShown()
 
         glueService.observePlaybackState()
             .subscribe(this) {
-                content.seekBar.onStateChanged(it)
+                binding.layoutMiniPlayer.seekBar.onStateChanged(it)
             }
 
         glueService.observePlaybackState()
@@ -31,34 +32,34 @@ class LyricsContent(
             .distinctUntilChanged()
             .subscribe(this) {
                 when (it){
-                    PlayerState.PLAYING -> content.playPause.animationPlay(true)
-                    PlayerState.PAUSED -> content.playPause.animationPause(true)
+                    PlayerState.PLAYING -> binding.playPause.animationPlay(true)
+                    PlayerState.PAUSED -> binding.playPause.animationPause(true)
                     else -> throw IllegalArgumentException("state not valid $it")
                 }
             }
 
         glueService.observeMetadata()
             .subscribe(this) {
-                content.header.text = it.title
-                content.subHeader.text = it.artist
+                binding.layoutMiniPlayer.header.text = it.title
+                binding.layoutMiniPlayer.subHeader.text = it.artist
             }
 
         glueService.observeMetadata()
             .subscribe(this) {
-                content.seekBar.max = it.duration.toInt()
+                binding.layoutMiniPlayer.seekBar.max = it.duration.toInt()
             }
 
-        content.playPause.setOnClickListener { glueService.playPause() }
+        binding.playPause.setOnClickListener { glueService.playPause() }
 
-        content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
-            glueService.seekTo(content.seekBar.progress.toLong())
+        binding.layoutMiniPlayer.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
+            glueService.seekTo(binding.layoutMiniPlayer.seekBar.progress.toLong())
         })
     }
 
     override fun onHidden() {
         super.onHidden()
-        content.playPause.setOnClickListener(null)
-        content.seekBar.setOnSeekBarChangeListener(null)
+        binding.playPause.setOnClickListener(null)
+        binding.layoutMiniPlayer.seekBar.setOnSeekBarChangeListener(null)
     }
 
     override fun getUrl(item: String): String {

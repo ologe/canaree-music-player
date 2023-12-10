@@ -6,40 +6,40 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentTranslationsBinding
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_translations.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TranslationsFragment : BaseFragment() {
+class TranslationsFragment : Fragment(R.layout.fragment_translations) {
 
     @Inject
     internal lateinit var navigator: NavigatorAbout
 
+    private val binding by viewBinding(FragmentTranslationsBinding::bind)
     private val adapter by lazyFast {
         val data = listOf("", "") + contributors
         TranslationFragmentAdapter(data.toMutableList(), navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        binding.back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_translations
 
     companion object {
 
@@ -53,7 +53,7 @@ class TranslationsFragment : BaseFragment() {
 
         @JvmStatic
         val contributors: List<String>
-            get() {
+            get() { // TODO update, or maybe even fetch from api
                 return listOf(
                     "Μάριος Κομπούζι - Greek",
                     "Χρήστος Μπουλουγούρης - Greek",

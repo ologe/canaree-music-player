@@ -9,17 +9,15 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.presentation.R
+import dev.olog.presentation.databinding.LayoutMaterialEditTextBinding
 import dev.olog.presentation.utils.showIme
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.*
 
 class TextViewDialog(
     private val context: Context,
     private val title: String,
     private val subtitle: String?,
-    private val layoutEditText: Int = R.layout.layout_material_edit_text
 ) {
 
     class Action(
@@ -48,11 +46,11 @@ class TextViewDialog(
         customizeWrapper: TextInputLayout.() -> Unit = {},
         customizeTextView: TextInputEditText.() -> Unit = {}
     ): TextViewDialog {
-        val layout = inflater.inflate(layoutEditText, container, false)
-        layout.wrapper.customizeWrapper()
-        layout.editText.customizeTextView()
-        textViews.add(layout.editText)
-        container.addView(layout)
+        val binding = LayoutMaterialEditTextBinding.inflate(inflater, container, false)
+        binding.wrapper.customizeWrapper()
+        binding.editText.customizeTextView()
+        textViews.add(binding.editText)
+        container.addView(binding.root)
         return this
     }
 
