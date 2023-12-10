@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toolingGraphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.olog.shared.compose.theme.Theme
+import dev.olog.shared.compose.theme.ColorSelector
+import dev.olog.shared.compose.theme.LocalIconColor
 
 @Composable
 fun Icon(
@@ -20,7 +20,7 @@ fun Icon(
     modifier: Modifier = Modifier,
     size: Dp = 24.dp,
     enabled: Boolean = true,
-    colorFilter: Color = Theme.colors.iconColor.resolve(enabled),
+    colorFilter: ColorSelector = LocalIconColor.current,
 ) {
     Spacer(
         modifier = modifier
@@ -28,7 +28,7 @@ fun Icon(
             .size(size)
             .paint(
                 painter = painter,
-                colorFilter = ColorFilter.tint(colorFilter),
+                colorFilter = ColorFilter.tint(colorFilter.resolve(enabled)),
                 contentScale = ContentScale.Fit,
             )
     )

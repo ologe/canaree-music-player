@@ -4,69 +4,68 @@ import android.content.res.Resources
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.presentation.detail.adapter.DetailFragmentItem
 
 
-internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
-
-    return DisplayableHeader(
-        type = R.layout.item_detail_image,
+internal fun Folder.toHeaderItem(resources: Resources): DetailFragmentItem.Header {
+    return DetailFragmentItem.Header(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).toLowerCase(),
+        biography = null,
     )
 }
 
-internal fun Playlist.toHeaderItem(resources: Resources): DisplayableHeader {
+internal fun Playlist.toHeaderItem(resources: Resources): DetailFragmentItem.Header {
     val subtitle = if (AutoPlaylist.isAutoPlaylist(id)){
         ""
     } else {
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
-    return DisplayableHeader(
-        type = R.layout.item_detail_image,
+    return DetailFragmentItem.Header(
         mediaId = getMediaId(),
         title = title,
-        subtitle = subtitle
+        subtitle = subtitle,
+        biography = null,
     )
 
 }
 
-internal fun Album.toHeaderItem(): DisplayableHeader {
+internal fun Album.toHeaderItem(): DetailFragmentItem.Header {
 
-    return DisplayableHeader(
-        type = R.layout.item_detail_image,
+    return DetailFragmentItem.Header(
         mediaId = getMediaId(),
         title = title,
-        subtitle = this.artist
+        subtitle = this.artist,
+        biography = null,
     )
 }
 
-internal fun Artist.toHeaderItem(resources: Resources): DisplayableHeader {
+internal fun Artist.toHeaderItem(resources: Resources): DetailFragmentItem.Header {
 
-    return DisplayableHeader(
-        type = R.layout.item_detail_image,
+    return DetailFragmentItem.Header(
         mediaId = getMediaId(),
         title = name,
-        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
+        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
+        biography = null,
     )
 }
 
-internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
+internal fun Genre.toHeaderItem(resources: Resources): DetailFragmentItem.Header {
 
-    return DisplayableHeader(
-        type = R.layout.item_detail_image,
+    return DetailFragmentItem.Header(
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).toLowerCase(),
+        biography = null,
     )
 }

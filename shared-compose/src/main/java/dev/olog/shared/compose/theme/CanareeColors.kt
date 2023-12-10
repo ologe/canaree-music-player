@@ -14,17 +14,10 @@ import androidx.compose.ui.res.colorResource
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.compose.R
 
-val LocalBackgroundColor = compositionLocalOf<Color> {
-    error("LocalContentColor not set")
-}
-
-val LocalContentColor = compositionLocalOf<ColorSelector> {
-    error("LocalContentColor not set")
-}
-
-internal val LocalCanareeColors = staticCompositionLocalOf<CanareeColors> {
-    error("LocalCanareeColors not set")
-}
+val LocalBackgroundColor = compositionLocalOf<Color> { error("LocalBackgroundColor not set") }
+val LocalContentColor = compositionLocalOf<ColorSelector> { error("LocalContentColor not set") }
+val LocalIconColor = compositionLocalOf<ColorSelector> { error("LocalIconColor not set") }
+internal val LocalCanareeColors = staticCompositionLocalOf<CanareeColors> { error("LocalCanareeColors not set") }
 
 @Immutable
 data class CanareeColors(
@@ -32,7 +25,7 @@ data class CanareeColors(
     val iconColor: ColorSelector,
     val textColorPrimary: ColorSelector,
     val textColorSecondary: ColorSelector,
-    val accent: Color,
+    val accent: ColorSelector,
     val onAccent: Color,
 )
 
@@ -71,7 +64,7 @@ internal fun colors(): CanareeColors {
             enabled = colorResource(R.color.textColorSecondary),
             disabled = colorResource(R.color.textColorSecondaryDisabled),
         ),
-        accent = accentColor,
+        accent = ColorSelector(accentColor, accentColor), // TODO add disabled version
         // TODO use different colors from plan black and plain white?
         onAccent = if (accentColor.luminance() > .5) Color.Black else Color.White,
     )

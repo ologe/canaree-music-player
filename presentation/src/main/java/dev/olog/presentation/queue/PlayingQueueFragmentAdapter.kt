@@ -14,7 +14,6 @@ import dev.olog.shared.compose.component.CurrentlyPlaying
 import dev.olog.shared.compose.component.IconButton
 import dev.olog.shared.compose.component.onActionDown
 import dev.olog.shared.compose.listitem.ListItemTrack
-import dev.olog.shared.compose.theme.LocalScreenSpacing
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -46,7 +45,6 @@ class PlayingQueueFragmentAdapter(
             mediaId = item.mediaId,
             title = item.title,
             subtitle = item.subtitle,
-            contentPadding = LocalScreenSpacing.current, // TODO only left??
             onClick = {
                 mediaProvider.skipToQueueItem(item.idInPlaylist)
             },

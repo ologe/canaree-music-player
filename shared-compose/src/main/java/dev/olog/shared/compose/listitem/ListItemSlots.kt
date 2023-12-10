@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.olog.shared.compose.R
 import dev.olog.shared.compose.theme.CanareeTheme
@@ -29,11 +30,17 @@ import dev.olog.shared.compose.theme.LocalContentColor
 import dev.olog.shared.compose.theme.LocalTextStyle
 import dev.olog.shared.compose.theme.Theme
 
+val ListItemSlotsHeight: Dp
+    @Composable
+    get() = dimensionResource(R.dimen.item_song_cover_size) + // height
+        dimensionResource(R.dimen.item_song_cover_margin_vertical) * 2 //vertical padding
+
+// TODO make rounded hover and clickable zone?
 @Composable
 internal fun ListItemSlots(
     modifier: Modifier,
     iconContent: @Composable BoxScope.() -> Unit,
-    titleContent: @Composable () -> Unit,
+    titleContent: @Composable RowScope.() -> Unit,
     subtitleContent: @Composable (RowScope.() -> Unit)?,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
@@ -42,11 +49,11 @@ internal fun ListItemSlots(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(start = dimensionResource(R.dimen.item_song_cover_margin_start)),
+            .padding(start = Theme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (leadingContent != null) {
-            Box(Modifier.padding(horizontal = Theme.spacing.extraSmall)) {
+            Box(Modifier.padding(end = Theme.spacing.extraSmall)) {
                 leadingContent.invoke()
             }
         }
@@ -68,7 +75,12 @@ internal fun ListItemSlots(
                 LocalTextStyle provides Theme.typography.trackTitle,
                 LocalContentColor provides Theme.colors.textColorPrimary,
             ) {
-                titleContent()
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Theme.spacing.extraSmall),
+                ) {
+                    titleContent()
+                }
             }
 
 
@@ -104,7 +116,7 @@ private fun Preview() {
                         .background(Theme.colors.textColorPrimary.enabled)
                 )
             }
-            val titleContent: @Composable () -> Unit = {
+            val titleContent: @Composable RowScope.() -> Unit = {
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,8 +135,7 @@ private fun Preview() {
             val leadingContent: @Composable () -> Unit = {
                 Spacer(
                     modifier = Modifier
-                        .width(12.dp)
-                        .fillMaxHeight()
+                        .size(24.dp)
                         .background(Theme.colors.textColorPrimary.enabled)
                 )
             }

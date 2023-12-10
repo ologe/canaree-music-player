@@ -6,82 +6,83 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
+import dev.olog.presentation.detail.adapter.DetailFragmentItem
+import dev.olog.presentation.detail.adapter.DetailMostPlayedItem
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedItem
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistItem
+import dev.olog.presentation.detail.adapter.DetailSiblingItem
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack
 
-internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_related_artist,
+internal fun Artist.toRelatedArtist(resources: Resources): DetailRelatedArtistItem {
+    return DetailRelatedArtistItem(
         mediaId = getMediaId(),
         title = this.name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs)
     )
 }
 
-internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableTrack {
-    val idInPlaylist = if (parentId.isPlaylist || parentId.isPodcastPlaylist){
-        this.idInPlaylist
-    } else {
-        this.trackNumber
-    }
-
-    return DisplayableTrack(
-        type = computeLayoutType(parentId, sortType),
-        mediaId = MediaId.playableItem(parentId, id),
-        title = this.title,
-        artist = artist,
-        album = album,
-        idInPlaylist = idInPlaylist,
-        dataModified = this.dateModified
-    )
-}
-
-@Suppress("NOTHING_TO_INLINE")
-private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DetailFragmentItem.Track {
+    val trackNumber = if (trackNumber < 1) "-" else trackNumber.toString()
     return when {
-        parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
+        parentId.isAlbum || parentId.isPodcastAlbum -> DetailFragmentItem.Track.ForAlbum(
+            mediaId = MediaId.playableItem(parentId, id),
+            title = this.title,
+            subtitle = DisplayableTrack.subtitle(artist, album),
+            trackNumber = trackNumber,
+        )
         (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
             if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-                R.layout.item_detail_song
-            } else R.layout.item_detail_song_with_drag_handle
+                DetailFragmentItem.Track.Default(
+                    mediaId = MediaId.playableItem(parentId, id),
+                    title = this.title,
+                    subtitle = DisplayableTrack.subtitle(artist, album),
+                )
+            } else DetailFragmentItem.Track.ForPlaylist(
+                mediaId = MediaId.playableItem(parentId, id),
+                title = this.title,
+                subtitle = DisplayableTrack.subtitle(artist, album),
+                idInPlaylist = idInPlaylist,
+            )
         }
-        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
-        else -> R.layout.item_detail_song
+        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> DetailFragmentItem.Track.ForFolder(
+            mediaId = MediaId.playableItem(parentId, id),
+            title = this.title,
+            subtitle = DisplayableTrack.subtitle(artist, album),
+            trackNumber = trackNumber,
+        )
+        else -> DetailFragmentItem.Track.Default(
+            mediaId = MediaId.playableItem(parentId, id),
+            title = this.title,
+            subtitle = DisplayableTrack.subtitle(artist, album),
+        )
     }
 }
 
 internal fun Song.toMostPlayedDetailDisplayableItem(
     parentId: MediaId,
     position: Int
-): DisplayableTrack {
+): DetailMostPlayedItem {
 
-    return DisplayableTrack(
-        type = R.layout.item_detail_song_most_played,
+    return DetailMostPlayedItem(
         mediaId = MediaId.playableItem(parentId, id),
         title = this.title,
-        artist = this.artist,
-        album = this.album,
-        idInPlaylist = position,
-        dataModified = this.dateModified
+        subtitle = DisplayableTrack.subtitle(artist, album),
+        position = position.toString(),
     )
 }
 
-internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
-    return DisplayableTrack(
-        type = R.layout.item_detail_song_recent,
+internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DetailRecentlyAddedItem {
+    return DetailRecentlyAddedItem(
         mediaId = MediaId.playableItem(parentId, id),
         title = this.title,
-        artist = this.artist,
-        album = this.album,
-        idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
+        subtitle = DisplayableTrack.subtitle(artist, album),
     )
 }
 
-internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Folder.toDetailDisplayableItem(resources: Resources): DetailSiblingItem {
+    return DetailSiblingItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -92,9 +93,8 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
     )
 }
 
-internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Playlist.toDetailDisplayableItem(resources: Resources): DetailSiblingItem {
+    return DetailSiblingItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -105,9 +105,8 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
     )
 }
 
-internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Album.toDetailDisplayableItem(resources: Resources): DetailSiblingItem {
+    return DetailSiblingItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -118,9 +117,8 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
     )
 }
 
-internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Genre.toDetailDisplayableItem(resources: Resources): DetailSiblingItem {
+    return DetailSiblingItem(
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(

@@ -24,7 +24,9 @@ abstract class CustomListAdapter<T : Any, VH : RecyclerView.ViewHolder>(
         differ.submitList(list)
     }
 
-    fun getItem(position: Int): T = differ.currentList.get(position)
+    fun getItem(position: Int): T = differ.currentList[position]
+    val currentList: List<T>
+        get() = differ.currentList
     override fun getItemCount(): Int = differ.currentList.size
     fun indexOf(predicate: (T) -> Boolean): Int {
         return differ.currentList.indexOfFirst(predicate)

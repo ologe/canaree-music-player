@@ -59,9 +59,3 @@ data class DisplayableHeader(
     val visible: Boolean = true
 
 ) : DisplayableItem(type, mediaId)
-
-
-data class DisplayableNestedListPlaceholder(
-    override val type: Int,
-    override val mediaId: MediaId
-) : DisplayableItem(type, mediaId)

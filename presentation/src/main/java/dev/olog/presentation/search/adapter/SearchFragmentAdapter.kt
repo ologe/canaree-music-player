@@ -23,8 +23,6 @@ import dev.olog.shared.compose.listitem.ListItemAlbum
 import dev.olog.shared.compose.listitem.ListItemFooter
 import dev.olog.shared.compose.listitem.ListItemHeader
 import dev.olog.shared.compose.listitem.ListItemTrack
-import dev.olog.shared.compose.theme.LocalScreenSpacing
-import dev.olog.shared.compose.theme.Theme
 
 class SearchFragmentAdapter(
     private val mediaProvider: MediaProvider,
@@ -37,14 +35,10 @@ class SearchFragmentAdapter(
         when (item) {
             is SearchFragmentItem.Header -> {
                 ListItemHeader(
-                    text = item.title,
-                    contentPadding = LocalScreenSpacing.current,
+                    title = item.title,
                     trailingContent = {
                         if (item.subtitle != null) {
-                            Text(
-                                text = item.subtitle,
-                                color = Theme.colors.accent,
-                            )
+                            Text(item.subtitle)
                         }
                     }
                 )
@@ -68,7 +62,6 @@ class SearchFragmentAdapter(
                     mediaId = item.mediaId,
                     title = item.title,
                     subtitle = item.subtitle,
-                    contentPadding = LocalScreenSpacing.current,
                     onClick = {
                         mediaProvider.playFromMediaId(item.mediaId, null, null)
                         viewModel.insertToRecent(item.mediaId)
@@ -86,7 +79,6 @@ class SearchFragmentAdapter(
             is SearchFragmentItem.List -> {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
-                    contentPadding = LocalScreenSpacing.current,
                 ) { // TODO pager snap on scroll?
                     items(item.items) { nestedItem ->
                         Box(Modifier.width(dimensionResource(R.dimen.item_tab_album_last_player_width))) {
@@ -100,7 +92,6 @@ class SearchFragmentAdapter(
                     mediaId = item.mediaId,
                     title = item.title,
                     subtitle = item.subtitle,
-                    contentPadding = LocalScreenSpacing.current,
                     onClick = {
                         if (item.isPlayable) {
                             mediaProvider.playFromMediaId(item.mediaId, null, null)
@@ -121,7 +112,6 @@ class SearchFragmentAdapter(
             is SearchFragmentItem.ClearRecents -> {
                 ListItemFooter(
                     text = stringResource(R.string.search_clear_recent_searches),
-                    contentPadding = LocalScreenSpacing.current,
                 ) {
                     viewModel.clearRecentSearches()
                 }

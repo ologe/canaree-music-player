@@ -1,19 +1,13 @@
 package dev.olog.shared.compose.theme
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 internal val LocalCanareeSpacing = staticCompositionLocalOf<CanareeSpacing> {
     error("LocalCanareeSpacing not set")
-}
-
-val LocalScreenSpacing = staticCompositionLocalOf<PaddingValues> {
-    error("LocalScreenSpacing not set")
 }
 
 @Immutable

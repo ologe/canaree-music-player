@@ -1,7 +1,10 @@
 package dev.olog.presentation.tab.adapter
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -18,9 +21,9 @@ import dev.olog.shared.compose.listitem.ListItemHeader
 import dev.olog.shared.compose.listitem.ListItemPodcast
 import dev.olog.shared.compose.listitem.ListItemShuffle
 import dev.olog.shared.compose.listitem.ListItemTrack
-import dev.olog.shared.compose.theme.LocalScreenSpacing
 import dev.olog.presentation.R
 import dev.olog.shared.compose.component.ComposeViewHolder
+import dev.olog.shared.compose.theme.Theme
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -35,7 +38,6 @@ internal class TabFragmentAdapter(
                 mediaId = item.mediaId,
                 title = item.title,
                 subtitle = item.subtitle,
-                contentPadding = LocalScreenSpacing.current,
                 onClick = {
                     val sort = viewModel.getAllTracksSortOrder(item.mediaId)
                     mediaProvider.playFromMediaId(item.mediaId, null, sort)
@@ -77,6 +79,7 @@ internal class TabFragmentAdapter(
                         mediaId = item.mediaId,
                         title = item.title,
                         subtitle = item.subtitle,
+                        modifier = Modifier.padding(Theme.spacing.extraSmall),
                         onClick = {
                             navigator.toDetailFragment(item.mediaId)
                         },
@@ -88,12 +91,14 @@ internal class TabFragmentAdapter(
             }
             is TabFragmentItem.Header -> {
                 ListItemHeader(
-                    text = item.text,
+                    title = item.text,
                 )
             }
             is TabFragmentItem.List -> {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(Theme.spacing.medium),
+                    horizontalArrangement = Arrangement.spacedBy(Theme.spacing.small),
                     // TODO content padding
                 ) {
                     items(item.items) { nestedItem ->
@@ -106,7 +111,6 @@ internal class TabFragmentAdapter(
             }
             is TabFragmentItem.Shuffle -> {
                 ListItemShuffle(
-                    contentPadding = LocalScreenSpacing.current,
                     onClick = {
                         mediaProvider.shuffle(MediaId.shuffleId(), null)
                     }

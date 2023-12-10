@@ -14,8 +14,7 @@ import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.detail.adapter.DetailFragmentItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -31,111 +30,32 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : ViewModel() {
 
-    companion object {
-        const val NESTED_SPAN_COUNT = 4
-        const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
-        const val RELATED_ARTISTS_TO_SEE = 10
-    }
-
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterChannel = MutableStateFlow("")
 
     fun updateFilter(filter: String) {
-        filterChannel.trySend(filter)
+        filterChannel.value = filter
     }
 
     fun getFilter(): String = filterChannel.value
+    fun getSort(): SortEntity = getSortOrderUseCase(mediaId)
 
-    private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
-
-    private val biographyLiveData = MutableLiveData<String?>()
+    private val dataLiveData = MutableLiveData<List<DetailFragmentItem>>()
 
     init {
-        // header
-        viewModelScope.launch {
-            dataProvider.observeHeader(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { itemLiveData.value = it[0] }
-        }
-        // most played
-        viewModelScope.launch {
-            dataProvider.observeMostPlayed(mediaId)
-                .mapListItem { it as DisplayableTrack }
-                .flowOn(Dispatchers.Default)
-                .collect { mostPlayedLiveData.value = it }
-        }
-        // related artists
-        viewModelScope.launch {
-            dataProvider.observeRelatedArtists(mediaId)
-                .map { it.take(RELATED_ARTISTS_TO_SEE) }
-                .flowOn(Dispatchers.Default)
-                .collect { relatedArtistsLiveData.value = it }
-        }
-        // siblings
-        viewModelScope.launch {
-            dataProvider.observeSiblings(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { siblingsLiveData.value = it }
-        }
-        // recent
-        viewModelScope.launch {
-            dataProvider.observeRecentlyAdded(mediaId)
-                .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-                .flowOn(Dispatchers.Default)
-                .collect { recentlyAddedLiveData.value = it }
-        }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(mediaId, filterChannel.asFlow())
+            dataProvider.observe(mediaId, filterChannel)
                 .flowOn(Dispatchers.Default)
-                .collect { songLiveData.value = it }
-        }
-
-        // biography
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
-                    else -> null
-                }
-                withContext(Dispatchers.Main) {
-                    biographyLiveData.value = biography
-                }
-            } catch (ex: NullPointerException) {
-                ex.printStackTrace()
-            } catch (ex: IndexOutOfBoundsException) {
-                ex.printStackTrace()
-            }
+                .collect { dataLiveData.value = it }
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
-    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
-    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
-    fun observeBiography(): LiveData<String?> = biographyLiveData
-
-    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
-        val sortOrder = getSortOrderUseCase(mediaId)
-        action(sortOrder)
-    }
+    fun observeSongs(): LiveData<List<DetailFragmentItem>> = dataLiveData
 
     fun observeSortOrder(action: (SortType) -> Unit) {
         val sortEntity = getSortOrderUseCase(mediaId)
@@ -165,8 +85,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         moveList.clear()
     }
 
-    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
-        require(item is DisplayableTrack)
+    fun removeFromPlaylist(item: DetailFragmentItem.Track.ForPlaylist) = viewModelScope.launch(Dispatchers.Default) {
         presenter.removeFromPlaylist(item)
     }
 

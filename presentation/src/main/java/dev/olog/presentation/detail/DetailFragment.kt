@@ -7,25 +7,34 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.NavigationUtils
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.databinding.FragmentDetailBinding
-import dev.olog.presentation.detail.adapter.*
+import dev.olog.presentation.detail.adapter.DetailFragmentAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.findInContext
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.isTablet
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.viewBinding
+import dev.olog.shared.android.extensions.viewLifecycleScope
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -37,13 +46,11 @@ import kotlin.properties.Delegates
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
-    SetupNestedList,
     IDragListener by DragListenerImpl() {
 
     companion object {
         val TAG = DetailFragment::class.java.name
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
                 NavigationUtils.ARGUMENTS_MEDIA_ID to mediaId.toString()
@@ -64,28 +71,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         MediaId.fromString(mediaId)
     }
 
-    private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act.findInContext())
-    }
-    private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act.findInContext())
-    }
-    private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(lifecycle, navigator)
-    }
-    private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(lifecycle, navigator)
-    }
-
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            lifecycle,
-            mediaId,
-            this,
-            navigator,
-            act.findInContext(),
-            viewModel,
-            this
+            mediaId = mediaId,
+            navigator = navigator,
+            mediaProvider = act.findInContext(),
+            viewModel = viewModel,
+            dragListener = this
         )
     }
 
@@ -94,7 +86,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
             this
         )
     }
-    private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, old, new ->
         if (old != new){
@@ -105,7 +96,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
         binding.list.adapter = adapter
-        binding.list.setRecycledViewPool(recycledViewPool)
         binding.list.setHasFixedSize(true)
 
         var swipeDirections = ItemTouchHelper.LEFT
@@ -117,34 +107,15 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         binding.fastScroller.attachRecyclerView(binding.list)
         binding.fastScroller.showBubble(false)
 
-        viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
-
-        viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
-
-        viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
-
-        viewModel.observeSiblings()
-            .subscribe(viewLifecycleOwner) {
-                albumsAdapter.updateDataSet(it)
-            }
-
         viewModel.observeSongs()
             .subscribe(viewLifecycleOwner) { list ->
                 if (list.isEmpty()) {
                     act.onBackPressed()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                     restoreUpperWidgetsTranslation()
                 }
             }
-
-        viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
-            require(item is DisplayableHeader)
-            binding.headerText.text = item.title
-        }
 
         viewLifecycleScope.launch {
             binding.editText.afterTextChange()
@@ -156,46 +127,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         }
     }
 
-    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
-        when (layoutId) {
-            R.layout.item_detail_list_most_played -> {
-                setupHorizontalListAsGrid(recyclerView, mostPlayedAdapter)
-            }
-            R.layout.item_detail_list_recently_added -> {
-                setupHorizontalListAsGrid(recyclerView, recentlyAddedAdapter)
-            }
-            R.layout.item_detail_list_related_artists -> {
-                setupHorizontalListAsList(recyclerView, relatedArtistAdapter)
-            }
-            R.layout.item_detail_list_albums -> {
-                setupHorizontalListAsList(recyclerView, albumsAdapter)
-            }
-        }
-    }
-
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: ObservableAdapter<*>) {
-        val layoutManager = GridLayoutManager(
-            list.context, DetailFragmentViewModel.NESTED_SPAN_COUNT,
-            GridLayoutManager.HORIZONTAL, false
-        )
-        layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
-        list.layoutManager = layoutManager
-        list.adapter = adapter
-        list.setRecycledViewPool(recycledViewPool)
-
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(list)
-    }
-
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: ObservableAdapter<*>) {
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
-        layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
-        list.layoutManager = layoutManager
-        list.adapter = adapter
-        list.setRecycledViewPool(recycledViewPool)
-    }
 
     override fun onResume() {
         super.onResume()

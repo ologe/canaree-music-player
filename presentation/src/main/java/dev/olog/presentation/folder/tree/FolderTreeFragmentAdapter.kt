@@ -9,7 +9,6 @@ import dev.olog.shared.compose.component.ComposeListAdapter
 import dev.olog.shared.compose.component.ComposeViewHolder
 import dev.olog.shared.compose.listitem.ListItemHeader
 import dev.olog.shared.compose.listitem.ListItemTrack
-import dev.olog.shared.compose.theme.LocalScreenSpacing
 import java.io.File
 
 class FolderTreeFragmentAdapter(
@@ -26,22 +25,17 @@ class FolderTreeFragmentAdapter(
                     mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, ""),
                     title = "...",
                     subtitle = null,
-                    contentPadding = LocalScreenSpacing.current,
                     onClick = { viewModel.popFolder() },
                     onLongClick = null,
                 )
             }
             is FolderTreeFragmentItem.Header -> {
-                ListItemHeader(
-                    text = item.text,
-                    contentPadding = LocalScreenSpacing.current,
-                )
+                ListItemHeader(title = item.text)
             }
             is FolderTreeFragmentItem.Directory -> ListItemTrack(
                 mediaId = item.mediaId,
                 title = item.title,
                 subtitle = null,
-                contentPadding = LocalScreenSpacing.current,
                 onClick = {
                     viewModel.nextFolder(File(item.path))
                 },
@@ -51,7 +45,6 @@ class FolderTreeFragmentAdapter(
                 mediaId = item.mediaId,
                 title = item.title,
                 subtitle = null,
-                contentPadding = LocalScreenSpacing.current,
                 onClick = {
                     viewModel.createMediaId(item)?.let { mediaId ->
                         mediaProvider.playFromMediaId(mediaId, null, null)

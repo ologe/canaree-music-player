@@ -55,7 +55,7 @@ fun ListItemAlbum(
 ) {
     Column(
         modifier = modifier
-            .padding(dimensionResource(R.dimen.item_album_margin))
+            .padding(vertical = dimensionResource(R.dimen.item_album_margin))
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,

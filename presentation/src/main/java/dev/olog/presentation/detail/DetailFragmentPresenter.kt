@@ -6,7 +6,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.detail.adapter.DetailFragmentItem
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
@@ -17,21 +17,25 @@ class DetailFragmentPresenter @Inject constructor(
 
 ) {
 
-    suspend fun removeFromPlaylist(item: DisplayableTrack) {
-        mediaId.assertPlaylist()
+    suspend fun removeFromPlaylist(item: DetailFragmentItem.Track.ForPlaylist) {
+
         val playlistId = mediaId.categoryId
         val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
             removeFromPlaylistUseCase(
                 RemoveFromPlaylistUseCase.Input(
-                    playlistId, item.mediaId.leaf!!, playlistType
-            ))
+                    playlistId = playlistId,
+                    idInPlaylist = item.mediaId.leaf!!,
+                    type = playlistType
+                ))
         } else {
             removeFromPlaylistUseCase(
                 RemoveFromPlaylistUseCase.Input(
-                playlistId, item.idInPlaylist.toLong(), playlistType
-            ))
+                    playlistId = playlistId,
+                    idInPlaylist = item.idInPlaylist.toLong(),
+                    type = playlistType
+                ))
         }
     }
 

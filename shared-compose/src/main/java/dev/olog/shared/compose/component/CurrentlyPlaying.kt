@@ -24,6 +24,6 @@ fun CurrentlyPlaying(
             .graphicsLayer {
                 scaleY = scaleState.value
             }
-            .background(Theme.colors.accent)
+            .background(Theme.colors.accent.enabled)
     )
 }

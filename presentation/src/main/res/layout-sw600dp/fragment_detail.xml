@@ -35,7 +35,7 @@
         app:layout_constraintStart_toEndOf="@+id/leftBackground"
         app:layout_constraintEnd_toStartOf="@+id/rightBackground">
 
-        <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -34,7 +34,7 @@ fun LicenseListItem(
             text = name,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = Theme.typography.headline,
+            style = Theme.typography.headline2,
             color = Theme.colors.textColorPrimary.enabled,
         )
         Text(
@@ -48,7 +48,7 @@ fun LicenseListItem(
                     onClick = { uriHandler.openUri(url) }
                 ),
             textAlign = TextAlign.Center,
-            color = Theme.colors.accent,
+            color = Theme.colors.accent.enabled,
         )
         // TODO check newlines
         Text(

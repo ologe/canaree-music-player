@@ -33,7 +33,7 @@ fun ListItemFooter(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 36.dp)
-            .padding(horizontal = dimensionResource(R.dimen.item_song_cover_margin_start))
+            .padding(horizontal = Theme.spacing.medium)
             .padding(contentPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

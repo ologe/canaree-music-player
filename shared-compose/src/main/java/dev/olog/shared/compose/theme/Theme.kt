@@ -19,11 +19,11 @@ fun CanareeTheme(
         LocalCanareeColors provides colors,
         LocalBackgroundColor provides colors.background,
         LocalContentColor provides colors.textColorPrimary,
+        LocalIconColor provides colors.iconColor,
         LocalCanareeTypography provides typography,
         LocalTextStyle provides typography.body,
         LocalCanareeSpacing provides spacing(),
-        LocalScreenSpacing provides PaddingValues(horizontal = 8.dp), // TODO big screens?
-        LocalIndication provides rememberRipple(),
+        LocalIndication provides rememberRipple(color = colors.iconColor.enabled),
     ) {
         ThemeSettings(themeSettings) {
             content()

@@ -25,7 +25,7 @@ fun CheckBox(
         enabled = enabled,
         modifier = modifier,
         colors = CheckboxDefaults.colors(
-            checkedColor = Theme.colors.accent,
+            checkedColor = Theme.colors.accent.enabled,
             uncheckedColor = Theme.colors.iconColor.enabled,
             checkmarkColor = Theme.colors.onAccent,
             disabledColor = Theme.colors.iconColor.disabled,

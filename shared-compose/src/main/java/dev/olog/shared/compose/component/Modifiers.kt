@@ -32,7 +32,8 @@ fun Modifier.dynamicShape(
     mediaId: MediaId,
     radius: Dp = 5.dp,
 ): Modifier = composed {
-    if (mediaId.category == MediaIdCategory.ARTISTS) {
+    if (mediaId.category == MediaIdCategory.ARTISTS ||
+        mediaId.category == MediaIdCategory.PODCASTS_ARTISTS) {
         return@composed Modifier.clip(CircleShape)
     }
 

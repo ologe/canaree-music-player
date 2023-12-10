@@ -1,36 +1,45 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
-import dev.olog.presentation.detail.mapper.*
+import dev.olog.presentation.detail.adapter.DetailFragmentItem
+import dev.olog.presentation.detail.mapper.toDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toHeaderItem
+import dev.olog.presentation.detail.mapper.toMostPlayedDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toRecentDetailDisplayableItem
+import dev.olog.presentation.detail.mapper.toRelatedArtist
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
 import dev.olog.shared.exhaustive
-import dev.olog.shared.mapListItem
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 internal class DetailDataProvider @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val headers: DetailFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val albumGateway: AlbumGateway,
@@ -45,14 +54,15 @@ internal class DetailDataProvider @Inject constructor(
     private val mostPlayedUseCase: ObserveMostPlayedSongsUseCase,
     private val relatedArtistsUseCase: ObserveRelatedArtistsUseCase,
     private val sortOrderUseCase: ObserveDetailSortUseCase,
-    private val observeSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val observeSongListByParamUseCase: ObserveSongListByParamUseCase,
+    private val imageRetrieverGateway: ImageRetrieverGateway
 ) {
 
     private val resources = context.resources
 
 
-    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        val item = when (mediaId.category) {
+    private fun observeHeader(mediaId: MediaId): Flow<DetailFragmentItem> {
+        val itemFlow = when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
@@ -74,20 +84,35 @@ internal class DetailDataProvider @Inject constructor(
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
         }.exhaustive
-        return item.map { header ->
-            listOf(
-                header,
-                headers.biography(mediaId)
-            ).mapNotNull { it }
+
+        return combine(
+            itemFlow,
+            observeBiography(mediaId)
+        ) { item, biography ->
+            item.copy(biography = biography)
         }
     }
 
-    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
+    private fun observeBiography(mediaId: MediaId): Flow<String?> = flow {
+        emit(null)
+        try {
+            val biography = when {
+                mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
+                mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
+                else -> null
+            }
+            emit(biography)
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+        }
+    }
+
+    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DetailFragmentItem>> {
         val songListFlow = sortOrderUseCase(mediaId)
             .flatMapLatest { order ->
                 observeSongListByParamUseCase(mediaId)
                     .combine(filterFlow) { songList, filter ->
-                        val filteredSongList: MutableList<Song> = songList.asSequence()
+                        val filteredSongList = songList.asSequence()
                             .filter {
                                 it.title.contains(filter, true) ||
                                         it.artist.contains(filter, true) ||
@@ -97,15 +122,16 @@ internal class DetailDataProvider @Inject constructor(
                         val songListDuration = filteredSongList.sumBy { it.duration.toInt() }
                         val songListSize = filteredSongList.size
 
-                        val result: MutableList<DisplayableItem> = filteredSongList.asSequence()
+                        val result: MutableList<DetailFragmentItem> = filteredSongList.asSequence()
                             .map { it.toDetailDisplayableItem(mediaId, order.type) }
                             .toMutableList()
 
                         if (result.isNotEmpty()) {
-                            result.addAll(0, headers.songs)
+                            result.add(0, DetailFragmentItem.Shuffle)
+                            result.add(0, DetailFragmentItem.SongsHeader(order))
                             result.add(createDurationFooter(songListSize, songListDuration))
                         } else {
-                            result.add(headers.no_songs)
+//                            result.add(headers.no_songs) TODO
                         }
 
                         result
@@ -114,95 +140,132 @@ internal class DetailDataProvider @Inject constructor(
 
         return combine(
             observeHeader(mediaId),
-            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
-            observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
-            observeRecentlyAdded(mediaId).map {
-                if (it.isNotEmpty()) headers.recent(
-                    it.size,
-                    it.size > VISIBLE_RECENTLY_ADDED_PAGES
-                ) else listOf()
-            },
+            observeSiblings(mediaId),
+            observeMostPlayed(mediaId),
+            observeRecentlyAdded(mediaId),
             songListFlow,
-            observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() }
+            observeRelatedArtists(mediaId),
         ) { array ->
             val list = array.toList()
             val (header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists) = list
             if (mediaId.isArtist) {
-
-                header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists
+                buildList {
+                    add(header as DetailFragmentItem)
+                    add(siblings as DetailFragmentItem)
+                    add(mostPlayed as DetailFragmentItem)
+                    add(recentlyAdded as DetailFragmentItem)
+                    addAll(songList as List<DetailFragmentItem>)
+                    add(relatedArtists as DetailFragmentItem)
+                }
             } else {
-                header + mostPlayed + recentlyAdded + songList + relatedArtists + siblings
+                buildList {
+                    add(header as DetailFragmentItem)
+                    add(mostPlayed as DetailFragmentItem)
+                    add(recentlyAdded as DetailFragmentItem)
+                    addAll(songList as List<DetailFragmentItem>)
+                    add(relatedArtists as DetailFragmentItem)
+                    add(siblings as DetailFragmentItem)
+                }
             }
         }
     }
 
-    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return mostPlayedUseCase(mediaId).map {
-            it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(mediaId, index) }
+    private fun observeMostPlayed(mediaId: MediaId): Flow<DetailFragmentItem> {
+        return mostPlayedUseCase(mediaId).map { list ->
+            DetailFragmentItem.MostPlayed(
+                items = list.mapIndexed { index, song ->
+                    song.toMostPlayedDetailDisplayableItem(mediaId, index + 1)
+                }
+            )
         }
     }
 
-    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return recentlyAddedUseCase(mediaId).mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
+    private fun observeRecentlyAdded(mediaId: MediaId): Flow<DetailFragmentItem> {
+        return recentlyAddedUseCase(mediaId).map { list ->
+            DetailFragmentItem.RecentlyAdded(
+                items = list.map { it.toRecentDetailDisplayableItem(mediaId) }
+            )
+        }
     }
 
-    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return relatedArtistsUseCase(mediaId).mapListItem { it.toRelatedArtist(resources) }
+    private fun observeRelatedArtists(mediaId: MediaId): Flow<DetailFragmentItem> {
+        return relatedArtistsUseCase(mediaId).map { list ->
+            DetailFragmentItem.RelatedArtists(
+                items = list.map { it.toRelatedArtist(resources) }
+            )
+        }
     }
 
-    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
-        MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
+    private fun observeSiblings(mediaId: MediaId): Flow<DetailFragmentItem> {
+        // TODO improve
+        val header = try {
+            context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
+        } catch (ex: Throwable) {
+            ""
         }
-        MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
+        return when (mediaId.category) {
+            MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            // podcasts
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(mediaId.categoryId).map { list ->
+                DetailFragmentItem.Siblings(
+                    header = header,
+                    items = list.map { it.toDetailDisplayableItem(resources) }
+                )
+            }
+            MediaIdCategory.SONGS,
+            MediaIdCategory.PODCASTS,
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE -> throw IllegalArgumentException("invalid category=$mediaId")
         }
-        MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        // podcasts
-        MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        else -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
-    private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem {
+    private fun createDurationFooter(songCount: Int, duration: Int): DetailFragmentItem.DurationFooter {
         val songs = DisplayableAlbum.readableSongCount(resources, songCount)
         val time = TimeUtils.formatMillis(context, duration)
 
-        return DisplayableHeader(
-            type = R.layout.item_detail_song_footer,
-            mediaId = MediaId.headerId("duration footer"),
-            title = songs + TextUtils.MIDDLE_DOT_SPACED + time
+        return DetailFragmentItem.DurationFooter(
+            text = songs + TextUtils.MIDDLE_DOT_SPACED + time,
         )
     }
 

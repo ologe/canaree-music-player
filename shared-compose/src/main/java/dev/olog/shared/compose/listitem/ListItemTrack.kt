@@ -10,14 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.placeholder
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.CoverUtils
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.compose.R
 import dev.olog.shared.compose.ThemePreviews
@@ -37,6 +35,7 @@ fun ListItemTrack(
     subtitle: String?,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
+    position: String? = null,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
@@ -59,6 +58,14 @@ fun ListItemTrack(
             )
         },
         titleContent = {
+            if (position != null) {
+                Text(
+                    text = position,
+                    fontWeight = FontWeight.Bold,
+                    style = Theme.typography.trackTitle,
+                    color = Theme.colors.textColorPrimary.enabled,
+                )
+            }
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
@@ -73,13 +80,13 @@ fun ListItemTrack(
                     Icon(
                         painter = painterResource(R.drawable.vd_explicit),
                         size = 16.dp,
-                        colorFilter = Theme.colors.textColorPrimary.enabled,
+                        colorFilter = Theme.colors.textColorPrimary,
                     )
                 }
 
                 Text(
                     text = subtitle,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.weight(1f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -108,12 +115,22 @@ private fun Preview() {
                     ) {
                         ListItemTrack(
                             mediaId = MediaId.createCategoryValue(category, "$index"),
-                            title = "title",
+                            title = "$category",
                             subtitle = "subtitle",
                             onClick = {},
                             onLongClick = {},
                         )
                     }
+                }
+                item {
+                    ListItemTrack(
+                        mediaId = MediaId.songId(1),
+                        title = "title",
+                        subtitle = "subtitle",
+                        position = "1",
+                        onClick = { },
+                        onLongClick = {}
+                    )
                 }
             }
         }

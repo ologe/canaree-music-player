@@ -52,10 +52,9 @@ fun ListItemShuffle(
 
         Divider(
             Modifier
-                .padding(horizontal = dimensionResource(R.dimen.item_song_cover_margin_start))
+                .padding(horizontal = Theme.spacing.medium)
                 .padding(contentPadding)
         )
-        Spacer(modifier = Modifier.padding(Theme.spacing.extraSmall))
     }
 }
 
@@ -63,23 +62,9 @@ fun ListItemShuffle(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(
-            modifier = Modifier.background(Theme.colors.background)
-        ) {
-            ListItemTrack(
-                mediaId = MediaId.songId(1),
-                title = "title",
-                subtitle = "subtitle",
-                onClick = {},
-                onLongClick = {},
-            )
-            ListItemTrack(
-                mediaId = MediaId.songId(1),
-                title = "title (explicit)",
-                subtitle = "subtitle",
-                onClick = {},
-                onLongClick = {},
-            )
+        Column(Modifier.background(Theme.colors.background)) {
+            ListItemShuffle {}
+            ListItemShuffle {}
         }
     }
 }

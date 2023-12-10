@@ -71,7 +71,7 @@ fun ListItemPodcast(
             )
             Text(
                 text =  duration,
-                color = Theme.colors.accent,
+                color = Theme.colors.accent.enabled,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = Theme.spacing.small)
             )
