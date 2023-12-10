@@ -51,7 +51,7 @@ fun ListItemAlbum(
     subtitle: String?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier

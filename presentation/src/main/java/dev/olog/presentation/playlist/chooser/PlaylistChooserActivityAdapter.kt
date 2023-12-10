@@ -1,35 +1,29 @@
 package dev.olog.presentation.playlist.chooser
 
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_playlist_chooser.view.*
+import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
+import dev.olog.shared.compose.listitem.ListItemAlbum
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity
+) : ComposeListAdapter<PlaylistChooserItem>(PlaylistChooserItem) {
 
-) : ObservableAdapter<DisplayableItem>(
-    activity.lifecycle,
-    DiffCallbackDisplayableItem
-) {
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            askConfirmation(item)
-        }
+    @Composable
+    override fun Content(viewHolder: ComposeViewHolder, item: PlaylistChooserItem) {
+        ListItemAlbum(
+            mediaId = item.mediaId,
+            title = item.title,
+            subtitle = item.subtitle,
+            onClick = { askConfirmation(item) },
+        )
     }
 
-    private fun askConfirmation(item: DisplayableItem) {
-        require(item is DisplayableAlbum)
-
+    private fun askConfirmation(item: PlaylistChooserItem) {
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
@@ -41,13 +35,4 @@ class PlaylistChooserActivityAdapter(
             .show()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableAlbum)
-
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
-    }
 }

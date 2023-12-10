@@ -10,13 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +24,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
     private val playlistGateway: PlaylistGateway
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val data = MutableLiveData<List<PlaylistChooserItem>>()
 
     init {
         viewModelScope.launch {
@@ -42,11 +39,10 @@ class PlaylistChooserActivityViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeData(): LiveData<List<PlaylistChooserItem>> = data
 
-    private fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem {
-        return DisplayableAlbum(
-            type = R.layout.item_playlist_chooser,
+    private fun Playlist.toDisplayableItem(resources: Resources): PlaylistChooserItem {
+        return PlaylistChooserItem(
             mediaId = getMediaId(),
             title = title,
             subtitle = DisplayableAlbum.readableSongCount(resources, size)
