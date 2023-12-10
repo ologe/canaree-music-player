@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -26,8 +27,6 @@ import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
-import kotlinx.android.synthetic.main.fragment_player_default.*
-import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -49,9 +48,15 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     private lateinit var layoutManager: LinearLayoutManager
 
     private val mediaProvider by lazyFast { act.findInContext<MediaProvider>() }
-
+    private lateinit var list: RecyclerView
+    private var statusBar: View? = null
+    private var lyrics: View? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        list = view.findViewById(R.id.list)
+        statusBar = view.findViewById(R.id.statusBar)
+        lyrics = view.findViewById(R.id.lyrics)
+
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
