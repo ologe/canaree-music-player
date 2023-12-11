@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// TODO migrate
 @AndroidEntryPoint
 class BlacklistFragment : ListDialog() {
 
@@ -27,7 +28,7 @@ class BlacklistFragment : ListDialog() {
 
     @Inject lateinit var presenter: BlacklistFragmentPresenter
 
-    private lateinit var adapter: BlacklistFragmentAdapter
+//    private lateinit var adapter: BlacklistFragmentAdapter
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder
@@ -39,24 +40,24 @@ class BlacklistFragment : ListDialog() {
 
     override fun setupRecyclerView(list: RecyclerView) {
         GlobalScope.launch(Dispatchers.Main) {
-            val data = withContext(Dispatchers.Default) {
-                presenter.data
-            }
-            adapter = BlacklistFragmentAdapter(data)
-            list.adapter = adapter
-            list.layoutManager = GridLayoutManager(context, 3)
+//            val data = withContext(Dispatchers.Default) {
+//                presenter.data
+//            }
+//            adapter = BlacklistFragmentAdapter(data)
+//            list.adapter = adapter
+//            list.layoutManager = GridLayoutManager(context, 3)
         }
     }
 
     override fun positiveAction() {
-        val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
-        if (allIsBlacklisted){
-            showErrorMessage()
-        } else {
-            presenter.saveBlacklisted(adapter.getData())
-            notifyMediaStore()
-            dismiss()
-        }
+//        val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
+//        if (allIsBlacklisted){
+//            showErrorMessage()
+//        } else {
+//            presenter.saveBlacklisted(adapter.getData())
+//            notifyMediaStore()
+//            dismiss()
+//        }
     }
 
     private fun notifyMediaStore(){

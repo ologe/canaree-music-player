@@ -14,6 +14,7 @@ import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+// TODO correctly migrate
 @AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
@@ -31,9 +32,9 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     @Inject
     internal lateinit var presenter: LibraryCategoriesFragmentPresenter
-    private val adapter by lazyFast {
-        LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
-    }
+//    private val adapter by lazyFast {
+//        LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
+//    }
 
     private val category by lazyFast {
         MediaIdCategory.values()[arguments!!.getInt(
@@ -51,20 +52,20 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
-        list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(list, 0)
+//        list.adapter = adapter
+//        list.layoutManager = LinearLayoutManager(context)
+//        setupDragListener(list, 0)
     }
 
     override fun positiveAction() {
-        presenter.setDataSet(category, adapter.getData())
-        act.recreate()
-        dismiss()
+//        presenter.setDataSet(category, adapter.getData())
+//        act.recreate()
+//        dismiss()
     }
 
     override fun neutralAction() {
-        val defaultData = presenter.getDefaultDataSet(category)
-        adapter.updateDataSet(defaultData)
+//        val defaultData = presenter.getDefaultDataSet(category)
+//        adapter.updateDataSet(defaultData)
     }
 
 }

@@ -2,7 +2,6 @@ plugins {
     id("dev.olog.msc.library")
     id("dev.olog.msc.dagger")
     id("dev.olog.msc.compose")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -11,10 +10,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-}
-
-androidExtensions {
-    experimental = true
 }
 
 dependencies {

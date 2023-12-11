@@ -1,7 +1,6 @@
 plugins {
     id("dev.olog.msc.library")
     id("dev.olog.msc.dagger")
-    id("kotlin-android-extensions")
 }
 
 android {

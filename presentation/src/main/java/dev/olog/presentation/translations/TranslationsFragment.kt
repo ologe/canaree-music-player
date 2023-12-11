@@ -14,6 +14,7 @@ import dev.olog.shared.android.extensions.viewBinding
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+// TODO migrate
 @AndroidEntryPoint
 class TranslationsFragment : Fragment(R.layout.fragment_translations) {
 
@@ -21,14 +22,14 @@ class TranslationsFragment : Fragment(R.layout.fragment_translations) {
     internal lateinit var navigator: NavigatorAbout
 
     private val binding by viewBinding(FragmentTranslationsBinding::bind)
-    private val adapter by lazyFast {
-        val data = listOf("", "") + contributors
-        TranslationFragmentAdapter(data.toMutableList(), navigator)
-    }
+//    private val adapter by lazyFast {
+//        val data = listOf("", "") + contributors
+//        TranslationFragmentAdapter(data.toMutableList(), navigator)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.list.adapter = adapter
-        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+//        binding.list.adapter = adapter
+//        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
     }
 
     override fun onResume() {
