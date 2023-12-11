@@ -2,8 +2,10 @@
 
 package dev.olog.shared.android.extensions
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 
 
 fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit) {
@@ -15,12 +17,19 @@ fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit)
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return Transformations.distinctUntilChanged(this)
+    val result = MediatorLiveData<T>()
+    result.addSource(this) { x ->
+        if (result.value != x) {
+            result.value = x
+        }
+
+    }
+    return result
 }
 
 inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<T> {
     val result = MediatorLiveData<T>()
-    result.addSource<T>(this) { x ->
+    result.addSource(this) { x ->
         if (filter(x)) {
             result.value = x
         }
@@ -30,7 +39,10 @@ inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<
 }
 
 inline fun <T, R> LiveData<T>.map(crossinline function: (T) -> R): LiveData<R> {
-    return Transformations.map(this) {
-        function(it)
+    val result = MediatorLiveData<R>()
+    result.addSource(this) { x ->
+        result.value = function(x)
+
     }
+    return result
 }

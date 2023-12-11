@@ -78,7 +78,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         binding.viewPager.adapter = pagerAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-        binding.viewPager.offscreenPageLimit = 5
+        //binding.viewPager.offscreenPageLimit = 2
 
         binding.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 

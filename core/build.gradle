@@ -9,6 +9,4 @@ android {
 
 dependencies {
     implementation project(':shared')
-
-    implementation lib_x.annotations
 }

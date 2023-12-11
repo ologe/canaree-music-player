@@ -9,5 +9,4 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation lib_x.annotations
 }

@@ -141,7 +141,8 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         }
     }
 
-    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
+    override val lifecycle: Lifecycle
+        get() = dispatcher.lifecycle
 
     protected abstract fun handleMediaButton(intent: Intent)
 
