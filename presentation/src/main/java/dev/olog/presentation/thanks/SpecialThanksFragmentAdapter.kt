@@ -1,47 +1,66 @@
 package dev.olog.presentation.thanks
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.DiffUtil
-import dev.olog.image.provider.GlideApp
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.SpecialThanksModel
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import dev.olog.shared.compose.ThemePreviews
+import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
+import dev.olog.shared.compose.component.Text
+import dev.olog.shared.compose.listitem.ListItemSlots
+import dev.olog.shared.compose.theme.CanareeTheme
+import dev.olog.shared.compose.theme.Theme
+import dev.olog.presentation.R
 
 class SpecialThanksFragmentAdapter(
-    lifecycle: Lifecycle
-) : ObservableAdapter<SpecialThanksModel>(lifecycle,
-    DiffUtilSpecialThansModel
-) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-    }
+) : ComposeListAdapter<SpecialThanksItem>(SpecialThanksItem) {
 
-    override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.itemView.apply {
-            GlideApp.with(context)
-                .load(ContextCompat.getDrawable(context, item.image))
-                .into(image)
-
-            title.text = item.title
-        }
+    @Composable
+    override fun Content(viewHolder: ComposeViewHolder, item: SpecialThanksItem) {
+        ItemContent(item = item)
     }
 
 }
 
-object DiffUtilSpecialThansModel : DiffUtil.ItemCallback<SpecialThanksModel>() {
-    override fun areItemsTheSame(
-        oldItem: SpecialThanksModel,
-        newItem: SpecialThanksModel
-    ): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
+@Composable
+private fun ItemContent(item: SpecialThanksItem) {
+    ListItemSlots(
+        modifier = Modifier,
+        iconContent = {
+            Image(
+                painter = rememberDrawablePainter(
+                    drawable = ContextCompat.getDrawable(
+                        LocalContext.current,
+                        item.imageRes
+                    )
+                ),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+            )
+        },
+        titleContent = {
+            Text(text = item.title)
+        },
+        subtitleContent = null,
+    )
+}
 
-    override fun areContentsTheSame(
-        oldItem: SpecialThanksModel,
-        newItem: SpecialThanksModel
-    ): Boolean {
-        return oldItem == newItem
+@ThemePreviews
+@Composable
+private fun Preview() {
+    CanareeTheme {
+        Box(Modifier.background(Theme.colors.background)) {
+            ItemContent(
+                item = SpecialThanksItem("title", R.drawable.vd_folder)
+            )
+        }
     }
 }

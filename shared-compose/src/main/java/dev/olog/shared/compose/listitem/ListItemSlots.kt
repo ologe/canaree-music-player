@@ -37,7 +37,7 @@ val ListItemSlotsHeight: Dp
 
 // TODO make rounded hover and clickable zone?
 @Composable
-internal fun ListItemSlots(
+fun ListItemSlots(
     modifier: Modifier,
     iconContent: @Composable BoxScope.() -> Unit,
     titleContent: @Composable RowScope.() -> Unit,
