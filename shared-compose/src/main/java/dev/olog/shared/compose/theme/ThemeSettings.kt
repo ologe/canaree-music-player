@@ -9,8 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.HasImageShape
+import dev.olog.shared.android.theme.HasPlayerAppearance
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.ImageShape
+import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.QuickAction
 
 val LocalThemeSettings = staticCompositionLocalOf<ThemeSettings> {
@@ -21,6 +23,7 @@ val LocalThemeSettings = staticCompositionLocalOf<ThemeSettings> {
 data class ThemeSettingsOverride(
     val imageShape: ImageShape? = null,
     val quickAction: QuickAction?  = null,
+    val playerAppearance: PlayerAppearance? = null,
 ) {
 
     @Stable
@@ -28,6 +31,7 @@ data class ThemeSettingsOverride(
         return ThemeSettings(
             imageShape = imageShape ?: ThemeSettings.Default.imageShape,
             quickAction = quickAction ?: ThemeSettings.Default.quickAction,
+            playerAppearance = playerAppearance ?: ThemeSettings.Default.playerAppearance,
         )
     }
 
@@ -37,12 +41,14 @@ data class ThemeSettingsOverride(
 data class ThemeSettings(
     val imageShape: ImageShape,
     val quickAction: QuickAction,
+    val playerAppearance: PlayerAppearance,
 ) {
 
     companion object {
         val Default = ThemeSettings(
             imageShape = ImageShape.ROUND,
             quickAction = QuickAction.NONE,
+            playerAppearance = PlayerAppearance.DEFAULT,
         )
     }
 
@@ -65,6 +71,9 @@ internal fun ThemeSettings(
                     .collectAsState().value,
                 quickAction = context.findInContext<HasQuickAction>()
                     .observeQuickAction()
+                    .collectAsState().value,
+                playerAppearance = context.findInContext<HasPlayerAppearance>()
+                    .observePlayerAppearance()
                     .collectAsState().value
             )
         }

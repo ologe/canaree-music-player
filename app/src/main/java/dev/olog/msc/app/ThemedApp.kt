@@ -28,12 +28,12 @@ abstract class ThemedApp : Application(),
     @Inject
     internal lateinit var quickActionListener: QuickActionListener
 
-    override fun playerAppearance(): PlayerAppearance {
-        return playerAppearanceListener.playerAppearance
+    override fun observePlayerAppearance(): StateFlow<PlayerAppearance> {
+        return playerAppearanceListener.flow
     }
 
     override fun isImmersive(): Boolean {
-        return immersiveModeListener.isImmersive
+        return immersiveModeListener.flow.value
     }
 
     override fun observeImageShape(): StateFlow<ImageShape> {

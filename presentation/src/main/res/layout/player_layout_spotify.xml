@@ -26,7 +26,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar" />
 
-    <include layout="@layout/layout_view_switcher_square"
+    <include
+        android:id="@+id/imageSwitcherLayout"
+        layout="@layout/layout_view_switcher_square"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +41,10 @@
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
-        app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toTopOf="@+id/imageSwitcherLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcherLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -55,10 +57,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toBottomOf="@+id/imageSwitcherLayout"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher">
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcherLayout"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcherLayout">
 
         <!-- title -->
         <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
@@ -99,8 +101,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcherLayout"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcherLayout"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
         android:paddingStart="8dp"

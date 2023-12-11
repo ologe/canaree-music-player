@@ -22,6 +22,7 @@ class ComposeConventionPlugin : Plugin<Project> {
                 add("implementation", platform(findLibrary("compose-bom")))
                 implementation("compose-ui")
                 implementation("compose-foundation")
+                implementation("compose-viewbinding")
                 debugImplementation("compose-tooling")
                 implementation("compose-tooling-preview")
                 implementation("compose-accompanist-drawablepainter")

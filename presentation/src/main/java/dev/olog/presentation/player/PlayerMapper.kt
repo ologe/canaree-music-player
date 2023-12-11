@@ -1,18 +1,12 @@
 package dev.olog.presentation.player
 
 import dev.olog.media.model.PlayerItem
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
 
-internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
-    return DisplayableTrack(
-        type = R.layout.item_mini_queue,
+internal fun PlayerItem.toDisplayableItem(): dev.olog.presentation.player.PlayerItem {
+    return dev.olog.presentation.player.PlayerItem.Track(
         mediaId = mediaId,
         title = title,
-        artist = artist,
-        album = "",
+        subtitle = artist,
         idInPlaylist = idInPlaylist.toInt(),
-        dataModified = -1
     )
 }

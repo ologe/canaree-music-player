@@ -11,7 +11,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-internal class PlayerFragmentPresenter @Inject constructor(
+class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val prefsGateway: AppPreferencesGateway,
     private val presentationPrefs: PresentationPreferencesGateway

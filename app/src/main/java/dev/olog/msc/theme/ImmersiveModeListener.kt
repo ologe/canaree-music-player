@@ -7,7 +7,8 @@ import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StatusBarView
-import dev.olog.shared.mutableLazy
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(
@@ -16,12 +17,13 @@ internal class ImmersiveModeListener @Inject constructor(
 ) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(R.string.prefs_immersive_key)),
     ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
-    var isImmersive by mutableLazy { getValue() }
-        private set
+    private val _flow by lazy { MutableStateFlow(getValue()) }
+    val flow: StateFlow<Boolean>
+        get() = _flow
 
     override fun onPrefsChanged() {
         StatusBarView.viewHeight = -1
-        isImmersive = getValue()
+        _flow.value = getValue()
         currentActivity?.recreate()
     }
 

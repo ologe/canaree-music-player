@@ -3,12 +3,14 @@ package dev.olog.presentation.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class VolumeChangerView(
     context: Context,
     attrs: AttributeSet
@@ -18,20 +20,15 @@ class VolumeChangerView(
         setImageResource(R.drawable.vd_volume_up)
     }
 
-    var musicPrefs: MusicPreferencesGateway? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                startObserving()
-            }
-        }
+    @Inject
+    lateinit var musicPrefs: MusicPreferencesGateway
 
     private var job: Job? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode){
-            musicPrefs?.let { startObserving() }
+            startObserving()
         }
     }
 
@@ -45,7 +42,7 @@ class VolumeChangerView(
     private fun startObserving() {
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.Main) {
-            musicPrefs!!.observeVolume()
+            musicPrefs.observeVolume()
                 .flowOn(Dispatchers.Default)
                 .collect { updateImage(it) }
         }

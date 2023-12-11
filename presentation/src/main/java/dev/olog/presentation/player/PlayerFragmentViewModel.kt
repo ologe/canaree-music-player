@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class PlayerFragmentViewModel @Inject constructor(
+class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
@@ -46,39 +46,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrNull()!!
 
     fun updateCurrentTrackId(trackId: Long) {
         currentTrackIdPublisher.trySend(trackId)
-    }
-
-    val footerLoadMore : DisplayableItem = DisplayableHeader(
-            type = R.layout.item_mini_queue_load_more,
-            mediaId = MediaId.headerId("load more"),
-            title = ""
-    )
-
-    fun playerControls(): DisplayableItem {
-        val hasPlayerAppearance = context.hasPlayerAppearance()
-        val id = when (hasPlayerAppearance.playerAppearance()) {
-            PlayerAppearance.DEFAULT -> R.layout.player_layout_default
-            PlayerAppearance.FLAT -> R.layout.player_layout_flat
-            PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify
-            PlayerAppearance.FULLSCREEN -> R.layout.player_layout_fullscreen
-            PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image
-            PlayerAppearance.CLEAN -> R.layout.player_layout_clean
-            PlayerAppearance.MINI -> R.layout.player_layout_mini
-            else -> throw IllegalStateException("invalid theme")
-        }
-        return DisplayableHeader(
-            type = id,
-            mediaId = MediaId.headerId("player controls id"),
-            title = ""
-        )
     }
 
     val onFavoriteStateChanged: LiveData<FavoriteEnum> = favoriteLiveData

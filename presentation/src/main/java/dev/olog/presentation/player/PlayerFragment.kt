@@ -43,8 +43,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     @Inject
     lateinit var navigator: Navigator
 
-    @Inject lateinit var musicPrefs: MusicPreferencesGateway
-
     private lateinit var layoutManager: LinearLayoutManager
 
     private val mediaProvider by lazyFast { act.findInContext<MediaProvider>() }
@@ -60,9 +58,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, activity!!.findInContext(),
-            navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            mediaProvider = activity!!.findInContext(),
+            navigator = navigator,
+            viewModel = viewModel,
+            presenter = presenter,
+            dragListener = this,
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -81,17 +82,17 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                 if (!hasPlayerAppearance.isMini()) {
                     val copy = queue.toMutableList()
                     if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
-                        copy.add(viewModel.footerLoadMore)
+                        copy.add(PlayerItem.LoadMore)
                     }
-                    copy.add(0, viewModel.playerControls())
+                    copy.add(0, PlayerItem.Player)
                     copy
                 } else {
-                    listOf(viewModel.playerControls())
+                    listOf(PlayerItem.Player)
                 }
             }
             .flowOn(Dispatchers.Default)
             .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onResume() {

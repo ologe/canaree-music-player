@@ -7,7 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_view_switcher_fullscreen"
+    <include
+        android:id="@+id/imageSwitcherLayout"
+        layout="@layout/layout_view_switcher_fullscreen"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
