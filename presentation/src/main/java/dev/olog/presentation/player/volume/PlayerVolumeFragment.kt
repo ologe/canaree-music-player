@@ -12,7 +12,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
-import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,6 +36,9 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
     @Inject
     lateinit var musicPrefs: MusicPreferencesGateway
 
+    private lateinit var volumeSlider: SeekBar
+    private lateinit var card: View
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +49,9 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        volumeSlider = view.findViewById(R.id.volumeSlider)
+        card = view.findViewById(R.id.card)
+
         volumeSlider.max = 100
         volumeSlider.progress = musicPrefs.getVolume()
 
