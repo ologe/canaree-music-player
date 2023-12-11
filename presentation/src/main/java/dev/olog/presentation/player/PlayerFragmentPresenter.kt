@@ -2,23 +2,30 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.*
+import dev.olog.shared.widgets.adaptive.InvalidPaletteColors
+import dev.olog.shared.widgets.adaptive.InvalidProcessColors
+import dev.olog.shared.widgets.adaptive.PaletteColors
+import dev.olog.shared.widgets.adaptive.ProcessorColors
+import dev.olog.shared.widgets.adaptive.ValidPaletteColors
+import dev.olog.shared.widgets.adaptive.ValidProcessorColors
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val prefsGateway: AppPreferencesGateway,
     private val presentationPrefs: PresentationPreferencesGateway
 ) {
 
-    private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
-    private val palettePublisher = ConflatedBroadcastChannel<PaletteColors>()
+    private val processorPublisher = MutableStateFlow<ProcessorColors?>(null)
+    private val palettePublisher = MutableStateFlow<PaletteColors?>(null)
 
     fun observePlayerControlsVisibility(): Flow<Boolean> {
         return presentationPrefs.observePlayerControlsVisibility()
@@ -27,7 +34,8 @@ class PlayerFragmentPresenter @Inject constructor(
     // allow adaptive color on flat appearance
     fun observeProcessorColors(): Flow<ProcessorColors> {
 
-        return processorPublisher.asFlow()
+        return processorPublisher
+            .filterNotNull()
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
                 if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
@@ -44,7 +52,7 @@ class PlayerFragmentPresenter @Inject constructor(
     fun observePaletteColors(): Flow<PaletteColors> {
 
         return palettePublisher
-            .asFlow()
+            .filterNotNull()
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
                 if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
@@ -58,11 +66,11 @@ class PlayerFragmentPresenter @Inject constructor(
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.trySend(palette)
+        processorPublisher.value = palette
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.trySend(palette)
+        palettePublisher.value = palette
     }
 
 

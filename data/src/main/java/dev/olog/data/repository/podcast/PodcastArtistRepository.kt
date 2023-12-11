@@ -20,7 +20,11 @@ import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class PodcastArtistRepository @Inject constructor(
@@ -57,11 +61,11 @@ internal class PodcastArtistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Artist? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.replayCache.firstOrNull()?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return channel.asFlow()
+        return channel
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
     }

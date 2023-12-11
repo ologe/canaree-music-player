@@ -26,7 +26,7 @@ ext {
     tap_target_view = '2.0.0'
 
 //    data
-    room = '2.4.0'
+    room = '2.6.1'
     sql_content_resolver = '1.2.1'
 
 //    network

@@ -4,8 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
@@ -25,7 +25,6 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -76,15 +75,15 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: Path): Folder? {
-        return channel.valueOrNull?.find { it.path == param }
+        return channel.replayCache.firstOrNull()?.find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
-        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
+        return channel.replayCache.firstOrNull()?.find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow()
+        return channel
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
     }

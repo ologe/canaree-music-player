@@ -4,8 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
@@ -26,7 +26,6 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -67,11 +66,11 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Genre? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.replayCache.firstOrNull()?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return channel.asFlow().map { it.find { it.id == param } }
+        return channel.map { it.find { it.id == param } }
             .distinctUntilChanged()
     }
 

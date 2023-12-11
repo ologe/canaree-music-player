@@ -22,10 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
-import java.lang.Runnable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
@@ -98,8 +104,8 @@ class RxFastScroller(
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
 
-    private val bubbleTextPublisher = ConflatedBroadcastChannel("")
-    private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
+    private val bubbleTextPublisher = MutableStateFlow("")
+    private val scrollPublisher = MutableStateFlow(RecyclerView.NO_POSITION)
     private var bubbleTextDisposable : Job? = null
     private var scrollDisposable : Job? = null
 
@@ -218,9 +224,7 @@ class RxFastScroller(
             if (showBubble){
                 launch {
                     bubbleTextDisposable = launch {
-                        bubbleTextPublisher.asFlow()
-                            .distinctUntilChanged()
-                            .flowOn(Dispatchers.Default)
+                        bubbleTextPublisher
                             .map {
                                 when {
                                     it < "A" -> "#"
@@ -233,7 +237,7 @@ class RxFastScroller(
             }
 
             scrollDisposable = launch {
-                scrollPublisher.asFlow()
+                scrollPublisher
                     .filter { it != RecyclerView.NO_POSITION }
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
@@ -384,10 +388,10 @@ class RxFastScroller(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            scrollPublisher.trySend(targetPos)
+            scrollPublisher.value = targetPos
 
             val letter = mSectionIndexer?.getSectionText(targetPos)
-            letter?.let { bubbleTextPublisher.trySend(it) }
+            letter?.let { bubbleTextPublisher.value = it }
         }
     }
 

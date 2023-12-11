@@ -17,6 +17,6 @@ internal object config {
     const val versionCode = 999_29_3_3_01
     const val versionName = "3.3.1"
 
-    val javaVersion = JavaVersion.VERSION_1_8
+    val javaVersion = JavaVersion.VERSION_17
 
 }

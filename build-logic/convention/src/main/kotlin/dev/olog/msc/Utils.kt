@@ -6,6 +6,7 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 
 internal fun Project.configureApp(block: BaseAppModuleExtension.() -> Unit) {
@@ -18,4 +19,8 @@ internal fun Project.configureLibrary(block: LibraryExtension.() -> Unit) {
 
 internal fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
+}
+
+internal fun Project.kotlin(block: KotlinJvmProjectExtension.() -> Unit) {
+    (this as ExtensionAware).extensions.configure("kotlin", block)
 }

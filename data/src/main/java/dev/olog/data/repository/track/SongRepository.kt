@@ -6,8 +6,8 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
 import android.util.Log
-import dev.olog.contentresolversql.querySql
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
@@ -18,7 +18,10 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.*
+import dev.olog.data.utils.getLong
+import dev.olog.data.utils.getString
+import dev.olog.data.utils.queryAll
+import dev.olog.data.utils.queryOne
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -123,6 +126,6 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        return channel.replayCache.firstOrNull()?.find { it.albumId == albumId }
     }
 }

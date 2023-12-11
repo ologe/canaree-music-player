@@ -17,9 +17,23 @@ import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.indexOfClosest
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 sealed class Lyrics {
@@ -46,10 +60,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val spannableBuilder = SpannableStringBuilder()
 
     private var insertLyricsJob: Job? = null
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
-    private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
+    private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
+    private val syncAdjustmentPublisher = MutableStateFlow<Long>(0)
 
-    private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
+    private val lyricsPublisher = MutableSharedFlow<Lyrics>()
 
     private var observeLyricsJob: Job? = null
     private var transformLyricsJob: Job? = null
@@ -68,13 +82,14 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     fun onStart() {
         observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
+                .filterNotNull()
                 .flatMapLatest { id -> observeUseCase(id) }
                 .flowOn(Dispatchers.IO)
                 .collect { onNextLyrics(it) }
         }
         transformLyricsJob = GlobalScope.launch {
-            lyricsPublisher.asFlow()
+            lyricsPublisher
                 .flatMapLatest {
                     when (it) {
                         is Lyrics.Normal -> {
@@ -93,9 +108,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 }
         }
         syncJob = GlobalScope.launch {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
+                .filterNotNull()
                 .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
-                .collect { syncAdjustmentPublisher.trySend(it) }
+                .collect { syncAdjustmentPublisher.tryEmit(it) }
         }
     }
 
@@ -128,7 +144,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.trySend(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
+            lyricsPublisher.tryEmit(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -151,7 +167,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                     defaultSpan(this, 0, textOnly.length)
                 }
             }
-            lyricsPublisher.trySend(Lyrics.Synced(result))
+            lyricsPublisher.tryEmit(Lyrics.Synced(result))
         }
     }
 
@@ -197,7 +213,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.trySend(trackId)
+        currentTrackIdPublisher.tryEmit(trackId)
     }
 
     fun getLyrics(): String {
@@ -206,21 +222,22 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     fun updateSyncAdjustment(value: Long) {
         GlobalScope.launch {
-            lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
+            val id = currentTrackIdPublisher.value ?: return@launch
+            lyricsGateway.setSyncAdjustment(id, value)
         }
     }
 
     suspend fun getSyncAdjustment(): String = withContext(Dispatchers.IO) {
-        "${lyricsGateway.getSyncAdjustment(currentTrackIdPublisher.value)}"
+        val id = currentTrackIdPublisher.value ?: return@withContext ""
+        "${lyricsGateway.getSyncAdjustment(id)}"
     }
 
     fun updateLyrics(lyrics: String) {
-        if (currentTrackIdPublisher.valueOrNull == null) {
-            return
-        }
+        val id = currentTrackIdPublisher.value ?: return
+
         insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
-            insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+            insertUseCase(OfflineLyrics(id, lyrics))
         }
     }
 
