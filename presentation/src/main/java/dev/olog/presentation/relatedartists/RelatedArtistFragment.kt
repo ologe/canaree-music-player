@@ -33,7 +33,7 @@ class RelatedArtistFragment : Fragment(R.layout.fragment_related_artist) {
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    private val adapter by lazyFast { RelatedArtistFragmentAdapter(navigator) }
 
     private val binding by viewBinding(FragmentRelatedArtistBinding::bind) { binding ->
         binding.list.adapter = null
@@ -46,7 +46,7 @@ class RelatedArtistFragment : Fragment(R.layout.fragment_related_artist) {
         binding.list.setHasFixedSize(true)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->

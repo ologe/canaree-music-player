@@ -32,7 +32,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val liveData = MutableLiveData<List<DisplayableItem>>()
+    private val liveData = MutableLiveData<List<RelatedArtistItem>>()
     private val titleLiveData = MutableLiveData<String>()
 
     init {
@@ -49,19 +49,17 @@ class RelatedArtistFragmentViewModel @Inject constructor(
         }
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = liveData
+    fun observeData(): LiveData<List<RelatedArtistItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
 
     override fun onCleared() {
         viewModelScope.cancel()
     }
 
-    private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
-        val songs =
-            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
+    private fun Artist.toRelatedArtist(resources: Resources): RelatedArtistItem {
+        val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
 
-        return DisplayableAlbum(
-            type = R.layout.item_related_artist,
+        return RelatedArtistItem(
             mediaId = getMediaId(),
             title = this.name,
             subtitle = songs
