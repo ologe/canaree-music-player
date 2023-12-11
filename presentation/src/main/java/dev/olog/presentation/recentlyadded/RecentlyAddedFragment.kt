@@ -39,7 +39,8 @@ class RecentlyAddedFragment : Fragment(R.layout.fragment_recently_added), IDragL
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            lifecycle, navigator, act.findInContext(), this
+            navigator = navigator,
+            mediaProvider = act.findInContext()
         )
     }
 
@@ -53,9 +54,10 @@ class RecentlyAddedFragment : Fragment(R.layout.fragment_recently_added), IDragL
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
         binding.list.setHasFixedSize(true)
 
+        // TODO check this
         setupDragListener(binding.list, ItemTouchHelper.LEFT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->

@@ -1,60 +1,46 @@
 package dev.olog.presentation.recentlyadded
 
-import androidx.lifecycle.Lifecycle
+import androidx.compose.runtime.Composable
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_recently_added.view.*
+import dev.olog.shared.compose.component.ComposeListAdapter
+import dev.olog.shared.compose.component.ComposeViewHolder
+import dev.olog.shared.compose.component.IconButton
+import dev.olog.shared.compose.listitem.ListItemTrack
 
 class RecentlyAddedFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
-    private val dragListener: IDragListener
+) : ComposeListAdapter<RecentlyAddedItem>(RecentlyAddedItem), TouchableAdapter {
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playFromMediaId(item.mediaId, null, null)
-        }
-        viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
-        }
-        viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item.mediaId, view)
-        }
-        viewHolder.elevateAlbumOnTouch()
-        viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
-    }
-
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableTrack)
-
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
-        }
-    }
-
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_recently_added
+    @Composable
+    override fun Content(viewHolder: ComposeViewHolder, item: RecentlyAddedItem) {
+        ListItemTrack(
+            mediaId = item.mediaId,
+            title = item.title,
+            subtitle = item.subtitle,
+            onClick = {
+                mediaProvider.playFromMediaId(item.mediaId, null, null)
+            },
+            onLongClick = {
+                navigator.toDialog(item.mediaId, viewHolder.itemView)
+            },
+            trailingContent = {
+                IconButton(
+                    drawableRes = R.drawable.vd_more,
+                    onClick = {
+                        navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    }
+                )
+            }
+        )
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
+        val item = getItem(viewHolder.bindingAdapterPosition)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 
