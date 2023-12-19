@@ -1,7 +1,6 @@
-package dev.olog.presentation.tab.adapter
+package dev.olog.presentation.tab
 
 import androidx.compose.runtime.Stable
-import androidx.recyclerview.widget.DiffUtil
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
@@ -10,7 +9,14 @@ import dev.olog.presentation.widgets.fascroller.ScrollableItem
 import kotlin.time.Duration
 
 @Stable
-sealed interface TabFragmentItem {
+data class TabScreenState(
+    val items: List<TabListItem>,
+    val letters: List<String>,
+    val spanCount: Int,
+)
+
+@Stable
+sealed interface TabListItem {
 
     @Stable
     data class Track(
@@ -18,7 +24,7 @@ sealed interface TabFragmentItem {
         val title: String,
         val artist: String,
         val album: String,
-    ) : TabFragmentItem, ScrollableItem {
+    ) : TabListItem, ScrollableItem {
         val subtitle: String = DisplayableTrack.subtitle(artist, album)
         override fun getText(order: SortType): String = when (order) {
             SortType.TITLE -> title
@@ -35,13 +41,13 @@ sealed interface TabFragmentItem {
         val artist: String,
         val album: String,
         val duration: Duration,
-    ) : TabFragmentItem, ScrollableItem {
+    ) : TabListItem, ScrollableItem {
         val subtitle: String = DisplayableTrack.subtitle(artist, album)
         override fun getText(order: SortType): String = title
     }
 
     @Stable
-    sealed interface Album : TabFragmentItem {
+    sealed interface Album : TabListItem {
         val mediaId: MediaId
         val title: String
         val subtitle: String?
@@ -78,26 +84,12 @@ sealed interface TabFragmentItem {
     }
 
     @Stable
-    object Shuffle : TabFragmentItem
+    data object Shuffle : TabListItem
 
     @Stable
-    data class List(val items: kotlin.collections.List<TabFragmentItem>) : TabFragmentItem
+    data class List(val items: kotlin.collections.List<Album>) : TabListItem
 
     @Stable
-    data class Header(val text: String) : TabFragmentItem
-
-    companion object : DiffUtil.ItemCallback<TabFragmentItem>() {
-
-        override fun areItemsTheSame(oldItem: TabFragmentItem, newItem: TabFragmentItem): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: TabFragmentItem,
-            newItem: TabFragmentItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    data class Header(val text: String) : TabListItem
 
 }

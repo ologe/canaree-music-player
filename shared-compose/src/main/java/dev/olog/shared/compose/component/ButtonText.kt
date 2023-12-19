@@ -39,7 +39,7 @@ private fun Preview() {
                 .padding(8.dp)
         ) {
             ButtonText(text = "Button") {}
-            CompositionLocalProvider(LocalContentColor provides Theme.colors.accent) {
+            CompositionLocalProvider(LocalContentColor provides Theme.colors.primary) {
                 ButtonText(text = "Button") {}
             }
         }

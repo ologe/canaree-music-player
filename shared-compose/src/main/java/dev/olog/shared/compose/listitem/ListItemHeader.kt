@@ -3,7 +3,6 @@ package dev.olog.shared.compose.listitem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -26,18 +25,14 @@ fun ListItemHeader(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
-    contentPadding: PaddingValues = PaddingValues(),
     trailingContent: @Composable (() -> Unit)? = null,
 ) {
     Column(
-        modifier = modifier
-            .padding(contentPadding)
-            .padding(horizontal = Theme.spacing.medium),
+        modifier = modifier.padding(vertical = Theme.spacing.small),
         verticalArrangement = Arrangement.spacedBy(Theme.spacing.small)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = Theme.spacing.small)
         ) {
             Column(Modifier.weight(1f)) {
                 if (subtitle != null) {
@@ -45,7 +40,7 @@ fun ListItemHeader(
                         text = subtitle,
                         maxLines = 1,
                         fontSize = 14.dp.toFakeSp(),
-                        color = Theme.colors.accent.enabled,
+                        color = Theme.colors.primary.enabled,
                     )
                 }
                 
@@ -58,8 +53,8 @@ fun ListItemHeader(
                 )
             }
             CompositionLocalProvider(
-                LocalContentColor provides Theme.colors.accent,
-                LocalIconColor provides Theme.colors.accent,
+                LocalContentColor provides Theme.colors.primary,
+                LocalIconColor provides Theme.colors.primary,
             ) {
                 trailingContent?.invoke()
             }

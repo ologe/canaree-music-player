@@ -54,7 +54,7 @@ class MediaExposer(
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = MutableSharedFlow<MusicServiceConnectionState>()
+    private val connectionPublisher = MutableSharedFlow<MusicServiceConnectionState>(replay = 1)
 
     private val metadataPublisher = MutableLiveData<PlayerMetadata>()
     private val statePublisher = MutableLiveData<PlayerPlaybackState>()

@@ -1,5 +1,6 @@
 package dev.olog.presentation.model
 
+import dev.olog.presentation.library.LibraryPage
 import dev.olog.presentation.tab.TabCategory
 import kotlinx.coroutines.flow.Flow
 
@@ -18,11 +19,11 @@ interface PresentationPreferencesGateway {
     fun getViewPagerPodcastLastPage(): Int
     fun setViewPagerPodcastLastPage(lastPage: Int)
 
-    fun getLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getLibraryCategories() : Flow<List<LibraryCategoryBehavior>>
     fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior>
     fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
-    fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getPodcastLibraryCategories() : Flow<List<LibraryCategoryBehavior>>
     fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>
     fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
@@ -38,6 +39,8 @@ interface PresentationPreferencesGateway {
     fun setSpanCount(category: TabCategory, spanCount: Int)
 
     fun canShowPodcasts(): Boolean
+
+    fun showFolderAsHierarchy(): Flow<Boolean>
 
     fun setDefault()
 }

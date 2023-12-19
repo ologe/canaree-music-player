@@ -17,11 +17,14 @@ android {
 
 dependencies {
     implementation(project((":core")))
+    implementation(project((":shared")))
     implementation(project((":shared-widgets")))
     implementation(project((":shared-android")))
     implementation(project((":image-provider")))
 
     implementation lib_x.recycler
+    implementation lib_x.material
+    implementation lib_x.preference
     implementation(libs.glide.compose)
     implementation(libs.compose.material)
 }

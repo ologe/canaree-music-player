@@ -8,14 +8,14 @@ import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.tab.adapter.TabFragmentItem
+import dev.olog.presentation.tab.TabListItem
 import kotlin.time.Duration.Companion.milliseconds
 
 internal fun Folder.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): TabFragmentItem.Album {
-    return TabFragmentItem.Album.Scrollable(
+): TabListItem.Album {
+    return TabListItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size),
@@ -23,8 +23,8 @@ internal fun Folder.toTabDisplayableItem(
     )
 }
 
-internal fun Playlist.toAutoPlaylist(): TabFragmentItem.Album {
-    return TabFragmentItem.Album.NonScrollable(
+internal fun Playlist.toAutoPlaylist(): TabListItem.Album {
+    return TabListItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = title,
         subtitle = null,
@@ -34,8 +34,8 @@ internal fun Playlist.toAutoPlaylist(): TabFragmentItem.Album {
 internal fun Playlist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): TabFragmentItem.Album {
-    return TabFragmentItem.Album.Scrollable(
+): TabListItem.Album {
+    return TabListItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size),
@@ -43,9 +43,9 @@ internal fun Playlist.toTabDisplayableItem(
     )
 }
 
-internal fun Song.toTabDisplayableItem(): TabFragmentItem {
+internal fun Song.toTabDisplayableItem(): TabListItem {
     if (isPodcast) {
-        return TabFragmentItem.Podcast(
+        return TabListItem.Podcast(
             mediaId = getMediaId(),
             title = title,
             artist = artist,
@@ -53,7 +53,7 @@ internal fun Song.toTabDisplayableItem(): TabFragmentItem {
             duration = duration.milliseconds,
         )
     }
-    return TabFragmentItem.Track(
+    return TabListItem.Track(
         mediaId = getMediaId(),
         title = title,
         artist = artist,
@@ -62,8 +62,8 @@ internal fun Song.toTabDisplayableItem(): TabFragmentItem {
 }
 
 
-internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): TabFragmentItem.Album {
-    return TabFragmentItem.Album.Scrollable(
+internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): TabListItem.Album {
+    return TabListItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = title,
         subtitle = artist,
@@ -74,8 +74,8 @@ internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): TabFragmentItem
 internal fun Artist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): TabFragmentItem.Album {
-    return TabFragmentItem.Album.Scrollable(
+): TabListItem.Album {
+    return TabListItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs),
@@ -87,8 +87,8 @@ internal fun Artist.toTabDisplayableItem(
 internal fun Genre.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
-): TabFragmentItem.Album {
-    return TabFragmentItem.Album.Scrollable(
+): TabListItem.Album {
+    return TabListItem.Album.Scrollable(
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, size),
@@ -96,16 +96,16 @@ internal fun Genre.toTabDisplayableItem(
     )
 }
 
-internal fun Album.toTabLastPlayedDisplayableItem(): TabFragmentItem.Album {
-    return TabFragmentItem.Album.NonScrollable(
+internal fun Album.toTabLastPlayedDisplayableItem(): TabListItem.Album {
+    return TabListItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = title,
         subtitle = artist,
     )
 }
 
-internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): TabFragmentItem.Album {
-    return TabFragmentItem.Album.NonScrollable(
+internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): TabListItem.Album {
+    return TabListItem.Album.NonScrollable(
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs),

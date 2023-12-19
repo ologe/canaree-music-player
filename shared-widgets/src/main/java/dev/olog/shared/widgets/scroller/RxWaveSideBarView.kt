@@ -1,14 +1,16 @@
-package dev.olog.presentation.widgets.fascroller
+package dev.olog.shared.widgets.scroller
 
 import android.content.Context
 import android.util.AttributeSet
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.runOnMainThread
 
-class RxWaveSideBarView(
-        context: Context,
-        attrs: AttributeSet
-) : WaveSideBarView(context, attrs) {
+class RxWaveSideBarView : WaveSideBarView {
+
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
+
 
     fun onLettersChanged(letters: List<String>) {
         updateLetters(mapLetters(letters))

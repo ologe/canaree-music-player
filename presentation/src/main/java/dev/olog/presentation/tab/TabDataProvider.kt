@@ -8,7 +8,6 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.tab.adapter.TabFragmentItem
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
@@ -42,12 +41,12 @@ internal class TabDataProvider @Inject constructor(
 
     private val resources = context.resources
 
-    fun get(category: TabCategory, spanCount: Int): Flow<List<TabFragmentItem>> = when (category) {
+    fun get(category: TabCategory, spanCount: Int): Flow<List<TabListItem>> = when (category) {
         // songs
         TabCategory.FOLDERS -> getFolders(spanCount)
         TabCategory.PLAYLISTS -> getPlaylist(spanCount)
         TabCategory.SONGS -> songGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(TabFragmentItem.Shuffle)
+            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(TabListItem.Shuffle)
         }
         TabCategory.ALBUMS -> getAlbums(spanCount)
         TabCategory.ARTISTS -> getArtists(spanCount)
@@ -55,27 +54,27 @@ internal class TabDataProvider @Inject constructor(
         // podcasts
         TabCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist(spanCount)
         TabCategory.PODCASTS -> podcastGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(TabFragmentItem.Shuffle)
+            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(TabListItem.Shuffle)
         }
         TabCategory.PODCASTS_ALBUMS -> getPodcastAlbums(spanCount)
         TabCategory.PODCASTS_ARTISTS -> getPodcastArtists(spanCount)
     }.flowOn(Dispatchers.Default)
 
-    private fun getFolders(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getFolders(spanCount: Int): Flow<List<TabListItem>> {
         return folderGateway.observeAll()
             .map { folders ->
                 folders.map { it.toTabDisplayableItem(resources, spanCount) }
             }
     }
 
-    private fun getGenres(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getGenres(spanCount: Int): Flow<List<TabListItem>> {
         return genreGateway.observeAll()
             .map { genres ->
                 genres.map { it.toTabDisplayableItem(resources, spanCount) }
             }
     }
 
-    private fun getPlaylist(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getPlaylist(spanCount: Int): Flow<List<TabListItem>> {
         val autoPlaylist = playlistGateway.getAllAutoPlaylists()
             .map { it.toAutoPlaylist() }
             .startWith(headers.autoPlaylistHeader)
@@ -88,7 +87,7 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getAlbums(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getAlbums(spanCount: Int): Flow<List<TabListItem>> {
         val recentlyAddedFlow = albumGateway.observeRecentlyAdded()
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
@@ -121,7 +120,7 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getArtists(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getArtists(spanCount: Int): Flow<List<TabListItem>> {
         val recentlyAddedFlow = artistGateway.observeRecentlyAdded()
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
@@ -155,7 +154,7 @@ internal class TabDataProvider @Inject constructor(
     }
 
     // podcasts
-    private fun getPodcastPlaylist(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getPodcastPlaylist(spanCount: Int): Flow<List<TabListItem>> {
         val autoPlaylist = podcastPlaylistGateway.getAllAutoPlaylists()
             .map { it.toAutoPlaylist() }
             .startWith(headers.autoPlaylistHeader)
@@ -168,7 +167,7 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getPodcastAlbums(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getPodcastAlbums(spanCount: Int): Flow<List<TabListItem>> {
         val recentlyAddedFlow = podcastAlbumGateway.observeRecentlyAdded()
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
@@ -201,7 +200,7 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getPodcastArtists(spanCount: Int): Flow<List<TabFragmentItem>> {
+    private fun getPodcastArtists(spanCount: Int): Flow<List<TabListItem>> {
         val recentlyAddedFlow = podcastArtistGateway.observeRecentlyAdded()
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()

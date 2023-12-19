@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="scroll_manager" type="id"/>
+
+    <!-- TODO below are tmp ids-->
+    <item name="slidingPanel" type="id"/>
+    <item name="bottomWrapper" type="id"/>
+
+</resources>

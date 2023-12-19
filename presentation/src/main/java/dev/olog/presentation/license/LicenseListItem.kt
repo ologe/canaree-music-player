@@ -48,7 +48,7 @@ fun LicenseListItem(
                     onClick = { uriHandler.openUri(url) }
                 ),
             textAlign = TextAlign.Center,
-            color = Theme.colors.accent.enabled,
+            color = Theme.colors.primary.enabled,
         )
         // TODO check newlines
         Text(

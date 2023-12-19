@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="smallShuffleSize">35dp</dimen>
-    <dimen name="item_album_margin">8dp</dimen>
-
-</resources>

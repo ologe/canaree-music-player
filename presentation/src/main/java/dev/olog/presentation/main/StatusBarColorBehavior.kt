@@ -25,7 +25,7 @@ class StatusBarColorBehavior @Inject constructor(
 
     private val activityRef = WeakReference(fragmentActivity)
 
-    private val slidingPanel: MultiListenerBottomSheetBehavior<*>? by lazyFast {
+    private val slidingPanel: BottomSheetBehavior<*>? by lazyFast {
         val activity = activityRef.get() ?: return@lazyFast null
         (activity.findInContext<HasSlidingPanel>()).getSlidingPanel()
     }
@@ -41,7 +41,7 @@ class StatusBarColorBehavior @Inject constructor(
             return
         }
 
-        slidingPanel?.addPanelSlideListener(slidingPanelListener)
+        slidingPanel?.addBottomSheetCallback(slidingPanelListener)
         activity.supportFragmentManager.addOnBackStackChangedListener(this)
     }
 
@@ -52,7 +52,7 @@ class StatusBarColorBehavior @Inject constructor(
             return
         }
 
-        slidingPanel?.removePanelSlideListener(slidingPanelListener)
+        slidingPanel?.removeBottomSheetCallback(slidingPanelListener)
         activity.supportFragmentManager.removeOnBackStackChangedListener(this)
     }
 

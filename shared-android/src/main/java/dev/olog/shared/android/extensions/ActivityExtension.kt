@@ -1,6 +1,7 @@
 package dev.olog.shared.android.extensions
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -58,7 +59,8 @@ class ActivityViewBinding<T :ViewBinding>(
             return it
         }
 
-        return factory(thisRef.window.decorView).also {
+        val contentView = thisRef.findViewById<View>(android.R.id.content)
+        return factory((contentView as ViewGroup).getChildAt(0)).also {
             _binding = it
             thisRef.lifecycle.addObserver(LifecycleEventObserver { _, event ->
                 if (event == Lifecycle.Event.ON_DESTROY) {

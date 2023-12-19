@@ -48,7 +48,11 @@ fun IconButton(
             onClick = onClick,
             interactionSource = remember { MutableInteractionSource() },
             enabled = enabled,
-            indication = rememberRipple(bounded = false, 24.dp)
+            indication = rememberRipple(
+                bounded = false,
+                radius = 24.dp,
+                color = Theme.colors.secondary.enabled,
+            )
         ),
         enabled = enabled
     )

@@ -3,20 +3,17 @@ package dev.olog.shared.compose.listitem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import com.bumptech.glide.integration.compose.placeholder
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.CoverUtils
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.compose.ThemePreviews
 import dev.olog.shared.compose.component.AsyncImage
@@ -34,18 +31,17 @@ fun ListItemPodcast(
     subtitle: String,
     duration: String,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
     ListItemSlots(
         modifier = modifier
+            .clip(ListItemSlotsRoundedCorners)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
             )
-            .scaleDownOnTouch()
-            .padding(contentPadding),
+            .scaleDownOnTouch(),
         iconContent = {
             AsyncImage(
                 mediaId = mediaId,
@@ -71,7 +67,7 @@ fun ListItemPodcast(
             )
             Text(
                 text =  duration,
-                color = Theme.colors.accent.enabled,
+                color = Theme.colors.primary.enabled,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = Theme.spacing.small)
             )
@@ -84,15 +80,13 @@ fun ListItemPodcast(
 private fun Preview() {
     CanareeTheme {
         Box(Modifier.background(Theme.colors.background)) {
-            val categories = MediaIdCategory.values().toList() -
-                MediaIdCategory.HEADER -
-                MediaIdCategory.PLAYING_QUEUE
+            val categories = MediaIdCategory.entries - MediaIdCategory.PLAYING_QUEUE
 
             LazyColumn {
                 itemsIndexed(categories) { index, category ->
                     CanareeTheme(
                         themeSettings = ThemeSettingsOverride(
-                            imageShape = ImageShape.values()[index % ImageShape.values().size],
+                            imageShape = ImageShape.entries[index % ImageShape.entries.size],
                         )
                     ) {
                         ListItemPodcast(

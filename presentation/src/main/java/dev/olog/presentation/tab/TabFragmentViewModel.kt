@@ -1,8 +1,6 @@
 package dev.olog.presentation.tab
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortArranging
@@ -10,10 +8,10 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.tab.adapter.TabFragmentItem
 import dev.olog.presentation.widgets.fascroller.ScrollableItem
-import androidx.lifecycle.asLiveData
-import dev.olog.shared.android.extensions.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,36 +21,26 @@ internal class TabFragmentViewModel @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    fun observeData(category: TabCategory): LiveData<List<TabFragmentItem>> {
-        return observeSpanCount(category).asLiveData().switchMap { spanCount ->
-            dataProvider.get(category, spanCount).asLiveData()
+    fun observeState(category: TabCategory): Flow<TabScreenState> {
+        return observeSpanCount(category).flatMapLatest { spanCount ->
+            dataProvider.get(category, spanCount)
+                .map { items ->
+                    TabScreenState(
+                        items = items,
+                        letters = getLetters(category, items),
+                        spanCount = spanCount,
+                    )
+                }
         }
     }
 
-    fun observeSortLetters(category: TabCategory): LiveData<List<String>> {
-        return observeData(category).map { list ->
-            val sort = getSort(category) // TODO combine with flow instead
-            list.asSequence()
-                .filterIsInstance<ScrollableItem>()
-                .mapNotNull { it.getText(sort.type).firstOrNull()?.uppercase() }
-                .distinct()
-                .toList()
-        }
-    }
-
-    fun getAllTracksSortOrder(mediaId: MediaId): SortEntity? {
-        if (mediaId.isAnyPodcast) {
-            return null
-        }
-        return appPreferencesUseCase.getAllTracksSort()
-    }
-
-    fun getAllAlbumsSortOrder(): SortEntity {
-        return appPreferencesUseCase.getAllAlbumsSort()
-    }
-
-    fun getAllArtistsSortOrder(): SortEntity {
-        return appPreferencesUseCase.getAllArtistsSort()
+    private fun getLetters(category: TabCategory, items: List<TabListItem>): List<String> {
+        val sort = getSort(category) // TODO combine with flow instead
+        return items.asSequence()
+            .filterIsInstance<ScrollableItem>()
+            .mapNotNull { it.getText(sort.type).firstOrNull()?.uppercase() }
+            .distinct()
+            .toList()
     }
 
     fun getSort(category: TabCategory): SortEntity = when (category) {
@@ -68,7 +56,6 @@ internal class TabFragmentViewModel @Inject constructor(
         TabCategory.PODCASTS_ALBUMS -> SortEntity(SortType.TITLE, SortArranging.ASCENDING)
     }
 
-    fun getSpanCount(category: TabCategory) = presentationPrefs.getSpanCount(category)
-    fun observeSpanCount(category: TabCategory) = presentationPrefs.observeSpanCount(category)
+    private fun observeSpanCount(category: TabCategory) = presentationPrefs.observeSpanCount(category)
 
 }

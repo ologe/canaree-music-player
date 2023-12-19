@@ -103,8 +103,7 @@ object CoverUtils {
         MediaIdCategory.PODCASTS_ARTISTS -> R.drawable.vd_artist
         MediaIdCategory.GENRES -> R.drawable.vd_genre
         MediaIdCategory.PODCASTS -> R.drawable.vd_podcast
-        MediaIdCategory.PLAYING_QUEUE,
-        MediaIdCategory.HEADER -> throw IllegalArgumentException("invalid ${mediaId}")
+        MediaIdCategory.PLAYING_QUEUE -> error("invalid $mediaId")
     }
 
     fun getGradientColors(context: Context, mediaId: MediaId): List<Int> {

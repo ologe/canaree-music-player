@@ -23,7 +23,8 @@ fun CanareeTheme(
         LocalCanareeTypography provides typography,
         LocalTextStyle provides typography.body,
         LocalCanareeSpacing provides spacing(),
-        LocalIndication provides rememberRipple(color = colors.iconColor.enabled),
+        // TODO use accent colors??
+        LocalIndication provides rememberRipple(color = colors.secondary.enabled),
     ) {
         ThemeSettings(themeSettings) {
             content()

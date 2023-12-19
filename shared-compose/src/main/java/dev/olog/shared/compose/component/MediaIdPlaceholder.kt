@@ -93,7 +93,6 @@ private fun Preview() {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 val categories = MediaIdCategory.values().toList() -
-                    MediaIdCategory.HEADER -
                     MediaIdCategory.PLAYING_QUEUE
                 itemsIndexed(categories) { index, category ->
                     MediaIdPlaceholder(

@@ -18,10 +18,11 @@ import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.databinding.ActivityMainBinding
-import dev.olog.presentation.databinding.ActivityMainNavigationBinding
-import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.*
-import dev.olog.presentation.library.LibraryFragment
+import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.interfaces.HasBottomNavigation
+import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.OnPermissionChanged
+import dev.olog.presentation.interfaces.Permission
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
@@ -29,11 +30,14 @@ import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.shared.android.extensions.setHeight
+import dev.olog.shared.android.extensions.viewBinding
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.compose.screen.scrollManager
+import dev.olog.shared.remap
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,7 +63,6 @@ class MainActivity : MusicGlueActivity(),
     lateinit var rateAppDialog: RateAppDialog
 
     private val binding by viewBinding(ActivityMainBinding::bind)
-    private val navigationBinding by viewBinding(ActivityMainNavigationBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,14 +71,14 @@ class MainActivity : MusicGlueActivity(),
         if (isImmersiveMode()){
             // workaround, on some device on immersive mode bottom navigation disappears
             binding.rootView.fitsSystemWindows = true
-            navigationBinding.slidingPanel.fitsSystemWindows = true
-            navigationBinding.bottomWrapper.fitsSystemWindows = true
+            binding.slidingPanel.fitsSystemWindows = true
+            binding.bottomWrapper.fitsSystemWindows = true
         }
 
         if (hasPlayerAppearance().isMini()){
             // TODO made a resource value
-            navigationBinding.slidingPanelFade.parallax = 0
-            navigationBinding.slidingPanel.setHeight(dip(300))
+            binding.slidingPanelFade.parallax = 0
+            binding.slidingPanel.setHeight(dip(300))
         }
 
         setupSlidingPanel()
@@ -98,23 +101,35 @@ class MainActivity : MusicGlueActivity(),
         }
     }
 
-    private fun setupSlidingPanel(){
-        if (!isTablet) {
-            val scrollHelper = SuperCerealScrollHelper(
-                this, ScrollType.Full(
-                    slidingPanel = navigationBinding.slidingPanel,
-                    bottomNavigation = navigationBinding.bottomWrapper,
-                    toolbarHeight = dimen(R.dimen.toolbar),
-                    tabLayoutHeight = dimen(R.dimen.tab),
-                    realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
+    private fun setupSlidingPanel() {
+        // TODO unregister
+        var lastTranslation = -1f
+        scrollManager.registerSlidingPanelCallback(getSlidingPanel()) { offset ->
+            if (lastTranslation >= 0f) {
+                // remap from 0..1 offset to (current view offset)..1 for a smoother transition
+                val remappedOffset = remap(
+                    0f, 1f,
+                    lastTranslation - binding.bottomWrapper.height, 1f,
+                    offset,
                 )
-            )
-            lifecycle.addObserver(scrollHelper)
+                val translation = (binding.bottomWrapper.height * remappedOffset)
+                    .coerceIn(lastTranslation, binding.bottomWrapper.height.toFloat())
+                binding.bottomWrapper.translationY = translation
+                binding.slidingPanel.translationY = (1f - offset) * lastTranslation
+            }
+        }
+        scrollManager.addScrollListener { dy ->
+            // bottom navigation + sliding panel translation
+            val bottomNavigationTranslation = (binding.bottomWrapper.translationY - dy)
+                .coerceIn(0f, binding.bottomWrapper.height.toFloat())
+            binding.bottomWrapper.translationY = bottomNavigationTranslation
+            binding.slidingPanel.translationY = bottomNavigationTranslation
+            lastTranslation = bottomNavigationTranslation
         }
     }
 
     private fun navigateToLastPage(){
-        navigationBinding.bottomNavigation.navigateToLastPage()
+        binding.bottomNavigation.navigateToLastPage()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -127,7 +142,7 @@ class MainActivity : MusicGlueActivity(),
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            Shortcuts.SEARCH -> navigationBinding.bottomNavigation.navigate(BottomNavigationPage.SEARCH)
+            Shortcuts.SEARCH -> binding.bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
@@ -166,9 +181,6 @@ class MainActivity : MusicGlueActivity(),
             val topFragment = supportFragmentManager.getTopFragment()
 
             when {
-                topFragment is CanHandleOnBackPressed && topFragment.handleOnBackPressed()-> {
-                    return
-                }
                 topFragment is DrawsOnTop -> {
                     super.onBackPressed()
                     return
@@ -177,9 +189,6 @@ class MainActivity : MusicGlueActivity(),
                     getSlidingPanel().collapse()
                     return
                 }
-            }
-            if (tryPopFolderBack()) {
-                return
             }
 
             super.onBackPressed()
@@ -190,24 +199,12 @@ class MainActivity : MusicGlueActivity(),
 
     }
 
-    private fun tryPopFolderBack(): Boolean {
-        val categoriesFragment =
-            supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
-
-        if (categoriesFragment.isCurrentFragmentFolderTree()){
-            val folderTree = categoriesFragment.childFragmentManager.fragments
-                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-            return folderTree?.handleOnBackPressed() == true
-        }
-        return false
-    }
-
-    override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(navigationBinding.slidingPanel) as MultiListenerBottomSheetBehavior<*>
+    override fun getSlidingPanel(): BottomSheetBehavior<*> {
+        return BottomSheetBehavior.from(binding.slidingPanel)
     }
 
     override fun navigate(page: BottomNavigationPage) {
-        navigationBinding.bottomNavigation.navigate(page)
+        binding.bottomNavigation.navigate(page)
     }
 
     fun restoreUpperWidgetsTranslation(){

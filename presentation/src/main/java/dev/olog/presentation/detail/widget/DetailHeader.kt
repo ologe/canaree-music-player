@@ -111,7 +111,7 @@ fun DetailHeader(
                 )
                 Text(
                     text = subtitle,
-                    color = Theme.colors.accent.enabled,
+                    color = Theme.colors.primary.enabled,
                 )
                 if (biography != null) {
                     // TODO animate height change?

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.fascroller;
+package dev.olog.shared.widgets.scroller;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -19,8 +19,7 @@ import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import dev.olog.presentation.R;
-import dev.olog.shared.android.extensions.ContextExtensionKt;
+import dev.olog.shared.widgets.R;
 import dev.olog.shared.TextUtils;
 
 public class WaveSideBarView extends View {
@@ -118,7 +117,7 @@ public class WaveSideBarView extends View {
         mLettersPaint.setAntiAlias(true);
         mLettersPaint.setTextSize(mTextSize);
         mLettersPaint.setTextAlign(Paint.Align.CENTER);
-        mLettersPaint.setColor(ContextExtensionKt.textColorPrimary(getContext()));
+        mLettersPaint.setColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
 
         mSelectedLetterPaint.setAntiAlias(true);
         mSelectedLetterPaint.setTextSize(mTextSize);
@@ -284,14 +283,16 @@ public class WaveSideBarView extends View {
     }
 
     private void drawBallPath(Canvas canvas) {
-        mBallCentreX = (mWidth + mBallRadius) - (2.0f * mRadius + 2.0f * mBallRadius) * mRatio;
+        if (mChoose != -1 && mRatio >= .9f) {
+            mBallCentreX = (mWidth + mBallRadius) - (2.0f * mRadius + 2.0f * mBallRadius) * mRatio;
 
-        mBallPath.reset();
-        mBallPath.addCircle(mBallCentreX, mCenterY, mBallRadius, Path.Direction.CW);
-        mBallPath.op(mWavePath, Path.Op.DIFFERENCE);
+            mBallPath.reset();
+            mBallPath.addCircle(mBallCentreX, mCenterY, mBallRadius, Path.Direction.CW);
+            mBallPath.op(mWavePath, Path.Op.DIFFERENCE);
 
-        mBallPath.close();
-        canvas.drawPath(mBallPath, mWavePaint);
+            mBallPath.close();
+            canvas.drawPath(mBallPath, mWavePaint);
+        }
     }
 
     private void startAnimator(float... value) {

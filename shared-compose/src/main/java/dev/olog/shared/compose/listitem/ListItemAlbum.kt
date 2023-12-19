@@ -22,15 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.placeholder
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.CoverUtils
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.compose.R
@@ -55,7 +52,6 @@ fun ListItemAlbum(
 ) {
     Column(
         modifier = modifier
-            .padding(vertical = dimensionResource(R.dimen.item_album_margin))
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -139,16 +135,20 @@ private fun QuickAction(
 private fun Preview() {
     CanareeTheme {
         Box(Modifier.background(Theme.colors.background)) {
-            val categories = MediaIdCategory.values().toList() -
-                MediaIdCategory.HEADER -
+            val categories = MediaIdCategory.entries -
                 MediaIdCategory.PLAYING_QUEUE
 
-            LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                contentPadding = Theme.spacing.listContentPadding,
+                horizontalArrangement = Theme.spacing.listHorizontalArrangement,
+                verticalArrangement = Theme.spacing.listVerticalArrangement,
+            ) {
                 itemsIndexed(categories) { index, category ->
                     CanareeTheme(
                         themeSettings = ThemeSettingsOverride(
-                            imageShape = ImageShape.values()[index % ImageShape.values().size],
-                            quickAction = QuickAction.values()[index % QuickAction.values().size],
+                            imageShape = ImageShape.entries[index % ImageShape.entries.size],
+                            quickAction = QuickAction.entries[index % QuickAction.entries.size],
                         )
                     ) {
                         ListItemAlbum(

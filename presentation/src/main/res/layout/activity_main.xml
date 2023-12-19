@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView">
@@ -8,8 +9,66 @@
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bottom_navigation_height"/>
 
-    <include layout="@layout/activity_main_navigation"/>
+    <dev.olog.presentation.widgets.SlidingPanelFade
+        android:id="@+id/slidingPanelFade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/slidingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:elevation="8dp"
+        android:background="?android:colorBackground"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="@dimen/sliding_panel_peek_plus_navigation"
+        app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior"
+        app:gestureInsetBottomIgnored="true">
+
+        <fragment
+            android:name="dev.olog.presentation.player.PlayerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="@string/player_fragment_tag" />
+
+        <fragment
+            android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sliding_panel_peek"
+            android:tag="@string/mini_player_fragment_tag" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:elevation="8dp"
+        android:background="?colorSurface">
+
+        <dev.olog.shared.widgets.DottedSeparator
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <dev.olog.presentation.widgets.bottomnavigator.CustomBottomNavigator
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_navigation_height"
+            android:layout_gravity="bottom"
+            app:elevation="0dp"
+            app:itemIconSize="22dp"
+            app:menu="@menu/bottom_navigation"
+            android:background="@android:color/transparent"/>
+
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

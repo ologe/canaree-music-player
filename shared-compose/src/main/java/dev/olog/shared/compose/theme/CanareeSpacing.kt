@@ -1,5 +1,7 @@
 package dev.olog.shared.compose.theme
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -16,6 +18,9 @@ data class CanareeSpacing(
     val mediumSmall: Dp,
     val small: Dp,
     val extraSmall: Dp,
+    val listContentPadding: PaddingValues,
+    val listHorizontalArrangement: Arrangement.HorizontalOrVertical,
+    val listVerticalArrangement: Arrangement.HorizontalOrVertical,
 )
 
 @Composable
@@ -26,5 +31,8 @@ internal fun spacing(): CanareeSpacing {
         mediumSmall = 12.dp,
         small = 8.dp,
         extraSmall = 4.dp,
+        listContentPadding = PaddingValues(8.dp),
+        listHorizontalArrangement = Arrangement.spacedBy(8.dp),
+        listVerticalArrangement = Arrangement.spacedBy(8.dp),
     )
 }

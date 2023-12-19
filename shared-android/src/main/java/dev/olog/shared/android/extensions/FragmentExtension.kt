@@ -20,6 +20,13 @@ inline fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
     return this
 }
 
+@Suppress("UnusedReceiverParameter")
+fun <T> Fragment.requireArgument(key: String): ReadOnlyProperty<Fragment, T> {
+    return ReadOnlyProperty { thisRef, _ ->
+        thisRef.getArgument(key)
+    }
+}
+
 inline val Fragment.ctx : Context
     get() = context!!
 

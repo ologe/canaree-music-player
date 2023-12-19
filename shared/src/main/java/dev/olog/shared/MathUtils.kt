@@ -47,3 +47,16 @@ fun List<Long>.indexOfClosest(value: Long): Int {
         lastIndex
     )
 }
+
+fun remap(iMin: Float, iMax: Float, oMin: Float, oMax: Float, v: Float): Float {
+    val t = inverseLerp(iMin, iMax, v)
+    return lerp(oMin, oMax, t)
+}
+
+fun lerp(a: Float, b: Float, t: Float): Float {
+    return (1f - t) * a + b * t;
+}
+
+fun inverseLerp(a: Float, b: Float, v: Float): Float {
+    return (v - a) / (b - a)
+}

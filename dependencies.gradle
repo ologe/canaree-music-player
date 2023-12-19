@@ -70,6 +70,7 @@ ext {
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+            lifecycle_compose   : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle",
     ]
 
     lib_ui = [

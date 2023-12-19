@@ -1,4 +1,4 @@
-package dev.olog.presentation.model
+package dev.olog.presentation.library
 
 enum class LibraryPage {
     TRACKS,

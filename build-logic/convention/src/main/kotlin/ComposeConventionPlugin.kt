@@ -1,4 +1,5 @@
 import dev.olog.msc.configureLibrary
+import dev.olog.msc.kotlinOptions
 import dev.olog.msc.libraries
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,6 +17,12 @@ class ComposeConventionPlugin : Plugin<Project> {
             val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
             composeOptions {
                 kotlinCompilerExtensionVersion = catalog.findVersion("compose-compiler").get().toString()
+            }
+
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs + listOf(
+                    "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                )
             }
 
             libraries {

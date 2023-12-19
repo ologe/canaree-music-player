@@ -15,7 +15,7 @@ import dev.olog.shared.android.extensions.getTopFragment
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
 
 // fragment tag, last added
-var backStackCount = mutableMapOf<String, Int>()
+private val backStackCount = mutableMapOf<String, Int>()
 
 private var lastRequest: Long = -1
 

@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -35,6 +34,8 @@ val ListItemSlotsHeight: Dp
     get() = dimensionResource(R.dimen.item_song_cover_size) + // height
         dimensionResource(R.dimen.item_song_cover_margin_vertical) * 2 //vertical padding
 
+internal val ListItemSlotsRoundedCorners = RoundedCornerShape(8.dp)
+
 // TODO make rounded hover and clickable zone?
 @Composable
 fun ListItemSlots(
@@ -49,7 +50,7 @@ fun ListItemSlots(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Max)
-            .padding(start = Theme.spacing.medium),
+            .padding(Theme.spacing.small),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (leadingContent != null) {
@@ -59,9 +60,7 @@ fun ListItemSlots(
         }
 
         Box(
-            modifier = Modifier
-                .padding(vertical = dimensionResource(R.dimen.item_song_cover_margin_vertical))
-                .size(dimensionResource(R.dimen.item_song_cover_size)),
+            modifier = Modifier.size(dimensionResource(R.dimen.item_song_cover_size)),
             contentAlignment = Alignment.Center,
             content = iconContent,
         )

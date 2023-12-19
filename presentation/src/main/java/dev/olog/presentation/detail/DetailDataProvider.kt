@@ -79,7 +79,6 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
@@ -255,7 +254,6 @@ internal class DetailDataProvider @Inject constructor(
             }
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS,
-            MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE -> throw IllegalArgumentException("invalid category=$mediaId")
         }
     }

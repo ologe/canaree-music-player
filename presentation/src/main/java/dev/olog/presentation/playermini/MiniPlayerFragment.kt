@@ -95,8 +95,8 @@ class MiniPlayerFragment : Fragment(R.layout.fragment_mini_player) {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
-        view?.setOnClickListener { getSlidingPanel()?.expand() }
+        getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
+        view?.setOnClickListener { getSlidingPanel().expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
         binding.next.setOnClickListener { media.skipToNext() }
         binding.playPause.setOnClickListener { media.playPause() }
@@ -105,7 +105,7 @@ class MiniPlayerFragment : Fragment(R.layout.fragment_mini_player) {
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener(null)
         binding.next.setOnClickListener(null)
         binding.playPause.setOnClickListener(null)

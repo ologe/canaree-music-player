@@ -3,21 +3,20 @@ package dev.olog.shared.compose.listitem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import dev.olog.core.MediaId
 import dev.olog.shared.compose.R
 import dev.olog.shared.compose.ThemePreviews
 import dev.olog.shared.compose.component.Divider
 import dev.olog.shared.compose.component.Icon
 import dev.olog.shared.compose.component.Text
+import dev.olog.shared.compose.component.scaleDownOnTouch
 import dev.olog.shared.compose.theme.CanareeTheme
 import dev.olog.shared.compose.theme.Theme
 import dev.olog.shared.compose.theme.toFakeSp
@@ -25,18 +24,16 @@ import dev.olog.shared.compose.theme.toFakeSp
 @Composable
 fun ListItemShuffle(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     onClick: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
-    ) {
+    Column(modifier = modifier) {
         ListItemSlots(
             modifier = Modifier
+                .clip(ListItemSlotsRoundedCorners)
                 .clickable(onClick = onClick)
-                .padding(contentPadding),
+                .scaleDownOnTouch(),
             iconContent = {
-                Icon(painter = painterResource(R.drawable.vd_shuffle),)
+                Icon(painter = painterResource(R.drawable.vd_shuffle))
             },
             titleContent = {
                 Text(
@@ -53,7 +50,6 @@ fun ListItemShuffle(
         Divider(
             Modifier
                 .padding(horizontal = Theme.spacing.medium)
-                .padding(contentPadding)
         )
     }
 }

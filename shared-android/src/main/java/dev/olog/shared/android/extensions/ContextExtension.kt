@@ -10,6 +10,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -33,6 +34,10 @@ inline fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetri
 
 inline fun Context.dpToPx(dp: Float): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
+}
+
+fun Context.color(@ColorRes res: Int): Int{
+    return ContextCompat.getColor(this, res)
 }
 
 inline fun Context.toast(message: Int): Toast = Toast

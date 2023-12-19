@@ -13,7 +13,6 @@ enum class MediaIdCategory {
     PODCASTS_ALBUMS,
     PODCASTS_ARTISTS,
 
-    HEADER,
     PLAYING_QUEUE
 }
 
@@ -28,11 +27,6 @@ class MediaId private constructor(
     companion object {
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
-
-        @JvmStatic
-        fun headerId(value: String): MediaId {
-            return MediaId(MediaIdCategory.HEADER, value)
-        }
 
         @JvmStatic
         val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
@@ -117,7 +111,7 @@ class MediaId private constructor(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -125,7 +119,7 @@ class MediaId private constructor(
     val categoryId: Long
         get() {
             return when {
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -141,7 +135,6 @@ class MediaId private constructor(
             return source
         }
 
-    val isHeader: Boolean = category == MediaIdCategory.HEADER
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
     val isAll: Boolean = category == MediaIdCategory.SONGS

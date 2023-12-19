@@ -17,7 +17,7 @@ import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.databinding.FragmentCreatePlaylistBinding
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.utils.hideIme
-import dev.olog.presentation.widgets.fascroller.WaveSideBarView
+import dev.olog.shared.widgets.scroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.act

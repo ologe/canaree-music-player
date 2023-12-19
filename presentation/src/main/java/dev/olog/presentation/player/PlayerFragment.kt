@@ -97,12 +97,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onDestroyView() {

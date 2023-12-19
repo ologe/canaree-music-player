@@ -57,4 +57,5 @@ dependencies {
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.lifecycle_livedata
+    implementation lib_x.lifecycle_compose
 }
