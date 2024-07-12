@@ -1,23 +1,29 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.lifecycle.Lifecycle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import dev.olog.core.MediaId
 import dev.olog.presentation.BindingsAdapter
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.base.adapter.CustomListAdapter
+import dev.olog.presentation.base.adapter.CustomViewHolder
+import dev.olog.presentation.base.adapter.elevateAlbumOnTouch
+import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.base.adapter.setOnLongClickListener
+import dev.olog.presentation.databinding.ItemDetailAlbumBinding
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_album.view.*
 
 class DetailSiblingsAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator
+) : CustomListAdapter<DetailSiblingsItem, ItemDetailAlbumBinding>() {
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemDetailAlbumBinding {
+        return ItemDetailAlbumBinding.inflate(inflater, parent, false)
+    }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemDetailAlbumBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
         }
@@ -27,13 +33,22 @@ class DetailSiblingsAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableAlbum)
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+    override fun bind(
+        holder: CustomViewHolder<ItemDetailAlbumBinding>,
+        item: DetailSiblingsItem,
+        position: Int
+    ) {
+        holder.binding.apply {
+            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }
     }
 }
+
+data class DetailSiblingsItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+)

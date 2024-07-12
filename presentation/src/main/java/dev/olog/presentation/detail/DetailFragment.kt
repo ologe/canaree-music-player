@@ -72,16 +72,16 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(navigator, act as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(navigator, act as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(lifecycle, navigator)
+        DetailRelatedArtistsAdapter(navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(lifecycle, navigator)
+        DetailSiblingsAdapter(navigator)
     }
 
     private val adapter by lazyFast {
@@ -127,18 +127,16 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
         binding.fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, mostPlayedAdapter::submitList)
 
         viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::submitList)
 
         viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, relatedArtistAdapter::submitList)
 
         viewModel.observeSiblings()
-            .subscribe(viewLifecycleOwner) {
-                albumsAdapter.updateDataSet(it)
-            }
+            .subscribe(viewLifecycleOwner, albumsAdapter::submitList)
 
         viewModel.observeSongs()
             .subscribe(viewLifecycleOwner) { list ->
@@ -182,7 +180,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
         }
     }
 
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: ObservableAdapter<*>) {
+    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: RecyclerView.Adapter<*>) {
         val layoutManager = GridLayoutManager(
             list.context, DetailFragmentViewModel.NESTED_SPAN_COUNT,
             GridLayoutManager.HORIZONTAL, false
@@ -197,7 +195,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
         snapHelper.attachToRecyclerView(list)
     }
 
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: ObservableAdapter<*>) {
+    private fun setupHorizontalListAsList(list: RecyclerView, adapter: RecyclerView.Adapter<*>) {
         val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT

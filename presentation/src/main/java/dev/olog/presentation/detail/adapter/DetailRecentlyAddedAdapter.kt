@@ -1,28 +1,28 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.lifecycle.Lifecycle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.databinding.ItemDetailSongRecentBinding
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.cover
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_recent.view.*
 
 class DetailRecentlyAddedAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
+) : CustomListAdapter<DetailRecentlyAddedItem, ItemDetailSongRecentBinding>() {
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
-    DiffCallbackDisplayableItem
-) {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemDetailSongRecentBinding {
+        return ItemDetailSongRecentBinding.inflate(inflater, parent, false)
+    }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemDetailSongRecentBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playRecentlyAdded(item.mediaId)
         }
@@ -36,11 +36,13 @@ class DetailRecentlyAddedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableTrack)
-
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+    override fun bind(
+        holder: CustomViewHolder<ItemDetailSongRecentBinding>,
+        item: DetailRecentlyAddedItem,
+        position: Int
+    ) {
+        holder.binding.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
@@ -48,3 +50,9 @@ class DetailRecentlyAddedAdapter(
     }
 
 }
+
+data class DetailRecentlyAddedItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+)

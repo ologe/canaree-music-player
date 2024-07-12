@@ -13,9 +13,12 @@ import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.presentation.detail.adapter.DetailMostPlayedItem
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedItem
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistsItem
+import dev.olog.presentation.detail.adapter.DetailSiblingsItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.shared.mapListItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -50,10 +53,10 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun getFilter(): String = filterChannel.value
 
     private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val mostPlayedLiveData = MutableLiveData<List<DetailMostPlayedItem>>()
+    private val relatedArtistsLiveData = MutableLiveData<List<DetailRelatedArtistsItem>>()
+    private val siblingsLiveData = MutableLiveData<List<DetailSiblingsItem>>()
+    private val recentlyAddedLiveData = MutableLiveData<List<DetailRecentlyAddedItem>>()
     private val songLiveData = MutableLiveData<List<DisplayableItem>>()
 
     private val biographyLiveData = MutableLiveData<String?>()
@@ -68,7 +71,6 @@ internal class DetailFragmentViewModel @Inject constructor(
         // most played
         viewModelScope.launch {
             dataProvider.observeMostPlayed(mediaId)
-                .mapListItem { it as DisplayableTrack }
                 .flowOn(Dispatchers.Default)
                 .collect { mostPlayedLiveData.value = it }
         }
@@ -123,10 +125,10 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
+    fun observeMostPlayed(): LiveData<List<DetailMostPlayedItem>> = mostPlayedLiveData
+    fun observeRecentlyAdded(): LiveData<List<DetailRecentlyAddedItem>> = recentlyAddedLiveData
+    fun observeRelatedArtists(): LiveData<List<DetailRelatedArtistsItem>> = relatedArtistsLiveData
+    fun observeSiblings(): LiveData<List<DetailSiblingsItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
 

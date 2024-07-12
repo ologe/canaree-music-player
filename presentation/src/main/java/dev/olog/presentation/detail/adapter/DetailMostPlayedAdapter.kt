@@ -1,26 +1,32 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.lifecycle.Lifecycle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.databinding.ItemDetailSongMostPlayedBinding
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 class DetailMostPlayedAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
+) : CustomListAdapter<DetailMostPlayedItem, ItemDetailSongMostPlayedBinding>(DiffCallbackMostPlayed) {
 
-) : ObservableAdapter<DisplayableTrack>(
-    lifecycle,
-    DiffCallbackMostPlayed
-) {
+    override fun inflate(
+        inflater: LayoutInflater,
+        parent: ViewGroup
+    ): ItemDetailSongMostPlayedBinding {
+        return ItemDetailSongMostPlayedBinding.inflate(inflater, parent, false)
+    }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemDetailSongMostPlayedBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playMostPlayed(item.mediaId)
         }
@@ -35,24 +41,28 @@ class DetailMostPlayedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+    override fun bind(
+        holder: CustomViewHolder<ItemDetailSongMostPlayedBinding>,
+        item: DetailMostPlayedItem,
+        position: Int
+    ) {
+        holder.binding.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
-            index.text = (item.idInPlaylist + 1).toString()
+            index.text = item.position.toString()
             explicit.onItemChanged(item.title)
         }
     }
 
     override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
+        holder: CustomViewHolder<ItemDetailSongMostPlayedBinding>,
         position: Int,
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
             val positionInList = (payloads[0] as Int + 1).toString()
-            holder.itemView.index.text = positionInList
+            holder.binding.index.text = positionInList
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -60,22 +70,25 @@ class DetailMostPlayedAdapter(
 
 }
 
-internal object DiffCallbackMostPlayed : DiffUtil.ItemCallback<DisplayableTrack>() {
-    override fun areItemsTheSame(oldItem: DisplayableTrack, newItem: DisplayableTrack): Boolean {
+data class DetailMostPlayedItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+    val position: Int,
+)
+
+private object DiffCallbackMostPlayed : DiffUtil.ItemCallback<DetailMostPlayedItem>() {
+    override fun areItemsTheSame(oldItem: DetailMostPlayedItem, newItem: DetailMostPlayedItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
 
-    override fun areContentsTheSame(oldItem: DisplayableTrack, newItem: DisplayableTrack): Boolean {
-        val sameTitle = oldItem.title == newItem.title
-        val sameArtist = oldItem.artist == newItem.artist
-        val sameAlbum = oldItem.album == newItem.album
-        val sameIndex = oldItem.idInPlaylist == newItem.idInPlaylist
-        return sameTitle && sameArtist && sameAlbum && sameIndex
+    override fun areContentsTheSame(oldItem: DetailMostPlayedItem, newItem: DetailMostPlayedItem): Boolean {
+        return oldItem == newItem
     }
 
-    override fun getChangePayload(oldItem: DisplayableTrack, newItem: DisplayableTrack): Any? {
-        if (oldItem.idInPlaylist != newItem.idInPlaylist) {
-            return newItem.idInPlaylist
+    override fun getChangePayload(oldItem: DetailMostPlayedItem, newItem: DetailMostPlayedItem): Any? {
+        if (oldItem.position != newItem.position) {
+            return newItem.position
         }
         return super.getChangePayload(oldItem, newItem)
     }

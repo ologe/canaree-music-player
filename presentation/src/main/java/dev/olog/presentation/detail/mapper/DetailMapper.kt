@@ -4,14 +4,23 @@ import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
+import dev.olog.presentation.detail.adapter.DetailMostPlayedItem
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedItem
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistsItem
+import dev.olog.presentation.detail.adapter.DetailSiblingsItem
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.shared.TextUtils
 
-internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_related_artist,
+internal fun Artist.toDetailRelatedArtist(resources: Resources): DetailRelatedArtistsItem {
+    return DetailRelatedArtistsItem(
         mediaId = getMediaId(),
         title = this.name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs)
@@ -51,37 +60,29 @@ private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int
     }
 }
 
-internal fun Song.toMostPlayedDetailDisplayableItem(
+internal fun Song.toDetailMostPlayed(
     parentId: MediaId,
     position: Int
-): DisplayableTrack {
+): DetailMostPlayedItem {
 
-    return DisplayableTrack(
-        type = R.layout.item_detail_song_most_played,
+    return DetailMostPlayedItem(
         mediaId = MediaId.playableItem(parentId, id),
         title = this.title,
-        artist = this.artist,
-        album = this.album,
-        idInPlaylist = position,
-        dataModified = this.dateModified
+        subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+        position = position + 1,
     )
 }
 
-internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
-    return DisplayableTrack(
-        type = R.layout.item_detail_song_recent,
+internal fun Song.toDetailRecentlyAdded(parentId: MediaId): DetailRecentlyAddedItem {
+    return DetailRecentlyAddedItem(
         mediaId = MediaId.playableItem(parentId, id),
         title = this.title,
-        artist = this.artist,
-        album = this.album,
-        idInPlaylist = this.idInPlaylist,
-        dataModified = this.dateModified
+        subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
     )
 }
 
-internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Folder.toDetailSiblingItem(resources: Resources): DetailSiblingsItem {
+    return DetailSiblingsItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -92,9 +93,8 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
     )
 }
 
-internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Playlist.toDetailSiblingItem(resources: Resources): DetailSiblingsItem {
+    return DetailSiblingsItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -105,9 +105,8 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
     )
 }
 
-internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Album.toDetailSiblingItem(resources: Resources): DetailSiblingsItem {
+    return DetailSiblingsItem(
         mediaId = getMediaId(),
         title = title,
         subtitle = resources.getQuantityString(
@@ -118,9 +117,8 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
     )
 }
 
-internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
-    return DisplayableAlbum(
-        type = R.layout.item_detail_album,
+internal fun Genre.toDetailSiblingItem(resources: Resources): DetailSiblingsItem {
+    return DetailSiblingsItem(
         mediaId = getMediaId(),
         title = name,
         subtitle = resources.getQuantityString(

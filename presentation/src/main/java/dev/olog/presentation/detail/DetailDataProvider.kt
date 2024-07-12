@@ -16,6 +16,10 @@ import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
+import dev.olog.presentation.detail.adapter.DetailMostPlayedItem
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedItem
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistsItem
+import dev.olog.presentation.detail.adapter.DetailSiblingsItem
 import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
@@ -136,59 +140,59 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observeMostPlayed(mediaId: MediaId): Flow<List<DetailMostPlayedItem>> {
         return mostPlayedUseCase(mediaId).map {
-            it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(mediaId, index) }
+            it.mapIndexed { index, song -> song.toDetailMostPlayed(mediaId, index) }
         }
     }
 
-    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return recentlyAddedUseCase(mediaId).mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
+    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DetailRecentlyAddedItem>> {
+        return recentlyAddedUseCase(mediaId).mapListItem { it.toDetailRecentlyAdded(mediaId) }
     }
 
-    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return relatedArtistsUseCase(mediaId).mapListItem { it.toRelatedArtist(resources) }
+    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DetailRelatedArtistsItem>> {
+        return relatedArtistsUseCase(mediaId).mapListItem { it.toDetailRelatedArtist(resources) }
     }
 
-    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
+    fun observeSiblings(mediaId: MediaId): Flow<List<DetailSiblingsItem>> = when (mediaId.category) {
         MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         // podcasts
         MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
         MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
+            it.toDetailSiblingItem(
                 resources
             )
         }
