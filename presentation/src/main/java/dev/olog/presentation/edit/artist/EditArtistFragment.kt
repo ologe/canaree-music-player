@@ -1,17 +1,21 @@
 package dev.olog.presentation.edit.artist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
+import dev.olog.presentation.base.viewLifecycleScope
+import dev.olog.presentation.databinding.FragmentEditArtistBinding
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -53,47 +57,57 @@ class EditArtistFragment : BaseEditItemFragment() {
         viewModel.requestData(mediaId)
     }
 
+    private val binding by viewBinding(FragmentEditArtistBinding::bind)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_edit_artist, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
-            artist.afterTextChange()
+        viewLifecycleScope.launch {
+            binding.artist.afterTextChange()
                 .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
+                .collect { binding.okButton.isEnabled = it }
         }
 
         loadImage(mediaId)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
-            artist.setText(it.title)
-            albumArtist.setText(it.albumArtist)
+            binding.artist.setText(it.title)
+            binding.albumArtist.setText(it.albumArtist)
             val text = resources.getQuantityString(
                 R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
             )
-            albumsUpdated.text = text
-            podcast.isChecked = it.isPodcast
+            binding.albumsUpdated.text = text
+            binding.podcast.isChecked = it.isPodcast
         }
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {
-            launch { trySave() }
+        binding.okButton.setOnClickListener {
+            viewLifecycleScope.launch { trySave() }
         }
-        cancelButton.setOnClickListener { dismiss() }
+        binding.cancelButton.setOnClickListener { dismiss() }
     }
 
     override fun onPause() {
         super.onPause()
-        okButton.setOnClickListener(null)
-        cancelButton.setOnClickListener(null)
+        binding.okButton.setOnClickListener(null)
+        binding.cancelButton.setOnClickListener(null)
     }
 
     private suspend fun trySave(){
         val result = editItemViewModel.updateArtist(
             UpdateArtistInfo(
                 mediaId,
-                artist.extractText().trim(),
-                albumArtist.extractText().trim(),
-                podcast.isChecked
+                binding.artist.extractText().trim(),
+                binding.albumArtist.extractText().trim(),
+                binding.podcast.isChecked
             )
         )
 
@@ -106,6 +120,4 @@ class EditArtistFragment : BaseEditItemFragment() {
 
     override fun onLoaderCancelled() {
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_edit_artist
 }
