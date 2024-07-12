@@ -12,7 +12,6 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.*
 
 class TextViewDialog(
@@ -49,9 +48,9 @@ class TextViewDialog(
         customizeTextView: TextInputEditText.() -> Unit = {}
     ): TextViewDialog {
         val layout = inflater.inflate(layoutEditText, container, false)
-        layout.wrapper.customizeWrapper()
-        layout.editText.customizeTextView()
-        textViews.add(layout.editText)
+        layout.findViewById<TextInputLayout>(R.id.wrapper).customizeWrapper()
+        layout.findViewById<TextInputEditText>(R.id.editText).customizeTextView()
+        textViews.add(layout.findViewById(R.id.editText))
         container.addView(layout)
         return this
     }
