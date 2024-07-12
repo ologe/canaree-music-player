@@ -11,6 +11,10 @@ android {
 
     //kotlinOptions.allWarningsAsErrors = true
 
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 apply from: '../kapt.gradle'

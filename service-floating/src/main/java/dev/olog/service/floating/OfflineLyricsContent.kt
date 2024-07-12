@@ -3,19 +3,19 @@ package dev.olog.service.floating
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
+import dev.olog.service.floating.databinding.ContentOfflineLyricsBinding
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
-import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -30,12 +30,15 @@ class OfflineLyricsContent(
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(context) { glueService.playPause() } }
 
-    private suspend fun loadImage(mediaId: MediaId) {
+    private suspend fun loadImage(
+        mediaId: MediaId,
+        image: ImageView,
+    ) {
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
             val blurred = BlurKit.getInstance().blur(original, 20)
             withContext(Dispatchers.Main){
-                content.image.setImageBitmap(blurred)
+                image.setImageBitmap(blurred)
             }
         } catch (ex: Throwable){
             ex.printStackTrace()
@@ -48,13 +51,14 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         super.onShown()
+        val binging = ContentOfflineLyricsBinding.bind(content)
 
         presenter.onStart()
 
         glueService.observePlaybackState()
-            .subscribe(this) { content.seekBar.onStateChanged(it) }
+            .subscribe(this) { binging.seekBar.onStateChanged(it) }
 
-        content.edit.setOnClickListener {
+        binging.edit.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
@@ -62,25 +66,25 @@ class OfflineLyricsContent(
             }
         }
 
-        content.image.observePaletteColors()
+        binging.image.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(this, {
-                content.edit.animateBackgroundColor(it)
-                content.subHeader.animateTextColor(it)
+                binging.edit.animateBackgroundColor(it)
+                binging.subHeader.animateTextColor(it)
             })
 
         glueService.observeMetadata()
             .subscribe(this) {
                 presenter.updateCurrentTrackId(it.id)
-                GlobalScope.launch { loadImage(it.mediaId) }
-                content.header.text = it.title
-                content.subHeader.text = it.artist
-                content.seekBar.max = it.duration.toInt()
-                content.scrollView.scrollTo(0, 0)
+                GlobalScope.launch { loadImage(it.mediaId, binging.image) }
+                binging.header.text = it.title
+                binging.subHeader.text = it.artist
+                binging.seekBar.max = it.duration.toInt()
+                binging.scrollView.scrollTo(0, 0)
             }
 
-        content.sync.setOnClickListener {
+        binging.sync.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
@@ -94,9 +98,9 @@ class OfflineLyricsContent(
                 }
             }
         }
-        content.fakeNext.setOnClickListener { glueService.skipToNext() }
-        content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
-        content.scrollView.setOnTouchListener(scrollViewTouchListener)
+        binging.fakeNext.setOnClickListener { glueService.skipToNext() }
+        binging.fakePrev.setOnClickListener { glueService.skipToPrevious() }
+        binging.scrollView.setOnTouchListener(scrollViewTouchListener)
 
         glueService.observePlaybackState()
             .subscribe(this) {
@@ -106,24 +110,24 @@ class OfflineLyricsContent(
 
         presenter.observeLyrics()
             .subscribe(this) { (lyrics, type) ->
-                content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
-                content.text.text = lyrics
+                binging.emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                binging.text.text = lyrics
 
-                content.text.doOnPreDraw {
+                binging.text.doOnPreDraw {
                     if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                        val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
-                        content.scrollView.smoothScrollTo(0, scrollTo)
+                        val scrollTo = OffsetCalculator.compute(binging.text, lyrics, presenter.currentParagraph)
+                        binging.scrollView.smoothScrollTo(0, scrollTo)
                     }
                 }
 
                 if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                    val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
-                    content.scrollView.smoothScrollTo(0, scrollTo)
+                    val scrollTo = OffsetCalculator.compute(binging.text, lyrics, presenter.currentParagraph)
+                    binging.scrollView.smoothScrollTo(0, scrollTo)
                 }
             }
 
-        content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
-            glueService.seekTo(content.seekBar.progress.toLong())
+        binging.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
+            glueService.seekTo(binging.seekBar.progress.toLong())
             presenter.resetTick()
         })
     }
@@ -131,12 +135,14 @@ class OfflineLyricsContent(
     override fun onHidden() {
         super.onHidden()
         presenter.onStop()
-        content.edit.setOnClickListener(null)
-        content.sync.setOnClickListener(null)
-        content.fakeNext.setOnTouchListener(null)
-        content.fakePrev.setOnTouchListener(null)
-        content.scrollView.setOnTouchListener(null)
-        content.seekBar.setOnSeekBarChangeListener(null)
+
+        val binging = ContentOfflineLyricsBinding.bind(content)
+        binging.edit.setOnClickListener(null)
+        binging.sync.setOnClickListener(null)
+        binging.fakeNext.setOnTouchListener(null)
+        binging.fakePrev.setOnTouchListener(null)
+        binging.scrollView.setOnTouchListener(null)
+        binging.seekBar.setOnSeekBarChangeListener(null)
 
         lyricsJob?.cancel()
     }
