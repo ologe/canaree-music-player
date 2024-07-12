@@ -10,4 +10,4 @@ apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
 // checkout tags/v1.0.0 -> blurkit is hosted on jcenter that is down
 apply from: new File('/Users/eugeniu.olog/dev/blurkit-android', 'settings.gradle')
 include(":blurkit")
-project(":blurkit").projectDir = new File('/Users/eugeniu.olog/dev/blurkit-android', '')
+project(":blurkit").projectDir = new File('/Users/eugeniu.olog/dev/blurkit-android', 'blurkit')
