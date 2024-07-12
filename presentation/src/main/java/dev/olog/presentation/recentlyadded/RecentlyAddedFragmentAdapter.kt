@@ -1,30 +1,33 @@
 package dev.olog.presentation.recentlyadded
 
-import androidx.lifecycle.Lifecycle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.databinding.ItemRecentlyAddedBinding
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : CustomListAdapter<RecentlyAddedItem, ItemRecentlyAddedBinding>(), TouchableAdapter {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemRecentlyAddedBinding {
+        return ItemRecentlyAddedBinding.inflate(inflater, parent, false)
+    }
+
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemRecentlyAddedBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
@@ -38,11 +41,13 @@ class RecentlyAddedFragmentAdapter(
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableTrack)
-
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+    override fun bind(
+        holder: CustomViewHolder<ItemRecentlyAddedBinding>,
+        item: RecentlyAddedItem,
+        position: Int
+    ) {
+        holder.binding.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
@@ -54,8 +59,14 @@ class RecentlyAddedFragmentAdapter(
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
+        val item = getItem(viewHolder.adapterPosition)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 
 }
+
+data class RecentlyAddedItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+)

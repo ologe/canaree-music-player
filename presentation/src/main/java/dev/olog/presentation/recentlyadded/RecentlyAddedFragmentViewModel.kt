@@ -8,9 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.shared.TextUtils
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -28,7 +26,7 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val liveData = MutableLiveData<List<DisplayableItem>>()
+    private val liveData = MutableLiveData<List<RecentlyAddedItem>>()
     private val titleLiveData = MutableLiveData<String>()
 
     init {
@@ -45,22 +43,18 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
         }
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = liveData
+    fun observeData(): LiveData<List<RecentlyAddedItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
 
     override fun onCleared() {
         viewModelScope.cancel()
     }
 
-    private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-        return DisplayableTrack(
-            type = R.layout.item_recently_added,
+    private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): RecentlyAddedItem {
+        return RecentlyAddedItem(
             mediaId = MediaId.playableItem(parentId, id),
             title = title,
-            artist = artist,
-            album = album,
-            idInPlaylist = idInPlaylist,
-            dataModified = this.dateModified
+            subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
         )
     }
 
