@@ -1,37 +1,33 @@
 package dev.olog.presentation.about
 
-import android.content.res.ColorStateList
-import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import dev.olog.core.MediaId
+import dev.olog.presentation.base.adapter.CustomListAdapter
+import dev.olog.presentation.base.adapter.CustomViewHolder
 import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.databinding.ItemAboutBinding
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.shared.android.extensions.colorAccent
-import kotlinx.android.synthetic.main.item_about.view.*
 
 
 class AboutFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: NavigatorAbout,
-    private val presenter: AboutFragmentPresenter
+) : CustomListAdapter<AboutItem, ItemAboutBinding>() {
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemAboutBinding {
+        return ItemAboutBinding.inflate(inflater, parent, false)
+    }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemAboutBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutFragmentPresenter.HAVOC_ID -> navigator.toHavocPage()
                 AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
                 AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
                 AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
                 AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentPresenter.BUY_PRO -> presenter.buyPro()
                 AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
                 AboutFragmentPresenter.BETA -> navigator.joinBeta()
                 AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
@@ -41,15 +37,21 @@ class AboutFragmentAdapter(
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableHeader)
-        holder.itemView.apply {
-            if (item.mediaId == AboutFragmentPresenter.BUY_PRO) {
-                title.setTextColor(ColorStateList.valueOf(context.colorAccent()))
-            }
+    override fun bind(
+        holder: CustomViewHolder<ItemAboutBinding>,
+        item: AboutItem,
+        position: Int
+    ) {
+        holder.binding.apply {
             title.text = item.title
             subtitle.text = item.subtitle   
         }
     }
 
 }
+
+data class AboutItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+)

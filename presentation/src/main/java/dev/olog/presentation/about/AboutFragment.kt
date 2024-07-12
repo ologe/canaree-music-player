@@ -24,13 +24,12 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
 
     @Inject
     lateinit var navigator: NavigatorAbout
-    @Inject
-    lateinit var billing: IBilling
+
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext, billing)
+        AboutFragmentPresenter(ctx.applicationContext)
     }
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator, presenter)
+        AboutFragmentAdapter(navigator)
     }
 
     private val binding by viewBinding(FragmentAboutBinding::bind)
@@ -40,7 +39,7 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
         binding.list.adapter = adapter
 
         presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onResume() {
@@ -51,11 +50,6 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
     override fun onPause() {
         super.onPause()
         binding.back.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleared()
     }
 
 }
