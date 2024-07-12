@@ -1,5 +1,13 @@
 include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer', ':analytics'//, ':feature_stylize'
 
-gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
+// todo add these as git submodules
+
+// checkout tags/r2.10.4
+gradle.ext.exoplayerRoot = '/Users/eugeniu.olog/dev/ExoPlayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+
+// checkout tags/v1.0.0 -> blurkit is hosted on jcenter that is down
+apply from: new File('/Users/eugeniu.olog/dev/blurkit-android', 'settings.gradle')
+include(":blurkit")
+project(":blurkit").projectDir = new File('/Users/eugeniu.olog/dev/blurkit-android', '')

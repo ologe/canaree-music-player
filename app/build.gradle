@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.firebase.firebase-perf'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -101,7 +100,7 @@ dependencies {
     implementation lib_core.dagger_android_support
     kapt lib_core.dagger_android_processor
 
-    implementation lib_ui.blur_kit
+    implementation project(":blurkit")//lib_ui.blur_kit
     implementation lib_ui.custom_tabs
 
     // debug
