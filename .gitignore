@@ -59,6 +59,7 @@ captures/
 .idea/other.xml
 .idea/jarRepositories.xml
 .idea/markdown-navigator*
+.idea/deploymentTargetSelector.xml
 
 # Version control
 vcs.xml
