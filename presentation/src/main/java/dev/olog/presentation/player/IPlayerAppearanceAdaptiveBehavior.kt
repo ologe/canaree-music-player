@@ -3,18 +3,19 @@ package dev.olog.presentation.player
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
+import android.view.View
+import android.widget.ImageButton
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.graphics.ColorUtils
+import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.widgets.RepeatButton
+import dev.olog.presentation.widgets.ShuffleButton
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
-import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.more
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.title
-import kotlinx.android.synthetic.main.player_layout_spotify.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
 import kotlinx.coroutines.flow.map
 
 internal interface IPlayerAppearanceAdaptiveBehavior {
@@ -51,10 +52,10 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
                     GradientDrawable.Orientation.TOP_BOTTOM,
                     intArrayOf(first, second, third)
                 )
-                view.playerRoot.background = gradient
+                view.findViewById<View>(R.id.playerRoot).background = gradient
 
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
+                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
             }
     }
 
@@ -83,10 +84,10 @@ internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveB
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
+                view.findViewById<TextView>(R.id.artist).apply { animateTextColor(accent) }
+                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
+                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
+                view.findViewById<SeekBar>(R.id.seekBar).apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
@@ -102,11 +103,11 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
         presenter.observeProcessorColors()
             .asLiveData()
             .subscribe(viewHolder) { colors ->
-                view.title.apply {
+                view.findViewById<TextView>(R.id.title).apply {
                     animateTextColor(colors.primaryText)
                     animateBackgroundColor(colors.background)
                 }
-                view.artist.apply {
+                view.findViewById<TextView>(R.id.artist).apply {
                     animateTextColor(colors.secondaryText)
                     animateBackgroundColor(colors.background)
                 }
@@ -116,12 +117,12 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
-                view.seekBar.apply {
+                view.findViewById<SeekBar>(R.id.seekBar).apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
+                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
             }
     }
 }
@@ -135,14 +136,14 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
-                view.seekBar.apply {
+                view.findViewById<SeekBar>(R.id.seekBar).apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.artist.animateTextColor(accent)
-                view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+                view.findViewById<TextView>(R.id.artist).animateTextColor(accent)
+                view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).backgroundTintList = ColorStateList.valueOf(accent)
+                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
+                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
             }
     }
 }
@@ -156,15 +157,15 @@ internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior 
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
+                view.findViewById<TextView>(R.id.artist).apply { animateTextColor(accent) }
+                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
+                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
+                view.findViewById<SeekBar>(R.id.seekBar).apply {
                     thumbTintList = ColorStateList.valueOf(accent)
                     progressTintList = ColorStateList.valueOf(accent)
                 }
-                view.more.imageTintList = ColorStateList.valueOf(accent)
-                view.lyrics.imageTintList = ColorStateList.valueOf(accent)
+                view.findViewById<ImageButton>(R.id.more).imageTintList = ColorStateList.valueOf(accent)
+                view.findViewById<ImageButton>(R.id.lyrics).imageTintList = ColorStateList.valueOf(accent)
             }
     }
 }
