@@ -1,13 +1,15 @@
 package dev.olog.presentation.player
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -16,6 +18,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.getSlidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -25,8 +28,6 @@ import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
-import kotlinx.android.synthetic.main.fragment_player_default.*
-import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -52,8 +53,32 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private val mediaProvider by lazyFast { act as MediaProvider }
 
+    private lateinit var list: RecyclerView
+    private var statusBar: View? = null
+    private var lyrics: View? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val appearance = requireContext().hasPlayerAppearance()
+        val layoutId = when (appearance.playerAppearance()) {
+            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
+            PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
+            PlayerAppearance.MINI -> R.layout.fragment_player_mini
+            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
+            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
+            else -> R.layout.fragment_player_default
+        }
+        return inflater.inflate(layoutId, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        list = view.findViewById(R.id.list)
+        statusBar = view.findViewById(R.id.statusBar)
+        lyrics = view.findViewById(R.id.lyrics)
+
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
@@ -105,18 +130,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
-    }
-
-    override fun provideLayoutId(): Int {
-        val appearance = requireContext().hasPlayerAppearance()
-        return when (appearance.playerAppearance()) {
-            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
-            PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
-            PlayerAppearance.MINI -> R.layout.fragment_player_mini
-            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
-            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
-            else -> R.layout.fragment_player_default
-        }
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {

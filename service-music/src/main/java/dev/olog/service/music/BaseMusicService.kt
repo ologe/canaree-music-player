@@ -2,6 +2,7 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.content.Intent
+import android.os.IBinder
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -11,22 +12,18 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IServiceLifecycleController
 import javax.inject.Inject
 
-abstract class BaseMusicService : MediaBrowserServiceCompat(),
-    LifecycleOwner,
+abstract class BaseMusicService : LifecycleMediaBrowserServiceCompat(),
     IServiceLifecycleController {
 
     companion object {
         private const val ACTION_KEEP_SERVICE_ALIVE = "action.KEEP_SERVICE_ALIVE"
     }
-
-    @Suppress("LeakingThis")
-    private val dispatcher = ServiceLifecycleDispatcher(this)
 
     @Inject
     internal lateinit var player: IPlayer
@@ -35,17 +32,12 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
     @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         serviceStarted = true
 
         handleIntent(intent)
 
         return Service.START_NOT_STICKY
-    }
-
-    @CallSuper
-    override fun onDestroy() {
-        dispatcher.onServicePreSuperOnDestroy()
-        super.onDestroy()
     }
 
     private fun handleIntent(intent: Intent?) {
@@ -120,8 +112,51 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         }
     }
 
-    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
-
     protected abstract fun handleMediaButton(intent: Intent)
+
+}
+
+abstract class LifecycleMediaBrowserServiceCompat : MediaBrowserServiceCompat(), LifecycleOwner {
+
+    @Suppress("LeakingThis")
+    private val dispatcher = ServiceLifecycleDispatcher(this)
+
+    @CallSuper
+    override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
+        super.onCreate()
+    }
+
+    @CallSuper
+    override fun onBind(intent: Intent): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
+        return super.onBind(intent)
+    }
+
+    @Suppress("deprecation")
+    @CallSuper
+    override fun onStart(intent: Intent?, startId: Int) {
+        dispatcher.onServicePreSuperOnStart()
+        super.onStart(intent, startId)
+    }
+
+    // this method is added only to annotate it with @CallSuper.
+    // In usual service super.onStartCommand is no-op, but in LifecycleService
+    // it results in mDispatcher.onServicePreSuperOnStart() call, because
+    // super.onStartCommand calls onStart().
+    @CallSuper
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    @CallSuper
+    override fun onDestroy() {
+        dispatcher.onServicePreSuperOnDestroy()
+        super.onDestroy()
+    }
+
+    override fun getLifecycle(): Lifecycle {
+        return dispatcher.lifecycle
+    }
 
 }

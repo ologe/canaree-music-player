@@ -10,17 +10,18 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.databinding.FragmentRecentlyAddedBinding
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 
-class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), IDragListener by DragListenerImpl() {
 
     companion object {
         @JvmStatic
@@ -52,12 +53,14 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.setHasFixedSize(true)
+    private val binding by viewBinding(FragmentRecentlyAddedBinding::bind)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.setHasFixedSize(true)
+
+        setupDragListener(binding.list, ItemTouchHelper.LEFT)
 
         viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
@@ -65,24 +68,23 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
             .subscribe(viewLifecycleOwner) { itemTitle ->
                 val headersArray = resources.getStringArray(R.array.recently_added_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-                this.header.text = header
+                binding.header.text = header
             }
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { activity!!.onBackPressed() }
+        binding.back.setOnClickListener { activity!!.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+        binding.list.adapter = null
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_recently_added
 }

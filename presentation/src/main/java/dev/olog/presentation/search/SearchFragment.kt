@@ -14,6 +14,9 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.restoreUpperWidgetsTranslation
+import dev.olog.presentation.base.viewLifecycleScope
+import dev.olog.presentation.databinding.FragmentSearchBinding
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
@@ -22,15 +25,15 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment(),
+class SearchFragment : BaseFragment(R.layout.fragment_search),
     SetupNestedList,
     IDragListener by DragListenerImpl() {
 
@@ -103,19 +106,21 @@ class SearchFragment : BaseFragment(),
     lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setRecycledViewPool(recycledViewPool)
-        list.setHasFixedSize(true)
+    private val binding by viewBinding(FragmentSearchBinding::bind)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = layoutManager
+        binding.list.setRecycledViewPool(recycledViewPool)
+        binding.list.setHasFixedSize(true)
+
+        setupDragListener(binding.list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
             }
 
@@ -134,8 +139,8 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        launch {
-            editText.afterTextChange()
+        viewLifecycleScope.launch {
+            binding.editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .collect { viewModel.updateQuery(it) }
@@ -173,23 +178,23 @@ class SearchFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        fab.setOnClickListener { editText.showIme() }
+        binding.fab.setOnClickListener { binding.editText.showIme() }
 
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        binding.floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        binding.more.setOnClickListener { navigator.toMainPopup(it, null) }
     }
 
     override fun onPause() {
         super.onPause()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
-        fab.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-        more.setOnClickListener(null)
+        binding.fab.setOnClickListener(null)
+        binding.floatingWindow.setOnClickListener(null)
+        binding.more.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+        binding.list.adapter = null
     }
 
     private fun startServiceOrRequestOverlayPermission() {
@@ -199,9 +204,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onStop() {
         super.onStop()
-        editText.hideIme()
+        binding.editText.hideIme()
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_search
 
 }

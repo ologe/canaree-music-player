@@ -1,42 +1,27 @@
 package dev.olog.presentation.base
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import dagger.android.support.DaggerFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
-abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : DaggerFragment {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(provideLayoutId(), container, false)
-    }
-
-    @LayoutRes
-    protected abstract fun provideLayoutId(): Int
-
-    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
-        return (activity as HasSlidingPanel).getSlidingPanel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cancel()
-    }
-
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
-    }
-
+    constructor() : super()
+    constructor(contentLayoutId: Int) : super(contentLayoutId)
 }
+
+// todo move all below to common place
+fun Fragment.getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
+    return (activity as HasSlidingPanel).getSlidingPanel()
+}
+
+fun Fragment.restoreUpperWidgetsTranslation(){
+    (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+}
+
+val Fragment.viewLifecycleScope: CoroutineScope
+    get() = viewLifecycleOwner.lifecycleScope

@@ -5,14 +5,15 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentTranslationsBinding
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_translations.*
 import javax.inject.Inject
 
-class TranslationsFragment : BaseFragment() {
+class TranslationsFragment : BaseFragment(R.layout.fragment_translations) {
 
     @Inject
     internal lateinit var navigator: NavigatorAbout
@@ -22,22 +23,22 @@ class TranslationsFragment : BaseFragment() {
         TranslationFragmentAdapter(data.toMutableList(), navigator)
     }
 
+    private val binding by viewBinding(FragmentTranslationsBinding::bind)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        binding.back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_translations
 
     companion object {
 

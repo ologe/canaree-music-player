@@ -14,6 +14,9 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.restoreUpperWidgetsTranslation
+import dev.olog.presentation.base.viewLifecycleScope
+import dev.olog.presentation.databinding.FragmentDetailBinding
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
@@ -23,8 +26,8 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -33,7 +36,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
-class DetailFragment : BaseFragment(),
+class DetailFragment : BaseFragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
     SetupNestedList,
     IDragListener by DragListenerImpl() {
@@ -106,20 +109,22 @@ class DetailFragment : BaseFragment(),
         }
     }
 
+    private val binding by viewBinding(FragmentDetailBinding::bind)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.setRecycledViewPool(recycledViewPool)
-        list.setHasFixedSize(true)
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.setRecycledViewPool(recycledViewPool)
+        binding.list.setHasFixedSize(true)
 
         var swipeDirections = ItemTouchHelper.LEFT
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(list, swipeDirections)
+        setupDragListener(binding.list, swipeDirections)
 
-        fastScroller.attachRecyclerView(list)
-        fastScroller.showBubble(false)
+        binding.fastScroller.attachRecyclerView(binding.list)
+        binding.fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
             .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
@@ -147,11 +152,11 @@ class DetailFragment : BaseFragment(),
 
         viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
             require(item is DisplayableHeader)
-            headerText.text = item.title
+            binding.headerText.text = item.title
         }
 
-        launch {
-            editText.afterTextChange()
+        viewLifecycleScope.launch {
+            binding.editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isEmpty() || it.length >= 2 }
                 .collect {
@@ -203,27 +208,27 @@ class DetailFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        list.addOnScrollListener(recyclerOnScrollListener)
-        list.addOnScrollListener(scrollListener)
-        back.setOnClickListener { act.onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
-        filter.setOnClickListener {
-            searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
+        binding.list.addOnScrollListener(recyclerOnScrollListener)
+        binding.list.addOnScrollListener(scrollListener)
+        binding.back.setOnClickListener { act.onBackPressed() }
+        binding.more.setOnClickListener { navigator.toDialog(viewModel.mediaId, binding.more) }
+        binding.filter.setOnClickListener {
+            binding.searchWrapper.toggleVisibility(!binding.searchWrapper.isVisible, true)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        list.removeOnScrollListener(recyclerOnScrollListener)
-        list.removeOnScrollListener(scrollListener)
-        back.setOnClickListener(null)
-        more.setOnClickListener(null)
-        filter.setOnClickListener(null)
+        binding.list.removeOnScrollListener(recyclerOnScrollListener)
+        binding.list.removeOnScrollListener(scrollListener)
+        binding.back.setOnClickListener(null)
+        binding.more.setOnClickListener(null)
+        binding.filter.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+        binding.list.adapter = null
     }
 
     override fun adjustStatusBarColor() {
@@ -240,9 +245,9 @@ class DetailFragment : BaseFragment(),
 
     private fun removeLightStatusBar() {
         val color = Color.WHITE
-        back.setColorFilter(color)
-        more.setColorFilter(color)
-        filter.setColorFilter(color)
+        binding.back.setColorFilter(color)
+        binding.more.setColorFilter(color)
+        binding.filter.setColorFilter(color)
 
         if (requireContext().isTablet){
             return
@@ -255,9 +260,9 @@ class DetailFragment : BaseFragment(),
             return
         }
         val color = requireContext().colorControlNormal()
-        back.setColorFilter(color)
-        more.setColorFilter(color)
-        filter.setColorFilter(color)
+        binding.back.setColorFilter(color)
+        binding.more.setColorFilter(color)
+        binding.filter.setColorFilter(color)
 
         if (requireContext().isTablet){
             return
@@ -266,16 +271,14 @@ class DetailFragment : BaseFragment(),
         act.window.setLightStatusBar()
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_detail
-
     private val scrollListener = object : RecyclerView.OnScrollListener(){
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val alpha = 1 - abs(toolbar.translationY) / toolbar.height
-            back.alpha = alpha
-            filter.alpha = alpha
-            more.alpha = alpha
-            searchWrapper.alpha = alpha
-            headerText.alpha = alpha
+            val alpha = 1 - abs(binding.toolbar.translationY) / binding.toolbar.height
+            binding.back.alpha = alpha
+            binding.filter.alpha = alpha
+            binding.more.alpha = alpha
+            binding.searchWrapper.alpha = alpha
+            binding.headerText.alpha = alpha
         }
     }
 }

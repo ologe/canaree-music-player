@@ -3,7 +3,6 @@ package dev.olog.shared.android.extensions
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 
 // region ViewModels
 
@@ -16,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 inline fun <reified VM : ViewModel> androidx.fragment.app.FragmentActivity.viewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
-        ViewModelProviders.of(this, provider).get(VM::class.java)
+        ViewModelProvider(this, provider).get(VM::class.java)
 
 /**
  * For Fragments, allows declarations like
@@ -27,7 +26,7 @@ inline fun <reified VM : ViewModel> androidx.fragment.app.FragmentActivity.viewM
 inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
-        ViewModelProviders.of(this, provider).get(VM::class.java)
+        ViewModelProvider(this, provider).get(VM::class.java)
 
 /**
  * Like [Fragment.viewModelProvider] for Fragments that want a [ViewModel] scoped to the Activity.
@@ -35,7 +34,7 @@ inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
 inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
-        ViewModelProviders.of(requireActivity(), provider).get(VM::class.java)
+        ViewModelProvider(requireActivity(), provider).get(VM::class.java)
 
 /**
  * Like [Fragment.viewModelProvider] for Fragments that want a [ViewModel] scoped to the parent
@@ -44,4 +43,4 @@ inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
 inline fun <reified VM : ViewModel> Fragment.parentViewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
-        ViewModelProviders.of(parentFragment!!, provider).get(VM::class.java)
+        ViewModelProvider(parentFragment!!, provider).get(VM::class.java)

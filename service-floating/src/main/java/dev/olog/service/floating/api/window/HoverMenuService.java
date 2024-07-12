@@ -25,6 +25,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleService;
+
 import dev.olog.service.floating.api.HoverView;
 import dev.olog.service.floating.api.OnExitListener;
 import dev.olog.service.floating.api.SideDock;
@@ -41,7 +43,7 @@ import dev.olog.service.floating.api.overlay.OverlayPermission;
  * is no {@code Activity} to associate with the {@code HoverView}'s UI. This {@code Service} is the
  * application's link to the device's {@code Window} to display the {@code HoverView}.
  */
-public abstract class HoverMenuService extends Service {
+public abstract class HoverMenuService extends LifecycleService {
 
     private static final String TAG = "HoverMenuService";
 

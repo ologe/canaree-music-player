@@ -18,6 +18,8 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.viewLifecycleScope
+import dev.olog.presentation.databinding.FragmentTabBinding
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
@@ -30,14 +32,14 @@ import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TabFragment : BaseFragment(), SetupNestedList {
+class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
 
     companion object {
 
@@ -93,15 +95,17 @@ class TabFragment : BaseFragment(), SetupNestedList {
         TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
     }
 
+    private val binding by viewBinding(FragmentTabBinding::bind)
+
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
-        emptyStateText.toggleVisibility(isEmpty, true)
+        binding.emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty) {
             if (isPodcastFragment()) {
                 val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
-                emptyStateText.text = emptyText[category.ordinal - 6]
+                binding.emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
                 val emptyText = resources.getStringArray(R.array.tab_empty_state)
-                emptyStateText.text = emptyText[category.ordinal]
+                binding.emptyStateText.text = emptyText[category.ordinal]
             }
         }
     }
@@ -114,13 +118,13 @@ class TabFragment : BaseFragment(), SetupNestedList {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val requestedSpanSize = viewModel.getSpanCount(category)
-        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
-        list.layoutManager = gridLayoutManager
-        list.adapter = adapter
-        list.setHasFixedSize(true)
+        val gridLayoutManager = LayoutManagerFactory.get(binding.list, category, adapter, requestedSpanSize)
+        binding.list.layoutManager = gridLayoutManager
+        binding.list.adapter = adapter
+        binding.list.setHasFixedSize(true)
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
-            list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
+            binding.list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
         }
 
         val scrollableLayoutId = when (category) {
@@ -129,35 +133,35 @@ class TabFragment : BaseFragment(), SetupNestedList {
             TabCategory.ARTISTS -> R.layout.item_tab_artist
             else -> R.layout.item_tab_album
         }
-        sidebar.scrollableLayoutId = scrollableLayoutId
+        binding.sidebar.scrollableLayoutId = scrollableLayoutId
 
-        fab.toggleVisibility(
+        binding.fab.toggleVisibility(
             category == TabCategory.PLAYLISTS ||
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
+        viewLifecycleScope.launch {
             viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
                     adapter.updateDataSet(list)
-                    sidebar.onDataChanged(list)
+                    binding.sidebar.onDataChanged(list)
                 }
         }
 
-        launch {
+        viewLifecycleScope.launch {
             viewModel.observeSpanCount(category)
                 .drop(1) // drop initial value, already used
                 .collect {
-                    if (list != null && list.isLaidOut) {
-                        TransitionManager.beginDelayedTransition(list)
+                    if (binding.list.isLaidOut) {
+                        TransitionManager.beginDelayedTransition(binding.list)
                         (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
                         adapter.notifyDataSetChanged()
                     }
                 }
         }
 
-        launch {
+        viewLifecycleScope.launch {
             when (category) {
                 TabCategory.ALBUMS -> {
                     viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
@@ -192,7 +196,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+        binding.list.adapter = null
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
@@ -224,8 +228,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     override fun onResume() {
         super.onResume()
-        sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener {
+        binding.sidebar.setListener(letterTouchListener)
+        binding.fab.setOnClickListener {
             val type =
                 if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
             navigator.toChooseTracksForPlaylistFragment(type)
@@ -235,14 +239,14 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     override fun onPause() {
         super.onPause()
-        sidebar.setListener(null)
-        fab.setOnClickListener(null)
+        binding.sidebar.setListener(null)
+        binding.fab.setOnClickListener(null)
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        list.stopScroll()
+        binding.list.stopScroll()
 
-        val scrollableItem = sidebar.scrollableLayoutId
+        val scrollableItem = binding.sidebar.scrollableLayoutId
 
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
@@ -275,7 +279,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }
         }
         if (position != -1) {
-            val layoutManager = list.layoutManager as GridLayoutManager
+            val layoutManager = binding.list.layoutManager as GridLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
@@ -306,5 +310,4 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_tab
 }
