@@ -1,25 +1,32 @@
 package dev.olog.presentation.thanks
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.DiffUtil
 import dev.olog.image.provider.GlideApp
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.SpecialThanksModel
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
+import dev.olog.presentation.base.adapter.CustomListAdapter
+import dev.olog.presentation.base.adapter.CustomViewHolder
+import dev.olog.presentation.databinding.ItemSpecialThanksBinding
 
 class SpecialThanksFragmentAdapter(
-    lifecycle: Lifecycle
-) : ObservableAdapter<SpecialThanksModel>(lifecycle,
-    DiffUtilSpecialThansModel
-) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+) : CustomListAdapter<SpecialThanksItem, ItemSpecialThanksBinding>() {
+
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemSpecialThanksBinding {
+        return ItemSpecialThanksBinding.inflate(inflater, parent, false)
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.itemView.apply {
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemSpecialThanksBinding>,
+        viewType: Int
+    ) {}
+
+    override fun bind(
+        holder: CustomViewHolder<ItemSpecialThanksBinding>,
+        item: SpecialThanksItem, position: Int
+    ) {
+        val context = holder.binding.root.context
+        holder.binding.apply {
             GlideApp.with(context)
                 .load(ContextCompat.getDrawable(context, item.image))
                 .into(image)
@@ -30,18 +37,7 @@ class SpecialThanksFragmentAdapter(
 
 }
 
-object DiffUtilSpecialThansModel : DiffUtil.ItemCallback<SpecialThanksModel>() {
-    override fun areItemsTheSame(
-        oldItem: SpecialThanksModel,
-        newItem: SpecialThanksModel
-    ): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override fun areContentsTheSame(
-        oldItem: SpecialThanksModel,
-        newItem: SpecialThanksModel
-    ): Boolean {
-        return oldItem == newItem
-    }
-}
+data class SpecialThanksItem(
+    val title: String,
+    val image: Int
+)
