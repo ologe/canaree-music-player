@@ -1,219 +1,186 @@
 package dev.olog.presentation.license
 
 import android.content.Context
-import dev.olog.core.MediaId
-import dev.olog.presentation.R
-import dev.olog.presentation.model.LicenseModel
 
+// todo automatic this
 class LicensesFragmentPresenter(private val context: Context) {
 
     private val cachedLicenses = mutableMapOf<String, String>()
 
-    private val ANDROID_OPEN_SOURCE_PROJECT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("android"),
-        "The Android Open Source Project", "https://source.android.com",
+    private val ANDROID_OPEN_SOURCE_PROJECT = LicenceItem(
+        "The Android Open Source Project",
+        "https://source.android.com",
         apache()
     )
 
-    private val ANDROID_SUPPORT_LIBRARIES = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("android support"),
+    private val ANDROID_SUPPORT_LIBRARIES = LicenceItem(
         "Android Support Libraries",
         "https://developer.android.com/topic/libraries/support-library/index.html",
         apache()
     )
 
-    private val KOTLIN_COROUTINES = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("coroutines"),
-        "kotlinx.coroutines", "https://github.com/Kotlin/kotlinx.coroutines",
+    private val KOTLIN_COROUTINES = LicenceItem(
+        "kotlinx.coroutines",
+        "https://github.com/Kotlin/kotlinx.coroutines",
         apache()
     )
 
-    private val DAGGER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("dagger"),
-        "Dagger", "https://github.com/google/dagger",
+    private val DAGGER = LicenceItem(
+        "Dagger",
+        "https://github.com/google/dagger",
         apache()
     )
 
-    private val EXO_PLAYER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("exo player"),
-        "ExoPlayer", "https://github.com/google/ExoPlayer",
+    private val EXO_PLAYER = LicenceItem(
+        "ExoPlayer",
+        "https://github.com/google/ExoPlayer",
         apache()
     )
 
-    private val HOVER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("hover"),
-        "Hover", "https://github.com/google/hover",
+    private val HOVER = LicenceItem(
+        "Hover",
+        "https://github.com/google/hover",
         apache()
     )
 
-    private val LOTTIE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("lottie"),
-        "Lottie", "https://github.com/airbnb/lottie-android",
+    private val LOTTIE = LicenceItem(
+        "Lottie",
+        "https://github.com/airbnb/lottie-android",
         apache()
     )
 
-    private val GLIDE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("glide"),
+    private val GLIDE = LicenceItem(
         "Glide", "https://github.com/bumptech/glide",
         glide()
     )
 
-    private val BETTER_PICKERS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("ScrollHmsPicker"),
-        "ScrollHmsPicker", "https://github.com/DeweyReed/ScrollHmsPicker",
+    private val BETTER_PICKERS = LicenceItem(
+        "ScrollHmsPicker",
+        "https://github.com/DeweyReed/ScrollHmsPicker",
         mit()
     )
 
-    private val FUZZY_WUZZY = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("fuzzywuzzy"),
-        "JavaWuzzy", "https://github.com/xdrop/fuzzywuzzy",
+    private val FUZZY_WUZZY = LicenceItem(
+        "JavaWuzzy",
+        "https://github.com/xdrop/fuzzywuzzy",
         gnu()
     )
 
-    private val GSON = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("gson"),
-        "google-gson", "https://github.com/google/gson",
+    private val GSON = LicenceItem(
+        "google-gson",
+        "https://github.com/google/gson",
         apache()
     )
 
-    private val RETROFIT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("retrofit"),
-        "Retrofit", "https://github.com/square/retrofit",
+    private val RETROFIT = LicenceItem(
+        "Retrofit",
+        "https://github.com/square/retrofit",
         apache()
     )
 
-    private val OK_HTTP = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("OkHttp"),
-        "OkHttp", "https://github.com/square/okhttp",
+    private val OK_HTTP = LicenceItem(
+        "OkHttp",
+        "https://github.com/square/okhttp",
         apache()
     )
 
-    private val J_AUDIO_TAGGER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("jaudiotagger"),
-        "JAudiotagger", "http://www.jthink.net/jaudiotagger/",
+    private val J_AUDIO_TAGGER = LicenceItem(
+        "JAudiotagger",
+        "http://www.jthink.net/jaudiotagger/",
         jAudioTagger()
     )
 
-    private val TAP_TARGET_VIEW = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("TapTargetView"),
-        "TapTargetView", "https://github.com/KeepSafe/TapTargetView",
+    private val TAP_TARGET_VIEW = LicenceItem(
+        "TapTargetView",
+        "https://github.com/KeepSafe/TapTargetView",
         apache()
     )
 
-    private val AES_CRYPTO = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("java-aes-crypto"),
-        "java-aes-crypto", "https://github.com/tozny/java-aes-crypto",
+    private val AES_CRYPTO = LicenceItem(
+        "java-aes-crypto",
+        "https://github.com/tozny/java-aes-crypto",
         mit()
     )
 
-    private val LAST_FM_BINDING = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("last_fm_binding"),
-        "Last.fm API Bindings for Java", "https://github.com/jkovacs/lastfm-java",
+    private val LAST_FM_BINDING = LicenceItem(
+        "Last.fm API Bindings for Java",
+        "https://github.com/jkovacs/lastfm-java",
         lastFmBinding()
     )
 
-    private val CUSTOM_TABS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("custom tabs"),
-        "Android CustomTabs", "https://github.com/saschpe/android-customtabs",
+    private val CUSTOM_TABS = LicenceItem(
+        "Android CustomTabs",
+        "https://github.com/saschpe/android-customtabs",
         apache()
     )
 
-    private val LEAK_CANARY = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("leakCanary"),
-        "LeakCanary", "https://github.com/square/leakcanary",
+    private val LEAK_CANARY = LicenceItem(
+        "LeakCanary",
+        "https://github.com/square/leakcanary",
         apache()
     )
 
-    private val MATERIAL_DIALOGS = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("Material Dialogs"),
-        "Material Dialogs", "https://github.com/afollestad/material-dialogs",
+    private val MATERIAL_DIALOGS = LicenceItem(
+        "Material Dialogs",
+        "https://github.com/afollestad/material-dialogs",
         apache()
     )
 
-    private val LIBAVCODEC = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavcodec"),
-        "libavcodec", "http://git.videolan.org/?p=ffmpeg.git",
+    private val LIBAVCODEC = LicenceItem(
+        "libavcodec",
+        "http://git.videolan.org/?p=ffmpeg.git",
         gnu()
     )
 
-    private val LIBAVRESAMPLE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavresample"),
-        "libavresample", "http://git.videolan.org/?p=ffmpeg.git",
+    private val LIBAVRESAMPLE = LicenceItem(
+        "libavresample",
+        "http://git.videolan.org/?p=ffmpeg.git",
         gnu()
     )
 
-    private val LIBAVUTIL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("libavutil"),
-        "libavutil", "http://git.videolan.org/?p=ffmpeg.git",
+    private val LIBAVUTIL = LicenceItem(
+        "libavutil",
+        "http://git.videolan.org/?p=ffmpeg.git",
         gnu()
     )
 
-    private val SCROLL_HELPER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("scroll helper"),
-        "Scroll Helper", "https://github.com/ologe/scroll-helper",
+    private val SCROLL_HELPER = LicenceItem(
+        "Scroll Helper",
+        "https://github.com/ologe/scroll-helper",
         mit()
     )
 
-    private val BLUR_KIT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("blurkit"),
-        "BlurKit", "https://github.com/CameraKit/blurkit-android",
+    private val BLUR_KIT = LicenceItem(
+        "BlurKit",
+        "https://github.com/CameraKit/blurkit-android",
         mit()
     )
 
-    private val COLOR_DESATURATION = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("color desaturation"),
-        "Color desaturation", "https://github.com/ologe/color-desaturation",
+    private val COLOR_DESATURATION = LicenceItem(
+        "Color desaturation",
+        "https://github.com/ologe/color-desaturation",
         mit()
     )
 
-    private val CONTENT_RESOLVER_SQL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("content resolver sql"),
-        "Content Resolver SQL", "https://github.com/ologe/android-content-resolver-SQL",
+    private val CONTENT_RESOLVER_SQL = LicenceItem(
+        "Content Resolver SQL",
+        "https://github.com/ologe/android-content-resolver-SQL",
         mit()
     )
 
-    private val STETHO = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("stetho"),
-        "Stetho", "https://github.com/facebook/stetho",
+    private val STETHO = LicenceItem(
+        "Stetho",
+        "https://github.com/facebook/stetho",
         mit()
     )
 
-    private val CROLLER = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("croller"),
-        "Croller", "https://github.com/harjot-oberai/Croller",
+    private val CROLLER = LicenceItem(
+        "Croller",
+        "https://github.com/harjot-oberai/Croller",
         mit()
     )
 
-    val data: List<LicenseModel> = listOf(
+    val data: List<LicenceItem> = listOf(
         ANDROID_OPEN_SOURCE_PROJECT,
         ANDROID_SUPPORT_LIBRARIES,
 

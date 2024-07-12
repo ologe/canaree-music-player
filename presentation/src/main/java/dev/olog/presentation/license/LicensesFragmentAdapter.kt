@@ -1,29 +1,37 @@
 package dev.olog.presentation.license
 
 import android.text.method.LinkMovementMethod
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.DiffUtil
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import dev.olog.presentation.base.adapter.CustomListAdapter
+import dev.olog.presentation.base.adapter.CustomViewHolder
 import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.LicenseModel
-import kotlinx.android.synthetic.main.item_license.view.*
+import dev.olog.presentation.databinding.ItemLicenseBinding
 
 class LicensesFragmentAdapter(
-    lifecycle: Lifecycle
-) : ObservableAdapter<LicenseModel>(lifecycle,
-    DiffCallbackLicenseModel
-) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+) : CustomListAdapter<LicenceItem, ItemLicenseBinding>() {
+
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): ItemLicenseBinding {
+        return ItemLicenseBinding.inflate(inflater, parent, false)
+    }
+
+    override fun initViewHolderListeners(
+        viewHolder: CustomViewHolder<ItemLicenseBinding>,
+        viewType: Int
+    ) {
         viewHolder.setOnClickListener(this) { _, _, _ ->
-            val maxLines = if (viewHolder.itemView.license.maxLines > 10) 10 else Int.MAX_VALUE
-            viewHolder.itemView.license.maxLines = maxLines
+            val maxLines = if (viewHolder.binding.license.maxLines > 10) 10 else Int.MAX_VALUE
+            viewHolder.binding.license.maxLines = maxLines
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: LicenseModel, position: Int) {
-        holder.itemView.apply {
+    override fun bind(
+        holder: CustomViewHolder<ItemLicenseBinding>,
+        item: LicenceItem,
+        position: Int
+    ) {
+        holder.binding.apply {
             name.text = item.name
             url.text = item.url
             url.movementMethod = LinkMovementMethod.getInstance()
@@ -34,12 +42,8 @@ class LicensesFragmentAdapter(
 
 }
 
-object DiffCallbackLicenseModel : DiffUtil.ItemCallback<LicenseModel>() {
-    override fun areItemsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override fun areContentsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
-        return oldItem == newItem
-    }
-}
+data class LicenceItem(
+    val name: String,
+    val url: String,
+    val license: String,
+)
