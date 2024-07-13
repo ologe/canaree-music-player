@@ -3,6 +3,7 @@ package dev.olog.shared.android
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
@@ -10,7 +11,12 @@ object Permissions {
 
     private const val READ_CODE = 100
 
-    private const val READ_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    // TODO double check this and manifest if versions are correct
+    private val READ_STORAGE = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> Manifest.permission.READ_MEDIA_AUDIO
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.READ_EXTERNAL_STORAGE
+        else -> Manifest.permission.WRITE_EXTERNAL_STORAGE
+    }
 
     @JvmStatic
     fun checkWriteCode(code: Int): Boolean {

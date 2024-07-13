@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.core.app.ServiceCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.favorite.FavoriteEnum
@@ -157,7 +158,7 @@ internal class MusicNotificationManager @Inject constructor(
         }
         Log.v(TAG, "stop foreground")
 
-        service.stopForeground(true)
+        ServiceCompat.stopForeground(service, ServiceCompat.STOP_FOREGROUND_REMOVE)
         notificationImpl.cancel()
 
         isForeground = false
@@ -171,7 +172,7 @@ internal class MusicNotificationManager @Inject constructor(
         Log.v(TAG, "pause foreground")
 
         // state paused
-        service.stopForeground(false)
+        ServiceCompat.stopForeground(service, ServiceCompat.STOP_FOREGROUND_DETACH)
 
         isForeground = false
     }

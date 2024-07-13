@@ -206,7 +206,7 @@ class ScrollHmsPicker (
             }
         }
 
-        override fun writeToParcel(out: Parcel?, flags: Int) {
+        override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out?.run {
                 writeInt(hours)
@@ -216,7 +216,7 @@ class ScrollHmsPicker (
         }
 
         private companion object {
-            @JvmStatic
+            @JvmField
             val CREATOR = object : Parcelable.Creator<SavedState> {
                 override fun createFromParcel(source: Parcel?): SavedState =
                     SavedState(source)
