@@ -10,7 +10,7 @@ import androidx.media.session.MediaButtonReceiver
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.R
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.PendingIntentFactory
 
 internal object NotificationActions {
 
@@ -82,7 +82,7 @@ internal object NotificationActions {
     private fun buildPendingIntent(context: Context, action: String): PendingIntent {
         val intent = Intent(context, MusicService::class.java)
         intent.action = action
-        return intent.asServicePendingIntent(context)
+        return PendingIntentFactory.ofForegroundService(context, intent)
     }
 
     fun buildMediaPendingIntent(context: Context, action: Long): PendingIntent {

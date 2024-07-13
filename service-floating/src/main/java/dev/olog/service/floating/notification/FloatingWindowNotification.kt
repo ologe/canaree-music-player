@@ -10,7 +10,7 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.PendingIntentFactory
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.GlobalScope
@@ -104,7 +104,7 @@ class FloatingWindowNotification @Inject constructor(
     private fun createContentIntent(): PendingIntent {
         val intent = Intent(service, FloatingWindowService::class.java)
         intent.action = FloatingWindowService.ACTION_STOP
-        return intent.asServicePendingIntent(service, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntentFactory.ofForegroundService(service, intent)
     }
 
 }

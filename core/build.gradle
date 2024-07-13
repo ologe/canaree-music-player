@@ -15,6 +15,8 @@ apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':shared')
+    implementation project(':shared-android')
+    implementation project(':intents')
 
     implementation lib_core.dagger
     kapt lib_core.dagger_processor

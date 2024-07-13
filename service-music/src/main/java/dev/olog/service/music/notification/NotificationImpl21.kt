@@ -20,8 +20,7 @@ import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.shared.android.extensions.asActivityPendingIntent
-import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.PendingIntentFactory
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -139,7 +138,7 @@ internal open class NotificationImpl21 @Inject constructor(
     private fun buildContentIntent(): PendingIntent {
         val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
         intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return intent.asActivityPendingIntent(service)
+        return PendingIntentFactory.ofActivity(service, intent)
     }
 
     override fun cancel() {

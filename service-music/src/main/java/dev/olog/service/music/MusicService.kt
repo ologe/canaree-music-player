@@ -27,7 +27,7 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
-import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.PendingIntentFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -214,13 +214,11 @@ class MusicService : BaseMusicService() {
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
         intent.setClass(this, this.javaClass)
-        return intent.asServicePendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntentFactory.ofForegroundService(this, intent)
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
-        return PendingIntent.getActivity(
-            this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val intent = Intent(this, Class.forName(Classes.ACTIVITY_MAIN))
+        return PendingIntentFactory.ofActivity(this, intent)
     }
 }
