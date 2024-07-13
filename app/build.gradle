@@ -14,7 +14,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-
+    namespace = "dev.olog.msc"
     defaultConfig {
         applicationId "dev.olog.msc"
 
@@ -52,6 +52,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
         disable 'MissingTranslation'
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
 //    dynamicFeatures = [":feature_stylize"]

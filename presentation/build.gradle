@@ -12,7 +12,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-
+    namespace = "dev.olog.presentation"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
 
@@ -21,6 +21,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 

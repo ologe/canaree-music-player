@@ -2,11 +2,13 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
 android {
+    namespace = "dev.olog.shared.android"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 

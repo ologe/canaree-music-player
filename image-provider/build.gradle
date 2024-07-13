@@ -3,11 +3,16 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
 android {
+    namespace = "dev.olog.image.provider"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
     //kotlinOptions.allWarningsAsErrors = true
+
+    buildFeatures {
+        buildConfig = true
+    }
 
 }
 

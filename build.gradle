@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:8.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
@@ -40,7 +40,7 @@ allprojects {
         tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
         }
     }
     afterEvaluate {
@@ -60,7 +60,7 @@ ext {
     // Sdk and tools
     minSdkVersion = 21
     targetSdkVersion = 33
-    compileSdkVersion = 33
+    compileSdkVersion = 34
 
     /*  version code
         999 - for old compatibility

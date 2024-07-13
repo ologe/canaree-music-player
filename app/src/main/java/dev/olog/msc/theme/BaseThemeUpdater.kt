@@ -27,7 +27,7 @@ abstract class BaseThemeUpdater<T>(
         prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
             this.key -> onPrefsChanged()
         }
