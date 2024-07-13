@@ -109,7 +109,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
         }
     }
 
-    private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val binding by viewBinding(FragmentDetailBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
@@ -222,11 +224,6 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
         binding.back.setOnClickListener(null)
         binding.more.setOnClickListener(null)
         binding.filter.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     override fun adjustStatusBarColor() {

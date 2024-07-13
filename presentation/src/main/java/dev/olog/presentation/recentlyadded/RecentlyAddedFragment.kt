@@ -53,7 +53,9 @@ class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), ID
         )
     }
 
-    private val binding by viewBinding(FragmentRecentlyAddedBinding::bind)
+    private val binding by viewBinding(FragmentRecentlyAddedBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.adapter = adapter
@@ -80,11 +82,6 @@ class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), ID
     override fun onPause() {
         super.onPause()
         binding.back.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
 }

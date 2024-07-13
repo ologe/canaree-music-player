@@ -43,7 +43,9 @@ class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
         )
     }
 
-    private val binding by viewBinding(FragmentFolderTreeBinding::bind)
+    private val binding by viewBinding(FragmentFolderTreeBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
@@ -91,11 +93,6 @@ class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
         binding.breadCrumbs.setCallback(null)
         binding.list.removeOnScrollListener(scrollListener)
         binding.fab.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     private fun onFabClick(){

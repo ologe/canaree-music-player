@@ -53,7 +53,9 @@ class PlayingQueueFragment : BaseFragment(R.layout.fragment_playing_queue), IDra
         )
     }
 
-    private val binding by viewBinding(FragmentPlayingQueueBinding::bind)
+    private val binding by viewBinding(FragmentPlayingQueueBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val layoutManager = OverScrollLinearLayoutManager(binding.list)
@@ -98,11 +100,6 @@ class PlayingQueueFragment : BaseFragment(R.layout.fragment_playing_queue), IDra
         super.onPause()
         binding.more.setOnClickListener(null)
         binding.floatingWindow.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     private fun startServiceOrRequestOverlayPermission() {

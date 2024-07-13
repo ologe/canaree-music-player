@@ -45,7 +45,9 @@ class RelatedArtistFragment : BaseFragment(R.layout.fragment_related_artist) {
         )
     }
 
-    private val binding by viewBinding(FragmentRelatedArtistBinding::bind)
+    private val binding by viewBinding(FragmentRelatedArtistBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = OverScrollGridLayoutManager(binding.list, 2)
@@ -71,11 +73,6 @@ class RelatedArtistFragment : BaseFragment(R.layout.fragment_related_artist) {
     override fun onPause() {
         super.onPause()
         binding.back.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
 }

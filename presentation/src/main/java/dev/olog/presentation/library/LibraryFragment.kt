@@ -63,7 +63,9 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
                 pagerAdapter.showFolderAsHierarchy()
     }
 
-    private val binding by viewBinding(FragmentLibraryBinding::bind)
+    private val binding by viewBinding(FragmentLibraryBinding::bind) {
+        it.viewPager.adapter = null
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -118,11 +120,6 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
         binding.floatingWindow.setOnClickListener(null)
         binding.tracks.setOnClickListener(null)
         binding.podcasts.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.viewPager.adapter = null
     }
 
     private fun changeLibraryPage(page: LibraryPage) {

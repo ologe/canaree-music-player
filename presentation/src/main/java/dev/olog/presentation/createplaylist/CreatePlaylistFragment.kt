@@ -55,7 +55,9 @@ class CreatePlaylistFragment : BaseFragment(R.layout.fragment_create_playlist), 
 
     private var toast: Toast? = null
 
-    private val binding by viewBinding(FragmentCreatePlaylistBinding::bind)
+    private val binding by viewBinding(FragmentCreatePlaylistBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
@@ -134,7 +136,6 @@ class CreatePlaylistFragment : BaseFragment(R.layout.fragment_create_playlist), 
     override fun onDestroyView() {
         super.onDestroyView()
         toast?.cancel()
-        binding.list.adapter = null
     }
 
     private fun showCreateDialog() {

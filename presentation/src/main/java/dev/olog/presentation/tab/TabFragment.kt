@@ -95,7 +95,9 @@ class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
         TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
     }
 
-    private val binding by viewBinding(FragmentTabBinding::bind)
+    private val binding by viewBinding(FragmentTabBinding::bind) {
+        it.list.adapter = null
+    }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
         binding.emptyStateText.toggleVisibility(isEmpty, true)
@@ -192,11 +194,6 @@ class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
             }
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

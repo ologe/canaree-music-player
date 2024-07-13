@@ -106,7 +106,9 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
     lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val binding by viewBinding(FragmentSearchBinding::bind)
+    private val binding by viewBinding(FragmentSearchBinding::bind) {
+        it.list.adapter = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         layoutManager = OverScrollLinearLayoutManager(binding.list)
@@ -190,11 +192,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
         binding.fab.setOnClickListener(null)
         binding.floatingWindow.setOnClickListener(null)
         binding.more.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
     }
 
     private fun startServiceOrRequestOverlayPermission() {
