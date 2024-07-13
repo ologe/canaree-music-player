@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.EventDispatcher.Event
+import dev.olog.shared.android.Broadcasts
 import javax.inject.Inject
 
 @PerService
@@ -39,7 +40,7 @@ internal class Noisy @Inject constructor(
             return
         }
         Log.v(TAG, "register")
-        context.registerReceiver(receiver, noisyFilter)
+        Broadcasts.register(context, receiver, noisyFilter)
         registered = true
     }
 
@@ -50,7 +51,7 @@ internal class Noisy @Inject constructor(
         }
 
         Log.v(TAG, "unregister")
-        context.unregisterReceiver(receiver)
+        Broadcasts.unregister(context, receiver)
         registered = false
     }
 
