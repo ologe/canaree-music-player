@@ -4,11 +4,7 @@
     <!--entry values are used as keys, do not translate-->
     <!--however, entries are human readable -->
 
-    <string name="premium_ad_key_title">प्रीमियम सुविधाओं को अनलॉक करने के लिए विज्ञापन दिखाएं</string>
-
     <string name="settings">सेटिंग्स</string>
-
-    <string name="prefs_not_premium_action">खरीदें</string>
 
     <!--categories-->
     <string name="prefs_category_library">संग्रह</string>

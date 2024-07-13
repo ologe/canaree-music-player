@@ -24,10 +24,6 @@
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
     <string name="about_privacy_policy_description">Σημαντικό και για τους δυό μας</string>
 
-    <string name="about_buy_pro">Αγόρασε την Pro έκδοση</string>
-    <string name="about_buy_pro_description">Αγόρασε την Pro έκδοση για να ξεκλειδώσεις όλα τα χαρακτηριστικά</string>
-    <string name="about_buy_pro_description_trial">Δοκιμαστική έκδοση, ολα τα χαρατηριστικά είναι ξεκλείδωτα</string>
-
     <string name="about_icon_made_by_x_from_y">Σχεδιαστής εικονιδίου %1$s από %2$s</string>
 
 </resources>

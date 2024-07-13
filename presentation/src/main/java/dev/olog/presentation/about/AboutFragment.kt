@@ -6,7 +6,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.databinding.FragmentAboutBinding
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.presentation.pro.IBilling
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx

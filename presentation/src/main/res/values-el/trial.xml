@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="trial_title">Δοκιμή</string>
-    <string name="trial_message">Όλα τα premium χαρακτηριστικά ξεκλειδώνονται για μια ώρα μετα την εγκατάσταση</string>
-    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
-
-</resources>

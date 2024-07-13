@@ -4,10 +4,7 @@
   <!--entry values are used as keys, do not translate-->
   <!--however, entries are human readable -->
 
-  <string name="premium_ad_key_title">Mostra annunci per sbloccare funzionalità premium</string>
-
   <string name="settings">Impostazioni</string>
-  <string name="prefs_not_premium_action">Acquista</string>
   <!--categories-->
   <string name="prefs_category_library">Libreria</string>
   <string name="prefs_category_ui">Interfaccia utente</string>
