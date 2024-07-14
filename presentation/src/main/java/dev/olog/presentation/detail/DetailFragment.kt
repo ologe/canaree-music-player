@@ -135,7 +135,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(binding.list, swipeDirections)
+        setupDragListener(viewLifecycleScope, binding.list, swipeDirections)
 
         binding.fastScroller.attachRecyclerView(binding.list)
         binding.fastScroller.showBubble(false)

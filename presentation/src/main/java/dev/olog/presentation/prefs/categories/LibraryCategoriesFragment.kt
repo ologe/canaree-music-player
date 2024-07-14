@@ -10,6 +10,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -52,7 +53,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     override fun setupRecyclerView(list: RecyclerView) {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        setupDragListener(list, 0)
+        setupDragListener(viewLifecycleScope, list, 0)
     }
 
     override fun positiveAction() {

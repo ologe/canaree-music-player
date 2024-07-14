@@ -11,6 +11,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentRecentlyAddedBinding
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -57,7 +58,7 @@ class RecentlyAddedFragment : Fragment(R.layout.fragment_recently_added), IDragL
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
         binding.list.setHasFixedSize(true)
 
-        setupDragListener(binding.list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleScope, binding.list, ItemTouchHelper.LEFT)
 
         viewModel.observeData().subscribe(viewLifecycleOwner, adapter::submitList)
 

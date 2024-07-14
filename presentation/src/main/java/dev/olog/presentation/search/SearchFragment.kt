@@ -116,7 +116,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         binding.list.setRecycledViewPool(recycledViewPool)
         binding.list.setHasFixedSize(true)
 
-        setupDragListener(binding.list, ItemTouchHelper.LEFT)
+        setupDragListener(viewLifecycleScope, binding.list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
