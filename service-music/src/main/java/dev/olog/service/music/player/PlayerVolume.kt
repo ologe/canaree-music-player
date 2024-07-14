@@ -3,6 +3,7 @@ package dev.olog.service.music.player
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.ServiceLifecycle
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -27,7 +28,7 @@ internal class PlayerVolume @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     musicPreferencesUseCase: MusicPreferencesGateway
 
-) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver, CoroutineScope by MainScope() {
+) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver {
 
     override var listener: IMaxAllowedPlayerVolume.Listener? = null
 
@@ -38,7 +39,7 @@ internal class PlayerVolume @Inject constructor(
         lifecycle.addObserver(this)
 
         // observe to preferences
-        launch {
+        lifecycle.coroutineScope.launch {
             musicPreferencesUseCase.isMidnightMode()
                 .collect { lowerAtNight ->
                     volume = if (!lowerAtNight) {
@@ -50,7 +51,7 @@ internal class PlayerVolume @Inject constructor(
                     listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
                 }
         }
-        launch {
+        lifecycle.coroutineScope.launch {
             // observe at interval of 15 mins to detect if is day or night when
             // settigs is on
             musicPreferencesUseCase.isMidnightMode()
@@ -82,7 +83,6 @@ internal class PlayerVolume @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
         listener = null
     }
 
