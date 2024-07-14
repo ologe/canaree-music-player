@@ -21,6 +21,7 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R
+import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
@@ -34,8 +35,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener,
-    CoroutineScope by MainScope() {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         @JvmStatic
@@ -153,7 +153,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                viewLifecycleScope.launch { clearGlideCache() }
+            }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }
