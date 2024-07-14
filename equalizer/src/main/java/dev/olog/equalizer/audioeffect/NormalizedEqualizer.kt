@@ -1,27 +1,25 @@
 package dev.olog.equalizer.audioeffect
 
-import android.media.audiofx.Equalizer
+class NormalizedEqualizer(audioSession: Int) {
 
-class NormalizedEqualizer(priority: Int, audioSession: Int) {
-
-    private val equalizer = Equalizer(priority, audioSession)
+    private val equalizer = AudioEffects.createEqualizer(audioSession)
 
     var enabled: Boolean
-        get() = equalizer.enabled
+        get() = equalizer?.enabled ?: false
         set(value) {
-            equalizer.enabled = value
+            equalizer?.enabled = value
         }
 
     // return frequency in Hz instead of milliHz
     fun getBandFrequency(band: Int): Float {
-        val freq = equalizer.getCenterFreq(band.toShort()).toFloat()
+        val freq = equalizer?.getCenterFreq(band.toShort())?.toFloat() ?: return 0f
         return freq / 1000
     }
 
     // return gain in dB instead of mB
     // 1 dB -> 100 mB
     fun getBandLevel(band: Int): Float {
-        val mb = equalizer.getBandLevel(band.toShort()).toFloat()
+        val mb = equalizer?.getBandLevel(band.toShort())?.toFloat() ?: return 0f
         return mb / 100
     }
 
@@ -29,11 +27,11 @@ class NormalizedEqualizer(priority: Int, audioSession: Int) {
     // 1 dB -> 100 mB
     fun setBandLevel(band: Int, gain: Float) {
         val mb = gain * 100
-        equalizer.setBandLevel(band.toShort(), mb.toInt().toShort())
+        equalizer?.setBandLevel(band.toShort(), mb.toInt().toShort())
     }
 
     fun release() {
-        equalizer.release()
+        equalizer?.release()
     }
 
 }

@@ -8,11 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.equalizer.GlobalEqualizer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -21,9 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class EqualizerFragmentViewModel @Inject constructor(
-    private val equalizer: IEqualizer,
-    private val bassBoost: IBassBoost,
-    private val virtualizer: IVirtualizer,
+    private val equalizer: GlobalEqualizer,
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
     private val equalizerGateway: EqualizerGateway
 ) : ViewModel() {
@@ -52,21 +47,19 @@ internal class EqualizerFragmentViewModel @Inject constructor(
 
     fun setEqualizerEnabled(enabled: Boolean) {
         equalizer.setEnabled(enabled)
-        virtualizer.setEnabled(enabled)
-        bassBoost.setEnabled(enabled)
         equalizerPrefsUseCase.setEqualizerEnabled(enabled)
     }
 
-    fun getBassStrength(): Int = bassBoost.getStrength()
+    fun getBassStrength(): Int = equalizer.getBassBoostStrength()
 
     fun setBassStrength(value: Int) {
-        bassBoost.setStrength(value)
+        equalizer.setBassBoostStrength(value)
     }
 
-    fun getVirtualizerStrength(): Int = virtualizer.getStrength()
+    fun getVirtualizerStrength(): Int = equalizer.getVirtualizerStrength()
 
     fun setVirtualizerStrength(value: Int) {
-        virtualizer.setStrength(value)
+        equalizer.setVirtualizerStrength(value)
     }
 
     fun getBandStep(): Float {

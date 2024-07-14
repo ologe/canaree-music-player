@@ -5,13 +5,11 @@ package dev.olog.equalizer.bassboost
  */
 interface IBassBoost {
 
+    fun setEnabled(enabled: Boolean)
+    suspend fun onAudioSessionIdChanged(audioSessionId: Int)
+    fun release()
+
     fun getStrength(): Int
     fun setStrength(value: Int)
-
-    fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int)
-
-    fun setEnabled(enabled: Boolean)
-
-    fun onDestroy(callerHash: Int)
 
 }

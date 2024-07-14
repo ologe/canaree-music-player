@@ -1,70 +1,31 @@
 package dev.olog.equalizer.bassboost
 
-import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.equalizer.audioeffect.AudioEffects
 import javax.inject.Inject
 
-class BassBoostImpl @Inject constructor(
+internal class BassBoostImpl @Inject constructor(
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway
-
-) : IBassBoostInternal {
+) : IBassBoost {
 
     private var bassBoost: BassBoost? = null
 
-    private var isImplementedByDevice = false
-
-    init {
-        for (queryEffect in AudioEffect.queryEffects()) {
-            if (queryEffect.type == AudioEffect.EFFECT_TYPE_BASS_BOOST){
-                isImplementedByDevice = true
-            }
-        }
-    }
-
     override fun getStrength(): Int {
-        if (!isImplementedByDevice){
-            return 0
-        }
         try {
             return bassBoost?.roundedStrength?.toInt() ?: 0
-        } catch (ex: IllegalStateException){
+        } catch (ex: Throwable){
             ex.printStackTrace()
-            // sometimes throws getParameter() called on uninitialized AudioEffect.
             return 0
         }
     }
 
     override fun setStrength(value: Int) {
-        safeAction {
+        try {
             bassBoost?.setStrength(value.toShort())?.also {
                 val currentProperties = bassBoost?.properties?.toString()
                 if (!currentProperties.isNullOrBlank()){
                     equalizerPrefsUseCase.saveBassBoostSettings(currentProperties)
-                }
-            }
-        }
-    }
-
-    override fun setEnabled(enabled: Boolean) {
-        safeAction {
-            bassBoost?.enabled = enabled
-        }
-    }
-
-    override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        if (!isImplementedByDevice){
-            return
-        }
-
-        release()
-
-        try {
-            bassBoost = BassBoost(0, audioSessionId).apply {
-                enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-                val lastProperties = equalizerPrefsUseCase.getBassBoostSettings()
-                if (lastProperties.isNotBlank()) {
-                    properties = BassBoost.Settings(lastProperties)
                 }
             }
         } catch (ex: Throwable) {
@@ -72,28 +33,45 @@ class BassBoostImpl @Inject constructor(
         }
     }
 
-    override fun onDestroy() {
+    override fun setEnabled(enabled: Boolean) {
+        try {
+            bassBoost?.enabled = enabled
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+        }
+    }
+
+    override suspend fun onAudioSessionIdChanged(audioSessionId: Int) {
         release()
-    }
-
-    private fun release(){
-        safeAction {
-            bassBoost?.release()
-            bassBoost = null
-        }
-    }
-
-    private fun safeAction(action: () -> Unit){
-        if (!isImplementedByDevice){
-            return
-        }
 
         try {
-            action()
-        } catch (ex: IllegalStateException){
+            bassBoost = AudioEffects.createBassBoost(audioSessionId)?.apply {
+                enabled = equalizerPrefsUseCase.isEqualizerEnabled()
+                val settings = readSettings(equalizerPrefsUseCase.getBassBoostSettings())
+                if (settings != null) {
+                    // TODO gradually increase to avoid distorsion?
+                    properties = settings
+                }
+            }
+        } catch (ex: Throwable) {
             ex.printStackTrace()
-            // sometimes throws getParameter() called on uninitialized AudioEffect.
         }
+    }
+
+    override fun release(){
+        try {
+            bassBoost?.release()
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+        }
+        bassBoost = null
+    }
+
+    private fun readSettings(settings: String): BassBoost.Settings? {
+        if (settings.isNotBlank()) {
+            return BassBoost.Settings(settings)
+        }
+        return null
     }
 
 }

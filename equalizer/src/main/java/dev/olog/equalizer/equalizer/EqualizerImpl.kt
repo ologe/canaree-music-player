@@ -1,26 +1,18 @@
 package dev.olog.equalizer.equalizer
 
-import android.content.Context
-import android.media.audiofx.AudioEffect
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 
 ) : AbsEqualizer(gateway, prefs),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizer {
 
     companion object {
         private const val BANDS = 5
@@ -29,47 +21,31 @@ internal class EqualizerImpl @Inject constructor(
 
     private var equalizer: NormalizedEqualizer? = null
 
-    private var isImplementedByDevice = false
-
-    init {
-        for (queryEffect in AudioEffect.queryEffects()) {
-            if (queryEffect.type == AudioEffect.EFFECT_TYPE_EQUALIZER){
-                isImplementedByDevice = true
-            }
-        }
-    }
-
-    override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        if (!isImplementedByDevice){
-            return
-        }
-        launch {
-            release()
-            try {
-                equalizer = NormalizedEqualizer(0, audioSessionId).apply {
-                    enabled = prefs.isEqualizerEnabled()
-                }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-
-        }
-    }
-
-    private fun release() {
-        safeAction {
-            equalizer?.release()
-            equalizer = null
-        }
-    }
-
-    override fun onDestroy() {
+    override suspend fun onAudioSessionIdChanged(audioSessionId: Int) {
         release()
+        try {
+            equalizer = NormalizedEqualizer(audioSessionId).apply {
+                enabled = prefs.isEqualizerEnabled()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    override fun release() {
+        try {
+            equalizer?.release()
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+        }
+        equalizer = null
     }
 
     override fun setEnabled(enabled: Boolean) {
-        safeAction {
+        try {
             equalizer?.enabled = enabled
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
         prefs.setEqualizerEnabled(enabled)
     }
@@ -77,70 +53,56 @@ internal class EqualizerImpl @Inject constructor(
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
         updateCurrentPresetIfCustom()
         prefs.setCurrentPresetId(preset.id)
-        safeAction {
-            equalizer?.let {
-                updatePresetInternal(preset)
-            }
+        try {
+            equalizer?.let { updatePresetInternal(preset) }
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 
     override fun getBandCount(): Int = BANDS
 
     override fun getBandLevel(band: Int): Float {
-        if (!isImplementedByDevice){
-            return 0f
-        }
         try {
             return equalizer?.getBandLevel(band) ?: 0f
-        } catch (ex: IllegalStateException){
+        } catch (ex: Throwable){
             ex.printStackTrace()
-            // throws getParameter() called on uninitialized AudioEffect.
             return 0f
         }
     }
 
     override fun setBandLevel(band: Int, level: Float) {
-        safeAction {
+        try {
             equalizer?.setBandLevel(band, level)
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 
-
-    override fun getBandLimit(): Float =
-        BAND_LIMIT
+    override fun getBandLimit(): Float = BAND_LIMIT
 
     override fun getAllBandsCurrentLevel(): List<EqualizerBand> {
-        if (!isImplementedByDevice){
+        try {
+            val result = mutableListOf<EqualizerBand>()
+            for (bandIndex in 0 until BANDS) {
+                val gain = equalizer?.getBandLevel(bandIndex) ?: continue
+                val frequency = equalizer?.getBandFrequency(bandIndex) ?: continue
+                result.add(EqualizerBand(gain, frequency))
+            }
+            return result
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
             return emptyList()
         }
-
-        val result = mutableListOf<EqualizerBand>()
-        for (bandIndex in 0 until BANDS) {
-            val gain = equalizer!!.getBandLevel(bandIndex)
-            val frequency = equalizer!!.getBandFrequency(bandIndex)
-            result.add(EqualizerBand(gain, frequency))
-        }
-        return result
     }
 
     private fun updatePresetInternal(preset: EqualizerPreset) {
-        safeAction {
+        try {
             preset.bands.forEachIndexed { index, equalizerBand ->
                 setBandLevel(index, equalizerBand.gain)
             }
-        }
-    }
-
-    private fun safeAction(action: () -> Unit){
-        if (!isImplementedByDevice){
-            return
-        }
-
-        try {
-            action()
-        } catch (ex: IllegalStateException){
+        } catch (ex: Throwable) {
             ex.printStackTrace()
-            // sometimes throws getParameter() called on uninitialized AudioEffect.
         }
     }
 

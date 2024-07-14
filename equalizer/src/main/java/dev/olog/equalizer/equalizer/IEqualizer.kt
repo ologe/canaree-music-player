@@ -15,10 +15,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface IEqualizer {
 
-    fun onAudioSessionIdChanged(callerHash: Int, audioSessionId: Int)
-    fun onDestroy(callerHash: Int)
-
     fun setEnabled(enabled: Boolean)
+    suspend fun onAudioSessionIdChanged(audioSessionId: Int)
+    fun release()
 
     fun getPresets(): List<EqualizerPreset>
     fun observeCurrentPreset(): Flow<EqualizerPreset>

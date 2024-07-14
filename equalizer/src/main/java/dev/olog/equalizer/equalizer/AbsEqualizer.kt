@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 abstract class AbsEqualizer(
     protected val gateway: EqualizerGateway,
     protected val prefs: EqualizerPreferencesGateway
-) : IEqualizerInternal {
+) : IEqualizer {
 
     override fun getPresets(): List<EqualizerPreset> = gateway.getPresets()
 
