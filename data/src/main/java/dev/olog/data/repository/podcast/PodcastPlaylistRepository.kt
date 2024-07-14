@@ -18,8 +18,6 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +36,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
 
     override fun getAll(): List<Playlist> {
-        assertBackgroundThread()
         val result = podcastPlaylistDao.getAllPlaylists()
         return result.map { it.toDomain() }
     }
@@ -47,11 +44,9 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observeAllPlaylists()
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
         return listOf(
             createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
             createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
@@ -64,7 +59,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Playlist? {
-        assertBackgroundThread()
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
         } else {
@@ -81,11 +75,9 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
@@ -95,7 +87,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
         }
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
@@ -122,11 +113,9 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun createPlaylist(playlistName: String): Long {
-        assertBackgroundThread()
         return podcastPlaylistDao.createPlaylist(PodcastPlaylistEntity(name = playlistName, size = 0))
     }
 
@@ -147,8 +136,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
-        assertBackgroundThread()
-
         var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
         val tracks = songIds.map {
             PodcastPlaylistTrackEntity(

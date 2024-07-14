@@ -23,7 +23,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import dev.olog.presentation.R;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
-import dev.olog.shared.android.utils.ThreadUtilsKt;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 
@@ -277,8 +276,6 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     }
 
     public void setActiveOrAdd(@NonNull Crumb crumb, boolean forceRecreate) {
-        ThreadUtilsKt.assertMainThread();
-
         clearCrumbs();
         final List<File> newPathSet = new ArrayList<>();
 

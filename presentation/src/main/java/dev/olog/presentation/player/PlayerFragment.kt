@@ -25,7 +25,6 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
@@ -113,7 +112,6 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
                     listOf(viewModel.playerControls())
                 }
             }
-            .assertBackground()
             .flowOn(Dispatchers.Default)
             .asLiveData()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
