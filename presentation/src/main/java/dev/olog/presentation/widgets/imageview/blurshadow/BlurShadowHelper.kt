@@ -6,11 +6,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.android.extensions.dpToPx
+import dev.olog.shared.android.viewScope
 import kotlinx.coroutines.*
 
 class BlurShadowHelper(
     private val view: AppCompatImageView
-) : CoroutineScope by MainScope() {
+) {
 
     companion object {
         private const val BRIGHTNESS = -25f
@@ -39,7 +40,7 @@ class BlurShadowHelper(
 
     private fun tryMakeBlurShadow() {
         job?.cancel()
-        job = launch {
+        job = view.viewScope.launch {
             loopUntilSizeIsValid()
         }
     }
