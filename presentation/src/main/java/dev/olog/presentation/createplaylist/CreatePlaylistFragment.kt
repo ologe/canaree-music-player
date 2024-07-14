@@ -3,8 +3,10 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -18,16 +20,22 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.toggleSelected
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class CreatePlaylistFragment : BaseFragment(R.layout.fragment_create_playlist), DrawsOnTop {
+@AndroidEntryPoint
+class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
@@ -41,11 +49,7 @@ class CreatePlaylistFragment : BaseFragment(R.layout.fragment_create_playlist), 
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
         CreatePlaylistFragmentAdapter(
             lifecycle,

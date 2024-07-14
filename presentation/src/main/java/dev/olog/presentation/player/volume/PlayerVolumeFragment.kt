@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
@@ -14,7 +15,8 @@ import dev.olog.shared.android.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 
-class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
+@AndroidEntryPoint
+class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
 
     companion object {
         @JvmStatic

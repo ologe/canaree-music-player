@@ -1,7 +1,9 @@
 package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -11,8 +13,8 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddFavoriteDialog : BaseDialog() {
 
     companion object {
@@ -38,7 +40,7 @@ class AddFavoriteDialog : BaseDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    @Inject lateinit var presenter: AddFavoriteDialogPresenter
+    private val viewModel by viewModels<AddFavoriteDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_add_to_favorites)
@@ -51,7 +53,7 @@ class AddFavoriteDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                presenter.execute(mediaId)
+                viewModel.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -32,6 +33,7 @@ import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OfflineLyricsFragment : BaseFragment(R.layout.fragment_offline_lyrics), DrawsOnTop {
 
     companion object {
@@ -43,6 +45,7 @@ class OfflineLyricsFragment : BaseFragment(R.layout.fragment_offline_lyrics), Dr
         }
     }
 
+    // todo migrate to viewmdeol
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
 

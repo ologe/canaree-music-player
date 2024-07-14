@@ -1,7 +1,9 @@
 package dev.olog.presentation.dialogs.playlist.clear
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -11,8 +13,8 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ClearPlaylistDialog : BaseDialog() {
 
     companion object {
@@ -35,7 +37,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
     private val title by lazy { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
 
-    @Inject lateinit var presenter: ClearPlaylistDialogPresenter
+    private val viewModel by viewModels<ClearPlaylistDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_clear_playlist)
@@ -48,7 +50,7 @@ class ClearPlaylistDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                presenter.execute(mediaId)
+                viewModel.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

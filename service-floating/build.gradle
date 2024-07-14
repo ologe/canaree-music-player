@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     namespace = "dev.olog.service.floating"

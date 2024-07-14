@@ -2,12 +2,13 @@ package dev.olog.presentation.recentlyadded
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.databinding.FragmentRecentlyAddedBinding
@@ -15,13 +16,13 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
-class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), IDragListener by DragListenerImpl() {
+@AndroidEntryPoint
+class RecentlyAddedFragment : Fragment(R.layout.fragment_recently_added), IDragListener by DragListenerImpl() {
 
     companion object {
         @JvmStatic
@@ -38,8 +39,6 @@ class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), ID
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
@@ -47,11 +46,7 @@ class RecentlyAddedFragment : BaseFragment(R.layout.fragment_recently_added), ID
         )
     }
 
-    private val viewModel by lazyFast {
-        viewModelProvider<RecentlyAddedFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<RecentlyAddedFragmentViewModel>()
 
     private val binding by viewBinding(FragmentRecentlyAddedBinding::bind) {
         it.list.adapter = null

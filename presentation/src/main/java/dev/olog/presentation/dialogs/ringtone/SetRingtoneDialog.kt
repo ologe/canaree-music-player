@@ -1,7 +1,9 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
@@ -11,8 +13,8 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {
 
     companion object {
@@ -31,7 +33,7 @@ class SetRingtoneDialog : BaseDialog() {
         }
     }
 
-    @Inject lateinit var presenter: SetRingtoneDialogPresenter
+    private val viewModel by viewModels<SetRingtoneDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_set_as_ringtone)
@@ -45,7 +47,7 @@ class SetRingtoneDialog : BaseDialog() {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
-                presenter.execute(act, mediaId)
+                viewModel.execute(act, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

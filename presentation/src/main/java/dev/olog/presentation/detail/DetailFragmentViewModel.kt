@@ -2,8 +2,10 @@ package dev.olog.presentation.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -24,16 +26,16 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@HiltViewModel
 internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: MediaId,
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val imageRetrieverGateway: ImageRetrieverGateway
-
+    private val imageRetrieverGateway: ImageRetrieverGateway,
+    handle: SavedStateHandle,
 ) : ViewModel() {
 
     companion object {
@@ -41,6 +43,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
+
+    val mediaId = MediaId.fromString(handle.get(DetailFragment.ARGUMENTS_MEDIA_ID)!!)
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
@@ -120,10 +124,6 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData
     fun observeMostPlayed(): LiveData<List<DetailMostPlayedItem>> = mostPlayedLiveData
     fun observeRecentlyAdded(): LiveData<List<DetailRecentlyAddedItem>> = recentlyAddedLiveData
@@ -160,14 +160,14 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     fun processMove() = viewModelScope.launch {
         if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(moveList)
+            presenter.moveInPlaylist(mediaId, moveList)
         }
         moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(item)
+        presenter.removeFromPlaylist(mediaId, item)
     }
 
     fun observeSorting(): Flow<SortEntity> {

@@ -24,15 +24,15 @@ class AboutFragmentAdapter(
     ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
-                AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
-                AboutFragmentPresenter.BETA -> navigator.joinBeta()
-                AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
-                AboutFragmentPresenter.GITHUB -> navigator.toGithub()
-                AboutFragmentPresenter.TRANSLATION -> navigator.toTranslations()
+                AboutFragmentViewModel.THIRD_SW_ID -> navigator.toLicensesFragment()
+                AboutFragmentViewModel.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
+                AboutFragmentViewModel.RATE_ID -> navigator.toMarket()
+                AboutFragmentViewModel.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
+                AboutFragmentViewModel.COMMUNITY -> navigator.joinCommunity()
+                AboutFragmentViewModel.BETA -> navigator.joinBeta()
+                AboutFragmentViewModel.CHANGELOG -> navigator.toChangelog()
+                AboutFragmentViewModel.GITHUB -> navigator.toGithub()
+                AboutFragmentViewModel.TRANSLATION -> navigator.toTranslations()
             }
         }
     }

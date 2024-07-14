@@ -7,14 +7,14 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
-import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
 
-abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
+abstract class BaseEditItemFragment : BottomSheetDialogFragment() {
 
     companion object {
         private val TAG = "P:${BaseEditItemFragment::class.java.simpleName}"

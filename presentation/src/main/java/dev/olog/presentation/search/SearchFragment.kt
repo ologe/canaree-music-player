@@ -3,10 +3,12 @@ package dev.olog.presentation.search
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -24,7 +26,10 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
@@ -33,7 +38,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment(R.layout.fragment_search),
+@AndroidEntryPoint
+class SearchFragment : Fragment(R.layout.fragment_search),
     SetupNestedList,
     IDragListener by DragListenerImpl() {
 
@@ -47,13 +53,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<SearchFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(

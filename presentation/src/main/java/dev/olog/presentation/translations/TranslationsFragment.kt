@@ -3,6 +3,7 @@ package dev.olog.presentation.translations
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.databinding.FragmentTranslationsBinding
@@ -13,6 +14,7 @@ import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TranslationsFragment : BaseFragment(R.layout.fragment_translations) {
 
     @Inject

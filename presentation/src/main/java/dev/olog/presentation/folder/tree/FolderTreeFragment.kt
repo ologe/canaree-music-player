@@ -2,8 +2,9 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -15,12 +16,12 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
@@ -34,14 +35,8 @@ class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject
     lateinit var navigator: Navigator
-    private val viewModel by lazyFast {
-        viewModelProvider<FolderTreeFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<FolderTreeFragmentViewModel>()
 
     private val binding by viewBinding(FragmentFolderTreeBinding::bind) {
         it.list.adapter = null

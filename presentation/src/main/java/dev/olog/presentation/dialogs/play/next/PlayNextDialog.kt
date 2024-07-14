@@ -2,7 +2,9 @@ package dev.olog.presentation.dialogs.play.next
 
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -12,8 +14,8 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlayNextDialog : BaseDialog() {
 
     companion object {
@@ -39,7 +41,7 @@ class PlayNextDialog : BaseDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    @Inject lateinit var presenter: PlayNextDialogPresenter
+    private val viewModel by viewModels<PlayNextDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_play_next)
@@ -63,7 +65,7 @@ class PlayNextDialog : BaseDialog() {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(act)
-                presenter.execute(mediaController, mediaId)
+                viewModel.execute(mediaController, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

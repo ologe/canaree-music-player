@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -73,10 +74,6 @@ dependencies {
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view
-
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
 
     implementation lib_ui.dialogs_core
     implementation lib_ui.dialogs_color

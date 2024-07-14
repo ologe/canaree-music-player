@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -11,6 +12,10 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
+}
+
+hilt {
+    enableAggregatingTask = true
 }
 
 android {
@@ -96,13 +101,11 @@ dependencies {
     implementation lib_x.appcompat
     implementation lib_x.browser
     implementation lib_x.preference
+    implementation lib_ui.glide
 
     // dagger
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
 
     implementation project(":blurkit")//lib_ui.blur_kit
     implementation lib_ui.custom_tabs

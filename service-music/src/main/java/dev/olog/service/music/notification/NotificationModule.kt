@@ -3,17 +3,19 @@ package dev.olog.service.music.notification
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.injection.dagger.PerService
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ServiceComponent
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.shared.android.utils.isNougat
 import dev.olog.shared.android.utils.isOreo
 
 @Module
+@InstallIn(ServiceComponent::class)
 internal object NotificationModule {
 
     @Provides
-    @PerService
-    @JvmStatic
+    @ServiceScoped
     internal fun provideNotificationImpl(
         notificationImpl26: Lazy<NotificationImpl26>,
         notificationImpl24: Lazy<NotificationImpl24>,

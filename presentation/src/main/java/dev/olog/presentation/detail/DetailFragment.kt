@@ -5,19 +5,27 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.*
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentDetailBinding
-import dev.olog.presentation.detail.adapter.*
+import dev.olog.presentation.detail.adapter.DetailFragmentAdapter
+import dev.olog.presentation.detail.adapter.DetailMostPlayedAdapter
+import dev.olog.presentation.detail.adapter.DetailRecentlyAddedAdapter
+import dev.olog.presentation.detail.adapter.DetailRelatedArtistsAdapter
+import dev.olog.presentation.detail.adapter.DetailSiblingsAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
@@ -25,7 +33,15 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.isTablet
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
@@ -36,6 +52,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
     SetupNestedList,
@@ -57,14 +74,8 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast {
-        viewModelProvider<DetailFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<DetailFragmentViewModel>()
 
     private val mediaId by lazyFast {
         val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)

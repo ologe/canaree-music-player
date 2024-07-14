@@ -5,11 +5,12 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
@@ -31,7 +32,12 @@ import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
@@ -39,6 +45,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
 
     companion object {
@@ -54,8 +61,6 @@ class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
@@ -82,9 +87,7 @@ class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by activityViewModels<TabFragmentViewModel>()
 
     internal val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)

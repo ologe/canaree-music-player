@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.viewLifecycleScope
@@ -13,14 +15,19 @@ import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateSongInfo
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.extractText
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditTrackFragment : BaseEditItemFragment() {
 
     companion object {
@@ -35,14 +42,8 @@ class EditTrackFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory)
-    }
-    private val editItemViewModel by lazyFast {
-        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<EditTrackFragmentViewModel>()
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
     private val mediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))

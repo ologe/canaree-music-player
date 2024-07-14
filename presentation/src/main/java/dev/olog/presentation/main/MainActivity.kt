@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
@@ -18,10 +18,13 @@ import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.databinding.ActivityMainBinding
 import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.*
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
+import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.interfaces.HasBottomNavigation
+import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.OnPermissionChanged
+import dev.olog.presentation.interfaces.Permission
 import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.main.di.clearComponent
-import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
@@ -31,28 +34,24 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.shared.android.extensions.isTablet
+import dev.olog.shared.android.extensions.setHeight
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
-import dev.olog.shared.lazyFast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
     OnPermissionChanged {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
-    private val viewModel by lazyFast {
-        viewModelProvider<MainActivityViewModel>(
-            factory
-        )
-    }
+    private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
     lateinit var navigator: Navigator
 
@@ -70,7 +69,6 @@ class MainActivity : MusicGlueActivity(),
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
@@ -100,11 +98,6 @@ class MainActivity : MusicGlueActivity(),
         }
 
         intent?.let { handleIntent(it) }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        clearComponent()
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){

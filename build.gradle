@@ -21,6 +21,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
     }
 
 
@@ -41,13 +42,6 @@ allprojects {
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
             kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
             kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-        }
-    }
-    afterEvaluate {
-        extensions.findByName('kapt')?.arguments {
-            arg("dagger.fastInit", "enabled")
-            arg("dagger.formatGeneratedSource", "disabled")
-//            arg("dagger.fullBindingGraphValidation", "ERROR")
         }
     }
 }

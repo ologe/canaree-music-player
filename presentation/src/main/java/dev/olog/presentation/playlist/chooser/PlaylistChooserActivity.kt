@@ -2,24 +2,20 @@ package dev.olog.presentation.playlist.chooser
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.presentation.playlist.chooser.di.inject
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlaylistChooserActivity : BaseActivity() {
 
-    @Inject
-    internal lateinit var factory: ViewModelProvider.Factory
-
-    private val viewModel by lazyFast { viewModelProvider<PlaylistChooserActivityViewModel>(factory) }
+    private val viewModel by viewModels<PlaylistChooserActivityViewModel>()
 
     private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
 
@@ -27,7 +23,6 @@ class PlaylistChooserActivity : BaseActivity() {
     private lateinit var back: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist_chooser)
         list = findViewById(R.id.list)

@@ -1,8 +1,10 @@
 package dev.olog.presentation.prefs.categories
 
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
@@ -11,8 +13,8 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -27,10 +29,9 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryCategoriesFragmentPresenter
+    private val viewModel by viewModels<LibraryCategoriesFragmentViewModel>()
     private val adapter by lazyFast {
-        LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
+        LibraryCategoriesFragmentAdapter(viewModel.getDataSet(category), this)
     }
 
     private val category by lazyFast {
@@ -55,13 +56,13 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     override fun positiveAction() {
-        presenter.setDataSet(category, adapter.getData())
+        viewModel.setDataSet(category, adapter.getData())
         act.recreate()
         dismiss()
     }
 
     override fun neutralAction() {
-        val defaultData = presenter.getDefaultDataSet(category)
+        val defaultData = viewModel.getDefaultDataSet(category)
         adapter.updateDataSet(defaultData)
     }
 

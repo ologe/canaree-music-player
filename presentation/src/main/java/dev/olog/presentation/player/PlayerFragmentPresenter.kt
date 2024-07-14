@@ -1,16 +1,25 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.*
+import dev.olog.shared.widgets.adaptive.InvalidPaletteColors
+import dev.olog.shared.widgets.adaptive.InvalidProcessColors
+import dev.olog.shared.widgets.adaptive.PaletteColors
+import dev.olog.shared.widgets.adaptive.ProcessorColors
+import dev.olog.shared.widgets.adaptive.ValidPaletteColors
+import dev.olog.shared.widgets.adaptive.ValidProcessorColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+// TODO merged into viewmodel
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val presentationPrefs: PresentationPreferencesGateway

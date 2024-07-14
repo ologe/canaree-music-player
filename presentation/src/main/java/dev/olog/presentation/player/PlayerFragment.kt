@@ -6,23 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.getSlidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
@@ -35,13 +39,10 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @Keep
-class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+@AndroidEntryPoint
+class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<PlayerFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<PlayerFragmentViewModel>()
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject

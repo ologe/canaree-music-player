@@ -3,11 +3,13 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentLibraryBinding
 import dev.olog.presentation.interfaces.HasBottomNavigation
@@ -15,14 +17,21 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.setGone
+import dev.olog.shared.android.extensions.textColorPrimary
+import dev.olog.shared.android.extensions.textColorSecondary
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LibraryFragment : BaseFragment(R.layout.fragment_library) {
+@AndroidEntryPoint
+class LibraryFragment : Fragment(R.layout.fragment_library) {
 
     companion object {
         @JvmStatic
@@ -39,8 +48,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
+    private val viewModel by viewModels<LibraryFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
     @Inject
@@ -54,7 +62,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            act.applicationContext, childFragmentManager, viewModel.getCategories(isPodcast)
         )
     }
 
@@ -81,7 +89,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewPager.adapter = pagerAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
-        binding.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+        binding.viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
         binding.viewPager.offscreenPageLimit = 5
 
         binding.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
@@ -91,11 +99,11 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
-        if (!presenter.canShowPodcasts()){
+        if (!viewModel.canShowPodcasts()){
             binding.podcasts.setGone()
         }
 
-        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+        if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
             viewLifecycleScope.launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(binding.floatingWindow)
@@ -123,7 +131,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
     }
 
     private fun changeLibraryPage(page: LibraryPage) {
-        presenter.setLibraryPage(page)
+        viewModel.setLibraryPage(page)
         (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
@@ -146,7 +154,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library) {
             }
 
             override fun onPageSelected(position: Int) {
-                presenter.setViewPagerLastPage(position, isPodcast)
+                viewModel.setViewPagerLastPage(position, isPodcast)
                 pagerAdapter.getCategoryAtPosition(position)?.let {
                     trackerFacade.trackScreen(it.toString(), null)
                 }
