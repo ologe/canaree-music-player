@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.viewScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -36,7 +37,7 @@ class RxFastScroller(
         context: Context,
         attrs: AttributeSet
 
-) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
+) : LinearLayout(context, attrs) {
 
 
     interface SectionIndexer {
@@ -100,8 +101,6 @@ class RxFastScroller(
 
     private val bubbleTextPublisher = ConflatedBroadcastChannel("")
     private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
-    private var bubbleTextDisposable : Job? = null
-    private var scrollDisposable : Job? = null
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
@@ -216,23 +215,21 @@ class RxFastScroller(
 
         if (!isInEditMode){
             if (showBubble){
-                launch {
-                    bubbleTextDisposable = launch {
-                        bubbleTextPublisher.asFlow()
-                            .distinctUntilChanged()
-                            .flowOn(Dispatchers.Default)
-                            .map {
-                                when {
-                                    it < "A" -> "#"
-                                    it > "Z" -> "?"
-                                    else -> it
-                                }
-                            }.collect { mBubbleView!!.text = it }
-                    }
+                viewScope.launch {
+                    bubbleTextPublisher.asFlow()
+                        .distinctUntilChanged()
+                        .flowOn(Dispatchers.Default)
+                        .map {
+                            when {
+                                it < "A" -> "#"
+                                it > "Z" -> "?"
+                                else -> it
+                            }
+                        }.collect { mBubbleView!!.text = it }
                 }
             }
 
-            scrollDisposable = launch {
+            viewScope.launch {
                 scrollPublisher.asFlow()
                     .filter { it != RecyclerView.NO_POSITION }
                     .distinctUntilChanged()
@@ -240,12 +237,6 @@ class RxFastScroller(
                     .collect { mRecyclerView?.layoutManager?.scrollToPosition(it) }
             }
         }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        bubbleTextDisposable?.cancel()
-        scrollDisposable?.cancel()
     }
 
     fun detachRecyclerView() {
