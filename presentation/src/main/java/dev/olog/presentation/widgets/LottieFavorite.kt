@@ -7,6 +7,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -17,7 +18,7 @@ class LottieFavorite(
 
 ) : LottieAnimationView(context, attrs) {
 
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel by lazyFast { (context.findInContext<HasSlidingPanel>()).getSlidingPanel() }
     private var isSlidingPanelExpanded = false
 
     private var state: FavoriteEnum? = null

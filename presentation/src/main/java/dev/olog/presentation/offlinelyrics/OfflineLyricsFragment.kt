@@ -7,21 +7,35 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.media.MediaProvider
-import dev.olog.offlinelyrics.*
+import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.Lyrics
+import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.offlinelyrics.OffsetCalculator
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentOfflineLyricsBinding
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.animateBackgroundColor
+import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.colorSurface
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.filter
+import dev.olog.shared.android.extensions.isIntentSafe
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
@@ -34,7 +48,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OfflineLyricsFragment : BaseFragment(R.layout.fragment_offline_lyrics), DrawsOnTop {
+class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsOnTop {
 
     companion object {
         const val TAG = "OfflineLyricsFragment"

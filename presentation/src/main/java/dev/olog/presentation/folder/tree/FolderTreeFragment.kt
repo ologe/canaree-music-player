@@ -2,12 +2,12 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.databinding.FragmentFolderTreeBinding
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
@@ -15,6 +15,7 @@ import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.clamp
@@ -22,7 +23,7 @@ import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
+class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
 
@@ -46,7 +47,7 @@ class FolderTreeFragment : BaseFragment(R.layout.fragment_folder_tree),
         val adapter = FolderTreeFragmentAdapter(
             lifecycle,
             viewModel,
-            activity as MediaProvider,
+            requireActivity().findInContext<MediaProvider>(),
             navigator
         )
         binding.fab.shrink()

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
@@ -36,6 +36,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.afterTextChange
 import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.isTablet
@@ -53,7 +54,7 @@ import kotlin.math.abs
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment(R.layout.fragment_detail),
+class DetailFragment : Fragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
     SetupNestedList,
     IDragListener by DragListenerImpl() {
@@ -83,10 +84,10 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(navigator, act.findInContext<MediaProvider>())
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(navigator, act.findInContext<MediaProvider>())
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(navigator)
@@ -101,7 +102,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail),
             mediaId,
             this,
             navigator,
-            act as MediaProvider,
+            act.findInContext<MediaProvider>(),
             viewModel,
             this
         )

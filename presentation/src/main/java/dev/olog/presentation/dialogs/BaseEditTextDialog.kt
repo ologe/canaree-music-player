@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -34,7 +35,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         setupEditText(editTextLayout, editText)
 
         showJeyboardJob?.cancel()
-        showJeyboardJob = launch {
+        showJeyboardJob = lifecycleScope.launch {
             delay(500)
             editText.showIme()
         }
@@ -49,7 +50,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         } else if (!isStringValid(string)) {
             showError(provideMessageForInvalid())
         } else {
-            launch(Dispatchers.Main) {
+            lifecycleScope.launch(Dispatchers.Main) {
                 onItemValid(string)
                 dismiss()
             }
@@ -73,7 +74,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.isErrorEnabled = true
 
         errorJob?.cancel()
-        errorJob = launch(Dispatchers.Main) {
+        errorJob = lifecycleScope.launch(Dispatchers.Main) {
             delay(2000)
             editTextLayout.isErrorEnabled = false
         }

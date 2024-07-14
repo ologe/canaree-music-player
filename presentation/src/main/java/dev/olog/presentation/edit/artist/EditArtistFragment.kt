@@ -18,6 +18,7 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.afterTextChange
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.extractText
+import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments

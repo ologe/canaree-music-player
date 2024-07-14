@@ -9,6 +9,7 @@ import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,7 +35,7 @@ internal class CustomBottomNavigator(
             val navigationPage = menu.itemId.toBottomNavigationPage()
             val libraryPage = presentationPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+            navigator.navigate(context.findInContext<FragmentActivity>(), trackerFacade, navigationPage, libraryPage)
             true
         }
     }
@@ -51,7 +52,7 @@ internal class CustomBottomNavigator(
     fun navigateToLastPage(){
         val navigationPage = presentationPrefs.getLastBottomViewPage()
         val libraryPage = presentationPrefs.getLastLibraryPage()
-        navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+        navigator.navigate(context.findInContext<FragmentActivity>(), trackerFacade, navigationPage, libraryPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){

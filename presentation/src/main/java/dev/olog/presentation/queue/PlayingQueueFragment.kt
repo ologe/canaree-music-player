@@ -20,6 +20,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
@@ -52,7 +53,7 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             lifecycle,
-            act as MediaProvider,
+            act.findInContext<MediaProvider>(),
             navigator,
             this,
             viewModel

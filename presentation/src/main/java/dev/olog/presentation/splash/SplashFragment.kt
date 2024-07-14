@@ -12,6 +12,7 @@ import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 
@@ -81,7 +82,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             .remove(this)
             .commitAllowingStateLoss()
 
-        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+        (requireActivity().findInContext<OnPermissionChanged>()).onPermissionGranted(Permission.STORAGE)
     }
 
     private fun onStoragePermissionDenied() {

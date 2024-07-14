@@ -4,31 +4,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
+import dev.olog.media.model.PlayerState
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.getSlidingPanel
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentMiniPlayerBinding
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.android.extensions.filter
+import dev.olog.shared.android.extensions.map
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 @Keep
 @AndroidEntryPoint
-class MiniPlayerFragment : BaseFragment(R.layout.fragment_mini_player){
+class MiniPlayerFragment : Fragment(R.layout.fragment_mini_player){
 
     companion object {
         private const val TAG = "MiniPlayerFragment"

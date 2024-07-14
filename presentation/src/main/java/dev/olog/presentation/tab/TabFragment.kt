@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,6 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentTabBinding
@@ -34,6 +34,7 @@ import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
@@ -46,7 +47,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
+class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
 
     companion object {
 
@@ -95,7 +96,7 @@ class TabFragment : BaseFragment(R.layout.fragment_tab), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(lifecycle, navigator, act.findInContext<MediaProvider>(), viewModel, this)
     }
 
     private val binding by viewBinding(FragmentTabBinding::bind) {

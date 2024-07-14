@@ -26,6 +26,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -52,7 +53,7 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val mediaProvider by lazyFast { act as MediaProvider }
+    private val mediaProvider by lazyFast { act.findInContext<MediaProvider>() }
 
     private lateinit var list: RecyclerView
     private var statusBar: View? = null
@@ -83,7 +84,7 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, activity as MediaProvider,
+            lifecycle, requireActivity().findInContext<MediaProvider>(),
             navigator, viewModel, presenter, musicPrefs,
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )

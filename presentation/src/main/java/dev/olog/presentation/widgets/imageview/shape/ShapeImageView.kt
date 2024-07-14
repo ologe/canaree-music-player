@@ -11,6 +11,7 @@ import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
@@ -29,7 +30,7 @@ open class ShapeImageView(
         private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
     }
 
-    private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
+    private val hasImageShape by lazyFast { context.applicationContext.findInContext<HasImageShape>() }
 
     private var job: Job? = null
 
@@ -73,7 +74,7 @@ open class ShapeImageView(
         }
         setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
-        val hasImageShape = context.applicationContext as HasImageShape
+        val hasImageShape = context.applicationContext.findInContext<HasImageShape>()
         job = GlobalScope.launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null

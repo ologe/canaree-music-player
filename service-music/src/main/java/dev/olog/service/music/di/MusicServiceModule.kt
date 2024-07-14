@@ -51,7 +51,7 @@ abstract class MusicServiceModule {
 
         @Provides
         @ServiceScoped
-        internal fun provideMediaSession(instance: MusicService): MediaSessionCompat {
+        internal fun provideMediaSession(instance: Service): MediaSessionCompat {
             return MediaSessionCompat(
                 instance,
                 MusicService.TAG,

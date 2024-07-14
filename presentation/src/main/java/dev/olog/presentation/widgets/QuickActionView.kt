@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
@@ -29,7 +30,7 @@ class QuickActionView (
 
     private var job: Job? = null
 
-    private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
+    private val hasQuickAction by lazyFast { context.applicationContext.findInContext<HasQuickAction>() }
 
     init {
         setImage()
@@ -68,7 +69,7 @@ class QuickActionView (
     }
 
     override fun onClick(v: View?) {
-        val mediaProvider = context as MediaProvider
+        val mediaProvider = context.findInContext<MediaProvider>()
         when (hasQuickAction.getQuickAction()) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)

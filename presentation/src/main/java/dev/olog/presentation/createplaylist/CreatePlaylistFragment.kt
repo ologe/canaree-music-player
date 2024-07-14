@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.base.viewLifecycleScope
