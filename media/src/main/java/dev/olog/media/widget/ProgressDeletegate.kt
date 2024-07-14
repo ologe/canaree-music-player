@@ -2,7 +2,7 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.android.utils.isNougat
+import dev.olog.shared.android.viewScope
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -18,8 +18,7 @@ interface IProgressDeletegate {
 
 class ProgressDeletegate(
     private val progressBar: ProgressBar
-) : IProgressDeletegate,
-    CoroutineScope by MainScope() {
+) : IProgressDeletegate {
 
     private var incrementJob: Job? = null
 
@@ -32,7 +31,7 @@ class ProgressDeletegate(
 
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
-        incrementJob = launch {
+        incrementJob = progressBar.viewScope.launch {
             flowInterval(
                 AppConstants.PROGRESS_BAR_INTERVAL,
                 TimeUnit.MILLISECONDS
