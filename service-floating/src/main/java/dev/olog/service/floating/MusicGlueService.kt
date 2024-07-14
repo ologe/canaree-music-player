@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.coroutineScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.ServiceLifecycle
@@ -30,8 +31,9 @@ class MusicGlueService @Inject constructor(
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            context,
-            this
+            context = context,
+            scope = lifecycle.coroutineScope,
+            onConnectionChanged = this
         )
     }
     private var mediaController: MediaControllerCompat? = null
