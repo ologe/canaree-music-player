@@ -40,8 +40,7 @@ internal class PlayingQueueRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
-        assertBackgroundThread()
+    override suspend fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
         playingQueueDao.insert(list)
     }
 

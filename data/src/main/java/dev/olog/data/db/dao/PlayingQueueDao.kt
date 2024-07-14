@@ -36,10 +36,10 @@ internal abstract class PlayingQueueDao {
     abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
-    abstract fun deleteAllImpl()
+    abstract suspend fun deleteAllImpl()
 
     @Insert
-    abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
+    abstract suspend fun insertAllImpl(list: List<PlayingQueueEntity>)
 
     private fun makePlayingQueue(
         playingQueue: List<PlayingQueueEntity>,
@@ -86,9 +86,7 @@ internal abstract class PlayingQueueDao {
     }
 
     @Transaction
-    open fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
-        assertBackgroundThread()
-
+    open suspend fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
         deleteAllImpl()
         val result = list.map {
             PlayingQueueEntity(

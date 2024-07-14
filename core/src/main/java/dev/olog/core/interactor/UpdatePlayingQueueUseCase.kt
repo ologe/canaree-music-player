@@ -8,7 +8,7 @@ class UpdatePlayingQueueUseCase @Inject constructor(
     private val gateway: PlayingQueueGateway
 ) {
 
-    operator fun invoke(param: List<UpdatePlayingQueueUseCaseRequest>) {
+    suspend operator fun invoke(param: List<UpdatePlayingQueueUseCaseRequest>) {
         gateway.update(param)
     }
 

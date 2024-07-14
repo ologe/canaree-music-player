@@ -14,6 +14,6 @@ interface PlayingQueueGateway {
 
     fun getAll(): List<PlayingQueueSong>
 
-    fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
+    suspend fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
 
 }

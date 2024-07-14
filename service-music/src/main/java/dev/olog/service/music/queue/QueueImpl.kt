@@ -4,6 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -29,7 +30,7 @@ import javax.inject.Inject
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -37,8 +38,7 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) : DefaultLifecycleObserver {
 
     private var savePlayingQueueJob: Job? = null
 
@@ -92,17 +92,14 @@ internal class QueueImpl @Inject constructor(
 
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueJob?.cancel()
-        savePlayingQueueJob = launch {
-            assertBackgroundThread()
-
+        savePlayingQueueJob = lifecycle.coroutineScope.launch {
             val request = songList.map {
                 UpdatePlayingQueueUseCaseRequest(
-                    it.mediaId,
-                    it.id,
-                    it.idInPlaylist
+                    mediaId = it.mediaId,
+                    songId = it.id,
+                    idInPlaylist = it.idInPlaylist
                 )
             }
-            yield()
             updatePlayingQueueUseCase(request)
         }
     }
@@ -120,9 +117,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        launch {
-            assertBackgroundThread()
-
+        lifecycle.coroutineScope.launch {
             val safePosition = ensurePosition(list, currentPosition)
             val miniQueue = list.asSequence()
                 .drop(safePosition + 1)
