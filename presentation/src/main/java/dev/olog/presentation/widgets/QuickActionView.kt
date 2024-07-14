@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.lifecycle.ViewTreeLifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -11,24 +12,17 @@ import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
+import dev.olog.shared.android.viewScope
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 class QuickActionView (
         context: Context,
         attrs: AttributeSet
 
-) : AppCompatImageView(context, attrs),
-        View.OnClickListener,
-        CoroutineScope by MainScope() {
+) : AppCompatImageView(context, attrs), View.OnClickListener {
 
-    private var currentMediaId by Delegates.notNull<MediaId>()
-
-    private var job: Job? = null
+    private var currentMediaId: MediaId? = null
 
     private val hasQuickAction by lazyFast { context.applicationContext.findInContext<HasQuickAction>() }
 
@@ -51,7 +45,7 @@ class QuickActionView (
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setOnClickListener(this)
-        job = launch {
+        viewScope.launch {
             for (type in hasQuickAction.observeQuickAction()) {
                 setImage()
             }
@@ -61,7 +55,6 @@ class QuickActionView (
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnClickListener(null)
-        job?.cancel()
     }
 
     fun setId(mediaId: MediaId) {
@@ -69,10 +62,11 @@ class QuickActionView (
     }
 
     override fun onClick(v: View?) {
+        val mediaId = currentMediaId ?: return
         val mediaProvider = context.findInContext<MediaProvider>()
         when (hasQuickAction.getQuickAction()) {
-            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
-            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
+            QuickAction.PLAY -> mediaProvider.playFromMediaId(mediaId, null, null)
+            QuickAction.SHUFFLE -> mediaProvider.shuffle(mediaId, null)
             QuickAction.NONE -> {
             }
         }
