@@ -1,4 +1,4 @@
-package dev.olog.injection
+package dev.olog.msc.di
 
 import android.app.Application
 import android.app.NotificationManager

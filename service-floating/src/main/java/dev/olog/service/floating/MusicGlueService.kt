@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.ServiceLifecycle
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
