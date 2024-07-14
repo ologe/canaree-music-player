@@ -20,6 +20,10 @@ internal class CrossFadePlayerSwitcher @Inject internal constructor(
 
 ): IPlayerDelegate<PlayerMediaEntity> {
 
+    init {
+        require(playerOne !== playerTwo)
+    }
+
     private var current = CurrentPlayer.PLAYER_NOT_SET
 
     override fun prepare(mediaEntity: PlayerMediaEntity, bookmark: Long){
