@@ -6,17 +6,19 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dagger.hilt.android.scopes.ServiceScoped
+import dev.olog.core.ServiceLifecycle
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -25,12 +27,13 @@ import javax.inject.Inject
 
 @ServiceScoped
 internal class MusicNotificationManager @Inject constructor(
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val service: Service,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: IPlayerLifecycle
 
-) : DefaultLifecycleObserver, CoroutineScope by CustomScope() {
+) : DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -63,7 +66,7 @@ internal class MusicNotificationManager @Inject constructor(
     init {
         playerLifecycle.addListener(playerListener)
 
-        launch {
+        lifecycle.coroutineScope.launch {
             publisher.consumeAsFlow()
                 .filter { event ->
                     when (event) {
@@ -74,7 +77,7 @@ internal class MusicNotificationManager @Inject constructor(
                 }.collect { consumeEvent(it) }
         }
 
-        launch {
+        lifecycle.coroutineScope.launch {
             observeFavoriteUseCase()
                 .map { it == FavoriteEnum.FAVORITE }
                 .collect { onNextFavorite(it) }
@@ -132,8 +135,6 @@ internal class MusicNotificationManager @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
-        publishJob?.cancel()
-        cancel()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
