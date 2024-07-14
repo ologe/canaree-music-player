@@ -8,7 +8,6 @@ import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
 import dev.olog.image.provider.R
-import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
@@ -22,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong
 abstract class BaseDataFetcher(
     private val context: Context
 
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+) : DataFetcher<InputStream> {
 
     companion object {
         private const val TIMEOUT = 5000
@@ -48,26 +47,26 @@ abstract class BaseDataFetcher(
     }
 
     private fun unsubscribe() {
-        cancel(null)
         if (hasIncremented && !hasDecremented) {
             requestCounter.decrementAndGet()
         }
     }
 
-    override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
-            try {
-                if (!mustFetch() && tryLocal(priority, callback)) {
-                    return@launch
-                }
-                if (tryRemote(priority, callback)) {
-                    return@launch
-                }
-
-                throw NoSuchElementException()
-            } catch (ex: Throwable) {
-                callback.onLoadFailed(RuntimeException(ex))
+    override fun loadData(
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ) = runBlocking {
+        try {
+            if (!mustFetch() && tryLocal(priority, callback)) {
+                return@runBlocking
             }
+            if (tryRemote(priority, callback)) {
+                return@runBlocking
+            }
+
+            throw NoSuchElementException()
+        } catch (ex: Throwable) {
+            callback.onLoadFailed(RuntimeException(ex))
         }
     }
 
@@ -78,7 +77,6 @@ abstract class BaseDataFetcher(
         if (networkSafeAction()) {
             // load local
             val image = execute(priority, callback)
-            yield()
             loadUrl(image, priority, callback)
             return true
         } else {
@@ -95,11 +93,9 @@ abstract class BaseDataFetcher(
         }
         // delay
         delayRequest()
-        yield()
 
         // rest call to last fm
         val image = execute(priority, callback)
-        yield()
 
         if (image.isNotBlank()) {
             loadUrl(image, priority, callback)

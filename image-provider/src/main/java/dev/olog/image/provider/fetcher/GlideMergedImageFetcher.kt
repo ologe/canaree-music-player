@@ -11,13 +11,9 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.image.provider.creator.MergedImagesCreator
-import dev.olog.image.provider.executor.GlideScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.InputStream
-import java.lang.RuntimeException
 
 class GlideMergedImageFetcher(
     private val context: Context,
@@ -25,20 +21,21 @@ class GlideMergedImageFetcher(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+) : DataFetcher<InputStream> {
 
-    override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
-            try {
-                val inputStream = when {
-                    mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
-                    mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
-                    else -> makePlaylistImage(mediaId.categoryId)
-                }
-                callback.onDataReady(inputStream)
-            } catch (ex: Throwable){
-                callback.onLoadFailed(RuntimeException(ex))
+    override fun loadData(
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ) = runBlocking {
+        try {
+            val inputStream = when {
+                mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
+                mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
+                else -> makePlaylistImage(mediaId.categoryId)
             }
+            callback.onDataReady(inputStream)
+        } catch (ex: Throwable){
+            callback.onLoadFailed(RuntimeException(ex))
         }
     }
 
@@ -101,7 +98,7 @@ class GlideMergedImageFetcher(
     }
 
     override fun cancel() {
-        cancel(null)
+
     }
 
 }
