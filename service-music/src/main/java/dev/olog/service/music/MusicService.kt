@@ -66,7 +66,6 @@ class MusicService : BaseMusicService() {
 
     private fun setupObservers(){
         lifecycle.run {
-            addObserver(currentSong)
             addObserver(notification)
             addObserver(noisy)
         }
