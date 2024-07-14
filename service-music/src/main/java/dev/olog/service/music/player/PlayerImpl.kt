@@ -4,6 +4,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.core.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
@@ -32,8 +33,7 @@ internal class PlayerImpl @Inject constructor(
 
 ) : IPlayer,
     DefaultLifecycleObserver,
-    IPlayerLifecycle,
-    CoroutineScope by MainScope() {
+    IPlayerLifecycle {
 
     private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
@@ -42,7 +42,7 @@ internal class PlayerImpl @Inject constructor(
     init {
         lifecycle.addObserver(this)
 
-        launch {
+        lifecycle.coroutineScope.launch {
             // TODO combine with max allowed volume changes
             musicPrefsUseCase.observeVolume()
                 .flowOn(Dispatchers.Default)
@@ -52,7 +52,7 @@ internal class PlayerImpl @Inject constructor(
                 }
         }
 
-        launch {
+        lifecycle.coroutineScope.launch {
             musicPrefsUseCase.observePlaybackSpeed()
                 .collect {
                     currentSpeed = it
@@ -65,7 +65,6 @@ internal class PlayerImpl @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {
