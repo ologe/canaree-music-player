@@ -39,8 +39,6 @@ ext {
     gson = '2.8.6'
 
 //    utils
-    last_fm_binding = '0.1.2'
-    aes_crypto = '1.1.0'
     fuzzywuzzy = '1.2.0'
 
 //    debug
@@ -113,8 +111,6 @@ ext {
     ]
 
     lib_utils = [
-            last_fm_binding: "de.u-mass:lastfm-java:$last_fm_binding",
-            aes_crypto     : "com.github.tozny:java-aes-crypto:$aes_crypto",
             fuzzy          : "me.xdrop:fuzzywuzzy:$fuzzywuzzy"
     ]
 

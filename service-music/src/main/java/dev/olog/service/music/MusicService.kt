@@ -25,7 +25,6 @@ import dev.olog.service.music.helper.MediaIdHelper
 import dev.olog.service.music.helper.MediaItemGenerator
 import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
-import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.shared.android.PendingIntentFactory
 import kotlinx.coroutines.Dispatchers
@@ -55,8 +54,7 @@ class MusicService : BaseMusicService() {
     internal lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject
     internal lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
-    @Inject
-    internal lateinit var lastFmScrobbling: LastFmScrobbling
+
     @Inject
     internal lateinit var noisy: Noisy
 
@@ -71,7 +69,6 @@ class MusicService : BaseMusicService() {
             addObserver(currentSong)
             addObserver(playerMetadata)
             addObserver(notification)
-            addObserver(lastFmScrobbling)
             addObserver(noisy)
         }
     }

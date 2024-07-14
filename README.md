@@ -90,8 +90,6 @@ android.enableR8.fullMode=true
 # MANDATORY properties (keys)
 last_fm_key="your_key"
 last_fm_secret="your_secret"
-
-aes_password="your_aes_password"
 ```
 
 ### Extensions (Linux or macOS recommended)

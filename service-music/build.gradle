@@ -15,9 +15,6 @@ android {
     namespace = "dev.olog.service.music"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     //kotlinOptions.allWarningsAsErrors = true
@@ -32,7 +29,6 @@ apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
-    implementation project(':jaudiotagger')
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')
@@ -53,8 +49,6 @@ dependencies {
     implementation lib_x.lifecycle_java8
 
     implementation lib_ui.glide
-
-    implementation lib_utils.last_fm_binding
 
 
 //    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.4'

@@ -14,8 +14,6 @@ android {
     namespace = "dev.olog.injection"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
     //kotlinOptions.allWarningsAsErrors = true
@@ -45,6 +43,4 @@ dependencies {
     implementation lib_network.ok_http
     implementation lib_network.retrofit
     implementation lib_data.room
-
-    implementation lib_utils.aes_crypto
 }

@@ -25,7 +25,6 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
-import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import kotlinx.coroutines.*
@@ -54,7 +53,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var blacklist: Preference
     private lateinit var iconShape: Preference
     private lateinit var deleteCache: Preference
-    private lateinit var lastFmCredentials: Preference
     private lateinit var autoCreateImages: Preference
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
@@ -66,7 +64,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))!!
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))!!
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
-        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))!!
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
         accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
@@ -105,13 +102,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             showDeleteAllCacheDialog()
             true
         }
-        lastFmCredentials.setOnPreferenceClickListener {
-            act.fragmentTransaction {
-                setReorderingAllowed(true)
-                add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
-            }
-            true
-        }
         accentColorChooser.setOnPreferenceClickListener {
             val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
             val key = getString(R.string.prefs_color_accent_key)
@@ -139,7 +129,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
-        lastFmCredentials.onPreferenceClickListener = null
         accentColorChooser.onPreferenceClickListener = null
         resetTutorial.onPreferenceClickListener = null
     }

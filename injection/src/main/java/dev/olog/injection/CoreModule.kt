@@ -6,19 +6,14 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.olog.core.IEncrypter
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class CoreModule {
-
-    @Binds
-    abstract fun provideEncrypter(impl: EncrypterImpl): IEncrypter
 
     companion object {
 

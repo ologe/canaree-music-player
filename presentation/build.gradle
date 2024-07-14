@@ -16,9 +16,6 @@ android {
     namespace = "dev.olog.presentation"
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
-
-        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
-        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     buildFeatures {
@@ -79,8 +76,6 @@ dependencies {
     implementation project(":blurkit") //lib_ui.blur_kit
     implementation lib_ui.custom_tabs
     implementation lib_ui.color_desaturation
-
-    implementation lib_utils.last_fm_binding
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_java8

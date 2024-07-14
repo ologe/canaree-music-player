@@ -96,18 +96,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         apache()
     )
 
-    private val AES_CRYPTO = LicenceItem(
-        "java-aes-crypto",
-        "https://github.com/tozny/java-aes-crypto",
-        mit()
-    )
-
-    private val LAST_FM_BINDING = LicenceItem(
-        "Last.fm API Bindings for Java",
-        "https://github.com/jkovacs/lastfm-java",
-        lastFmBinding()
-    )
-
     private val CUSTOM_TABS = LicenceItem(
         "Android CustomTabs",
         "https://github.com/saschpe/android-customtabs",
@@ -216,8 +204,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         GSON,
 
         // utils
-        LAST_FM_BINDING,
-        AES_CRYPTO,
         FUZZY_WUZZY,
         HOVER,
 
@@ -267,15 +253,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         return cachedLicenses.getOrPut("glide") {
             context.assets
                 .open("licenses/glide.txt")
-                .bufferedReader()
-                .use { it.readText() }
-        }
-    }
-
-    private fun lastFmBinding(): String {
-        return cachedLicenses.getOrPut("lastfm") {
-            context.assets
-                .open("licenses/lastfm.txt")
                 .bufferedReader()
                 .use { it.readText() }
         }
