@@ -106,24 +106,22 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
                     category == MediaIdCategory.PODCASTS_PLAYLIST, true
         )
 
-        viewLifecycleScope.launch {
-            viewModel.observeData(category)
-                .subscribe(viewLifecycleOwner) { list ->
-                    handleEmptyStateVisibility(list.isEmpty())
-                    adapter.submitList(list)
-                    binding.sidebar.onDataChanged(list) {
-                        // TODO this should follow the sort
-                        when (it) {
-                            is TabItem.Song -> it.title.firstOrNull()
-                            is TabItem.Podcast -> it.title.firstOrNull()
-                            is TabItem.Album -> it.title.firstOrNull()
-                            is TabItem.Header,
-                            is TabItem.HorizontalList,
-                            TabItem.Shuffle -> null
-                        }
+        viewModel.observeData(category)
+            .subscribe(viewLifecycleOwner) { list ->
+                handleEmptyStateVisibility(list.isEmpty())
+                adapter.submitList(list)
+                binding.sidebar.onDataChanged(list) {
+                    // TODO this should follow the sort
+                    when (it) {
+                        is TabItem.Song -> it.title.firstOrNull()
+                        is TabItem.Podcast -> it.title.firstOrNull()
+                        is TabItem.Album -> it.title.firstOrNull()
+                        is TabItem.Header,
+                        is TabItem.HorizontalList,
+                        TabItem.Shuffle -> null
                     }
                 }
-        }
+            }
 
         viewLifecycleScope.launch {
             viewModel.observeSpanCount(category)
