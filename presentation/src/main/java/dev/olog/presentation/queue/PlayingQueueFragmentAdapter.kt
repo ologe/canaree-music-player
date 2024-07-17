@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -89,8 +90,8 @@ class PlayingQueueFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_playing_queue
+    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_playing_queue
     }
 
     override fun onMoved(from: Int, to: Int) {

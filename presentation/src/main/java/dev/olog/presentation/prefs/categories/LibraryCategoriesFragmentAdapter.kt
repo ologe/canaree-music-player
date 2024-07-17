@@ -1,5 +1,6 @@
 package dev.olog.presentation.prefs.categories
 
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.SimpleAdapter
@@ -42,8 +43,8 @@ class LibraryCategoriesFragmentAdapter (
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_library_categories
+    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_library_categories
     }
 
     override fun onMoved(from: Int, to: Int) {

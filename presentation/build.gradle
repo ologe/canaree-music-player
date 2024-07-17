@@ -85,4 +85,6 @@ dependencies {
 
     implementation platform(lib_compose.bom)
     implementation(lib_compose.foundation)
+    implementation(lib_compose.material)
+    implementation(lib_compose.material_icons)
 }

@@ -3,6 +3,7 @@ package dev.olog.presentation.recentlyadded
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -54,8 +55,8 @@ class RecentlyAddedFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_recently_added
+    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_recently_added
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

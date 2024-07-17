@@ -4,8 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +32,7 @@ fun ListItemSong(
     title: String,
     subtitle: String?,
     modifier: Modifier = Modifier,
+    trailingContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
@@ -57,7 +62,7 @@ fun ListItemSong(
                 BindingAdapters.loadSongImage(this, mediaId)
             }
         },
-        trailingContent = null,
+        trailingContent = trailingContent,
         modifier = modifier,
         onClick = onClick,
         onLongClick = onLongClick,
@@ -87,6 +92,21 @@ private fun Preview() {
                 mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "1"),
                 title = "Angel Beach",
                 subtitle = "Trilogy",
+                onClick = {},
+                onLongClick = {},
+            )
+            ListItemSong(
+                mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "1"),
+                title = "Angel Beach",
+                subtitle = "Trilogy",
+                trailingContent = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Rounded.DragHandle,
+                            contentDescription = null,
+                        )
+                    }
+                },
                 onClick = {},
                 onLongClick = {},
             )

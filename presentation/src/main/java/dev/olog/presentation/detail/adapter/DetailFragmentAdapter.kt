@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.media.MediaProvider
@@ -251,11 +252,11 @@ internal class DetailFragmentAdapter(
             return false
         }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_detail_song ||
-                viewType == R.layout.item_detail_song_with_drag_handle ||
-                viewType == R.layout.item_detail_song_with_track ||
-                viewType == R.layout.item_detail_song_with_track_and_image
+    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_detail_song ||
+                viewHolder.itemViewType == R.layout.item_detail_song_with_drag_handle ||
+                viewHolder.itemViewType == R.layout.item_detail_song_with_track ||
+                viewHolder.itemViewType == R.layout.item_detail_song_with_track_and_image
     }
 
     override fun onClearView() {

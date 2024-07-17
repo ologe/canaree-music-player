@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
@@ -381,8 +382,8 @@ internal class PlayerFragmentAdapter(
         }
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        return viewType == R.layout.item_mini_queue
+    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
+        return viewHolder.itemViewType == R.layout.item_mini_queue
     }
 
     override fun onMoved(from: Int, to: Int) {

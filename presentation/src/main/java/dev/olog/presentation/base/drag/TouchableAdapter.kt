@@ -1,31 +1,31 @@
 package dev.olog.presentation.base.drag
 
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 interface TouchableAdapter {
 
-    fun canInteractWithViewHolder(viewType: Int): Boolean
+    fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean
 
     fun onMoved(from: Int, to: Int) {}
 
     /**
      * perform business logic
      */
-    fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {}
+    fun onSwipedLeft(viewHolder: ViewHolder) {}
     /**
      * perform recycler view animation
      */
-    fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {}
+    fun afterSwipeLeft(viewHolder: ViewHolder) {}
 
     /**
      * perform business logic
      */
-    fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {}
+    fun onSwipedRight(viewHolder: ViewHolder) {}
 
     /**
      * perform recycler view animation
      */
-    fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {}
+    fun afterSwipeRight(viewHolder: ViewHolder) {}
 
     fun onClearView() {}
 
