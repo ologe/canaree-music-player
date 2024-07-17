@@ -8,26 +8,20 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.adapter.indexOf
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentTabBinding
-import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
-import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
+import dev.olog.presentation.tab.adapter.TabItem
+import dev.olog.presentation.tab.adapter.isScrollable
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
@@ -41,13 +35,12 @@ import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
+class TabFragment : Fragment(R.layout.fragment_tab) {
 
     companion object {
 
@@ -63,40 +56,15 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
     @Inject
     lateinit var navigator: Navigator
 
-    private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-
     private val viewModel by activityViewModels<TabFragmentViewModel>()
 
-    internal val category: TabCategory by lazyFast {
+    internal val category: MediaIdCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
-        MediaIdCategory.valueOf(categoryString).toTabCategory()
+        MediaIdCategory.valueOf(categoryString)
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act.findInContext<MediaProvider>(), viewModel, this)
+        TabFragmentAdapter(navigator, act.findInContext<MediaProvider>(), viewModel)
     }
 
     private val binding by viewBinding(FragmentTabBinding::bind) {
@@ -117,8 +85,8 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
     }
 
     private fun isPodcastFragment(): Boolean {
-        return category == TabCategory.PODCASTS || category == TabCategory.PODCASTS_PLAYLIST ||
-                category == TabCategory.PODCASTS_ALBUMS || category == TabCategory.PODCASTS_ARTISTS
+        return category == MediaIdCategory.PODCASTS || category == MediaIdCategory.PODCASTS_PLAYLIST ||
+                category == MediaIdCategory.PODCASTS_ALBUMS || category == MediaIdCategory.PODCASTS_ARTISTS
     }
 
     @CallSuper
@@ -129,29 +97,31 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
         binding.list.adapter = adapter
         binding.list.setHasFixedSize(true)
 
-        if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
+        if (category == MediaIdCategory.SONGS || category == MediaIdCategory.PODCASTS) {
             binding.list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
         }
 
-        val scrollableLayoutId = when (category) {
-            TabCategory.SONGS -> R.layout.item_tab_song
-            TabCategory.PODCASTS -> R.layout.item_tab_podcast
-            TabCategory.ARTISTS -> R.layout.item_tab_artist
-            else -> R.layout.item_tab_album
-        }
-        binding.sidebar.scrollableLayoutId = scrollableLayoutId
-
         binding.fab.toggleVisibility(
-            category == TabCategory.PLAYLISTS ||
-                    category == TabCategory.PODCASTS_PLAYLIST, true
+            category == MediaIdCategory.PLAYLISTS ||
+                    category == MediaIdCategory.PODCASTS_PLAYLIST, true
         )
 
         viewLifecycleScope.launch {
             viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
-                    adapter.updateDataSet(list)
-                    binding.sidebar.onDataChanged(list)
+                    adapter.submitList(list)
+                    binding.sidebar.onDataChanged(list) {
+                        // TODO this should follow the sort
+                        when (it) {
+                            is TabItem.Song -> it.title.firstOrNull()
+                            is TabItem.Podcast -> it.title.firstOrNull()
+                            is TabItem.Album -> it.title.firstOrNull()
+                            is TabItem.Header,
+                            is TabItem.HorizontalList,
+                            TabItem.Shuffle -> null
+                        }
+                    }
                 }
         }
 
@@ -167,64 +137,6 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
                 }
         }
 
-        viewLifecycleScope.launch {
-            when (category) {
-                TabCategory.ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                else -> {/*making lint happy*/
-                }
-            }
-        }
-
-    }
-
-    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
-        when (layoutId) {
-            R.layout.item_tab_last_played_album_horizontal_list -> setupHorizontalList(
-                recyclerView,
-                lastAlbumsAdapter
-            )
-            R.layout.item_tab_last_played_artist_horizontal_list -> setupHorizontalList(
-                recyclerView,
-                lastArtistsAdapter
-            )
-            R.layout.item_tab_new_album_horizontal_list -> setupHorizontalList(
-                recyclerView,
-                newAlbumsAdapter
-            )
-            R.layout.item_tab_new_artist_horizontal_list -> setupHorizontalList(
-                recyclerView,
-                newArtistsAdapter
-            )
-        }
-    }
-
-    private fun setupHorizontalList(list: RecyclerView, adapter: ObservableAdapter<*>) {
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
-        list.layoutManager = layoutManager
-        list.adapter = adapter
     }
 
     override fun onResume() {
@@ -232,7 +144,7 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
         binding.sidebar.setListener(letterTouchListener)
         binding.fab.setOnClickListener {
             val type =
-                if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
+                if (category == MediaIdCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
             navigator.toChooseTracksForPlaylistFragment(type)
 
         }
@@ -247,35 +159,33 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
         binding.list.stopScroll()
 
-        val scrollableItem = binding.sidebar.scrollableLayoutId
-
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
             "#" -> adapter.indexOf {
-                if (it.type != scrollableItem) {
+                if (!it.isScrollable()) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString().isDigitsOnly()
+                    else sorting[0].uppercaseChar().toString().isDigitsOnly()
                 }
             }
             "?" -> adapter.indexOf {
-                if (it.type != scrollableItem) {
+                if (!it.isScrollable()) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() > "Z"
+                    else sorting[0].uppercaseChar().toString() > "Z"
                 }
             }
             else -> adapter.indexOf {
-                if (it.type != scrollableItem) {
+                if (!it.isScrollable()) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() == letter
+                    else sorting[0].uppercaseChar().toString() == letter
                 }
             }
         }
@@ -285,29 +195,33 @@ class TabFragment : Fragment(R.layout.fragment_tab), SetupNestedList {
         }
     }
 
-    private fun getCurrentSorting(item: DisplayableItem): String {
-        return when (category) {
-            TabCategory.SONGS -> {
-                require(item is DisplayableTrack)
-                val sortOrder = viewModel.getAllTracksSortOrder(MediaId.songId(-1))!!
+    private fun getCurrentSorting(item: TabItem): String {
+        return when (item) {
+            is TabItem.Song -> {
+                val sortOrder = viewModel.getAllTracksSortOrder()
                 when (sortOrder.type) {
                     SortType.ARTIST -> item.artist
                     SortType.ALBUM -> item.album
                     else -> item.title
                 }
             }
-            TabCategory.ALBUMS -> {
-                require(item is DisplayableAlbum)
-                val sortOrder = viewModel.getAllAlbumsSortOrder()
-                when (sortOrder.type) {
-                    SortType.TITLE -> item.title
-                    else -> item.subtitle
+            is TabItem.Podcast -> item.title
+            is TabItem.Album -> {
+                when (item.mediaId.category) {
+                    MediaIdCategory.ALBUMS -> {
+                        val sortOrder = viewModel.getAllAlbumsSortOrder()
+                        when (sortOrder.type) {
+                            SortType.TITLE -> item.title
+                            else -> item.subtitle.orEmpty()
+                        }
+                    }
+                    else -> item.title
                 }
             }
-            else -> {
-                require(item is DisplayableAlbum)
-                item.title
-            }
+
+            is TabItem.Header,
+            is TabItem.HorizontalList,
+            TabItem.Shuffle -> ""
         }
     }
 

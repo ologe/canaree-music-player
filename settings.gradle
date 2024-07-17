@@ -1,4 +1,5 @@
 include ':app', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':intents', ':shared', ':shared-widgets', ':equalizer'
+include ':shared-compose'
 
 // todo add these as git submodules
 

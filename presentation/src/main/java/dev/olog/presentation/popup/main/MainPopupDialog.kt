@@ -18,8 +18,6 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tab.TabCategory
-import dev.olog.presentation.tab.toTabCategory
 import dev.olog.shared.android.extensions.findInContext
 import javax.inject.Inject
 
@@ -79,10 +77,10 @@ internal class MainPopupDialog @Inject constructor(
                     -1,
                     ""
                 )
-                R.id.gridSize1 -> updateSpanCount(anchor, category!!.toTabCategory(), 1)
-                R.id.gridSize2 -> updateSpanCount(anchor, category!!.toTabCategory(), 2)
-                R.id.gridSize3 -> updateSpanCount(anchor, category!!.toTabCategory(), 3)
-                R.id.gridSize4 -> updateSpanCount(anchor, category!!.toTabCategory(), 4)
+                R.id.gridSize1 -> updateSpanCount(anchor, category!!, 1)
+                R.id.gridSize2 -> updateSpanCount(anchor, category!!, 2)
+                R.id.gridSize3 -> updateSpanCount(anchor, category!!, 3)
+                R.id.gridSize4 -> updateSpanCount(anchor, category!!, 4)
                 else -> {
                     when (category) {
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
@@ -98,7 +96,7 @@ internal class MainPopupDialog @Inject constructor(
         popup.show()
     }
 
-    private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
+    private fun updateSpanCount(view: View, category: MediaIdCategory, spanCount: Int){
         val current = presentationPrefs.getSpanCount(category)
         presentationPrefs.setSpanCount(category, spanCount)
         if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){

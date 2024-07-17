@@ -4,7 +4,6 @@ import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
@@ -12,8 +11,9 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.shared.compose.glide.BindingAdapters
 
+@Deprecated("replace with dev.olog.shared.compose.glide.BindingsAdapter")
 object BindingsAdapter {
 
     @JvmStatic
@@ -31,7 +31,7 @@ object BindingsAdapter {
     @JvmStatic
     fun loadDirImage(view: ImageView, item: DisplayableFile) {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
-        loadImageImpl(
+        BindingAdapters.loadImageImpl(
             view,
             mediaId,
             GlideUtils.OVERRIDE_SMALL
@@ -39,33 +39,8 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    private fun loadImageImpl(
-        view: ImageView,
-        mediaId: MediaId,
-        override: Int,
-        priority: Priority = Priority.HIGH
-    ) {
-        val context = view.context
-
-        GlideApp.with(context).clear(view)
-
-        val builder = GlideApp.with(context)
-            .load(mediaId)
-            .override(override)
-            .priority(priority)
-            .placeholder(CoverUtils.getGradient(context, mediaId))
-            .transition(DrawableTransitionOptions.withCrossFade())
-
-        if (mediaId.isLeaf) {
-            builder.into(view)
-        } else {
-            builder.into(RippleTarget(view))
-        }
-    }
-
-    @JvmStatic
     fun loadSongImage(view: ImageView, mediaId: MediaId) {
-        loadImageImpl(
+        BindingAdapters.loadImageImpl(
             view,
             mediaId,
             GlideUtils.OVERRIDE_SMALL
@@ -74,7 +49,7 @@ object BindingsAdapter {
 
     @JvmStatic
     fun loadAlbumImage(view: ImageView, mediaId: MediaId) {
-        loadImageImpl(
+        BindingAdapters.loadImageImpl(
             view,
             mediaId,
             GlideUtils.OVERRIDE_MID,
@@ -95,7 +70,7 @@ object BindingsAdapter {
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .onlyRetrieveFromCache(true)
-            .into(RippleTarget(view))
+            .into(view)
     }
 
     @JvmStatic

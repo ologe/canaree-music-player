@@ -20,7 +20,6 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
-import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
@@ -139,7 +138,7 @@ class CustomViewSwitcher(
             .override(GlideUtils.OVERRIDE_BIG)
             .onlyRetrieveFromCache(true)
             .listener(this@CustomViewSwitcher)
-            .into(RippleTarget(imageView)) // TODO ripple not working
+            .into(imageView)
 
         GlideApp.with(context)
             .load(mediaId)

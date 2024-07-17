@@ -7,6 +7,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.TextUtils
 
+@Deprecated("replace with RxWaveSideBarView2")
 class RxWaveSideBarView(
         context: Context,
         attrs: AttributeSet

@@ -59,4 +59,8 @@ object TextUtils {
                 .replace("\\s+".toRegex(), " ")
     }
 
+    fun subtitle(artist: String, album: String): String {
+        return "$artist${MIDDLE_DOT_SPACED}$album"
+    }
+
 }

@@ -11,17 +11,6 @@ abstract class CustomListAdapter<T : Any, B : ViewBinding>(
     diffCallback: DiffUtil.ItemCallback<T> = DefaultDiffCallback()
 ) : ListAdapter<T, CustomViewHolder<B>>(diffCallback) {
 
-    class DefaultDiffCallback<T : Any> : DiffUtil.ItemCallback<T>() {
-
-        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-            return oldItem == newItem
-        }
-    }
-
     abstract fun inflate(inflater: LayoutInflater, parent: ViewGroup): B
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder<B> {

@@ -14,6 +14,8 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':shared-android')
     implementation project(':shared')
+    implementation project(':media')
+    implementation project(':core')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

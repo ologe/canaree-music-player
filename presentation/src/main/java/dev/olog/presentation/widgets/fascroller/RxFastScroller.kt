@@ -375,10 +375,10 @@ class RxFastScroller(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            scrollPublisher.offer(targetPos)
+            scrollPublisher.trySend(targetPos)
 
             val letter = mSectionIndexer?.getSectionText(targetPos)
-            letter?.let { bubbleTextPublisher.offer(it) }
+            letter?.let { bubbleTextPublisher.trySend(it) }
         }
     }
 

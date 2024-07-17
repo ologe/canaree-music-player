@@ -1,6 +1,6 @@
 package dev.olog.presentation.model
 
-import dev.olog.presentation.tab.TabCategory
+import dev.olog.core.MediaIdCategory
 import kotlinx.coroutines.flow.Flow
 
 internal interface PresentationPreferencesGateway {
@@ -33,9 +33,9 @@ internal interface PresentationPreferencesGateway {
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
 
-    fun getSpanCount(category: TabCategory): Int
-    fun observeSpanCount(category: TabCategory): Flow<Int>
-    fun setSpanCount(category: TabCategory, spanCount: Int)
+    fun getSpanCount(category: MediaIdCategory): Int
+    fun observeSpanCount(category: MediaIdCategory): Flow<Int>
+    fun setSpanCount(category: MediaIdCategory, spanCount: Int)
 
     fun canShowPodcasts(): Boolean
 

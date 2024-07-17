@@ -103,7 +103,7 @@ internal class PlayerFragmentAdapter(
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
-                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
+                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId() ?: return@setOnClickListener)
                         navigator.toDialog(mediaId, view)
                     } catch (ex: NullPointerException){
                         ex.printStackTrace()
