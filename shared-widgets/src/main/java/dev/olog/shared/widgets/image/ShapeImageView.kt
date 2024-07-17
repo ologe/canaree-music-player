@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.shape
+package dev.olog.shared.widgets.image
 
 import android.content.Context
 import android.graphics.*
@@ -9,7 +9,7 @@ import com.google.android.material.shape.CutCornerTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
-import dev.olog.presentation.R
+import dev.olog.shared.widgets.R
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.HasImageShape
@@ -17,6 +17,7 @@ import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
 
 open class ShapeImageView(
     context: Context,
@@ -69,17 +70,21 @@ open class ShapeImageView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (isInEditMode) {
-            return
-        }
         setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
+        if (isInEditMode) {
+            mask = null
+            updateBackground(getShapeModel(ImageShape.ROUND))
+            return
+        }
+
         val hasImageShape = context.applicationContext.findInContext<HasImageShape>()
-        job = GlobalScope.launch(Dispatchers.Default) {
-            for (imageShape in hasImageShape.observeImageShape()) {
-                mask = null
-                updateBackground(getShapeModel(imageShape))
-            }
+        job = GlobalScope.launch(Dispatchers.Main.immediate) {
+            hasImageShape.observeImageShape()
+                .collectLatest { imageShape ->
+                    mask = null
+                    updateBackground(getShapeModel(imageShape))
+                }
         }
     }
 
@@ -126,7 +131,7 @@ open class ShapeImageView(
         }
     }
 
-    private suspend fun updateBackground(shape: ShapeAppearanceModel) = withContext(Dispatchers.Main){
+    private fun updateBackground(shape: ShapeAppearanceModel) {
         val drawable = MaterialShapeDrawable(shape)
         background = drawable
     }

@@ -1,19 +1,18 @@
-package dev.olog.presentation.widgets
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.lifecycle.ViewTreeLifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.android.viewScope
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class QuickActionView (
@@ -27,12 +26,11 @@ class QuickActionView (
     private val hasQuickAction by lazyFast { context.applicationContext.findInContext<HasQuickAction>() }
 
     init {
-        setImage()
+        setImage(if (isInEditMode) QuickAction.SHUFFLE else hasQuickAction.getQuickAction())
         setBackgroundResource(R.drawable.background_quick_action)
     }
 
-    private fun setImage() {
-        val quickAction = hasQuickAction.getQuickAction()
+    private fun setImage(quickAction: QuickAction) {
         toggleVisibility(quickAction != QuickAction.NONE, true)
 
         when (quickAction) {
@@ -44,11 +42,15 @@ class QuickActionView (
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (isInEditMode) {
+            return
+        }
         setOnClickListener(this)
         viewScope.launch {
-            for (type in hasQuickAction.observeQuickAction()) {
-                setImage()
-            }
+            hasQuickAction.observeQuickAction()
+                .collectLatest { action ->
+                    setImage(action)
+                }
         }
     }
 

@@ -1,10 +1,10 @@
 package dev.olog.shared.android.theme
 
-import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.flow.StateFlow
 
 interface HasImageShape {
     fun getImageShape(): ImageShape
-    fun observeImageShape(): ReceiveChannel<ImageShape>
+    fun observeImageShape(): StateFlow<ImageShape>
 }
 
 enum class ImageShape {

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.textview
+package dev.olog.shared.widgets.text
 
 import android.content.Context
 import android.content.res.ColorStateList
