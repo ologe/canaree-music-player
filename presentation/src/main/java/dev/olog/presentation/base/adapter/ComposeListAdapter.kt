@@ -6,14 +6,21 @@ import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.compose.CanareeTheme
 
 abstract class ComposeListAdapter<T : Any>(
     diffCallback: DiffUtil.ItemCallback<T> = DefaultDiffCallback()
-) : ListAdapter<T, ComposeViewHolder>(diffCallback) {
+) : InteractableListAdapter<T, ComposeViewHolder>(diffCallback) {
+
+    final override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        if (item is InteractableItem && item.isInteractable) {
+            return R.layout.item_swipeable_compose
+        }
+        return super.getItemViewType(position)
+    }
 
     final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
         if (viewType == R.layout.item_swipeable_compose) {
@@ -23,9 +30,21 @@ abstract class ComposeListAdapter<T : Any>(
         return ComposeViewHolder(ComposeView(parent.context))
     }
 
-    public override fun getItem(position: Int): T {
-        return super.getItem(position)
+    final override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
+        bind(holder, getItem(position), position)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onBindViewHolder(
+        holder: ComposeViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        val item = payloads.getOrNull(0) as? T
+        bind(holder, item ?: getItem(position), position)
+    }
+
+    protected abstract fun bind(holder: ComposeViewHolder, item: T, position: Int)
 
 }
 

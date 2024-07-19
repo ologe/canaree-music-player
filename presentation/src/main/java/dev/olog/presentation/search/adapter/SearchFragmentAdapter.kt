@@ -18,6 +18,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.ComposeListAdapter
 import dev.olog.presentation.base.adapter.ComposeViewHolder
+import dev.olog.presentation.base.adapter.InteractableItem
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
@@ -32,8 +33,7 @@ class SearchFragmentAdapter(
     private val viewModel: SearchFragmentViewModel
 ) : ComposeListAdapter<SearchItem>(), TouchableAdapter {
 
-    override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
-        val item = getItem(position)
+    override fun bind(holder: ComposeViewHolder, item: SearchItem, position: Int) {
         holder.setContent {
             when (item) {
                 is SearchItem.Recent -> {
@@ -126,16 +126,6 @@ class SearchFragmentAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
-        is SearchItem.Recent -> if (item.mediaId.isLeaf) R.layout.item_swipeable_compose else 0
-        is SearchItem.Song -> R.layout.item_swipeable_compose
-        else -> 0
-    }
-
-    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
-        return viewHolder.itemViewType == R.layout.item_swipeable_compose
-    }
-
     override fun onSwipedLeft(viewHolder: ViewHolder) {
         val position = viewHolder.adapterPosition
         val mediaId = when (val item = getItem(position)) {
@@ -162,7 +152,7 @@ sealed interface SearchItem {
         val mediaId: MediaId,
         val title: String,
         val subtitle: String,
-    ) : SearchItem
+    ) : SearchItem, InteractableItem
 
     data class Album(
         val mediaId: MediaId,
@@ -186,7 +176,10 @@ sealed interface SearchItem {
         val mediaId: MediaId,
         val title: String,
         val subtitle: String,
-    ) : SearchItem {
+    ) : SearchItem, InteractableItem {
+
+        override val isInteractable: Boolean
+            get() = mediaId.isLeaf
 
         val isPlayable: Boolean
             get() = mediaId.isLeaf

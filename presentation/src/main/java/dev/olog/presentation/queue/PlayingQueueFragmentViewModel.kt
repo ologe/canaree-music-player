@@ -1,45 +1,36 @@
 package dev.olog.presentation.queue
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.shared.swap
+import dev.olog.shared.TextUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    playingQueueGateway: PlayingQueueGateway
-
+    private val playingQueueGateway: PlayingQueueGateway,
 ) : ViewModel() {
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
 
-    private val data = MutableLiveData<List<DisplayableQueueSong>>()
-
-    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
+    private val data = MutableStateFlow<List<QueueItem>?>(null)
 
     init {
         viewModelScope.launch {
             playingQueueGateway.observeAll().distinctUntilChanged()
-                .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.trySend(it) }
-        }
-
-        viewModelScope.launch {
-            queueLiveData.asFlow()
                 .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
                 { queue, idInPlaylist ->
                     val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
@@ -54,47 +45,39 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         }
     }
 
-    fun observeData(): LiveData<List<DisplayableQueueSong>> = data
+    fun observeData(): Flow<List<QueueItem>> = data.filterNotNull()
 
-    fun recalculatePositionsAfterRemove(position: Int) =
-        viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.toMutableList()
-            currentList.removeAt(position)
-
-            queueLiveData.trySend(currentList)
+    fun updateQueue(list: List<QueueItem>) {
+        viewModelScope.launch {
+            playingQueueGateway.update(
+                list.map {
+                    UpdatePlayingQueueUseCaseRequest(
+                        mediaId = it.mediaId,
+                        songId = it.id,
+                        idInPlaylist = it.idInPlaylist,
+                    )
+                }
+            )
         }
-
-    /**
-     * @param moves contains all the movements in the list
-     */
-    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
-        viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value
-            for ((from, to) in moves) {
-                currentList.swap(from, to)
-            }
-
-            queueLiveData.trySend(currentList)
-        }
+    }
 
     private fun PlayingQueueSong.toDisplayableItem(
         currentPosition: Int,
         currentPlayingIndex: Int,
         currentPlayingIdInPlaylist: Int
-    ): DisplayableQueueSong {
+    ): QueueItem {
         val song = this.song
 
         val relativePosition = computeRelativePosition(currentPosition, currentPlayingIndex)
 
-        return DisplayableQueueSong(
-            type = R.layout.item_playing_queue,
+        return QueueItem(
+            id = song.id,
             mediaId = mediaId,
             title = song.title,
-            artist = song.artist,
-            album = song.album,
+            subtitle = TextUtils.subtitle(song.artist, song.album),
             idInPlaylist = song.idInPlaylist,
             relativePosition = relativePosition,
-            isCurrentSong = song.idInPlaylist == currentPlayingIdInPlaylist
+            isPlaying = song.idInPlaylist == currentPlayingIdInPlaylist,
         )
     }
 

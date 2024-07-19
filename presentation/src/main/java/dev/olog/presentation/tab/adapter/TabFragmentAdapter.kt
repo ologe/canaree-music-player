@@ -26,8 +26,7 @@ internal class TabFragmentAdapter(
     private val viewModel: TabFragmentViewModel,
 ) : ComposeListAdapter<TabItem>() {
 
-    override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
-        val item = getItem(position)
+    override fun bind(holder: ComposeViewHolder, item: TabItem, position: Int) {
         holder.setContent {
             when (item) {
                 is TabItem.Album -> {

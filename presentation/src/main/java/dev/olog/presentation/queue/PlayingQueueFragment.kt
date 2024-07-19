@@ -21,17 +21,16 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findInContext
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,11 +51,10 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
-            lifecycle,
-            act.findInContext<MediaProvider>(),
-            navigator,
-            this,
-            viewModel
+            mediaProvider = act.findInContext<MediaProvider>(),
+            navigator = navigator,
+            dragListener = this,
+            viewModel = viewModel
         )
     }
 
@@ -74,27 +72,26 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
 
         setupDragListener(viewLifecycleScope, binding.list, ItemTouchHelper.RIGHT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            adapter.updateDataSet(it)
-            binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
-        }
+        viewModel.observeData()
+            .onEach {
+                adapter.submitList(it)
+                binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
+            }.launchIn(viewLifecycleScope)
 
-        viewLifecycleScope.launch {
-            adapter.observeData(false)
-                .take(1)
-                .map {
-                    val idInPlaylist = viewModel.getLastIdInPlaylist()
-                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
-                }
-                .filter { it != RecyclerView.NO_POSITION } // filter only valid position
-                .flowOn(Dispatchers.Default)
-                .collect { position ->
-                    layoutManager.scrollToPositionWithOffset(
-                        position,
-                        ctx.dip(20)
-                    )
-                }
-        }
+        viewModel.observeData()
+            .take(1)
+            .map {
+                val idInPlaylist = viewModel.getLastIdInPlaylist()
+                it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+            }
+            .filter { it != RecyclerView.NO_POSITION } // filter only valid position
+            .flowOn(Dispatchers.Default)
+            .onEach { position ->
+                layoutManager.scrollToPositionWithOffset(
+                    position,
+                    ctx.dip(20)
+                )
+            }.launchIn(viewLifecycleScope)
     }
 
     override fun onResume() {

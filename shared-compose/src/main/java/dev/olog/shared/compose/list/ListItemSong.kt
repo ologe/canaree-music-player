@@ -1,25 +1,37 @@
 package dev.olog.shared.compose.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.compose.CanareeTheme
+import dev.olog.shared.compose.Theme
 import dev.olog.shared.compose.component.AsyncImage
 import dev.olog.shared.compose.component.Explicit
 import dev.olog.shared.compose.component.shaped
@@ -33,6 +45,7 @@ fun ListItemSong(
     subtitle: String?,
     modifier: Modifier = Modifier,
     trailingContent: (@Composable () -> Unit)? = null,
+    indexContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
@@ -49,6 +62,9 @@ fun ListItemSong(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                indexContent?.let {
+                    Index(content = it)
+                }
                 Explicit(title = title)
                 Text(
                     text = subtitle,
@@ -67,6 +83,27 @@ fun ListItemSong(
         onClick = onClick,
         onLongClick = onLongClick,
     )
+}
+
+@Composable
+private fun Index(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier
+            .background(Theme.textColorPrimary, RoundedCornerShape(3.dp))
+            .padding(horizontal = 4.dp)
+    ) {
+        CompositionLocalProvider(
+            LocalContentColor provides (if (isSystemInDarkTheme()) Color.Black else Color.White),
+            LocalTextStyle provides LocalTextStyle.current.copy(
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Medium
+            ),
+            content = content,
+        )
+    }
 }
 
 @Preview
@@ -92,6 +129,14 @@ private fun Preview() {
                 mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "1"),
                 title = "Angel Beach",
                 subtitle = "Trilogy",
+                onClick = {},
+                onLongClick = {},
+            )
+            ListItemSong(
+                mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "1"),
+                title = "Angel Beach",
+                subtitle = "Trilogy",
+                indexContent = { Text(text = "+100") },
                 onClick = {},
                 onLongClick = {},
             )
