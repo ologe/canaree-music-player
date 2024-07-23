@@ -7,7 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_view_switcher_fullscreen"
+    <dev.olog.shared.compose.StatusBarView
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include
+        android:id="@+id/switcher"
+        layout="@layout/layout_view_switcher_fullscreen"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,15 +25,19 @@
         android:layout_width="0dp"
         android:layout_height="0dp" />
 
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_fullscreen"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/scrim"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/gradient_fullscreen"
         android:clickable="false"
         android:focusable="false"
         android:clipChildren="false">
@@ -48,8 +62,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/toolbar"
-            android:layout_marginTop="@dimen/status_bar"/>
+            android:layout_height="@dimen/toolbar" />
 
         <!-- seekbar -->
         <dev.olog.media.widget.CustomSeekBar
@@ -63,9 +76,9 @@
             android:layout_marginEnd="8dp"
             android:paddingBottom="18dp"
             android:paddingTop="18dp"
-            android:progressTint="#EEEEEE"
-            android:thumbTint="#EEEEEE"
-            android:progressBackgroundTint="#88888888"
+            android:progressTint="@color/player_fullscreen_progress_tint"
+            android:thumbTint="@color/player_fullscreen_progress_tint"
+            android:progressBackgroundTint="@color/player_fullscreen_background_progress_tint"
             tools:progress="40"
             tools:max="100"
             android:layout_marginBottom="24dp"/>
@@ -154,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:textColor="#BDBDBD"
+                android:textColor="@color/player_fullscreen_artist"
                 android:singleLine="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:ellipsize="marquee"

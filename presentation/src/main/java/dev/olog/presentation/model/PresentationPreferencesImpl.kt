@@ -244,8 +244,8 @@ internal class PresentationPreferencesImpl @Inject constructor(
         return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
     }
 
-    override fun isAdaptiveColorEnabled(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
+    override fun observeAdaptiveColorEnabled(): Flow<Boolean> {
+        return preferences.observeKey(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 
     override fun getSpanCount(category: MediaIdCategory): Int {

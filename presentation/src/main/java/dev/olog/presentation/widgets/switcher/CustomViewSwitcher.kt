@@ -6,52 +6,43 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ViewAnimator
+import androidx.core.view.doOnLayout
 import androidx.core.view.forEach
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
+import dev.olog.presentation.player.ui.animateElevation
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
-import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import java.lang.IllegalStateException
+import dev.olog.shared.android.theme.isBigImage
+import dev.olog.shared.android.theme.isFullscreen
+import dev.olog.shared.android.viewScope
+import dev.olog.shared.lazyFast
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class CustomViewSwitcher(
-    context: Context,
-    attrs: AttributeSet
-) : MultiViewSwitcher(context, attrs), RequestListener<Drawable> {
+@AndroidEntryPoint
+class CustomViewSwitcher : ViewAnimator {
 
-    companion object {
-        @JvmStatic
-        private val TAG = "P:${CustomViewSwitcher::class.java.simpleName}"
-    }
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     private var lastItem: MediaId? = null
-
-    private var imageVersion = 0
 
     private val blurBackground : BlurredBackground? by lazyFast {
         (parent as View).findViewById<BlurredBackground>(R.id.blurBackground)
     }
 
-    private val adaptiveImageHelper by lazyFast {
-        AdaptiveImageHelper(
-            context
-        )
-    }
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
+    @Inject
+    lateinit var adaptiveImageHelper: AdaptiveImageHelper
+    private val hasPlayerAppearance by lazyFast { context.hasPlayerAppearance() }
 
     private enum class Direction {
         NONE,
@@ -59,13 +50,12 @@ class CustomViewSwitcher(
         RIGHT
     }
 
-    private var animationFinished = true
-
     private var currentDirection by Delegates.observable(Direction.NONE) { _, old, new ->
         if (old == new) {
             return@observable
         }
 
+        val playerAppearance = hasPlayerAppearance.playerAppearance()
         val useExactPosition = playerAppearance.isBigImage() || playerAppearance.isFullscreen()
 
         val inAnim = when (new) {
@@ -107,6 +97,7 @@ class CustomViewSwitcher(
     }
 
     fun loadImage(metadata: PlayerMetadata) {
+        val isFirstLoad = lastItem == null
         if (lastItem == metadata.mediaId) {
             return
         }
@@ -117,50 +108,48 @@ class CustomViewSwitcher(
             metadata.isSkippingToPrevious -> Direction.LEFT
             else -> Direction.NONE
         }
-        loadImageInternal(metadata.mediaId)
+        loadImageInternal(metadata.mediaId, isFirstLoad)
     }
 
-    private fun loadImageInternal(mediaId: MediaId) {
-        animationFinished = false
-
-        imageVersion++
-        val currentVersion = imageVersion
+    private fun loadImageInternal(
+        mediaId: MediaId,
+        isFirstLoad: Boolean,
+    ) {
+        if (isFirstLoad) {
+            loadFirstImage(mediaId)
+            return
+        }
 
         val imageView = getImageView(getNextView())
 
         GlideApp.with(context).clear(imageView)
 
-        GlideApp.with(context)
-            .load(mediaId)
-            .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .override(GlideUtils.OVERRIDE_BIG)
-            .onlyRetrieveFromCache(true)
-            .listener(this@CustomViewSwitcher)
-            .into(imageView)
-
-        GlideApp.with(context)
-            .load(mediaId)
-            .priority(Priority.IMMEDIATE)
-            .override(GlideUtils.OVERRIDE_BIG)
-            .into(object : CustomTarget<Drawable>(){
-                override fun onLoadCleared(placeholder: Drawable?) {
-
+        imageView.loadImageJob = imageView.viewScope.launch {
+            showNext()
+            context.loadPlayerCachedImage(mediaId)
+                .collect {
+                    imageView.setImageDrawable(it)
                 }
+            updateDecorations(imageView, mediaId, imageView.drawable)
 
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    if (resource !== imageView.drawable && currentVersion == imageVersion) {
-                        // different image and same load
-                        imageView.setImageDrawable(resource)
-                        adaptiveImageHelper.setImageDrawable(resource)
-                        blurBackground?.loadImage(mediaId, resource)
-                    }
+            context.loadPlayerImage(mediaId, false)
+                .collect {
+                    imageView.setImageDrawable(it)
                 }
-            })
+            updateDecorations(imageView, mediaId, imageView.drawable)
+        }
+    }
+
+    private fun loadFirstImage(mediaId: MediaId) {
+        val imageView = getImageView(currentView)
+
+        imageView.loadImageJob = imageView.viewScope.launch {
+            context.loadPlayerImage(mediaId, true)
+                .collect {
+                    imageView.setImageDrawable(it)
+                }
+            updateDecorations(imageView, mediaId, imageView.drawable)
+        }
     }
 
     fun getImageView(parent: View = currentView): ImageView {
@@ -171,50 +160,37 @@ class CustomViewSwitcher(
         } as ImageView
     }
 
-    override fun onLoadFailed(
-        e: GlideException?,
-        model: Any?,
-        target: Target<Drawable>?,
-        isFirstResource: Boolean
-    ): Boolean {
-        e?.printStackTrace()
-        e?.logRootCauses(TAG)
-
-        if (!animationFinished) {
-            animationFinished = true
-            showNext()
-
-            if (model is MediaId) {
-                val defaultCover = CoverUtils.getGradient(context, model)
-                adaptiveImageHelper.setImageDrawable(defaultCover)
-                blurBackground?.loadImage(model, defaultCover)
+    private fun updateDecorations(
+        imageView: ImageView,
+        mediaId: MediaId,
+        drawable: Drawable?
+    ) {
+        if (mediaId == lastItem) {
+            imageView.doOnLayout {
+                adaptiveImageHelper.setImageDrawable(drawable)
+                blurBackground?.loadImage(mediaId, drawable)
             }
         }
-        return false
     }
 
-    override fun onResourceReady(
-        resource: Drawable?,
-        model: Any?,
-        target: Target<Drawable>?,
-        dataSource: DataSource?,
-        isFirstResource: Boolean
-    ): Boolean {
-        if (!animationFinished) {
-            animationFinished = true
-            showNext()
-        }
-        adaptiveImageHelper.setImageDrawable(resource)
-        blurBackground?.loadImage(model as MediaId, resource)
-        return false
-    }
-
-    fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
-    fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
-
-    fun setChildrenActivated(activated: Boolean) {
+    fun updateChildren(isPlaying: Boolean) {
         forEach {
-            isActivated = activated
+            it.animateElevation(isPlaying)
         }
     }
 }
+
+private fun ViewAnimator.getNextView(): View {
+    var nextChild = displayedChild + 1
+    if (nextChild >= childCount) {
+        nextChild = 0
+    }
+    return getChildAt(nextChild)
+}
+
+private var ImageView.loadImageJob: Job?
+    get() = getTag(R.id.player_load_image_job) as? Job?
+    set(value) {
+        (getTag(R.id.player_load_image_job) as? Job?)?.cancel()
+        setTag(R.id.player_load_image_job, value)
+    }

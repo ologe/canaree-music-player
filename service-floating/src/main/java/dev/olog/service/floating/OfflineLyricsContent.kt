@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -15,7 +16,10 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -56,7 +60,9 @@ class OfflineLyricsContent(
         presenter.onStart()
 
         glueService.observePlaybackState()
-            .subscribe(this) { binging.seekBar.onStateChanged(it) }
+            .filterNotNull()
+            .onEach { binging.seekBar.onStateChanged(it) }
+            .launchIn(lifecycleScope)
 
         binging.edit.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
@@ -75,14 +81,15 @@ class OfflineLyricsContent(
             })
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .filterNotNull()
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 GlobalScope.launch { loadImage(it.mediaId, binging.image) }
                 binging.header.text = it.title
                 binging.subHeader.text = it.artist
                 binging.seekBar.max = it.duration.toInt()
                 binging.scrollView.scrollTo(0, 0)
-            }
+            }.launchIn(lifecycleScope)
 
         binging.sync.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
@@ -103,10 +110,11 @@ class OfflineLyricsContent(
         binging.scrollView.setOnTouchListener(scrollViewTouchListener)
 
         glueService.observePlaybackState()
-            .subscribe(this) {
+            .filterNotNull()
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
-            }
+            }.launchIn(lifecycleScope)
 
         presenter.observeLyrics()
             .subscribe(this) { (lyrics, type) ->

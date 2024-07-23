@@ -24,8 +24,8 @@ class CustomProgressBar(
         stopAutoIncrement(0)
     }
 
-    override fun startAutoIncrement(startMillis: Int, speed: Float) {
-        delegate.startAutoIncrement(startMillis, speed)
+    override fun startAutoIncrement(startMillis: Int, elapsedRealtime: Long, speed: Float) {
+        delegate.startAutoIncrement(startMillis, elapsedRealtime, speed)
     }
 
     override fun stopAutoIncrement(startMillis: Int) {

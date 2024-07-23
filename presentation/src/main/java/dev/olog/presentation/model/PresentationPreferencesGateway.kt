@@ -3,7 +3,7 @@ package dev.olog.presentation.model
 import dev.olog.core.MediaIdCategory
 import kotlinx.coroutines.flow.Flow
 
-internal interface PresentationPreferencesGateway {
+interface PresentationPreferencesGateway {
 
     fun getLastBottomViewPage(): BottomNavigationPage
     fun setLastBottomViewPage(page: BottomNavigationPage)
@@ -29,7 +29,7 @@ internal interface PresentationPreferencesGateway {
     fun observeLibraryNewVisibility(): Flow<Boolean>
     fun observeLibraryRecentPlayedVisibility(): Flow<Boolean>
 
-    fun isAdaptiveColorEnabled(): Boolean
+    fun observeAdaptiveColorEnabled(): Flow<Boolean>
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
 

@@ -5,10 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    tools:layout_marginBottom="48dp">
 
-    <include layout="@layout/layout_view_switcher_square"
-        app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
+    <include
+        android:id="@+id/switcher"
+        layout="@layout/layout_view_switcher_square"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1"
@@ -18,10 +21,10 @@
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
-        app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toTopOf="@+id/switcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toBottomOf="@+id/switcher"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -40,6 +43,15 @@
         android:alpha=".4"
         android:src="?colorBackgroundTransparent" />
 
+    <View
+        app:layout_constraintTop_toTopOf="@id/textWrapper"
+        app:layout_constraintBottom_toBottomOf="@id/blurBackground"
+        app:layout_constraintStart_toStartOf="@id/blurBackground"
+        app:layout_constraintEnd_toEndOf="@id/blurBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/fade_white_vertical"/>
+
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar
         android:id="@+id/seekBar"
@@ -54,8 +66,8 @@
         android:paddingEnd="0dp"
         android:thumb="@drawable/seekbar_thumb_line"
         android:progressDrawable="@drawable/seek_bar_progress_thick"
-        android:thumbTint="#ffff4444"
-        android:progressTint="#ffff4444"
+        android:thumbTint="@color/player_big_image_progress_tint"
+        android:progressTint="@color/player_big_image_progress_tint"
         android:clickable="true"
         android:focusable="true"
         tools:max="100"
@@ -135,11 +147,11 @@
         android:id="@+id/playerControls"
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toEndOf="@+id/favorite"
-        app:layout_constraintEnd_toStartOf="@+id/lyrics"
-        app:layout_constraintBottom_toTopOf="@+id/lyrics"
+        app:layout_constraintEnd_toStartOf="@+id/more"
         layout="@layout/player_controls_big_image"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"/>
 
     <dev.olog.presentation.widgets.LottieFavorite
         android:id="@+id/favorite"
@@ -188,9 +200,11 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_offline_lyrics"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/player_title_margin_horizontal"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
+        android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

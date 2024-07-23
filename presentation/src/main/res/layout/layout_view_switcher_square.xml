@@ -9,27 +9,24 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp"
         android:background="@android:color/white"/>
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp"
         android:background="@android:color/white"/>
 
-    <dev.olog.shared.widgets.ForegroundImageView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp"
         android:background="@android:color/white"/>
 

@@ -2,12 +2,15 @@ package dev.olog.service.floating
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import dev.olog.media.model.PlayerState
 import dev.olog.service.floating.databinding.ContentWebViewWithPlayerBinding
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class LyricsContent(
     lifecycle: Lifecycle,
@@ -21,32 +24,37 @@ class LyricsContent(
         val binding = ContentWebViewWithPlayerBinding.bind(content)
 
         glueService.observePlaybackState()
-            .subscribe(this) {
+            .filterNotNull()
+            .onEach {
                 binding.layoutMiniPlayer.seekBar.onStateChanged(it)
-            }
+            }.launchIn(lifecycleScope)
 
         glueService.observePlaybackState()
+            .filterNotNull()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(this) {
+            .onEach {
                 when (it){
                     PlayerState.PLAYING -> binding.playPause.animationPlay(true)
                     PlayerState.PAUSED -> binding.playPause.animationPause(true)
                     else -> throw IllegalArgumentException("state not valid $it")
                 }
             }
+            .launchIn(lifecycleScope)
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .filterNotNull()
+            .onEach {
                 binding.layoutMiniPlayer.header.text = it.title
                 binding.layoutMiniPlayer.subHeader.text = it.artist
-            }
+            }.launchIn(lifecycleScope)
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .filterNotNull()
+            .onEach {
                 binding.layoutMiniPlayer.seekBar.max = it.duration.toInt()
-            }
+            }.launchIn(lifecycleScope)
 
         binding.playPause.setOnClickListener { glueService.playPause() }
 

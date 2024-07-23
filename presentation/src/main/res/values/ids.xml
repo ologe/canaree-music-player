@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="player_load_image_job" type="id"/>
+    <item name="player_view_type" type="id"/>
+    <item name="animation_target_value" type="id"/>
+
+</resources>

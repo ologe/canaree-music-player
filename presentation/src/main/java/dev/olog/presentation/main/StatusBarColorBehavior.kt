@@ -14,6 +14,8 @@ import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.isBigImage
+import dev.olog.shared.android.theme.isFullscreen
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import java.lang.ref.WeakReference
@@ -98,7 +100,7 @@ class StatusBarColorBehavior @Inject constructor(
 
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
-                    val playerApperance = (activity.hasPlayerAppearance())
+                    val playerApperance = (activity.hasPlayerAppearance().playerAppearance())
                     if (playerApperance.isFullscreen() || playerApperance.isBigImage()) {
                         activity.window.removeLightStatusBar()
                     } else {

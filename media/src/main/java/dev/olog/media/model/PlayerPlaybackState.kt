@@ -35,6 +35,7 @@ class PlayerPlaybackState(private val stateCompat: PlaybackStateCompat) {
 
     val state = PlayerState.of(stateCompat.state)
     val bookmark = stateCompat.extractBookmark()
+    val elapsedRealtime = SystemClock.elapsedRealtime()
     val playbackSpeed = stateCompat.playbackSpeed
 
     val isPlaying = state == PlayerState.PLAYING

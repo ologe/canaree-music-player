@@ -1,9 +1,7 @@
 package dev.olog.presentation.player
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.Fragment
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -24,6 +21,7 @@ import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.findInContext
@@ -32,24 +30,20 @@ import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
-import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.math.abs
 
 @Keep
 @AndroidEntryPoint
-class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
+class PlayerFragment : Fragment(R.layout.fragment_player), IDragListener by DragListenerImpl() {
 
     private val viewModel by viewModels<PlayerFragmentViewModel>()
     @Inject
-    internal lateinit var presenter: PlayerFragmentPresenter
-    @Inject
     lateinit var navigator: Navigator
-
-    @Inject lateinit var musicPrefs: MusicPreferencesGateway
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -59,23 +53,6 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
     private var statusBar: View? = null
     private var lyrics: View? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val appearance = requireContext().hasPlayerAppearance()
-        val layoutId = when (appearance.playerAppearance()) {
-            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
-            PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
-            PlayerAppearance.MINI -> R.layout.fragment_player_mini
-            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
-            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
-            else -> R.layout.fragment_player_default
-        }
-        return inflater.inflate(layoutId, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list = view.findViewById(R.id.list)
         statusBar = view.findViewById(R.id.statusBar)
@@ -84,9 +61,10 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, requireActivity().findInContext<MediaProvider>(),
-            navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            mediaProvider = requireActivity().findInContext<MediaProvider>(),
+            navigator = navigator,
+            viewModel = viewModel,
+            dragListener = this,
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -99,23 +77,32 @@ class PlayerFragment : Fragment(), IDragListener by DragListenerImpl() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
 
-        mediaProvider.observeQueue()
-            .mapListItem { it.toDisplayableItem() }
-            .map { queue ->
-                if (!hasPlayerAppearance.isMini()) {
-                    val copy = queue.toMutableList()
-                    if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
-                        copy.add(viewModel.footerLoadMore)
+        combine(
+            mediaProvider.observeQueue().filterNotNull(),
+            hasPlayerAppearance.observePlayerAppearance()
+        ) { queue, appearance ->
+            if (appearance == PlayerAppearance.MINI) {
+                listOf(PlayerItem.Player)
+            } else {
+                buildList<PlayerItem> {
+                    add(PlayerItem.Player)
+                    this += queue.map {
+                        PlayerItem.Song(
+                            mediaId = it.mediaId,
+                            title = it.title,
+                            subtitle = TextUtils.subtitle(it.artist, ""),
+                            idInPlaylist = it.idInPlaylist
+                        )
                     }
-                    copy.add(0, viewModel.playerControls())
-                    copy
-                } else {
-                    listOf(viewModel.playerControls())
+                    if (queue.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
+                        add(PlayerItem.LoadMore)
+                    }
                 }
             }
+        }
             .flowOn(Dispatchers.Default)
             .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onResume() {

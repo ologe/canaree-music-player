@@ -20,7 +20,7 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
@@ -89,16 +89,11 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
-
-    override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
-        mediaExposer.observePlaybackState()
-
-    override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
-
-    override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
-
-    override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
+    override fun observeMetadata(): StateFlow<PlayerMetadata?> = mediaExposer.observeMetadata()
+    override fun observePlaybackState(): StateFlow<PlayerPlaybackState?> = mediaExposer.observePlaybackState()
+    override fun observeRepeat(): StateFlow<PlayerRepeatMode?> = mediaExposer.observeRepeat()
+    override fun observeShuffle(): StateFlow<PlayerShuffleMode?> = mediaExposer.observeShuffle()
+    override fun observeQueue(): StateFlow<List<PlayerItem>?> = mediaExposer.observeQueue()
 
     private fun mediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)

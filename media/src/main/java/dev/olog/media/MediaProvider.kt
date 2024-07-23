@@ -1,20 +1,17 @@
 package dev.olog.media
 
-import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.model.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface MediaProvider {
 
-    fun observeMetadata(): LiveData<PlayerMetadata>
-    fun observePlaybackState(): LiveData<PlayerPlaybackState>
-    fun observeRepeat(): LiveData<PlayerRepeatMode>
-    fun observeShuffle(): LiveData<PlayerShuffleMode>
-    // is a flow instead of livedata because list operations may be expensive, so they can be
-    // moved to a background thread
-    fun observeQueue(): Flow<List<PlayerItem>>
+    fun observeMetadata(): StateFlow<PlayerMetadata?>
+    fun observePlaybackState(): StateFlow<PlayerPlaybackState?>
+    fun observeRepeat(): StateFlow<PlayerRepeatMode?>
+    fun observeShuffle(): StateFlow<PlayerShuffleMode?>
+    fun observeQueue(): StateFlow<List<PlayerItem>?>
 
     fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
     fun playMostPlayed(mediaId: MediaId)

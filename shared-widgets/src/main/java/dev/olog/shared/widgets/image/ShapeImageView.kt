@@ -1,139 +1,68 @@
 package dev.olog.shared.widgets.image
 
 import android.content.Context
-import android.graphics.*
 import android.util.AttributeSet
-import android.view.View
-import androidx.core.graphics.drawable.toBitmap
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.CutCornerTreatment
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
-import dev.olog.shared.widgets.R
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
+import dev.olog.shared.android.viewScope
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-open class ShapeImageView(
-    context: Context,
-    attrs: AttributeSet
-
-) : ForegroundImageView(context, attrs) {
+open class ShapeImageView : ShapeableImageView {
 
     companion object {
         private const val DEFAULT_RADIUS = 5
-        @JvmStatic
-        private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
     }
 
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
+
+
     private val hasImageShape by lazyFast { context.applicationContext.findInContext<HasImageShape>() }
-
-    private var job: Job? = null
-
-    private val radius: Int
-    private var mask: Bitmap? = null
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    private val cutCornerShapeModel: ShapeAppearanceModel
-    private val roundedShapeModel: ShapeAppearanceModel
-    private val squareShapeModel: ShapeAppearanceModel
+    private val radius: Int = context.dip(DEFAULT_RADIUS)
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
-        radius = a.getInt(
-            R.styleable.RoundedCornersImageView_imageViewCornerRadius,
-            DEFAULT_RADIUS
-        )
-        a.recycle()
-
-        clipToOutline = true
-
-        paint.xfermode = X_FERMO_MODE
-
-        cutCornerShapeModel = ShapeAppearanceModel.Builder()
-            .setAllCorners(CutCornerTreatment())
-            .setAllCornerSizes(context.dipf(radius))
-            .build()
-
-        roundedShapeModel = ShapeAppearanceModel.Builder()
-            .setAllCorners(RoundedCornerTreatment())
-            .setAllCornerSizes(context.dipf(radius))
-            .build()
-
-        squareShapeModel = ShapeAppearanceModel()
+        if (isInEditMode) {
+            updateShape(ImageShape.ROUND)
+        } else {
+            updateShape(hasImageShape.getImageShape())
+        }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        setLayerType(View.LAYER_TYPE_HARDWARE, null)
-
         if (isInEditMode) {
-            mask = null
-            updateBackground(getShapeModel(ImageShape.ROUND))
             return
         }
 
-        val hasImageShape = context.applicationContext.findInContext<HasImageShape>()
-        job = GlobalScope.launch(Dispatchers.Main.immediate) {
-            hasImageShape.observeImageShape()
-                .collectLatest { imageShape ->
-                    mask = null
-                    updateBackground(getShapeModel(imageShape))
-                }
+        hasImageShape.observeImageShape()
+            .onEach {
+                updateShape(it)
+            }.launchIn(viewScope)
+    }
+
+    private fun updateShape(imageShape: ImageShape) {
+        val model = ShapeAppearanceModel.Builder()
+
+        when (imageShape) {
+            ImageShape.RECTANGLE -> {}
+            ImageShape.ROUND -> model
+                .setAllCorners(RoundedCornerTreatment())
+                .setAllCornerSizes(context.dipf(radius))
+            ImageShape.CUT_CORNER -> model
+                .setAllCorners(CutCornerTreatment())
+                .setAllCornerSizes(context.dipf(radius))
         }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        job?.cancel()
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-        if (!isInEditMode) {
-            getMask()?.let {
-                canvas.drawBitmap(it, 0f, 0f, paint)
-            }
-        }
-    }
-
-    override fun requestLayout() {
-        super.requestLayout()
-        mask = null
-    }
-
-    private fun getMask(): Bitmap? {
-        if (mask == null) {
-            mask = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
-        }
-        return mask
-    }
-
-    private fun getShapeModel(imageShape: ImageShape): ShapeAppearanceModel{
-        return when (imageShape) {
-            ImageShape.ROUND -> roundedShapeModel
-            ImageShape.CUT_CORNER -> cutCornerShapeModel
-            ImageShape.RECTANGLE -> squareShapeModel
-        }
-    }
-
-    private fun buildMaskShape(shape: ShapeAppearanceModel): Bitmap? {
-        if (width > 0 && height > 0){
-            val drawable = MaterialShapeDrawable(shape)
-            return drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
-        } else {
-            return null
-        }
-    }
-
-    private fun updateBackground(shape: ShapeAppearanceModel) {
-        val drawable = MaterialShapeDrawable(shape)
-        background = drawable
+        shapeAppearanceModel = model.build()
     }
 
 }

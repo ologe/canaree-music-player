@@ -14,7 +14,7 @@ abstract class ComposeListAdapter<T : Any>(
     diffCallback: DiffUtil.ItemCallback<T> = DefaultDiffCallback()
 ) : InteractableListAdapter<T, ComposeViewHolder>(diffCallback) {
 
-    final override fun getItemViewType(position: Int): Int {
+    override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
         if (item is InteractableItem && item.isInteractable) {
             return R.layout.item_swipeable_compose
@@ -22,7 +22,7 @@ abstract class ComposeListAdapter<T : Any>(
         return super.getItemViewType(position)
     }
 
-    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
         if (viewType == R.layout.item_swipeable_compose) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_swipeable_compose, parent, false)
             return ComposeViewHolder(view)
@@ -48,7 +48,7 @@ abstract class ComposeListAdapter<T : Any>(
 
 }
 
-class ComposeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+open class ComposeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val composeView: ComposeView = when (itemView) {
         is ComposeView -> itemView

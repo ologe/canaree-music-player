@@ -32,6 +32,10 @@ abstract class ThemedApp : Application(),
         return playerAppearanceListener.playerAppearance
     }
 
+    override fun observePlayerAppearance(): StateFlow<PlayerAppearance> {
+        return playerAppearanceListener.flow
+    }
+
     override fun isImmersive(): Boolean {
         return immersiveModeListener.isImmersive
     }

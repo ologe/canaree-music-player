@@ -1,21 +1,22 @@
 package dev.olog.presentation.widgets
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.core.content.ContextCompat
 import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.onEnd
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
-import java.lang.IllegalStateException
 
 class ShuffleButton(
     context: Context,
@@ -27,6 +28,7 @@ class ShuffleButton(
 
     private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
     private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val visibilityEnhancement = ButtonVisibilityEnhancement(context)
 
     init {
         setImageResource(R.drawable.vd_shuffle)
@@ -35,49 +37,66 @@ class ShuffleButton(
         if (!isInEditMode){
             val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
             setColorFilter(defaultColor)
+            visibilityEnhancement.setColor(defaultColor)
         }
     }
 
     fun cycle(state: PlayerShuffleMode) {
         if (this.shuffleMode != state) {
+            animate(state)
             this.shuffleMode = state
-            when (state) {
-                PlayerShuffleMode.NOT_SET -> throw IllegalStateException("value not valid $state")
-                PlayerShuffleMode.DISABLED -> disable()
-                PlayerShuffleMode.ENABLED -> enable()
-            }
         }
     }
 
-    fun updateSelectedColor(color: Int) {
-        this.enabledColor = color
+    fun updateSelectedColor(@ColorInt color: Int?) {
+        enabledColor = color ?: context.colorAccent()
 
         if (shuffleMode == PlayerShuffleMode.ENABLED) {
-            setColorFilter(this.enabledColor)
+            visibilityEnhancement.setColor(enabledColor)
+            setColorFilter(enabledColor)
         }
     }
 
-    private fun enable() {
-        animateAvd(enabledColor)
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        visibilityEnhancement.draw(canvas, width)
     }
 
-    private fun disable() {
-        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
-        animateAvd(defaultColor)
-    }
+    private fun animate(state: PlayerShuffleMode) {
+        val endColor = when (state) {
+            PlayerShuffleMode.NOT_SET -> return
+            PlayerShuffleMode.DISABLED -> getDefaultColor(context, playerAppearance, isDarkMode)
+            PlayerShuffleMode.ENABLED -> enabledColor
+        }
 
-    private fun animateAvd(@ColorInt endColor: Int) {
+        if (shuffleMode == PlayerShuffleMode.NOT_SET) {
+            updateState(
+                state = state,
+                drawable = ContextCompat.getDrawable(context, R.drawable.vd_shuffle),
+                color = endColor
+            )
+            return
+        }
+
         val hideDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_hide)
         setImageDrawable(hideDrawable)
-        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
-            override fun onAnimationEnd(drawable: Drawable?) {
-                val showDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_show)
-                setColorFilter(endColor)
-                setImageDrawable(showDrawable)
-                showDrawable.start()
-            }
-        })
+        hideDrawable.onEnd {
+            val showDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_show)
+            updateState(state, showDrawable, endColor)
+            showDrawable.start()
+        }
         hideDrawable.start()
+    }
+
+    private fun updateState(
+        state: PlayerShuffleMode,
+        drawable: Drawable?,
+        @ColorInt color: Int,
+    ) {
+        setColorFilter(color)
+        setImageDrawable(drawable)
+        visibilityEnhancement.show(state == PlayerShuffleMode.ENABLED)
+        visibilityEnhancement.setColor(color)
     }
 
 }

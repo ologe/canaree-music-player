@@ -13,21 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
     <dev.olog.shared.widgets.image.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
     <dev.olog.shared.widgets.image.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>

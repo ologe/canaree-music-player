@@ -40,7 +40,11 @@ import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
@@ -86,7 +90,8 @@ class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsO
         }
 
         mediaProvider.observeMetadata()
-            .subscribe(viewLifecycleOwner) {
+            .filterNotNull()
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
                 viewLifecycleScope.launch { loadImage(it.mediaId) }
@@ -94,14 +99,15 @@ class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsO
                 binding.subHeader.text = it.artist
                 binding.seekBar.max = it.duration.toInt()
                 binding.scrollView.scrollTo(0, 0)
-            }
+            }.launchIn(viewLifecycleScope)
 
 
         mediaProvider.observePlaybackState()
-            .subscribe(viewLifecycleOwner) {
+            .filterNotNull()
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
-            }
+            }.launchIn(viewLifecycleScope)
 
         presenter.observeLyrics()
             .subscribe(viewLifecycleOwner) { (lyrics, type) ->
@@ -117,8 +123,10 @@ class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsO
             }
 
         mediaProvider.observePlaybackState()
+            .filterNotNull()
             .filter { it.isPlayOrPause }
-            .subscribe(viewLifecycleOwner) { binding.seekBar.onStateChanged(it) }
+            .onEach { binding.seekBar.onStateChanged(it) }
+            .launchIn(viewLifecycleScope)
 
         binding.image.observePaletteColors()
             .map { it.accent }

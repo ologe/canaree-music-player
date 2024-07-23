@@ -3,11 +3,10 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
-import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.msc.R
-import dev.olog.shared.mutableLazy
 import dev.olog.shared.android.theme.PlayerAppearance
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 internal class PlayerAppearanceListener @Inject constructor(
@@ -17,19 +16,21 @@ internal class PlayerAppearanceListener @Inject constructor(
     context,
     prefs,
     context.getString(R.string.prefs_appearance_key)
-), ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
+) {
 
-    var playerAppearance by mutableLazy { getValue() }
-        private set
+    private val _flow by lazy { MutableStateFlow(getValue()) }
+    val flow: StateFlow<PlayerAppearance>
+        get() = _flow
+
+    val playerAppearance: PlayerAppearance
+        get() = _flow.value
 
     override fun onPrefsChanged() {
-        playerAppearance = getValue()
-        currentActivity?.recreate()
+        _flow.value = getValue()
     }
 
     override fun getValue(): PlayerAppearance {
-        val value =
-            prefs.getString(key, context.getString(R.string.prefs_appearance_entry_value_default))
+        val value = prefs.getString(key, context.getString(R.string.prefs_appearance_entry_value_default))
 
         return when (value) {
             context.getString(R.string.prefs_appearance_entry_value_default) -> PlayerAppearance.DEFAULT

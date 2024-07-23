@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.theme.HasPlayerAppearance
+import dev.olog.shared.android.theme.isFullscreen
 
 interface IColorDelegate {
 
@@ -25,7 +26,7 @@ object ColorDelegateImpl : IColorDelegate {
         isDarkMode: Boolean
     ): Int {
         return when {
-            playerAppearance.isFullscreen() || isDarkMode -> Color.WHITE
+            playerAppearance.playerAppearance().isFullscreen() || isDarkMode -> Color.WHITE
             else -> context.colorControlNormal()
         }
     }

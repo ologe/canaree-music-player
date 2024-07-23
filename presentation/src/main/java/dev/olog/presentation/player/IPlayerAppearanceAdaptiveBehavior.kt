@@ -3,60 +3,62 @@ package dev.olog.presentation.player
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
-import android.view.View
-import android.widget.ImageButton
-import android.widget.SeekBar
-import android.widget.TextView
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.core.graphics.ColorUtils
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.widgets.RepeatButton
-import dev.olog.presentation.widgets.ShuffleButton
+import dev.olog.presentation.player.ui.PlayerBindings
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
-import kotlinx.coroutines.flow.map
+import dev.olog.shared.widgets.adaptive.PaletteColors
+import dev.olog.shared.widgets.adaptive.ProcessorColors
+import dev.olog.presentation.R
 
-internal interface IPlayerAppearanceAdaptiveBehavior {
-
-    companion object {
-        @JvmStatic
-        fun get(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior =
-            when (appearance) {
-                PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
-                PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
-                PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
-                PlayerAppearance.SPOTIFY -> PlayerAppearanceBehaviorSpotify()
-                else -> PlayerAppearanceBehaviorDefault()
-            }
+@Composable
+fun rememberIPlayerAppearanceAdaptiveBehavior(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior {
+    return remember(appearance) {
+        when (appearance) {
+            PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
+            PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
+            PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
+            PlayerAppearance.SPOTIFY -> PlayerAppearanceBehaviorSpotify()
+            PlayerAppearance.BIG_IMAGE -> PlayerAppearanceBehaviorBigImage()
+            else -> PlayerAppearanceBehaviorDefault()
+        }
     }
-
-    operator fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter)
 }
 
-internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
+interface IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    operator fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    )
+}
 
-        presenter.observePaletteColors()
-            .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
-                val first = makeFirstColor(view.context, accent)
-                val second = makeSecondColor(view.context, accent)
-                val third = view.context.colorBackground()
+private class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
 
-                val gradient = GradientDrawable(
-                    GradientDrawable.Orientation.TOP_BOTTOM,
-                    intArrayOf(first, second, third)
-                )
-                view.findViewById<View>(R.id.playerRoot).background = gradient
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        val accent = paletteColors?.accent ?: return
+        // colors are mandatory
 
-                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
-                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
-            }
+        val first = makeFirstColor(bindings.context, accent)
+        val second = makeSecondColor(bindings.context, accent)
+        val third = bindings.context.colorBackground()
+
+        val gradient = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(first, second, third)
+        )
+        bindings.root.background = gradient
+
+        bindings.shuffle.updateSelectedColor(accent)
+        bindings.repeat.updateSelectedColor(accent)
     }
 
     private fun makeFirstColor(context: Context, color: Int): Int {
@@ -74,98 +76,110 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
 
 }
 
-internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
+private class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
-
-
-        presenter.observePaletteColors()
-            .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
-                view.findViewById<TextView>(R.id.artist).apply { animateTextColor(accent) }
-                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
-                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
-                view.findViewById<SeekBar>(R.id.seekBar).apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-            }
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        val accentColor = paletteColors?.accent
+        val context = bindings.context
+        bindings.artist.animateTextColor(accentColor ?: context.textColorSecondary())
+        bindings.shuffle.updateSelectedColor(accentColor)
+        bindings.repeat.updateSelectedColor(accentColor)
+        bindings.seekBar.apply {
+            thumbTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.progressTint))
+            progressTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.progressTint))
+        }
     }
 }
 
-internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior {
+private class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        if (processorColors == null) return
+        if (paletteColors == null) return
+        // colors are mandatory
 
-        presenter.observeProcessorColors()
-            .asLiveData()
-            .subscribe(viewHolder) { colors ->
-                view.findViewById<TextView>(R.id.title).apply {
-                    animateTextColor(colors.primaryText)
-                    animateBackgroundColor(colors.background)
-                }
-                view.findViewById<TextView>(R.id.artist).apply {
-                    animateTextColor(colors.secondaryText)
-                    animateBackgroundColor(colors.background)
-                }
-            }
+        bindings.title.apply {
+            animateTextColor(processorColors.primaryText)
+            animateBackgroundColor(processorColors.background)
+        }
+        bindings.artist.apply {
+            animateTextColor(processorColors.secondaryText)
+            animateBackgroundColor(processorColors.background)
+        }
 
-        presenter.observePaletteColors()
-            .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
-                view.findViewById<SeekBar>(R.id.seekBar).apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
-                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
-            }
+        val accent = paletteColors.accent
+        bindings.seekBar.apply {
+            thumbTintList = ColorStateList.valueOf(accent)
+            progressTintList = ColorStateList.valueOf(accent)
+        }
+        bindings.shuffle.updateSelectedColor(accent)
+        bindings.repeat.updateSelectedColor(accent)
     }
 }
 
-internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBehavior {
+private class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
-
-        presenter.observePaletteColors()
-            .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
-                view.findViewById<SeekBar>(R.id.seekBar).apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.findViewById<TextView>(R.id.artist).animateTextColor(accent)
-                view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).backgroundTintList = ColorStateList.valueOf(accent)
-                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
-                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
-            }
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        val accentColor = paletteColors?.accent
+        val context = bindings.context
+        bindings.seekBar.apply {
+            thumbTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.player_fullscreen_progress_tint))
+            progressTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.player_fullscreen_progress_tint))
+        }
+        bindings.artist.animateTextColor(accentColor ?: context.color(R.color.player_fullscreen_artist))
+        bindings.playPause.backgroundTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.player_fullscreen_play_pause_background))
+        bindings.shuffle.updateSelectedColor(accentColor)
+        bindings.repeat.updateSelectedColor(accentColor)
     }
 }
 
-internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior {
+private class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
-        val view = viewHolder.itemView
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        val accent = paletteColors?.accent ?: return
+        bindings.artist.apply { animateTextColor(accent) }
+        bindings.shuffle.updateSelectedColor(accent)
+        bindings.repeat.updateSelectedColor(accent)
+        bindings.seekBar.apply {
+            thumbTintList = ColorStateList.valueOf(accent)
+            progressTintList = ColorStateList.valueOf(accent)
+        }
+        bindings.more.imageTintList = ColorStateList.valueOf(accent)
+        bindings.lyrics.imageTintList = ColorStateList.valueOf(accent)
+    }
+}
 
-        presenter.observePaletteColors()
-            .map { it.accent }
-            .asLiveData()
-            .subscribe(viewHolder) { accent ->
-                view.findViewById<TextView>(R.id.artist).apply { animateTextColor(accent) }
-                view.findViewById<ShuffleButton>(R.id.shuffle).updateSelectedColor(accent)
-                view.findViewById<RepeatButton>(R.id.repeat).updateSelectedColor(accent)
-                view.findViewById<SeekBar>(R.id.seekBar).apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.findViewById<ImageButton>(R.id.more).imageTintList = ColorStateList.valueOf(accent)
-                view.findViewById<ImageButton>(R.id.lyrics).imageTintList = ColorStateList.valueOf(accent)
-            }
+private class PlayerAppearanceBehaviorBigImage : IPlayerAppearanceAdaptiveBehavior {
+
+    override fun invoke(
+        bindings: PlayerBindings,
+        processorColors: ProcessorColors?,
+        paletteColors: PaletteColors?,
+    ) {
+        val accentColor = paletteColors?.accent
+        val context = bindings.context
+        bindings.artist.animateTextColor(accentColor ?: context.textColorSecondary())
+        bindings.shuffle.updateSelectedColor(accentColor)
+        bindings.repeat.updateSelectedColor(accentColor)
+        bindings.seekBar.apply {
+            thumbTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.player_big_image_progress_tint))
+            progressTintList = ColorStateList.valueOf(accentColor ?: context.color(R.color.player_big_image_progress_tint))
+        }
     }
 }

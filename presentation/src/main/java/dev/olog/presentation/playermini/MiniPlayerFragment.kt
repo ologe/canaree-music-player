@@ -24,9 +24,12 @@ import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Keep
@@ -53,19 +56,22 @@ class MiniPlayerFragment : Fragment(R.layout.fragment_mini_player){
         binding.artist.text = lastMetadata.subtitle
 
         media.observeMetadata()
-                .subscribe(viewLifecycleOwner) {
+            .filterNotNull()
+                .onEach {
                     binding.title.text = it.title
                     viewModel.startShowingLeftTime(it.isPodcast, it.duration)
                     if (!it.isPodcast){
                         binding.artist.text = it.artist
                     }
                     updateProgressBarMax(it.duration)
-                }
+                }.launchIn(viewLifecycleScope)
 
         media.observePlaybackState()
+            .filterNotNull()
                 .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) { binding.progressBar.onStateChanged(it) }
+                .onEach { binding.progressBar.onStateChanged(it) }
+                .launchIn(viewLifecycleScope)
 
         viewLifecycleScope.launch {
             viewModel.observePodcastProgress(binding.progressBar.observeProgress())
@@ -75,21 +81,24 @@ class MiniPlayerFragment : Fragment(R.layout.fragment_mini_player){
         }
 
         media.observePlaybackState()
+            .filterNotNull()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(viewLifecycleOwner) { state ->
+            .onEach { state ->
                 when (state){
                     PlayerState.PLAYING -> playAnimation()
                     PlayerState.PAUSED -> pauseAnimation()
                     else -> throw IllegalArgumentException("invalid state $state")
                 }
-            }
+            }.launchIn(viewLifecycleScope)
 
         media.observePlaybackState()
+            .filterNotNull()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .subscribe(viewLifecycleOwner, this::animateSkipTo)
+            .onEach(this::animateSkipTo)
+            .launchIn(viewLifecycleScope)
 
         viewModel.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {

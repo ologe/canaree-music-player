@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/playerRoot">
+    android:layout_height="wrap_content"
+    tools:layout_marginBottom="48dp">
 
-    <dev.olog.presentation.widgets.StatusBarView
+    <dev.olog.shared.compose.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/status_bar"
-        android:visibility="invisible"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -26,7 +25,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar" />
 
-    <include layout="@layout/layout_view_switcher_square"
+    <include
+        android:id="@+id/switcher"
+        layout="@layout/layout_view_switcher_square"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +40,10 @@
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
-        app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toTopOf="@+id/switcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toBottomOf="@+id/switcher"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -51,45 +52,67 @@
 
     <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
     <LinearLayout
-        android:id="@+id/textWrapper"
+        android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/switcher"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center_vertical">
 
-        <!-- title -->
-        <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
-            android:id="@+id/title"
-            tools:text="In Da Club"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_title_text_size"
-            android:textColor="?android:attr/textColorPrimary"
-            android:fontFamily="sans-serif-black"
-            tools:fontFamily="sans-serif-black"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center"
-            android:layout_marginTop="16dp"/>
+        <dev.olog.presentation.widgets.LottieFavorite
+            android:id="@+id/favorite"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size" />
 
-        <TextView
-            android:id="@+id/artist"
-            tools:text="50 Cent"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/textWrapper"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/player_artist_text_size"
-            android:textColor="?android:attr/textColorSecondary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:layout_marginTop="4dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center" />
+            android:orientation="vertical">
+
+            <!-- title -->
+            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+                android:id="@+id/title"
+                tools:text="In Da Club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_title_text_size"
+                android:textColor="?android:attr/textColorPrimary"
+                android:fontFamily="sans-serif-black"
+                tools:fontFamily="sans-serif-black"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/artist"
+                tools:text="50 Cent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_artist_text_size"
+                android:textColor="?android:attr/textColorSecondary"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:layout_marginTop="4dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/more"
+            android:src="@drawable/vd_more"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size" />
 
     </LinearLayout>
 
@@ -98,9 +121,9 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textWrapper"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toBottomOf="@+id/container"
+        app:layout_constraintStart_toStartOf="@+id/switcher"
+        app:layout_constraintEnd_toEndOf="@+id/switcher"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
         android:paddingStart="8dp"
@@ -142,7 +165,6 @@
     <include
         android:id="@+id/playerControls"
         app:layout_constraintTop_toBottomOf="@+id/duration"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_spotify"
@@ -150,6 +172,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginStart="@dimen/mini_queue_margin_start"
-        android:layout_marginEnd="@dimen/mini_queue_margin_end" />
+        android:layout_marginEnd="@dimen/mini_queue_margin_end"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

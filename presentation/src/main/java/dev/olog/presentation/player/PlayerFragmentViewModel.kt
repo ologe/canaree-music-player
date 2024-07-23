@@ -1,40 +1,43 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.theme.PlayerAppearance
+import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.isFlat
+import dev.olog.shared.android.theme.isSpotify
+import dev.olog.shared.widgets.adaptive.PaletteColors
+import dev.olog.shared.widgets.adaptive.ProcessorColors
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class PlayerFragmentViewModel @Inject constructor(
+class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
-    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
-
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
+    private val presentationPrefs: PresentationPreferencesGateway,
+    private val adapterImageHelper: AdaptiveImageHelper,
 ) : ViewModel() {
 
     private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
-
-    private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
+    private val favoriteLiveData = MutableStateFlow<FavoriteEnum?>(null)
 
     init {
         viewModelScope.launch {
@@ -50,38 +53,17 @@ internal class PlayerFragmentViewModel @Inject constructor(
         currentTrackIdPublisher.value = trackId
     }
 
-    val footerLoadMore : DisplayableItem = DisplayableHeader(
-            type = R.layout.item_mini_queue_load_more,
-            mediaId = MediaId.headerId("load more"),
-            title = ""
-    )
-
-    fun playerControls(): DisplayableItem {
-        val hasPlayerAppearance = context.hasPlayerAppearance()
-        val id = when (hasPlayerAppearance.playerAppearance()) {
-            PlayerAppearance.DEFAULT -> R.layout.player_layout_default
-            PlayerAppearance.FLAT -> R.layout.player_layout_flat
-            PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify
-            PlayerAppearance.FULLSCREEN -> R.layout.player_layout_fullscreen
-            PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image
-            PlayerAppearance.CLEAN -> R.layout.player_layout_clean
-            PlayerAppearance.MINI -> R.layout.player_layout_mini
-            else -> throw IllegalStateException("invalid theme")
-        }
-        return DisplayableHeader(
-            type = id,
-            mediaId = MediaId.headerId("player controls id"),
-            title = ""
-        )
-    }
-
-    val onFavoriteStateChanged: LiveData<FavoriteEnum> = favoriteLiveData
+    val onFavoriteStateChanged: Flow<FavoriteEnum> = favoriteLiveData.filterNotNull()
 
     val skipToNextVisibility = musicPrefsUseCase
             .observeSkipToNextVisibility()
 
     val skipToPreviousVisibility = musicPrefsUseCase
             .observeSkipToPreviousVisibility()
+
+    fun observePlayerControlsVisibility(): Flow<Boolean> {
+        return presentationPrefs.observePlayerControlsVisibility()
+    }
 
     fun showLyricsTutorialIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.lyricsTutorial()
@@ -113,6 +95,34 @@ internal class PlayerFragmentViewModel @Inject constructor(
             else -> 1f
         }
         musicPrefsUseCase.setPlaybackSpeed(speed)
+    }
+
+    fun observeProcessorColors(): Flow<ProcessorColors?> {
+        return combine(
+            adapterImageHelper.observeProcessorColors(),
+            context.hasPlayerAppearance().observePlayerAppearance(),
+            presentationPrefs.observeAdaptiveColorEnabled(),
+        ) { colors, appearance, isAdaptive ->
+            if (isAdaptive || appearance.isFlat()) {
+                colors
+            } else {
+                null
+            }
+        }.flowOn(Dispatchers.Default)
+    }
+
+    fun observePaletteColors(): Flow<PaletteColors?> {
+        return combine(
+            adapterImageHelper.observePaletteColors(),
+            context.hasPlayerAppearance().observePlayerAppearance(),
+            presentationPrefs.observeAdaptiveColorEnabled(),
+        ) { palette, appearance, isAdaptive ->
+            if (isAdaptive || appearance.isFlat() || appearance.isSpotify()) {
+                palette
+            } else {
+                null
+            }
+        }.flowOn(Dispatchers.Default)
     }
 
 

@@ -1,22 +1,22 @@
 package dev.olog.presentation.widgets
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.core.content.ContextCompat
 import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.onEnd
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
-import java.lang.IllegalStateException
 
 class RepeatButton(
     context: Context,
@@ -29,6 +29,7 @@ class RepeatButton(
 
     private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
     private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val visibilityEnhancement = ButtonVisibilityEnhancement(context)
 
     init {
         setImageResource(R.drawable.vd_repeat)
@@ -37,54 +38,87 @@ class RepeatButton(
         if (!isInEditMode){
             val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
             setColorFilter(defaultColor)
+            visibilityEnhancement.setColor(defaultColor)
         }
+    }
+
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        visibilityEnhancement.draw(canvas, width)
     }
 
     fun cycle(state: PlayerRepeatMode) {
         if (this.repeatMode != state) {
+            animate(state)
             this.repeatMode = state
-            when (state) {
-                PlayerRepeatMode.NOT_SET -> throw IllegalStateException("value not valid $state")
-                PlayerRepeatMode.NONE -> repeatNone()
-                PlayerRepeatMode.ONE -> repeatOne()
-                PlayerRepeatMode.ALL -> repeatAll()
-            }
         }
     }
 
-    fun updateSelectedColor(color: Int) {
-        this.enabledColor = color
+    fun updateSelectedColor(@ColorInt color: Int?) {
+        this.enabledColor = color ?: context.colorAccent()
 
         if (repeatMode != PlayerRepeatMode.NONE) {
-            setColorFilter(this.enabledColor)
+            visibilityEnhancement.setColor(enabledColor)
+            setColorFilter(enabledColor)
         }
     }
 
-    private fun repeatNone() {
-        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
-        animateAvd(defaultColor, R.drawable.repeat_hide_one, R.drawable.repeat_show)
-    }
+    private fun animate(state: PlayerRepeatMode) {
+        val endColor = when (state) {
+            PlayerRepeatMode.NOT_SET -> return
+            PlayerRepeatMode.NONE -> getDefaultColor(context, playerAppearance, isDarkMode)
+            PlayerRepeatMode.ONE,
+            PlayerRepeatMode.ALL -> enabledColor
+        }
 
-    private fun repeatOne() {
-        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
-    }
+        if (repeatMode == PlayerRepeatMode.NOT_SET) {
+            val vd = when (state) {
+                PlayerRepeatMode.NOT_SET -> return
+                PlayerRepeatMode.NONE -> R.drawable.vd_repeat
+                PlayerRepeatMode.ONE -> R.drawable.vd_repeat_one
+                PlayerRepeatMode.ALL -> R.drawable.vd_repeat
+            }
+            updateState(
+                state = state,
+                drawable = ContextCompat.getDrawable(context, vd),
+                color = endColor,
+            )
+            return
+        }
 
-    private fun repeatAll() {
-        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
-    }
+        val hideAnim = when (state) {
+            PlayerRepeatMode.NOT_SET -> return
+            PlayerRepeatMode.NONE -> R.drawable.repeat_hide_one
+            PlayerRepeatMode.ONE -> R.drawable.repeat_hide
+            PlayerRepeatMode.ALL -> R.drawable.repeat_hide
+        }
 
-    private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int) {
+        val showAnim = when (state) {
+            PlayerRepeatMode.NOT_SET -> return
+            PlayerRepeatMode.NONE -> R.drawable.repeat_show
+            PlayerRepeatMode.ONE -> R.drawable.repeat_show_one
+            PlayerRepeatMode.ALL -> R.drawable.repeat_show
+        }
+
         val hideDrawable = context.getAnimatedVectorDrawable(hideAnim)
         setImageDrawable(hideDrawable)
-        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
-            override fun onAnimationEnd(drawable: Drawable?) {
-                val showDrawable = context.getAnimatedVectorDrawable(showAnim)
-                setColorFilter(endColor)
-                setImageDrawable(showDrawable)
-                showDrawable.start()
-            }
-        })
+        hideDrawable.onEnd {
+            val showDrawable = context.getAnimatedVectorDrawable(showAnim)
+            updateState(state, showDrawable, endColor)
+            showDrawable.start()
+        }
         hideDrawable.start()
+    }
+
+    private fun updateState(
+        state: PlayerRepeatMode,
+        drawable: Drawable?,
+        @ColorInt color: Int
+    ) {
+        setColorFilter(color)
+        setImageDrawable(drawable)
+        visibilityEnhancement.show(state == PlayerRepeatMode.ONE || state == PlayerRepeatMode.ALL)
+        visibilityEnhancement.setColor(color)
     }
 
 }

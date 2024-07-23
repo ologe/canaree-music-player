@@ -1,17 +1,17 @@
 package dev.olog.media.widget
 
+import android.os.SystemClock
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
 import dev.olog.shared.android.viewScope
-import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 interface IProgressDeletegate {
     fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState)
-    fun startAutoIncrement(startMillis: Int, speed: Float)
+    fun startAutoIncrement(startMillis: Int, elapsedRealtime: Long, speed: Float)
     fun stopAutoIncrement(startMillis: Int)
     fun observeProgress(): Flow<Long>
 }
@@ -27,22 +27,27 @@ class ProgressDeletegate(
     override fun stopAutoIncrement(startMillis: Int) {
         incrementJob?.cancel()
         setProgress(progressBar, startMillis)
+        channel.offer(startMillis.toLong())
     }
 
-    override fun startAutoIncrement(startMillis: Int, speed: Float) {
-        stopAutoIncrement(startMillis)
+    override fun startAutoIncrement(
+        startMillis: Int,
+        elapsedRealtime: Long,
+        speed: Float,
+    ) {
+        incrementJob?.cancel()
         incrementJob = progressBar.viewScope.launch {
-            flowInterval(
-                AppConstants.PROGRESS_BAR_INTERVAL,
-                TimeUnit.MILLISECONDS
-            )
-                .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
-                .flowOn(Dispatchers.IO)
-                .collect {
-                    setProgress(progressBar, it.toInt())
-                    channel.offer(it.toLong())
-                }
+            while (isActive) {
+                val newBookmark = computeBookmark(startMillis, elapsedRealtime, speed)
+                setProgress(progressBar, newBookmark)
+                channel.offer(newBookmark.toLong())
+                delay(AppConstants.PROGRESS_BAR_INTERVAL)
+            }
         }
+    }
+
+    private fun computeBookmark(startMillis: Int, elapsedRealtime: Long, speed: Float): Int {
+        return startMillis + ((SystemClock.elapsedRealtime() - elapsedRealtime) * speed).roundToInt()
     }
 
     private fun setProgress(progressBar: ProgressBar, position: Int){
@@ -55,7 +60,7 @@ class ProgressDeletegate(
 
     override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {
         if (state.isPlaying) {
-            startAutoIncrement(state.bookmark, state.playbackSpeed)
+            startAutoIncrement(state.bookmark, state.elapsedRealtime, state.playbackSpeed)
         } else {
             stopAutoIncrement(state.bookmark)
         }

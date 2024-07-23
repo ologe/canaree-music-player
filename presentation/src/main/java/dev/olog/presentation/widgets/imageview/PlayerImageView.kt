@@ -5,21 +5,24 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.shared.widgets.image.ShapeImageView
-import dev.olog.shared.lazyFast
+import javax.inject.Inject
 
-open class PlayerImageView (
-    context: Context,
-    attr: AttributeSet
+@AndroidEntryPoint
+class PlayerImageView : ShapeImageView {
 
-) : ShapeImageView(context, attr) {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
-    private val adaptiveImageHelper by lazyFast {
-        AdaptiveImageHelper(context)
-    }
+    @Inject
+    lateinit var adaptiveImageHelper: AdaptiveImageHelper
+
+    private var lastMediaId: MediaId? = null
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
@@ -35,10 +38,10 @@ open class PlayerImageView (
         }
     }
 
-    fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
-    fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
-
-    open fun loadImage(mediaId: MediaId) {
+    fun loadImage(mediaId: MediaId) {
+        val previousMediaId = lastMediaId
+        lastMediaId = mediaId
+        if (mediaId == previousMediaId) return
         GlideApp.with(context).clear(this)
 
         GlideApp.with(context)
@@ -46,7 +49,6 @@ open class PlayerImageView (
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(500)
-            .onlyRetrieveFromCache(true)
             .into(this)
     }
 

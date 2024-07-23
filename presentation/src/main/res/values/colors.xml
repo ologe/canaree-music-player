@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="player_fullscreen_progress_tint">#EEEEEE</color>
+    <color name="player_fullscreen_background_progress_tint">#88888888</color>
+    <color name="player_fullscreen_artist">#BDBDBD</color>
+    <color name="player_fullscreen_play_pause_background">#d888</color>
+
+    <color name="player_big_image_progress_tint">#ffff4444</color>
+
+</resources>

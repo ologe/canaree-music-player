@@ -11,6 +11,7 @@ import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.isFullscreen
 
 class LottieFavorite(
     context: Context,
@@ -26,7 +27,7 @@ class LottieFavorite(
     init {
         if (!isInEditMode){
             val isDarkMode = context.isDarkMode()
-            val playerAppearance = context.hasPlayerAppearance()
+            val playerAppearance = context.hasPlayerAppearance().playerAppearance()
             var useWhiteIcon = playerAppearance.isFullscreen()
 
             useWhiteIcon = useWhiteIcon || isDarkMode

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -40,9 +41,12 @@ import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.getTopFragment
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.setHeight
+import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -82,11 +86,20 @@ class MainActivity : MusicGlueActivity(),
             binding.bottomWrapper.fitsSystemWindows = true
         }
 
-        if (hasPlayerAppearance().isMini()){
-            // TODO made a resource value
-            binding.slidingPanelFade.parallax = 0
-            binding.slidingPanel.setHeight(dip(300))
-        }
+        hasPlayerAppearance().observePlayerAppearance()
+            .onEach {
+                if (it == PlayerAppearance.MINI) {
+                    // TODO made a resource value
+                    binding.slidingPanelFade.parallax = 0
+                    // TODO height seems too much, update
+                    //   also find a better way to do this
+                    binding.slidingPanel.setHeight(dip(300))
+                } else {
+                    binding.slidingPanelFade.parallax = dip(20)
+                    binding.slidingPanel.setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+                }
+            }
+            .launchIn(lifecycleScope)
 
         setupSlidingPanel()
 

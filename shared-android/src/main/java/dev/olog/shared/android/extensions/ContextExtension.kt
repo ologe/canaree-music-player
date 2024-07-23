@@ -10,6 +10,8 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -141,4 +143,9 @@ inline fun <reified T : Any> Context.findInContext(): T {
         return context
     }
     error("$this does not implement ${T::class.java}")
+}
+
+@ColorInt
+fun Context.color(@ColorRes id: Int): Int {
+    return ContextCompat.getColor(this, id)
 }

@@ -20,7 +20,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/Header.Main"
-        android:stateListAnimator="@animator/now_playing"
         tools:fontFamily="sans-serif-black"/>
 
     <ImageButton

@@ -23,7 +23,6 @@ object BindingAdapters {
             view = view,
             mediaId = mediaId,
             override = GlideUtils.OVERRIDE_MID,
-            priority = Priority.HIGH
         )
     }
 
@@ -31,7 +30,7 @@ object BindingAdapters {
         view: ImageView,
         mediaId: MediaId,
         override: Int,
-        priority: Priority = Priority.HIGH
+        priority: Priority = Priority.NORMAL
     ) {
         val context = view.context
 

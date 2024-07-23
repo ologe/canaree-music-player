@@ -5,12 +5,7 @@ package dev.olog.shared.android.extensions
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.annotation.Px
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
 
 
@@ -52,27 +47,15 @@ inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     }
 }
 
-fun View.setHeight(@Px heightPx: Int) {
+fun View.setHeight(height: Int) {
     val params = this.layoutParams
-    when (params) {
-        is FrameLayout.LayoutParams -> params.height = heightPx
-        is LinearLayout.LayoutParams -> params.height = heightPx
-        is RelativeLayout.LayoutParams -> params.height = heightPx
-        is CoordinatorLayout.LayoutParams -> params.height = heightPx
-        is ConstraintLayout.LayoutParams -> params.height = heightPx
-    }
+    params.height = height
     layoutParams = params
 }
 
-fun View.setWidth(@Px heightPx: Int) {
+fun View.setWidth(width: Int) {
     val params = this.layoutParams
-    when (params) {
-        is FrameLayout.LayoutParams -> params.width = heightPx
-        is LinearLayout.LayoutParams -> params.width = heightPx
-        is RelativeLayout.LayoutParams -> params.width = heightPx
-        is CoordinatorLayout.LayoutParams -> params.width = heightPx
-        is ConstraintLayout.LayoutParams -> params.width = heightPx
-    }
+    params.width = width
     layoutParams = params
 }
 

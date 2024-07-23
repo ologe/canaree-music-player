@@ -24,13 +24,13 @@ class AdaptiveColorImageViewPresenter(
         context.isDarkMode()
     }
 
-    private val defaultProcessorColors = ValidProcessorColors(
+    private val defaultProcessorColors = ProcessorColors(
         context.colorBackground(),
         context.textColorPrimary(),
         context.textColorSecondary()
     )
 
-    private val defaultPaletteColors = ValidPaletteColors(context.colorAccent())
+    private val defaultPaletteColors = PaletteColors(context.colorAccent())
 
     private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
     private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
@@ -59,9 +59,8 @@ class AdaptiveColorImageViewPresenter(
 
         processorJob = GlobalScope.launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
-            yield()
             processorPalettePublisher.offer(
-                ValidProcessorColors(
+                ProcessorColors(
                     desaturate(image.background),
                     desaturate(image.primaryTextColor),
                     desaturate(image.secondaryTextColor)
@@ -73,9 +72,13 @@ class AdaptiveColorImageViewPresenter(
             val palette = Palette.from(bitmap)
                 .maximumColorCount(24)
                 .generate()
-            yield()
-            val accent = desaturate(ColorUtil.getAccentColor(context, palette))
-            palettePublisher.offer(ValidPaletteColors(accent))
+            val accent = ColorUtil.findContrastColor(
+                desaturate(ColorUtil.getAccentColor(context, palette)),
+                if (isDarkMode) Color.BLACK else Color.WHITE,
+                true,
+                2.0
+            )
+            palettePublisher.offer(PaletteColors(accent))
         }
     }
 

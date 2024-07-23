@@ -5,20 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    tools:layout_marginTop="24dp"
-    tools:layout_marginBottom="48dp"
     android:layout_height="wrap_content">
+
+    <dev.olog.shared.compose.StatusBarView
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <include
         android:id="@+id/playerToolbar"
         layout="@layout/player_toolbar_flat"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar" />
 
-    <include layout="@layout/layout_view_switcher_square"
+    <include
+        android:id="@+id/switcher"
+        layout="@layout/layout_view_switcher_square"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,10 +40,10 @@
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
         android:elevation="20dp"
-        app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
+        app:layout_constraintTop_toTopOf="@+id/switcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toBottomOf="@+id/switcher"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -65,7 +73,7 @@
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
+        app:layout_constraintStart_toStartOf="@+id/switcher"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar"
         app:layout_constraintTop_toTopOf="@+id/seekBar"
         android:clickable="false"
@@ -79,7 +87,7 @@
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
+        app:layout_constraintEnd_toEndOf="@+id/switcher"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar"
         app:layout_constraintTop_toTopOf="@+id/seekBar"
         android:clickable="false"
