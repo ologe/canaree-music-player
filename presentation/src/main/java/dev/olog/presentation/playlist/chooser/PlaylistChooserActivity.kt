@@ -34,12 +34,12 @@ class PlaylistChooserActivity : BaseActivity() {
                     toast("No playlist found")
                     finish()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                 }
             }
 
         list.adapter = adapter
-        list.layoutManager = GridLayoutManager(this, 2)
+        list.layoutManager = GridLayoutManager(this, 3)
     }
 
     override fun onResume() {

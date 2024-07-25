@@ -8,7 +8,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -24,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.compose.CanareeTheme
-import dev.olog.shared.compose.R
 import dev.olog.shared.compose.component.AsyncImage
 import dev.olog.shared.compose.component.QuickAction
 import dev.olog.shared.compose.component.shaped
@@ -38,13 +35,18 @@ fun ListItemAlbum(
     title: String,
     subtitle: String?,
     modifier: Modifier = Modifier,
+    showQuickAction: Boolean = true,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)?,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     ListItemColumn(
         image = {
-            Image(mediaId, interactionSource)
+            Image(
+                mediaId = mediaId,
+                interactionSource = interactionSource,
+                showQuickAction = showQuickAction,
+            )
         },
         title = {
             Text(
@@ -71,6 +73,7 @@ fun ListItemAlbum(
 private fun Image(
     mediaId: MediaId,
     interactionSource: InteractionSource,
+    showQuickAction: Boolean,
 ) {
     Box {
         AsyncImage(
@@ -83,10 +86,12 @@ private fun Image(
                 ),
             update = { BindingAdapters.loadAlbumImage(this, mediaId) }
         )
-        QuickAction(
-            mediaId = mediaId,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        )
+        if (showQuickAction) {
+            QuickAction(
+                mediaId = mediaId,
+                modifier = Modifier.align(Alignment.BottomEnd)
+            )
+        }
     }
 }
 
