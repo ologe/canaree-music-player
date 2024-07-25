@@ -36,7 +36,7 @@ class RelatedArtistFragment : Fragment(R.layout.fragment_related_artist) {
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    private val adapter by lazyFast { RelatedArtistFragmentAdapter(navigator) }
 
     private val viewModel by viewModels<RelatedArtistFragmentViewModel>()
 
@@ -45,12 +45,12 @@ class RelatedArtistFragment : Fragment(R.layout.fragment_related_artist) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.list.layoutManager = OverScrollGridLayoutManager(binding.list, 2)
+        binding.list.layoutManager = OverScrollGridLayoutManager(binding.list, 3)
         binding.list.adapter = adapter
         binding.list.setHasFixedSize(true)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->

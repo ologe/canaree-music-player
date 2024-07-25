@@ -1,43 +1,33 @@
 package dev.olog.presentation.relatedartists
 
-import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BindingsAdapter
+import androidx.compose.runtime.Stable
+import dev.olog.core.MediaId
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_related_artist.view.*
+import dev.olog.shared.compose.list.ListItemAlbum
 
 class RelatedArtistFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: Navigator
+) : ComposeListAdapter<RelatedArtistItem>() {
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
-
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            navigator.toDetailFragment(item.mediaId)
-        }
-        viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
-        }
-        viewHolder.elevateAlbumOnTouch()
-    }
-
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableAlbum)
-
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction.setId(item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
+    override fun bind(holder: ComposeViewHolder, item: RelatedArtistItem, position: Int) {
+        holder.setContent {
+            ListItemAlbum(
+                mediaId = item.mediaId,
+                title = item.title,
+                subtitle = item.title,
+                onClick = { navigator.toDetailFragment(item.mediaId) },
+                onLongClick = { navigator.toDialog(item.mediaId, holder.itemView) }
+            )
         }
     }
 
 
 }
+
+@Stable
+data class RelatedArtistItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+)
