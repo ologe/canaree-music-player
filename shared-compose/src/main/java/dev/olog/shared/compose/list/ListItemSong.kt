@@ -47,7 +47,7 @@ fun ListItemSong(
     trailingContent: (@Composable () -> Unit)? = null,
     indexContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)?,
 ) {
     ListItemSong(
         leadingContent = {
@@ -74,7 +74,7 @@ fun ListItemSong(
     trailingContent: (@Composable () -> Unit)? = null,
     indexContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)?,
 ) {
     ListItemRow(
         title = {

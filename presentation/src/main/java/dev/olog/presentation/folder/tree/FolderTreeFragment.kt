@@ -45,7 +45,6 @@ class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle,
             viewModel,
             requireActivity().findInContext<MediaProvider>(),
             navigator
@@ -65,7 +64,7 @@ class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
             }
 
         viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeCurrentFolderIsDefaultFolder()
             .subscribe(viewLifecycleOwner) { isDefaultFolder ->
