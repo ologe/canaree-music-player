@@ -325,10 +325,7 @@ private fun setupListeners(
         val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
         (it.context.findInContext<FragmentActivity>()).fragmentTransaction {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(android.R.id.content, PlayerVolumeFragment.newInstance(
-                R.layout.player_volume,
-                yLocation
-            ), PlayerVolumeFragment.TAG)
+            add(android.R.id.content, PlayerVolumeFragment.newInstance(yLocation), PlayerVolumeFragment.TAG)
             addToBackStack(PlayerVolumeFragment.TAG)
         }
     }
