@@ -1,15 +1,16 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
+import androidx.compose.runtime.Stable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.presentation.R
-import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.asLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.*
 import javax.inject.Inject
 
@@ -19,22 +20,34 @@ class BlacklistFragmentViewModel @Inject constructor(
     private val appPreferencesUseCase: BlacklistPreferences
 ) : ViewModel() {
 
-    val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
-        folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+    private val _state = MutableStateFlow(
+        kotlin.run {
+            val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
+            folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+        }
+    )
+    val liveData: LiveData<List<BlacklistItem>>
+        get() = _state.asLiveData()
+
+    val data: List<BlacklistItem>
+        get() = _state.value
+
+    fun updateToggleState(mediaId: MediaId, isBlacklisted: Boolean) {
+        _state.value = _state.value.map {
+            if (it.mediaId == mediaId) it.copy(isBlacklisted = isBlacklisted) else it
+        }
     }
 
-    private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
-        return BlacklistModel(
-            R.layout.dialog_blacklist_item,
-            getMediaId(),
-            this.title,
-            this.path,
-            blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
+    private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistItem {
+        return BlacklistItem(
+            mediaId = getMediaId(),
+            title = this.title,
+            path = this.path,
+            isBlacklisted = blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
         )
     }
 
-    fun saveBlacklisted(data: List<BlacklistModel>) {
+    fun saveBlacklisted(data: List<BlacklistItem>) {
         val blacklisted = data.filter { it.isBlacklisted }
             .map { it.path }
             .toSet()
@@ -44,13 +57,13 @@ class BlacklistFragmentViewModel @Inject constructor(
 
 }
 
-data class BlacklistModel(
-    override val type: Int,
-    override val mediaId: MediaId,
+@Stable
+data class BlacklistItem(
+    val mediaId: MediaId,
     val title: String,
     val path: String,
-    var isBlacklisted: Boolean
-) : BaseModel {
+    val isBlacklisted: Boolean
+) {
 
     companion object {
         @Suppress("DEPRECATION")
