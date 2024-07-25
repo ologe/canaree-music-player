@@ -27,6 +27,7 @@ import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
@@ -133,11 +134,12 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {
-        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(path)
-            contentResolver.queryAll(cursor) { it.toSong() }
-        }
+        return flowOf(emptyList()) // TODO fix
+//        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
+//        return observeByParamInternal(contentUri) {
+//            val cursor = queries.getRecentlyAdded(path)
+//            contentResolver.queryAll(cursor) { it.toSong() }
+//        }
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {

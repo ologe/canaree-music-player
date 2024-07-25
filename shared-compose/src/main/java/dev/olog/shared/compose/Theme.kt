@@ -1,6 +1,7 @@
 package dev.olog.shared.compose
 
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -8,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.em
 
 @Composable
 fun CanareeTheme(content: @Composable () -> Unit) {
@@ -15,6 +17,9 @@ fun CanareeTheme(content: @Composable () -> Unit) {
         CompositionLocalProvider(
             LocalDensity provides LinearFontScaleDensity(LocalDensity.current),
             LocalContentColor provides Theme.textColorPrimary,
+            LocalTextStyle provides LocalTextStyle.current.copy(
+                letterSpacing = 0.01.em,
+            )
         ) {
             content()
         }
@@ -28,6 +33,10 @@ private class LinearFontScaleDensity(private val delegate: Density) : Density {
 }
 
 object Theme {
+
+    val background: Color
+        @Composable
+        get() = colorResource(R.color.colorBackground)
 
     val textColorPrimary: Color
         @Composable

@@ -7,13 +7,10 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -22,13 +19,7 @@ import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentDetailBinding
 import dev.olog.presentation.detail.adapter.DetailFragmentAdapter
-import dev.olog.presentation.detail.adapter.DetailMostPlayedAdapter
-import dev.olog.presentation.detail.adapter.DetailRecentlyAddedAdapter
-import dev.olog.presentation.detail.adapter.DetailRelatedArtistsAdapter
-import dev.olog.presentation.detail.adapter.DetailSiblingsAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
@@ -45,18 +36,15 @@ import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.abs
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail),
     CanChangeStatusBarColor,
-    SetupNestedList,
     IDragListener by DragListenerImpl() {
 
     companion object {
@@ -83,37 +71,43 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         MediaId.fromString(mediaId)
     }
 
-    private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(navigator, act.findInContext<MediaProvider>())
-    }
-    private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(navigator, act.findInContext<MediaProvider>())
-    }
-    private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(navigator)
-    }
-    private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(navigator)
-    }
+    private val mediaProvider: MediaProvider
+        get() = requireActivity().findInContext()
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            lifecycle,
-            mediaId,
-            this,
-            navigator,
-            act.findInContext<MediaProvider>(),
-            viewModel,
-            this
+            onShuffleClick = { mediaProvider.shuffle(it, viewModel.getFilter()) },
+            onSongClick = { mediaId ->
+                viewModel.detailSortDataUseCase(mediaId) {
+                    mediaProvider.playFromMediaId(mediaId, viewModel.getFilter(), it)
+                }
+            },
+            onMostPlayedClick = { mediaProvider.playMostPlayed(it) },
+            onRecentlyAddedClick = { mediaProvider.playRecentlyAdded(it) },
+            onAlbumClick = { navigator.toDetailFragment(it) },
+            onLongClick = { mediaId, view ->
+                navigator.toDialog(mediaId, view)
+            },
+            goToRelatedArtists = { navigator.toRelatedArtists(it) },
+            goToRecentlyAdded = { navigator.toRecentlyAdded(it) },
+            onAddToPlayNext = { mediaProvider.addToPlayNext(it) },
+            onAddMove = { from, to -> viewModel.addMove(from, to) },
+            onProcessMove = { viewModel.processMove() },
+            onRemoveFromPlaylist = { mediaId, idInPlaylist ->
+                viewModel.removeFromPlaylist(mediaId, idInPlaylist)
+            },
+            onUpdateSort = viewModel::updateSortOrder, // TODO sort is not working anymore on mediastore side
+            toggleSortDirection = viewModel::toggleSortArranging,
+            onStartDrag = ::onStartDrag
         )
     }
 
     private val recyclerOnScrollListener by lazyFast {
         HeaderVisibilityScrollListener(
-            this
+            fragment = this,
+            binding = binding,
         )
     }
-    private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, old, new ->
         if (old != new){
@@ -128,44 +122,29 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
         binding.list.adapter = adapter
-        binding.list.setRecycledViewPool(recycledViewPool)
         binding.list.setHasFixedSize(true)
 
         var swipeDirections = ItemTouchHelper.LEFT
-        if (adapter.canSwipeRight) {
+        val canSwipeRight = if (mediaId.isAnyPlaylist) {
+            val playlistId = mediaId.resolveId
+            playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
+        } else {
+            false
+        }
+        if (canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
         setupDragListener(viewLifecycleScope, binding.list, swipeDirections)
 
-        binding.fastScroller.attachRecyclerView(binding.list)
-        binding.fastScroller.showBubble(false)
-
-        viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::submitList)
-
-        viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::submitList)
-
-        viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::submitList)
-
-        viewModel.observeSiblings()
-            .subscribe(viewLifecycleOwner, albumsAdapter::submitList)
-
-        viewModel.observeSongs()
+        viewModel.observeData()
             .subscribe(viewLifecycleOwner) { list ->
                 if (list.isEmpty()) {
                     act.onBackPressed()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                     restoreUpperWidgetsTranslation()
                 }
             }
-
-        viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
-            require(item is DisplayableHeader)
-            binding.headerText.text = item.title
-        }
 
         viewLifecycleScope.launch {
             binding.editText.afterTextChange()
@@ -177,53 +156,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         }
     }
 
-    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
-        when (layoutId) {
-            R.layout.item_detail_list_most_played -> {
-                setupHorizontalListAsGrid(recyclerView, mostPlayedAdapter)
-            }
-            R.layout.item_detail_list_recently_added -> {
-                setupHorizontalListAsGrid(recyclerView, recentlyAddedAdapter)
-            }
-            R.layout.item_detail_list_related_artists -> {
-                setupHorizontalListAsList(recyclerView, relatedArtistAdapter)
-            }
-            R.layout.item_detail_list_albums -> {
-                setupHorizontalListAsList(recyclerView, albumsAdapter)
-            }
-        }
-    }
-
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: RecyclerView.Adapter<*>) {
-        val layoutManager = GridLayoutManager(
-            list.context, DetailFragmentViewModel.NESTED_SPAN_COUNT,
-            GridLayoutManager.HORIZONTAL, false
-        )
-        layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
-        list.layoutManager = layoutManager
-        list.adapter = adapter
-        list.setRecycledViewPool(recycledViewPool)
-
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(list)
-    }
-
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: RecyclerView.Adapter<*>) {
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
-        layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
-        list.layoutManager = layoutManager
-        list.adapter = adapter
-        list.setRecycledViewPool(recycledViewPool)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.list.addOnScrollListener(recyclerOnScrollListener)
-        binding.list.addOnScrollListener(scrollListener)
         binding.back.setOnClickListener { act.onBackPressed() }
-        binding.more.setOnClickListener { navigator.toDialog(viewModel.mediaId, binding.more) }
+        binding.more.setOnClickListener { navigator.toDialog(viewModel.parentMediaId, binding.more) }
         binding.filter.setOnClickListener {
             binding.searchWrapper.toggleVisibility(!binding.searchWrapper.isVisible, true)
         }
@@ -232,7 +169,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
     override fun onPause() {
         super.onPause()
         binding.list.removeOnScrollListener(recyclerOnScrollListener)
-        binding.list.removeOnScrollListener(scrollListener)
         binding.back.setOnClickListener(null)
         binding.more.setOnClickListener(null)
         binding.filter.setOnClickListener(null)
@@ -278,14 +214,4 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         act.window.setLightStatusBar()
     }
 
-    private val scrollListener = object : RecyclerView.OnScrollListener(){
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val alpha = 1 - abs(binding.toolbar.translationY) / binding.toolbar.height
-            binding.back.alpha = alpha
-            binding.filter.alpha = alpha
-            binding.more.alpha = alpha
-            binding.searchWrapper.alpha = alpha
-            binding.headerText.alpha = alpha
-        }
-    }
 }

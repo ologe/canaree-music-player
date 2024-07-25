@@ -26,6 +26,19 @@ object BindingAdapters {
         )
     }
 
+    fun loadBigAlbumImage(view: ImageView, mediaId: MediaId) {
+        val context = view.context
+
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+            .load(mediaId)
+            .override(GlideUtils.OVERRIDE_BIG)
+            .priority(Priority.IMMEDIATE)
+            .placeholder(CoverUtils.getGradient(context, mediaId))
+            .into(view)
+    }
+
     fun loadImageImpl(
         view: ImageView,
         mediaId: MediaId,

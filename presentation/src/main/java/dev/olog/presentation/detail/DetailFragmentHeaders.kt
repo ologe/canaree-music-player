@@ -1,113 +1,74 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.presentation.detail.adapter.DetailItem
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
 
-    companion object {
-        val RELATED_ARTISTS_SEE_ALL = MediaId.headerId("related artist header")
+    companion object { // TODO move to another place
+        private const val RELATED_ARTISTS_LIMIT = 10
+        const val NESTED_SPAN_COUNT = 4
+        const val RECENTLY_ADDED_LIMIT = NESTED_SPAN_COUNT * 4
     }
 
-    fun biography(mediaId: MediaId): DisplayableItem? {
-        if (mediaId.isArtist || mediaId.isAlbum){
-            return DisplayableHeader(
-                type = R.layout.item_detail_biography,
-                mediaId = MediaId.headerId("biography"),
-                title = ""
-            )
-        }
-        return null
+    fun mostPlayed(items: List<DetailItem.MostPlayed>): List<DetailItem> {
+        if (items.isEmpty()) return emptyList()
+        return listOf(
+            DetailItem.Header(context.getString(R.string.detail_most_played)),
+            DetailItem.MostPlayedList(items)
+        )
     }
 
-    val mostPlayed: List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_detail_header,
-            mediaId = MediaId.headerId("most played header"),
-            title = context.getString(R.string.detail_most_played),
-            visible = false
-        ),
-        DisplayableNestedListPlaceholder(
-            type = R.layout.item_detail_list_most_played,
-            mediaId = MediaId.headerId("most played horiz list")
-        )
-    )
-
-    fun relatedArtists(showSeeAll: Boolean): List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_detail_header,
-            mediaId = RELATED_ARTISTS_SEE_ALL,
-            title = context.getString(R.string.detail_related_artists),
-            visible = showSeeAll
-        ),
-        DisplayableNestedListPlaceholder(
-            type = R.layout.item_detail_list_related_artists,
-            mediaId = MediaId.headerId("related artist list")
-        )
-    )
-
-    fun recent(listSize: Int, showSeeAll: Boolean): List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_detail_header_recently_added,
-            mediaId = MediaId.headerId("recently added header"),
-            title = context.getString(R.string.detail_recently_added),
-            subtitle = context.resources.getQuantityString(
-                R.plurals.detail_xx_new_songs,
-                listSize,
-                listSize
+    fun relatedArtists(
+        mediaId: MediaId,
+        items: List<DetailItem.Album>
+    ): List<DetailItem> {
+        if (items.isEmpty()) return emptyList()
+        return listOf(
+            DetailItem.HeaderRelatedArtists(
+                mediaId = mediaId,
+                showSeeAll = items.size > RELATED_ARTISTS_LIMIT,
             ),
-            visible = showSeeAll
-        ),
-        DisplayableNestedListPlaceholder(
-            type = R.layout.item_detail_list_recently_added,
-            mediaId = MediaId.headerId("recent horiz list")
-        )
-    )
-
-    fun albums(mediaId: MediaId): List<DisplayableItem> = listOf(
-        albumHeader(mediaId),
-        DisplayableNestedListPlaceholder(
-            type = R.layout.item_detail_list_albums,
-            mediaId = MediaId.headerId("albums horiz list")
-        )
-    )
-
-    private fun albumHeader(mediaId: MediaId): DisplayableItem {
-        return DisplayableHeader(
-            type = R.layout.item_detail_header_albums,
-            mediaId = MediaId.headerId("detail albums"),
-            title = context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
+            DetailItem.RelatedArtistsList(items)
         )
     }
 
-    val shuffle: DisplayableItem = DisplayableHeader(
-        type = R.layout.item_detail_shuffle,
-        mediaId = MediaId.headerId("detail shuffle"),
-        title = ""
-    )
+    fun recentlyAdded(
+        mediaId: MediaId,
+        items: List<DetailItem.RecentlyAdded>
+    ): List<DetailItem> {
+        if (items.isEmpty()) return emptyList()
+        return listOf(
+            DetailItem.HeaderRecentlyAdded(
+                mediaId = mediaId,
+                itemsCount = items.size,
+                showSeeAll = items.size > RECENTLY_ADDED_LIMIT,
+            ),
+            DetailItem.RecentlyAddedList(items)
+        )
+    }
 
-    val songs: List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_detail_header_all_song,
-            mediaId = MediaId.headerId("detail songs header"),
-            title = context.getString(R.string.detail_tracks),
-            subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
-        ),
-        shuffle
-    )
+    fun albums(
+        mediaId: MediaId,
+        items: List<DetailItem.Album>,
+    ): List<DetailItem> {
+        if (items.isEmpty()) return emptyList()
+        return listOf(
+            DetailItem.HeaderSiblings(context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]),
+            DetailItem.SiblingsList(items)
+        )
+    }
 
-    val no_songs: DisplayableItem = DisplayableHeader(
-        type = R.layout.item_detail_empty_state,
-        mediaId = MediaId.headerId("detail empty state"),
-        title = ""
+    fun songs(mediaId: MediaId, sort: SortEntity): List<DetailItem> = listOf(
+        DetailItem.HeaderSongs(mediaId, sort),
+        DetailItem.Shuffle(mediaId)
     )
 
 }

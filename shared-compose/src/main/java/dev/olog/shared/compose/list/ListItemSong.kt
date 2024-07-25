@@ -49,6 +49,33 @@ fun ListItemSong(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
+    ListItemSong(
+        leadingContent = {
+            AsyncImage(Modifier.shaped(mediaId)) {
+                BindingAdapters.loadSongImage(this, mediaId)
+            }
+        },
+        title = title,
+        subtitle = subtitle,
+        modifier = modifier,
+        trailingContent = trailingContent,
+        indexContent = indexContent,
+        onClick = onClick,
+        onLongClick = onLongClick
+    )
+}
+
+@Composable
+fun ListItemSong(
+    leadingContent: @Composable () -> Unit,
+    title: String,
+    subtitle: String?,
+    modifier: Modifier = Modifier,
+    trailingContent: (@Composable () -> Unit)? = null,
+    indexContent: (@Composable () -> Unit)? = null,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
     ListItemRow(
         title = {
             Text(
@@ -73,11 +100,7 @@ fun ListItemSong(
                 )
             }
         }},
-        leadingContent = {
-            AsyncImage(Modifier.shaped(mediaId)) {
-                BindingAdapters.loadSongImage(this, mediaId)
-            }
-        },
+        leadingContent = leadingContent,
         trailingContent = trailingContent,
         modifier = modifier,
         onClick = onClick,

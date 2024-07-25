@@ -25,6 +25,7 @@ import dev.olog.shared.compose.list.internal.ListItemRow
 @Composable
 fun ListItemShuffle(
     modifier: Modifier = Modifier,
+    showDivider: Boolean = true,
     onClick: () -> Unit,
 ) {
     Column(
@@ -51,9 +52,11 @@ fun ListItemShuffle(
             onLongClick = null,
             modifier = Modifier,
         )
-        DottedDivider(
-            Modifier.padding(horizontal = dimensionResource(R.dimen.item_song_cover_margin_start))
-        )
+        if (showDivider) {
+            DottedDivider(
+                Modifier.padding(horizontal = dimensionResource(R.dimen.item_song_cover_margin_start))
+            )
+        }
     }
 }
 
@@ -61,8 +64,9 @@ fun ListItemShuffle(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Box(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(MaterialTheme.colors.background)) {
             ListItemShuffle {}
+            ListItemShuffle(showDivider = false) {}
         }
     }
 }

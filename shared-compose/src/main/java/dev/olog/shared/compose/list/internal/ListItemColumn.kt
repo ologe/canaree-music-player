@@ -71,7 +71,6 @@ internal fun ListItemColumn(
             LocalContentColor provides Theme.textColorPrimary,
             LocalTextStyle provides LocalTextStyle.current.copy(
                 fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_album_title).toSp() },
-                letterSpacing = 0.01.em,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
             ),
@@ -82,7 +81,6 @@ internal fun ListItemColumn(
                 LocalContentColor provides Theme.textColorSecondary,
                 LocalTextStyle provides LocalTextStyle.current.copy(
                     fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_album_subtitle).toSp() },
-                    letterSpacing = 0.01.em,
                     textAlign = TextAlign.Center,
                 ),
                 content = it

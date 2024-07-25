@@ -1,7 +1,6 @@
 package dev.olog.presentation
 
 import android.widget.ImageView
-import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
@@ -52,22 +51,6 @@ object BindingsAdapter {
             mediaId,
             GlideUtils.OVERRIDE_MID,
         )
-    }
-
-    @JvmStatic
-    fun loadBigAlbumImage(view: ImageView, mediaId: MediaId) {
-        val context = view.context
-
-        GlideApp.with(context).clear(view)
-
-        GlideApp.with(context)
-            .load(mediaId)
-            .override(GlideUtils.OVERRIDE_BIG)
-            .priority(Priority.IMMEDIATE)
-            .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
-            .onlyRetrieveFromCache(true)
-            .into(view)
     }
 
 }

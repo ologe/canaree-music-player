@@ -62,7 +62,7 @@ internal fun ListItemRow(
                 interactionSource = interactionSource,
             )
             .padding(
-                end = if (trailingContent == null) dimensionResource(R.dimen.item_song_cover_margin_end) else 0.dp,
+                end = if (trailingContent == null) dimensionResource(R.dimen.item_song_cover_margin_end) else 4.dp,
             )
             .height(IntrinsicSize.Max),
         verticalAlignment = Alignment.CenterVertically,
@@ -88,7 +88,6 @@ internal fun ListItemRow(
                 LocalContentColor provides Theme.textColorPrimary,
                 LocalTextStyle provides LocalTextStyle.current.copy(
                     fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_song_title).toSp() },
-                    letterSpacing = 0.01.em,
                 ),
                 content = title,
             )
@@ -97,7 +96,6 @@ internal fun ListItemRow(
                     LocalContentColor provides Theme.textColorSecondary,
                     LocalTextStyle provides LocalTextStyle.current.copy(
                         fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_song_subtitle).toSp() },
-                        letterSpacing = 0.01.em
                     ),
                     content = subtitle
                 )

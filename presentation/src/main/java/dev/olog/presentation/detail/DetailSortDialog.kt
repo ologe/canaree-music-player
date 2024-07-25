@@ -14,7 +14,7 @@ class DetailSortDialog {
 
     fun show(view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
         val context = view.context
-        val popup = PopupMenu(context, view)
+        val popup = PopupMenu(context, view, Gravity.RIGHT)
         popup.inflate(getLayout(mediaId))
 
         setChecked(popup.menu, sortType)

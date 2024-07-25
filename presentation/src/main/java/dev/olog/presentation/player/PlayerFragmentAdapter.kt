@@ -80,7 +80,6 @@ internal class PlayerFragmentAdapter(
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             color = Theme.textColorPrimary,
-                            letterSpacing = 0.01.em
                         )
                     }
                 }

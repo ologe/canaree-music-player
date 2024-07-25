@@ -10,7 +10,7 @@ import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
+import kotlinx.android.synthetic.main.item_folder_tree_track.view.firstText
 
 class FolderTreeFragmentAdapter(
     lifecycle: Lifecycle,

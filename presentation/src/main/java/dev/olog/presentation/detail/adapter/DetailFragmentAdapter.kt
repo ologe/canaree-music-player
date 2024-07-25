@@ -1,319 +1,414 @@
 package dev.olog.presentation.detail.adapter
 
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.core.MediaId
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
+import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortType
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.adapter.ComposeListAdapter
+import dev.olog.presentation.base.adapter.ComposeViewHolder
+import dev.olog.presentation.base.adapter.InteractableItem
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.detail.DetailFragmentHeaders
-import dev.olog.presentation.detail.DetailFragmentViewModel
-import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
+import dev.olog.presentation.detail.DetailFragmentHeaders.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
-import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.*
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.presentation.detail.ui.DetailContent
+import dev.olog.presentation.detail.ui.DetailDurationFooter
+import dev.olog.presentation.detail.ui.DetailRecentlyAddedHeader
+import dev.olog.presentation.detail.ui.DetailRelatedArtistsHeader
+import dev.olog.presentation.detail.ui.DetailSongsHeader
+import dev.olog.shared.compose.Theme
+import dev.olog.shared.compose.component.DragHandle
+import dev.olog.shared.compose.component.LazyHorizontalGridFix
+import dev.olog.shared.compose.list.ListItemAlbum
+import dev.olog.shared.compose.list.ListItemHeader
+import dev.olog.shared.compose.list.ListItemPlaceholder
+import dev.olog.shared.compose.list.ListItemShuffle
+import dev.olog.shared.compose.list.ListItemSong
 import dev.olog.shared.exhaustive
-import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_detail_biography.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.title
-import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
-import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_song.view.explicit
-import kotlinx.android.synthetic.main.item_detail_song.view.firstText
-import kotlinx.android.synthetic.main.item_detail_song.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailFragmentAdapter(
-    lifecycle: Lifecycle,
-    private val mediaId: MediaId,
-    private val setupNestedList: SetupNestedList,
-    private val navigator: Navigator,
-    private val mediaProvider: MediaProvider,
-    private val viewModel: DetailFragmentViewModel,
-    private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle, DiffCallbackDetailDisplayableItem
-), TouchableAdapter {
+    private val onShuffleClick: (MediaId) -> Unit,
+    private val onSongClick: (MediaId) -> Unit,
+    private val onMostPlayedClick: (MediaId) -> Unit,
+    private val onRecentlyAddedClick: (MediaId) -> Unit,
+    private val onAlbumClick: (MediaId) -> Unit,
+    private val onLongClick: (MediaId, View) -> Unit,
+    private val goToRelatedArtists: (MediaId) -> Unit,
+    private val goToRecentlyAdded: (MediaId) -> Unit,
+    private val onAddToPlayNext: (MediaId) -> Unit,
+    private val onAddMove: (from: Int, to: Int) -> Unit,
+    private val onProcessMove: () -> Unit,
+    private val onRemoveFromPlaylist: (MediaId, idInPlaylist: Int) -> Unit,
+    private val onUpdateSort: (SortType) -> Unit,
+    private val toggleSortDirection: () -> Unit,
+    private val onStartDrag: (vh: ViewHolder) -> Unit,
+) : ComposeListAdapter<DetailItem>(), TouchableAdapter {
 
-    private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
+    private val headers: Int
+        get() = currentList.indexOfFirst { it is DetailItem.Song }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        when (viewType) {
-
-            R.layout.item_detail_list_most_played,
-            R.layout.item_detail_list_recently_added,
-            R.layout.item_detail_list_related_artists,
-            R.layout.item_detail_list_albums -> {
-                setupNestedList.setupNestedList(viewType, viewHolder.itemView as RecyclerView)
-            }
-
-            R.layout.item_detail_song,
-            R.layout.item_detail_song_with_track,
-            R.layout.item_detail_song_with_drag_handle,
-            R.layout.item_detail_song_with_track_and_image -> {
-                viewHolder.setOnClickListener(this) { item, _, _ ->
-                    viewModel.detailSortDataUseCase(item.mediaId) {
-                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
-                    }
+    override fun bind(holder: ComposeViewHolder, item: DetailItem, position: Int) {
+        holder.setContent {
+            when (item) {
+                is DetailItem.DetailHeader -> {
+                    DetailContent(
+                        mediaId = item.mediaId,
+                        title = item.title,
+                        subtitle = item.subtitle,
+                        biography = item.biography,
+                        itemView = holder.itemView,
+                    )
                 }
-                viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                is DetailItem.Header -> ListItemHeader(item.title)
+                is DetailItem.Shuffle -> ListItemShuffle(
+                    showDivider = false,
+                    onClick = { onShuffleClick(item.mediaId) },
+                )
+                is DetailItem.HeaderSongs -> {
+//                if (viewModel.showSortByTutorialIfNeverShown()) {
+//                    TutorialTapTarget.sortBy(sortText, sortImage)
+//                }
+                    DetailSongsHeader(
+                        sort = item.sort,
+                        onSortClick = {
+                            DetailSortDialog().show(
+                                view = holder.itemView,
+                                mediaId = item.mediaId,
+                                sortType = item.sort.type,
+                                updateUseCase = onUpdateSort,
+                            )
+                        },
+                        onSortDirectionClick = toggleSortDirection
+                    )
                 }
-                viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
-                }
-
-                viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
-            }
-            R.layout.item_detail_shuffle -> {
-                viewHolder.setOnClickListener(this) { _, _, _ ->
-                    mediaProvider.shuffle(mediaId, viewModel.getFilter())
-                }
-            }
-
-            R.layout.item_detail_header_recently_added -> {
-                viewHolder.setOnClickListener(R.id.seeMore, this) { _, _, _ ->
-                    navigator.toRecentlyAdded(mediaId)
-                }
-            }
-            R.layout.item_detail_header -> {
-
-                viewHolder.setOnClickListener(R.id.seeMore, this) { item, _, _ ->
-                    when (item.mediaId) {
-                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(
-                            mediaId
+                is DetailItem.Footer -> DetailDurationFooter(item.title)
+                is DetailItem.Song -> SongContent(item, holder)
+                is DetailItem.MostPlayedList -> {
+                    // TODO ui jumps on first item added
+                    HorizontalList(item.items) { nestedItem ->
+                        ListItemSong(
+                            mediaId = nestedItem.mediaId,
+                            title = nestedItem.title,
+                            subtitle = nestedItem.subtitle,
+                            indexContent = { Text(nestedItem.position) },
+                            modifier = Modifier.fillMaxSize(),
+                            onClick = { onMostPlayedClick(nestedItem.mediaId) },
+                            onLongClick = { onLongClick(nestedItem.mediaId, holder.itemView) }
                         )
                     }
                 }
-            }
-
-            R.layout.item_detail_header_all_song -> {
-                viewHolder.setOnClickListener(R.id.sort, this) { _, _, view ->
-                    viewModel.observeSortOrder { currentSortType ->
-                        DetailSortDialog().show(view, mediaId, currentSortType) { newSortType ->
-                            viewModel.updateSortOrder(newSortType)
+                is DetailItem.HeaderRecentlyAdded -> DetailRecentlyAddedHeader(
+                    itemsCount = item.itemsCount,
+                    showSeeAll = item.showSeeAll,
+                    onClick = { goToRecentlyAdded(item.mediaId) }
+                )
+                is DetailItem.RecentlyAddedList -> {
+                    HorizontalList(item.items) { nestedItem ->
+                        ListItemSong(
+                            mediaId = nestedItem.mediaId,
+                            title = nestedItem.title,
+                            subtitle = nestedItem.subtitle,
+                            modifier = Modifier.fillMaxSize(),
+                            onClick = { onRecentlyAddedClick(nestedItem.mediaId) },
+                            onLongClick = { onLongClick(nestedItem.mediaId, holder.itemView) }
+                        )
+                    }
+                }
+                is DetailItem.HeaderRelatedArtists -> DetailRelatedArtistsHeader(
+                    showSeeAll = item.showSeeAll,
+                    onClick = { goToRelatedArtists(item.mediaId) }
+                )
+                is DetailItem.RelatedArtistsList -> {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = dimensionResource(R.dimen.detail_album_margin_horizontal))
+                    ) {
+                        items(item.items) { nestedItem ->
+                            ListItemAlbum(
+                                mediaId = nestedItem.mediaId,
+                                title = nestedItem.title,
+                                subtitle = nestedItem.subtitle,
+                                modifier = Modifier.width(dimensionResource(R.dimen.item_tab_album_last_player_width)),
+                                onClick = { onAlbumClick(nestedItem.mediaId) },
+                                onLongClick = { onLongClick(nestedItem.mediaId, holder.itemView) }
+                            )
                         }
                     }
                 }
-                viewHolder.setOnClickListener(R.id.sortImage, this) { _, _, _ ->
-                    viewModel.toggleSortArranging()
+                is DetailItem.HeaderSiblings -> ListItemHeader(item.title)
+                is DetailItem.SiblingsList -> {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = dimensionResource(R.dimen.detail_album_margin_horizontal))
+                    ) {
+                        items(item.items) { nestedItem ->
+                            ListItemAlbum(
+                                mediaId = nestedItem.mediaId,
+                                title = nestedItem.title,
+                                subtitle = nestedItem.subtitle,
+                                modifier = Modifier.width(dimensionResource(R.dimen.item_tab_album_last_player_width)),
+                                onClick = { onAlbumClick(nestedItem.mediaId) },
+                                onLongClick = { onLongClick(nestedItem.mediaId, holder.itemView) }
+                            )
+                        }
+                    }
                 }
-            }
-        }
-
-        when (viewType) {
-            R.layout.item_detail_song,
-            R.layout.item_detail_song_with_track,
-            R.layout.item_detail_song_with_drag_handle -> viewHolder.elevateSongOnTouch()
+            }.exhaustive
         }
     }
 
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
-        super.onViewAttachedToWindow(holder)
-
-        val view = holder.itemView
-
-        when (holder.itemViewType) {
-            R.layout.item_detail_list_recently_added,
-            R.layout.item_detail_list_most_played -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
-                val adapter = list.adapter as ObservableAdapter<*>
-                adapter.observeData(false)
-                    .asLiveData()
-                    .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
-            }
-            R.layout.item_detail_header_all_song -> {
-                val sortText = holder.itemView.sort
-                val sortImage = holder.itemView.sortImage
-
-                viewModel.observeSorting()
-                    .asLiveData()
-                    .subscribe(holder, view.sortImage::update)
-
-                if (viewModel.showSortByTutorialIfNeverShown()) {
-                    TutorialTapTarget.sortBy(sortText, sortImage)
-                }
-            }
-            R.layout.item_detail_biography -> {
-                viewModel.observeBiography()
-                    .map { it?.asHtml() }
-                    .observe(holder, Observer { view.biography.text = it })
-            }
-        }
-    }
-
-    private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int) {
-        layoutManager.spanCount = when {
-            size == 0 -> 1
-            size < NESTED_SPAN_COUNT -> size
-            else -> NESTED_SPAN_COUNT
-        }
-    }
-
-    override fun onBindViewHolder(
-        holder: DataBoundViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
+    @Composable
+    private fun <T> HorizontalList(
+        items: List<T>,
+        content: @Composable (T) -> Unit,
     ) {
-        if (payloads.isNotEmpty()){
-            val payload = payloads[0] as List<String>
-            holder.itemView.apply {
-                title.text = payload[0]
-                subtitle.text = payload[1]
-            }
-            return
-        }
-        super.onBindViewHolder(holder, position, payloads)
-    }
-
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        when (item){
-            is DisplayableTrack -> bindTrack(holder, item)
-            is DisplayableHeader -> bindHeader(holder, item)
-            is DisplayableNestedListPlaceholder -> {}
-            is DisplayableAlbum -> {}
-        }.exhaustive
-    }
-
-    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            holder.imageView?.let {
-                BindingsAdapter.loadSongImage(it, item.mediaId)
-            }
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit.onItemChanged(item.title)
-        }
-        when (holder.itemViewType){
-            R.layout.item_detail_song_with_track,
-            R.layout.item_detail_song_with_track_and_image -> {
-                val trackNumber = if (item.idInPlaylist < 1){
-                    "-"
-                } else item.idInPlaylist.toString()
-                holder.itemView.index.text = trackNumber
-            }
-        }
-    }
-
-    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        when (holder.itemViewType){
-            R.layout.item_detail_image -> {
-                BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
-                holder.itemView.title.text = item.title
-                holder.itemView.subtitle.text = item.subtitle
-            }
-            R.layout.item_detail_song_footer,
-            R.layout.item_detail_header,
-            R.layout.item_detail_header_albums,
-            R.layout.item_detail_header_recently_added,
-            R.layout.item_detail_image -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    subtitle?.text = item.subtitle
-                    seeMore?.toggleVisibility(item.visible, true)
-                }
-            }
-            R.layout.item_detail_header_all_song -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    sort.text = item.subtitle
+        LazyHorizontalGridFix(
+            itemContent = { ListItemPlaceholder() }
+        ) { itemSize ->
+            val rows = items.size.coerceAtMost(NESTED_SPAN_COUNT)
+            // this seems mathematically incorrect but uses int division, e.g
+            // 6 (size) / 4(span) = 1 * 4(span) = 4
+            val previousCellCount = items.size / NESTED_SPAN_COUNT * NESTED_SPAN_COUNT
+            val allCellsCount = previousCellCount + NESTED_SPAN_COUNT
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(rows),
+                modifier = Modifier.height(itemSize.height * rows),
+                contentPadding = PaddingValues(end = 12.dp), // TODO
+            ) {
+                itemsIndexed(items) { index, nestedItem ->
+                    val endPadding = if (allCellsCount - index <= previousCellCount) {
+                        dimensionResource(R.dimen.detail_horizontal_list_margin_end) / 2
+                    } else {
+                        dimensionResource(R.dimen.detail_horizontal_list_margin_end)
+                    }
+                    Box(
+                        Modifier
+                            .height(itemSize.height)
+                            .width(itemSize.width - endPadding)
+                    ) {
+                        content(nestedItem)
+                    }
                 }
             }
         }
     }
 
-    val canSwipeRight: Boolean
-        get() {
-            if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
-                val playlistId = mediaId.resolveId
-                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
-                    playlistId
+    @Composable
+    private fun SongContent(
+        item: DetailItem.Song,
+        holder: ViewHolder,
+    ) {
+        when (item.mode) {
+            is DetailSongMode.Album -> ListItemSong(
+                leadingContent = {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = item.mode.trackNumber,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = Theme.textColorPrimary,
+                        )
+                    }
+                },
+                title = item.title,
+                subtitle = item.subtitle,
+                onClick = { onSongClick(item.mediaId) },
+                onLongClick = { onLongClick(item.mediaId, holder.itemView) }
+            )
+            is DetailSongMode.Folder -> ListItemSong(
+                mediaId = item.mediaId,
+                title = item.title,
+                subtitle = item.subtitle,
+                indexContent = { Text(text = item.mode.trackNumber) },
+                onClick = { onSongClick(item.mediaId) },
+                onLongClick = { onLongClick(item.mediaId, holder.itemView) }
+            )
+            is DetailSongMode.Playlist -> ListItemSong(
+                mediaId = item.mediaId,
+                title = item.title,
+                subtitle = item.subtitle,
+                onClick = { onSongClick(item.mediaId) },
+                onLongClick = { onLongClick(item.mediaId, holder.itemView) },
+                trailingContent = if (item.mode.showDragHandle) {{
+                    DragHandle {
+                        onStartDrag(holder)
+                    }
+                }} else null
+            )
+            null -> {
+                ListItemSong(
+                    mediaId = item.mediaId,
+                    title = item.title,
+                    subtitle = item.subtitle,
+                    onClick = { onSongClick(item.mediaId) },
+                    onLongClick = { onLongClick(item.mediaId, holder.itemView) }
                 )
             }
-            return false
         }
-
-    override fun canInteractWithViewHolder(viewHolder: ViewHolder): Boolean {
-        return viewHolder.itemViewType == R.layout.item_detail_song ||
-                viewHolder.itemViewType == R.layout.item_detail_song_with_drag_handle ||
-                viewHolder.itemViewType == R.layout.item_detail_song_with_track ||
-                viewHolder.itemViewType == R.layout.item_detail_song_with_track_and_image
     }
 
+    // TODO very likely crash for inconsistency
     override fun onClearView() {
-        viewModel.processMove()
+        commitChange {
+            onProcessMove()
+        }
     }
 
     override fun onMoved(from: Int, to: Int) {
         val realFrom = from - headers
         val realTo = to - headers
-        dataSet.swap(from, to)
-        notifyItemMoved(from, to)
-        viewModel.addMove(realFrom, realTo)
+        moveItem(from, to)
+        onAddMove(realFrom, realTo) // TODO check
     }
 
-    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-        val position = viewHolder.adapterPosition
-        val item = getItem(position)
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
-        viewModel.removeFromPlaylist(item!!)
+    // TODO crash for inconsistency
+    override fun onSwipedRight(viewHolder: ViewHolder) {
+        val item = getItem(viewHolder.adapterPosition)
+        if (item !is DetailItem.Song) return
+        if (item.mode !is DetailSongMode.Playlist) return
+
+        removeItem(viewHolder.adapterPosition)
+        commitChange {
+            onRemoveFromPlaylist(item.mediaId, item.mode.idInPlaylist)
+        }
     }
 
-    override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
+    override fun afterSwipeRight(viewHolder: ViewHolder) {
 
     }
 
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
-        mediaProvider.addToPlayNext(item.mediaId)
+    override fun onSwipedLeft(viewHolder: ViewHolder) {
+        val item = getItem(viewHolder.adapterPosition)
+        if (item is DetailItem.Song) {
+            onAddToPlayNext(item.mediaId)
+        }
     }
 
-    override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
+    override fun afterSwipeLeft(viewHolder: ViewHolder) {
         notifyItemChanged(viewHolder.adapterPosition)
     }
 
 
 }
 
-object DiffCallbackDetailDisplayableItem : DiffUtil.ItemCallback<DisplayableItem>() {
+@Stable
+sealed interface DetailItem {
 
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
+    @Stable
+    data class DetailHeader(
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String,
+        val biography: String?
+    ) : DetailItem
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
-        return oldItem == newItem
-    }
+    @Stable
+    data class Shuffle(val mediaId: MediaId): DetailItem
 
-    override fun getChangePayload(oldItem: DisplayableItem, newItem: DisplayableItem): Any? {
-        if (newItem.type == R.layout.item_detail_image){
-            require(newItem is DisplayableHeader)
-            return listOf(
-                newItem.title,
-                newItem.subtitle
-            )
-        }
-        return null
-    }
+    @Stable
+    data class MostPlayedList(val items: List<MostPlayed>): DetailItem
+
+    @Stable
+    data class RecentlyAddedList(val items: List<RecentlyAdded>): DetailItem
+
+    @Stable
+    data class SiblingsList(val items: List<Album>): DetailItem
+
+    @Stable
+    data class RelatedArtistsList(val items: List<Album>): DetailItem
+
+    @Stable
+    data class Album(
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String,
+    )
+
+    @Stable
+    data class Song(
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String?,
+        val mode: DetailSongMode?,
+    ): DetailItem, InteractableItem
+
+    @Stable
+    data class MostPlayed(
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String,
+        val position: String,
+    )
+
+    @Stable
+    data class RecentlyAdded(
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String,
+    )
+
+    @Stable
+    data class Header(val title: String): DetailItem
+
+    @Stable
+    data class HeaderRelatedArtists(
+        val mediaId: MediaId,
+        val showSeeAll: Boolean
+    ): DetailItem
+
+    @Stable
+    data class HeaderRecentlyAdded(
+        val mediaId: MediaId,
+        val itemsCount: Int,
+        val showSeeAll: Boolean,
+    ): DetailItem
+
+    @Stable
+    data class HeaderSiblings(val title: String): DetailItem
+
+    @Stable
+    data class HeaderSongs(
+        val mediaId: MediaId,
+        val sort: SortEntity,
+    ): DetailItem
+
+    @Stable
+    data class Footer(val title: String): DetailItem
+
+}
+
+@Stable
+sealed interface DetailSongMode {
+
+    @Stable
+    data class Playlist(
+        val idInPlaylist: Int,
+        val showDragHandle: Boolean,
+    ): DetailSongMode
+
+    @Stable
+    data class Album(val trackNumber: String): DetailSongMode
+
+    @Stable
+    data class Folder(val trackNumber: String): DetailSongMode
+
 }

@@ -5,13 +5,18 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.findInContext
@@ -23,7 +28,7 @@ private val CutCorners = CutCornerShape(5.dp)
 
 fun Modifier.shaped(mediaId: MediaId): Modifier = this.composed {
     val context = LocalContext.current
-    val shape = if (mediaId.isAnyArtist) {
+    val shape = if (mediaId.isAnyArtist && !mediaId.isLeaf) {
         CircleShape
     } else if (LocalInspectionMode.current) {
         RoundedCorners
@@ -40,3 +45,19 @@ fun Modifier.shaped(mediaId: MediaId): Modifier = this.composed {
     }
     Modifier.clip(shape)
 }
+
+fun Modifier.graphicsLayerWithSize(block: GraphicsLayerScope.(IntSize) -> Unit): Modifier =
+    this.composed {
+        val state = remember { mutableStateOf(IntSize.Zero) }
+
+        Modifier
+            .onSizeChanged {
+                state.value = it
+            }
+            .graphicsLayer {
+                val size = state.value
+                if (size != IntSize.Zero) {
+                    block(this, size)
+                }
+            }
+    }

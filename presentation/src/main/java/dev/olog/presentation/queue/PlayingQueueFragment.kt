@@ -67,8 +67,6 @@ class PlayingQueueFragment : Fragment(R.layout.fragment_playing_queue), IDragLis
         binding.list.adapter = adapter
         binding.list.layoutManager = layoutManager
         binding.list.setHasFixedSize(true)
-        binding.fastScroller.attachRecyclerView(binding.list)
-        binding.fastScroller.showBubble(false)
 
         setupDragListener(viewLifecycleScope, binding.list, ItemTouchHelper.RIGHT)
 

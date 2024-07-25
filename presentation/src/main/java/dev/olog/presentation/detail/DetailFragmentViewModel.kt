@@ -10,20 +10,14 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
-import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
-import dev.olog.presentation.detail.adapter.DetailMostPlayedItem
-import dev.olog.presentation.detail.adapter.DetailRecentlyAddedItem
-import dev.olog.presentation.detail.adapter.DetailRelatedArtistsItem
-import dev.olog.presentation.detail.adapter.DetailSiblingsItem
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
+import dev.olog.presentation.detail.adapter.DetailItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,126 +26,50 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
-    private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val imageRetrieverGateway: ImageRetrieverGateway,
     handle: SavedStateHandle,
 ) : ViewModel() {
 
-    companion object {
-        const val NESTED_SPAN_COUNT = 4
-        const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
-        const val RELATED_ARTISTS_TO_SEE = 10
-    }
-
-    val mediaId = MediaId.fromString(handle.get(DetailFragment.ARGUMENTS_MEDIA_ID)!!)
+    val parentMediaId = MediaId.fromString(handle.get(DetailFragment.ARGUMENTS_MEDIA_ID)!!)
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterChannel = MutableStateFlow("")
 
     fun updateFilter(filter: String) {
-        filterChannel.trySend(filter)
+        filterChannel.value = filter
     }
 
     fun getFilter(): String = filterChannel.value
 
-    private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DetailMostPlayedItem>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DetailRelatedArtistsItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DetailSiblingsItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DetailRecentlyAddedItem>>()
-    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
-
-    private val biographyLiveData = MutableLiveData<String?>()
+    private val livedata = MutableLiveData<List<DetailItem>>()
 
     init {
-        // header
-        viewModelScope.launch {
-            dataProvider.observeHeader(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { itemLiveData.value = it[0] }
-        }
-        // most played
-        viewModelScope.launch {
-            dataProvider.observeMostPlayed(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { mostPlayedLiveData.value = it }
-        }
-        // related artists
-        viewModelScope.launch {
-            dataProvider.observeRelatedArtists(mediaId)
-                .map { it.take(RELATED_ARTISTS_TO_SEE) }
-                .flowOn(Dispatchers.Default)
-                .collect { relatedArtistsLiveData.value = it }
-        }
-        // siblings
-        viewModelScope.launch {
-            dataProvider.observeSiblings(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { siblingsLiveData.value = it }
-        }
-        // recent
-        viewModelScope.launch {
-            dataProvider.observeRecentlyAdded(mediaId)
-                .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-                .flowOn(Dispatchers.Default)
-                .collect { recentlyAddedLiveData.value = it }
-        }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(mediaId, filterChannel.asFlow())
+            dataProvider.observe(parentMediaId, filterChannel)
                 .flowOn(Dispatchers.Default)
-                .collect { songLiveData.value = it }
-        }
-
-        // biography
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
-                    else -> null
-                }
-                withContext(Dispatchers.Main) {
-                    biographyLiveData.value = biography
-                }
-            } catch (ex: NullPointerException) {
-                ex.printStackTrace()
-            } catch (ex: IndexOutOfBoundsException) {
-                ex.printStackTrace()
-            }
+                .collect { livedata.value = it }
         }
     }
 
-    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DetailMostPlayedItem>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DetailRecentlyAddedItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DetailRelatedArtistsItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DetailSiblingsItem>> = siblingsLiveData
-    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
-    fun observeBiography(): LiveData<String?> = biographyLiveData
+    fun observeData(): LiveData<List<DetailItem>> = livedata
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)
         action(sortOrder)
     }
 
-    fun observeSortOrder(action: (SortType) -> Unit) {
-        val sortEntity = getSortOrderUseCase(mediaId)
-        action(sortEntity.type)
-    }
-
     fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
-        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
+        setSortOrderUseCase(SetSortOrderUseCase.Request(parentMediaId, sortType))
     }
 
     fun toggleSortArranging() {
-        if (mediaId.category == MediaIdCategory.PLAYLISTS &&
-            getSortOrderUseCase(mediaId).type == SortType.CUSTOM){
+        if (parentMediaId.category == MediaIdCategory.PLAYLISTS &&
+            getSortOrderUseCase(parentMediaId).type == SortType.CUSTOM){
             return
         }
-        toggleSortArrangingUseCase(mediaId.category)
+        toggleSortArrangingUseCase(parentMediaId.category)
     }
 
     fun addMove(from: Int, to: Int){
@@ -159,22 +77,17 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun processMove() = viewModelScope.launch {
-        if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(mediaId, moveList)
+        if (parentMediaId.isPlaylist || parentMediaId.isPodcastPlaylist){
+            presenter.moveInPlaylist(parentMediaId, moveList)
         }
         moveList.clear()
     }
 
-    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
-        require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(mediaId, item)
+    fun removeFromPlaylist(mediaId: MediaId, idInPlaylist: Int) = viewModelScope.launch(Dispatchers.Default) {
+        presenter.removeFromPlaylist(parentMediaId, mediaId, idInPlaylist)
     }
 
-    fun observeSorting(): Flow<SortEntity> {
-        return observeSortOrderUseCase(mediaId)
-    }
-
-    fun showSortByTutorialIfNeverShown(): Boolean {
+    fun showSortByTutorialIfNeverShown(): Boolean { // TODO
         return presenter.showSortByTutorialIfNeverShown()
     }
 

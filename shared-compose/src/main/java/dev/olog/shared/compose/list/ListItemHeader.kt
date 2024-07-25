@@ -6,9 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -29,6 +34,7 @@ import dev.olog.shared.compose.component.DottedDivider
 fun ListItemHeader(
     title: String,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
     Column(modifier.padding(start = 12.dp, end = 16.dp)) {
@@ -36,26 +42,45 @@ fun ListItemHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = title,
+            Column(
                 modifier = Modifier
+                    .weight(1f)
                     .padding(
                         top = 12.dp,
-                        bottom = if(isSystemInDarkTheme()) 12.dp else 8.dp,
+                        bottom = if (isSystemInDarkTheme()) 12.dp else 8.dp,
                     )
-                    .weight(1f),
-                fontSize = 20.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Black,
-            )
+            ) {
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Black,
+                    color = Theme.textColorPrimary,
+                )
+                subtitle?.let {
+                    Text(
+                        text = it,
+                        fontSize = with(LocalDensity.current) { dimensionResource(id = R.dimen.item_header_sec_text_size).toSp() },
+                        color = Theme.accentColor,
+                    )
+                }
+            }
             trailingContent?.let {
                 CompositionLocalProvider(
                     LocalTextStyle provides LocalTextStyle.current.copy(
                         fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_header_sec_text_size).toSp() },
                         color = Theme.accentColor,
                     ),
-                    content = it
+                    LocalContentColor provides Theme.iconColor,
+                    content = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(2.dp),
+                        ) {
+                            it()
+                        }
+                    }
                 )
             }
         }
@@ -71,6 +96,25 @@ private fun Preview() {
             ListItemHeader(title = "Header New")
             ListItemHeader(title = "Header New") {
                 Text(text = "trailing")
+            }
+            ListItemHeader(title = "Header New") {
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowForward,
+                        contentDescription = null,
+                    )
+                }
+            }
+            ListItemHeader(
+                title = "Header New",
+                subtitle = "subtitle"
+            ) {
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowForward,
+                        contentDescription = null,
+                    )
+                }
             }
             ListItemHeader(title = "Header Looooooooooooooooooooooooooooooooong")
         }

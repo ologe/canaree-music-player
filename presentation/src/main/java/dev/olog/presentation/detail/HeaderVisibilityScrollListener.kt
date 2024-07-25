@@ -3,60 +3,52 @@ package dev.olog.presentation.detail
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.presentation.databinding.FragmentDetailBinding
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlin.math.abs
 
 class HeaderVisibilityScrollListener(
-    private val fragment: DetailFragment
-
+    private val fragment: DetailFragment,
+    private val binding: FragmentDetailBinding,
 ) : RecyclerView.OnScrollListener() {
 
     private val toolbarHeight by lazyFast {
-        val statusBarHeight = fragment.view!!.statusBar.height
+        val statusBarHeight = binding.statusBar.height
         statusBarHeight + fragment.ctx.dimen(R.dimen.toolbar)
     }
 
-    private var textWrapper: View? = null
-
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        val child = recyclerView.getChildAt(0)
-        val holder = recyclerView.getChildViewHolder(child)
+        val lm = recyclerView.layoutManager as? LinearLayoutManager? ?: return
+        val firstVisible = lm.findFirstVisibleItemPosition()
+        val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
 
-        val view = fragment.view!!
 
-        if (holder.itemViewType == R.layout.item_detail_image) {
-            if (textWrapper == null) {
-                textWrapper = child.findViewById(R.id.textWrapper)
-            }
-            val bottom = child.bottom - textWrapper!!.height
+        if (viewHolder != null) {
+            val bottom = viewHolder.itemView.bottom
             val needDarkLayout = bottom - toolbarHeight < 0
 
-            if (needDarkLayout && view.statusBar.isInvisible) {
+            if (needDarkLayout && binding.statusBar.isInvisible) {
                 // set visible
-                view.statusBar.toggleVisibility(visible = true, gone = false)
-                toggleToolbarBackground(view.toolbar, show = true)
-                view.headerText.toggleVisibility(visible = true, gone = false)
-            } else if (!needDarkLayout && view.statusBar.isVisible) {
+                binding.statusBar.toggleVisibility(visible = true, gone = false)
+                toggleToolbarBackground(binding.toolbar, show = true)
+            } else if (!needDarkLayout && binding.statusBar.isVisible) {
                 // set invisible
-                view.statusBar.toggleVisibility(visible = false, gone = false)
-                toggleToolbarBackground(view.toolbar, show = needDarkLayout)
-                view.headerText.toggleVisibility(visible = false, gone = false)
+                binding.statusBar.toggleVisibility(visible = false, gone = false)
+                toggleToolbarBackground(binding.toolbar, show = needDarkLayout)
             }
 
             fragment.hasLightStatusBarColor = needDarkLayout
 
         } else {
-            if (!view.statusBar.isVisible) {
-                view.statusBar.toggleVisibility(visible = true, gone = false)
-                toggleToolbarBackground(view.toolbar, show = true)
-                view.headerText.toggleVisibility(visible = true, gone = false)
+            if (!binding.statusBar.isVisible) {
+                binding.statusBar.toggleVisibility(visible = true, gone = false)
+                toggleToolbarBackground(binding.toolbar, show = true)
 
                 fragment.hasLightStatusBarColor = true
             }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -52,23 +52,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <dev.olog.shared.widgets.AutoScrollTextView
-            android:id="@+id/headerText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textAppearance="@style/Header.Secondary"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/filter"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@+id/back"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Selena Gomez"
-            tools:visibility="visible"
-            tools:fontFamily="sans-serif-black"/>
-
         <ImageButton
             android:id="@+id/filter"
             android:layout_width="@dimen/common_icon_size"
@@ -110,20 +93,6 @@
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <dev.olog.presentation.widgets.fascroller.RxFastScroller
-        android:id="@+id/fastScroller"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="@dimen/sliding_panel_peek"
-        android:paddingStart="16dp"
-        app:bubbleColor="?colorAccent"
-        app:handleColor="?colorControlNormal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:trackColor="@android:color/transparent" />
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
