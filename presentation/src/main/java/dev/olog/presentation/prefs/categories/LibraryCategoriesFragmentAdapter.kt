@@ -9,12 +9,12 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_library_categories.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// TODO migrate to compose
 class LibraryCategoriesFragmentAdapter (
         data: List<LibraryCategoryBehavior>,
         private val dragListener: IDragListener
@@ -26,20 +26,20 @@ class LibraryCategoriesFragmentAdapter (
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
     override fun bind(holder: DataBoundViewHolder, item: LibraryCategoryBehavior, position: Int) {
-        holder.itemView.apply {
-            checkBox.text = item.asString(context)
-            checkBox.isChecked = item.visible
-        }
+//        holder.itemView.apply {
+//            checkBox.text = item.asString(context)
+//            checkBox.isChecked = item.visible
+//        }
     }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
 
         viewHolder.itemView.setOnClickListener {
-            getItem(viewHolder.adapterPosition)?.let { item ->
-                item.visible = !item.visible
-                viewHolder.itemView.checkBox.isChecked = item.visible
-            }
+//            getItem(viewHolder.adapterPosition)?.let { item ->
+//                item.visible = !item.visible
+//                viewHolder.itemView.checkBox.isChecked = item.visible
+//            }
         }
     }
 

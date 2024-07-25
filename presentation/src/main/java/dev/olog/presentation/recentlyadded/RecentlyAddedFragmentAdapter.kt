@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.databinding.ItemRecentlyAddedBinding
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.shared.compose.glide.BindingAdapters
 
 class RecentlyAddedFragmentAdapter(
     private val navigator: Navigator,
@@ -48,7 +48,7 @@ class RecentlyAddedFragmentAdapter(
         position: Int
     ) {
         holder.binding.apply {
-            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            BindingAdapters.loadSongImage(cover, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)

@@ -3,7 +3,6 @@ package dev.olog.presentation.createplaylist
 
 import android.widget.CheckBox
 import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
@@ -11,8 +10,8 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
+// TODO migrate to compose
 class CreatePlaylistFragmentAdapter(
     lifecycle: Lifecycle,
     private val viewModel: CreatePlaylistFragmentViewModel
@@ -31,11 +30,11 @@ class CreatePlaylistFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableTrack)
 
-        holder.itemView.apply {
-            selected.isChecked = viewModel.isChecked(item.mediaId)
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+//        holder.itemView.apply {
+//            selected.isChecked = viewModel.isChecked(item.mediaId)
+//            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//        }
     }
 }
