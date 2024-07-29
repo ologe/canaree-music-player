@@ -10,32 +10,37 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
+import dev.olog.msc.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class CoreModule {
+class CoreModule {
 
-    companion object {
+    @Provides
+    internal fun provideResources(instance: Application): Resources = instance.resources
 
-        @Provides
-        internal fun provideResources(instance: Application): Resources = instance.resources
-
-        @Provides
-        internal fun provideContentResolver(instance: Application): ContentResolver {
-            return instance.contentResolver
-        }
-
-        @Provides
-        fun provideConnectivityManager(instance: Application): ConnectivityManager {
-            return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        }
-
-        @Provides
-        @JvmStatic
-        internal fun provideNotificationManager(instance: Application): NotificationManager {
-            return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        }
-
+    @Provides
+    internal fun provideContentResolver(instance: Application): ContentResolver {
+        return instance.contentResolver
     }
+
+    @Provides
+    fun provideConnectivityManager(instance: Application): ConnectivityManager {
+        return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
+    @Provides
+    fun provideNotificationManager(instance: Application): NotificationManager {
+        return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    @Provides
+    fun provideConfig() = Config(
+        isDebug = BuildConfig.DEBUG,
+        versionName = BuildConfig.VERSION_NAME,
+        versionCode = BuildConfig.VERSION_CODE,
+        lastFmKey = BuildConfig.LAST_FM_KEY,
+    )
 
 }

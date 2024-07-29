@@ -11,10 +11,6 @@ android {
 
     //kotlinOptions.allWarningsAsErrors = true
 
-    buildFeatures {
-        buildConfig = true
-    }
-
 }
 
 apply from: '../kapt.gradle'

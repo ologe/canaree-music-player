@@ -19,6 +19,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.image.provider.loader.GlideMergedImageLoader
@@ -32,13 +33,15 @@ class GlideModule : AppGlideModule() {
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     internal interface ImageProviderComponent {
+        fun config(): Config
         fun lastFmFactory(): GlideImageRetrieverLoader.Factory
         fun originalFactory(): GlideOriginalImageLoader.Factory
         fun mergedFactory(): GlideMergedImageLoader.Factory
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
+        val component = EntryPoints.get(context, ImageProviderComponent::class.java)
+        val level = if (component.config().isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))

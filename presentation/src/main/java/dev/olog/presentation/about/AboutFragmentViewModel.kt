@@ -6,13 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.MediaId
+import dev.olog.core.Config
 import dev.olog.presentation.R
 import javax.inject.Inject
 
 @HiltViewModel
 class AboutFragmentViewModel @Inject constructor(
     @ApplicationContext context: Context,
+    config: Config,
 ) : ViewModel() {
 
     enum class AboutType {
@@ -39,7 +40,7 @@ class AboutFragmentViewModel @Inject constructor(
         AboutItem(
             type = AboutType.VERSION,
             title = context.getString(R.string.about_version),
-            subtitle = "3.3.1" // todo inject
+            subtitle = config.versionName,
         ),
 
         AboutItem(

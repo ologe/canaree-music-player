@@ -12,7 +12,6 @@ import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
-import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
@@ -125,9 +124,7 @@ internal abstract class AbsPlayer<T>(
         }
         error.printStackTrace()
 
-        if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError $what")
-        }
+        Log.e("Player", "onPlayerError $what")
         context.applicationContext.toast(R.string.music_player_error)
     }
 

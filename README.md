@@ -89,7 +89,6 @@ android.enableR8.fullMode=true
 
 # MANDATORY properties (keys)
 last_fm_key="your_key"
-last_fm_secret="your_secret"
 ```
 
 ### Extensions (Linux or macOS recommended)
