@@ -1,6 +1,6 @@
 package dev.olog.equalizer
 
-import com.google.android.exoplayer2.audio.AudioListener
+import com.google.android.exoplayer2.Player
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
@@ -20,10 +20,10 @@ class EqualizerManager @Inject constructor(
     private val virtualizerFactory: Provider<IVirtualizer?>,
 ) {
 
-    private val references = mutableMapOf<AudioListener, Capability>()
+    private val references = mutableMapOf<Player.Listener, Capability>()
     private val mutex = ReentrantLock(true)
 
-    fun create(key: AudioListener): Capability = mutex.withLock {
+    fun create(key: Player.Listener): Capability = mutex.withLock {
         require(key !in references.keys)
         Capability(
             equalizer = equalizerFactory.get(),
@@ -34,7 +34,7 @@ class EqualizerManager @Inject constructor(
         }
     }
 
-    fun release(key: AudioListener) = mutex.withLock {
+    fun release(key: Player.Listener) = mutex.withLock {
         references.remove(key)?.release()
     }
 

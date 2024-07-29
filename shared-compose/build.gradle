@@ -1,3 +1,7 @@
+plugins {
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
@@ -6,10 +10,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = compose_compiler
     }
 }
 

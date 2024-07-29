@@ -1,8 +1,10 @@
 package dev.olog.presentation.base.adapter
 
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.presentation.base.drag.IDragListener
 
 fun <T : Any> RecyclerView.ViewHolder.setOnClickListener(
     data: CustomListAdapter<T, *>,
@@ -40,5 +42,17 @@ fun <T : Any> RecyclerView.ViewHolder.setOnLongClickListener(
             return@inner true
         }
         false
+    }
+}
+
+fun RecyclerView.ViewHolder.setOnDragListener(dragHandleId: Int, dragListener: IDragListener) {
+    itemView.findViewById<View>(dragHandleId)?.setOnTouchListener { _, event ->
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                dragListener.onStartDrag(this)
+                true
+            }
+            else -> false
+        }
     }
 }

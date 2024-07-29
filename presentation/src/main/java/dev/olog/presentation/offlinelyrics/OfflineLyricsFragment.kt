@@ -28,7 +28,7 @@ import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.filter

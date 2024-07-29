@@ -51,7 +51,7 @@ abstract class ComposeListAdapter<T : Any>(
 open class ComposeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val composeView: ComposeView = when (itemView) {
-        is ComposeView -> itemView
+        is ComposeView -> itemView as ComposeView
         else -> itemView.findViewById(R.id.content)
     }
 

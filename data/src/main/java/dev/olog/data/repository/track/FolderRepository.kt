@@ -25,8 +25,8 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -43,10 +43,6 @@ internal class FolderRepository @Inject constructor(
 ) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
-
-    init {
-        firstQuery()
-    }
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
@@ -77,15 +73,16 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: Path): Folder? {
-        return channel.valueOrNull?.find { it.path == param }
+        return channel.value?.find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
-        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
+        return channel.value?.find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow()
+        return channel
+            .filterNotNull()
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
     }

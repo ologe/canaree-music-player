@@ -77,16 +77,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onResume() {
         super.onResume()
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
 
         libraryCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         podcastCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         blacklist.setOnPreferenceClickListener {
@@ -124,7 +124,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onPause() {
         super.onPause()
-        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null

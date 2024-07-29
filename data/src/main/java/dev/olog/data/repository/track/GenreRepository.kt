@@ -26,8 +26,8 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -42,10 +42,6 @@ internal class GenreRepository @Inject constructor(
 ) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
-
-    init {
-        firstQuery()
-    }
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, true)
@@ -67,11 +63,13 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Genre? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.value?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return channel.asFlow().map { it.find { it.id == param } }
+        return channel
+            .filterNotNull()
+            .map { it.find { it.id == param } }
             .distinctUntilChanged()
     }
 

@@ -2,7 +2,7 @@ package dev.olog.service.music
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import com.google.android.exoplayer2.audio.AudioListener
+import com.google.android.exoplayer2.Player
 import dev.olog.core.ServiceLifecycle
 import dev.olog.equalizer.EqualizerManager
 import kotlinx.coroutines.Job
@@ -12,7 +12,7 @@ import javax.inject.Inject
 internal class OnAudioSessionIdChangeListener @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val equalizerManager: EqualizerManager,
-) : AudioListener {
+) : Player.Listener {
 
     private val equalizer = equalizerManager.create(this)
 
@@ -22,7 +22,8 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 
     private var job: Job? = null
 
-    override fun onAudioSessionId(audioSessionId: Int) {
+    // todo not called anymore, so equalizer not working
+    override fun onAudioSessionIdChanged(audioSessionId: Int) {
         job?.cancel()
         job = lifecycle.coroutineScope.launch {
 //            delay(DELAY) todo why is delay needed?

@@ -7,9 +7,8 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
-import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.tab.adapter.TabItem
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import kotlin.time.Duration.Companion.milliseconds
 
 internal fun Folder.toTabDisplayableItem(
@@ -20,7 +19,7 @@ internal fun Folder.toTabDisplayableItem(
         asRow = requestedSpanSize == 1,
         mediaId = getMediaId(),
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = TextUtils.readableSongCount(resources, size)
     )
 }
 
@@ -41,7 +40,7 @@ internal fun Playlist.toTabDisplayableItem(
         asRow = requestedSpanSize == 1,
         mediaId = getMediaId(),
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = TextUtils.readableSongCount(resources, size)
     )
 }
 
@@ -76,7 +75,7 @@ internal fun Artist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): TabItem.Album {
-    val songs = DisplayableAlbum.readableSongCount(resources, songs)
+    val songs = TextUtils.readableSongCount(resources, songs)
 
     return TabItem.Album(
         asRow = requestedSpanSize == 1,
@@ -95,7 +94,7 @@ internal fun Genre.toTabDisplayableItem(
         asRow = requestedSpanSize == 1,
         mediaId = getMediaId(),
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = TextUtils.readableSongCount(resources, size)
     )
 }
 
@@ -113,6 +112,6 @@ internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): TabIte
         asRow = false,
         mediaId = getMediaId(),
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
+        subtitle = TextUtils.readableSongCount(resources, songs)
     )
 }

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -14,9 +13,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-hilt {
-    enableAggregatingTask = true
-}
 
 android {
     namespace = "dev.olog.msc"
@@ -60,6 +56,10 @@ android {
         buildConfig = true
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
 //    dynamicFeatures = [":feature_stylize"]
 
 //    kotlinOptions.allWarningsAsErrors = true
@@ -69,6 +69,7 @@ apply from: '../kapt.gradle'
 
 
 dependencies {
+    coreLibraryDesugaring lib_core.desugaring
     implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':data')
@@ -107,8 +108,6 @@ dependencies {
 
     // debug
     debugImplementation lib_debug.leak_canary_debug
-
-    debugImplementation lib_debug.stetho
 
     // firebase
     implementation lib_analytics.core

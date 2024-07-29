@@ -37,7 +37,7 @@ class AppShortcutsImp(
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 
-                val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() })
+                val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() }) ?: return@launch
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                     .setShortLabel(title)
                     .setIcon(IconCompat.createWithBitmap(bitmap))

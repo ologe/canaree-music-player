@@ -9,7 +9,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.*
 import javax.inject.Inject

@@ -18,7 +18,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.databinding.FragmentSplashTutorialBinding
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.viewBinding

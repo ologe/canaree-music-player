@@ -59,6 +59,7 @@ abstract class BaseMusicService : LifecycleMediaBrowserServiceCompat(),
             MusicServiceAction.PLAY_PAUSE -> handlePlayPause(intent)
             MusicServiceAction.SKIP_NEXT -> handleSkipNext(intent)
             MusicServiceAction.SKIP_PREVIOUS -> handleSkipPrevious(intent)
+            null -> {}
         }
 
         when (musicServiceCustomAction){
@@ -155,8 +156,7 @@ abstract class LifecycleMediaBrowserServiceCompat : MediaBrowserServiceCompat(),
         super.onDestroy()
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return dispatcher.lifecycle
-    }
+    override val lifecycle: Lifecycle
+        get() = dispatcher.lifecycle
 
 }

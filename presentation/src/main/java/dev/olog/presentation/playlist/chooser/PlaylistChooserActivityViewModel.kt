@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.presentation.model.DisplayableAlbum
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -40,7 +40,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
         return PlaylistChooserItem(
             mediaId = getMediaId(),
             title = title,
-            subtitle = DisplayableAlbum.readableSongCount(resources, size)
+            subtitle = TextUtils.readableSongCount(resources, size)
         )
     }
 

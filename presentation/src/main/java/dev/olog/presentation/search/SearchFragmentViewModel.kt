@@ -9,7 +9,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.search.adapter.SearchItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn

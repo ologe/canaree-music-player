@@ -27,6 +27,7 @@ sealed class Lyrics {
     class Synced(val lyrics: List<Pair<Long, Spannable>>) : Lyrics()
 }
 
+// TODO check if still works correctly
 abstract class BaseOfflineLyricsPresenter constructor(
     private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
@@ -46,10 +47,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val spannableBuilder = SpannableStringBuilder()
 
     private var insertLyricsJob: Job? = null
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
-    private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
+    private val currentTrackIdPublisher = MutableStateFlow<Long?>(null)
+    private val syncAdjustmentPublisher = MutableStateFlow<Long>(0)
 
-    private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
+    private val lyricsPublisher = MutableStateFlow<Lyrics?>(null)
 
     private var observeLyricsJob: Job? = null
     private var transformLyricsJob: Job? = null
@@ -68,13 +69,15 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     fun onStart() {
         observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
+                .filterNotNull()
                 .flatMapLatest { id -> observeUseCase(id) }
                 .flowOn(Dispatchers.IO)
                 .collect { onNextLyrics(it) }
         }
         transformLyricsJob = GlobalScope.launch {
-            lyricsPublisher.asFlow()
+            lyricsPublisher
+                .filterNotNull()
                 .flatMapLatest {
                     when (it) {
                         is Lyrics.Normal -> {
@@ -93,9 +96,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 }
         }
         syncJob = GlobalScope.launch {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
+                .filterNotNull()
                 .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
-                .collect { syncAdjustmentPublisher.offer(it) }
+                .collect { syncAdjustmentPublisher.value = it }
         }
     }
 
@@ -128,7 +132,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.offer(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
+            lyricsPublisher.value = Lyrics.Normal(noSyncDefaultSpan(lyrics))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -151,7 +155,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                     defaultSpan(this, 0, textOnly.length)
                 }
             }
-            lyricsPublisher.offer(Lyrics.Synced(result))
+            lyricsPublisher.value = Lyrics.Synced(result)
         }
     }
 
@@ -197,7 +201,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.value = trackId
     }
 
     fun getLyrics(): String {
@@ -206,21 +210,19 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     fun updateSyncAdjustment(value: Long) {
         GlobalScope.launch {
-            lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
+            lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value ?: return@launch, value)
         }
     }
 
     suspend fun getSyncAdjustment(): String = withContext(Dispatchers.IO) {
-        "${lyricsGateway.getSyncAdjustment(currentTrackIdPublisher.value)}"
+        "${lyricsGateway.getSyncAdjustment(requireNotNull(currentTrackIdPublisher.value))}"
     }
 
     fun updateLyrics(lyrics: String) {
-        if (currentTrackIdPublisher.valueOrNull == null) {
-            return
-        }
+        val trackId = currentTrackIdPublisher.value ?: return
         insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
-            insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+            insertUseCase(OfflineLyrics(trackId, lyrics))
         }
     }
 

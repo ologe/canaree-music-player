@@ -10,17 +10,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
+import dev.olog.presentation.base.adapter.indexOf
 import dev.olog.presentation.base.restoreUpperWidgetsTranslation
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentCreatePlaylistBinding
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.toggleSelected
@@ -28,7 +29,6 @@ import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
@@ -50,10 +50,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
 
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            lifecycle,
-            viewModel
-        )
+        CreatePlaylistFragmentAdapter(viewModel)
     }
 
     private var toast: Toast? = null
@@ -83,18 +80,18 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
-                binding.sidebar.onDataChanged(it)
+                adapter.submitList(it)
+//                binding.sidebar.onDataChanged(it) todo
                 restoreUpperWidgetsTranslation()
             }
 
-        viewLifecycleScope.launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { binding.emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
+        viewModel.observeData()
+            .filter { it.isNotEmpty() }
+            .observe(viewLifecycleOwner) {
+                binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
+            }
 
-        binding.sidebar.scrollableLayoutId = R.layout.item_create_playlist
+//        binding.sidebar.scrollableLayoutId = R.layout.item_create_playlist todo
 
         viewLifecycleScope.launch {
             binding.editText.afterTextChange()
@@ -167,9 +164,8 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist), Draw
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
             "#" -> 0
-            "?" -> adapter.lastIndex()
+            "?" -> adapter.currentList.lastIndex
             else -> adapter.indexOf { item ->
-                require(item is DisplayableTrack)
                 if (item.title.isBlank()) {
                     return@indexOf false
                 }

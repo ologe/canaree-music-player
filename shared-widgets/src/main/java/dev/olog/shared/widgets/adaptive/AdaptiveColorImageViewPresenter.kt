@@ -12,9 +12,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
@@ -32,16 +31,15 @@ class AdaptiveColorImageViewPresenter(
 
     private val defaultPaletteColors = PaletteColors(context.colorAccent())
 
-    private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
-    private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
+    private val processorPalettePublisher = MutableStateFlow(defaultProcessorColors)
+    private val palettePublisher = MutableStateFlow(defaultPaletteColors)
 
     private var processorJob: Job? = null
     private var paletteJob: Job? = null
 
     fun observeProcessorColors(): Flow<ProcessorColors> = processorPalettePublisher
-        .asFlow()
 
-    fun observePalette(): Flow<PaletteColors> = palettePublisher.asFlow()
+    fun observePalette(): Flow<PaletteColors> = palettePublisher
 
     fun onNextImage(drawable: Drawable?) {
         onNextImage(drawable?.toBitmap())
@@ -52,19 +50,17 @@ class AdaptiveColorImageViewPresenter(
         paletteJob?.cancel()
 
         if (bitmap == null) {
-            processorPalettePublisher.offer(defaultProcessorColors)
-            palettePublisher.offer(defaultPaletteColors)
+            processorPalettePublisher.value = defaultProcessorColors
+            palettePublisher.value = defaultPaletteColors
             return
         }
 
         processorJob = GlobalScope.launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
-            processorPalettePublisher.offer(
-                ProcessorColors(
-                    desaturate(image.background),
-                    desaturate(image.primaryTextColor),
-                    desaturate(image.secondaryTextColor)
-                )
+            processorPalettePublisher.value = ProcessorColors(
+                desaturate(image.background),
+                desaturate(image.primaryTextColor),
+                desaturate(image.secondaryTextColor)
             )
         }
 
@@ -78,7 +74,7 @@ class AdaptiveColorImageViewPresenter(
                 true,
                 2.0
             )
-            palettePublisher.offer(PaletteColors(accent))
+            palettePublisher.value = PaletteColors(accent)
         }
     }
 

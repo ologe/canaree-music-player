@@ -66,7 +66,6 @@ internal class TabDataProvider @Inject constructor(
         }
         MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbums()
         MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtists()
-        MediaIdCategory.HEADER,
         MediaIdCategory.PLAYING_QUEUE -> error("remove when possible")
     }.flowOn(Dispatchers.Default)
 

@@ -7,14 +7,18 @@ import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.shared.android.Permissions
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 
 internal abstract class BaseRepository<T, Param>(
     private val context: Context,
@@ -22,33 +26,38 @@ internal abstract class BaseRepository<T, Param>(
     private val schedulers: Schedulers
 ) : BaseGateway<T, Param> {
 
-    protected val channel = ConflatedBroadcastChannel<List<T>>()
+    private val scope = MainScope()
+    private val cached = flow {
+        Permissions.awaitStorage(context)
 
-    protected fun firstQuery() {
-        GlobalScope.launch(schedulers.io) {
-            do {
-                delay(200)
-            } while (!Permissions.canReadStorage(context))
+        emit(withContext(Dispatchers.IO) { queryAll() })
 
-            val contentUri = registerMainContentUri()
+        val contentUri = registerMainContentUri()
 
-            contentResolver.registerContentObserver(
-                contentUri.uri,
-                contentUri.notifyForDescendants,
-                DataObserver(schedulers.io) { channel.offer(queryAll()) }
-            )
-            channel.offer(queryAll())
-        }
-    }
+        contentResolver.registerContentObserver(
+            contentUri.uri,
+            contentUri.notifyForDescendants,
+            DataObserver(scope) {
+                emit(withContext(Dispatchers.IO) { queryAll() })
+            }
+        )
+
+        awaitCancellation()
+    }.stateIn(
+        scope = scope,
+        started = SharingStarted.Eagerly,
+        initialValue = null,
+    )
+
+    protected val channel: StateFlow<List<T>?>
+        get() = cached
 
     override fun getAll(): List<T> {
-//        assertBackgroundThread()
-        return channel.valueOrNull
-            ?: queryAll() // fallback to normal query if channel never emitted
+        return channel.value ?: queryAll() // fallback to normal query if channel never emitted
     }
 
     override fun observeAll(): Flow<List<T>> {
-        return channel.asFlow()
+        return channel.filterNotNull()
     }
 
     protected fun <R> observeByParamInternal(
@@ -56,16 +65,11 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        val flow: Flow<R> = channelFlow {
+        return channelFlow {
+            send(withContext(Dispatchers.IO) { action() })
 
-            if (!isClosedForSend) {
-                offer(action())
-            }
-
-            val observer = DataObserver(schedulers.io) {
-                if (!isClosedForSend) {
-                    offer(action())
-                }
+            val observer = DataObserver(scope) {
+                send(withContext(Dispatchers.IO) { action() })
             }
 
             contentResolver.registerContentObserver(
@@ -73,9 +77,10 @@ internal abstract class BaseRepository<T, Param>(
                 contentUri.notifyForDescendants,
                 observer
             )
-            awaitClose { contentResolver.unregisterContentObserver(observer) }
+            awaitClose {
+                contentResolver.unregisterContentObserver(observer)
+            }
         }
-        return flow
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

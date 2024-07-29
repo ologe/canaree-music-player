@@ -17,8 +17,7 @@ import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.detail.adapter.DetailItem
 import dev.olog.presentation.detail.mapper.*
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
 import dev.olog.shared.exhaustive
@@ -70,7 +69,6 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
@@ -189,12 +187,11 @@ internal class DetailDataProvider @Inject constructor(
 
         MediaIdCategory.SONGS,
         MediaIdCategory.PODCASTS,
-        MediaIdCategory.HEADER,
         MediaIdCategory.PLAYING_QUEUE -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
     private fun createDurationFooter(songCount: Int, duration: Int): DetailItem {
-        val songs = DisplayableAlbum.readableSongCount(resources, songCount)
+        val songs = TextUtils.readableSongCount(resources, songCount)
         val time = TimeUtils.formatMillis(context, duration)
 
         return DetailItem.Footer(

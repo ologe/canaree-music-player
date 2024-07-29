@@ -11,7 +11,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.search.adapter.SearchItem
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 
 internal fun SearchResult.toSearchDisplayableItem(context: Context): SearchItem {
     val subtitle = when (this.itemType) {

@@ -13,14 +13,13 @@ import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.adapter.DetailItem
 import dev.olog.presentation.detail.adapter.DetailSongMode
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 
 internal fun Artist.toDetailRelatedArtist(resources: Resources): DetailItem.Album {
     return DetailItem.Album(
         mediaId = getMediaId(),
         title = this.name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
+        subtitle = TextUtils.readableSongCount(resources, songs)
     )
 }
 

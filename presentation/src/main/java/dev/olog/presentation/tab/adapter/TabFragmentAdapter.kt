@@ -13,7 +13,7 @@ import dev.olog.presentation.base.adapter.ComposeListAdapter
 import dev.olog.presentation.base.adapter.ComposeViewHolder
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
-import dev.olog.shared.TextUtils
+import dev.olog.shared.android.TextUtils
 import dev.olog.shared.compose.list.ListItemAlbum
 import dev.olog.shared.compose.list.ListItemHeader
 import dev.olog.shared.compose.list.ListItemPodcast

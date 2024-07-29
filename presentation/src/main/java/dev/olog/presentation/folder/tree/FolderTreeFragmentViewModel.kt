@@ -17,8 +17,8 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.distinctUntilChanged
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

@@ -8,9 +8,8 @@ import androidx.lifecycle.coroutineScope
 import dev.olog.core.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
@@ -25,18 +24,24 @@ internal class MediaSessionQueue @Inject constructor(
         private const val DELAY = 1000L
     }
 
-    private val delayedChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
-    private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
+    private val delayedChannel = MutableSharedFlow<List<MediaEntity>>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    private val immediateChannel = MutableSharedFlow<List<MediaEntity>>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     init {
         lifecycle.coroutineScope.launch {
-            delayedChannel.asFlow()
+            delayedChannel
                 .debounce(DELAY)
                 .collect { publish(it) }
         }
 
         lifecycle.coroutineScope.launch {
-            immediateChannel.asFlow()
+            immediateChannel
                 .collect { publish(it) }
         }
     }
@@ -52,12 +57,12 @@ internal class MediaSessionQueue @Inject constructor(
 
     fun onNext(list: List<MediaEntity>) {
         Log.v(TAG, "on next delayed")
-        delayedChannel.offer(list)
+        delayedChannel.tryEmit(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
-        immediateChannel.offer(list)
+        immediateChannel.tryEmit(list)
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

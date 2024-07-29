@@ -2,7 +2,7 @@ package dev.olog.presentation.about
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import dev.olog.core.MediaId
+import dev.olog.presentation.about.AboutFragmentViewModel.*
 import dev.olog.presentation.base.adapter.CustomListAdapter
 import dev.olog.presentation.base.adapter.CustomViewHolder
 import dev.olog.presentation.base.adapter.setOnClickListener
@@ -23,16 +23,18 @@ class AboutFragmentAdapter(
         viewType: Int
     ) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            when (item.mediaId) {
-                AboutFragmentViewModel.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutFragmentViewModel.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutFragmentViewModel.RATE_ID -> navigator.toMarket()
-                AboutFragmentViewModel.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentViewModel.COMMUNITY -> navigator.joinCommunity()
-                AboutFragmentViewModel.BETA -> navigator.joinBeta()
-                AboutFragmentViewModel.CHANGELOG -> navigator.toChangelog()
-                AboutFragmentViewModel.GITHUB -> navigator.toGithub()
-                AboutFragmentViewModel.TRANSLATION -> navigator.toTranslations()
+            when (item.type) {
+                AboutType.THIRD_SW_ID -> navigator.toLicensesFragment()
+                AboutType.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
+                AboutType.RATE_ID -> navigator.toMarket()
+                AboutType.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
+                AboutType.COMMUNITY -> navigator.joinCommunity()
+                AboutType.BETA -> navigator.joinBeta()
+                AboutType.CHANGELOG -> navigator.toChangelog()
+                AboutType.GITHUB -> navigator.toGithub()
+                AboutType.TRANSLATION -> navigator.toTranslations()
+                AboutType.AUTHOR_ID,
+                AboutType.VERSION -> {}
             }
         }
     }
@@ -51,7 +53,7 @@ class AboutFragmentAdapter(
 }
 
 data class AboutItem(
-    val mediaId: MediaId,
+    val type: AboutType,
     val title: String,
     val subtitle: String,
 )

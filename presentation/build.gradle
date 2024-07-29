@@ -1,6 +1,9 @@
+plugins {
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
@@ -23,14 +26,6 @@ android {
         viewBinding = true
         compose = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = compose_compiler
-    }
-}
-
-androidExtensions {
-    experimental = true
 }
 
 apply from: '../kapt.gradle'

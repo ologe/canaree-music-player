@@ -35,7 +35,7 @@ internal abstract class PlayingQueueDao {
     abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
-    abstract suspend fun deleteAllImpl()
+    abstract suspend fun deleteAllImpl(): Int
 
     @Insert
     abstract suspend fun insertAllImpl(list: List<PlayingQueueEntity>)

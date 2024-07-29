@@ -17,12 +17,10 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -39,22 +37,22 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     private val playlistType = PlaylistType.values()[handle.get(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)!!]
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val data = MutableLiveData<List<CreatePlaylistItem>>()
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
-    private val showOnlyFiltered = ConflatedBroadcastChannel(false)
+    private val showOnlyFiltered = MutableStateFlow(false)
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterChannel = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
-            showOnlyFiltered.asFlow()
+            showOnlyFiltered
                 .flatMapLatest { onlyFiltered ->
                     if (onlyFiltered){
                         getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
                     } else {
-                        getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
+                        getPlaylistTypeTracks().combine(filterChannel) { tracks, filter ->
                             if (filter.isNotEmpty()) {
                                 tracks.filter {
                                     it.title.contains(filter, true) ||
@@ -73,10 +71,10 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun updateFilter(filter: String) {
-        filterChannel.trySend(filter)
+        filterChannel.value = filter
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeData(): LiveData<List<CreatePlaylistItem>> = data
 
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
@@ -92,7 +90,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun toggleShowOnlyFiltered() {
         val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.trySend(!onlyFiltered)
+        showOnlyFiltered.value = !onlyFiltered
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

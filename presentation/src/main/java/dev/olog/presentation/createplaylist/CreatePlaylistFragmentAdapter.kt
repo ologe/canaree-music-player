@@ -1,40 +1,44 @@
 package dev.olog.presentation.createplaylist
 
 
-import android.widget.CheckBox
-import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import androidx.compose.runtime.Stable
+import dev.olog.core.MediaId
+import dev.olog.presentation.base.adapter.ComposeListAdapter
+import dev.olog.presentation.base.adapter.ComposeViewHolder
 
-// TODO migrate to compose
 class CreatePlaylistFragmentAdapter(
-    lifecycle: Lifecycle,
     private val viewModel: CreatePlaylistFragmentViewModel
+) : ComposeListAdapter<CreatePlaylistItem>() {
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
-
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, view ->
-            val checkBox = view.findViewById<CheckBox>(R.id.selected)
-            val wasChecked = checkBox.isChecked
-            checkBox.isChecked = !wasChecked
-            viewModel.toggleItem(item.mediaId)
-        }
+    override fun bind(holder: ComposeViewHolder, item: CreatePlaylistItem, position: Int) {
+        // TODO migrate to compose
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableTrack)
+//    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+//        viewHolder.setOnClickListener(this) { item, _, view ->
+//            val checkBox = view.findViewById<CheckBox>(R.id.selected)
+//            val wasChecked = checkBox.isChecked
+//            checkBox.isChecked = !wasChecked
+//            viewModel.toggleItem(item.mediaId)
+//        }
+//    }
 
+//    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+//        require(item is DisplayableTrack)
+//
 //        holder.itemView.apply {
 //            selected.isChecked = viewModel.isChecked(item.mediaId)
 //            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
 //            firstText.text = item.title
 //            secondText.text = item.subtitle
 //        }
-    }
+//    }
 }
+
+@Stable
+data class CreatePlaylistItem(
+    val mediaId: MediaId,
+    val title: String,
+    val subtitle: String,
+    val isChecked: Boolean,
+)

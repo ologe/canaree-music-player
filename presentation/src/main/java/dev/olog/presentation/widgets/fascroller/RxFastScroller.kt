@@ -99,8 +99,8 @@ class RxFastScroller(
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
 
-    private val bubbleTextPublisher = ConflatedBroadcastChannel("")
-    private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
+    private val bubbleTextPublisher = MutableStateFlow("")
+    private val scrollPublisher = MutableStateFlow(RecyclerView.NO_POSITION)
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
@@ -216,9 +216,7 @@ class RxFastScroller(
         if (!isInEditMode){
             if (showBubble){
                 viewScope.launch {
-                    bubbleTextPublisher.asFlow()
-                        .distinctUntilChanged()
-                        .flowOn(Dispatchers.Default)
+                    bubbleTextPublisher
                         .map {
                             when {
                                 it < "A" -> "#"
@@ -230,7 +228,7 @@ class RxFastScroller(
             }
 
             viewScope.launch {
-                scrollPublisher.asFlow()
+                scrollPublisher
                     .filter { it != RecyclerView.NO_POSITION }
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
@@ -375,10 +373,10 @@ class RxFastScroller(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            scrollPublisher.trySend(targetPos)
+            scrollPublisher.value = targetPos
 
             val letter = mSectionIndexer?.getSectionText(targetPos)
-            letter?.let { bubbleTextPublisher.trySend(it) }
+            letter?.let { bubbleTextPublisher.value = it }
         }
     }
 

@@ -17,9 +17,6 @@ import dev.olog.presentation.databinding.FragmentMiniPlayerBinding
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding

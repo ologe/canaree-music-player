@@ -10,6 +10,8 @@ import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.data.DataObserver
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -22,12 +24,14 @@ internal class FolderNavigatorRepository @Inject constructor(
     private val folderGateway: FolderGateway
 ) : FolderNavigatorGateway {
 
+    private val scope = MainScope()
+
     override fun observeFolderChildren(file: File): Flow<List<FileType>> {
         return channelFlow {
 
-            offer(queryFileChildren(file))
+            send(queryFileChildren(file))
 
-            val observer = ActionContentObserver { offer(queryFileChildren(file)) }
+            val observer = DataObserver(scope) { send(queryFileChildren(file)) }
 
             context.contentResolver.registerContentObserver(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -58,17 +62,6 @@ internal class FolderNavigatorRepository @Inject constructor(
             .sortedBy { it.name.toLowerCase() }
             .map { FileType.Folder(it.name, it.path) }
             .toList()
-    }
-
-}
-
-private class ActionContentObserver(
-    private val action: () -> Unit
-) : ContentObserver(Handler(Looper.getMainLooper())) {
-
-    override fun onChange(selfChange: Boolean) {
-        super.onChange(selfChange)
-        action()
     }
 
 }

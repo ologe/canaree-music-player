@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError

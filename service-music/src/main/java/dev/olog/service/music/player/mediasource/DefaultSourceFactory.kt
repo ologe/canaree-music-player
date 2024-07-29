@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -26,7 +27,7 @@ internal class DefaultSourceFactory @Inject constructor(
     private val extractorFactory = ProgressiveMediaSource.Factory(dataSource)
 
     override fun get(model: MediaEntity): MediaSource {
-        val mediaSource = extractorFactory.createMediaSource(getTrackUri(model.id))
+        val mediaSource = extractorFactory.createMediaSource(MediaItem.fromUri(getTrackUri(model.id)))
         return ConcatenatingMediaSource(mediaSource)
     }
 

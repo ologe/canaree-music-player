@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 object Permissions {
 
@@ -16,6 +18,13 @@ object Permissions {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> Manifest.permission.READ_MEDIA_AUDIO
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.READ_EXTERNAL_STORAGE
         else -> Manifest.permission.WRITE_EXTERNAL_STORAGE
+    }
+
+    suspend fun awaitStorage(context: Context) {
+        while (!canReadStorage(context)) {
+            delay(50)
+            continue
+        }
     }
 
     @JvmStatic

@@ -5,7 +5,6 @@ import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
 import dev.olog.shared.android.viewScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlin.math.roundToInt
 
@@ -22,12 +21,12 @@ class ProgressDeletegate(
 
     private var incrementJob: Job? = null
 
-    private val channel = ConflatedBroadcastChannel<Long>()
+    private val flow = MutableStateFlow<Long>(0)
 
     override fun stopAutoIncrement(startMillis: Int) {
         incrementJob?.cancel()
         setProgress(progressBar, startMillis)
-        channel.offer(startMillis.toLong())
+        flow.value = startMillis.toLong()
     }
 
     override fun startAutoIncrement(
@@ -40,7 +39,7 @@ class ProgressDeletegate(
             while (isActive) {
                 val newBookmark = computeBookmark(startMillis, elapsedRealtime, speed)
                 setProgress(progressBar, newBookmark)
-                channel.offer(newBookmark.toLong())
+                flow.value = newBookmark.toLong()
                 delay(AppConstants.PROGRESS_BAR_INTERVAL)
             }
         }
@@ -54,9 +53,7 @@ class ProgressDeletegate(
         progressBar.progress = position
     }
 
-    override fun observeProgress(): Flow<Long> {
-        return channel.asFlow()
-    }
+    override fun observeProgress(): Flow<Long> = flow
 
     override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {
         if (state.isPlaying) {

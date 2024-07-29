@@ -34,10 +34,6 @@ internal class ArtistRepository @Inject constructor(
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 
-    init {
-        firstQuery()
-    }
-
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
@@ -57,11 +53,13 @@ internal class ArtistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Artist? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.value?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return channel.asFlow().map { list -> list.find { it.id == param } }
+        return channel
+            .filterNotNull()
+            .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
     }
 

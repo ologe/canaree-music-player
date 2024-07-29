@@ -38,7 +38,7 @@ class RecentlyAddedFragmentAdapter(
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
             navigator.toDialog(item.mediaId, view)
         }
-        viewHolder.elevateAlbumOnTouch()
+//        viewHolder.elevateAlbumOnTouch()
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
     }
 

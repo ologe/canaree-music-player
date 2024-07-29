@@ -6,15 +6,15 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.PlaybackException
+import com.google.android.exoplayer2.Player
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IPlayerDelegate
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
@@ -30,15 +30,17 @@ internal abstract class AbsPlayer<T>(
     volume: IMaxAllowedPlayerVolume
 
 ) : IPlayerDelegate<T>,
-    ExoPlayerListenerWrapper,
+    Player.Listener,
     DefaultLifecycleObserver {
 
-    private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context).apply {
         setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
 
     }
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+    protected val player = ExoPlayer.Builder(context, factory)
+        .setSkipSilenceEnabled(true)
+        .setWakeMode(C.WAKE_MODE_LOCAL)
+        .build()
 
     init {
         lifecycle.addObserver(this)
@@ -110,7 +112,11 @@ internal abstract class AbsPlayer<T>(
     }
 
     @CallSuper
-    override fun onPlayerError(error: ExoPlaybackException) {
+    override fun onPlayerError(error: PlaybackException) {
+        if (error !is ExoPlaybackException) {
+            error.printStackTrace()
+            return
+        }
         val what = when (error.type) {
             ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
             ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message

@@ -8,7 +8,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.adapter.TabItem
-import dev.olog.shared.android.extensions.asLiveData
+import androidx.lifecycle.asLiveData
 import javax.inject.Inject
 
 @HiltViewModel

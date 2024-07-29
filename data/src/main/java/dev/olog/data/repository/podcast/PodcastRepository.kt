@@ -39,10 +39,6 @@ internal class PodcastRepository @Inject constructor(
         sortPrefs, true
     )
 
-    init {
-        firstQuery()
-    }
-
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
@@ -104,6 +100,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        return channel.value?.find { it.albumId == albumId }
     }
 }

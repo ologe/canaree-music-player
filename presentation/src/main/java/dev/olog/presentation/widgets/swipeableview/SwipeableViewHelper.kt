@@ -10,6 +10,7 @@ import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlin.math.abs
@@ -34,7 +35,7 @@ internal class SwipeableViewHelper(
 
     private val viewSwitcher by lazyFast { findViewSwitcher() }
 
-    private val isTouchingPublisher = ConflatedBroadcastChannel(false)
+    private val isTouchingPublisher = MutableStateFlow(false)
 
     private val touchSlop by lazy { ViewConfiguration.get(view.context).scaledTouchSlop }
 
@@ -44,19 +45,19 @@ internal class SwipeableViewHelper(
 
     fun onTouchDown(event: MotionEvent): Boolean {
         view.parent.requestDisallowInterceptTouchEvent(true)
-        isTouchingPublisher.trySend(true)
+        isTouchingPublisher.value = true
         return onActionDown(event)
     }
 
     fun onTouchMove(event: MotionEvent): Boolean{
         onActionMove(event)
-        isTouchingPublisher.trySend(true)
+        isTouchingPublisher.value = true
         return true
     }
 
     fun onTouchUp(event: MotionEvent): Boolean{
         view.parent.requestDisallowInterceptTouchEvent(false)
-        isTouchingPublisher.trySend(false)
+        isTouchingPublisher.value = false
         return onActionUp(event)
     }
 
@@ -128,8 +129,6 @@ internal class SwipeableViewHelper(
     }
 
     fun isTouching(): Flow<Boolean> = isTouchingPublisher
-        .asFlow()
-        .distinctUntilChanged()
 
 
 }

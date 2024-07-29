@@ -20,9 +20,12 @@ import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import java.lang.IllegalStateException
 
 class MediaExposer(
@@ -45,7 +48,10 @@ class MediaExposer(
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
+    private val connectionPublisher = MutableSharedFlow<MusicServiceConnectionState>(
+        extraBufferCapacity = Int.MAX_VALUE,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
 
     private val metadataPublisher = MutableStateFlow<PlayerMetadata?>(null)
     private val statePublisher = MutableStateFlow<PlayerPlaybackState?>(null)
@@ -60,7 +66,7 @@ class MediaExposer(
         }
         job?.cancel()
         job = scope.launch {
-            for (state in connectionPublisher.openSubscription()) {
+            connectionPublisher.collect { state ->
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> {
@@ -104,7 +110,7 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.offer(state)
+        connectionPublisher.tryEmit(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {

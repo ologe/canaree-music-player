@@ -389,6 +389,8 @@ private fun updatePlaybackState(
         when (playbackState.state) {
             PlayerState.PLAYING -> playAnimation(bindings)
             PlayerState.PAUSED -> pauseAnimation(bindings)
+            PlayerState.SKIP_TO_NEXT,
+            PlayerState.SKIP_TO_PREVIOUS -> {}
         }
     }
 }

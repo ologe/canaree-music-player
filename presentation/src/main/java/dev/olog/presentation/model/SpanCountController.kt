@@ -23,7 +23,6 @@ internal object SpanCountController {
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> if (isTablet) 4 else 3
             MediaIdCategory.GENRES -> if (isTablet) 4 else 3
-            MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE -> error("remove when possible")
         }
     }
