@@ -7,7 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
 
 private val FastOutSlowInInterpolator = FastOutSlowInInterpolator()
-private const val Duration = 300L
+private const val Duration = 250L
 
 fun View.animateNowPlaying(isPlaying: Boolean) {
     val targetAlpha = if (isPlaying) 1f else .4f
@@ -35,6 +35,26 @@ fun View.animateElevation(isPlaying: Boolean) {
         return
     }
     ObjectAnimator.ofFloat(this, "translationZ", translationZ, targetElevation)
+        .setDuration(Duration)
+        .apply { interpolator = FastOutSlowInInterpolator }
+        .start()
+}
+
+fun View.animateScale(isPlaying: Boolean) {
+    val targetScale = if (isPlaying) 1.25f else 1f
+    val previousTargetValue = getTargetValue<Float>()
+    setTargetValue(targetScale)
+    if (previousTargetValue == null || previousTargetValue == targetScale) {
+        // snap
+        scaleX = targetScale
+        scaleY = targetScale
+        return
+    }
+    ObjectAnimator.ofFloat(this, "scaleX", scaleX, targetScale)
+        .setDuration(250)
+        .apply { interpolator = FastOutSlowInInterpolator }
+        .start()
+    ObjectAnimator.ofFloat(this, "scaleY", scaleY, targetScale)
         .setDuration(Duration)
         .apply { interpolator = FastOutSlowInInterpolator }
         .start()

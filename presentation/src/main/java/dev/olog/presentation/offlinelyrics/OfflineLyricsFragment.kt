@@ -38,7 +38,7 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import io.alterac.blurkit.BlurKit
+import dev.olog.shared.android.BlurKit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull

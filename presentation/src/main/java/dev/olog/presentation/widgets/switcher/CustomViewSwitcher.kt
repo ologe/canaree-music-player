@@ -15,9 +15,11 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.player.ui.animateElevation
+import dev.olog.presentation.player.ui.animateScale
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
+import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isBigImage
 import dev.olog.shared.android.theme.isFullscreen
@@ -173,9 +175,17 @@ class CustomViewSwitcher : ViewAnimator {
         }
     }
 
-    fun updateChildren(isPlaying: Boolean) {
+    fun updateChildren(isPlaying: Boolean, appearance: PlayerAppearance) {
         forEach {
-            it.animateElevation(isPlaying)
+            when (appearance) {
+                PlayerAppearance.CLEAN -> it.animateScale(isPlaying)
+                PlayerAppearance.DEFAULT,
+                PlayerAppearance.FLAT,
+                PlayerAppearance.SPOTIFY,
+                PlayerAppearance.FULLSCREEN,
+                PlayerAppearance.BIG_IMAGE,
+                PlayerAppearance.MINI -> it.animateElevation(isPlaying)
+            }
         }
     }
 }

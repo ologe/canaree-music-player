@@ -5,7 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.msc.R
-import io.alterac.blurkit.BlurKit
+import dev.olog.shared.android.BlurKit
 import javax.inject.Inject
 
 @HiltAndroidApp

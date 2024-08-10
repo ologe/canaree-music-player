@@ -1,6 +1,7 @@
 package dev.olog.service.floating
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -15,7 +16,7 @@ import dev.olog.service.floating.api.Content
 import dev.olog.service.floating.databinding.ContentOfflineLyricsBinding
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import io.alterac.blurkit.BlurKit
+import dev.olog.shared.android.BlurKit
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn

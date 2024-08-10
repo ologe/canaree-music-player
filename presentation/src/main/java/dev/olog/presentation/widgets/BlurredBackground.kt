@@ -12,7 +12,7 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.getCachedDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
-import io.alterac.blurkit.BlurKit
+import dev.olog.shared.android.BlurKit
 import kotlinx.coroutines.*
 
 class BlurredBackground(

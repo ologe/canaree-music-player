@@ -6,8 +6,3 @@ include ':shared-compose'
 // checkout tags/r2.19.1
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
 apply from: new File('/Users/eugeniu.olog/dev/ExoPlayer', 'core_settings.gradle')
-
-// checkout tags/v1.0.0 -> blurkit is hosted on jcenter that is down
-apply from: new File('/Users/eugeniu.olog/dev/blurkit-android', 'settings.gradle')
-include(":blurkit")
-project(":blurkit").projectDir = new File('/Users/eugeniu.olog/dev/blurkit-android', 'blurkit')

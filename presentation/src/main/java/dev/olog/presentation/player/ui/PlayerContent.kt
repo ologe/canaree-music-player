@@ -101,6 +101,7 @@ fun PlayerContent(
         updatePlaybackState(
             bindings = bindings,
             playbackState = playbackState,
+            appearance = playerAppearance,
         )
 
         repeatMode?.let { bindings.repeat.cycle(it) }
@@ -364,13 +365,14 @@ private fun updateImage(
 private fun updatePlaybackState(
     bindings: PlayerBindings,
     playbackState: PlayerPlaybackState?,
+    appearance: PlayerAppearance,
 ) {
     if (playbackState == null) return
     val isPlaying = playbackState.isPlaying
 
     if (isPlaying || playbackState.isPaused) {
         bindings.nowPlaying?.animateNowPlaying(isPlaying)
-        bindings.imageSwitcher?.updateChildren(isPlaying)
+        bindings.imageSwitcher?.updateChildren(isPlaying, appearance)
     }
 
     bindings.bookmark.text = TextUtils.formatMillis(playbackState.bookmark)

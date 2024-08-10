@@ -45,8 +45,5 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.recycler
 
-    implementation project(":blurkit") //lib_ui.blur_kit
-
-
     implementation lib_ui.glide
 }

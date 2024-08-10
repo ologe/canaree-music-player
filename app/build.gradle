@@ -105,7 +105,6 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
 
-    implementation project(":blurkit")//lib_ui.blur_kit
     implementation lib_ui.custom_tabs
 
     // debug
