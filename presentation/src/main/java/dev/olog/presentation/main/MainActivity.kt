@@ -19,14 +19,12 @@ import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.databinding.ActivityMainBinding
-import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
@@ -123,7 +121,7 @@ class MainActivity : MusicGlueActivity(),
 
     private fun setupSlidingPanel(){
         if (!isTablet) {
-            val scrollHelper = SuperCerealScrollHelper(
+            val scrollHelper = ActivityScrollHelper(
                 this, ScrollType.Full(
                     slidingPanel = binding.slidingPanel,
                     bottomNavigation = binding.bottomWrapper,
@@ -140,7 +138,7 @@ class MainActivity : MusicGlueActivity(),
         binding.bottomNavigation.navigateToLastPage()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent?.let { handleIntent(it) }
     }
@@ -187,23 +185,25 @@ class MainActivity : MusicGlueActivity(),
     override fun onBackPressed() {
         try {
             val topFragment = supportFragmentManager.getTopFragment()
-
-            when {
-                topFragment is CanHandleOnBackPressed && topFragment.handleOnBackPressed()-> {
-                    return
-                }
-                topFragment is DrawsOnTop -> {
-                    super.onBackPressed()
-                    return
-                }
-                getSlidingPanel().isExpanded() -> {
-                    getSlidingPanel().collapse()
-                    return
-                }
-            }
-            if (tryPopFolderBack()) {
+            if (topFragment is DrawsOnTop) {
+                super.onBackPressed()
                 return
             }
+            if (getSlidingPanel().isExpanded()) {
+                getSlidingPanel().collapse()
+                return
+            }
+            if (topFragment is CanHandleOnBackPressed && topFragment.handleOnBackPressed()) {
+                return
+            }
+            if (topFragment == null) {
+                for (fragment in supportFragmentManager.fragments) {
+                    if (fragment.isVisible && fragment is CanHandleOnBackPressed && fragment.handleOnBackPressed()) {
+                        return
+                    }
+                }
+            }
+
 
             super.onBackPressed()
         } catch (ex: IllegalStateException) {
@@ -211,18 +211,6 @@ class MainActivity : MusicGlueActivity(),
             ex.printStackTrace()
         }
 
-    }
-
-    private fun tryPopFolderBack(): Boolean {
-        val categoriesFragment =
-            supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
-
-        if (categoriesFragment.isCurrentFragmentFolderTree()){
-            val folderTree = categoriesFragment.childFragmentManager.fragments
-                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-            return folderTree?.handleOnBackPressed() == true
-        }
-        return false
     }
 
     override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {

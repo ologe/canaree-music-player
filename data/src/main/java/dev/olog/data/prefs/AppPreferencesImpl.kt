@@ -104,19 +104,12 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun defaultFolder(): String {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-        var startFolder = Environment.getRootDirectory()
         if (musicDir.exists() && musicDir.isDirectory) {
-            startFolder = musicDir
-        } else {
-            val externalStorage = Environment.getExternalStorageDirectory()
-            if (externalStorage.exists() && externalStorage.isDirectory) {
-                startFolder = externalStorage
-            }
+            return musicDir.absolutePath
         }
-        return startFolder.absolutePath
+        return Environment.getExternalStorageDirectory().absolutePath
     }
 
     override fun observeDefaultMusicFolder(): Flow<File> {
@@ -125,7 +118,12 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun getDefaultMusicFolder(): File {
-        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())!!)
+        val default = defaultFolder()
+        val path = preferences.getString(DEFAULT_MUSIC_FOLDER, default).orEmpty()
+        if (path.startsWith(default)) {
+            return File(path)
+        }
+        return File(default)
     }
 
     override fun setDefaultMusicFolder(file: File) {

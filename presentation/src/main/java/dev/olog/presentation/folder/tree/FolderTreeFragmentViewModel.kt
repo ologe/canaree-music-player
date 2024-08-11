@@ -33,7 +33,16 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val gateway: FolderNavigatorGateway
 ) : ViewModel() {
 
+    companion object {
+        private val ROOT_DIR = Environment.getExternalStorageDirectory()
+    }
+
     private val currentDirectory = MutableStateFlow(appPreferencesUseCase.getDefaultMusicFolder())
+    val canPop: Boolean
+        get() {
+            val current = currentDirectory.value
+            return current.parentFile?.path?.startsWith(ROOT_DIR.path) == true
+        }
 
     private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
 
@@ -71,7 +80,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
             .toList()
             .startWithIfNotEmpty(tracksHeader)
 
-        if (parent == Environment.getRootDirectory()) {
+        if (parent == ROOT_DIR) {
             return folders + tracks
         }
         return listOf(FolderTreeItem.Back) + folders + tracks
@@ -82,18 +91,8 @@ class FolderTreeFragmentViewModel @Inject constructor(
     fun observeCurrentFolderIsDefaultFolder(): LiveData<Boolean> = isCurrentFolderDefaultFolder.distinctUntilChanged()
 
     fun popFolder(): Boolean {
+
         val current = currentDirectory.value
-        if (current == Environment.getRootDirectory()) {
-            // alredy in root dir
-            return false
-        }
-
-        val parent = current.parentFile
-        if (parent?.listFiles()?.isEmpty() == true) {
-            // parent has not children
-            return false
-        }
-
         try {
             currentDirectory.value = current.parentFile!!
             return true

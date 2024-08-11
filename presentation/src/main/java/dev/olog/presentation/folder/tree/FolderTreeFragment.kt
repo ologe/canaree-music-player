@@ -9,7 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.databinding.FragmentFolderTreeBinding
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -21,6 +20,7 @@ import dev.olog.shared.android.viewBinding
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 
 @AndroidEntryPoint
 class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
@@ -103,7 +103,11 @@ class FolderTreeFragment : Fragment(R.layout.fragment_folder_tree),
     }
 
     override fun handleOnBackPressed(): Boolean {
-        return viewModel.popFolder()
+        if (viewModel.canPop) {
+            viewModel.popFolder()
+            return true
+        }
+        return false
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener(){

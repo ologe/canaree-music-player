@@ -40,4 +40,6 @@ interface PresentationPreferencesGateway {
     fun canShowPodcasts(): Boolean
 
     fun setDefault()
+
+    fun observeFolderAsHierarchy(): Flow<Boolean>
 }

@@ -19,7 +19,7 @@ import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
 import dev.olog.shared.android.extensions.setMargin
 
-class SuperCerealScrollHelper(
+class ActivityScrollHelper(
     activity: FragmentActivity,
     input: ScrollType
 ) : ScrollHelper(activity, input, false, false, false) { // debug is very slow
@@ -55,14 +55,7 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForTabLayout(fragment: Fragment): View? {
-        val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
-                // search toolbar and tab layout in parent fragment
-                fragment.parentFragment?.view
-            }
-            else -> fragment.view
-        }
-        return view?.findViewByIdNotRecursive(R.id.tabLayout)
+        return fragment.requireActivity().findViewById(R.id.tabLayout)
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
@@ -70,15 +63,7 @@ class SuperCerealScrollHelper(
             // for some reason when drag and drop in queue fragment, the queue became crazy
             return null
         }
-        val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
-                // search toolbar and tab layout in parent fragment
-                fragment.parentFragment?.view
-            }
-            fragment.tag == SettingsFragment.TAG -> fragment.parentFragment?.view
-            else -> fragment.view
-        }
-        return view?.findViewByIdNotRecursive(R.id.toolbar)
+        return fragment.requireActivity().findViewById(R.id.toolbar)
     }
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {

@@ -16,6 +16,7 @@ ext {
     android_x_annotations = '1.8.1'
     android_x_coordinator = '1.2.0'
     android_x_fragments = '1.8.2'
+    android_x_activity = '1.9.1'
     constraint_layout = '2.1.4'
     lifecycle = '2.8.4'
 
@@ -112,6 +113,7 @@ ext {
             tooling           : "androidx.compose.ui:ui-tooling",
             tooling_preview   : "androidx.compose.ui:ui-tooling-preview",
             pooling_container : "androidx.customview:customview-poolingcontainer:1.0.0",
+            activity          : "androidx.activity:activity-compose:$android_x_activity"
     ]
 
     lib_data = [

@@ -139,9 +139,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             // crash workaround, don't know if crashes because of a leak or what else
         }
         when (key) {
-            getString(R.string.prefs_folder_tree_view_key) -> {
-                act.recreate()
-            }
             getString(R.string.prefs_show_podcasts_key) -> {
                 presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
                 act.recreate()

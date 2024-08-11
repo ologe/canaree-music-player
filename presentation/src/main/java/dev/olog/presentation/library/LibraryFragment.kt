@@ -11,6 +11,7 @@ import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.viewLifecycleScope
 import dev.olog.presentation.databinding.FragmentLibraryBinding
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LibraryFragment : Fragment(R.layout.fragment_library) {
+class LibraryFragment : Fragment(R.layout.fragment_library), CanHandleOnBackPressed {
 
     companion object {
         @JvmStatic
@@ -63,31 +64,16 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         )
     }
 
-    fun isCurrentFragmentFolderTree(): Boolean {
-        return pagerAdapter.getCategoryAtPosition(binding.viewPager.currentItem) == MediaIdCategory.FOLDERS &&
-                pagerAdapter.showFolderAsHierarchy()
-    }
-
     private val binding by viewBinding(FragmentLibraryBinding::bind) {
         it.viewPager.adapter = null
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null){
-            val transaction = childFragmentManager.beginTransaction()
-            for (fragment in childFragmentManager.fragments) {
-                transaction.remove(fragment)
-            }
-            transaction.commitNowAllowingStateLoss()
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewPager.adapter = pagerAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-        binding.viewPager.offscreenPageLimit = 5
+        binding.viewPager.offscreenPageLimit = 2
 
         binding.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 
@@ -137,7 +123,13 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
+    }
+
+    override fun handleOnBackPressed(): Boolean {
+        val index = binding.viewPager.currentItem
+        val fragment = childFragmentManager.fragments.find { it.tag == "android:switcher:${binding.viewPager.id}:$index" }
+        return fragment is CanHandleOnBackPressed && fragment.handleOnBackPressed()
     }
 
     private val onPageChangeListener =

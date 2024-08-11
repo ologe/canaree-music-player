@@ -3,6 +3,7 @@ package dev.olog.presentation.model
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
@@ -265,5 +266,10 @@ internal class PresentationPreferencesImpl @Inject constructor(
 
     override fun canShowPodcasts(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
+    }
+
+    override fun observeFolderAsHierarchy(): Flow<Boolean> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        return prefs.observeKey(context.getString(R.string.prefs_folder_tree_view_key), false)
     }
 }
