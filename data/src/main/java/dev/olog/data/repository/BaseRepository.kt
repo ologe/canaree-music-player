@@ -27,10 +27,10 @@ internal abstract class BaseRepository<T, Param>(
 ) : BaseGateway<T, Param> {
 
     private val scope = MainScope()
-    private val cached = flow {
+    private val cached = channelFlow {
         Permissions.awaitStorage(context)
 
-        emit(withContext(Dispatchers.IO) { queryAll() })
+        send(withContext(Dispatchers.IO) { queryAll() })
 
         val contentUri = registerMainContentUri()
 
@@ -38,7 +38,7 @@ internal abstract class BaseRepository<T, Param>(
             contentUri.uri,
             contentUri.notifyForDescendants,
             DataObserver(scope) {
-                emit(withContext(Dispatchers.IO) { queryAll() })
+                send(withContext(Dispatchers.IO) { queryAll() })
             }
         )
 
