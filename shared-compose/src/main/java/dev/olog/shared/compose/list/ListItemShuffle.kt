@@ -4,9 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.olog.shared.compose.CanareeTheme
 import dev.olog.shared.compose.R
+import dev.olog.shared.compose.Theme
 import dev.olog.shared.compose.ThemePreviews
 import dev.olog.shared.compose.component.DottedDivider
 import dev.olog.shared.compose.list.internal.ListItemRow
@@ -64,7 +64,7 @@ fun ListItemShuffle(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemShuffle {}
             ListItemShuffle(showDivider = false) {}
         }

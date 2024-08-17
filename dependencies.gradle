@@ -108,7 +108,7 @@ ext {
     lib_compose = [
             bom               : "androidx.compose:compose-bom:$compose_bom",
             foundation        : "androidx.compose.foundation:foundation",
-            material          : "androidx.compose.material:material",
+            material          : "androidx.compose.material3:material3",
             material_icons    : "androidx.compose.material:material-icons-extended",
             tooling           : "androidx.compose.ui:ui-tooling",
             tooling_preview   : "androidx.compose.ui:ui-tooling-preview",

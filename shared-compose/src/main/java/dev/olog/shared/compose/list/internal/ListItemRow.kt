@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -85,7 +85,7 @@ internal fun ListItemRow(
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
         ) {
             CompositionLocalProvider(
-                LocalContentColor provides Theme.textColorPrimary,
+                LocalContentColor provides Theme.colors.textColorPrimary,
                 LocalTextStyle provides LocalTextStyle.current.copy(
                     fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_song_title).toSp() },
                 ),
@@ -93,7 +93,7 @@ internal fun ListItemRow(
             )
             subtitle?.let {
                 CompositionLocalProvider(
-                    LocalContentColor provides Theme.textColorSecondary,
+                    LocalContentColor provides Theme.colors.textColorSecondary,
                     LocalTextStyle provides LocalTextStyle.current.copy(
                         fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_song_subtitle).toSp() },
                     ),

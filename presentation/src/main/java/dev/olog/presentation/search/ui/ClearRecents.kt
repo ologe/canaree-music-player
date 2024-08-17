@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olog.presentation.R
 import dev.olog.shared.compose.CanareeTheme
+import dev.olog.shared.compose.Theme
 import dev.olog.shared.compose.ThemePreviews
 import dev.olog.shared.compose.component.DottedDivider
 
@@ -56,7 +56,7 @@ fun ClearRecents(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Box(Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+        Box(Modifier.fillMaxSize().background(Theme.colors.background)) {
             ClearRecents {
 
             }

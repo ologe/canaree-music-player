@@ -9,12 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.runtime.Composable
@@ -115,7 +114,7 @@ private fun Index(
 ) {
     Box(
         modifier
-            .background(Theme.textColorPrimary, RoundedCornerShape(3.dp))
+            .background(Theme.colors.textColorPrimary, RoundedCornerShape(3.dp))
             .padding(horizontal = 4.dp)
     ) {
         CompositionLocalProvider(
@@ -133,7 +132,7 @@ private fun Index(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemSong(
                 mediaId = MediaId.songId(1),
                 title = "Angel Beach",

@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.compose.CanareeTheme
+import dev.olog.shared.compose.Theme
 import dev.olog.shared.compose.component.AsyncImage
 import dev.olog.shared.compose.component.QuickAction
 import dev.olog.shared.compose.component.shaped
@@ -99,7 +99,7 @@ private fun Image(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemAlbum(
                 mediaId = MediaId.songId(1),
                 title = "Angel Beach",

@@ -5,6 +5,7 @@ package dev.olog.shared.android.extensions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -104,7 +105,11 @@ inline fun Context.colorPrimaryId(): Int {
 }
 
 inline fun Context.isDarkMode(): Boolean {
-    return resources.getBoolean(R.bool.is_dark_mode)
+    return configuration.isDarkMode()
+}
+
+inline fun Configuration.isDarkMode(): Boolean {
+    return (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 }
 
 inline fun Context.colorSwipeBackground(): Int {

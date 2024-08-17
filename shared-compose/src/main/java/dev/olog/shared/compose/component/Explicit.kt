@@ -2,7 +2,7 @@ package dev.olog.shared.compose.component
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explicit
 import androidx.compose.runtime.Composable

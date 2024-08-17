@@ -10,9 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,6 +30,7 @@ import dev.olog.shared.compose.component.shaped
 import dev.olog.shared.compose.glide.BindingAdapters
 import dev.olog.shared.compose.list.internal.ListItemColumn
 import dev.olog.shared.compose.R
+import dev.olog.shared.compose.Theme
 
 @Composable
 fun ListItemBlacklist(
@@ -95,7 +95,7 @@ fun ListItemBlacklist(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemBlacklist(
                 mediaId = MediaId.songId(1),
                 title = "Angel Beach",

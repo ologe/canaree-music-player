@@ -113,7 +113,7 @@ private fun DetailList(list: List<DetailItem>) {
         factory = { RecyclerView(it) },
         modifier = Modifier
             .fillMaxSize()
-            .background(Theme.background),
+            .background(Theme.colors.background),
         update = {
             it.layoutManager = LinearLayoutManager(it.context)
             val adapter = DetailFragmentAdapter(

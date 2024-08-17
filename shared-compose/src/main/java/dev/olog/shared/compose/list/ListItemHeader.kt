@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -56,13 +55,13 @@ fun ListItemHeader(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Black,
-                    color = Theme.textColorPrimary,
+                    color = Theme.colors.textColorPrimary,
                 )
                 subtitle?.let {
                     Text(
                         text = it,
                         fontSize = with(LocalDensity.current) { dimensionResource(id = R.dimen.item_header_sec_text_size).toSp() },
-                        color = Theme.accentColor,
+                        color = Theme.colors.accentColor,
                     )
                 }
             }
@@ -70,9 +69,9 @@ fun ListItemHeader(
                 CompositionLocalProvider(
                     LocalTextStyle provides LocalTextStyle.current.copy(
                         fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_header_sec_text_size).toSp() },
-                        color = Theme.accentColor,
+                        color = Theme.colors.accentColor,
                     ),
-                    LocalContentColor provides Theme.iconColor,
+                    LocalContentColor provides Theme.colors.iconColor,
                     content = {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -92,7 +91,7 @@ fun ListItemHeader(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemHeader(title = "Header New")
             ListItemHeader(title = "Header New") {
                 Text(text = "trailing")

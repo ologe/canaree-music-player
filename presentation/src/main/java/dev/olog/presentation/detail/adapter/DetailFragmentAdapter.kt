@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -225,7 +225,7 @@ internal class DetailFragmentAdapter(
                             text = item.mode.trackNumber,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            color = Theme.textColorPrimary,
+                            color = Theme.colors.textColorPrimary,
                         )
                     }
                 },

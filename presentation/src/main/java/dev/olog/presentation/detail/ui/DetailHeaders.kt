@@ -7,13 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
@@ -100,7 +97,7 @@ fun DetailSongsHeader(
                         interactionSource = remember { MutableInteractionSource() },
                         onClick = onSortClick,
                     ),
-                color = Theme.accentColor,
+                color = Theme.colors.accentColor,
             )
             IconButton(onClick = onSortDirectionClick) {
                 Icon(
@@ -111,7 +108,7 @@ fun DetailSongsHeader(
                         else -> error("invalid $sort")
                     },
                     contentDescription = null,
-                    tint = Theme.accentColor,
+                    tint = Theme.colors.accentColor,
                 )
             }
         }
@@ -122,7 +119,7 @@ fun DetailSongsHeader(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             DetailRelatedArtistsHeader(true) {}
             DetailRelatedArtistsHeader(false) {}
             DetailRecentlyAddedHeader(10, true) {}

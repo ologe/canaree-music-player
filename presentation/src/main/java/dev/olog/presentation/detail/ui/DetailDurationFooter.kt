@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,7 @@ fun DetailDurationFooter(
         DottedDivider()
         Text(
             text = title,
-            color = Theme.textColorPrimary,
+            color = Theme.colors.textColorPrimary,
             fontWeight = FontWeight.Black,
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -45,7 +44,7 @@ fun DetailDurationFooter(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Box(Modifier.background(MaterialTheme.colors.background)) {
+        Box(Modifier.background(Theme.colors.background)) {
             DetailDurationFooter("3 Songs, 9 Minutes")
         }
     }

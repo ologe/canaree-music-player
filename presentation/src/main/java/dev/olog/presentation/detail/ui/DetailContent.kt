@@ -13,9 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
@@ -88,7 +87,7 @@ fun DetailContent(
         }
         Column(
             modifier = Modifier
-                .background(Theme.background, Shape)
+                .background(Theme.colors.background, Shape)
                 .padding(
                     horizontal = 12.dp,
                     vertical = 12.dp
@@ -98,12 +97,12 @@ fun DetailContent(
                 text = title,
                 fontWeight = FontWeight.Black,
                 fontSize = 40.sp,
-                color = Theme.textColorPrimary,
+                color = Theme.colors.textColorPrimary,
             )
             Text(
                 text = subtitle,
                 fontSize = with(LocalDensity.current) { dimensionResource(id = R.dimen.item_detail_main_header_subtitle_size).toSp() },
-                color = Theme.accentColor, // TODO colorPrimary??
+                color = Theme.colors.accentColor, // TODO colorPrimary??
             )
 
             // TODO parse as html
@@ -114,7 +113,7 @@ fun DetailContent(
                     text = it,
                     style = LocalTextStyle.current,
                     fontSize = 13.sp,
-                    color = Theme.textColorPrimary,
+                    color = Theme.colors.textColorPrimary,
                     maxLines = if (isExpanded) Int.MAX_VALUE else 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -177,7 +176,7 @@ private fun HeaderLayout(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Box(Modifier.background(MaterialTheme.colors.background)) {
+        Box(Modifier.background(Theme.colors.background)) {
             DetailContent(
                 MediaId.songId(1),
                 title = "Angel Beach",
@@ -193,7 +192,7 @@ private fun Preview() {
 @Composable
 private fun Preview2() {
     CanareeTheme {
-        Box(Modifier.background(MaterialTheme.colors.background)) {
+        Box(Modifier.background(Theme.colors.background)) {
             DetailContent(
                 MediaId.songId(1),
                 title = "Angel Beach",

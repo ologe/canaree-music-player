@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Shuffle
@@ -33,6 +32,7 @@ import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.compose.CanareeTheme
 import dev.olog.shared.compose.R
+import dev.olog.shared.compose.Theme
 
 private val BackgroundColor = Color(0xDD_f2f2f2)
 private val IconColor = Color(0xFF_797979)
@@ -106,7 +106,7 @@ fun rememberQuickAction(): QuickAction {
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Row(Modifier.background(MaterialTheme.colors.background)) {
+        Row(Modifier.background(Theme.colors.background)) {
             for (value in QuickAction.values()) {
                 QuickAction(MediaId.shuffleId(), value)
             }

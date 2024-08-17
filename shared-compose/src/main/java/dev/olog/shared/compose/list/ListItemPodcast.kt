@@ -4,8 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +53,7 @@ fun ListItemPodcast(
                 )
                 Text(
                     text = duration,
-                    color = Theme.accentColor,
+                    color = Theme.colors.accentColor,
                     fontWeight = FontWeight.Bold,
                 )
             }
@@ -75,7 +74,7 @@ fun ListItemPodcast(
 @Composable
 private fun Preview() {
     CanareeTheme {
-        Column(Modifier.background(MaterialTheme.colors.background)) {
+        Column(Modifier.background(Theme.colors.background)) {
             ListItemPodcast(
                 mediaId = MediaId.songId(1),
                 title = "Angel Beach",
