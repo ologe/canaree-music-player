@@ -61,17 +61,18 @@
         tools:fontFamily="sans-serif-black"
         android:textColor="?android:textColorPrimary"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <dev.olog.shared.compose.component.fab.Fab
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@drawable/vd_add"
+        android:src="@drawable/vd_add"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:fab_color="tertiary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
