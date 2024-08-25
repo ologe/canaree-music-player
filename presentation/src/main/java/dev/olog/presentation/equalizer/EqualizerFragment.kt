@@ -123,9 +123,7 @@ internal class EqualizerFragment : BottomSheetDialogFragment() {
 
         setupBandListeners { band -> BandListener(band) }
 
-        binding.powerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
-            binding.powerSwitch.text = getString(text)
+        binding.powerSwitch.onCheckedChange = { isChecked ->
             viewModel.setEqualizerEnabled(isChecked)
         }
         binding.presetSpinner.setOnClickListener { changePreset() }
@@ -148,7 +146,7 @@ internal class EqualizerFragment : BottomSheetDialogFragment() {
 
         setupBandListeners(null)
 
-        binding.powerSwitch.setOnCheckedChangeListener(null)
+        binding.powerSwitch.onCheckedChange = null
         binding.presetSpinner.setOnClickListener(null)
         binding.delete.setOnClickListener(null)
         binding.save.setOnClickListener(null)
