@@ -45,19 +45,3 @@ fun Modifier.shaped(mediaId: MediaId): Modifier = this.composed {
     }
     Modifier.clip(shape)
 }
-
-fun Modifier.graphicsLayerWithSize(block: GraphicsLayerScope.(IntSize) -> Unit): Modifier =
-    this.composed {
-        val state = remember { mutableStateOf(IntSize.Zero) }
-
-        Modifier
-            .onSizeChanged {
-                state.value = it
-            }
-            .graphicsLayer {
-                val size = state.value
-                if (size != IntSize.Zero) {
-                    block(this, size)
-                }
-            }
-    }
