@@ -107,7 +107,10 @@ class ScrollHmsPicker (
     }
 
     fun setColorSelected(@ColorRes res: Int) {
-        val colorInt = color(res)
+        setColorIntSelected(color(res))
+    }
+
+    fun setColorIntSelected(@ColorInt colorInt: Int) {
         arrayOf(pickerHours, pickerMinutes, pickerSeconds).forEach {
             it.setSelectedTextColor(colorInt)
         }

@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.DialogFragment
 import dev.olog.presentation.R
+import dev.olog.shared.compose.theme.colorSchemeM3
+import dev.olog.shared.compose.theme.legacyAccent
 
 open class ScrollHmsPickerDialog : DialogFragment() {
     interface HmsPickHandler {
@@ -34,12 +36,15 @@ open class ScrollHmsPickerDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_picker, container, false)
+        val colors = requireContext().colorSchemeM3
+        val accentColor = colors.legacyAccent.toArgb()
+
         hmsPicker = view.findViewById<ScrollHmsPicker>(R.id.hms_picker).also { picker ->
             picker.setAutoStep(autoStep)
             picker.setColorNormal(colorNormal)
-            picker.setColorSelected(colorSelected)
+            picker.setColorIntSelected(accentColor)
         }
-        val textColor = ContextCompat.getColor(view.context, colorSelected)
+        val textColor = accentColor
         view.findViewById<Button>(R.id.button_cancel).apply {
             setTextColor(textColor)
             setOnClickListener { dismiss() }
