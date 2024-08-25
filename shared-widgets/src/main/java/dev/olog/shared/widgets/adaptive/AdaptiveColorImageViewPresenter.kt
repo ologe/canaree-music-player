@@ -19,9 +19,8 @@ class AdaptiveColorImageViewPresenter(
     private val context: Context
 ) {
 
-    private val isDarkMode by lazy(LazyThreadSafetyMode.NONE) {
-        context.isDarkMode()
-    }
+    private val isDarkMode: Boolean
+        get() = context.isDarkMode()
 
     private val defaultProcessorColors = ProcessorColors(
         context.colorBackground(),
