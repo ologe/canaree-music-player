@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="fab_color" format="enum">
+        <enum name="primary" value="0"/>
+        <enum name="secondary" value="1"/>
+        <enum name="tertiary" value="2"/>
+    </attr>
+
+    <declare-styleable name="Fab">
+        <attr name="android:src"/>
+        <attr name="fab_color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExtendedFab">
+        <attr name="android:src"/>
+        <attr name="fab_color"/>
+    </declare-styleable>
+
+    <declare-styleable name="SmallFab">
+        <attr name="android:src"/>
+        <attr name="fab_color"/>
+    </declare-styleable>
+
+</resources>
