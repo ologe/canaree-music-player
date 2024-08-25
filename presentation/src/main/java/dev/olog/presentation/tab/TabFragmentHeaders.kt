@@ -13,8 +13,6 @@ class TabFragmentHeaders @Inject constructor(
 
     val autoPlaylistHeader = TabItem.Header(resources.getString(R.string.tab_auto_playlists))
 
-    val shuffleHeader = TabItem.Shuffle
-
     val allAlbumsHeader = TabItem.Header(resources.getString(R.string.tab_all_albums))
 
     val allArtistsHeader = TabItem.Header(resources.getString(R.string.tab_all_artists))

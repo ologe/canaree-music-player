@@ -53,17 +53,13 @@ internal class TabDataProvider @Inject constructor(
         // songs
         MediaIdCategory.FOLDERS -> getFolders()
         MediaIdCategory.PLAYLISTS -> getPlaylist()
-        MediaIdCategory.SONGS -> songGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
-        }
+        MediaIdCategory.SONGS -> songGateway.observeAll().mapListItem { it.toTabDisplayableItem() }
         MediaIdCategory.ALBUMS -> getAlbums()
         MediaIdCategory.ARTISTS -> getArtists()
         MediaIdCategory.GENRES -> getGenres()
         // podcasts
         MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist()
-        MediaIdCategory.PODCASTS -> podcastGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
-        }
+        MediaIdCategory.PODCASTS -> podcastGateway.observeAll().mapListItem { it.toTabDisplayableItem() }
         MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbums()
         MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtists()
         MediaIdCategory.PLAYING_QUEUE -> error("remove when possible")

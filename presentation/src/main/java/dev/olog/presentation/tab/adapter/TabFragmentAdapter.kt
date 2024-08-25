@@ -100,10 +100,6 @@ internal class TabFragmentAdapter(
                         }
                     }
                 }
-
-                TabItem.Shuffle -> ListItemShuffle {
-                    mediaProvider.shuffle(MediaId.shuffleId(), null)
-                }
             }
         }
     }
@@ -141,9 +137,6 @@ sealed interface TabItem {
     ) : TabItem
 
     @Stable
-    object Shuffle: TabItem
-
-    @Stable
     data class Header(val title: String): TabItem
 
     @Stable
@@ -156,6 +149,5 @@ fun TabItem.isScrollable() = when (this) {
     is TabItem.Podcast,
     is TabItem.Song -> true
     is TabItem.Header,
-    is TabItem.HorizontalList,
-    TabItem.Shuffle -> false
+    is TabItem.HorizontalList -> false
 }

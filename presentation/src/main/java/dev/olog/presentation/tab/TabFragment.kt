@@ -3,13 +3,16 @@ package dev.olog.presentation.tab
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
@@ -62,9 +65,11 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
         MediaIdCategory.valueOf(categoryString)
     }
+    private val mediaProvider: MediaProvider
+        get() = act.findInContext<MediaProvider>()
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(navigator, act.findInContext<MediaProvider>(), viewModel)
+        TabFragmentAdapter(navigator, mediaProvider, viewModel)
     }
 
     private val binding by viewBinding(FragmentTabBinding::bind) {
@@ -101,10 +106,15 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
             binding.list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
         }
 
-        binding.fab.toggleVisibility(
-            category == MediaIdCategory.PLAYLISTS ||
-                    category == MediaIdCategory.PODCASTS_PLAYLIST, true
-        )
+        binding.fab.isVisible = category == MediaIdCategory.PLAYLISTS ||
+                category == MediaIdCategory.PODCASTS_PLAYLIST ||
+                category == MediaIdCategory.SONGS
+        binding.fab.drawable = when (category) {
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.PODCASTS_PLAYLIST -> ContextCompat.getDrawable(requireContext(), R.drawable.vd_add)
+            MediaIdCategory.SONGS -> ContextCompat.getDrawable(requireContext(), R.drawable.vd_shuffle)
+            else -> null
+        }
 
         viewModel.observeData(category)
             .subscribe(viewLifecycleOwner) { list ->
@@ -117,8 +127,7 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
                         is TabItem.Podcast -> it.title.firstOrNull()
                         is TabItem.Album -> it.title.firstOrNull()
                         is TabItem.Header,
-                        is TabItem.HorizontalList,
-                        TabItem.Shuffle -> null
+                        is TabItem.HorizontalList -> null
                     }
                 }
             }
@@ -141,10 +150,12 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
         super.onResume()
         binding.sidebar.setListener(letterTouchListener)
         binding.fab.setOnClickListener {
-            val type =
-                if (category == MediaIdCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
-            navigator.toChooseTracksForPlaylistFragment(type)
-
+            when (category) {
+                MediaIdCategory.PLAYLISTS -> navigator.toChooseTracksForPlaylistFragment(PlaylistType.TRACK)
+                MediaIdCategory.PODCASTS_PLAYLIST -> navigator.toChooseTracksForPlaylistFragment(PlaylistType.PODCAST)
+                MediaIdCategory.SONGS -> mediaProvider.shuffle(MediaId.shuffleId(), null)
+                else -> {}
+            }
         }
     }
 
@@ -218,8 +229,7 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
             }
 
             is TabItem.Header,
-            is TabItem.HorizontalList,
-            TabItem.Shuffle -> ""
+            is TabItem.HorizontalList -> ""
         }
     }
 
