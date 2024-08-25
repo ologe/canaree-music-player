@@ -94,11 +94,10 @@
     </FrameLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <dev.olog.shared.compose.component.fab.Fab
         android:id="@+id/fab"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:fabSize="normal"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="36dp"
         android:layout_width="wrap_content"
