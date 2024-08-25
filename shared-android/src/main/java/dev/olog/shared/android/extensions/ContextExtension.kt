@@ -150,6 +150,14 @@ inline fun <reified T : Any> Context.findInContext(): T {
     error("$this does not implement ${T::class.java}")
 }
 
+inline fun <reified T : Any> Context.findInContextOrNull(): T? {
+    try {
+        return findInContext()
+    } catch (ex: Throwable) {
+        return null
+    }
+}
+
 @ColorInt
 fun Context.color(@ColorRes id: Int): Int {
     return ContextCompat.getColor(this, id)
