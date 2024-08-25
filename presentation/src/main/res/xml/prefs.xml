@@ -96,7 +96,8 @@
         <Preference
                 app:key="@string/prefs_color_accent_key"
                 app:summary="@string/prefs_accent_color_summary"
-                app:title="@string/prefs_accent_color_title" />
+                app:title="@string/prefs_accent_color_title"
+                android:widgetLayout="@layout/selected_color_layout"/>
 
         <SwitchPreferenceCompat
             app:title="@string/prefs_adaptive_colors_title"
