@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package dev.olog.presentation.detail.ui
 
 import androidx.compose.foundation.background
@@ -11,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
@@ -68,7 +66,7 @@ fun DetailRecentlyAddedHeader(
         trailingContent = if (showSeeAll) { {
             IconButton(onClick = onClick) {
                 Icon(
-                    imageVector = Icons.Rounded.ArrowForward,
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                     contentDescription = null,
                 )
             }
@@ -97,7 +95,7 @@ fun DetailSongsHeader(
                         interactionSource = remember { MutableInteractionSource() },
                         onClick = onSortClick,
                     ),
-                color = Theme.colors.accentColor,
+                color = Theme.m3Colors.primary,
             )
             IconButton(onClick = onSortDirectionClick) {
                 Icon(
@@ -108,7 +106,7 @@ fun DetailSongsHeader(
                         else -> error("invalid $sort")
                     },
                     contentDescription = null,
-                    tint = Theme.colors.accentColor,
+                    tint = Theme.m3Colors.primary,
                 )
             }
         }
