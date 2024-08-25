@@ -59,6 +59,7 @@
 
     <style name="Preference.SwitchPreferenceCompat.Material.App">
         <item name="iconSpaceReserved">false</item>
+        <item name="widgetLayout">@layout/switch_layout</item>
     </style>
 
     <style name="Preference.SwitchPreference.Material.App">

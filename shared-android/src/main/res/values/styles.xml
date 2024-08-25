@@ -38,11 +38,9 @@
 
         <item name="materialAlertDialogTheme">@style/MaterialDialog</item>
 
-        <item name="bottomNavigationStyle">@style/MaterialBottomNavigationBar</item>
         <item name="tabStyle">@style/MaterialTabLayout</item>
         <item name="imageButtonStyle">@style/MaterialImageButton</item>
         <item name="seekBarStyle">@style/MaterialSeekBar</item>
-        <item name="floatingActionButtonStyle">@style/MaterialFab</item>
 
         <item name="elevationOverlayEnabled">false</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallShapeAppearance</item>
@@ -56,7 +54,6 @@
         <item name="chipStyle">@style/DefaultChip</item>
 
         <item name="android:overScrollMode">never</item>
-
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
@@ -67,10 +64,7 @@
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabMode">scrollable</item>
         <item name="tabGravity">center</item>
-        <item name="tabSelectedTextColor">?colorAccent</item>
-        <item name="tabTextColor">?colorUnselectedButton</item>
-        <item name="tabIndicatorColor">?colorAccent</item>
-        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorHeight">2.5dp</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabUnboundedRipple">true</item>
         <item name="tabTextAppearance">@style/MaterialTabLayout.TextAppearance</item>
@@ -78,19 +72,6 @@
 
     <style name="MaterialTabLayout.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
-    </style>
-
-
-<!--    bottom navigation-->
-    <style name="MaterialBottomNavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
-        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
-        <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
-        <item name="labelVisibilityMode">selected</item>
-    </style>
-
-    <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">sans-serif-black</item>
     </style>
 
 <!--    image button-->
@@ -108,13 +89,6 @@
         <item name="android:progressBackgroundTint">@color/progressBackgroundTint</item>
         <item name="android:thumb">@drawable/seekbar_thumb_circle</item>
         <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
-    </style>
-
-<!--    fab-->
-    <style name="MaterialFab" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="fabSize">normal</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="tint">?attr/colorPrimaryTransparent</item>
     </style>
 
 
@@ -164,14 +138,6 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:textAllCaps">false</item>
-    </style>
-
-    <style name="PositiveButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:letterSpacing">0</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textColor">?attr/colorPrimaryTransparent</item>
     </style>
 
 
