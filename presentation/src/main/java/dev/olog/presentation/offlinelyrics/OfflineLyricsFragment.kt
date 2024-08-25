@@ -133,7 +133,6 @@ class OfflineLyricsFragment : Fragment(R.layout.fragment_offline_lyrics), DrawsO
             .asLiveData()
             .subscribe(viewLifecycleOwner) { accent ->
                 binding.subHeader.animateTextColor(accent)
-                binding.edit.animateBackgroundColor(accent)
             }
     }
 
