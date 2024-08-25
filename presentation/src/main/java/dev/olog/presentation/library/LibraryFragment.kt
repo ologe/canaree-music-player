@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,9 @@ import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.utils.ColorStateList
 import dev.olog.shared.android.viewBinding
+import dev.olog.shared.compose.theme.colorSchemeM3
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -92,6 +95,17 @@ class LibraryFragment : Fragment(R.layout.fragment_library), CanHandleOnBackPres
                 TutorialTapTarget.floatingWindow(binding.floatingWindow)
             }
         }
+
+        val colors = colorSchemeM3
+        binding.tabLayout.setSelectedTabIndicatorColor(colors.primary.toArgb())
+        binding.tabLayout.tabTextColors = ColorStateList(
+            intArrayOf(android.R.attr.state_selected) to colors.primary.toArgb(),
+            intArrayOf() to colors.onSurfaceVariant.toArgb(),
+        )
+        binding.tabLayout.tabRippleColor = ColorStateList(
+            intArrayOf(android.R.attr.state_selected) to colors.primary.copy(alpha = .16f).toArgb(),
+            intArrayOf() to colors.onSurfaceVariant.copy(alpha = .16f).toArgb(),
+        )
     }
 
     override fun onResume() {
