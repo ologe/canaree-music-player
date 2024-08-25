@@ -2,6 +2,6 @@
 <resources>
 
     <dimen name="sliding_panel_peek">65dp</dimen>
-    <dimen name="sliding_panel_peek_plus_navigation">115dp</dimen>
+    <dimen name="sliding_panel_peek_plus_navigation">125dp</dimen>
 
 </resources>

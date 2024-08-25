@@ -2,11 +2,11 @@
 <resources>
 
     <dimen name="sliding_panel_peek">55dp</dimen>
-    <dimen name="sliding_panel_peek_plus_navigation">105dp</dimen>
+    <dimen name="sliding_panel_peek_plus_navigation">115dp</dimen>
 
     <dimen name="sliding_panel_parallax">20dp</dimen>
     <dimen name="sliding_panel_shadow">2dp</dimen>
 
-    <dimen name="bottom_navigation_height">50dp</dimen>
+    <dimen name="bottom_navigation_height">60dp</dimen>
 
 </resources>
