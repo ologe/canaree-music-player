@@ -61,7 +61,7 @@ fun ListItemHeader(
                     Text(
                         text = it,
                         fontSize = with(LocalDensity.current) { dimensionResource(id = R.dimen.item_header_sec_text_size).toSp() },
-                        color = Theme.colors.accentColor,
+                        color = Theme.m3Colors.primary,
                     )
                 }
             }
@@ -69,7 +69,7 @@ fun ListItemHeader(
                 CompositionLocalProvider(
                     LocalTextStyle provides LocalTextStyle.current.copy(
                         fontSize = with(LocalDensity.current) { dimensionResource(R.dimen.item_header_sec_text_size).toSp() },
-                        color = Theme.colors.accentColor,
+                        color = Theme.m3Colors.primary,
                     ),
                     LocalContentColor provides Theme.colors.iconColor,
                     content = {
