@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Switch">
+        <attr name="android:text"/>
+        <attr name="android:checked"/>
+    </declare-styleable>
+
+</resources>
