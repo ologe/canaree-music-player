@@ -84,6 +84,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
             binding.albumsUpdated.text =  text
             binding.podcast.isChecked = it.isPodcast
         }
+
+        binding.podcast.onCheckedChange = { }
     }
 
     override fun onResume() {

@@ -89,6 +89,9 @@ class EditTrackFragment : BaseEditItemFragment() {
             binding.podcast.isChecked = it.isPodcast
             hideLoader()
         }
+
+        binding.podcast.onCheckedChange = { }
+
     }
 
     override fun onResume() {

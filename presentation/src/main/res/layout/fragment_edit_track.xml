@@ -45,19 +45,19 @@
                 app:layout_goneMarginTop="24dp"
                 app:chipSpacingHorizontal="12dp">
 
-                <com.google.android.material.chip.Chip
+                <dev.olog.shared.compose.component.chip.Chip
                     android:id="@+id/bitrate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="128 kB/s" />
 
-                <com.google.android.material.chip.Chip
+                <dev.olog.shared.compose.component.chip.Chip
                     android:id="@+id/format"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="MPEG-1 Layer 3" />
 
-                <com.google.android.material.chip.Chip
+                <dev.olog.shared.compose.component.chip.Chip
                     android:id="@+id/sampling"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,16 +65,15 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <dev.olog.shared.compose.component.fab.SmallFab
                 android:id="@+id/autoTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/cover"
                 android:layout_marginEnd="16dp"
-                app:fabSize="mini"
                 android:src="@drawable/vd_search"
-                android:layout_marginBottom="22dp"/>
+                android:layout_marginBottom="22dp" />
 
             <LinearLayout
                 android:id="@+id/info"
@@ -231,7 +230,7 @@
 
             </LinearLayout>
 
-            <CheckBox
+            <dev.olog.shared.compose.component.Switch
                 android:id="@+id/podcast"
                 android:layout_marginStart="16dp"
                 android:layout_width="wrap_content"
@@ -239,30 +238,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
-                android:text="Podcast"/>
+                android:text="@string/common_podcast"/>
 
-            <com.google.android.material.button.MaterialButton
+            <dev.olog.shared.compose.component.button.FilledButton
                 android:id="@+id/okButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/info"
                 android:text="@string/popup_positive_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/PositiveButton"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <dev.olog.shared.compose.component.button.TextButton
                 android:id="@+id/cancelButton"
                 android:text="@string/popup_negative_cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
                 app:layout_constraintEnd_toStartOf="@+id/okButton"
-                android:layout_marginEnd="16dp"
-                style="@style/DefaultButton" />
+                android:layout_marginEnd="16dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
