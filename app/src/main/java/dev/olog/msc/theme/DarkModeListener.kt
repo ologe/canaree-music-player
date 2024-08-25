@@ -32,17 +32,19 @@ internal class DarkModeListener @Inject constructor(
         )
 
         return when (value) {
-            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> {
-                if (isQ()) {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                } else {
-                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                }
-            }
+            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> followSystem()
             context.getString(R.string.prefs_dark_mode_2_entry_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
             context.getString(R.string.prefs_dark_mode_2_entry_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> throw IllegalStateException("invalid theme=$value")
+            else -> followSystem()
         }
     }
+
+    private fun followSystem(): Int {
+        if (isQ()) {
+            return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        return AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+    }
+
 }
 

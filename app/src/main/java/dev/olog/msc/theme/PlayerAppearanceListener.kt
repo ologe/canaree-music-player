@@ -40,7 +40,7 @@ internal class PlayerAppearanceListener @Inject constructor(
             context.getString(R.string.prefs_appearance_entry_value_big_image) -> PlayerAppearance.BIG_IMAGE
             context.getString(R.string.prefs_appearance_entry_value_clean) -> PlayerAppearance.CLEAN
             context.getString(R.string.prefs_appearance_entry_value_mini) -> PlayerAppearance.MINI
-            else -> throw IllegalStateException("invalid theme=$value")
+            else -> PlayerAppearance.DEFAULT
         }
     }
 
