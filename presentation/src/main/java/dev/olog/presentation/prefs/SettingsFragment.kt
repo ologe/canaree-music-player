@@ -181,7 +181,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val realColor = ColorPalette.getRealAccentSubColor(ctx.isDarkMode(), color)
         val prefs = PreferenceManager.getDefaultSharedPreferences(act)
         val key = getString(R.string.prefs_color_accent_key)
-        prefs.edit {
+        prefs.edit(commit = true) {
             putInt(key, realColor)
         }
         act.recreate()
