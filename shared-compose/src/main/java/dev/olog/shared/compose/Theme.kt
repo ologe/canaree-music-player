@@ -1,24 +1,30 @@
 package dev.olog.shared.compose
 
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.em
+import dev.olog.shared.compose.theme.CanareeColors
+import dev.olog.shared.compose.theme.rememberColorScheme
 
 @Composable
 fun CanareeTheme(content: @Composable () -> Unit) {
-    MaterialTheme {
+    MaterialTheme(rememberColorScheme(Theme.colors.accentColor)) {
         CompositionLocalProvider(
             LocalDensity provides LinearFontScaleDensity(LocalDensity.current),
-            LocalContentColor provides Theme.textColorPrimary,
+            LocalContentColor provides Theme.colors.textColorPrimary,
             LocalTextStyle provides LocalTextStyle.current.copy(
                 letterSpacing = 0.01.em,
+                platformStyle = PlatformTextStyle(
+                    includeFontPadding = true
+                )
             )
         ) {
             content()
@@ -34,24 +40,12 @@ private class LinearFontScaleDensity(private val delegate: Density) : Density {
 
 object Theme {
 
-    val background: Color
-        @Composable
-        get() = colorResource(R.color.colorBackground)
+    val colors: CanareeColors
+        get() = CanareeColors
 
-    val textColorPrimary: Color
+    val m3Colors: ColorScheme
         @Composable
-        get() = colorResource(id = R.color.textColorPrimary) // TODO this does not look right
-
-    val textColorSecondary: Color
-        @Composable
-        get() = colorResource(id = R.color.textColorSecondary)
-
-    val iconColor: Color
-        @Composable
-        get() = colorResource(id = R.color.colorControlNormal)
-
-    val accentColor: Color
-        @Composable
-        get() = colorResource(id = R.color.defaultColorAccent) // TODO dynamic
+        @ReadOnlyComposable
+        get() = MaterialTheme.colorScheme
 
 }
