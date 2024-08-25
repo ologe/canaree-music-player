@@ -16,14 +16,6 @@ fun TextView.animateTextColor(to: Int) {
     computeColors(from, to) { setTextColor(it) }
 }
 
-fun FloatingActionButton.animateBackgroundColor(to: Int) {
-    animate().cancel()
-    val from = backgroundTintList!!.defaultColor
-    computeColors(from, to) {
-        backgroundTintList = ColorStateList.valueOf(it)
-    }
-}
-
 fun View.animateBackgroundColor(to: Int) {
     animate().cancel()
 
