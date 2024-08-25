@@ -1,4 +1,4 @@
-package dev.olog.media.widget
+package dev.olog.shared.compose.progress
 
 import android.content.Context
 import android.util.AttributeSet
@@ -30,6 +30,10 @@ class CustomProgressBar(
 
     override fun stopAutoIncrement(startMillis: Int) {
         delegate.stopAutoIncrement(startMillis)
+    }
+
+    override fun stopAutoIncrement() {
+        delegate.stopAutoIncrement()
     }
 
     override fun observeProgress(): Flow<Long> {

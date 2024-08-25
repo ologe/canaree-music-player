@@ -1,4 +1,4 @@
-package dev.olog.media.widget
+package dev.olog.shared.compose.progress
 
 import android.content.Context
 import android.util.AttributeSet
@@ -50,6 +50,8 @@ class CustomSeekBar(
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 isTouched = false
+                // just stop the autoincrement job to avoid jumping of the seekbar
+                stopAutoIncrement()
                 onStopTouch(progress)
             }
         }
@@ -91,7 +93,12 @@ class CustomSeekBar(
         delegate.stopAutoIncrement(startMillis)
     }
 
+    override fun stopAutoIncrement() {
+        delegate.stopAutoIncrement()
+    }
+
     override fun onStateChanged(state: PlayerPlaybackState) {
+        squiggly.animate = state.isPlaying
         delegate.onStateChanged(state)
 
     }
