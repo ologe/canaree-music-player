@@ -33,6 +33,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -42,7 +43,6 @@ import dev.olog.shared.compose.CanareeTheme
 import dev.olog.shared.compose.Theme
 import dev.olog.shared.compose.ThemePreviews
 import dev.olog.shared.compose.component.AsyncImage
-import dev.olog.shared.compose.component.graphicsLayerWithSize
 import dev.olog.shared.compose.glide.BindingAdapters
 import kotlin.math.abs
 
@@ -69,7 +69,7 @@ fun DetailContent(
             AsyncImage(
                 Modifier
                     .aspectRatio(1f)
-                    .graphicsLayerWithSize { size ->
+                    .graphicsLayer {
                         val fraction = scroll.value / size.height
                         // TODO it overshoots on fling, fix
                         translationY = size.height * fraction * PARALLAX_FACTOR
@@ -102,7 +102,7 @@ fun DetailContent(
             Text(
                 text = subtitle,
                 fontSize = with(LocalDensity.current) { dimensionResource(id = R.dimen.item_detail_main_header_subtitle_size).toSp() },
-                color = Theme.colors.accentColor, // TODO colorPrimary??
+                color = Theme.m3Colors.primary,
             )
 
             // TODO parse as html
@@ -115,6 +115,7 @@ fun DetailContent(
                     fontSize = 13.sp,
                     color = Theme.colors.textColorPrimary,
                     maxLines = if (isExpanded) Int.MAX_VALUE else 2,
+                    lineHeight = 1.4.em,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .clickable(
