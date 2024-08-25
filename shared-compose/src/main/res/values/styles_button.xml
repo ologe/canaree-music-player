@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FilledButton">
+        <attr name="android:text"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextButton">
+        <attr name="android:text"/>
+    </declare-styleable>
+
+</resources>
