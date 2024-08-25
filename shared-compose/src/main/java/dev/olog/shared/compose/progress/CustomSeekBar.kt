@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
 import dev.olog.media.model.PlayerPlaybackState
+import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.widgets.drawable.SquigglyProgress
 import kotlinx.coroutines.flow.Flow
 
 class CustomSeekBar(
@@ -20,10 +22,14 @@ class CustomSeekBar(
 
     private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
 
+    private val squiggly = SquigglyProgress()
+
     init {
         if (!isInEditMode){
             max = Int.MAX_VALUE
         }
+        squiggly.strokeWidth = context.dipf(3)
+        progressDrawable = squiggly
     }
 
     fun setListener(
