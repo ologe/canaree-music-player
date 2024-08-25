@@ -6,15 +6,17 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.onEnd
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.compose.theme.colorSchemeM3
+import dev.olog.shared.compose.theme.legacyAccent
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
 
@@ -33,7 +35,7 @@ class RepeatButton(
 
     init {
         setImageResource(R.drawable.vd_repeat)
-        enabledColor = context.colorAccent()
+        enabledColor = context.colorSchemeM3.legacyAccent.toArgb()
         background = null
         if (!isInEditMode){
             val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
@@ -55,7 +57,7 @@ class RepeatButton(
     }
 
     fun updateSelectedColor(@ColorInt color: Int?) {
-        this.enabledColor = color ?: context.colorAccent()
+        this.enabledColor = color ?: context.colorSchemeM3.legacyAccent.toArgb()
 
         if (repeatMode != PlayerRepeatMode.NONE) {
             visibilityEnhancement.setColor(enabledColor)
