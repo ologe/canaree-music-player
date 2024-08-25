@@ -4,7 +4,6 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -97,22 +96,15 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DetailItem>> {
+    fun observe(mediaId: MediaId): Flow<List<DetailItem>> {
         val songListFlow: Flow<List<DetailItem>> = sortOrderUseCase(mediaId)
             .flatMapLatest { order ->
                 observeSongListByParamUseCase(mediaId)
-                    .combine(filterFlow) { songList, filter ->
-                        val filteredSongList: MutableList<Song> = songList.asSequence()
-                            .filter {
-                                it.title.contains(filter, true) ||
-                                        it.artist.contains(filter, true) ||
-                                        it.album.contains(filter, true)
-                            }.toMutableList()
+                    .map { songList ->
+                        val songListDuration = songList.sumBy { it.duration.toInt() }
+                        val songListSize = songList.size
 
-                        val songListDuration = filteredSongList.sumBy { it.duration.toInt() }
-                        val songListSize = filteredSongList.size
-
-                        val result: MutableList<DetailItem> = filteredSongList.asSequence()
+                        val result: MutableList<DetailItem> = songList.asSequence()
                             .map { it.toDetailDisplayableItem(mediaId, order.type) }
                             .toMutableList()
 

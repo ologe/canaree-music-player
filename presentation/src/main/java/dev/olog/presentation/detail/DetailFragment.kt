@@ -4,7 +4,6 @@ package dev.olog.presentation.detail
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -25,20 +24,15 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.afterTextChange
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.findInContext
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.viewBinding
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -76,10 +70,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            onShuffleClick = { mediaProvider.shuffle(it, viewModel.getFilter()) },
+            onShuffleClick = { mediaProvider.shuffle(it, null) },
             onSongClick = { mediaId ->
                 viewModel.detailSortDataUseCase(mediaId) {
-                    mediaProvider.playFromMediaId(mediaId, viewModel.getFilter(), it)
+                    mediaProvider.playFromMediaId(mediaId, null, it)
                 }
             },
             onMostPlayedClick = { mediaProvider.playMostPlayed(it) },
@@ -145,15 +139,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
                     restoreUpperWidgetsTranslation()
                 }
             }
-
-        viewLifecycleScope.launch {
-            binding.editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
     }
 
     override fun onResume() {
@@ -161,9 +146,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         binding.list.addOnScrollListener(recyclerOnScrollListener)
         binding.back.setOnClickListener { act.onBackPressed() }
         binding.more.setOnClickListener { navigator.toDialog(viewModel.parentMediaId, binding.more) }
-        binding.filter.setOnClickListener {
-            binding.searchWrapper.toggleVisibility(!binding.searchWrapper.isVisible, true)
-        }
     }
 
     override fun onPause() {
@@ -171,7 +153,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         binding.list.removeOnScrollListener(recyclerOnScrollListener)
         binding.back.setOnClickListener(null)
         binding.more.setOnClickListener(null)
-        binding.filter.setOnClickListener(null)
     }
 
     override fun adjustStatusBarColor() {
@@ -190,7 +171,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         val color = Color.WHITE
         binding.back.setColorFilter(color)
         binding.more.setColorFilter(color)
-        binding.filter.setColorFilter(color)
 
         if (requireContext().isTablet){
             return
@@ -205,7 +185,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         val color = requireContext().colorControlNormal()
         binding.back.setColorFilter(color)
         binding.more.setColorFilter(color)
-        binding.filter.setColorFilter(color)
 
         if (requireContext().isTablet){
             return

@@ -52,46 +52,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/filter"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/vd_filter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/more"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/searchWrapper"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/toolbar"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/filter"
-            app:layout_constraintStart_toEndOf="@+id/back"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="invisible"
-            android:translationX="-2dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/SearchThemeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText"
-                    style="@style/SearchThemeEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/common_filter" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </FrameLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <dev.olog.presentation.widgets.StatusBarView

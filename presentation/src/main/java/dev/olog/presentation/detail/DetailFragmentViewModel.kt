@@ -15,7 +15,6 @@ import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.presentation.detail.adapter.DetailItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,20 +33,12 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = MutableStateFlow("")
-
-    fun updateFilter(filter: String) {
-        filterChannel.value = filter
-    }
-
-    fun getFilter(): String = filterChannel.value
-
     private val livedata = MutableLiveData<List<DetailItem>>()
 
     init {
         // songs
         viewModelScope.launch {
-            dataProvider.observe(parentMediaId, filterChannel)
+            dataProvider.observe(parentMediaId)
                 .flowOn(Dispatchers.Default)
                 .collect { livedata.value = it }
         }
