@@ -1,3 +1,7 @@
+plugins {
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
@@ -13,6 +17,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
 }
@@ -25,6 +30,7 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
     implementation project(':shared-widgets')
+    implementation project(':shared-compose')
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':offline-lyrics')
@@ -46,4 +52,7 @@ dependencies {
     implementation lib_x.recycler
 
     implementation lib_ui.glide
+
+    implementation platform(lib_compose.bom)
+    implementation(lib_compose.foundation)
 }

@@ -113,7 +113,9 @@ ext {
             tooling           : "androidx.compose.ui:ui-tooling",
             tooling_preview   : "androidx.compose.ui:ui-tooling-preview",
             pooling_container : "androidx.customview:customview-poolingcontainer:1.0.0",
-            activity          : "androidx.activity:activity-compose:$android_x_activity"
+            activity          : "androidx.activity:activity-compose:$android_x_activity",
+            drawablepainter   : "com.google.accompanist:accompanist-drawablepainter:0.34.0",
+            shapes            : "androidx.graphics:graphics-shapes:1.0.0-rc01"
     ]
 
     lib_data = [

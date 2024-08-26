@@ -28,6 +28,9 @@ dependencies {
     implementation(lib_compose.tooling_preview)
     debugImplementation(lib_compose.tooling)
     debugImplementation(lib_compose.pooling_container)
+    implementation(lib_compose.drawablepainter)
+    implementation(lib_compose.shapes)
 
     implementation lib_ui.glide
+    implementation lib_x.material
 }
