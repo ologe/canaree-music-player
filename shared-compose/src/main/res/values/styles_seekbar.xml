@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomSeekBar">
+        <attr name="seekbar_style" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="squiggly" value="1"/>
+            <enum name="big_image" value="2"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

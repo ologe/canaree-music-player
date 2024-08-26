@@ -51,7 +51,7 @@
         app:debug="false"/>
 
     <!-- seekbar -->
-    <dev.olog.media.widget.CustomSeekBar
+    <dev.olog.shared.compose.progress.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -63,7 +63,10 @@
         tools:thumbTint="#64FFDA"
         tools:progressTint="#64FFDA"
         tools:progress="40"
-        tools:max="100" />
+        tools:max="100"
+        app:seekbar_style="normal"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <!-- bookmark -->
     <TextView

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import dev.olog.media.widget.CustomSeekBar
+import dev.olog.shared.compose.progress.CustomSeekBar
 import dev.olog.presentation.databinding.PlayerLayoutBigImageBinding
 import dev.olog.presentation.databinding.PlayerLayoutCleanBinding
 import dev.olog.presentation.databinding.PlayerLayoutDefaultBinding

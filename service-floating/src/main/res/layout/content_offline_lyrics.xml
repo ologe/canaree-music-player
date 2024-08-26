@@ -166,7 +166,7 @@
                     android:layout_marginEnd="100dp"/>
 
                 <!-- seekbar -->
-                <dev.olog.media.widget.CustomSeekBar
+                <dev.olog.shared.compose.progress.CustomSeekBar
                     android:id="@+id/seekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
 
             </LinearLayout>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <dev.olog.shared.compose.component.fab.Fab
                 android:id="@+id/edit"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
@@ -187,7 +187,6 @@
                 android:src="@drawable/vd_edit"
                 app:layout_constraintTop_toTopOf="@+id/wrapper"
                 app:layout_constraintBottom_toTopOf="@+id/wrapper"
-                app:fabSize="normal"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_marginEnd="16dp"/>

@@ -53,7 +53,7 @@
         android:background="@drawable/fade_white_vertical"/>
 
     <!-- seekbar -->
-    <dev.olog.media.widget.CustomSeekBar
+    <dev.olog.shared.compose.progress.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="64dp"
@@ -64,15 +64,14 @@
         android:elevation="30dp"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
-        android:thumb="@drawable/seekbar_thumb_line"
-        android:progressDrawable="@drawable/seek_bar_progress_thick"
         android:thumbTint="@color/player_big_image_progress_tint"
         android:progressTint="@color/player_big_image_progress_tint"
         android:clickable="true"
         android:focusable="true"
         tools:max="100"
         tools:progress="40"
-        android:scaleX="1.005"/>
+        android:scaleX="1.005"
+        app:seekbar_style="big_image"/>
 
     <!-- bookmark -->
     <TextView

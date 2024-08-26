@@ -47,7 +47,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- seekbar -->
-    <dev.olog.media.widget.CustomSeekBar
+    <dev.olog.shared.compose.progress.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -59,7 +59,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         tools:max="100"
-        tools:progress="40" />
+        tools:progress="40"
+        app:seekbar_style="squiggly"/>
 
     <!-- bookmark -->
     <TextView

@@ -4,17 +4,42 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.compose.R
 import dev.olog.shared.widgets.drawable.SquigglyProgress
 import kotlinx.coroutines.flow.Flow
 
-class CustomSeekBar(
-    context: Context,
-    attrs: AttributeSet
+class CustomSeekBar : AppCompatSeekBar, IProgressDeletegate {
 
-) : AppCompatSeekBar(context, attrs),
-    IProgressDeletegate {
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        context.withStyledAttributes(attrs, R.styleable.CustomSeekBar) {
+            val style = getInt(R.styleable.CustomSeekBar_seekbar_style, 0)
+            when (style) {
+                0 -> {
+                    progressDrawable = ContextCompat.getDrawable(context, R.drawable.seek_bar_progress)
+                    thumb = ContextCompat.getDrawable(context, R.drawable.seekbar_thumb_circle)
+                }
+                1 -> {
+                    squiggly.strokeWidth = context.dipf(3)
+                    progressDrawable = squiggly
+                    thumb = ContextCompat.getDrawable(context, R.drawable.seekbar_thumb_rectangle)
+                }
+                2 -> {
+                    progressDrawable = ContextCompat.getDrawable(context, R.drawable.seek_bar_progress_thick)
+                    thumb = ContextCompat.getDrawable(context, R.drawable.seekbar_thumb_line)
+                }
+            }
+            progressTintList = ContextCompat.getColorStateList(context, R.color.progressTint)
+            thumbTintList = ContextCompat.getColorStateList(context, R.color.progressTint)
+            progressBackgroundTintList = ContextCompat.getColorStateList(context, R.color.progressBackgroundTint)
+
+        }
+    }
 
     private var isTouched = false
 
@@ -28,8 +53,6 @@ class CustomSeekBar(
         if (!isInEditMode){
             max = Int.MAX_VALUE
         }
-        squiggly.strokeWidth = context.dipf(3)
-        progressDrawable = squiggly
     }
 
     fun setListener(

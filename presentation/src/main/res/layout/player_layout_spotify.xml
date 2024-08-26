@@ -117,7 +117,7 @@
     </LinearLayout>
 
     <!-- seekbar -->
-    <dev.olog.media.widget.CustomSeekBar
+    <dev.olog.shared.compose.progress.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -130,7 +130,8 @@
         android:paddingEnd="8dp"
         tools:progress="40"
         tools:max="100"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        app:seekbar_style="squiggly"/>
 
     <!-- bookmark -->
     <TextView

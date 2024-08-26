@@ -65,15 +65,15 @@
             android:layout_height="@dimen/toolbar" />
 
         <!-- seekbar -->
-        <dev.olog.media.widget.CustomSeekBar
+        <dev.olog.shared.compose.progress.CustomSeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/playerControls"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:paddingBottom="18dp"
             android:paddingTop="18dp"
             android:progressTint="@color/player_fullscreen_progress_tint"
@@ -81,7 +81,8 @@
             android:progressBackgroundTint="@color/player_fullscreen_background_progress_tint"
             tools:progress="40"
             tools:max="100"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp"
+            app:seekbar_style="squiggly"/>
 
         <!-- bookmark -->
         <TextView

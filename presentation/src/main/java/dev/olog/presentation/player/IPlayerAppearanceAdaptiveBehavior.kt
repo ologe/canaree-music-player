@@ -76,6 +76,7 @@ private class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavio
 
 }
 
+// TODO fix it in mini player
 private class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(
