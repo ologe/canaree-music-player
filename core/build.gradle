@@ -11,6 +11,4 @@ dependencies {
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':intents')
-
-    implementation lib_x.annotations
 }

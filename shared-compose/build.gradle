@@ -15,7 +15,7 @@ dependencies {
     implementation(project(":shared-widgets"))
     implementation(project(":media"))
 
-    implementation(lib_compose.material)
-    implementation lib_ui.glide
-    implementation lib_x.material
+    implementation(libs.compose.material)
+    implementation(libs.glide)
+    implementation(libs.androidx.material)
 }

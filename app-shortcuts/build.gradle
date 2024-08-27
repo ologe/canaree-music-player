@@ -11,9 +11,7 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':intents')
 
-    implementation lib_x.core
-    implementation lib_x.core_ktx
-    implementation lib_x.appcompat
-
-    implementation lib_ui.glide
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.glide)
 }

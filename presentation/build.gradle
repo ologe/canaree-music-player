@@ -34,32 +34,32 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
+    implementation(libs.scrollhelper)
+    implementation(libs.glide)
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core_ktx
-    implementation lib_x.constraint_layout
-    implementation lib_x.palette
-    implementation lib_x.media
-    implementation lib_x.browser
-    implementation lib_x.preference
-    implementation lib_x.coordinator
-    implementation lib_x.fragments
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.palette)
+    implementation(libs.androidx.media)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.coordinator)
+    implementation(libs.androidx.fragments)
 
-    implementation lib_ui.lottie
-    implementation lib_ui.tap_target_view
+    implementation(libs.lottie)
+    implementation(libs.taptargetview)
 
-    implementation lib_ui.dialogs_core
-    implementation lib_ui.dialogs_color
-    implementation lib_ui.custom_tabs
-    implementation lib_ui.color_desaturation
+    implementation(libs.dialogs.core)
+    implementation(libs.dialogs.color)
+    implementation(libs.customtabs)
+    implementation(libs.colordesaturation)
 
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.java8)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     // TODO try remove
-    implementation(lib_compose.material)
+    implementation(libs.compose.material)
 }

@@ -53,23 +53,18 @@ dependencies {
     implementation project(':shared')
 
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_process
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.lifecycle.java8)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
-    implementation lib_x.core_ktx
-    implementation lib_x.appcompat
-    implementation lib_x.browser
-    implementation lib_x.preference
-    implementation lib_ui.glide
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.preference)
+    implementation(libs.glide)
+    implementation(libs.customtabs)
 
-    implementation lib_ui.custom_tabs
-
-    // debug
-    debugImplementation lib_debug.leak_canary_debug
-
-    // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
+    debugImplementation(libs.leakcanary)
+    implementation(libs.firebase.crashlytics)
 }

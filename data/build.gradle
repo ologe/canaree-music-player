@@ -28,19 +28,18 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':prefs-keys')
 
-    implementation lib_x.core_ktx
-    implementation lib_x.preference
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.preference)
 
-    implementation lib_utils.fuzzy
-    implementation lib_network.gson
-    implementation lib_network.retrofit
-    implementation lib_network.retrofit_gson
-    implementation lib_network.ok_http
-    implementation lib_network.ok_http_interceptor
+    implementation(libs.fuzzywuzzy)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
 
-    implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
+    implementation(libs.sqlcontentresolver)
+    implementation(libs.room)
+    kapt(libs.room.processor)
 
 }

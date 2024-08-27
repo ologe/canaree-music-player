@@ -14,8 +14,7 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.core_ktx
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.core)
 }

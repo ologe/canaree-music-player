@@ -25,12 +25,12 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
 
-    implementation lib_x.media
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_service
-    implementation lib_x.lifecycle_java8
+    implementation(libs.androidx.media)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.java8)
 
-    implementation lib_ui.glide
+    implementation(libs.glide)
 
 
 //    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.4'

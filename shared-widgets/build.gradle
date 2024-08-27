@@ -12,7 +12,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':core')
 
-    implementation lib_x.material
-    implementation lib_x.core_ktx
-    implementation lib_x.palette
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.palette)
 }
