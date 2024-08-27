@@ -1,11 +1,8 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+    id("dev.msc.compose")
 }
-
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -17,17 +14,10 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = "dev.olog.presentation"
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
     buildFeatures {
         viewBinding = true
-        compose = true
     }
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -43,12 +33,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
-
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_ui.scroll_helper
     implementation lib_ui.glide
@@ -76,8 +60,6 @@ dependencies {
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_viewmodel
 
-    implementation platform(lib_compose.bom)
-    implementation(lib_compose.foundation)
+    // TODO try remove
     implementation(lib_compose.material)
-    implementation(lib_compose.material_icons)
 }

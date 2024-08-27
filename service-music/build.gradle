@@ -1,7 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -13,15 +13,7 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = "dev.olog.service.music"
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -32,11 +24,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':intents')
     implementation project(':equalizer')
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime

@@ -1,16 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("dev.msc.library")
+    id("dev.msc.compose")
 }
-
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
 
 android {
     namespace 'dev.olog.shared.compose'
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
@@ -21,16 +15,7 @@ dependencies {
     implementation(project(":shared-widgets"))
     implementation(project(":media"))
 
-    implementation platform(lib_compose.bom)
-    implementation(lib_compose.foundation)
     implementation(lib_compose.material)
-    implementation(lib_compose.material_icons)
-    implementation(lib_compose.tooling_preview)
-    debugImplementation(lib_compose.tooling)
-    debugImplementation(lib_compose.pooling_container)
-    implementation(lib_compose.drawablepainter)
-    implementation(lib_compose.shapes)
-
     implementation lib_ui.glide
     implementation lib_x.material
 }

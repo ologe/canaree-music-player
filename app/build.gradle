@@ -1,9 +1,8 @@
-apply plugin: 'com.android.application'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'dagger.hilt.android.plugin'
+plugins {
+    id("dev.msc.app")
+    id("dev.msc.hilt")
+    alias(libs.plugins.crashlytics)
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -22,56 +21,22 @@ android {
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
     }
 
-    bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
-    }
-
     buildTypes {
         release {
-            minifyEnabled true
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
             applicationIdSuffix ".debug"
-            multiDexEnabled true
         }
-    }
-
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
     }
 
     buildFeatures {
         buildConfig = true
     }
-
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-    }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
 
-apply from: '../kapt.gradle'
-
-
 dependencies {
-    coreLibraryDesugaring lib_core.desugaring
     implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':data')
@@ -87,8 +52,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_core.coroutines
-
     // google architecture components
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_process
@@ -100,10 +63,6 @@ dependencies {
     implementation lib_x.browser
     implementation lib_x.preference
     implementation lib_ui.glide
-
-    // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_ui.custom_tabs
 

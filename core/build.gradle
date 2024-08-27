@@ -1,27 +1,16 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 android {
     namespace = "dev.olog.core"
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':intents')
-
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.coroutines
 
     implementation lib_x.annotations
 }

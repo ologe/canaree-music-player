@@ -1,9 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-apply from: '../kapt.gradle'
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+}
 
 android {
     namespace = "dev.olog.equalizer"
@@ -11,10 +9,5 @@ android {
 
 dependencies {
     implementation project(':core')
-
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_x.annotations
-
     implementation project(':exoplayer-library-core')
 }

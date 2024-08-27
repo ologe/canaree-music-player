@@ -1,23 +1,11 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+plugins {
+    id("dev.msc.library")
+    id("dev.msc.hilt")
 }
 
 android {
     namespace = "dev.olog.data"
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -32,23 +20,13 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
     implementation project(':shared')
     implementation project(':shared-android')
     implementation project(':prefs-keys')
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.core_ktx
     implementation lib_x.preference

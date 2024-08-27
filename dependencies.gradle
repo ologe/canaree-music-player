@@ -1,9 +1,4 @@
 ext {
-//    core
-    coroutines = '1.8.1'
-    dagger = '2.51.1'
-    desugaring = '2.0.3'
-
 //    android x
     android_x_core = '1.13.1'
     android_x_appcompat = '1.7.0'
@@ -30,9 +25,6 @@ ext {
     color_desaturation = '1.0.2'
     tap_target_view = '2.0.0'
 
-    // compose
-    compose_bom = '2024.06.00'
-
 //    data
     room = '2.6.1'
     sql_content_resolver = '1.2.1'
@@ -55,17 +47,6 @@ ext {
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             crashlytics: "com.google.firebase:firebase-crashlytics:$firebase_crashlytics",
-    ]
-
-    lib_core = [
-            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-            // todo rename to hilt
-            dagger                  : "com.google.dagger:hilt-android:$dagger",
-            dagger_processor        : "com.google.dagger:hilt-compiler:$dagger",
-            coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
-            coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
-            desugaring              : "com.android.tools:desugar_jdk_libs:$desugaring"
     ]
 
     lib_x = [
@@ -106,16 +87,7 @@ ext {
     ]
 
     lib_compose = [
-            bom               : "androidx.compose:compose-bom:$compose_bom",
-            foundation        : "androidx.compose.foundation:foundation",
             material          : "androidx.compose.material3:material3",
-            material_icons    : "androidx.compose.material:material-icons-extended",
-            tooling           : "androidx.compose.ui:ui-tooling",
-            tooling_preview   : "androidx.compose.ui:ui-tooling-preview",
-            pooling_container : "androidx.customview:customview-poolingcontainer:1.0.0",
-            activity          : "androidx.activity:activity-compose:$android_x_activity",
-            drawablepainter   : "com.google.accompanist:accompanist-drawablepainter:0.34.0",
-            shapes            : "androidx.graphics:graphics-shapes:1.0.0-rc01"
     ]
 
     lib_data = [

@@ -1,28 +1,15 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("dev.msc.library")
+    id("dev.msc.hilt")
+    id("dev.msc.compose")
 }
-
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     namespace = "dev.olog.service.floating"
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
     buildFeatures {
         viewBinding = true
-        compose = true
     }
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
@@ -34,11 +21,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':offline-lyrics')
-
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
 
     implementation lib_x.core_ktx
     implementation lib_x.media
@@ -52,7 +34,4 @@ dependencies {
     implementation lib_x.recycler
 
     implementation lib_ui.glide
-
-    implementation platform(lib_compose.bom)
-    implementation(lib_compose.foundation)
 }

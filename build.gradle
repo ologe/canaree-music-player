@@ -1,76 +1,10 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript { 
-
-    ext {
-        kotlin_version = '2.0.0'
-        google_services = '4.3.3'
-        crashlytics = '2.2.1'
-    }
-
-
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_services"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.51.1'
-    }
-    
-}
-
 plugins {
-    id("org.jetbrains.kotlin.plugin.compose") version("$kotlin_version") apply false
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-//        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
-    }
-    gradle.projectsEvaluated { // TODO remove after coroutines became stable
-        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
-            kotlinOptions.freeCompilerArgs += ["-opt-in=kotlinx.coroutines.FlowPreview"]
-            kotlinOptions.freeCompilerArgs += ["-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-            // on kotlin 2.0 fails on
-//            ERROR_CALL 'Unresolved reference: <Strange deserialized enum value: androidx/lifecycle/Lifecycle$Event.ON_DESTROY>#' type=androidx.lifecycle.Lifecycle$Event
-            compilerOptions {
-                languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-                apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-            }
-        }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-ext {
-    // Sdk and tools
-    minSdkVersion = 21
-    targetSdkVersion = 34
-    compileSdkVersion = 34
-
-    /*  version code
-        999 - for old compatibility
-        27 - android version
-        X.xxx - X major version, xxx minor version
-     */
-    versionCode = 999_29_3_3_01
-    versionName = '3.3.1'
-
+    alias(libs.plugins.agp.application) apply false
+    alias(libs.plugins.agp.library) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.crashlytics) apply false
 }
 
 apply from: 'dependencies.gradle'

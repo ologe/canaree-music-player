@@ -1,0 +1,89 @@
+[versions]
+agp = "8.5.0"
+kotlin = "2.0.0"
+coroutines = "1.8.1"
+dagger = "2.51.1"
+desugaring = "2.0.3"
+crashlytics = "2.9.9"
+
+androidx_core = "1.13.1"
+androidx_appcompat = "1.7.0"
+androidx_media = "1.7.0"
+androidx_recycler = "1.3.2"
+androidx_browser = "1.8.0"
+androidx_material = "1.12.0"
+androidx_preference = "1.2.1"
+androidx_palette = "1.0.0"
+androidx_annotations = "1.8.1"
+androidx_coordinator = "1.2.0"
+androidx_fragments = "1.8.2"
+androidx_activity = "1.9.1"
+androidx_lifecycle = "2.8.4"
+constraint_layout = "2.1.4"
+
+glide = "4.16.0"
+lottie = "3.4.2"
+custom_tabs = "3.0.1"
+material_dialogs = "3.3.0"
+scroll_helper = "1.1.4"
+blur_kit = "1.0.0"
+color_desaturation = "1.0.2"
+tap_target_view = "2.0.0"
+
+compose = "2024.06.00"
+compose-accompanist = "0.34.0"
+compose-pooling-container = "1.0.0"
+compose-shapes = "1.0.0-rc01"
+
+room = "2.6.1"
+sql_content_resolver = "1.2.1"
+
+ok_http = "4.8.1"
+retrofit = "2.9.0"
+gson = "2.8.6"
+
+fuzzywuzzy = "1.2.0"
+
+leak_canary = "2.14"
+
+firebase_core = "17.2.0"
+firebase_crashlytics = "17.2.1"
+
+junit = "4.13"
+mockito = "3.5.10"
+mockito-kotlin = "2.2.0"
+
+[libraries]
+plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation" }
+compose-material = { module = "androidx.compose.material3:material3" }
+compose-material-icons = { module = "androidx.compose.material:material-icons-extended" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-pooling-container = { module = "androidx.customview:customview-poolingcontainer", version.ref = "compose-pooling-container" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "androidx_activity" }
+compose-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "compose-accompanist" }
+compose-shapes = { module = "androidx.graphics:graphics-shapes", version.ref = "compose-shapes" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+mockito = { module = "org.mockito:mockito-android", version.ref = "mockito" }
+mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockito-kotlin" }
+
+[plugins]
+agp-application = { id = "com.android.application", version.ref = "agp" }
+agp-library = { id = "com.android.library", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
