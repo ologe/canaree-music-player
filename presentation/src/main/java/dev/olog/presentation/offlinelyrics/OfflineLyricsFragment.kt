@@ -27,7 +27,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import saschpe.android.customtabs.CustomTabsHelper
 import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
@@ -50,16 +49,16 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 
-    private val callback = object : CustomTabsHelper.CustomTabFallback {
-        override fun openUri(context: Context?, uri: Uri?) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (requireActivity().packageManager.isIntentSafe(intent)) {
-                requireActivity().startActivity(intent)
-            } else {
-                requireActivity().toast(R.string.common_browser_not_found)
-            }
-        }
-    }
+//    private val callback = object : CustomTabsHelper.CustomTabFallback {
+//        override fun openUri(context: Context?, uri: Uri?) {
+//            val intent = Intent(Intent.ACTION_VIEW, uri)
+//            if (requireActivity().packageManager.isIntentSafe(intent)) {
+//                requireActivity().startActivity(intent)
+//            } else {
+//                requireActivity().toast(R.string.common_browser_not_found)
+//            }
+//        }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (presenter.showAddLyricsIfNeverShown()) {
@@ -178,7 +177,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
         try {
             val original = requireContext().getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
-            val blurred = BlurKit.getInstance().blur(original, 20)
+            val blurred = BlurKit.blur(original, 20)
             withContext(Dispatchers.Main){
                 image.setImageBitmap(blurred)
             }
@@ -188,15 +187,15 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun searchLyrics() {
-        val customTabIntent = CustomTabsIntent.Builder()
-            .enableUrlBarHiding()
-            .setToolbarColor(ctx.colorSurface())
-            .build()
-        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
-
-        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
-        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, callback)
+//        val customTabIntent = CustomTabsIntent.Builder()
+//            .enableUrlBarHiding()
+//            .setToolbarColor(ctx.colorSurface())
+//            .build()
+//        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+//
+//        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
+//        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
+//        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, callback)
     }
 
 

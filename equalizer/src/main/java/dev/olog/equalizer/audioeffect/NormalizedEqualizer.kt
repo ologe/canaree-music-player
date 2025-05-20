@@ -29,7 +29,7 @@ class NormalizedEqualizer(priority: Int, audioSession: Int) {
     // 1 dB -> 100 mB
     fun setBandLevel(band: Int, gain: Float) {
         val mb = gain * 100
-        equalizer.setBandLevel(band.toShort(), mb.toShort())
+        equalizer.setBandLevel(band.toShort(), mb.toInt().toShort())
     }
 
     fun release() {

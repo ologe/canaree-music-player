@@ -36,7 +36,6 @@ class App : ThemedApp(), HasAndroidInjector {
         initializeConstants()
         resetSleepTimer()
 
-        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
         registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
 

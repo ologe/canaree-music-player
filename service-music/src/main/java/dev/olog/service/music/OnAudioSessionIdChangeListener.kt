@@ -40,7 +40,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         job?.cancel()
     }
 
-    override fun onAudioSessionId(audioSessionId: Int) {
+    override fun onAudioSessionIdChanged(audioSessionId: Int) {
         job?.cancel()
         job = launch {
             delay(DELAY)

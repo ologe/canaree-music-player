@@ -14,7 +14,6 @@ import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.PlayStoreUtils
-import saschpe.android.customtabs.CustomTabsHelper
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -25,16 +24,16 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     private val activityRef = WeakReference(activity)
 
-    private val callback = object : CustomTabsHelper.CustomTabFallback {
-        override fun openUri(context: Context?, uri: Uri?) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
-    }
+//    private val callback = object : CustomTabsHelper.CustomTabFallback {
+//        override fun openUri(context: Context?, uri: Uri?) {
+//            val intent = Intent(Intent.ACTION_VIEW, uri)
+//            if (activity.packageManager.isIntentSafe(intent)) {
+//                activity.startActivity(intent)
+//            } else {
+//                activity.toast(R.string.common_browser_not_found)
+//            }
+//        }
+//    }
 
     override fun toHavocPage() {
         val activity = activityRef.get() ?: return
@@ -60,29 +59,29 @@ class NavigatorAboutImpl @Inject internal constructor(
     }
 
     override fun toChangelog() {
-        val activity = activityRef.get() ?: return
-
-        val customTabIntent = CustomTabsIntent.Builder()
-            .enableUrlBarHiding()
-            .setToolbarColor(activity.colorSurface())
-            .build()
-        CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
-
-        val uri = Uri.parse("https://github.com/ologe/canaree-music-player/blob/master/CHANGELOG.md")
-        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
+//        val activity = activityRef.get() ?: return
+//
+//        val customTabIntent = CustomTabsIntent.Builder()
+//            .enableUrlBarHiding()
+//            .setToolbarColor(activity.colorSurface())
+//            .build()
+//        CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
+//
+//        val uri = Uri.parse("https://github.com/ologe/canaree-music-player/blob/master/CHANGELOG.md")
+//        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
     override fun toGithub() {
-        val activity = activityRef.get() ?: return
-
-        val customTabIntent = CustomTabsIntent.Builder()
-            .enableUrlBarHiding()
-            .setToolbarColor(activity.colorSurface())
-            .build()
-        CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
-
-        val uri = Uri.parse("https://github.com/ologe/canaree-music-player")
-        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
+//        val activity = activityRef.get() ?: return
+//
+//        val customTabIntent = CustomTabsIntent.Builder()
+//            .enableUrlBarHiding()
+//            .setToolbarColor(activity.colorSurface())
+//            .build()
+//        CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
+//
+//        val uri = Uri.parse("https://github.com/ologe/canaree-music-player")
+//        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
     override fun toSpecialThanksFragment() {

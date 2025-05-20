@@ -33,7 +33,7 @@ class OfflineLyricsContent(
     private suspend fun loadImage(mediaId: MediaId) {
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
-            val blurred = BlurKit.getInstance().blur(original, 20)
+            val blurred = BlurKit.blur(original, 20)
             withContext(Dispatchers.Main){
                 content.image.setImageBitmap(blurred)
             }
