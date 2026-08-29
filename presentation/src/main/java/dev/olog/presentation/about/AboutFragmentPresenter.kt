@@ -57,7 +57,7 @@ class AboutFragmentPresenter(
             type = R.layout.item_about,
             mediaId = MediaId.headerId("version id"),
             title = context.getString(R.string.about_version),
-            subtitle = BuildConfig.VERSION_NAME
+            subtitle = "BuildConfig.VERSION_NAME" // todo
         ),
 
         DisplayableHeader(
