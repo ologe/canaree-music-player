@@ -11,7 +11,6 @@ import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
@@ -33,9 +32,9 @@ class OfflineLyricsContent(
     private suspend fun loadImage(mediaId: MediaId) {
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
-            val blurred = BlurKit.getInstance().blur(original, 20)
+//            val blurred = BlurKit.getInstance().blur(original, 20) todo
             withContext(Dispatchers.Main){
-                content.image.setImageBitmap(blurred)
+                content.image.setImageBitmap(original)
             }
         } catch (ex: Throwable){
             ex.printStackTrace()

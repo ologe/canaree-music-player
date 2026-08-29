@@ -11,8 +11,6 @@ import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
-import dev.olog.shared.android.extensions.configuration
-import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
 class App : ThemedApp(), HasAndroidInjector {
@@ -36,14 +34,12 @@ class App : ThemedApp(), HasAndroidInjector {
         initializeConstants()
         resetSleepTimer()
 
-        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
         registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
 
     private fun initializeComponents() {
         appShortcuts = AppShortcuts.instance(this)
 
-        BlurKit.init(this)
         if (BuildConfig.DEBUG) {
 //            Stetho.initializeWithDefaults(this)
         }

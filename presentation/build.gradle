@@ -45,6 +45,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
+    implementation project(':data')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
@@ -64,7 +65,6 @@ dependencies {
     implementation lib_x.browser
     implementation lib_x.preference
     implementation lib_x.coordinator
-    implementation lib_x.billing
     implementation lib_x.fragments
 
     implementation lib_ui.lottie
@@ -76,8 +76,6 @@ dependencies {
 
     implementation lib_ui.dialogs_core
     implementation lib_ui.dialogs_color
-    implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
     implementation lib_ui.color_desaturation
 
     implementation lib_utils.last_fm_binding

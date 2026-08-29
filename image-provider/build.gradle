@@ -21,6 +21,9 @@ dependencies {
     implementation project(':injection')
     implementation project(':prefs-keys')
     implementation project(':intents')
+    implementation project(':data')
+    implementation project(':analytics')
+    implementation project(':equalizer')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

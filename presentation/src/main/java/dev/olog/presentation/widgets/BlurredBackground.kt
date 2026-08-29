@@ -13,7 +13,6 @@ import dev.olog.image.provider.getCachedDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.lazyFast
-import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
 
 class BlurredBackground(
@@ -63,10 +62,10 @@ class BlurredBackground(
             drawable.toBitmap(size, size)
         }
         yield()
-        val blurred = BlurKit.getInstance().blur(bitmap, BLUR_RADIUS).toDrawable(resources)
+//        val blurred = BlurKit.getInstance().blur(bitmap, BLUR_RADIUS).toDrawable(resources) todo
         yield()
         withContext(Dispatchers.Main) {
-            background = blurred
+            background = bitmap.toDrawable(resources)
         }
     }
 
