@@ -1,0 +1,165 @@
+[versions]
+minSdk = "21"
+targetSdk = "30"
+compileSdk = "31"
+versionCode = "999293301"
+versionName = "3.3.1"
+
+# Plugins
+agp = "8.13.2"
+kotlin = "1.6.20"
+google-services = "4.3.3"
+crashlytics-plugin = "2.2.1"
+
+# Core
+coroutines = "1.3.9"
+dagger = "2.41"
+
+# AndroidX
+androidx-core = "1.3.1"
+androidx-legacy = "1.0.0"
+androidx-appcompat = "1.2.0"
+androidx-media = "1.1.0"
+androidx-recyclerview = "1.1.0"
+androidx-browser = "1.2.0"
+material = "1.2.0"
+androidx-preference = "1.1.1"
+androidx-palette = "1.0.0"
+androidx-annotation = "1.1.0"
+androidx-coordinatorlayout = "1.1.0"
+androidx-fragment = "1.2.5"
+androidx-constraintlayout = "2.0.0"
+lifecycle = "2.2.0"
+
+# UI
+glide = "4.11.0"
+lottie = "3.4.2"
+material-dialogs = "3.3.0"
+scroll-helper = "1.1.4"
+color-desaturation = "1.0.2"
+tap-target-view = "2.0.0"
+
+# Data
+room = "2.4.0"
+sql-content-resolver = "1.2.1"
+
+# Network
+okhttp = "4.8.1"
+retrofit = "2.9.0"
+gson = "2.8.6"
+
+# Utils
+last-fm-binding = "0.1.2"
+aes-crypto = "1.1.0"
+fuzzywuzzy = "1.2.0"
+
+# Debug
+leak-canary = "2.4"
+
+# Firebase
+firebase-core = "17.2.0"
+firebase-analytics = "17.5.0"
+firebase-crashlytics = "17.2.1"
+
+# Test
+junit = "4.13"
+mockito = "3.5.10"
+mockito-kotlin = "2.2.0"
+androidx-test = "1.3.0"
+androidx-test-ext = "1.1.2"
+
+[libraries]
+# Plugins
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+google-services-plugin = { group = "com.google.gms", name = "google-services", version.ref = "google-services" }
+firebase-crashlytics-plugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
+
+# Kotlin
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+# Dagger
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+dagger-android = { group = "com.google.dagger", name = "dagger-android", version.ref = "dagger" }
+dagger-android-support = { group = "com.google.dagger", name = "dagger-android-support", version.ref = "dagger" }
+dagger-android-processor = { group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger" }
+
+# AndroidX
+androidx-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-legacy-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "androidx-legacy" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recyclerview" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidx-browser" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "androidx-preference" }
+androidx-palette = { group = "androidx.palette", name = "palette", version.ref = "androidx-palette" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "androidx-annotation" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "androidx-coordinatorlayout" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "androidx-fragment" }
+
+# Lifecycle
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
+androidx-lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle" }
+androidx-lifecycle-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+
+# UI
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+android-support-annotations = { group = "com.android.support", name = "support-annotations", version = "28.0.0" }
+scroll-helper = { group = "com.github.ologe", name = "scroll-helper", version.ref = "scroll-helper" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+material-dialogs-core = { group = "com.afollestad.material-dialogs", name = "core", version.ref = "material-dialogs" }
+material-dialogs-color = { group = "com.afollestad.material-dialogs", name = "color", version.ref = "material-dialogs" }
+color-desaturation = { group = "com.github.ologe", name = "color-desaturation", version.ref = "color-desaturation" }
+tap-target-view = { group = "com.github.ologe", name = "taptargetview", version.ref = "tap-target-view" }
+
+# Data
+sql-content-resolver = { group = "com.github.ologe", name = "android-content-resolver-SQL", version.ref = "sql-content-resolver" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+
+# Network
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+# Utils
+last-fm-binding = { group = "de.u-mass", name = "lastfm-java", version.ref = "last-fm-binding" }
+aes-crypto = { group = "com.github.tozny", name = "java-aes-crypto", version.ref = "aes-crypto" }
+fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzzy" }
+
+# Debug
+leak-canary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leak-canary" }
+
+# Firebase
+firebase-core = { group = "com.google.firebase", name = "firebase-core", version.ref = "firebase-core" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebase-crashlytics" }
+
+# Test
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito" }
+mockito-kotlin = { group = "com.nhaarman.mockitokotlin2", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-plugin" }

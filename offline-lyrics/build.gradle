@@ -19,12 +19,12 @@ dependencies {
     implementation project(':jaudiotagger')
     implementation project(':intents')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.coroutines
+    implementation libs.dagger
+    kapt libs.dagger.compiler
+    implementation libs.kotlinx.coroutines.core
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.core_ktx
+    implementation libs.androidx.appcompat
+    implementation libs.google.material
+    implementation libs.androidx.core
+    implementation libs.androidx.core.ktx
 }

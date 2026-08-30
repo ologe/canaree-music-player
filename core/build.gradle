@@ -16,9 +16,9 @@ apply from: '../kapt.gradle'
 dependencies {
     implementation project(':shared')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.coroutines
+    implementation libs.dagger
+    kapt libs.dagger.compiler
+    implementation libs.kotlinx.coroutines.core
 
-    implementation lib_x.annotations
+    implementation libs.androidx.annotation
 }

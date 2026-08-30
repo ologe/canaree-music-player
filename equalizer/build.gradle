@@ -11,7 +11,7 @@ android {
 dependencies {
     implementation project(':core')
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_x.annotations
+    implementation libs.dagger
+    kapt libs.dagger.compiler
+    implementation libs.androidx.annotation
 }

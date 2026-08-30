@@ -26,17 +26,17 @@ dependencies {
     implementation project(':analytics')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_ui.color_desaturation
-    implementation lib_ui.glide
-    kapt lib_ui.glide_processor
+    implementation libs.color.desaturation
+    implementation libs.glide
+    kapt libs.glide.compiler
     // mandatory for glide 4.9.0 or below compatibility
-    kapt lib_ui.androidSupportAnnotation
+    kapt libs.android.support.annotations
 
-    implementation lib_x.core_ktx
-    implementation lib_x.preference
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.preference
 }

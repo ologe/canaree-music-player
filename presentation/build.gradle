@@ -36,41 +36,41 @@ dependencies {
     implementation project(':equalizer')
     implementation project(':data')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
+    implementation libs.scroll.helper
+    implementation libs.glide
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core_ktx
-    implementation lib_x.constraint_layout
-    implementation lib_x.palette
-    implementation lib_x.media
-    implementation lib_x.browser
-    implementation lib_x.preference
-    implementation lib_x.coordinator
-    implementation lib_x.fragments
+    implementation libs.androidx.appcompat
+    implementation libs.google.material
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.palette
+    implementation libs.androidx.media
+    implementation libs.androidx.browser
+    implementation libs.androidx.preference
+    implementation libs.androidx.coordinatorlayout
+    implementation libs.androidx.fragment
 
-    implementation lib_ui.lottie
-    implementation lib_ui.tap_target_view
+    implementation libs.lottie
+    implementation libs.tap.target.view
 
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.android.processor
 
-    implementation lib_ui.dialogs_core
-    implementation lib_ui.dialogs_color
-    implementation lib_ui.color_desaturation
+    implementation libs.material.dialogs.core
+    implementation libs.material.dialogs.color
+    implementation libs.color.desaturation
 
-    implementation lib_utils.last_fm_binding
+    implementation libs.last.fm.binding
 
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 }

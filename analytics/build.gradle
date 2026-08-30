@@ -22,14 +22,14 @@ dependencies {
     implementation project(':core')
     implementation project(':shared')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.core_ktx
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.core.ktx
 
-    implementation lib_analytics.analytics
+    implementation libs.firebase.analytics
 
 }

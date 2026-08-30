@@ -37,19 +37,19 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_x.lifecycle_viewmodel
-    implementation lib_x.appcompat
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.appcompat
 
-    implementation lib_network.ok_http
-    implementation lib_network.retrofit
-    implementation lib_data.room
+    implementation libs.okhttp
+    implementation libs.retrofit
+    implementation libs.room.runtime
 
-    implementation lib_analytics.analytics
+    implementation libs.firebase.analytics
 
-    implementation lib_utils.aes_crypto
+    implementation libs.aes.crypto
 }

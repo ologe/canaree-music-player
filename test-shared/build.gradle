@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'dev.olog.test.shared'
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion libs.versions.minSdk.get().toInteger()
+        targetSdkVersion libs.versions.targetSdk.get().toInteger()
+        versionCode libs.versions.versionCode.get().toInteger()
+        versionName libs.versions.versionName.get()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -43,15 +43,12 @@ android {
 }
 
 dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.coroutines_test
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.test
 
-    implementation lib_x.lifecycle_extensions
-    implementation lib_test.livedata
+    implementation libs.androidx.lifecycle.extensions
 
-    implementation lib_test.junit
-//    implementation lib_test.mockito
-//    implementation lib_test.mockito_kotlin
+    implementation libs.junit
 }

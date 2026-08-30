@@ -34,26 +34,26 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_x.core_ktx
-    implementation lib_x.preference
-    implementation lib_x.lifecycle_extensions
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.preference
+    implementation libs.androidx.lifecycle.extensions
 
-    implementation lib_utils.fuzzy
-    implementation lib_network.gson
-    implementation lib_network.retrofit
-    implementation lib_network.retrofit_gson
-    implementation lib_network.ok_http
-    implementation lib_network.ok_http_interceptor
+    implementation libs.fuzzywuzzy
+    implementation libs.gson
+    implementation libs.retrofit
+    implementation libs.retrofit.gson
+    implementation libs.okhttp
+    implementation libs.okhttp.logging
 
-    implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
+    implementation libs.sql.content.resolver
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    kapt libs.room.compiler
 
 }

@@ -28,19 +28,19 @@ dependencies {
     implementation project(':data')
     implementation project(':analytics')
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    implementation lib_x.media
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
-    implementation lib_x.lifecycle_java8
+    implementation libs.androidx.media
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.java8
 
-    implementation lib_ui.glide
+    implementation libs.glide
 
-    implementation lib_utils.last_fm_binding
+    implementation libs.last.fm.binding
 
 
     implementation 'com.google.android.exoplayer:exoplayer-core:2.13.3'

@@ -16,10 +16,10 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_core.coroutines
-    implementation lib_x.media
-    implementation lib_x.appcompat
-    implementation lib_x.lifecycle_livedata
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.androidx.media
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.lifecycle.livedata.ktx
 
-    testImplementation lib_test.mockito
+    testImplementation libs.mockito.android
 }

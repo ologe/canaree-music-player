@@ -1,8 +1,8 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
 }
 
 sourceCompatibility = "8"

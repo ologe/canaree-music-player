@@ -70,33 +70,30 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.coroutines
+    implementation libs.kotlinx.coroutines.core
 
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_viewmodel
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.java8
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 
-    implementation lib_x.core_ktx
-    implementation lib_x.appcompat
-    implementation lib_x.browser
-    implementation lib_x.preference
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.browser
+    implementation libs.androidx.preference
 
     // dagger
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
-    implementation lib_core.dagger_android
-    implementation lib_core.dagger_android_support
-    kapt lib_core.dagger_android_processor
+    implementation libs.dagger
+    kapt libs.dagger.compiler
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.android.processor
 
     // debug
-    debugImplementation lib_debug.leak_canary_debug
-
-    debugImplementation lib_debug.stetho
+    debugImplementation libs.leak.canary
 
     // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
-    implementation lib_analytics.perf
+    implementation libs.firebase.core
+    implementation libs.firebase.crashlytics
 }

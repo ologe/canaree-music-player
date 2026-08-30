@@ -2,13 +2,13 @@ apply plugin: 'kotlin-android'
 
 android {
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion libs.versions.minSdk.get().toInteger()
+        targetSdkVersion libs.versions.targetSdk.get().toInteger()
+        versionCode libs.versions.versionCode.get().toInteger()
+        versionName libs.versions.versionName.get()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,33 +48,21 @@ android {
 }
 
 dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
-    testImplementation lib_core.coroutines_test
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    testImplementation libs.kotlinx.coroutines.test
     testImplementation project (':test-shared')
     androidTestImplementation project (':test-shared')
 
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation "org.mockito:mockito-core:2.23.4"
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-
     // Core library
-    testImplementation lib_test.junit
-    testImplementation lib_test.mockito
-    testImplementation lib_test.mockito_kotlin
+    testImplementation libs.junit
+    testImplementation libs.mockito.android
+    testImplementation libs.mockito.kotlin
 
-    androidTestImplementation lib_test.mockito
-    androidTestImplementation lib_test.mockito_kotlin
-    androidTestImplementation 'androidx.test:core:1.3.0'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-
-    // Assertions
-//    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-//    androidTestImplementation 'com.google.truth:truth:0.44'
-
-    // Espresso dependencies
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+    androidTestImplementation libs.mockito.android
+    androidTestImplementation libs.mockito.kotlin
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.junit
 }
