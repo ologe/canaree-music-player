@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.analytics'
@@ -22,8 +23,6 @@ dependencies {
     implementation project(':core')
     implementation project(':shared')
 
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
     implementation libs.dagger
     kapt libs.dagger.compiler
 

@@ -1,8 +1,8 @@
-apply plugin: 'kotlin'
+plugins {
+    id("canaree.jvm.library")
+}
 
 dependencies {
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
 }
 
 sourceCompatibility = "8"

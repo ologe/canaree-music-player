@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.offlinelyrics'
@@ -21,7 +22,6 @@ dependencies {
 
     implementation libs.dagger
     kapt libs.dagger.compiler
-    implementation libs.kotlinx.coroutines.core
 
     implementation libs.androidx.appcompat
     implementation libs.google.material

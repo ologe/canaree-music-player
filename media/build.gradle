@@ -1,5 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("canaree.android.library")
+}
 
 android {
     namespace 'dev.olog.media'
@@ -16,10 +17,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation libs.kotlinx.coroutines.core
     implementation libs.androidx.media
     implementation libs.androidx.appcompat
     implementation libs.androidx.lifecycle.livedata.ktx
-
-    testImplementation libs.mockito.android
 }

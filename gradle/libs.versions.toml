@@ -1,10 +1,4 @@
 [versions]
-minSdk = "21"
-targetSdk = "30"
-compileSdk = "31"
-versionCode = "999293301"
-versionName = "3.3.1"
-
 # Plugins
 agp = "8.13.2"
 kotlin = "1.6.20"

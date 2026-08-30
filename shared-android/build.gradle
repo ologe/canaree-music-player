@@ -1,5 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("canaree.android.library")
+}
 
 android {
     namespace 'dev.olog.shared.android'
@@ -13,8 +14,6 @@ android {
 dependencies {
     implementation project(':prefs-keys')
 
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
     implementation libs.google.material
     implementation libs.androidx.core.ktx
     implementation libs.androidx.palette

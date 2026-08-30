@@ -1,5 +1,6 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+plugins {
+    id("canaree.android.library")
+}
 
 android {
     namespace 'dev.olog.appshortcuts'
@@ -14,9 +15,6 @@ dependencies {
     implementation libs.androidx.core
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
-
-    implementation libs.kotlinx.coroutines.core
-    implementation libs.kotlinx.coroutines.android
 
     implementation libs.glide
 }

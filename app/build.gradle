@@ -1,9 +1,10 @@
-apply plugin: 'com.android.application'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id("canaree.android.application")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+}
 
 android {
     namespace 'dev.olog.msc'
@@ -11,44 +12,17 @@ android {
         applicationId "dev.olog.msc"
     }
 
-    bundle {
-        language {
-            enableSplit = true
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
             applicationIdSuffix ".debug"
-            multiDexEnabled true
         }
     }
-
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-    }
-
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
 
 
 dependencies {
@@ -69,8 +43,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
-
-    implementation libs.kotlinx.coroutines.core
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime

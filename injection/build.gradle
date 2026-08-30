@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-kapt")
+}
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -28,8 +29,6 @@ android {
 
 }
 
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':core')
     implementation project(':analytics')
@@ -37,8 +36,6 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
     implementation libs.dagger
     kapt libs.dagger.compiler
 

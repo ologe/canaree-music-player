@@ -1,7 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.presentation'
@@ -16,8 +17,6 @@ android {
 androidExtensions {
     experimental = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -36,9 +35,6 @@ dependencies {
     implementation project(':equalizer')
     implementation project(':data')
 
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
-    implementation libs.kotlinx.coroutines.android
     implementation libs.dagger
     kapt libs.dagger.compiler
 

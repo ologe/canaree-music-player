@@ -1,6 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.service.music'
@@ -11,8 +12,6 @@ android {
     //kotlinOptions.allWarningsAsErrors = true
 
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
@@ -28,8 +27,6 @@ dependencies {
     implementation project(':data')
     implementation project(':analytics')
 
-    implementation libs.kotlinx.coroutines.core
-    implementation libs.kotlinx.coroutines.android
     implementation libs.dagger
     kapt libs.dagger.compiler
 

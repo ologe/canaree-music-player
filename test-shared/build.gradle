@@ -1,54 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id("canaree.android.library")
+}
 
 android {
     namespace 'dev.olog.test.shared'
-    compileSdkVersion libs.versions.compileSdk.get().toInteger()
-
-    defaultConfig {
-        minSdkVersion libs.versions.minSdk.get().toInteger()
-        targetSdkVersion libs.versions.targetSdk.get().toInteger()
-        versionCode libs.versions.versionCode.get().toInteger()
-        versionName libs.versions.versionName.get()
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    buildTypes {
-        release {
-            debuggable false
-        }
-
-        debug {
-//            debuggable false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dexOptions {
-        preDexLibraries true
-    }
-
-    useLibrary 'android.test.runner'
-
-    useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'
-
 }
 
 dependencies {
-    implementation libs.kotlin.stdlib
-    implementation libs.kotlinx.coroutines.core
-    implementation libs.kotlinx.coroutines.android
     implementation libs.kotlinx.coroutines.test
-
     implementation libs.androidx.lifecycle.extensions
-
     implementation libs.junit
 }

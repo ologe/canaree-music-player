@@ -1,8 +1,7 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-kapt'
-
-apply from: '../kapt.gradle'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.equalizer'

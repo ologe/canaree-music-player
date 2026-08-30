@@ -1,7 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("canaree.android.library")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+}
 
 android {
     namespace 'dev.olog.service.floating'
@@ -12,8 +13,6 @@ android {
     //kotlinOptions.allWarningsAsErrors = true
 
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')
@@ -29,8 +28,6 @@ dependencies {
     implementation project(':analytics')
     implementation project(':equalizer')
 
-    implementation libs.kotlinx.coroutines.core
-    implementation libs.kotlinx.coroutines.android
     implementation libs.dagger
     kapt libs.dagger.compiler
 
