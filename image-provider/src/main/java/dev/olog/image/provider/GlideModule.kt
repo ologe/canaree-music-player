@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableSt
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import dev.olog.core.Config
 import dev.olog.core.MediaId
 import dev.olog.image.provider.di.inject
 import dev.olog.image.provider.loader.AudioFileCoverLoader
@@ -35,6 +36,8 @@ class GlideModule : AppGlideModule() {
     internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
     @Inject
     internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
+    @Inject
+    internal lateinit var config: Config
 
     private var injected = false
 
@@ -46,7 +49,9 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
+        injectIfNeeded(context)
+
+        val level = if (config.isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))

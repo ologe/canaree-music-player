@@ -8,7 +8,6 @@ import dev.olog.analytics.TrackerFacade
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.injection.CoreComponent
-import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import javax.inject.Inject
@@ -39,10 +38,6 @@ class App : ThemedApp(), HasAndroidInjector {
 
     private fun initializeComponents() {
         appShortcuts = AppShortcuts.instance(this)
-
-        if (BuildConfig.DEBUG) {
-//            Stetho.initializeWithDefaults(this)
-        }
     }
 
     private fun initializeConstants() {

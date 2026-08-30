@@ -3,8 +3,8 @@ package dev.olog.data.api.lastfm
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dev.olog.core.Config
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.data.BuildConfig
 import dev.olog.data.api.deezer.DeezerService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -20,9 +20,12 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
+    internal fun provideOkHttp(
+        @ApplicationContext context: Context,
+        config: Config,
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addNetworkInterceptor(logInterceptor())
+            .addNetworkInterceptor(logInterceptor(config))
             .addInterceptor(headerInterceptor(context))
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1, TimeUnit.SECONDS)
@@ -30,9 +33,9 @@ object NetworkModule {
     }
 
     @JvmStatic
-    private fun logInterceptor(): Interceptor {
+    private fun logInterceptor(config: Config): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG) {
+        if (config.isDebug) {
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         } else {
             // disable retrofit log on release

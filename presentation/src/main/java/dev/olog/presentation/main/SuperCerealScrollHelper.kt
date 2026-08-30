@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.detail.DetailFragment

@@ -8,6 +8,7 @@ import android.net.ConnectivityManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 
@@ -39,6 +40,15 @@ abstract class CoreModule {
         fun provideConnectivityManager(instance: Application): ConnectivityManager {
             return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         }
+
+        @Provides
+        fun provideConfig() = Config(
+            isDebug = BuildConfig.DEBUG,
+            lastFmKey = BuildConfig.LAST_FM_KEY,
+            lastFmSecret = BuildConfig.LAST_FM_SECRET,
+            aesPassword = BuildConfig.AES_PASSWORD,
+        )
+
     }
 
 }

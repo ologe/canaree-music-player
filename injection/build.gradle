@@ -11,10 +11,17 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
+    namespace 'dev.olog.injection'
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
 
+        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
+        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     //kotlinOptions.allWarningsAsErrors = true

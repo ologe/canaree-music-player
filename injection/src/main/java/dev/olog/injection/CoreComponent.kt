@@ -8,6 +8,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dev.olog.analytics.AnalyticsModule
 import dev.olog.analytics.TrackerFacade
+import dev.olog.core.Config
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.*
@@ -86,6 +87,8 @@ interface CoreComponent {
     fun encrypter(): IEncrypter
 
     fun trackerFacade(): TrackerFacade
+
+    fun config(): Config
 
     @Component.Factory
     interface Factory {

@@ -1,7 +1,6 @@
 package dev.olog.data.api.lastfm
 
 import androidx.annotation.IntRange
-import dev.olog.data.BuildConfig
 import dev.olog.data.api.lastfm.album.AlbumInfo
 import dev.olog.data.api.lastfm.album.AlbumSearch
 import dev.olog.data.api.lastfm.artist.ArtistInfo
