@@ -2,30 +2,21 @@ package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.injection.CoreComponent
 import dev.olog.msc.R
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : ThemedApp(), HasAndroidInjector {
+class App : ThemedApp() {
 
     private lateinit var appShortcuts: AppShortcuts
-
-    @Inject
-    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
 
     override fun onCreate() {
         super.onCreate()
-        inject()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
@@ -43,11 +34,4 @@ class App : ThemedApp(), HasAndroidInjector {
         sleepTimerUseCase.reset()
     }
 
-    private fun inject() {
-        DaggerAppComponent.factory()
-            .create(CoreComponent.coreComponent(this))
-            .inject(this)
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
