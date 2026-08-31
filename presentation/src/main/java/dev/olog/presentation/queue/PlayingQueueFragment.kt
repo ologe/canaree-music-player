@@ -43,7 +43,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             lifecycle,
-            act as MediaProvider,
+            act.asType<MediaProvider>(),
             navigator,
             this,
             viewModel

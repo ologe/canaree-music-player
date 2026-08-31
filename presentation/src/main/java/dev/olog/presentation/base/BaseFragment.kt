@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
+import dev.olog.shared.android.extensions.asType
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -27,7 +28,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
     protected abstract fun provideLayoutId(): Int
 
     fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
-        return (activity as HasSlidingPanel).getSlidingPanel()
+        return requireActivity().asType<HasSlidingPanel>().getSlidingPanel()
     }
 
     override fun onDestroyView() {
@@ -36,7 +37,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+        requireActivity().asType<MainActivity>().restoreUpperWidgetsTranslation()
     }
 
 }

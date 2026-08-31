@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.collapse
+import dev.olog.shared.android.extensions.asType
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.scrimBackground
@@ -20,10 +21,10 @@ class SlidingPanelFade(
 ) : View(context, attrs) {
 
     private val fragmentContainer by lazyFast {
-        (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
+        context.asType<FragmentActivity>().findViewById<View>(R.id.fragmentContainer)
     }
 
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel by lazyFast { context.asType<HasSlidingPanel>().getSlidingPanel() }
     private val isTablet = context.isTablet
 
     var parallax = context.dip(20)

@@ -35,7 +35,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
+    private val media by lazyFast { requireActivity().asType<MediaProvider>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {

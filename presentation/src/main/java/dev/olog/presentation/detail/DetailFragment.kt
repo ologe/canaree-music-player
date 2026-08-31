@@ -63,10 +63,10 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(lifecycle, navigator, act.asType<MediaProvider>())
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(lifecycle, navigator, act.asType<MediaProvider>())
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(lifecycle, navigator)
@@ -81,7 +81,7 @@ class DetailFragment : BaseFragment(),
             mediaId,
             this,
             navigator,
-            act as MediaProvider,
+            act.asType<MediaProvider>(),
             viewModel,
             this
         )

@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
+import dev.olog.shared.android.extensions.asType
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
 import dev.olog.shared.lazyFast
@@ -90,7 +91,7 @@ class SplashFragment : Fragment() {
             .remove(this)
             .commitAllowingStateLoss()
 
-        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+        requireActivity().asType<OnPermissionChanged>().onPermissionGranted(Permission.STORAGE)
 
 //        ExplainTrialDialog.show(requireContext()) {
 //            requireActivity().supportFragmentManager
@@ -98,7 +99,7 @@ class SplashFragment : Fragment() {
 //                .remove(this)
 //                .commitAllowingStateLoss()
 //
-//            (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+//            requireActivity().asType<OnPermissionChanged>().onPermissionGranted(Permission.STORAGE)
 //        }
     }
 

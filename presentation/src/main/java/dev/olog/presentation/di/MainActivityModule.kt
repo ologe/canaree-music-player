@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dev.olog.media.MediaProvider
+import dev.olog.shared.android.extensions.asType
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.presentation.navigator.NavigatorAboutImpl
@@ -26,7 +27,7 @@ abstract class MainActivityModule {
 
         @Provides
         fun provideMusicGlue(instance: FragmentActivity): MediaProvider {
-            return instance as MediaProvider
+            return instance.asType<MediaProvider>()
         }
 
     }

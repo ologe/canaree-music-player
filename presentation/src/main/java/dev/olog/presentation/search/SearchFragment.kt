@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment(),
         SearchFragmentAdapter(
             lifecycle,
             this,
-            requireActivity() as MediaProvider,
+            requireActivity().asType<MediaProvider>(),
             navigator,
             viewModel
         )

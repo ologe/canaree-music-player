@@ -48,14 +48,14 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val mediaProvider by lazyFast { act as MediaProvider }
+    private val mediaProvider by lazyFast { act.asType<MediaProvider>() }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, activity as MediaProvider,
+            lifecycle, activity!!.asType<MediaProvider>(),
             navigator, viewModel, presenter, musicPrefs,
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )

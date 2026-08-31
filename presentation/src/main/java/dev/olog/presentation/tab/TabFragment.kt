@@ -88,7 +88,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(lifecycle, navigator, act.asType<MediaProvider>(), viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

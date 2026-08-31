@@ -45,7 +45,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
 
-    private val mediaProvider by lazy { activity as MediaProvider }
+    private val mediaProvider by lazy { activity!!.asType<MediaProvider>() }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 

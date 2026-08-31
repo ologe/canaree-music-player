@@ -4,6 +4,7 @@ package dev.olog.shared.android.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Color
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -12,9 +13,28 @@ import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.R
 import dev.olog.shared.android.utils.isOreo
+
+fun Context.findActivity(): FragmentActivity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is FragmentActivity) return context
+        context = context.baseContext
+    }
+    error("activity not found")
+}
+
+inline fun <reified T> Context.asType(): T {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is T) return context
+        context = context.baseContext
+    }
+    return this as T
+}
 
 inline fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!

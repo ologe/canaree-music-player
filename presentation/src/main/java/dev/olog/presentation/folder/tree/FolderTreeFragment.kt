@@ -12,6 +12,7 @@ import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.extensions.asType
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.subscribe
@@ -42,7 +43,7 @@ class FolderTreeFragment : BaseFragment(),
         val adapter = FolderTreeFragmentAdapter(
             lifecycle,
             viewModel,
-            activity as MediaProvider,
+            activity!!.asType<MediaProvider>(),
             navigator
         )
         fab.shrink()

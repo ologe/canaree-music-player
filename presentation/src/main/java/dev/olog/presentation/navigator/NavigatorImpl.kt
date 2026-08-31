@@ -24,6 +24,7 @@ import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.extensions.asType
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
@@ -57,7 +58,7 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDetailFragment(mediaId: MediaId) {
         val activity = activityRef.get() ?: return
-        (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
+        activity?.asType<HasSlidingPanel>()?.getSlidingPanel().collapse()
 
         val newTag = createBackStackTag(DetailFragment.TAG)
         superCerealTransition(
