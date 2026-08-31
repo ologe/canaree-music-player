@@ -5,12 +5,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.ctx
 
-abstract class ListDialog : BaseDialogFragment() {
+abstract class ListDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
