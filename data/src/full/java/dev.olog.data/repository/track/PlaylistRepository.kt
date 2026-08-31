@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist

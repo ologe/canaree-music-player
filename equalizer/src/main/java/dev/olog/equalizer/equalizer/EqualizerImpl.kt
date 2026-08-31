@@ -2,7 +2,7 @@ package dev.olog.equalizer.equalizer
 
 import android.content.Context
 import android.media.audiofx.AudioEffect
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway

@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
