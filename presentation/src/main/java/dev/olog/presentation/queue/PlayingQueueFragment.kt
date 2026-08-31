@@ -2,7 +2,7 @@ package dev.olog.presentation.queue
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,11 +36,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by activityViewModels<PlayingQueueFragmentViewModel>()
     @Inject
     lateinit var navigator: Navigator
 

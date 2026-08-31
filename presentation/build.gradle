@@ -41,6 +41,7 @@ dependencies {
     implementation libs.glide
 
     implementation libs.androidx.appcompat
+    implementation libs.androidx.activity
     implementation libs.google.material
     implementation libs.androidx.core.ktx
     implementation libs.androidx.constraintlayout

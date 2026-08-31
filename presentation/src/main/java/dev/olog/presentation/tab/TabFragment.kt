@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,8 +54,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
@@ -82,9 +80,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<TabFragmentViewModel>({ requireParentFragment() })
 
     internal val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)

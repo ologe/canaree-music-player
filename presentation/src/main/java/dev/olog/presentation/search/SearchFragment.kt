@@ -3,7 +3,7 @@ package dev.olog.presentation.search
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,13 +46,7 @@ class SearchFragment : BaseFragment(),
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<SearchFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(

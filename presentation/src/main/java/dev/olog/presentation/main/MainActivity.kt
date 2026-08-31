@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
@@ -47,14 +47,8 @@ class MainActivity : MusicGlueActivity(),
     HasBottomNavigation,
     OnPermissionChanged {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    private val viewModel by viewModels<MainActivityViewModel>()
 
-    private val viewModel by lazyFast {
-        viewModelProvider<MainActivityViewModel>(
-            factory
-        )
-    }
     @Inject
     lateinit var navigator: Navigator
 

@@ -89,6 +89,7 @@ androidx-core = { group = "androidx.core", name = "core", version.ref = "android
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-legacy-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "androidx-legacy" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-core" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recyclerview" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidx-browser" }
@@ -98,7 +99,7 @@ androidx-palette = { group = "androidx.palette", name = "palette", version.ref =
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "androidx-annotation" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "androidx-coordinatorlayout" }
-androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "androidx-fragment" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment" }
 
 # Lifecycle
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
