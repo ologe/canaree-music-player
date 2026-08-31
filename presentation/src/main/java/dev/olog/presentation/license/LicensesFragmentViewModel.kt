@@ -1,11 +1,18 @@
 package dev.olog.presentation.license
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LicenseModel
+import javax.inject.Inject
 
-class LicensesFragmentPresenter(private val context: Context) {
+@HiltViewModel
+class LicensesFragmentViewModel @Inject constructor(
+    @ApplicationContext private val context: Context
+) : ViewModel() {
 
     private val cachedLicenses = mutableMapOf<String, String>()
 

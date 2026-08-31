@@ -1,6 +1,7 @@
 package dev.olog.presentation.offlinelyrics
 
 import android.content.Context
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
@@ -10,7 +11,8 @@ import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import javax.inject.Inject
 
-class OfflineLyricsFragmentPresenter @Inject constructor(
+@HiltViewModel
+class OfflineLyricsFragmentViewModel @Inject constructor(
     @ApplicationContext context: Context,
     observeUseCase: ObserveOfflineLyricsUseCase,
     insertUseCase: InsertOfflineLyricsUseCase,

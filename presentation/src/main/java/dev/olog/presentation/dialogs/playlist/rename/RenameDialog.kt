@@ -14,7 +14,7 @@ import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
+import androidx.fragment.app.viewModels
 
 @AndroidEntryPoint
 class RenameDialog : BaseEditTextDialog() {
@@ -32,7 +32,7 @@ class RenameDialog : BaseEditTextDialog() {
         }
     }
 
-    @Inject lateinit var presenter: RenameDialogPresenter
+    private val viewModel by viewModels<RenameDialogViewModel>()
 
     private val mediaId: MediaId by lazyFast {
         MediaId.fromString(getArgument(Navigator.MEDIA_ID_ARG))
@@ -60,7 +60,7 @@ class RenameDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(mediaId, string)
             message = successMessage(act, string)
         } catch (ex: Throwable) {
             ex.printStackTrace()

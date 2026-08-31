@@ -12,8 +12,8 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import androidx.fragment.app.viewModels
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddFavoriteDialog : BaseDialog() {
@@ -40,7 +40,7 @@ class AddFavoriteDialog : BaseDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    @Inject lateinit var presenter: AddFavoriteDialogPresenter
+    private val viewModel by viewModels<AddFavoriteDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_add_to_favorites)
@@ -53,7 +53,7 @@ class AddFavoriteDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                presenter.execute(mediaId)
+                viewModel.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

@@ -1,7 +1,9 @@
-package dev.olog.presentation.dialogs.play.later
+package dev.olog.presentation.dialogs.play.next
 
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.intents.MusicServiceCustomAction
@@ -9,9 +11,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PlayLaterDialogPresenter @Inject constructor(
+@HiltViewModel
+class PlayNextDialogViewModel @Inject constructor(
     private val getSongListByParamUseCase: GetSongListByParamUseCase
-) {
+) : ViewModel() {
 
     suspend fun execute(mediaController: MediaControllerCompat, mediaId: MediaId) = withContext(Dispatchers.IO) {
         val items = if (mediaId.isLeaf) {
@@ -25,7 +28,7 @@ class PlayLaterDialogPresenter @Inject constructor(
         )
 
         mediaController.transportControls.sendCustomAction(
-            MusicServiceCustomAction.ADD_TO_PLAY_LATER.name,
+            MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,
             bundle
         )
     }

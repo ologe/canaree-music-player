@@ -12,8 +12,8 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import androidx.fragment.app.viewModels
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RemoveDuplicatesDialog: BaseDialog() {
@@ -31,7 +31,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
         }
     }
 
-    @Inject lateinit var presenter: RemoveDuplicatesDialogPresenter
+    private val viewModel by viewModels<RemoveDuplicatesDialogViewModel>()
 
 
     private val itemTitle by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
@@ -48,7 +48,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(Navigator.MEDIA_ID_ARG)!!)
-                presenter.execute(mediaId)
+                viewModel.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

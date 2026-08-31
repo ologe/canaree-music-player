@@ -1,6 +1,8 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
@@ -11,10 +13,11 @@ import dev.olog.shared.lazyFast
 import java.util.*
 import javax.inject.Inject
 
-class BlacklistFragmentPresenter @Inject constructor(
+@HiltViewModel
+class BlacklistFragmentViewModel @Inject constructor(
     folderGateway: FolderGateway,
     private val appPreferencesUseCase: BlacklistPreferences
-) {
+) : ViewModel() {
 
     val data : List<BlacklistModel> by lazyFast {
         val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }

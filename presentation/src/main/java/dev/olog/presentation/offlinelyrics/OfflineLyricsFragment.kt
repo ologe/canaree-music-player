@@ -1,12 +1,12 @@
 package dev.olog.presentation.offlinelyrics
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.viewModels
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URLEncoder
-import javax.inject.Inject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,22 +41,21 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
     }
 
-    @Inject
-    lateinit var presenter: OfflineLyricsFragmentPresenter
+    private val viewModel by viewModels<OfflineLyricsFragmentViewModel>()
 
     private val mediaProvider by lazy { activity!!.asType<MediaProvider>() }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (presenter.showAddLyricsIfNeverShown()) {
+        if (viewModel.showAddLyricsIfNeverShown()) {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
         }
 
         mediaProvider.observeMetadata()
             .subscribe(viewLifecycleOwner) {
-                presenter.updateCurrentTrackId(it.id)
-                presenter.updateCurrentMetadata(it.title, it.artist)
+                viewModel.updateCurrentTrackId(it.id)
+                viewModel.updateCurrentMetadata(it.title, it.artist)
                 launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
@@ -69,17 +67,17 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         mediaProvider.observePlaybackState()
             .subscribe(viewLifecycleOwner) {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
-                presenter.onStateChanged(it.bookmark, speed)
+                viewModel.onStateChanged(it.bookmark, speed)
             }
 
-        presenter.observeLyrics()
+        viewModel.observeLyrics()
             .subscribe(viewLifecycleOwner) { (lyrics, type) ->
                 emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 text.text = lyrics
 
                 text.doOnPreDraw {
                     if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                        val scrollTo = OffsetCalculator.compute(text, lyrics, presenter.currentParagraph)
+                        val scrollTo = OffsetCalculator.compute(text, lyrics, viewModel.currentParagraph)
                         scrollView.scrollTo(0, scrollTo)
                     }
                 }
@@ -101,15 +99,15 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onStart() {
         super.onStart()
 
-        presenter.onStart()
+        viewModel.onStart()
     }
 
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
             launch {
-                EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
-                    presenter.updateLyrics(newLyrics)
+                EditLyricsDialog.show(act, viewModel.getLyrics()) { newLyrics ->
+                    viewModel.updateLyrics(newLyrics)
                 }
             }
         }
@@ -126,9 +124,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         ctx,
-                        presenter.getSyncAdjustment()
+                        viewModel.getSyncAdjustment()
                     ) {
-                        presenter.updateSyncAdjustment(it)
+                        viewModel.updateSyncAdjustment(it)
                     }
                 } catch (ex: Throwable){
                     ex.printStackTrace()
@@ -138,7 +136,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         seekBar.setListener(onStopTouch = {
             mediaProvider.seekTo(seekBar.progress.toLong())
-            presenter.resetTick()
+            viewModel.resetTick()
         }, onStartTouch = {
         }, onProgressChanged = {
         })
@@ -160,7 +158,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
+        viewModel.onStop()
     }
 
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
@@ -181,7 +179,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .setToolbarColor(ctx.colorSurface())
             .build()
 
-        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
+        val escapedQuery = URLEncoder.encode(viewModel.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
         ctx.startActivity(Intent(Intent.ACTION_VIEW, uri))
     }

@@ -3,7 +3,6 @@ package dev.olog.presentation.player
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
@@ -55,11 +54,9 @@ internal class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
-    private val presenter: PlayerFragmentPresenter,
     private val musicPrefs: MusicPreferencesGateway,
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
-
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
     DiffCallbackDisplayableItem
@@ -126,23 +123,23 @@ internal class PlayerFragmentAdapter(
             view.imageSwitcher?.let {
                 it.observeProcessorColors()
                     .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .subscribe(holder, viewModel::updateProcessorColors)
                 it.observePaletteColors()
                     .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .subscribe(holder, viewModel::updatePaletteColors)
             }
             view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
                 it.observeProcessorColors()
                     .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
+                    .subscribe(holder, viewModel::updateProcessorColors)
                 it.observePaletteColors()
                     .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+                    .subscribe(holder, viewModel::updatePaletteColors)
             }
 
             bindPlayerControls(holder, view)
 
-            playerAppearanceAdaptiveBehavior(holder, presenter)
+            playerAppearanceAdaptiveBehavior(holder, viewModel)
         }
     }
 
@@ -268,7 +265,7 @@ internal class PlayerFragmentAdapter(
             .asLiveData()
             .subscribe(holder, view.previous::updateVisibility)
 
-        presenter.observePlayerControlsVisibility()
+        viewModel.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen()
                     && !playerAppearance.isMini()
                     && !playerAppearance.isSpotify()

@@ -11,6 +11,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
@@ -27,13 +28,12 @@ sealed class Lyrics {
     class Synced(val lyrics: List<Pair<Long, Spannable>>) : Lyrics()
 }
 
-abstract class BaseOfflineLyricsPresenter constructor(
+abstract class BaseOfflineLyricsPresenter(
     private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
     private val observeUseCase: ObserveOfflineLyricsUseCase,
     private val insertUseCase: InsertOfflineLyricsUseCase
-
-) {
+) : ViewModel() {
 
     companion object {
         const val DEFAULT_SPAN_SIZE_DP = 25f

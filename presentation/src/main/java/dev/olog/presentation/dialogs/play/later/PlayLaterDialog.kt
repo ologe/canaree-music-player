@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.play.later
 
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -14,7 +15,6 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PlayLaterDialog : BaseDialog() {
@@ -41,7 +41,7 @@ class PlayLaterDialog : BaseDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    @Inject lateinit var presenter: PlayLaterDialogPresenter
+    private val viewModel by viewModels<PlayLaterDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_play_later)
@@ -65,7 +65,7 @@ class PlayLaterDialog : BaseDialog() {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(act)
-                presenter.execute(mediaController, mediaId)
+                viewModel.execute(mediaController, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
                 ex.printStackTrace()

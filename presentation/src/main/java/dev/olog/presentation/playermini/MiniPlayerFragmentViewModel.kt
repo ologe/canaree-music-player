@@ -1,5 +1,7 @@
 package dev.olog.presentation.playermini
 
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.flow.Flow
@@ -8,10 +10,10 @@ import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MiniPlayerFragmentPresenter @Inject constructor(
+@HiltViewModel
+class MiniPlayerFragmentViewModel @Inject constructor(
     private val musicPrefsUseCase: MusicPreferencesGateway
-
-) {
+) : ViewModel() {
 
     var showTimeLeft = false
     private var currentDuration = 0L

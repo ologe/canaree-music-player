@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +38,7 @@ import kotlin.math.abs
 class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private val viewModel by viewModels<PlayerFragmentViewModel>()
-    @Inject
-    internal lateinit var presenter: PlayerFragmentPresenter
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -56,7 +54,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity!!.asType<MediaProvider>(),
-            navigator, viewModel, presenter, musicPrefs,
+            navigator, viewModel, musicPrefs,
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 

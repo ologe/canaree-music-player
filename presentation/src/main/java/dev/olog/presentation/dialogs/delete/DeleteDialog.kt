@@ -15,8 +15,8 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
+import androidx.fragment.app.viewModels
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DeleteDialog: BaseDialog() {
@@ -43,7 +43,7 @@ class DeleteDialog: BaseDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    @Inject lateinit var presenter: DeleteDialogPresenter
+    private val viewModel by viewModels<DeleteDialogViewModel>()
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_delete)
@@ -63,7 +63,7 @@ class DeleteDialog: BaseDialog() {
     private suspend fun tryExecute(){
         var message: String
         try {
-            presenter.execute(mediaId)
+            viewModel.execute(mediaId)
             message = successMessage(act)
         } catch (ex: Throwable) {
             if (isQ() && ex is RecoverableSecurityException){

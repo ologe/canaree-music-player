@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
@@ -13,7 +14,6 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class NewPlaylistDialog : BaseEditTextDialog() {
@@ -33,7 +33,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
         }
     }
 
-    @Inject lateinit var presenter: NewPlaylistDialogPresenter
+    private val viewModel by viewModels<NewPlaylistDialogViewModel>()
 
     private val mediaId: MediaId by lazyFast {
         val mediaId = arguments!!.getString(Navigator.MEDIA_ID_ARG)!!
@@ -60,7 +60,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            viewModel.execute(mediaId, string)
             message = successMessage(act, string).toString()
         } catch (ex: Throwable) {
             ex.printStackTrace()

@@ -9,7 +9,9 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
@@ -17,7 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetRingtoneDialogPresenter @Inject constructor() {
+@HiltViewModel
+class SetRingtoneDialogViewModel @Inject constructor() : ViewModel() {
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
     suspend fun execute(activity: FragmentActivity, mediaId: MediaId) =

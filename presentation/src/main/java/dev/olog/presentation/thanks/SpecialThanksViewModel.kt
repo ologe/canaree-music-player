@@ -1,11 +1,18 @@
 package dev.olog.presentation.thanks
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.SpecialThanksModel
+import javax.inject.Inject
 
-class SpecialThanksPresenter (context: Context) {
+@HiltViewModel
+class SpecialThanksViewModel @Inject constructor(
+    @ApplicationContext private val context: Context
+) : ViewModel() {
 
     val data = listOf(
         SpecialThanksModel(

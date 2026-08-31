@@ -24,19 +24,31 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.widgets.adaptive.InvalidPaletteColors
+import dev.olog.shared.widgets.adaptive.InvalidProcessColors
+import dev.olog.shared.widgets.adaptive.PaletteColors
+import dev.olog.shared.widgets.adaptive.ProcessorColors
+import dev.olog.shared.widgets.adaptive.ValidPaletteColors
+import dev.olog.shared.widgets.adaptive.ValidProcessorColors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 @HiltViewModel
 internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
-    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
-
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
+    private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
-
     private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
+    private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
+    private val palettePublisher = ConflatedBroadcastChannel<PaletteColors>()
 
     init {
         viewModelScope.launch {
@@ -119,6 +131,52 @@ internal class PlayerFragmentViewModel @Inject constructor(
             else -> 1f
         }
         musicPrefsUseCase.setPlaybackSpeed(speed)
+    }
+
+    fun observePlayerControlsVisibility(): Flow<Boolean> {
+
+        return presentationPrefs.observePlayerControlsVisibility()
+    }
+
+    // allow adaptive color on flat appearance
+    fun observeProcessorColors(): Flow<ProcessorColors> {
+
+        return processorPublisher.asFlow()
+            .map {
+                val hasPlayerAppearance = context.hasPlayerAppearance()
+                if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
+                    it
+                } else {
+                    InvalidProcessColors
+                }
+            }
+            .filter { it is ValidProcessorColors }
+            .flowOn(Dispatchers.Default)
+    }
+
+    // allow adaptive color on flat appearance
+    fun observePaletteColors(): Flow<PaletteColors> {
+
+        return palettePublisher
+            .asFlow()
+            .map {
+                val hasPlayerAppearance = context.hasPlayerAppearance()
+                if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
+                    it
+                } else {
+                    InvalidPaletteColors
+                }
+            }
+            .filter { it is ValidPaletteColors }
+            .flowOn(Dispatchers.Default)
+    }
+
+    fun updateProcessorColors(palette: ProcessorColors) {
+        processorPublisher.offer(palette)
+    }
+
+    fun updatePaletteColors(palette: PaletteColors) {
+        palettePublisher.offer(palette)
     }
 
 
