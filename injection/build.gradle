@@ -35,9 +35,6 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation libs.dagger
-    kapt libs.dagger.compiler
-
     implementation libs.androidx.lifecycle.viewmodel.ktx
     implementation libs.androidx.appcompat
 

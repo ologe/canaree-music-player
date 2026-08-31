@@ -24,9 +24,6 @@ dependencies {
     implementation project(':data')
     implementation project(':equalizer')
 
-    implementation libs.dagger
-    kapt libs.dagger.compiler
-
     implementation libs.color.desaturation
     implementation libs.glide
     kapt libs.glide.compiler

@@ -34,9 +34,6 @@ dependencies {
     implementation project(':equalizer')
     implementation project(':data')
 
-    implementation libs.dagger
-    kapt libs.dagger.compiler
-
     implementation libs.scroll.helper
     implementation libs.glide
 
@@ -54,10 +51,6 @@ dependencies {
 
     implementation libs.lottie
     implementation libs.tap.target.view
-
-    implementation libs.dagger.android
-    implementation libs.dagger.android.support
-    kapt libs.dagger.android.processor
 
     implementation libs.material.dialogs.core
     implementation libs.material.dialogs.color

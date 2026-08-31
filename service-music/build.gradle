@@ -27,9 +27,6 @@ dependencies {
     implementation project(':equalizer')
     implementation project(':data')
 
-    implementation libs.dagger
-    kapt libs.dagger.compiler
-
     implementation libs.androidx.media
     implementation libs.androidx.lifecycle.runtime
     implementation libs.androidx.lifecycle.extensions

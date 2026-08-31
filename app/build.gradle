@@ -54,13 +54,6 @@ dependencies {
     implementation libs.androidx.browser
     implementation libs.androidx.preference
 
-    // dagger
-    implementation libs.dagger
-    kapt libs.dagger.compiler
-    implementation libs.dagger.android
-    implementation libs.dagger.android.support
-    kapt libs.dagger.android.processor
-
     // debug
     debugImplementation libs.leak.canary
 

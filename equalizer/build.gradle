@@ -9,8 +9,5 @@ android {
 
 dependencies {
     implementation project(':core')
-
-    implementation libs.dagger
-    kapt libs.dagger.compiler
     implementation libs.androidx.annotation
 }
