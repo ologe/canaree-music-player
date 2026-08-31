@@ -12,6 +12,7 @@ buildscript {
         classpath libs.kotlin.gradle.plugin
         classpath libs.google.services.plugin
         classpath libs.firebase.crashlytics.plugin
+        classpath libs.hilt.gradle.plugin
     }
 
 

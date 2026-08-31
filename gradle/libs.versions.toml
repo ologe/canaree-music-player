@@ -67,6 +67,7 @@ android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", ve
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 google-services-plugin = { group = "com.google.gms", name = "google-services", version.ref = "google-services" }
 firebase-crashlytics-plugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
+hilt-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
 
 # Kotlin
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
@@ -80,6 +81,8 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 dagger-android = { group = "com.google.dagger", name = "dagger-android", version.ref = "dagger" }
 dagger-android-support = { group = "com.google.dagger", name = "dagger-android-support", version.ref = "dagger" }
 dagger-android-processor = { group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger" }
 
 # AndroidX
 androidx-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
@@ -155,3 +158,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-plugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }

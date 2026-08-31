@@ -1,6 +1,6 @@
 plugins {
     id("canaree.android.library")
-    id("kotlin-kapt")
+    id("canaree.hilt")
 }
 
 android {

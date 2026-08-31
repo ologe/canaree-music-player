@@ -7,6 +7,7 @@ group = "dev.olog.canaree.buildlogic"
 dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.hilt.gradle.plugin)
 }
 
 gradlePlugin {
@@ -22,6 +23,10 @@ gradlePlugin {
         register("jvmLibrary") {
             id = "canaree.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("hilt") {
+            id = "canaree.hilt"
+            implementationClass = "HiltConventionPlugin"
         }
     }
 }
