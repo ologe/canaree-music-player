@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 internal class EqualizerFragmentViewModel @Inject constructor(
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,

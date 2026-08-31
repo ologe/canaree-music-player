@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class RelatedArtistFragmentViewModel @Inject constructor(
     resources: Resources,
     mediaId: MediaId,

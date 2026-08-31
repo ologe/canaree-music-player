@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class EditArtistFragmentViewModel @Inject constructor(
     private val presenter: EditArtistFragmentPresenter
 

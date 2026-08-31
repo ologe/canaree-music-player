@@ -16,7 +16,9 @@ import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class EditTrackFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val presenter: EditTrackFragmentPresenter

@@ -20,7 +20,9 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 internal class DetailFragmentViewModel @Inject constructor(
     val mediaId: MediaId,
     private val dataProvider: DetailDataProvider,

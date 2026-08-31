@@ -17,8 +17,9 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-
+@HiltViewModel
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     playingQueueGateway: PlayingQueueGateway

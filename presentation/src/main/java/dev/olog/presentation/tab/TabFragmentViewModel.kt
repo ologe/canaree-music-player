@@ -11,7 +11,9 @@ import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 internal class TabFragmentViewModel @Inject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,

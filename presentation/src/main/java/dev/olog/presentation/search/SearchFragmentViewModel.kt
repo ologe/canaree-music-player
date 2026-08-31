@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class SearchFragmentViewModel @Inject constructor(
     private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,

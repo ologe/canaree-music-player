@@ -26,7 +26,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class CreatePlaylistFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
     private val getAllSongsUseCase: SongGateway,

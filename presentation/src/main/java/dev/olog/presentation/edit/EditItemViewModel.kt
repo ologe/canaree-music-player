@@ -17,7 +17,9 @@ import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.FileNotFoundException
 import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class EditItemViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val presenter: EditItemPresenter
