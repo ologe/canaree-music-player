@@ -18,8 +18,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import kotlinx.coroutines.flow.Flow
@@ -50,13 +48,11 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Song> {
-//        assertBackgroundThread()
         val cursor = queries.getAll()
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun getByParam(param: Id): Song? {
-        assertBackgroundThread()
         val cursor = queries.getByParam(param)
         return contentResolver.queryOne(cursor) { it.toSong() }
     }
@@ -66,7 +62,6 @@ internal class PodcastRepository @Inject constructor(
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun deleteSingle(id: Id) {
@@ -80,7 +75,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     private fun deleteInternal(id: Id) {
-        assertBackgroundThread()
         val path = getByParam(id)!!.path
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
         val deleted = contentResolver.delete(uri, null, null)
@@ -96,7 +90,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getCurrentPosition(podcastId: Long, duration: Long): Long {
-        assertBackgroundThread()
         val position = podcastPositionDao.getPosition(podcastId) ?: 0L
         if (position > duration - 1000 * 5) {
             // if last 5 sec, restart
@@ -106,7 +99,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun saveCurrentPosition(podcastId: Long, position: Long) {
-        assertBackgroundThread()
         podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
     }
 

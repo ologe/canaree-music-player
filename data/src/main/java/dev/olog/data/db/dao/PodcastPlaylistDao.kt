@@ -8,8 +8,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -60,7 +58,6 @@ internal abstract class PodcastPlaylistDao {
     abstract fun getPlaylistTracksImpl(playlistId: Long): List<PodcastPlaylistTrackEntity>
 
     fun getPlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): List<Song> {
-        assertBackgroundThread()
         val trackList = getPlaylistTracksImpl(playlistId)
         val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
@@ -84,7 +81,7 @@ internal abstract class PodcastPlaylistDao {
                 trackList.mapNotNull { entity ->
                     songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
                 }
-            }.assertBackground()
+            }
     }
 
     @Query("""

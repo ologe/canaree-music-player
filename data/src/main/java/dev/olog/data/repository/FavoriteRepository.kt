@@ -8,8 +8,6 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -34,14 +32,12 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override fun getTracks(): List<Song> {
-        assertBackgroundThread()
         val historyList = favoriteDao.getAllTracksImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
     }
 
     override fun getPodcasts(): List<Song> {
-        assertBackgroundThread()
         val historyList = favoriteDao.getAllPodcastsImpl()
         val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return historyList.mapNotNull { id -> songList[id]?.get(0) }
@@ -53,7 +49,7 @@ internal class FavoriteRepository @Inject constructor(
                 val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> songs[id]?.get(0) }
                     .sortedBy { it.title }
-            }.assertBackground()
+            }
     }
 
     override fun observePodcasts(): Flow<List<Song>> {
@@ -62,7 +58,7 @@ internal class FavoriteRepository @Inject constructor(
                 val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> podcast[id]?.get(0) }
                     .sortedBy { it.title }
-            }.assertBackground()
+            }
     }
 
     override suspend fun addSingle(type: FavoriteType, songId: Long) {
@@ -112,8 +108,6 @@ internal class FavoriteRepository @Inject constructor(
     }
 
     override suspend fun toggleFavorite() {
-        assertBackgroundThread()
-
         val value = favoriteStatePublisher.valueOrNull ?: return
         val id = value.songId
         val state = value.enum

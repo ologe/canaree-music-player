@@ -1,4 +1,4 @@
-package dev.olog.data.utils
+package dev.olog.shared.android.extensions
 
 import android.content.SharedPreferences
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,6 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dis
         awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
     }
     return flow
-        .assertBackground()
         .flowOn(dispatcher)
 }
 

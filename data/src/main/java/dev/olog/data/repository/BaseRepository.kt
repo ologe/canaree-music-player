@@ -7,8 +7,6 @@ import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
@@ -28,7 +26,6 @@ internal abstract class BaseRepository<T, Param>(
 
     protected fun firstQuery() {
         GlobalScope.launch(schedulers.io) {
-            assertBackgroundThread()
 
             do {
                 delay(200)
@@ -46,13 +43,12 @@ internal abstract class BaseRepository<T, Param>(
     }
 
     override fun getAll(): List<T> {
-//        assertBackgroundThread()
         return channel.valueOrNull
             ?: queryAll() // fallback to normal query if channel never emitted
     }
 
     override fun observeAll(): Flow<List<T>> {
-        return channel.asFlow().assertBackground()
+        return channel.asFlow()
     }
 
     protected fun <R> observeByParamInternal(
@@ -79,7 +75,7 @@ internal abstract class BaseRepository<T, Param>(
             )
             awaitClose { contentResolver.unregisterContentObserver(observer) }
         }
-        return flow.assertBackground()
+        return flow
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

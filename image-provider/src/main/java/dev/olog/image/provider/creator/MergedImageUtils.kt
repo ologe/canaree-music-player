@@ -1,7 +1,6 @@
 package dev.olog.image.provider.creator
 
 import android.graphics.*
-import com.bumptech.glide.util.Util.assertBackgroundThread
 
 
 internal object MergedImageUtils {
@@ -11,8 +10,6 @@ internal object MergedImageUtils {
     private const val DEGREES = 9f
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
-        assertBackgroundThread()
-
         val arranged = arrangeBitmaps(list.shuffled())
 
         val mergedImage = create(

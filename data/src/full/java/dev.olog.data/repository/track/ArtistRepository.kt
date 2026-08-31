@@ -19,8 +19,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -45,7 +43,6 @@ internal class ArtistRepository @Inject constructor(
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
         return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
@@ -55,24 +52,20 @@ internal class ArtistRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Artist> {
-        assertBackgroundThread()
         val cursor = queries.getAll()
         return extractArtists(cursor)
     }
 
     override fun getByParam(param: Id): Artist? {
-        assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
         return channel.asFlow().map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
@@ -80,7 +73,6 @@ internal class ArtistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
@@ -94,11 +86,9 @@ internal class ArtistRepository @Inject constructor(
                     .toList()
             }
         }.distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun addLastPlayed(id: Id) {
-        assertBackgroundThread()
         lastPlayedDao.insertOne(id)
     }
 
@@ -108,6 +98,5 @@ internal class ArtistRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 }

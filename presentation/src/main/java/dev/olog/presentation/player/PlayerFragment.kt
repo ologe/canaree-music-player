@@ -18,10 +18,10 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
 import kotlinx.android.synthetic.main.fragment_player_default.*
@@ -82,7 +82,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                     listOf(viewModel.playerControls())
                 }
             }
-            .assertBackground()
             .flowOn(Dispatchers.Default)
             .asLiveData()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)

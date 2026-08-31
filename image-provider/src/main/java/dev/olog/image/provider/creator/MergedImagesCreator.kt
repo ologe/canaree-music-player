@@ -2,7 +2,6 @@ package dev.olog.image.provider.creator
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.bumptech.glide.util.Util.assertBackgroundThread
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.OnImageLoadingError
@@ -19,8 +18,6 @@ internal object MergedImagesCreator {
         parentFolder: String,
         itemId: String
     ): File? {
-        assertBackgroundThread()
-
         val albumsId = albumIdList.distinctBy { it }
         val uris = mutableListOf<IdWithBitmap>()
         for (id in albumsId) {
@@ -124,8 +121,6 @@ internal object MergedImagesCreator {
     }
 
     private fun saveFile(directory: File, child: String, bitmap: Bitmap): File {
-        assertBackgroundThread()
-
         val dest = File(directory, "$child.webp")
         val out = FileOutputStream(dest)
         bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)

@@ -46,13 +46,11 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Song> {
-//        assertBackgroundThread()
         val cursor = queries.getAll()
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun getByParam(param: Id): Song? {
-        assertBackgroundThread()
         val cursor = queries.getByParam(param)
         return contentResolver.queryOne(cursor) { it.toSong() }
     }
@@ -62,7 +60,6 @@ internal class SongRepository @Inject constructor(
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun deleteSingle(id: Id) {
@@ -76,7 +73,6 @@ internal class SongRepository @Inject constructor(
     }
 
     private fun deleteInternal(id: Id) {
-        assertBackgroundThread()
         val path = getByParam(id)!!.path
         val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
         val deleted = contentResolver.delete(uri, null, null)
