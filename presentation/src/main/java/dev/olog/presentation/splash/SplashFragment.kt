@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
@@ -16,6 +17,7 @@ import dev.olog.shared.android.extensions.alertDialog
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
     companion object {

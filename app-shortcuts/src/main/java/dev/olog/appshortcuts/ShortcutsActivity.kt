@@ -6,7 +6,9 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import dev.olog.intents.Classes
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShortcutsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

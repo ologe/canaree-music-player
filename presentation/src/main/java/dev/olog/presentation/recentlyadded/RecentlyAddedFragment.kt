@@ -19,7 +19,9 @@ import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {

@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LibraryFragment : BaseFragment() {
 
     companion object {

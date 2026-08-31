@@ -17,7 +17,9 @@ import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by MainScope() {
 
     companion object {

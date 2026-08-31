@@ -11,7 +11,9 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_translations.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TranslationsFragment : BaseFragment() {
 
     @Inject

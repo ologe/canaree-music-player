@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
@@ -12,6 +13,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_special_thanks.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 
+@AndroidEntryPoint
 class SpecialThanksFragment : Fragment() {
 
     companion object {

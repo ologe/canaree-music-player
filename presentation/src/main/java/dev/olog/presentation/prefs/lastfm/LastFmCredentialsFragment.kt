@@ -21,7 +21,9 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
 
     companion object {

@@ -12,7 +12,9 @@ import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PlaylistChooserActivity : BaseActivity() {
 
     @Inject

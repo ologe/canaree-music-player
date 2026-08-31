@@ -20,7 +20,9 @@ import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FolderTreeFragment : BaseFragment(),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {

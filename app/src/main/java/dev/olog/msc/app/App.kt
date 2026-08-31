@@ -1,6 +1,7 @@
 package dev.olog.msc.app
 
 import androidx.preference.PreferenceManager
+import dagger.hilt.android.HiltAndroidApp
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -10,6 +11,7 @@ import dev.olog.injection.CoreComponent
 import dev.olog.msc.R
 import javax.inject.Inject
 
+@HiltAndroidApp
 class App : ThemedApp(), HasAndroidInjector {
 
     private lateinit var appShortcuts: AppShortcuts

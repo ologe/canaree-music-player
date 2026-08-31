@@ -30,9 +30,11 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,

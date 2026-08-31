@@ -33,7 +33,9 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @Keep
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
