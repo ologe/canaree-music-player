@@ -8,7 +8,7 @@ import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener

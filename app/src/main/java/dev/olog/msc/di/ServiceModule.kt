@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 
 @Module
 @InstallIn(ServiceComponent::class)

@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IDuckVolume

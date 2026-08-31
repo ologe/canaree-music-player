@@ -1,11 +1,11 @@
-package dev.olog.injection.schedulers
+package dev.olog.msc
 
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-internal class SchedulersProd @Inject constructor(
+class SchedulersProd @Inject constructor(
 
 ): Schedulers {
 
