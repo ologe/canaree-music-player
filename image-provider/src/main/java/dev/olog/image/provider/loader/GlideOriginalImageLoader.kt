@@ -13,7 +13,7 @@ import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
-internal class GlideOriginalImageLoader(
+class GlideOriginalImageLoader(
     private val context: Context,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway

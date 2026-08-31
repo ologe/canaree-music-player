@@ -15,43 +15,21 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableSt
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import dev.olog.core.Config
+import dagger.hilt.EntryPoints
 import dev.olog.core.MediaId
-import dev.olog.image.provider.di.inject
+import dev.olog.image.provider.di.ImageProviderEntryPoint
 import dev.olog.image.provider.loader.AudioFileCoverLoader
-import dev.olog.image.provider.loader.GlideImageRetrieverLoader
-import dev.olog.image.provider.loader.GlideMergedImageLoader
-import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
-import javax.inject.Inject
 
 @GlideModule
 @Keep
 class GlideModule : AppGlideModule() {
 
-    @Inject
-    internal lateinit var lastFmFactory: GlideImageRetrieverLoader.Factory
-    @Inject
-    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-    @Inject
-    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-    @Inject
-    internal lateinit var config: Config
-
-    private var injected = false
-
-    private fun injectIfNeeded(context: Context) {
-        if (!injected) {
-            injected = true
-            inject(context)
-        }
-    }
-
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        injectIfNeeded(context)
+        val entryPoint = EntryPoints.get(context, ImageProviderEntryPoint::class.java)
 
-        val level = if (config.isDebug) DEFAULT else IGNORE
+        val level = if (entryPoint.config().isDebug) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
             .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))
@@ -72,13 +50,12 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        injectIfNeeded(context)
-
+        val entryPoint = EntryPoints.get(context, ImageProviderEntryPoint::class.java)
         registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
-        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.lastFmFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.mergedFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, entryPoint.originalFactory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

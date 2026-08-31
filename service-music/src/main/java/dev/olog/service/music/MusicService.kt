@@ -13,10 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
-import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_PLAYABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_SUPPORTED
@@ -64,7 +62,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var noisy: Noisy
 
     override fun onCreate() {
-        inject()
         super.onCreate()
         setupObservers()
         setupMediaSession()

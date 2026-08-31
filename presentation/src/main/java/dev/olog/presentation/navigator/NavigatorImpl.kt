@@ -44,8 +44,7 @@ class NavigatorImpl @Inject internal constructor(
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
-
-) : DefaultLifecycleObserver, Navigator {
+) : Navigator {
 
     private val activityRef = WeakReference(activity)
 

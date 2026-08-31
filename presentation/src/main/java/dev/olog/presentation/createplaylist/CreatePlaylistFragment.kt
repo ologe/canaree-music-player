@@ -23,18 +23,18 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.presentation.navigator.Navigator
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
-        val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
 
         @JvmStatic
         fun newInstance(type: PlaylistType): CreatePlaylistFragment {
             return CreatePlaylistFragment().withArguments(
-                ARGUMENT_PLAYLIST_TYPE to type.ordinal
+                Navigator.PLAYLIST_TYPE_ARG to type.ordinal
             )
         }
     }

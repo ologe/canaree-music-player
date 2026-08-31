@@ -11,7 +11,7 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-internal class PresentationPreferencesImpl @Inject constructor(
+class PresentationPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {

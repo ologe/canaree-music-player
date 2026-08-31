@@ -14,7 +14,7 @@ import dev.olog.image.provider.fetcher.GlideSongFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
-internal class GlideImageRetrieverLoader(
+class GlideImageRetrieverLoader(
     private val context: Context,
     private val imageRetrieverGateway: ImageRetrieverGateway
 ) : ModelLoader<MediaId, InputStream> {

@@ -3,7 +3,7 @@ package dev.olog.presentation.model
 import dev.olog.presentation.tab.TabCategory
 import kotlinx.coroutines.flow.Flow
 
-internal interface PresentationPreferencesGateway {
+interface PresentationPreferencesGateway {
 
     fun getLastBottomViewPage(): BottomNavigationPage
     fun setLastBottomViewPage(page: BottomNavigationPage)

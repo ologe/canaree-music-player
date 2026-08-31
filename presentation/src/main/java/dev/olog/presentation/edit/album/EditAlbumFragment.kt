@@ -18,25 +18,25 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.presentation.navigator.Navigator
 
 @AndroidEntryPoint
 class EditAlbumFragment : BaseEditItemFragment() {
 
     companion object {
         const val TAG = "EditAlbumFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): EditAlbumFragment {
             return EditAlbumFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString())
+                Navigator.MEDIA_ID_ARG to mediaId.toString())
         }
     }
 
     private val viewModel by viewModels<EditAlbumFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()
     private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+        MediaId.fromString(getArgument(Navigator.MEDIA_ID_ARG))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

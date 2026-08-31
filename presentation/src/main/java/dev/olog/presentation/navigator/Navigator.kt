@@ -7,6 +7,11 @@ import dev.olog.core.entity.PlaylistType
 
 interface Navigator {
 
+    companion object {
+        const val MEDIA_ID_ARG = "argument.media_id"
+        const val PLAYLIST_TYPE_ARG = "argument.playlist_type"
+    }
+
     fun toFirstAccess()
 
     fun toDetailFragment(mediaId: MediaId)

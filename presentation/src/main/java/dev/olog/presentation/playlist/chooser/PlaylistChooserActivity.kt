@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.presentation.playlist.chooser.di.inject
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
@@ -20,7 +19,6 @@ class PlaylistChooserActivity : BaseActivity() {
     private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist_chooser)
 

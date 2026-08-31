@@ -43,13 +43,11 @@ class DetailFragment : BaseFragment(),
     companion object {
         @JvmStatic
         val TAG = DetailFragment::class.java.name
-        @JvmStatic
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                Navigator.MEDIA_ID_ARG to mediaId.toString()
             )
         }
     }
@@ -60,7 +58,7 @@ class DetailFragment : BaseFragment(),
     private val viewModel by viewModels<DetailFragmentViewModel>()
 
     private val mediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
+        val mediaId = getArgument<String>(Navigator.MEDIA_ID_ARG)
         MediaId.fromString(mediaId)
     }
 

@@ -6,12 +6,12 @@ import android.content.Intent
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.HoverView
-import dev.olog.service.floating.di.inject
+import dev.olog.service.floating.api.window.HoverMenuService
 import dev.olog.service.floating.notification.FloatingWindowNotification
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FloatingWindowService : BaseFloatingService() {
+class FloatingWindowService : HoverMenuService() {
 
     @Inject
     lateinit var hoverMenu: CustomHoverMenu
@@ -21,11 +21,6 @@ class FloatingWindowService : BaseFloatingService() {
     companion object {
         const val TAG = "FloatingWindowService"
         const val ACTION_STOP = "$TAG.ACTION_STOP"
-    }
-
-    override fun onCreate() {
-        inject()
-        super.onCreate()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

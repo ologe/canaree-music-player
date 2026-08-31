@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
@@ -20,13 +21,12 @@ class RenameDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                Navigator.MEDIA_ID_ARG to mediaId.toString(),
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
@@ -35,7 +35,7 @@ class RenameDialog : BaseEditTextDialog() {
     @Inject lateinit var presenter: RenameDialogPresenter
 
     private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+        MediaId.fromString(getArgument(Navigator.MEDIA_ID_ARG))
     }
     private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 

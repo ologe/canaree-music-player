@@ -6,6 +6,8 @@ import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.*
 import dev.olog.data.prefs.*
@@ -13,6 +15,7 @@ import dev.olog.data.prefs.sort.AppSortingImpl
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class PreferenceModule {
 
     @Binds
@@ -39,10 +42,8 @@ abstract class PreferenceModule {
     @Singleton
     internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
 
-    @Module
     companion object {
         @Provides
-        @JvmStatic
         @Singleton
         internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)

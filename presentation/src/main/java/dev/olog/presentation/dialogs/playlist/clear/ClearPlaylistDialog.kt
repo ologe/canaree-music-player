@@ -6,6 +6,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
@@ -19,20 +20,19 @@ class ClearPlaylistDialog : BaseDialog() {
 
     companion object {
         const val TAG = "ClearPlaylistDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): ClearPlaylistDialog {
             return ClearPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                Navigator.MEDIA_ID_ARG to mediaId.toString(),
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
     private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = arguments!!.getString(Navigator.MEDIA_ID_ARG)!!
         MediaId.fromString(mediaId)
     }
     private val title by lazy { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }

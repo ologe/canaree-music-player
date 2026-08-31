@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
@@ -20,14 +21,13 @@ class PlayLaterDialog : BaseDialog() {
 
     companion object {
         const val TAG = "PlayLaterDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): PlayLaterDialog {
             return PlayLaterDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                Navigator.MEDIA_ID_ARG to mediaId.toString(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
@@ -35,7 +35,7 @@ class PlayLaterDialog : BaseDialog() {
     }
 
     private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = arguments!!.getString(Navigator.MEDIA_ID_ARG)!!
         MediaId.fromString(mediaId)
     }
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }

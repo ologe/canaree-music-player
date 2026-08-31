@@ -3,6 +3,8 @@ package dev.olog.data.api.lastfm
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.olog.core.Config
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.api.deezer.DeezerService
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Provides
