@@ -25,7 +25,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':equalizer')
     implementation project(':data')
-    implementation project(':analytics')
 
     implementation libs.dagger
     kapt libs.dagger.compiler

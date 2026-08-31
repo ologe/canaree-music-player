@@ -4,12 +4,10 @@ import androidx.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import dev.olog.analytics.TrackerFacade
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.R
-import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import javax.inject.Inject
 
 class App : ThemedApp(), HasAndroidInjector {
@@ -23,17 +21,12 @@ class App : ThemedApp(), HasAndroidInjector {
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
 
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
-
     override fun onCreate() {
         super.onCreate()
         inject()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
-
-        registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
 
     private fun initializeComponents() {

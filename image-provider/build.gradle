@@ -22,7 +22,6 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':intents')
     implementation project(':data')
-    implementation project(':analytics')
     implementation project(':equalizer')
 
     implementation libs.dagger

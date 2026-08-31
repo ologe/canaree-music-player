@@ -25,7 +25,6 @@ dependencies {
     implementation project(':media')
     implementation project(':offline-lyrics')
     implementation project(':data')
-    implementation project(':analytics')
     implementation project(':equalizer')
 
     implementation libs.dagger

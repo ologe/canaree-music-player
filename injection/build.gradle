@@ -31,7 +31,6 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':analytics')
     implementation project(':data')
     implementation project(':shared')
     implementation project(':equalizer')
@@ -45,8 +44,6 @@ dependencies {
     implementation libs.okhttp
     implementation libs.retrofit
     implementation libs.room.runtime
-
-    implementation libs.firebase.analytics
 
     implementation libs.aes.crypto
 }
