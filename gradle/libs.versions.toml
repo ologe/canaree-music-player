@@ -1,7 +1,7 @@
 [versions]
 # Plugins
 agp = "8.13.2"
-kotlin = "1.7.0"
+kotlin = "1.8.0"
 google-services = "4.3.3"
 crashlytics-plugin = "2.2.1"
 
