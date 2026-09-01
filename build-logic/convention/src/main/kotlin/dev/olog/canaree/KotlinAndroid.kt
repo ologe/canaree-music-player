@@ -27,16 +27,6 @@ internal fun Project.configureKotlinAndroid(
             checkReleaseBuilds = false
             disable.add("MissingTranslation")
         }
-
-        flavorDimensions.add("version")
-        productFlavors {
-            create("mock") {
-                dimension = "version"
-            }
-            create("full") {
-                dimension = "version"
-            }
-        }
     }
 
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
