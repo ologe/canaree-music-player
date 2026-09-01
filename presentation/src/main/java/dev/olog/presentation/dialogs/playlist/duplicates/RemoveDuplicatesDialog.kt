@@ -13,6 +13,7 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -44,7 +45,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(Navigator.MEDIA_ID_ARG)!!)

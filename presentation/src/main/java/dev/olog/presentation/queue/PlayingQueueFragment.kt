@@ -17,6 +17,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -58,14 +59,14 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT)
+        setupDragListener(list, ItemTouchHelper.RIGHT, viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.observeData(false)
                 .take(1)
                 .map {

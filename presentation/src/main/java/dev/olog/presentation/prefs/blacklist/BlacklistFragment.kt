@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -38,7 +38,7 @@ class BlacklistFragment : ListDialog() {
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             val data = withContext(Dispatchers.Default) {
                 viewModel.data
             }

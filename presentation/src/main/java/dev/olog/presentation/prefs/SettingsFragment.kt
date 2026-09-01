@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
@@ -35,8 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @Keep
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener,
-    CoroutineScope by MainScope() {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         @JvmStatic
@@ -164,7 +164,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> viewLifecycleOwner.lifecycleScope.launch { clearGlideCache() } }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }

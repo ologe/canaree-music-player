@@ -20,6 +20,7 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +57,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 viewModel.updateCurrentTrackId(it.id)
                 viewModel.updateCurrentMetadata(it.title, it.artist)
-                launch { loadImage(it.mediaId) }
+                viewLifecycleOwner.lifecycleScope.launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
@@ -105,7 +106,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 EditLyricsDialog.show(act, viewModel.getLyrics()) { newLyrics ->
                     viewModel.updateLyrics(newLyrics)
                 }
@@ -120,7 +121,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         ctx,

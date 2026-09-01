@@ -12,6 +12,7 @@ import dev.olog.presentation.edit.UpdateSongInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -47,7 +48,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             title.afterTextChange()
                 .map { it.isNotBlank() }
                 .collect { okButton.isEnabled = it }
@@ -75,7 +76,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch { trySave() }
+            viewLifecycleOwner.lifecycleScope.launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {

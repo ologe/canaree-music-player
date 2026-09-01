@@ -31,6 +31,7 @@ import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
@@ -134,7 +135,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
@@ -143,7 +144,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.observeSpanCount(category)
                 .drop(1) // drop initial value, already used
                 .collect {
@@ -155,7 +156,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             when (category) {
                 TabCategory.ALBUMS -> {
                     viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)

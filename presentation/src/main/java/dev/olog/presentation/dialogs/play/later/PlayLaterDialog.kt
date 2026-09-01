@@ -14,6 +14,7 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -61,7 +62,7 @@ class PlayLaterDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(act)

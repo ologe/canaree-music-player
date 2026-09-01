@@ -15,6 +15,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -89,7 +90,7 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
-            launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
             }

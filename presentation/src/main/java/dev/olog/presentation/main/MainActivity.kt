@@ -30,6 +30,7 @@ import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -133,7 +134,7 @@ class MainActivity : MusicGlueActivity(),
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             Shortcuts.DETAIL -> {
-                launch {
+                lifecycleScope.launch {
                     delay(250)
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)

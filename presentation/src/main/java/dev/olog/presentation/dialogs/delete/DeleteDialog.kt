@@ -16,6 +16,7 @@ import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,7 +54,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        lifecycleScope.launch {
             catchRecoverableSecurityException(this@DeleteDialog) {
                 tryExecute()
             }

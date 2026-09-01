@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
@@ -63,7 +64,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha

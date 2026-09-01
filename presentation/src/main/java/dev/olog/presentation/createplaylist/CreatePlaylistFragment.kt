@@ -17,6 +17,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -75,7 +76,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.observeData(false)
                 .filter { it.isNotEmpty() }
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
@@ -83,7 +84,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)

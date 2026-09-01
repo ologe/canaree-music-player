@@ -15,6 +15,7 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
@@ -59,7 +60,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.observePodcastProgress(progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
                 .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left

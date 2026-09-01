@@ -23,6 +23,7 @@ import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -106,7 +107,7 @@ class SearchFragment : BaseFragment(),
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(list, ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
@@ -130,7 +131,7 @@ class SearchFragment : BaseFragment(),
         viewModel.observeGenresData()
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isBlank() || it.trim().length >= 2 }

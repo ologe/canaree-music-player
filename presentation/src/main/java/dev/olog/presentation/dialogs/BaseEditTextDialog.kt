@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +35,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         setupEditText(editTextLayout, editText)
 
         showJeyboardJob?.cancel()
-        showJeyboardJob = launch {
+        showJeyboardJob = lifecycleScope.launch {
             delay(500)
             editText.showIme()
         }
@@ -49,7 +50,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         } else if (!isStringValid(string)) {
             showError(provideMessageForInvalid())
         } else {
-            launch(Dispatchers.Main) {
+            lifecycleScope.launch {
                 onItemValid(string)
                 dismiss()
             }
@@ -73,7 +74,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.isErrorEnabled = true
 
         errorJob?.cancel()
-        errorJob = launch(Dispatchers.Main) {
+        errorJob = lifecycleScope.launch {
             delay(2000)
             editTextLayout.isErrorEnabled = false
         }

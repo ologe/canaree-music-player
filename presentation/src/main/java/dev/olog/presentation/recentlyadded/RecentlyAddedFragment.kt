@@ -17,6 +17,7 @@ import dev.olog.shared.android.extensions.asType
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,7 +52,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+        setupDragListener(list, ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
 

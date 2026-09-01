@@ -97,7 +97,7 @@ androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coo
 androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment" }
 
 # Lifecycle
-androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle" }
 androidx-lifecycle-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }

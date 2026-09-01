@@ -6,10 +6,10 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -19,8 +19,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     private val itemCallback: DiffUtil.ItemCallback<T>
 
 ) : RecyclerView.Adapter<DataBoundViewHolder>(),
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    DefaultLifecycleObserver {
 
     protected val dataSet = mutableListOf<T>()
     private var neverEmitted = true
@@ -44,7 +43,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     init {
         lifecycle.addObserver(this)
 
-        launch {
+        lifecycle.coroutineScope.launch {
             channel.asFlow()
                 .distinctUntilChanged()
                 .collect { list ->
@@ -60,7 +59,6 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     override fun onDestroy(owner: LifecycleOwner) {
         channel.close()
-        cancel()
     }
 
     @CallSuper

@@ -24,6 +24,7 @@ import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -110,7 +111,7 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        setupDragListener(list, swipeDirections)
+        setupDragListener(list, swipeDirections, viewLifecycleOwner.lifecycleScope)
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
@@ -144,7 +145,7 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isEmpty() || it.length >= 2 }
