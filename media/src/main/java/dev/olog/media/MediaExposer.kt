@@ -108,7 +108,7 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.offer(state)
+        connectionPublisher.trySend(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
@@ -137,7 +137,7 @@ class MediaExposer(
         }
         launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.offer(result)
+            queuePublisher.trySend(result)
         }
     }
 

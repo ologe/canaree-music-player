@@ -46,7 +46,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val filterChannel = ConflatedBroadcastChannel("")
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterChannel.trySend(filter)
     }
 
     fun getFilter(): String = filterChannel.value

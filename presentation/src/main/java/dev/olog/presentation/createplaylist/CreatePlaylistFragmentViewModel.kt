@@ -75,7 +75,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterChannel.trySend(filter)
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
@@ -94,7 +94,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun toggleShowOnlyFiltered() {
         val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.offer(!onlyFiltered)
+        showOnlyFiltered.trySend(!onlyFiltered)
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

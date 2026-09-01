@@ -44,19 +44,19 @@ internal class SwipeableViewHelper(
 
     fun onTouchDown(event: MotionEvent): Boolean {
         view.parent.requestDisallowInterceptTouchEvent(true)
-        isTouchingPublisher.offer(true)
+        isTouchingPublisher.trySend(true)
         return onActionDown(event)
     }
 
     fun onTouchMove(event: MotionEvent): Boolean{
         onActionMove(event)
-        isTouchingPublisher.offer(true)
+        isTouchingPublisher.trySend(true)
         return true
     }
 
     fun onTouchUp(event: MotionEvent): Boolean{
         view.parent.requestDisallowInterceptTouchEvent(false)
-        isTouchingPublisher.offer(false)
+        isTouchingPublisher.trySend(false)
         return onActionUp(event)
     }
 

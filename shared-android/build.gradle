@@ -22,5 +22,6 @@ dependencies {
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
 }

@@ -41,7 +41,7 @@ class ProgressDeletegate(
                 .flowOn(Dispatchers.IO)
                 .collect {
                     setProgress(progressBar, it.toInt())
-                    channel.offer(it.toLong())
+                    channel.trySend(it.toLong())
                 }
         }
     }

@@ -62,10 +62,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
+    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrNull()!!
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
+        currentTrackIdPublisher.trySend(trackId)
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(
@@ -172,11 +172,11 @@ internal class PlayerFragmentViewModel @Inject constructor(
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.offer(palette)
+        processorPublisher.trySend(palette)
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.offer(palette)
+        palettePublisher.trySend(palette)
     }
 
 

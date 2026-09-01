@@ -23,7 +23,7 @@ internal class QuickActionListener @Inject constructor(
     override fun onPrefsChanged() {
 
         val quickActon = getValue()
-        quickActionPublisher.offer(quickActon)
+        quickActionPublisher.trySend(quickActon)
     }
 
     override fun getValue(): QuickAction {

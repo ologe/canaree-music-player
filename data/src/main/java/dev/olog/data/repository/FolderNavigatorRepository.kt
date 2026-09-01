@@ -25,9 +25,9 @@ internal class FolderNavigatorRepository @Inject constructor(
     override fun observeFolderChildren(file: File): Flow<List<FileType>> {
         return channelFlow {
 
-            offer(queryFileChildren(file))
+            trySend(queryFileChildren(file))
 
-            val observer = ActionContentObserver { offer(queryFileChildren(file)) }
+            val observer = ActionContentObserver { trySend(queryFileChildren(file)) }
 
             context.contentResolver.registerContentObserver(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

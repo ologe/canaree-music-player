@@ -37,7 +37,7 @@ dependencies {
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.preference
-    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.lifecycle.livedata.ktx
 
     implementation libs.fuzzywuzzy
     implementation libs.gson
