@@ -11,9 +11,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
-import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.appcompat.widget.AppCompatSeekBar
 
 @AndroidEntryPoint
 class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
@@ -47,25 +47,26 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val volumeSlider = view.findViewById<AppCompatSeekBar>(R.id.volumeSlider)
         volumeSlider.max = 100
         volumeSlider.progress = musicPrefs.getVolume()
 
         val yPosition = arguments?.getFloat(ARGUMENT_Y_POSITION, -1f) ?: -1f
         if (yPosition > -1){
-            card.translationY = yPosition
+            view.findViewById<View>(R.id.card)?.translationY = yPosition
         }
     }
 
     override fun onResume() {
         super.onResume()
         view?.setOnClickListener { act.onBackPressed() }
-        volumeSlider.setOnSeekBarChangeListener(this)
+        view?.findViewById<AppCompatSeekBar>(R.id.volumeSlider)?.setOnSeekBarChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
         view?.setOnClickListener(null)
-        volumeSlider.setOnSeekBarChangeListener(null)
+        view?.findViewById<AppCompatSeekBar>(R.id.volumeSlider)?.setOnSeekBarChangeListener(null)
     }
 
     override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {

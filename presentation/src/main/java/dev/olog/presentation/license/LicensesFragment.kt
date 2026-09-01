@@ -7,47 +7,54 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
+import dev.olog.presentation.databinding.FragmentLicensesBinding
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
-import kotlinx.android.synthetic.main.fragment_about.*
-import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
 @AndroidEntryPoint
 class LicensesFragment : Fragment() {
-
-    private val viewModel by viewModels<LicensesFragmentViewModel>()
 
     companion object {
         @JvmStatic
         val TAG = LicensesFragment::class.java.name
     }
 
+    private val viewModel by viewModels<LicensesFragmentViewModel>()
+
+    private var _binding: FragmentLicensesBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_licenses, container, false)
+    ): View {
+        _binding = FragmentLicensesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = LicensesFragmentAdapter(lifecycle)
 
-        view.list.adapter = adapter
-        view.list.layoutManager = OverScrollLinearLayoutManager(list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
 
         adapter.updateDataSet(viewModel.data)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        binding.back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
 
 }

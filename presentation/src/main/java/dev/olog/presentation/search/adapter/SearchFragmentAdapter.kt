@@ -1,5 +1,6 @@
 package dev.olog.presentation.search.adapter
 
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
@@ -14,11 +15,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
-import kotlinx.android.synthetic.main.item_search_album.view.cover
-import kotlinx.android.synthetic.main.item_search_album.view.firstText
-import kotlinx.android.synthetic.main.item_search_album.view.secondText
-import kotlinx.android.synthetic.main.item_search_header.view.*
-import kotlinx.android.synthetic.main.item_search_recent.view.*
+import dev.olog.presentation.widgets.textview.ExplicitView
 
 class SearchFragmentAdapter(
     lifecycle: Lifecycle,
@@ -96,33 +93,27 @@ class SearchFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            if (item.album.isBlank()){
-                secondText.text = item.artist
-            } else {
-                secondText.text = item.subtitle
-            }
-
-            explicit.onItemChanged(item.title)
+        BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        if (item.album.isBlank()){
+            holder.itemView.findViewById<TextView>(R.id.secondText).text = item.artist
+        } else {
+            holder.itemView.findViewById<TextView>(R.id.secondText).text = item.subtitle
         }
+
+        holder.itemView.findViewById<ExplicitView>(R.id.explicit).onItemChanged(item.title)
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText).text = item.subtitle
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_search_header){
-            holder.itemView.apply {
-                title.text = item.title
-                subtitle.text = item.subtitle
-            }
+            holder.itemView.findViewById<TextView>(R.id.title).text = item.title
+            holder.itemView.findViewById<TextView>(R.id.subtitle).text = item.subtitle
         }
     }
 

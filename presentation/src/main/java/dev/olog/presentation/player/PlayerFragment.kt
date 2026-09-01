@@ -1,12 +1,15 @@
 package dev.olog.presentation.player
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -25,14 +28,13 @@ import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
-import kotlinx.android.synthetic.main.fragment_player_default.*
-import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
+import dev.olog.presentation.widgets.StatusBarView
 
 @AndroidEntryPoint
 @Keep
@@ -49,6 +51,13 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private val mediaProvider by lazyFast { act.asType<MediaProvider>() }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(provideLayoutId(), container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
@@ -59,6 +68,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
+        val list = view.findViewById<RecyclerView>(R.id.list)
         layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
@@ -67,7 +77,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        statusBar?.alpha = statusBarAlpha
+        view.findViewById<StatusBarView>(R.id.statusBar)?.alpha = statusBarAlpha
 
         mediaProvider.observeQueue()
             .mapListItem { it.toDisplayableItem() }
@@ -100,10 +110,10 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+        view?.findViewById<RecyclerView>(R.id.list)?.adapter = null
     }
 
-    override fun provideLayoutId(): Int {
+    private fun provideLayoutId(): Int {
         val appearance = requireContext().hasPlayerAppearance()
         return when (appearance.playerAppearance()) {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
@@ -119,7 +129,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             if (!isMarshmallow() && slideOffset in .9f..1f) {
                 val alpha = (1 - slideOffset) * 10
-                statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
+                view?.findViewById<StatusBarView>(R.id.statusBar)?.alpha = clamp(abs(1 - alpha), 0f, 1f)
             }
             val alpha = clamp(slideOffset * 5f, 0f, 1f)
             view?.alpha = alpha
@@ -128,7 +138,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                 if (viewModel.showLyricsTutorialIfNeverShown()){
-                    lyrics?.let { TutorialTapTarget.lyrics(it) }
+                    view?.findViewById<View>(R.id.lyrics)?.let { TutorialTapTarget.lyrics(it) }
                 }
             }
         }

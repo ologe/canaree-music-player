@@ -1,7 +1,9 @@
 package dev.olog.presentation.queue
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,12 +15,12 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.databinding.FragmentPlayingQueueBinding
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -41,6 +43,24 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     @Inject
     lateinit var navigator: Navigator
 
+    private var _binding: FragmentPlayingQueueBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPlayingQueueBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.list.adapter = null
+        _binding = null
+    }
+
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             lifecycle,
@@ -52,18 +72,18 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setHasFixedSize(true)
-        fastScroller.attachRecyclerView(list)
-        fastScroller.showBubble(false)
+        val layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = layoutManager
+        binding.list.setHasFixedSize(true)
+        binding.fastScroller.attachRecyclerView(binding.list)
+        binding.fastScroller.showBubble(false)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT, viewLifecycleOwner.lifecycleScope)
+        setupDragListener(binding.list, ItemTouchHelper.RIGHT, viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)
-            emptyStateText.toggleVisibility(it.isEmpty(), true)
+            binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -86,26 +106,18 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        binding.more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
+        binding.floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
     override fun onPause() {
         super.onPause()
-        more.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
+        binding.more.setOnClickListener(null)
+        binding.floatingWindow.setOnClickListener(null)
     }
 
     private fun startServiceOrRequestOverlayPermission() {
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
-
 
 }

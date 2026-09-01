@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.presentation.R
-import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
+import dev.olog.presentation.databinding.FragmentSettingsWrapperBinding
 
 @AndroidEntryPoint
 class SettingsFragmentWrapper : Fragment() {
@@ -16,18 +15,27 @@ class SettingsFragmentWrapper : Fragment() {
         val TAG = SettingsFragmentWrapper::class.java.name
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_settings_wrapper, container, false)
+    private var _binding: FragmentSettingsWrapperBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentSettingsWrapperBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+        binding.back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
     }
 
 }

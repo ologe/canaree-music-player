@@ -9,9 +9,9 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.databinding.ItemPlaylistChooserBinding
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity
@@ -44,10 +44,9 @@ class PlaylistChooserActivityAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        val binding = ItemPlaylistChooserBinding.bind(holder.itemView)
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        binding.firstText.text = item.title
+        binding.secondText.text = item.subtitle
     }
 }

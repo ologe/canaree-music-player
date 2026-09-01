@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.databinding.ItemSpecialThanksBinding
 import dev.olog.presentation.model.SpecialThanksModel
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
 
 class SpecialThanksFragmentAdapter(
     lifecycle: Lifecycle
@@ -19,13 +19,12 @@ class SpecialThanksFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.itemView.apply {
-            GlideApp.with(context)
-                .load(ContextCompat.getDrawable(context, item.image))
-                .into(image)
+        val binding = ItemSpecialThanksBinding.bind(holder.itemView)
+        GlideApp.with(holder.itemView.context)
+            .load(ContextCompat.getDrawable(holder.itemView.context, item.image))
+            .into(binding.image)
 
-            title.text = item.title
-        }
+        binding.title.text = item.title
     }
 
 }

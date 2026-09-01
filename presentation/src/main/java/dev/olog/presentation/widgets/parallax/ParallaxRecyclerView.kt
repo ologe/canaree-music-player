@@ -2,10 +2,11 @@ package dev.olog.presentation.widgets.parallax
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_detail_image.view.*
+import dev.olog.presentation.R
 
 class ParallaxRecyclerView(
     context: Context,
@@ -35,8 +36,8 @@ class ParallaxRecyclerView(
 
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
                 if (viewHolder != null) {
-                    val img = viewHolder.itemView.cover
-                    val textWrapper = viewHolder.itemView.textWrapper
+                    val img = viewHolder.itemView.findViewById<View>(R.id.cover)
+                    val textWrapper = viewHolder.itemView.findViewById<View>(R.id.textWrapper)
                     if (img != null && img is ParallaxImageView) {
                         img.translateY(viewHolder.itemView, textWrapper)
                     }

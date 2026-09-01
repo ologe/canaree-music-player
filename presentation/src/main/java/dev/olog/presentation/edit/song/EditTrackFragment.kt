@@ -1,11 +1,14 @@
 package dev.olog.presentation.edit.song
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
+import dev.olog.presentation.databinding.FragmentEditTrackBinding
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateSongInfo
@@ -13,7 +16,6 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -38,6 +40,23 @@ class EditTrackFragment : BaseEditItemFragment() {
     private val viewModel by viewModels<EditTrackFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
+    private var _binding: FragmentEditTrackBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentEditTrackBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private val mediaId by lazyFast {
         MediaId.fromString(getArgument(Navigator.MEDIA_ID_ARG))
     }
@@ -49,37 +68,37 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launch {
-            title.afterTextChange()
+            binding.title.afterTextChange()
                 .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
+                .collect { binding.okButton.isEnabled = it }
         }
 
         loadImage(mediaId)
 
         viewModel.observeData().subscribe(viewLifecycleOwner) {
-            title.setText(it.title)
-            artist.setText(it.artist)
-            albumArtist.setText(it.albumArtist)
-            album.setText(it.album)
-            year.setText(it.year)
-            genre.setText(it.genre)
-            disc.setText(it.disc)
-            trackNumber.setText(it.track)
-            bitrate.text = it.bitrate
-            format.text = it.format
-            sampling.text = it.sampling
-            podcast.isChecked = it.isPodcast
+            binding.title.setText(it.title)
+            binding.artist.setText(it.artist)
+            binding.albumArtist.setText(it.albumArtist)
+            binding.album.setText(it.album)
+            binding.year.setText(it.year)
+            binding.genre.setText(it.genre)
+            binding.disc.setText(it.disc)
+            binding.trackNumber.setText(it.track)
+            binding.bitrate.text = it.bitrate
+            binding.format.text = it.format
+            binding.sampling.text = it.sampling
+            binding.podcast.isChecked = it.isPodcast
             hideLoader()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch { trySave() }
         }
-        cancelButton.setOnClickListener { dismiss() }
-        autoTag.setOnClickListener {
+        binding.cancelButton.setOnClickListener { dismiss() }
+        binding.autoTag.setOnClickListener {
             if (viewModel.fetchSongInfo(mediaId)) {
                 showLoader(R.string.edit_song_fetching_info)
             } else {
@@ -90,24 +109,24 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     override fun onPause() {
         super.onPause()
-        okButton.setOnClickListener(null)
-        cancelButton.setOnClickListener(null)
-        autoTag.setOnClickListener(null)
+        binding.okButton.setOnClickListener(null)
+        binding.cancelButton.setOnClickListener(null)
+        binding.autoTag.setOnClickListener(null)
     }
 
     private suspend fun trySave() {
         val result = editItemViewModel.updateSong(
             UpdateSongInfo(
                 viewModel.getOriginalSong(),
-                title.extractText().trim(),
-                artist.extractText().trim(),
-                albumArtist.extractText().trim(),
-                album.extractText().trim(),
-                genre.extractText().trim(),
-                year.extractText().trim(),
-                disc.extractText().trim(),
-                trackNumber.extractText().trim(),
-                podcast.isChecked
+                binding.title.extractText().trim(),
+                binding.artist.extractText().trim(),
+                binding.albumArtist.extractText().trim(),
+                binding.album.extractText().trim(),
+                binding.genre.extractText().trim(),
+                binding.year.extractText().trim(),
+                binding.disc.extractText().trim(),
+                binding.trackNumber.extractText().trim(),
+                binding.podcast.isChecked
             )
         )
 
@@ -124,5 +143,4 @@ class EditTrackFragment : BaseEditItemFragment() {
         viewModel.stopFetch()
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_edit_track
 }

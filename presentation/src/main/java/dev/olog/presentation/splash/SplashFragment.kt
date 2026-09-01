@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
+import dev.olog.presentation.databinding.FragmentSplashBinding
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
 import dev.olog.shared.android.extensions.asType
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.alertDialog
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_splash.*
 
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
@@ -32,24 +32,33 @@ class SplashFragment : Fragment() {
         )
     }
 
+    private var _binding: FragmentSplashBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+    ): View {
+        _binding = FragmentSplashBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager.adapter = adapter
-        inkIndicator.setViewPager(viewPager)
+        binding.viewPager.adapter = adapter
+        binding.inkIndicator.setViewPager(binding.viewPager)
     }
 
     override fun onResume() {
         super.onResume()
-        next.setOnClickListener {
-            if (viewPager.currentItem == 0) {
-                viewPager.setCurrentItem(1, true)
+        binding.next.setOnClickListener {
+            if (binding.viewPager.currentItem == 0) {
+                binding.viewPager.setCurrentItem(1, true)
             } else {
                 requestStoragePermission()
             }
@@ -58,7 +67,7 @@ class SplashFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        next.setOnClickListener(null)
+        binding.next.setOnClickListener(null)
     }
 
     private fun requestStoragePermission() {

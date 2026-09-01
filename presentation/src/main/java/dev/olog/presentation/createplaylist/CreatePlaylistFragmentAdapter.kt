@@ -9,9 +9,9 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.databinding.ItemCreatePlaylistBinding
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
 class CreatePlaylistFragmentAdapter(
     lifecycle: Lifecycle,
@@ -31,11 +31,10 @@ class CreatePlaylistFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableTrack)
 
-        holder.itemView.apply {
-            selected.isChecked = viewModel.isChecked(item.mediaId)
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        val binding = ItemCreatePlaylistBinding.bind(holder.itemView)
+        binding.selected.isChecked = viewModel.isChecked(item.mediaId)
+        BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+        binding.firstText.text = item.title
+        binding.secondText.text = item.subtitle
     }
 }

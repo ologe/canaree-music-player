@@ -6,11 +6,10 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.databinding.ItemAboutBinding
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.shared.android.extensions.colorAccent
-import kotlinx.android.synthetic.main.item_about.view.*
 
 
 class AboutFragmentAdapter(
@@ -42,10 +41,9 @@ class AboutFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableHeader)
-        holder.itemView.apply {
-            title.text = item.title
-            subtitle.text = item.subtitle   
-        }
+        val binding = ItemAboutBinding.bind(holder.itemView)
+        binding.title.text = item.title
+        binding.subtitle.text = item.subtitle
     }
 
 }

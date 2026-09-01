@@ -1,5 +1,6 @@
 package dev.olog.presentation.folder.tree
 
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
@@ -10,7 +11,6 @@ import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 class FolderTreeFragmentAdapter(
     lifecycle: Lifecycle,
@@ -52,9 +52,8 @@ class FolderTreeFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
-        holder.itemView.apply {
-            firstText.text = item.title
-        }
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+
         when (holder.itemViewType){
             R.layout.item_folder_tree_directory -> {
                 BindingsAdapter.loadDirImage(holder.imageView!!, item)

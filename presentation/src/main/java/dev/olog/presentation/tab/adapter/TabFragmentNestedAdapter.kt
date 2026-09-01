@@ -1,12 +1,14 @@
 package dev.olog.presentation.tab.adapter
 
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BindingsAdapter
+import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_tab_album_last_played.view.*
+import dev.olog.presentation.widgets.QuickActionView
 
 internal class TabFragmentNestedAdapter(
     lifecycle: Lifecycle,
@@ -30,12 +32,10 @@ internal class TabFragmentNestedAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction.setId(item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-        }
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<QuickActionView>(R.id.quickAction).setId(item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText).text = item.subtitle
     }
 
 }

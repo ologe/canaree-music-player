@@ -1,7 +1,9 @@
 package dev.olog.presentation.createplaylist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.fragment.app.viewModels
@@ -9,6 +11,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
+import dev.olog.presentation.databinding.FragmentCreatePlaylistBinding
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
@@ -18,7 +21,6 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -50,10 +52,29 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     private var toast: Toast? = null
 
+    private var _binding: FragmentCreatePlaylistBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCreatePlaylistBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        toast?.cancel()
+        binding.list.adapter = null
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.setHasFixedSize(true)
+        binding.list.layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
             .subscribe(viewLifecycleOwner) { size ->
@@ -65,27 +86,27 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                         size
                     )
                 }
-                header.text = text
-                fab.toggleVisibility(size > 0, false)
+                binding.header.text = text
+                binding.fab.toggleVisibility(size > 0, false)
             }
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
-                sidebar.onDataChanged(it)
+                binding.sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
             }
 
         viewLifecycleOwner.lifecycleScope.launch {
             adapter.observeData(false)
                 .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
+                .collect { binding.emptyStateText.toggleVisibility(it.isEmpty(), true) }
         }
 
-        sidebar.scrollableLayoutId = R.layout.item_create_playlist
+        binding.sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
         viewLifecycleOwner.lifecycleScope.launch {
-            editText.afterTextChange()
+            binding.editText.afterTextChange()
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .debounce(250)
                 .collect {
@@ -96,19 +117,19 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     override fun onResume() {
         super.onResume()
-        sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { showCreateDialog() }
-        back.setOnClickListener {
-            editText.hideIme()
+        binding.sidebar.setListener(letterTouchListener)
+        binding.fab.setOnClickListener { showCreateDialog() }
+        binding.back.setOnClickListener {
+            binding.editText.hideIme()
             act.onBackPressed()
         }
-        filterList.setOnClickListener {
-            filterList.toggleSelected()
+        binding.filterList.setOnClickListener {
+            binding.filterList.toggleSelected()
             viewModel.toggleShowOnlyFiltered()
 
             toast?.cancel()
 
-            if (filterList.isSelected) {
+            if (binding.filterList.isSelected) {
                 toast = act.toast(R.string.playlist_tracks_chooser_show_only_selected)
             } else {
                 toast = act.toast(R.string.playlist_tracks_chooser_show_all)
@@ -118,16 +139,10 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     override fun onPause() {
         super.onPause()
-        sidebar.setListener(null)
-        fab.setOnClickListener(null)
-        back.setOnClickListener(null)
-        filterList.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        toast?.cancel()
-        list.adapter = null
+        binding.sidebar.setListener(null)
+        binding.fab.setOnClickListener(null)
+        binding.back.setOnClickListener(null)
+        binding.filterList.setOnClickListener(null)
     }
 
     private fun showCreateDialog() {
@@ -151,7 +166,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        list.stopScroll()
+        binding.list.stopScroll()
 
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
@@ -167,10 +182,9 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             }
         }
         if (position != -1) {
-            val layoutManager = list.layoutManager as LinearLayoutManager
+            val layoutManager = binding.list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
 }

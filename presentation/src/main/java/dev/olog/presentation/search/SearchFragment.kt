@@ -1,7 +1,9 @@
 package dev.olog.presentation.search
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,6 +16,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.databinding.FragmentSearchBinding
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
@@ -24,7 +27,6 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -100,19 +102,37 @@ class SearchFragment : BaseFragment(),
     lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setRecycledViewPool(recycledViewPool)
-        list.setHasFixedSize(true)
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
-        setupDragListener(list, ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.list.adapter = null
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        layoutManager = OverScrollLinearLayoutManager(binding.list)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = layoutManager
+        binding.list.setRecycledViewPool(recycledViewPool)
+        binding.list.setHasFixedSize(true)
+
+        setupDragListener(binding.list, ItemTouchHelper.LEFT, viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                binding.emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
             }
 
@@ -132,7 +152,7 @@ class SearchFragment : BaseFragment(),
             .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            editText.afterTextChange()
+            binding.editText.afterTextChange()
                 .debounce(200)
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .collect { viewModel.updateQuery(it) }
@@ -170,23 +190,18 @@ class SearchFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        fab.setOnClickListener { editText.showIme() }
+        binding.fab.setOnClickListener { binding.editText.showIme() }
 
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        binding.floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        binding.more.setOnClickListener { navigator.toMainPopup(it, null) }
     }
 
     override fun onPause() {
         super.onPause()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
-        fab.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-        more.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
+        binding.fab.setOnClickListener(null)
+        binding.floatingWindow.setOnClickListener(null)
+        binding.more.setOnClickListener(null)
     }
 
     private fun startServiceOrRequestOverlayPermission() {
@@ -196,9 +211,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onStop() {
         super.onStop()
-        editText.hideIme()
+        binding.editText.hideIme()
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_search
 
 }

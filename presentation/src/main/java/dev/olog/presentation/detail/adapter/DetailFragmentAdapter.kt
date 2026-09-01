@@ -2,6 +2,8 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -30,15 +32,8 @@ import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_detail_biography.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.title
-import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
-import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_song.view.explicit
-import kotlinx.android.synthetic.main.item_detail_song.view.firstText
-import kotlinx.android.synthetic.main.item_detail_song.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import dev.olog.presentation.detail.widgets.SortButton
+import dev.olog.presentation.widgets.textview.ExplicitView
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -141,12 +136,12 @@ internal class DetailFragmentAdapter(
                     .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
             }
             R.layout.item_detail_header_all_song -> {
-                val sortText = holder.itemView.sort
-                val sortImage = holder.itemView.sortImage
+                val sortText = holder.itemView.findViewById<TextView>(R.id.sort)
+                val sortImage = holder.itemView.findViewById<SortButton>(R.id.sortImage)
 
                 viewModel.observeSorting()
                     .asLiveData()
-                    .subscribe(holder, view.sortImage::update)
+                    .subscribe(holder, sortImage::update)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
                     TutorialTapTarget.sortBy(sortText, sortImage)
@@ -155,7 +150,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
                     .map { it?.asHtml() }
-                    .observe(holder, Observer { view.biography.text = it })
+                    .observe(holder, Observer { holder.itemView.findViewById<TextView>(R.id.biography).text = it })
             }
         }
     }
@@ -175,10 +170,8 @@ internal class DetailFragmentAdapter(
     ) {
         if (payloads.isNotEmpty()){
             val payload = payloads[0] as List<String>
-            holder.itemView.apply {
-                title.text = payload[0]
-                subtitle.text = payload[1]
-            }
+            holder.itemView.findViewById<TextView>(R.id.title).text = payload[0]
+            holder.itemView.findViewById<TextView>(R.id.subtitle).text = payload[1]
             return
         }
         super.onBindViewHolder(holder, position, payloads)
@@ -194,21 +187,20 @@ internal class DetailFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            holder.imageView?.let {
-                BindingsAdapter.loadSongImage(it, item.mediaId)
-            }
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit.onItemChanged(item.title)
+        holder.imageView?.let {
+            BindingsAdapter.loadSongImage(it, item.mediaId)
         }
+        holder.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText)?.text = item.subtitle
+        holder.itemView.findViewById<ExplicitView>(R.id.explicit).onItemChanged(item.title)
+
         when (holder.itemViewType){
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_track_and_image -> {
                 val trackNumber = if (item.idInPlaylist < 1){
                     "-"
                 } else item.idInPlaylist.toString()
-                holder.itemView.index.text = trackNumber
+                holder.itemView.findViewById<TextView>(R.id.index).text = trackNumber
             }
         }
     }
@@ -217,25 +209,21 @@ internal class DetailFragmentAdapter(
         when (holder.itemViewType){
             R.layout.item_detail_image -> {
                 BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
-                holder.itemView.title.text = item.title
-                holder.itemView.subtitle.text = item.subtitle
+                holder.itemView.findViewById<TextView>(R.id.title).text = item.title
+                holder.itemView.findViewById<TextView>(R.id.subtitle).text = item.subtitle
             }
             R.layout.item_detail_song_footer,
             R.layout.item_detail_header,
             R.layout.item_detail_header_albums,
             R.layout.item_detail_header_recently_added,
             R.layout.item_detail_image -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    subtitle?.text = item.subtitle
-                    seeMore?.toggleVisibility(item.visible, true)
-                }
+                holder.itemView.findViewById<TextView>(R.id.title).text = item.title
+                holder.itemView.findViewById<TextView>(R.id.subtitle)?.text = item.subtitle
+                holder.itemView.findViewById<View>(R.id.seeMore)?.toggleVisibility(item.visible, true)
             }
             R.layout.item_detail_header_all_song -> {
-                holder.itemView.apply {
-                    title.text = item.title
-                    sort.text = item.subtitle
-                }
+                holder.itemView.findViewById<TextView>(R.id.title).text = item.title
+                holder.itemView.findViewById<TextView>(R.id.sort).text = item.subtitle
             }
         }
     }

@@ -1,5 +1,6 @@
 package dev.olog.presentation.tab.adapter
 
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -13,12 +14,8 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.setGone
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_album.view.*
-import kotlinx.android.synthetic.main.item_tab_album.view.firstText
-import kotlinx.android.synthetic.main.item_tab_album.view.secondText
-import kotlinx.android.synthetic.main.item_tab_header.view.*
-import kotlinx.android.synthetic.main.item_tab_podcast.view.*
-import kotlinx.android.synthetic.main.item_tab_song.view.*
+import dev.olog.presentation.widgets.textview.ExplicitView
+import dev.olog.presentation.widgets.QuickActionView
 
 internal class TabFragmentAdapter(
     lifecycle: Lifecycle,
@@ -90,31 +87,27 @@ internal class TabFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            duration?.let {
-                val durationString = item.idInPlaylist.toString() + "m"
-                it.text = durationString
-            }
-            explicit?.onItemChanged(item.title)
+        BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText).text = item.subtitle
+        holder.itemView.findViewById<TextView>(R.id.duration)?.let {
+            val durationString = item.idInPlaylist.toString() + "m"
+            it.text = durationString
         }
+        holder.itemView.findViewById<ExplicitView>(R.id.explicit)?.onItemChanged(item.title)
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction?.setId(item.mediaId)
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit?.setGone()
-        }
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<QuickActionView>(R.id.quickAction)?.setId(item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText)?.text = item.subtitle
+        holder.itemView.findViewById<ExplicitView>(R.id.explicit)?.setGone()
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_tab_header){
-            holder.itemView.title.text = item.title
+            holder.itemView.findViewById<TextView>(R.id.title).text = item.title
         }
     }
 

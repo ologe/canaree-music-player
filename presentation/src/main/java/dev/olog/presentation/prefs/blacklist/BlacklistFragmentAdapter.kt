@@ -1,10 +1,11 @@
 package dev.olog.presentation.prefs.blacklist
 
+import android.widget.TextView
 import dev.olog.presentation.BindingsAdapter
+import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.SimpleAdapter
 import dev.olog.shared.android.extensions.toggleVisibility
-import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*
 
 class BlacklistFragmentAdapter(
     data: List<BlacklistModel>
@@ -22,12 +23,10 @@ class BlacklistFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: BlacklistModel, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            scrim.toggleVisibility(item.isBlacklisted, true)
-            firstText.text = item.title
-            secondText.text = item.displayablePath
-        }
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        holder.itemView.findViewById<TextView>(R.id.scrim).toggleVisibility(item.isBlacklisted, true)
+        holder.itemView.findViewById<TextView>(R.id.firstText).text = item.title
+        holder.itemView.findViewById<TextView>(R.id.secondText).text = item.displayablePath
     }
 
 }

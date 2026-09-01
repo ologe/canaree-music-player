@@ -1,10 +1,10 @@
 package dev.olog.presentation.translations
 
+import android.widget.TextView
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.SimpleAdapter
 import dev.olog.presentation.navigator.NavigatorAbout
-import kotlinx.android.synthetic.main.item_translations_contributor.view.*
 
 class TranslationFragmentAdapter(
     data: MutableList<String>,
@@ -21,7 +21,7 @@ class TranslationFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: String, position: Int) {
         if (holder.itemViewType == R.layout.item_translations_contributor) {
-            holder.itemView.text.text = item
+            holder.itemView.findViewById<TextView>(R.id.text).text = item
         }
     }
 

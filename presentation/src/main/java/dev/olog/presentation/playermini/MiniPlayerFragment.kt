@@ -1,7 +1,9 @@
 package dev.olog.presentation.playermini
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -10,13 +12,13 @@ import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.databinding.FragmentMiniPlayerBinding
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -37,20 +39,37 @@ class MiniPlayerFragment : BaseFragment(){
 
     private val media by lazyFast { requireActivity().asType<MediaProvider>() }
 
+    private var _binding: FragmentMiniPlayerBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMiniPlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
         val lastMetadata = viewModel.getMetadata()
-        title.text = lastMetadata.title
-        artist.text = lastMetadata.subtitle
+        binding.title.text = lastMetadata.title
+        binding.artist.text = lastMetadata.subtitle
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
-                    title.text = it.title
+                    binding.title.text = it.title
                     viewModel.startShowingLeftTime(it.isPodcast, it.duration)
                     if (!it.isPodcast){
-                        artist.text = it.artist
+                        binding.artist.text = it.artist
                     }
                     updateProgressBarMax(it.duration)
                 }
@@ -58,13 +77,13 @@ class MiniPlayerFragment : BaseFragment(){
         media.observePlaybackState()
                 .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
+                .subscribe(viewLifecycleOwner) { binding.progressBar.onStateChanged(it) }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.observePodcastProgress(progressBar.observeProgress())
+            viewModel.observePodcastProgress(binding.progressBar.observeProgress())
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
-                .collect { artist.text = it }
+                .filter { timeLeft -> binding.artist.text != timeLeft } // check (new time left != old time left
+                .collect { binding.artist.text = it }
         }
 
         media.observePlaybackState()
@@ -86,12 +105,12 @@ class MiniPlayerFragment : BaseFragment(){
 
         viewModel.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
-                    next.updateVisibility(it)
+                    binding.next.updateVisibility(it)
                 }
 
         viewModel.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
-                    previous.updateVisibility(it)
+                    binding.previous.updateVisibility(it)
                 }
     }
 
@@ -100,18 +119,18 @@ class MiniPlayerFragment : BaseFragment(){
         getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
-        next.setOnClickListener { media.skipToNext() }
-        playPause.setOnClickListener { media.playPause() }
-        previous.setOnClickListener { media.skipToPrevious() }
+        binding.next.setOnClickListener { media.skipToNext() }
+        binding.playPause.setOnClickListener { media.playPause() }
+        binding.previous.setOnClickListener { media.skipToPrevious() }
     }
 
     override fun onPause() {
         super.onPause()
         getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
         view?.setOnClickListener(null)
-        next.setOnClickListener(null)
-        playPause.setOnClickListener(null)
-        previous.setOnClickListener(null)
+        binding.next.setOnClickListener(null)
+        binding.playPause.setOnClickListener(null)
+        binding.previous.setOnClickListener(null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -120,25 +139,25 @@ class MiniPlayerFragment : BaseFragment(){
     }
 
     private fun playAnimation() {
-        playPause.animationPlay(getSlidingPanel().isCollapsed())
+        binding.playPause.animationPlay(getSlidingPanel().isCollapsed())
     }
 
     private fun pauseAnimation() {
-        playPause.animationPause(getSlidingPanel().isCollapsed())
+        binding.playPause.animationPause(getSlidingPanel().isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {
         if (getSlidingPanel().isExpanded()) return
 
         if (toNext) {
-            next.playAnimation()
+            binding.next.playAnimation()
         } else {
-            previous.playAnimation()
+            binding.previous.playAnimation()
         }
     }
 
     private fun updateProgressBarMax(max: Long) {
-        progressBar.max = max.toInt()
+        binding.progressBar.max = max.toInt()
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
@@ -148,9 +167,8 @@ class MiniPlayerFragment : BaseFragment(){
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            title.isSelected = newState == BottomSheetBehavior.STATE_COLLAPSED
+            binding.title.isSelected = newState == BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_mini_player
 }

@@ -3,10 +3,10 @@ package dev.olog.presentation.detail.adapter
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.databinding.ItemDetailRelatedArtistBinding
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 class DetailRelatedArtistsAdapter(
     lifecycle: Lifecycle,
@@ -30,11 +30,10 @@ class DetailRelatedArtistsAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            quickAction.setId(item.mediaId)
-        }
+        val binding = ItemDetailRelatedArtistBinding.bind(holder.itemView)
+        BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+        binding.firstText.text = item.title
+        binding.secondText.text = item.subtitle
+        binding.quickAction.setId(item.mediaId)
     }
 }

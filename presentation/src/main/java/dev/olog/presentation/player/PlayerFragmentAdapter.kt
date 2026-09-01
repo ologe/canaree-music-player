@@ -2,6 +2,7 @@ package dev.olog.presentation.player
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -31,23 +32,15 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_mini_queue.view.*
-import kotlinx.android.synthetic.main.layout_view_switcher.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.repeat
-import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_big_image.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
-import kotlinx.android.synthetic.main.player_layout_default.view.duration
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
-import kotlinx.android.synthetic.main.player_layout_default.view.title
-import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
-import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
-import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.flow.filter
+import dev.olog.presentation.widgets.LottieFavorite
+import dev.olog.presentation.widgets.RepeatButton
+import dev.olog.presentation.widgets.ShuffleButton
+import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
+import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+import dev.olog.shared.widgets.AnimatedImageView
+import dev.olog.media.widget.CustomSeekBar
+import dev.olog.presentation.widgets.textview.ExplicitView
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
@@ -106,7 +99,7 @@ internal class PlayerFragmentAdapter(
                         ex.printStackTrace()
                     }
                 }
-                viewHolder.itemView.volume?.musicPrefs = musicPrefs
+                viewHolder.itemView.findViewById<dev.olog.presentation.widgets.VolumeChangerView>(R.id.volume)?.musicPrefs = musicPrefs
             }
         }
 
@@ -120,7 +113,7 @@ internal class PlayerFragmentAdapter(
         if (viewType in playerViewTypes) {
 
             val view = holder.itemView
-            view.imageSwitcher?.let {
+            view.findViewById<CustomViewSwitcher>(R.id.imageSwitcher)?.let {
                 it.observeProcessorColors()
                     .asLiveData()
                     .subscribe(holder, viewModel::updateProcessorColors)
@@ -145,42 +138,44 @@ internal class PlayerFragmentAdapter(
 
     private fun setupListeners(holder: DataBoundViewHolder) {
         val view = holder.itemView
-        view.repeat.setOnClickListener { mediaProvider.toggleRepeatMode() }
-        view.shuffle.setOnClickListener { mediaProvider.toggleShuffleMode() }
-        view.favorite.setOnClickListener {
-            view.favorite.toggleFavorite()
+        view.findViewById<View>(R.id.repeat).setOnClickListener { mediaProvider.toggleRepeatMode() }
+        view.findViewById<View>(R.id.shuffle).setOnClickListener { mediaProvider.toggleShuffleMode() }
+        val favorite = view.findViewById<LottieFavorite>(R.id.favorite)
+        favorite.setOnClickListener {
+            favorite.toggleFavorite()
             mediaProvider.togglePlayerFavorite()
         }
-        view.lyrics.setOnClickListener { navigator.toOfflineLyrics() }
-        view.next.setOnClickListener { mediaProvider.skipToNext() }
-        view.playPause.setOnClickListener { mediaProvider.playPause() }
-        view.previous.setOnClickListener { mediaProvider.skipToPrevious() }
+        view.findViewById<View>(R.id.lyrics).setOnClickListener { navigator.toOfflineLyrics() }
+        view.findViewById<View>(R.id.next).setOnClickListener { mediaProvider.skipToNext() }
+        view.findViewById<View>(R.id.playPause).setOnClickListener { mediaProvider.playPause() }
+        view.findViewById<View>(R.id.previous).setOnClickListener { mediaProvider.skipToPrevious() }
 
-        view.replay.setOnClickListener {
+        view.findViewById<View>(R.id.replay)?.setOnClickListener {
             it.rotate(-30f)
             mediaProvider.replayTenSeconds()
         }
 
-        view.replay30.setOnClickListener {
+        view.findViewById<View>(R.id.replay30)?.setOnClickListener {
             it.rotate(-50f)
             mediaProvider.replayThirtySeconds()
         }
 
-        view.forward.setOnClickListener {
+        view.findViewById<View>(R.id.forward)?.setOnClickListener {
             it.rotate(30f)
             mediaProvider.forwardTenSeconds()
         }
 
-        view.forward30.setOnClickListener {
+        view.findViewById<View>(R.id.forward30)?.setOnClickListener {
             it.rotate(50f)
             mediaProvider.forwardThirtySeconds()
         }
 
-        view.playbackSpeed.setOnClickListener { openPlaybackSpeedPopup(it) }
+        view.findViewById<View>(R.id.playbackSpeed).setOnClickListener { openPlaybackSpeedPopup(it) }
 
-        view.seekBar.setListener(
+        val seekBar = view.findViewById<CustomSeekBar>(R.id.seekBar)
+        seekBar.setListener(
             onProgressChanged = {
-                view.bookmark.text = TextUtils.formatMillis(it)
+                view.findViewById<TextView>(R.id.bookmark).text = TextUtils.formatMillis(it)
             }, onStartTouch = {
 
             }, onStopTouch = {
@@ -193,9 +188,9 @@ internal class PlayerFragmentAdapter(
         val playerAppearance = view.context.hasPlayerAppearance()
 
         if (!playerAppearance.isSpotify() && !playerAppearance.isBigImage()){
-            view.next.setDefaultColor()
-            view.previous.setDefaultColor()
-            view.playPause.setDefaultColor()
+            view.findViewById<AnimatedImageView>(R.id.next).setDefaultColor()
+            view.findViewById<AnimatedImageView>(R.id.previous).setDefaultColor()
+            view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).setDefaultColor()
         }
 
         mediaProvider.observeMetadata()
@@ -206,7 +201,7 @@ internal class PlayerFragmentAdapter(
                 updateImage(view, it)
             }
 
-        view.volume?.setOnClickListener {
+        view.findViewById<View>(R.id.volume)?.setOnClickListener {
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
@@ -224,15 +219,15 @@ internal class PlayerFragmentAdapter(
             .subscribe(holder) { onPlaybackStateChanged(view, it) }
 
         mediaProvider.observePlaybackState()
-            .subscribe(holder) { view.seekBar.onStateChanged(it) }
+            .subscribe(holder) { view.findViewById<CustomSeekBar>(R.id.seekBar).onStateChanged(it) }
 
         mediaProvider.observeRepeat()
-            .subscribe(holder, view.repeat::cycle)
+            .subscribe(holder, view.findViewById<RepeatButton>(R.id.repeat)::cycle)
 
         mediaProvider.observeShuffle()
-            .subscribe(holder, view.shuffle::cycle)
+            .subscribe(holder, view.findViewById<ShuffleButton>(R.id.shuffle)::cycle)
 
-        view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener {
+        view.findViewById<SwipeableView>(R.id.swipeableView)?.setOnSwipeListener(object : SwipeableView.SwipeListener {
             override fun onSwipedLeft() {
                 mediaProvider.skipToNext()
             }
@@ -255,15 +250,15 @@ internal class PlayerFragmentAdapter(
         })
 
         viewModel.onFavoriteStateChanged
-            .subscribe(holder, view.favorite::onNextState)
+            .subscribe(holder, view.findViewById<LottieFavorite>(R.id.favorite)::onNextState)
 
         viewModel.skipToNextVisibility
             .asLiveData()
-            .subscribe(holder, view.next::updateVisibility)
+            .subscribe(holder, view.findViewById<AnimatedImageView>(R.id.next)::updateVisibility)
 
         viewModel.skipToPreviousVisibility
             .asLiveData()
-            .subscribe(holder, view.previous::updateVisibility)
+            .subscribe(holder, view.findViewById<AnimatedImageView>(R.id.previous)::updateVisibility)
 
         viewModel.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen()
@@ -300,27 +295,28 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {
+        val title = view.findViewById<TextView>(R.id.title)
         if (view.context.hasPlayerAppearance().isFlat()){
             // WORKAROUND, all caps attribute is not working for some reason
-            view.title.text = metadata.title.toUpperCase()
+            title.text = metadata.title.toUpperCase()
         } else {
-            view.title.text = metadata.title
+            title.text = metadata.title
         }
-        view.artist.text = metadata.artist
+        view.findViewById<TextView>(R.id.artist).text = metadata.artist
 
         val duration = metadata.duration
 
         val readableDuration = metadata.readableDuration
-        view.duration.text = readableDuration
-        view.seekBar.max = duration.toInt()
+        view.findViewById<TextView>(R.id.duration).text = readableDuration
+        view.findViewById<CustomSeekBar>(R.id.seekBar).max = duration.toInt()
 
         val isPodcast = metadata.isPodcast
         val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
-        playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
+        playerControlsRoot?.findViewById<View>(R.id.podcast_controls)?.toggleVisibility(isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {
-        view.imageSwitcher?.loadImage(metadata)
+        view.findViewById<CustomViewSwitcher>(R.id.imageSwitcher)?.loadImage(metadata)
         view.findViewById<PlayerImageView>(R.id.miniCover)?.loadImage(metadata.mediaId)
     }
 
@@ -339,8 +335,8 @@ internal class PlayerFragmentAdapter(
         val isPlaying = playbackState.isPlaying
 
         if (isPlaying || playbackState.isPaused) {
-            view.nowPlaying?.isActivated = isPlaying
-            view.imageSwitcher?.setChildrenActivated(isPlaying)
+            view.findViewById<View>(R.id.nowPlaying)?.isActivated = isPlaying
+            view.findViewById<CustomViewSwitcher>(R.id.imageSwitcher)?.setChildrenActivated(isPlaying)
         }
     }
 
@@ -349,31 +345,31 @@ internal class PlayerFragmentAdapter(
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
-            view.next.playAnimation()
+            view.findViewById<AnimatedImageView>(R.id.next).playAnimation()
         } else {
-            view.previous.playAnimation()
+            view.findViewById<AnimatedImageView>(R.id.previous).playAnimation()
         }
     }
 
     private fun playAnimation(view: View) {
         val hasSlidingPanel = view.context.asType<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPlay(isPanelExpanded)
+        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
         val hasSlidingPanel = view.context.asType<HasSlidingPanel>()
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPause(isPanelExpanded)
+        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).animationPause(isPanelExpanded)
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         if (item is DisplayableTrack){
             holder.itemView.apply {
                 BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-                firstText.text = item.title
-                secondText.text = item.artist
-                explicit.onItemChanged(item.title)
+                findViewById<TextView>(R.id.firstText).text = item.title
+                findViewById<TextView>(R.id.secondText).text = item.artist
+                findViewById<ExplicitView>(R.id.explicit).onItemChanged(item.title)
             }
         }
     }

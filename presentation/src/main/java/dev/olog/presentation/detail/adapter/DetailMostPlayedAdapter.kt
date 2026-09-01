@@ -6,9 +6,9 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.databinding.ItemDetailSongMostPlayedBinding
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 class DetailMostPlayedAdapter(
     lifecycle: Lifecycle,
@@ -36,13 +36,12 @@ class DetailMostPlayedAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            index.text = (item.idInPlaylist + 1).toString()
-            explicit.onItemChanged(item.title)
-        }
+        val binding = ItemDetailSongMostPlayedBinding.bind(holder.itemView)
+        BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+        binding.firstText.text = item.title
+        binding.secondText.text = item.subtitle
+        binding.index.text = (item.idInPlaylist + 1).toString()
+        binding.explicit.onItemChanged(item.title)
     }
 
     override fun onBindViewHolder(
@@ -52,7 +51,8 @@ class DetailMostPlayedAdapter(
     ) {
         if (payloads.isNotEmpty()) {
             val positionInList = (payloads[0] as Int + 1).toString()
-            holder.itemView.index.text = positionInList
+            val binding = ItemDetailSongMostPlayedBinding.bind(holder.itemView)
+            binding.index.text = positionInList
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }

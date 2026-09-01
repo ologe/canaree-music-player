@@ -20,7 +20,7 @@ import androidx.core.widget.ScrollerCompat;
 
 import dev.olog.presentation.R;
 
-class NumberPickerView extends View {
+public class NumberPickerView extends View {
 
     // default text color of not selected item
     private static final int DEFAULT_TEXT_COLOR_NORMAL = 0XFF333333;

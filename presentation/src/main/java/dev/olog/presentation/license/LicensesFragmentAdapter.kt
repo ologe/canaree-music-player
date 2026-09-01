@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.databinding.ItemLicenseBinding
 import dev.olog.presentation.model.LicenseModel
-import kotlinx.android.synthetic.main.item_license.view.*
 
 class LicensesFragmentAdapter(
     lifecycle: Lifecycle
@@ -17,19 +17,18 @@ class LicensesFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { _, _, _ ->
-            val maxLines = if (viewHolder.itemView.license.maxLines > 10) 10 else Int.MAX_VALUE
-            viewHolder.itemView.license.maxLines = maxLines
+            val binding = ItemLicenseBinding.bind(viewHolder.itemView)
+            val maxLines = if (binding.license.maxLines > 10) 10 else Int.MAX_VALUE
+            binding.license.maxLines = maxLines
         }
     }
 
     override fun bind(holder: DataBoundViewHolder, item: LicenseModel, position: Int) {
-        holder.itemView.apply {
-            name.text = item.name
-            url.text = item.url
-            url.movementMethod = LinkMovementMethod.getInstance()
-            license.text = item.license
-
-        }
+        val binding = ItemLicenseBinding.bind(holder.itemView)
+        binding.name.text = item.name
+        binding.url.text = item.url
+        binding.url.movementMethod = LinkMovementMethod.getInstance()
+        binding.license.text = item.license
     }
 
 }

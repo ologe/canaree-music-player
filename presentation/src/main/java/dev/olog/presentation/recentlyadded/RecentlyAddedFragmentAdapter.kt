@@ -8,10 +8,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.presentation.databinding.ItemRecentlyAddedBinding
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
     lifecycle: Lifecycle,
@@ -41,12 +41,11 @@ class RecentlyAddedFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableTrack)
 
-        holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
-        }
+        val binding = ItemRecentlyAddedBinding.bind(holder.itemView)
+        BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+        binding.firstText.text = item.title
+        binding.secondText.text = item.subtitle
+        binding.explicit.onItemChanged(item.title)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

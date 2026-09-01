@@ -27,6 +27,10 @@ internal fun Project.configureKotlinAndroid(
             checkReleaseBuilds = false
             disable.add("MissingTranslation")
         }
+
+        buildFeatures {
+            viewBinding = true
+        }
     }
 
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

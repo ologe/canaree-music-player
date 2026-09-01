@@ -6,7 +6,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import kotlinx.android.synthetic.main.item_detail_song.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -96,7 +95,7 @@ class TouchHelperAdapterCallback(
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.content,
+                    viewHolder.itemView.findViewById(R.id.content),
                     dX,
                     dY,
                     actionState,
