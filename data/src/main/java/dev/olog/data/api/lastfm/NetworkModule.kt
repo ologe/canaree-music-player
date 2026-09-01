@@ -18,10 +18,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+class NetworkModule {
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideOkHttp(
         @ApplicationContext context: Context,
@@ -30,12 +29,12 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor(config))
             .addInterceptor(headerInterceptor(context))
+            .addInterceptor(lastFmInterceptor(config))
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1, TimeUnit.SECONDS)
             .build()
     }
 
-    @JvmStatic
     private fun logInterceptor(config: Config): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (config.isDebug) {
@@ -47,7 +46,6 @@ object NetworkModule {
         return loggingInterceptor
     }
 
-    @JvmStatic
     private fun headerInterceptor(context: Context): Interceptor {
         return Interceptor {
             val original = it.request()
@@ -60,8 +58,25 @@ object NetworkModule {
         }
     }
 
+    private fun lastFmInterceptor(config: Config): Interceptor {
+        return Interceptor { chain ->
+            val original = chain.request()
+            if (original.url.host == "ws.audioscrobbler.com") {
+                val url = original.url.newBuilder()
+                    .addQueryParameter("api_key", config.lastFmKey)
+                    .addQueryParameter("format", "json")
+                    .build()
+                val request = original.newBuilder()
+                    .url(url)
+                    .build()
+                chain.proceed(request)
+            } else {
+                chain.proceed(original)
+            }
+        }
+    }
+
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -72,14 +87,12 @@ object NetworkModule {
     }
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideLastFmRest(retrofit: Retrofit): LastFmService {
         return retrofit.create(LastFmService::class.java)
     }
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideDeezerRest(retrofit: Retrofit): DeezerService {
         val newBuilder = retrofit.newBuilder()
