@@ -76,15 +76,15 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: Path): Folder? {
-        return channel.valueOrNull?.find { it.path == param }
+        return channel.replayCache.lastOrNull()?.find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
-        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
+        return channel.replayCache.lastOrNull()?.find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow()
+        return channel
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
     }

@@ -10,9 +10,8 @@ import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
@@ -28,20 +27,26 @@ internal class MediaSessionQueue @Inject constructor(
         private const val DELAY = 1000L
     }
 
-    private val delayedChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
-    private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
+    private val delayedChannel = MutableSharedFlow<List<MediaEntity>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    private val immediateChannel = MutableSharedFlow<List<MediaEntity>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     init {
         lifecycle.addObserver(this)
 
         launch {
-            delayedChannel.asFlow()
+            delayedChannel
                 .debounce(DELAY)
                 .collect { publish(it) }
         }
 
         launch {
-            immediateChannel.asFlow()
+            immediateChannel
                 .collect { publish(it) }
         }
     }
@@ -57,12 +62,12 @@ internal class MediaSessionQueue @Inject constructor(
 
     fun onNext(list: List<MediaEntity>) {
         Log.v(TAG, "on next delayed")
-        delayedChannel.trySend(list)
+        delayedChannel.tryEmit(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
         Log.v(TAG, "on next immediate")
-        immediateChannel.trySend(list)
+        immediateChannel.tryEmit(list)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

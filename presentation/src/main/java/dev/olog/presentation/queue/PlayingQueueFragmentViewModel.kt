@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
 
 @HiltViewModel
 class PlayingQueueFragmentViewModel @Inject constructor(
@@ -29,17 +30,20 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     private val data = MutableLiveData<List<DisplayableQueueSong>>()
 
-    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
+    private val queueLiveData = MutableSharedFlow<List<PlayingQueueSong>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     init {
         viewModelScope.launch {
             playingQueueGateway.observeAll().distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.trySend(it) }
+                .collect { queueLiveData.tryEmit(it) }
         }
 
         viewModelScope.launch {
-            queueLiveData.asFlow()
+            queueLiveData
                 .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
                 { queue, idInPlaylist ->
                     val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
@@ -62,10 +66,10 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     fun recalculatePositionsAfterRemove(position: Int) =
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value.toMutableList()
+            val currentList = queueLiveData.replayCache.lastOrNull()?.toMutableList() ?: return@launch
             currentList.removeAt(position)
 
-            queueLiveData.trySend(currentList)
+            queueLiveData.tryEmit(currentList)
         }
 
     /**
@@ -73,12 +77,12 @@ class PlayingQueueFragmentViewModel @Inject constructor(
      */
     fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
         viewModelScope.launch(Dispatchers.Default) {
-            val currentList = queueLiveData.value
+            val currentList = queueLiveData.replayCache.lastOrNull() ?: return@launch
             for ((from, to) in moves) {
                 currentList.swap(from, to)
             }
 
-            queueLiveData.trySend(currentList)
+            queueLiveData.tryEmit(currentList)
         }
 
     private fun PlayingQueueSong.toDisplayableItem(

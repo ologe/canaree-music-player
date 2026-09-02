@@ -8,11 +8,11 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,10 @@ internal abstract class BaseRepository<T, Param>(
     private val schedulers: Schedulers
 ) : BaseGateway<T, Param> {
 
-    protected val channel = ConflatedBroadcastChannel<List<T>>()
+    protected val channel = MutableSharedFlow<List<T>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     protected fun firstQuery() {
         GlobalScope.launch(schedulers.io) {
@@ -36,19 +39,19 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver(schedulers.io) { channel.trySend(queryAll()) }
+                DataObserver(schedulers.io) { channel.tryEmit(queryAll()) }
             )
-            channel.trySend(queryAll())
+            channel.tryEmit(queryAll())
         }
     }
 
     override fun getAll(): List<T> {
-        return channel.valueOrNull
+        return channel.replayCache.lastOrNull()
             ?: queryAll() // fallback to normal query if channel never emitted
     }
 
     override fun observeAll(): Flow<List<T>> {
-        return channel.asFlow()
+        return channel
     }
 
     protected fun <R> observeByParamInternal(
@@ -57,15 +60,10 @@ internal abstract class BaseRepository<T, Param>(
     ): Flow<R> {
 
         val flow: Flow<R> = channelFlow {
-
-            if (!isClosedForSend) {
-                trySend(action())
-            }
+            trySend(action())
 
             val observer = DataObserver(schedulers.io) {
-                if (!isClosedForSend) {
-                    trySend(action())
-                }
+                trySend(action())
             }
 
             contentResolver.registerContentObserver(

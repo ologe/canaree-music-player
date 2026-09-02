@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 abstract class ObservableAdapter<T : BaseModel>(
@@ -24,7 +24,10 @@ abstract class ObservableAdapter<T : BaseModel>(
     protected val dataSet = mutableListOf<T>()
     private var neverEmitted = true
 
-    private val channel = ConflatedBroadcastChannel<List<T>>()
+    private val channel = MutableSharedFlow<List<T>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     fun getData(): List<T> = dataSet.toList()
 
@@ -34,9 +37,8 @@ abstract class ObservableAdapter<T : BaseModel>(
                 // emit first only if has a valid value
                 emit(dataSet)
             }
-            for (t in channel.openSubscription()) {
-                emit(t)
-            }
+
+            emitAll(channel)
         }
     }
 
@@ -44,7 +46,7 @@ abstract class ObservableAdapter<T : BaseModel>(
         lifecycle.addObserver(this)
 
         lifecycle.coroutineScope.launch {
-            channel.asFlow()
+            channel
                 .distinctUntilChanged()
                 .collect { list ->
                     val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
@@ -55,10 +57,6 @@ abstract class ObservableAdapter<T : BaseModel>(
                     }
                 }
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        channel.close()
     }
 
     @CallSuper
@@ -108,7 +106,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
     fun updateDataSet(data: List<T>) {
-        channel.trySend(data)
+        channel.tryEmit(data)
     }
 
     private fun updateDataSetInternal(data: List<T>) {

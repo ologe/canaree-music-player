@@ -41,18 +41,18 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
-    private val showOnlyFiltered = ConflatedBroadcastChannel(false)
+    private val showOnlyFiltered = MutableStateFlow(false)
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterChannel = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
-            showOnlyFiltered.asFlow()
+            showOnlyFiltered
                 .flatMapLatest { onlyFiltered ->
                     if (onlyFiltered){
                         getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
                     } else {
-                        getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
+                        getPlaylistTypeTracks().combine(filterChannel) { tracks, filter ->
                             if (filter.isNotEmpty()) {
                                 tracks.filter {
                                     it.title.contains(filter, true) ||
@@ -75,7 +75,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun updateFilter(filter: String) {
-        filterChannel.trySend(filter)
+        filterChannel.value = filter
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
@@ -94,7 +94,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun toggleShowOnlyFiltered() {
         val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.trySend(!onlyFiltered)
+        showOnlyFiltered.value = !onlyFiltered
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

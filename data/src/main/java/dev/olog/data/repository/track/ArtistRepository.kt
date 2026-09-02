@@ -57,11 +57,11 @@ internal class ArtistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Artist? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.replayCache.lastOrNull()?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return channel.asFlow().map { list -> list.find { it.id == param } }
+        return channel.map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
     }
 

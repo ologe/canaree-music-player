@@ -38,14 +38,14 @@ class SearchDataProvider @Inject constructor(
 
 ) {
 
-    private val queryChannel = ConflatedBroadcastChannel("")
+    private val queryChannel = MutableStateFlow("")
 
     fun updateQuery(query: String) {
-        queryChannel.trySend(query)
+        queryChannel.value = query
     }
 
     fun observe(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow().flatMapLatest { query ->
+        return queryChannel.flatMapLatest { query ->
             if (query.isBlank()) {
                 getRecents()
             } else {
@@ -55,27 +55,27 @@ class SearchDataProvider @Inject constructor(
     }
 
     fun observeArtists(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getArtists(it) }
     }
 
     fun observeAlbums(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getAlbums(it) }
     }
 
     fun observeGenres(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getGenres(it) }
     }
 
     fun observePlaylists(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getPlaylists(it) }
     }
 
     fun observeFolders(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getFolders(it) }
     }
 

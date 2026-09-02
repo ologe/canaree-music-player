@@ -19,7 +19,6 @@ import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +30,9 @@ import dev.olog.shared.widgets.adaptive.PaletteColors
 import dev.olog.shared.widgets.adaptive.ProcessorColors
 import dev.olog.shared.widgets.adaptive.ValidPaletteColors
 import dev.olog.shared.widgets.adaptive.ValidProcessorColors
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -47,8 +48,14 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
     private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
-    private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
-    private val palettePublisher = ConflatedBroadcastChannel<PaletteColors>()
+    private val processorPublisher = MutableSharedFlow<ProcessorColors>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    private val palettePublisher = MutableSharedFlow<PaletteColors>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     init {
         viewModelScope.launch {
@@ -141,7 +148,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
     // allow adaptive color on flat appearance
     fun observeProcessorColors(): Flow<ProcessorColors> {
 
-        return processorPublisher.asFlow()
+        return processorPublisher
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
                 if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
@@ -158,7 +165,6 @@ internal class PlayerFragmentViewModel @Inject constructor(
     fun observePaletteColors(): Flow<PaletteColors> {
 
         return palettePublisher
-            .asFlow()
             .map {
                 val hasPlayerAppearance = context.hasPlayerAppearance()
                 if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
@@ -172,11 +178,11 @@ internal class PlayerFragmentViewModel @Inject constructor(
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.trySend(palette)
+        processorPublisher.tryEmit(palette)
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.trySend(palette)
+        palettePublisher.tryEmit(palette)
     }
 
 

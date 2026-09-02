@@ -103,6 +103,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        return channel.replayCache.lastOrNull()?.find { it.albumId == albumId }
     }
 }

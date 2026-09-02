@@ -43,10 +43,10 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterChannel = MutableStateFlow("")
 
     fun updateFilter(filter: String) {
-        filterChannel.trySend(filter)
+        filterChannel.value = filter
     }
 
     fun getFilter(): String = filterChannel.value
@@ -96,7 +96,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(mediaId, filterChannel.asFlow())
+            dataProvider.observe(mediaId, filterChannel)
                 .flowOn(Dispatchers.Default)
                 .collect { songLiveData.value = it }
         }

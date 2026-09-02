@@ -67,11 +67,11 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Id): Genre? {
-        return channel.valueOrNull?.find { it.id == param }
+        return channel.replayCache.lastOrNull()?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return channel.asFlow().map { it.find { it.id == param } }
+        return channel.map { it.find { it.id == param } }
             .distinctUntilChanged()
     }
 

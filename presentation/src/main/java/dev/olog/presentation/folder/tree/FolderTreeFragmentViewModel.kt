@@ -42,8 +42,8 @@ class FolderTreeFragmentViewModel @Inject constructor(
         val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 
-    private val currentDirectory: ConflatedBroadcastChannel<File> =
-        ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
+    private val currentDirectory: MutableStateFlow<File> =
+        MutableStateFlow(appPreferencesUseCase.getDefaultMusicFolder())
 
     private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
 
@@ -51,7 +51,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            currentDirectory.asFlow()
+            currentDirectory
                 .flatMapLatest { file ->
                     gateway.observeFolderChildren(file)
                         .map { addHeaders(file, it) }
@@ -62,7 +62,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 }
         }
         viewModelScope.launch {
-            currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
+            currentDirectory.combine(appPreferencesUseCase.observeDefaultMusicFolder())
             { current, default -> current.path == default.path }
                 .collect { isCurrentFolderDefaultFolder.value = it }
         }
@@ -92,7 +92,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     fun observeChildren(): LiveData<List<DisplayableFile>> = currentDirectoryChildrenLiveData
-    fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asFlow().asLiveData()
+    fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asLiveData()
     fun observeCurrentFolderIsDefaultFolder(): LiveData<Boolean> = isCurrentFolderDefaultFolder.distinctUntilChanged()
 
     fun popFolder(): Boolean {
@@ -109,7 +109,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
 
         try {
-            currentDirectory.trySend(current.parentFile!!)
+            currentDirectory.value = current.parentFile!!
             return true
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -119,7 +119,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun nextFolder(file: File) {
         require(file.isDirectory)
-        currentDirectory.trySend(file)
+        currentDirectory.value = file
     }
 
     fun updateDefaultFolder() {

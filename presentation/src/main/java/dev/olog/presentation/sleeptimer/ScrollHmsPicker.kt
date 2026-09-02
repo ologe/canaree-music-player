@@ -206,9 +206,9 @@ class ScrollHmsPicker (
             }
         }
 
-        override fun writeToParcel(out: Parcel?, flags: Int) {
+        override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out?.run {
+            out.run {
                 writeInt(hours)
                 writeInt(minutes)
                 writeInt(seconds)
