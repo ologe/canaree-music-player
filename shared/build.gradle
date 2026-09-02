@@ -1,9 +1,3 @@
 plugins {
     id("canaree.jvm.library")
 }
-
-dependencies {
-}
-
-sourceCompatibility = "8"
-targetCompatibility = "8"
