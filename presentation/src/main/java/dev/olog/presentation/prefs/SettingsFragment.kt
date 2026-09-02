@@ -16,9 +16,9 @@ import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LibraryPage
@@ -170,10 +170,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private suspend fun clearGlideCache() {
-        GlideApp.get(ctx.applicationContext).clearMemory()
+        Glide.get(ctx.applicationContext).clearMemory()
 
         withContext(Dispatchers.IO) {
-            GlideApp.get(ctx.applicationContext).clearDiskCache()
+            Glide.get(ctx.applicationContext).clearDiskCache()
             ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()
                 ?.forEach { it.delete() }
             ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()

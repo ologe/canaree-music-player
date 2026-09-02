@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
@@ -40,9 +40,9 @@ open class PlayerImageView (
     fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
 
     open fun loadImage(mediaId: MediaId) {
-        GlideApp.with(context).clear(this)
+        Glide.with(context).clear(this)
 
-        GlideApp.with(context)
+        Glide.with(context)
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)

@@ -1,9 +1,10 @@
 [versions]
 # Plugins
 agp = "8.13.2"
-kotlin = "1.9.0"
+kotlin = "1.9.24"
 google-services = "4.5.0"
 crashlytics-plugin = "3.0.8"
+ksp = "1.9.24-1.0.20"
 
 # Core
 coroutines = "1.6.4"
@@ -27,7 +28,7 @@ androidx-constraintlayout = "2.0.0"
 lifecycle = "2.6.2"
 
 # UI
-glide = "4.11.0"
+glide = "4.14.2"
 lottie = "3.4.2"
 material-dialogs = "3.3.0"
 scroll-helper = "1.1.4"
@@ -106,8 +107,7 @@ androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-p
 
 # UI
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
-glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
-android-support-annotations = { group = "com.android.support", name = "support-annotations", version = "28.0.0" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "ksp", version.ref = "glide" }
 scroll-helper = { group = "com.github.ologe", name = "scroll-helper", version.ref = "scroll-helper" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 material-dialogs-core = { group = "com.afollestad.material-dialogs", name = "core", version.ref = "material-dialogs" }
@@ -155,3 +155,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-plugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

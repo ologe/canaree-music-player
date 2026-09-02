@@ -2,7 +2,9 @@ package dev.olog.image.provider
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
@@ -18,17 +20,17 @@ object GlideUtils {
 suspend fun Context.getCachedDrawable(
     mediaId: MediaId,
     size: Int = GlideUtils.OVERRIDE_BIG,
-    extension: (GlideRequest<Drawable>.() -> GlideRequest<Drawable>)? = null,
+    extension: (RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>)? = null,
     withError: Boolean = true
 ): Drawable? = suspendCoroutine { continuation ->
 
     val placeholder = CoverUtils.getGradient(this, mediaId)
 
-    val error = GlideApp.with(this)
+    val error = Glide.with(this)
         .load(placeholder)
         .extend(extension)
 
-    GlideApp.with(this)
+    Glide.with(this)
         .load(mediaId)
         .override(size)
         .priority(Priority.IMMEDIATE)
@@ -67,7 +69,7 @@ suspend fun Context.getCachedDrawable(
         })
 }
 
-internal fun GlideRequest<Drawable>.extend(func: (GlideRequest<Drawable>.() -> GlideRequest<Drawable>)?): GlideRequest<Drawable> {
+internal fun RequestBuilder<Drawable>.extend(func: (RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>)?): RequestBuilder<Drawable> {
     if (func != null) {
         return this.func()
     }

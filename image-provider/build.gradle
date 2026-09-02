@@ -1,6 +1,7 @@
 plugins {
     id("canaree.android.library")
     id("canaree.hilt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -25,9 +26,7 @@ dependencies {
 
     implementation libs.color.desaturation
     implementation libs.glide
-    kapt libs.glide.compiler
-    // mandatory for glide 4.9.0 or below compatibility
-    kapt libs.android.support.annotations
+    ksp libs.glide.compiler
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.preference

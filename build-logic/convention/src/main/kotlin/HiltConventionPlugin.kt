@@ -9,13 +9,13 @@ class HiltConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.google.dagger.hilt.android")
-                apply("org.jetbrains.kotlin.kapt")
+                apply("com.google.devtools.ksp")
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 "implementation"(libs.findLibrary("hilt-android").get())
-                "kapt"(libs.findLibrary("hilt-compiler").get())
+                "ksp"(libs.findLibrary("hilt-compiler").get())
             }
         }
     }

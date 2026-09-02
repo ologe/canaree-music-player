@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
+import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
@@ -19,12 +21,12 @@ sealed class OnImageLoadingError {
 suspend fun Context.getCachedBitmap(
     mediaId: MediaId,
     size: Int = GlideUtils.OVERRIDE_BIG,
-    extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+    extension: (RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap>)? = null,
     onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
 ): Bitmap? = suspendCoroutine { continuation ->
 
 
-    GlideApp.with(this)
+    Glide.with(this)
         .asBitmap()
         .load(mediaId)
         .override(size)
@@ -50,7 +52,7 @@ suspend fun Context.getCachedBitmap(
                     }
                     val bestSize = calculateBestSize(placeholder, size)
 
-                    GlideApp.with(this@getCachedBitmap)
+                    Glide.with(this@getCachedBitmap)
                         .asBitmap()
                         .load(placeholder.toBitmap(bestSize, bestSize))
                         .extend(extension)
@@ -93,7 +95,7 @@ private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
     return 300 // random size
 }
 
-internal fun GlideRequest<Bitmap>.extend(func: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)?): GlideRequest<Bitmap> {
+internal fun RequestBuilder<Bitmap>.extend(func: (RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap>)?): RequestBuilder<Bitmap> {
     if (func != null) {
         return this.func()
     }

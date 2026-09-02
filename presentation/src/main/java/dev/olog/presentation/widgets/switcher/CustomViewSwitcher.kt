@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.forEach
+import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -16,7 +17,6 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
@@ -129,9 +129,9 @@ class CustomViewSwitcher(
 
         val imageView = getImageView(getNextView())
 
-        GlideApp.with(context).clear(imageView)
+        Glide.with(context).clear(imageView)
 
-        GlideApp.with(context)
+        Glide.with(context)
             .load(mediaId)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
@@ -141,7 +141,7 @@ class CustomViewSwitcher(
             .listener(this@CustomViewSwitcher)
             .into(RippleTarget(imageView)) // TODO ripple not working
 
-        GlideApp.with(context)
+        Glide.with(context)
             .load(mediaId)
             .priority(Priority.IMMEDIATE)
             .override(GlideUtils.OVERRIDE_BIG)

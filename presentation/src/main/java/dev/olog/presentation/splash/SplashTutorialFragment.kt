@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.databinding.FragmentSplashTutorialBinding
 import dev.olog.presentation.widgets.StoppingViewPager
@@ -106,7 +106,7 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun loadPhoneImage(view: View){
-        GlideApp.with(requireContext())
+        Glide.with(requireContext())
                 .asBitmap()
                 .load(R.drawable.phone_black)
                 .priority(Priority.IMMEDIATE)
@@ -121,9 +121,9 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun loadImage(position: Int){
-        GlideApp.with(ctx).clear(binding.cover)
+        Glide.with(ctx).clear(binding.cover)
 
-        GlideApp.with(ctx)
+        Glide.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
                 .placeholder(CoverUtils.getGradient(ctx, position))

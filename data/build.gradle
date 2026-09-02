@@ -1,7 +1,7 @@
 plugins {
     id("canaree.android.library")
     id("canaree.hilt")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -49,6 +49,6 @@ dependencies {
     implementation libs.sql.content.resolver
     implementation libs.room.runtime
     implementation libs.room.ktx
-    kapt libs.room.compiler
+    ksp libs.room.compiler
 
 }
