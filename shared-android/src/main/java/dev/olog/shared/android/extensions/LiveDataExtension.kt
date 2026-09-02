@@ -2,23 +2,31 @@
 
 package dev.olog.shared.android.extensions
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData as asAndroidXLiveData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlin.coroutines.CoroutineContext
 
 
 fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit) {
     this.observe(lifecycleOwner, Observer {
-        if (it != null){
+        if (it != null) {
             func(it)
         }
     })
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return Transformations.distinctUntilChanged(this)
+    val mediator = MediatorLiveData<T>()
+    mediator.addSource(this) { value ->
+        if (mediator.value != value) {
+            mediator.value = value
+        }
+    }
+    return mediator
 }
 
 inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<T> {
@@ -33,36 +41,13 @@ inline fun <T> LiveData<T>.filter(crossinline filter: (T) -> Boolean): LiveData<
 }
 
 inline fun <T, R> LiveData<T>.map(crossinline function: (T) -> R): LiveData<R> {
-    return Transformations.map(this) {
-        function(it)
+    val mediator = MediatorLiveData<R>()
+    mediator.addSource(this) { value ->
+        mediator.value = function(value)
     }
+    return mediator
 }
 
-class FlowLiveData<T>(
-    private val flow: Flow<T>,
-    private val context: CoroutineContext = Dispatchers.Unconfined
-) : LiveData<T>() {
-
-    private var job: Job? = null
-
-    override fun onActive() {
-        job = GlobalScope.launch(context) {
-            flow.collect {
-                if (it != null && it != value) {
-                    withContext(Dispatchers.Main){
-                        value = it
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onInactive() {
-        job?.cancel()
-    }
-
-}
-
-fun <T> Flow<T>.asLiveData(context: CoroutineContext = Dispatchers.Unconfined): LiveData<T> {
-    return FlowLiveData(this, context)
+fun <T> Flow<T>.asLiveData(): LiveData<T> {
+    return asAndroidXLiveData()
 }

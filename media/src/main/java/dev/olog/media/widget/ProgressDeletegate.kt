@@ -2,10 +2,9 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.android.utils.isNougat
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +22,10 @@ class ProgressDeletegate(
 
     private var incrementJob: Job? = null
 
-    private val channel = ConflatedBroadcastChannel<Long>()
+    private val channel = MutableSharedFlow<Long>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     override fun stopAutoIncrement(startMillis: Int) {
         incrementJob?.cancel()
@@ -41,7 +43,7 @@ class ProgressDeletegate(
                 .flowOn(Dispatchers.IO)
                 .collect {
                     setProgress(progressBar, it.toInt())
-                    channel.trySend(it.toLong())
+                    channel.tryEmit(it.toLong())
                 }
         }
     }
@@ -51,7 +53,7 @@ class ProgressDeletegate(
     }
 
     override fun observeProgress(): Flow<Long> {
-        return channel.asFlow()
+        return channel
     }
 
     override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {

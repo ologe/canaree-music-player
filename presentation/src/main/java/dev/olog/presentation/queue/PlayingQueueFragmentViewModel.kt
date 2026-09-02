@@ -12,7 +12,6 @@ import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

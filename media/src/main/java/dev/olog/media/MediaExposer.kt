@@ -23,10 +23,10 @@ import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.IllegalStateException
 
 class MediaExposer(
@@ -49,13 +49,16 @@ class MediaExposer(
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
+    private val connectionPublisher = MutableSharedFlow<MusicServiceConnectionState>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     private val metadataPublisher = MutableLiveData<PlayerMetadata>()
     private val statePublisher = MutableLiveData<PlayerPlaybackState>()
     private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
     private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
-    private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
+    private val queuePublisher = MutableStateFlow<List<PlayerItem>>(listOf())
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
@@ -64,7 +67,7 @@ class MediaExposer(
         }
         job?.cancel()
         job = launch {
-            for (state in connectionPublisher.openSubscription()) {
+            connectionPublisher.collect { state ->
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> {
@@ -108,7 +111,7 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.trySend(state)
+        connectionPublisher.tryEmit(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
@@ -137,7 +140,7 @@ class MediaExposer(
         }
         launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.trySend(result)
+            queuePublisher.value = result
         }
     }
 
@@ -154,8 +157,6 @@ class MediaExposer(
         .distinctUntilChanged()
 
     fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher
-        .asFlow()
-        .distinctUntilChanged()
 
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {

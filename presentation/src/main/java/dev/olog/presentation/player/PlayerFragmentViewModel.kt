@@ -18,7 +18,6 @@ import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,7 +45,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
+    private val currentTrackIdPublisher = MutableSharedFlow<Long>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
     private val processorPublisher = MutableSharedFlow<ProcessorColors>(
         replay = 1,
@@ -69,10 +71,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().tryReceive().getOrNull()!!
+    fun getCurrentTrackId() = currentTrackIdPublisher.replayCache.lastOrNull()!!
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.trySend(trackId)
+        currentTrackIdPublisher.tryEmit(trackId)
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(

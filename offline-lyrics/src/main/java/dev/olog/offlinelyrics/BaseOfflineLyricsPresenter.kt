@@ -19,7 +19,7 @@ import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
@@ -46,10 +46,16 @@ abstract class BaseOfflineLyricsPresenter(
     private val spannableBuilder = SpannableStringBuilder()
 
     private var insertLyricsJob: Job? = null
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
-    private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
+    private val currentTrackIdPublisher = MutableSharedFlow<Long>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    private val syncAdjustmentPublisher = MutableStateFlow<Long>(0)
 
-    private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
+    private val lyricsPublisher = MutableSharedFlow<Lyrics>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     private var observeLyricsJob: Job? = null
     private var transformLyricsJob: Job? = null
@@ -68,13 +74,13 @@ abstract class BaseOfflineLyricsPresenter(
 
     fun onStart() {
         observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
                 .flatMapLatest { id -> observeUseCase(id) }
                 .flowOn(Dispatchers.IO)
                 .collect { onNextLyrics(it) }
         }
         transformLyricsJob = GlobalScope.launch {
-            lyricsPublisher.asFlow()
+            lyricsPublisher
                 .flatMapLatest {
                     when (it) {
                         is Lyrics.Normal -> {
@@ -93,9 +99,9 @@ abstract class BaseOfflineLyricsPresenter(
                 }
         }
         syncJob = GlobalScope.launch {
-            currentTrackIdPublisher.asFlow()
+            currentTrackIdPublisher
                 .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
-                .collect { syncAdjustmentPublisher.trySend(it) }
+                .collect { syncAdjustmentPublisher.value = it }
         }
     }
 
@@ -128,7 +134,7 @@ abstract class BaseOfflineLyricsPresenter(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.trySend(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
+            lyricsPublisher.tryEmit(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -151,7 +157,7 @@ abstract class BaseOfflineLyricsPresenter(
                     defaultSpan(this, 0, textOnly.length)
                 }
             }
-            lyricsPublisher.trySend(Lyrics.Synced(result))
+            lyricsPublisher.tryEmit(Lyrics.Synced(result))
         }
     }
 
@@ -161,7 +167,7 @@ abstract class BaseOfflineLyricsPresenter(
         for (lyric in syncedLyrics.lyrics) {
             words.add(spannableBuilder.length to spannableBuilder.length + lyric.second.length)
             spannableBuilder.append(lyric.second)
-            spannableBuilder.appendln()
+            spannableBuilder.appendLine()
         }
 
         val interval = 300L
@@ -197,7 +203,7 @@ abstract class BaseOfflineLyricsPresenter(
     }
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.trySend(trackId)
+        currentTrackIdPublisher.tryEmit(trackId)
     }
 
     fun getLyrics(): String {
@@ -206,21 +212,23 @@ abstract class BaseOfflineLyricsPresenter(
 
     fun updateSyncAdjustment(value: Long) {
         GlobalScope.launch {
-            lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
+            val trackId = currentTrackIdPublisher.replayCache.lastOrNull() ?: return@launch
+            lyricsGateway.setSyncAdjustment(trackId, value)
         }
     }
 
     suspend fun getSyncAdjustment(): String = withContext(Dispatchers.IO) {
-        "${lyricsGateway.getSyncAdjustment(currentTrackIdPublisher.value)}"
+        currentTrackIdPublisher.replayCache.lastOrNull()?.let {
+            "${lyricsGateway.getSyncAdjustment(it)}"
+        } ?: ""
     }
 
     fun updateLyrics(lyrics: String) {
-        if (currentTrackIdPublisher.valueOrNull == null) {
-            return
-        }
+        val trackId = currentTrackIdPublisher.replayCache.lastOrNull() ?: return
+
         insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
-            insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+            insertUseCase(OfflineLyrics(trackId, lyrics))
         }
     }
 
