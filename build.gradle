@@ -1,34 +1,8 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        google()
-    }
-
-    dependencies {
-        classpath libs.android.gradle.plugin
-        classpath libs.kotlin.gradle.plugin
-        classpath libs.google.services.plugin
-        classpath libs.firebase.crashlytics.plugin
-        classpath libs.hilt.gradle.plugin
-    }
-
-
-    
-    
-}
-
-allprojects {
-    gradle.projectsEvaluated { // TODO remove after coroutines became stable
-        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
-            kotlinOptions.freeCompilerArgs += ["-opt-in=kotlinx.coroutines.FlowPreview"]
-            kotlinOptions.freeCompilerArgs += ["-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-        }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.hilt) apply false
 }
