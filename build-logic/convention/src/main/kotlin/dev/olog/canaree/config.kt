@@ -5,9 +5,9 @@ import org.gradle.api.JavaVersion
 @Suppress("ClassName")
 internal object config {
 
-    const val minSdk = 21
+    const val minSdk = 23
     const val targetSdk = 30
-    const val compileSdk = 34
+    const val compileSdk = 36
     /*  version code
         999 - for old compatibility
         27 - android version

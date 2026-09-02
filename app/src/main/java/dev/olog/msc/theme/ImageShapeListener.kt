@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.ImageShape
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
@@ -13,12 +13,12 @@ internal class ImageShapeListener @Inject constructor(
     prefs: SharedPreferences
 ) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(R.string.prefs_icon_shape_key)) {
 
-    val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
+    val imageShapePublisher by lazy { MutableStateFlow(getValue()) }
     fun imageShape() = imageShapePublisher.value
 
     override fun onPrefsChanged() {
         val imageShape = getValue()
-        imageShapePublisher.trySend(imageShape)
+        imageShapePublisher.value = imageShape
     }
 
     override fun getValue(): ImageShape {

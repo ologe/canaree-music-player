@@ -7,29 +7,28 @@ crashlytics-plugin = "3.0.8"
 ksp = "1.9.24-1.0.20"
 
 # Core
-coroutines = "1.6.4"
-dagger = "2.48"
+coroutines = "1.9.0"
+dagger = "2.55"
 
 # AndroidX
 androidx-core = "1.13.0"
-androidx-legacy = "1.0.0"
 androidx-appcompat = "1.7.0"
-androidx-media = "1.1.0"
-androidx-recyclerview = "1.1.0"
-androidx-browser = "1.2.0"
-material = "1.2.0"
-androidx-preference = "1.1.1"
+androidx-media = "1.7.0"
+androidx-recyclerview = "1.4.0"
+androidx-browser = "1.9.0"
+material = "1.12.0"
+androidx-preference = "1.2.1"
 androidx-palette = "1.0.0"
-androidx-annotation = "1.6.0"
-androidx-coordinatorlayout = "1.1.0"
-androidx-fragment = "1.5.4"
-androidx-activity = "1.7.0"
-androidx-constraintlayout = "2.0.0"
-lifecycle = "2.6.2"
+androidx-annotation = "1.9.0"
+androidx-coordinatorlayout = "1.3.0"
+androidx-fragment = "1.8.0"
+androidx-activity = "1.12.0"
+androidx-constraintlayout = "2.2.2"
+lifecycle = "2.10.0"
 
 # UI
-glide = "4.14.2"
-lottie = "3.4.2"
+glide = "4.16.0"
+lottie = "6.7.1"
 material-dialogs = "3.3.0"
 scroll-helper = "1.1.4"
 color-desaturation = "1.0.2"
@@ -40,20 +39,20 @@ room = "2.6.1"
 sql-content-resolver = "1.2.1"
 
 # Network
-okhttp = "4.8.1"
+okhttp = "4.12.0"
 retrofit = "2.9.0"
-gson = "2.8.6"
+gson = "2.14.0"
 
 # Utils
 last-fm-binding = "0.1.2"
 aes-crypto = "1.1.0"
-fuzzywuzzy = "1.2.0"
+fuzzywuzzy = "1.4.0"
 
 # Debug
-leak-canary = "2.4"
+leak-canary = "2.14"
 
 # Firebase
-firebase-crashlytics = "17.2.1"
+firebase-crashlytics = "20.1.0"
 
 # Test
 junit = "4.13"
@@ -83,7 +82,6 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 # AndroidX
 androidx-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
-androidx-legacy-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "androidx-legacy" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }

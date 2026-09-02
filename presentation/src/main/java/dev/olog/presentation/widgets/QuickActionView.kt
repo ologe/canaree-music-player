@@ -15,6 +15,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
@@ -33,12 +34,11 @@ class QuickActionView (
     private val hasQuickAction by lazyFast { context.applicationContext.asType<HasQuickAction>() }
 
     init {
-        setImage()
+        setImage(hasQuickAction.getQuickAction())
         setBackgroundResource(R.drawable.background_quick_action)
     }
 
-    private fun setImage() {
-        val quickAction = hasQuickAction.getQuickAction()
+    private fun setImage(quickAction: QuickAction) {
         toggleVisibility(quickAction != QuickAction.NONE, true)
 
         when (quickAction) {
@@ -52,9 +52,8 @@ class QuickActionView (
         super.onAttachedToWindow()
         setOnClickListener(this)
         job = launch {
-            for (type in hasQuickAction.observeQuickAction()) {
-                setImage()
-            }
+            hasQuickAction.observeQuickAction()
+                .collectLatest { setImage(it) }
         }
     }
 

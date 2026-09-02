@@ -17,6 +17,7 @@ import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
 
 open class ShapeImageView(
     context: Context,
@@ -76,10 +77,11 @@ open class ShapeImageView(
 
         val hasImageShape = context.applicationContext.asType<HasImageShape>()
         job = GlobalScope.launch(Dispatchers.Default) {
-            for (imageShape in hasImageShape.observeImageShape()) {
-                mask = null
-                updateBackground(getShapeModel(imageShape))
-            }
+            hasImageShape.observeImageShape()
+                .collectLatest {
+                    mask = null
+                    updateBackground(getShapeModel(it))
+                }
         }
     }
 
