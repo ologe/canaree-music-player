@@ -266,7 +266,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString().isDigitsOnly()
+                    else sorting[0].uppercase().isDigitsOnly()
                 }
             }
             "?" -> adapter.indexOf {
@@ -275,7 +275,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() > "Z"
+                    else sorting[0].uppercase() > "Z"
                 }
             }
             else -> adapter.indexOf {
@@ -284,7 +284,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 } else {
                     val sorting = getCurrentSorting(it)
                     if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() == letter
+                    else sorting[0].uppercase() == letter
                 }
             }
         }

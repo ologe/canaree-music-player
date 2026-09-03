@@ -59,7 +59,7 @@ object OriginalImageFetcher {
             ?.asSequence()
             ?.filter { !it.isDirectory }
             ?.filter { EXTENSIONS.contains(it.extension) }
-            ?.find { NAMES.contains(it.nameWithoutExtension.toLowerCase()) }
+            ?.find { NAMES.contains(it.nameWithoutExtension.lowercase()) }
         if (file != null) {
             return FileInputStream(file)
         }

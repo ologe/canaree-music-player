@@ -17,7 +17,7 @@ internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).lowercase()
     )
 }
 
@@ -25,7 +25,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): DisplayableHeader {
     val subtitle = if (AutoPlaylist.isAutoPlaylist(id)){
         ""
     } else {
-        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).lowercase()
     }
 
     return DisplayableHeader(
@@ -53,7 +53,7 @@ internal fun Artist.toHeaderItem(resources: Resources): DisplayableHeader {
         type = R.layout.item_detail_image,
         mediaId = getMediaId(),
         title = name,
-        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
+        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).lowercase()
     )
 }
 
@@ -67,6 +67,6 @@ internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).lowercase()
     )
 }

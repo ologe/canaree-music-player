@@ -88,7 +88,7 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).lowercase()
     )
 }
 
@@ -101,7 +101,7 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).lowercase()
     )
 }
 
@@ -114,7 +114,7 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
             R.plurals.common_plurals_song,
             this.songs,
             this.songs
-        ).toLowerCase()
+        ).lowercase()
     )
 }
 
@@ -127,6 +127,6 @@ internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlb
             R.plurals.common_plurals_song,
             this.size,
             this.size
-        ).toLowerCase()
+        ).lowercase()
     )
 }

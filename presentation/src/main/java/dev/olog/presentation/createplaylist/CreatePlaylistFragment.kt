@@ -178,7 +178,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     return@indexOf false
                 }
 
-                return@indexOf item.title[0].toUpperCase().toString() == letter
+                return@indexOf item.title[0].uppercase() == letter
             }
         }
         if (position != -1) {

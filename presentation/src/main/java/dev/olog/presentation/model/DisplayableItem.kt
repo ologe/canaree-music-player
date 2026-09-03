@@ -39,7 +39,7 @@ data class DisplayableAlbum(
                 return ""
             }
             return resources.getQuantityString(R.plurals.common_plurals_song, size, size)
-                .toLowerCase()
+                .lowercase()
         }
     }
 

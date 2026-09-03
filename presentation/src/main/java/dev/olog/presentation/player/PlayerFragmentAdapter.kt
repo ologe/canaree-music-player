@@ -298,7 +298,7 @@ internal class PlayerFragmentAdapter(
         val title = view.findViewById<TextView>(R.id.title)
         if (view.context.hasPlayerAppearance().isFlat()){
             // WORKAROUND, all caps attribute is not working for some reason
-            title.text = metadata.title.toUpperCase()
+            title.text = metadata.title.uppercase()
         } else {
             title.text = metadata.title
         }

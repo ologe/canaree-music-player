@@ -55,7 +55,7 @@ internal class FolderNavigatorRepository @Inject constructor(
 
     private fun sortFolders(files: List<File>): List<FileType> {
         return files.asSequence()
-            .sortedBy { it.name.toLowerCase() }
+            .sortedBy { it.name.lowercase() }
             .map { FileType.Folder(it.name, it.path) }
             .toList()
     }

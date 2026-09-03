@@ -20,7 +20,7 @@ class BlacklistFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
+        val blacklisted = appPreferencesUseCase.getBlackList().map { it.lowercase(Locale.getDefault()) }
         folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
     }
 
@@ -30,7 +30,7 @@ class BlacklistFragmentViewModel @Inject constructor(
             getMediaId(),
             this.title,
             this.path,
-            blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
+            blacklisted.contains(this.path.lowercase(Locale.getDefault()))
         )
     }
 

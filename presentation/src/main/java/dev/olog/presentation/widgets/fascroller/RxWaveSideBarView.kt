@@ -32,13 +32,12 @@ class RxWaveSideBarView(
                 .filter { it.type == scrollableLayoutId }
                 .mapNotNull {
                     when (it) {
-                        is DisplayableTrack -> it.title.firstOrNull()?.toUpperCase()
-                        is DisplayableAlbum -> it.title.firstOrNull()?.toUpperCase()
+                        is DisplayableTrack -> it.title.firstOrNull()?.uppercase()
+                        is DisplayableAlbum -> it.title.firstOrNull()?.uppercase()
                         else -> throw IllegalArgumentException("invalid type $it")
                     }
                 }
                 .distinctBy { it }
-                .map { it.toString() }
                 .toList()
 
         val letters = LETTERS.map { letter -> list.firstOrNull { it == letter } ?: TextUtils.MIDDLE_DOT }

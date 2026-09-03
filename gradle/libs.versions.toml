@@ -1,14 +1,14 @@
 [versions]
 # Plugins
-agp = "8.13.2"
-kotlin = "2.0.0"
+agp = "9.3.2"
+kotlin = "2.3.21"
 google-services = "4.5.0"
 crashlytics-plugin = "3.0.8"
-ksp = "2.0.0-1.0.24"
+ksp = "2.3.11"
 
 # Core
 coroutines = "1.9.0"
-dagger = "2.55"
+dagger = "2.60.1"
 
 # AndroidX
 androidx-core = "1.13.0"
@@ -35,7 +35,7 @@ color-desaturation = "1.0.2"
 tap-target-view = "2.0.0"
 
 # Data
-room = "2.6.1"
+room = "2.8.4"
 sql-content-resolver = "1.2.1"
 
 # Network
@@ -148,7 +148,6 @@ androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-plugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
