@@ -105,19 +105,19 @@ inline fun Context.colorBackground():Int {
 }
 
 inline fun Context.colorPrimary(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorPrimary)
+    return themeAttributeToColor(androidx.appcompat.R.attr.colorPrimary)
 }
 
 inline fun Context.colorAccent(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorAccent)
+    return themeAttributeToColor(androidx.appcompat.R.attr.colorAccent)
 }
 
 inline fun Context.colorControlNormal(): Int {
-    return themeAttributeToColor(com.google.android.material.R.attr.colorControlNormal)
+    return themeAttributeToColor(androidx.appcompat.R.attr.colorControlNormal)
 }
 
 inline fun Context.colorPrimaryId(): Int {
-    return themeAttributeToResId(com.google.android.material.R.attr.colorPrimary)
+    return themeAttributeToResId(androidx.appcompat.R.attr.colorPrimary)
 }
 
 inline fun Context.isDarkMode(): Boolean {
