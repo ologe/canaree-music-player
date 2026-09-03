@@ -53,14 +53,14 @@ class SwipeableView(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode) {
-            context.asType<HasSlidingPanel>().getSlidingPanel().addPanelSlideListener(slidingPanelListener)
+            context.asType<HasSlidingPanel>().getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         helper.swipeListener = null
-        context.asType<HasSlidingPanel>().getSlidingPanel().removePanelSlideListener(slidingPanelListener)
+        context.asType<HasSlidingPanel>().getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
     }
 
     fun isTouching(): Flow<Boolean> = helper.isTouching()

@@ -59,7 +59,6 @@ dependencies {
 
     // google architecture components
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.java8
     implementation libs.androidx.lifecycle.viewmodel.ktx
     implementation libs.androidx.lifecycle.livedata.ktx
     implementation libs.androidx.lifecycle.process

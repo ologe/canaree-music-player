@@ -1,9 +1,9 @@
 package dev.olog.presentation.interfaces
 
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 interface HasSlidingPanel {
 
-    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>
+    fun getSlidingPanel(): BottomSheetBehavior<*>
 
 }

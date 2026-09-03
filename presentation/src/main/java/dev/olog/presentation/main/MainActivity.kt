@@ -25,7 +25,6 @@ import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -206,8 +205,8 @@ class MainActivity : MusicGlueActivity(),
         return false
     }
 
-    override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(navigationBinding.slidingPanel) as MultiListenerBottomSheetBehavior<*>
+    override fun getSlidingPanel(): BottomSheetBehavior<*> {
+        return BottomSheetBehavior.from(navigationBinding.slidingPanel) as BottomSheetBehavior<*>
     }
 
     override fun navigate(page: BottomNavigationPage) {

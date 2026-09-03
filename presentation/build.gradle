@@ -53,7 +53,6 @@ dependencies {
     implementation libs.last.fm.binding
 
     implementation libs.androidx.lifecycle.runtime
-    implementation libs.androidx.lifecycle.java8
     implementation libs.androidx.lifecycle.viewmodel.ktx
     implementation libs.androidx.lifecycle.livedata.ktx
 }

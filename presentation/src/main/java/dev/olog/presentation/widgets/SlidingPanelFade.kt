@@ -36,12 +36,12 @@ class SlidingPanelFade(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addPanelSlideListener(slidingPanelCallback)
+        slidingPanel.addBottomSheetCallback(slidingPanelCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removePanelSlideListener(slidingPanelCallback)
+        slidingPanel.removeBottomSheetCallback(slidingPanelCallback)
     }
 
     private val slidingPanelCallback = object : BottomSheetBehavior.BottomSheetCallback() {

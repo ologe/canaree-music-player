@@ -1,10 +1,10 @@
 [versions]
 # Plugins
 agp = "8.13.2"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 google-services = "4.5.0"
 crashlytics-plugin = "3.0.8"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.24"
 
 # Core
 coroutines = "1.9.0"
@@ -30,7 +30,7 @@ lifecycle = "2.10.0"
 glide = "4.16.0"
 lottie = "6.7.1"
 material-dialogs = "3.3.0"
-scroll-helper = "1.1.4"
+scroll-helper = "1.2.1"
 color-desaturation = "1.0.2"
 tap-target-view = "2.0.0"
 
@@ -70,7 +70,7 @@ firebase-crashlytics-plugin = { group = "com.google.firebase", name = "firebase-
 hilt-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
 
 # Kotlin
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -97,7 +97,6 @@ androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", versio
 
 # Lifecycle
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle" }
