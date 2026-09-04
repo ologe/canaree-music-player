@@ -129,6 +129,7 @@
     <string-array name="tab_empty_state">
         <item>Tidak ada Folder</item>
         <item>Tidak ada daftar putar</item>
+        <item>@string/common_no_tracks</item>
         <item>Tidak ada album</item>
         <item>Tidak ada artis</item>
         <item>Tidak ada aliran</item>
@@ -237,12 +238,14 @@
     <string-array name="detail_album_header">
         <item>Folder lainnya</item>
         <item>Daftar putar lainnya</item>
-        <item>" "</item>
+        <item/>
         <item>Album lainnya</item>
+        <item>@string/common_albums</item>
         <item>Aliran lainnya</item>
         <item>Daftar putar lainnya</item>
-        <item>" "</item>
+        <item/>
         <item>Album lainnya</item>
+        <item>@string/common_albums</item>
     </string-array>
     <string name="detail_more_albums_by">Lainnya oleh %s</string>
     <plurals name="detail_xx_new_songs">
