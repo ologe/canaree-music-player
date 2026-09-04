@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From about.xml -->
+
+    <string name="about">V+HsE</string>
+
+    <string name="about_author">T+AOE-c gi+HqM</string>
+    <string name="about_version">Phi+AOo-n b+HqM-n</string>
+
+    <string name="about_join_community">C+Htk-ng +AREe0w-ng</string>
+    <string name="about_join_community_description">H+AOM-y gia nh+Hq0-p c+Htk-ng +AREe0w-ng</string>
+
+    <string name="about_beta">Beta</string>
+    <string name="about_beta_description">Tr+HqM-i nghi+Hsc-m nh+Hu8-ng t+AO0-nh n+AQM-ng m+Hts-i tr+AbAe2w-c t+HqU-t c+HqM nh+Hu8-ng ng+AbAe3Q-i kh+AOE-c</string>
+
+    <string name="about_third_sw">Ph+Hqc-n m+HsE-m b+AOo-n th+Huk ba</string>
+    <string name="about_third_sw_description">Nh+Hu8-ng ph+Hqc-n m+HsE-m gi+APo-p d+HvE-ng n+AOo-n +Huk-ng d+HuU-ng n+AOA-y</string>
+
+    <string name="about_special_thanks_to">Tr+AOI-n tr+Hs0-ng c+HqM-m +AaE-n</string>
+    <string name="about_special_thanks_to_description">Ch+HqE-m +AREeww xem</string>
+
+    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
+    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
+
+    <string name="about_privacy_policy">+ARA-i+HsE-u kho+HqM-n b+HqM-o m+Hq0-t</string>
+    <string name="about_privacy_policy_description">Quan tr+Hs0-ng v+Hts-i c+HqM +AREA9A-i b+AOo-n</string>
+
+    <string name="about_buy_pro">Mua phi+AOo-n b+HqM-n Pro</string>
+    <string name="about_buy_pro_description">Mua phi+AOo-n b+HqM-n Pro +AREeww m+Ht8 kh+APM-a t+HqU-t c+HqM c+AOE-c t+AO0-nh n+AQM-ng</string>
+    <string name="about_buy_pro_description_trial">T+HqU-t c+HqM c+AOE-c t+AO0-nh n+AQM-ng Pro t+HqE-m +AREBsB7j-c m+Ht8 kh+APM-a trong b+HqM-n d+APk-ng th+Hu0</string>
+
+    <string name="about_icon_made_by_x_from_y">Bi+HsM-u t+AbAe4w-ng c+Huc-a +Huk-ng d+HuU-ng +AREBsB7j-c thi+Hr8-t k+Hr8 b+Ht8-i %1$s t+Hus %2$s</string>
+
+
+    <!-- From app_preferences.xml -->
+
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+
+    <string name="premium_ad_key_title">Hiển thị quảng cáo để mở khóa các tính năng cao cấp</string>
+
+    <string name="settings">Thiết lập</string>
+
+    <string name="prefs_not_premium_action">Mua</string>
+
+    <!--categories-->
+    <string name="prefs_category_library">Thư viện</string>
+    <string name="prefs_category_audio">Nhạc</string>
+    <string name="prefs_category_ui">Giao diện</string>
+    <string name="prefs_category_other">Khác</string>
+
+
+    <!--quick action-->
+    <string name="prefs_quick_action_title">Hành động nhanh</string>
+    <string name="prefs_quick_action_summary">Thay đổi hành động của biểu tượng nhỏ bên cạnh hình ảnh</string>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entries">
+        <item>@string/common_hide</item>
+        <item>@string/common_play</item>
+        <item>@string/common_shuffle</item>
+    </string-array>
+
+
+
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">Visible sections</string>
+    <string name="prefs_detail_sections_summary">Thiết lập các phần được hiển thị trong chế độ xem chi tiết</string>
+
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entries">
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
+    </string-array>
+
+
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">Thể loại thư viện</string>
+    <string name="prefs_library_categories_summary">Cấu hình mức độ hiển thị và thứ tự của danh mục thư viện</string>
+
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">Thể loại podcast</string>
+
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">Danh sách đen</string>
+    <string name="prefs_blacklist_summary">Ẩn thư mục thư viện</string>
+    <string name="prefs_blacklist_description">Nhấn vào đây để hiện/ẩn</string>
+    <string name="prefs_blacklist_error">Không thể chặn tất cả các thư mục</string>
+
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">Chế độ xem phân cấp thư mục</string>
+    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
+
+    <string name="prefs_show_podcasts_title">Hiển thị podcast</string>
+    <string name="prefs_show_podcasts_summary">Hiển thị thẻ podcast trong thư viện</string>
+
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">Bộ cân bằng</string>
+    <string name="prefs_used_equalizer_summary_on">Sử dụng bộ cân bằng ứng dụng</string>
+    <string name="prefs_used_equalizer_summary_off">Sử dụng bộ cân bằng hệ thống (nếu có)</string>
+
+
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">Chế độ nửa đêm</string>
+    <string name="prefs_lower_volume_on_night_summary">Giảm âm lượng trong đêm</string>
+
+
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">Giao bài hát</string>
+    <string name="prefs_cross_fade_summary">Cho phép giao giữa các bài hát</string>
+
+    <!--gapless-->
+    <string name="prefs_gapless_title">Phát liên tục</string>
+    <string name="prefs_gapless_summary">Cho phép phát liên tục</string>
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">Hình dạng biểu tượng</string>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entries">
+        <item>@string/common_shape_square</item>
+        <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_cut_corner</item>
+    </string-array>
+
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">Trình điều khiển cổ điển</string>
+    <string name="prefs_player_controls_visibility_summary_on" translatable="false">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off" translatable="false">@string/common_hidden</string>
+
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">Màu sắc thích ứng</string>
+    <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">Hiển thị album và nghệ sĩ mới</string>
+    <string name="prefs_show_new_albums_artists_summary">Hiển thị tất cả các album và nghệ sĩ mới được thêm gần đây</string>
+
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">Hiển thị những bài đã phát gần đây</string>
+    <string name="prefs_show_recent_albums_artists_summary">Hiển thị tất cả các album và nghệ sĩ đã phát gần đây</string>
+
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">Tự động tải hình ảnh</string>
+    <string name="prefs_auto_download_images_summary_mobile">Luôn luôn</string>
+    <string name="prefs_auto_download_images_summary_wifi">Chỉ trên Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_never">Không bao giờ</string>
+
+    <string-array name="prefs_auto_download_images_entry_values">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
+
+    <string-array name="prefs_auto_download_images_entries">
+        <item>@string/prefs_auto_download_images_summary_never</item>
+        <item>@string/prefs_auto_download_images_summary_wifi</item>
+        <item>@string/prefs_auto_download_images_summary_mobile</item>
+    </string-array>
+
+
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">Tự động tạo ảnh cho thư mục, danh sách phát và thể loại</string>
+    <string name="prefs_auto_create_images_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_title">Màn hình cho nhạc đang phát</string>
+    <string name="prefs_appearance_default">Mặc định</string>
+    <string name="prefs_appearance_flat">Bằng phẳng</string>
+    <string name="prefs_appearance_spotify">Trình nghe nhạc xanh nổi tiếng</string>
+    <string name="prefs_appearance_fullscreen">Toàn màn hình</string>
+    <string name="prefs_appearance_big_image">Ảnh lớn</string>
+    <string name="prefs_appearance_clean">Nổi</string>
+    <string name="prefs_appearance_mini">Nhỏ</string>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
+        <item>@string/prefs_appearance_entry_value_big_image</item>
+        <item>@string/prefs_appearance_entry_value_clean</item>
+        <item>@string/prefs_appearance_entry_value_mini</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entries">
+        <item>@string/prefs_appearance_default</item>
+        <item>@string/prefs_appearance_flat</item>
+        <item>@string/prefs_appearance_spotify</item>
+        <item>@string/prefs_appearance_fullscreen</item>
+        <item>@string/prefs_appearance_big_image</item>
+        <item>@string/prefs_appearance_clean</item>
+        <item>@string/prefs_appearance_mini</item>
+    </string-array>
+
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">Chế độ tối</string>
+    <string name="prefs_dark_mode_follow_system">Đặt theo trình tiết kiệm pin</string>
+    <string name="prefs_dark_mode_light">Sáng</string>
+    <string name="prefs_dark_mode_dark">Tối</string>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entries">
+        <item>@string/prefs_dark_mode_follow_system</item>
+        <item>@string/prefs_dark_mode_light</item>
+        <item>@string/prefs_dark_mode_dark</item>
+    </string-array>
+
+    <!--notch support-->
+    <string name="prefs_notch_support_title">Hỗ trợ cho các máy có màn hình tai thỏ</string>
+    <string name="prefs_notch_support_summary">Tăng chiều cao thanh trạng thái</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">Xóa bộ nhớ đệm</string>
+    <string name="prefs_delete_cached_images_summary">Xóa tất cả các hình ảnh đệm</string>
+    <string name="prefs_delete_cached_images_success">Đã xóa bộ nhớ đệm</string>
+
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">Xem lại hướng dẫn</string>
+
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">Liện kết tài khoản Last.fm</string>
+    <string name="prefs_last_fm_credentials_message">Thông tin tài khoản sẽ được mã hóa</string>
+    <string name="prefs_last_fm_credentials_summary">Đặt tên người dùng và mật khẩu tài khoản Last.fm của bạn</string>
+
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">Điều khiển nhạc ở màn hình khoá</string>
+    <string name="prefs_lockscreen_artwork_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on" translatable="false">@string/common_enabled</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_title">Chế độ ngày-đêm</string>
+    <string name="prefs_day_night_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">Màu chủ đề</string>
+    <string name="prefs_accent_color_summary">Thay đổi màu chủ đề</string>
+
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">Chế độ tràn</string>
+    <string name="prefs_immersive_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off" translatable="false">@string/common_disabled</string>
+
+
+    <!-- From app_shortcuts.xml -->
+
+    <string name="app_shortcut_added_to_home_screen">Ph+AO0-m t+Hq8-t +AREA4w +AREBsB7j-c t+HqE-o tr+AOo-n m+AOA-n h+AOw-nh ch+AO0-nh</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">+Hug-ng d+HuU-ng m+AOA-n h+AOw-nh c+Huc-a b+HqE-n kh+APQ-ng h+Htc tr+HuM th+AOo-m ph+AO0-m t+Hq8-t</string>
+
+    <string name="shortcut_playlist_chooser">Add a playlist</string>
+    <string name="shortcut_play" translatable="false">@string/common_play</string>
+    <string name="shortcut_shuffle" translatable="false">@string/common_shuffle</string>
+    <string name="shortcut_search" translatable="false">@string/common_search</string>
+
+
+    <!-- From categories.xml -->
+
+    <string name="category_header" translatable="false">@string/common_library</string>
+
+    <string-array name="categories">
+        <item>@string/category_folders</item>
+        <item>@string/category_playlists</item>
+        <item>@string/category_songs</item>
+        <item>@string/category_albums</item>
+        <item>@string/category_artists</item>
+        <item>@string/category_genres</item>
+    </string-array>
+
+    <string name="category_folders" translatable="false">@string/common_folders</string>
+    <string name="category_playlists" translatable="false">@string/common_playlists</string>
+    <string name="category_songs" translatable="false">@string/common_tracks</string>
+    <string name="category_albums" translatable="false">@string/common_albums</string>
+    <string name="category_artists" translatable="false">@string/common_artists</string>
+    <string name="category_genres" translatable="false">@string/common_genres</string>
+    <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
+
+    <string name="category_no_tab_visible">Giờ sao?</string>
+
+    <string-array name="tab_empty_state">
+        <item>Không có thư mục</item>
+        <item>Không có danh sách phát</item>
+        <item>@string/common_no_tracks</item>
+        <item>Không có album</item>
+        <item>Không có nhạc sĩ</item>
+        <item>Không có thể loại</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>Không có danh sách phát</item>
+        <item>Không có podcast</item>
+        <item>Không có album</item>
+        <item>Không có người làm</item>
+    </string-array>
+
+    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
+    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
+    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
+    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
+    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="category_sort_by_date">Ngày</string>
+    <string name="category_sort_by_ascending">Tăng dần</string>
+    <string name="category_sort_by_descending">Giảm dần</string>
+
+
+
+    <!-- From category_tab.xml -->
+
+    <string name="tab_auto_playlists">Danh sách phát tự động</string>
+    <string name="tab_all_playlists">Tất cả các danh sách phát</string>
+    <string name="tab_all_albums">Tất cả các album</string>
+    <string name="tab_all_artists">Tất cả các nghệ sĩ</string>
+    <string name="tab_recent_played">Được phát gần đây</string>
+    <string name="tab_recent_added">Được thêm gần đây</string>
+
+    <string-array name="tab_new_items">
+        <item>Album mới</item>
+        <item>Nhạc sĩ mới</item>
+    </string-array>
+
+    <string name="tab_podcast_duration" translatable="false">%d phút</string>
+
+
+    <!-- From common_strings.xml -->
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">Thư viện</string>
+
+    <string name="common_folders">Thư mục</string>
+    <string name="common_playlists">Danh sách phát</string>
+    <string name="common_tracks">Bài hát</string>
+    <string name="common_albums">Album</string>
+    <string name="common_artists">Nghệ sĩ</string>
+    <string name="common_genres">Thể loại</string>
+    <string name="common_podcasts">Podcast</string>
+
+    <string name="common_last_added">Lần cuối được thêm</string>
+    <string name="common_favorites">Yêu thích</string>
+    <string name="common_history">Lịch sử</string>
+
+    <string name="common_all_tracks">Tất cả bài hát</string>
+
+    <string name="common_placeholder_title">Tên bài hay</string>
+    <string name="common_placeholder_artist">Nghệ sĩ xuất sắc</string>
+    <string name="common_placeholder_album">Album tuyệt vời</string>
+
+    <string name="common_empty_list">Danh sách trống</string>
+
+    <string name="network_timeout">Làm ơn bạn thử lại</string>
+
+    <string name="are_you_sure">Bạn có chắc không?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d giờ</item>
+        <item quantity="other">%d giờ</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d phút</item>
+        <item quantity="other">%d phút</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d bài hát</item>
+        <item quantity="other">%d bài hát</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d thư mục</item>
+        <item quantity="other">%d thư mục</item>
+    </plurals>
+
+    <string name="common_folder">Thư mục</string>
+    <string name="common_playlist">Danh sách phát</string>
+    <string name="common_title">Tiêu đề</string>
+    <string name="common_track">Bài hát</string>
+    <string name="common_artist">Nghệ sĩ</string>
+    <string name="common_album_artist">Nghệ sĩ album</string>
+    <string name="common_album">Album</string>
+    <string name="common_genre">Thể loại</string>
+    <string name="common_duration">Thời lượng</string>
+    <string name="common_recently_added">Được thêm gần đây</string>
+    <string name="common_custom">Tùy chỉnh</string>
+    <string name="common_track_number">Số bài hát</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Danh sách phát podcast</string>
+    <string name="common_podcast_album">Album podcast</string>
+    <string name="common_podcast_artist">Người làm podcast</string>
+
+    <string name="common_play">Phát</string>
+    <string name="common_shuffle">Ngẫu nhiên</string>
+    <string name="common_search">Tìm kiếm</string>
+    <string name="common_hide">Ẩn</string>
+
+    <string name="common_shape_square">Vuông</string>
+    <string name="common_shape_rounded">Vuông góc tròn</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Nghệ sĩ có liên quan</string>
+    <string name="common_most_played">Được nghe nhiều nhất</string>
+
+    <string name="common_no_tracks">Không có bài hát</string>
+    <string name="common_no_results">Không có kết quả</string>
+
+    <string name="common_visible">Hiện</string>
+    <string name="common_hidden">Ẩn</string>
+
+    <string name="common_no_internet">Hãy kiểm tra kết nối internet của bạn</string>
+
+    <string name="common_switch_on">Bật</string>
+    <string name="common_switch_off">Tắt</string>
+
+    <string name="common_filter">Lọc..</string>
+
+    <string name="common_browser_not_found">Không tìm thấy trình duyệt</string>
+
+    <string name="common_added_to_play_next">Đã thêm vào danh sách phát kế tiếp</string>
+    <string name="common_moved_to_play_next">Đã được chuyển để phát kế tiếp</string>
+
+    <string name="common_enabled">Bật</string>
+    <string name="common_disabled">Tắt</string>
+
+    <string name="common_sort_by">Sắp xếp theo</string>
+
+
+    <!-- From detail.xml -->
+
+    <string name="detail_most_played" translatable="false">@string/common_most_played</string>
+    <string name="detail_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="detail_albums" translatable="false">@string/common_albums</string>
+    <string name="detail_tracks" translatable="false">@string/common_tracks</string>
+
+    <string-array name="detail_album_header">
+        <item>Thư mục khác</item>
+        <item>Danh sách phát khác</item>
+        <item/>
+        <item>Album khác</item>
+        <item>@string/common_albums</item>
+        <item>Thể loại khác</item>
+        <item>Danh sách phát khác</item>
+        <item/>
+        <item>Album khác</item>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">More by %s</string>
+    <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
+    <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
+
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d bài hát mới</item>
+        <item quantity="other">%d bài hát mới</item>
+    </plurals>
+
+    <string name="detail_sort_by" translatable="false">@string/common_sort_by</string>
+
+    <string name="sort_by_title" translatable="false">@string/common_title</string>
+    <string name="sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="sort_by_album" translatable="false">@string/common_album</string>
+    <string name="sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="sort_by_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="sort_by_custom" translatable="false">@string/common_custom</string>
+    <string name="sort_by_track" translatable="false">@string/common_track_number</string>
+
+
+    <!-- From edit_song.xml -->
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">Năm</string>
+    <string name="edit_info_disc">Đĩa #</string>
+    <string name="edit_info_track">Bài số #</string>
+
+    <string name="edit_info_auto_tag_no_results">Không tìm thấy kết quả nào</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Số đĩa phải là số</string>
+    <string name="edit_info_track_number_not_digits">Số bài phải là số</string>
+
+    <string name="edit_song_fetching_info">Đang lấy thông tin bài hát</string>
+
+    <string name="edit_song_info_not_found">Không thấy thông tin</string>
+    <string name="edit_song_image_not_found">Không thấy ảnh</string>
+
+    <string name="edit_track_update_success">Đã cập nhật thông tin bài hát</string>
+    <string name="edit_album_update_success">Đã cập nhật thông tin album</string>
+    <string name="edit_artist_update_success">Đã cập nhật thông tin nghệ sĩ</string>
+    <string name="edit_album_update_start">Đang cập nhật album...</string>
+    <string name="edit_artist_update_start">Đang cập nhật nghệ sĩ...</string>
+
+    <string name="edit_song_invalid_title">Không được bỏ trống tên bài hát</string>
+    <string name="edit_artist_invalid_title">Không được bỏ trống tên nghệ sĩ</string>
+    <string name="edit_song_invalid_disc_number">Không được bỏ trống số đĩa</string>
+    <string name="edit_song_invalid_track_number">Số bài không hợp lệ</string>
+    <string name="edit_song_invalid_year">Năm xuất hành không hợp lệ</string>
+    <string name="edit_song_cannot_read">Không thể cập nhật thông tin bài hát (file can be corrupted)</string>
+    <string name="edit_song_read_only">Không thể cập nhật thông tin bài hát, the tệp chỉ đọc</string>
+    <string name="edit_song_file_not_found">Không thể cập nhật thông tin bài hát hiện tại, không tìm thấy tệp</string>
+
+    <string name="edit_song_error_can_not_read">Không thể đọc tệp</string>
+    <string name="edit_song_error_io">Không tìm thấy tệp</string>
+    <string name="edit_song_error_read_only">Tệp chỉ đọc</string>
+    <string name="edit_song_error">Có lỗi xảy ra, không thể cập nhật tệp</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
+        <item quantity="other">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>Đặt lại như cũ</item>
+        <item>Cách điệu ảnh</item>
+    </string-array>
+
+
+    <!-- From equalizer.xml -->
+
+    <string name="equalizer_not_found">Không tìm thấy bộ cân bằng</string>
+
+
+    <!-- From folders.xml -->
+
+    <string name="folder_set_default_title">Thư mục mặc định</string>
+    <string name="folder_set_default_message">Đặt làm thư mục mặc định</string>
+
+
+    <!-- From offline_lyrics_strings.xml -->
+
+    <string name="offline_lyrics_empty">Kh+APQ-ng c+APM l+Ht0-i b+AOA-i h+AOE-t</string>
+
+    <string name="offline_lyrics_edit_title">Th+AOo-m l+Ht0-i b+AOA-i h+AOE-t</string>
+    <string name="offline_lyrics_edit_hint">D+AOE-n l+Ht0-i b+AOA-i h+AOE-t c+Huc-a b+HqE-n +Ht8 +AREA4g-y</string>
+    <string name="offline_lyrics_adjust_sync">Ch+Hsk-nh s+Hu0-a t+HtE-c +AREe2Q ch+HqE-y l+Ht0-i b+AOA-i h+AOE-t</string>
+    <string name="offline_lyrics_adjust_sync_hint">Mili gi+AOI-y</string>
+    <string name="offline_lyrics_adjust_sync_error">Ch+Hsk c+AOE-c ch+Hu8 s+HtE</string>
+
+
+    <!-- From player_strings.xml -->
+
+    <string name="player_load_more_song">Tải thêm bài hát trong khi nghe</string>
+
+
+    <!-- From playing_queue.xml -->
+
+    <string name="playing_queue">Phát kế tiếp</string>
+
+
+    <!-- From playlist_chooser.xml -->
+
+    <string name="playlist_chooser_header">Chọn một danh sách phát</string>
+    <string name="playlist_chooser_dialog_title">Thêm vào màn hình chờ</string>
+    <string name="playlist_chooser_dialog_message">Thêm danh sách phát \'%s\' vào màn hình chờ chứ?</string>
+
+
+    <!-- From playlist_tracks_chooser.xml -->
+
+    <string name="playlist_tracks_chooser_no_tracks">Chọn bài hát để thêm vào danh sách phát mới của bạn</string>
+
+    <string name="playlist_tracks_chooser_show_only_selected">Chỉ hiển thị các bài hát đã được chọn</string>
+    <string name="playlist_tracks_chooser_show_all">Hiển thị tất cả</string>
+
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="one">Đã chọn 1 bài hát</item>
+        <item quantity="other">Đã chọn %d bài hát</item>
+    </plurals>
+
+
+    <!-- From premium.xml -->
+
+    <string name="premium_already_premium">Bạn đã là người dùng Premium</string>
+
+
+    <!-- From rate_app.xml -->
+
+    <string name="rate_app_title">Đánh giá ứng dụng</string>
+    <string name="rate_app_message">Nếu bạn thích ứng dụng này thì hãy để lại một lời đánh giá tích cực nhé!</string>
+    <string name="rate_app_positive_button">Đánh giá</string>
+    <string name="rate_app_negative_button">Thôi khỏi</string>
+    <string name="rate_app_neutral_button">Để sau đi</string>
+
+
+    <!-- From recently_added.xml -->
+
+    <string-array name="recently_added_header">
+        <item>Đã thêm vào thư mục %s gần đây</item>
+        <item>Đã thêm vào danh sách phát %s gần đây</item>
+        <item>Invalid</item>
+        <item>Đã thêm vào album %s gần đây</item>
+        <item>Đã thêm vào nghệ sĩ %s gần đây</item>
+        <item>Đã thêm vào thể loại %s gần đây</item>
+    </string-array>
+
+
+    <!-- From related_artists.xml -->
+
+    <string-array name="related_artists_header">
+        <item>Nhạc sĩ có liên quan tới thư mục %s</item>
+        <item>Nhạc sĩ có liên quan tới danh sách phát %s</item>
+        <item>Invalid</item>
+        <item>Nhạc sĩ có liên quan tới album %s</item>
+        <item>Nhạc sĩ có liên quan tới nhạc sĩ %s</item>
+        <item>Nhạc sĩ có liên quan tới thể loại %s</item>
+    </string-array>
+
+
+    <!-- From remove_duplicates.xml -->
+
+    <string name="remove_duplicates_title" translatable="false">@string/popup_remove_duplicates</string>
+    <string name="remove_duplicates_message"><![CDATA[Remove all duplicates from playlist <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Các bài hát trùng lặp đã bị xoá khỏi danh sách phát %1$s</string>
+
+
+    <!-- From search.xml -->
+
+
+    <string name="search_hint" translatable="false">@string/search_recent_empty_state</string>
+
+    <string name="search_songs" translatable="false">@string/common_tracks</string>
+    <string name="search_albums" translatable="false">@string/common_albums</string>
+    <string name="search_artists" translatable="false">@string/common_artists</string>
+    <string name="search_folders" translatable="false">@string/common_folders</string>
+    <string name="search_playlists" translatable="false">@string/common_playlists</string>
+    <string name="search_genres" translatable="false">@string/common_genres</string>
+
+    <string name="search_type_track" translatable="false">@string/common_track</string>
+    <string name="search_type_album" translatable="false">@string/common_album</string>
+    <string name="search_type_artist" translatable="false">@string/common_artist</string>
+    <string name="search_type_playlist" translatable="false">@string/common_playlist</string>
+    <string name="search_type_genre" translatable="false">@string/common_genre</string>
+    <string name="search_type_folder" translatable="false">@string/common_folder</string>
+    <string name="search_type_podcast" translatable="false">@string/common_podcast</string>
+    <string name="search_type_podcast_playlist" translatable="false">@string/common_podcast_playlist</string>
+    <string name="search_type_podcast_album" translatable="false">@string/common_podcast_album</string>
+    <string name="search_type_podcast_artist" translatable="false">@string/common_podcast_artist</string>
+
+    <string name="search_recent_searches">Lượt tìm kiếm gần đây</string>
+    <string name="search_clear_recent_searches">Xóa lịch sử tìm kiếm</string>
+    <string name="search_recent_empty_state">Tìm trong thư viện của bạn...</string>
+
+    <string name="search_no_results" translatable="false">@string/common_no_results</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s kết quả</item>
+        <item quantity="other">%1$s kết quả</item>
+    </plurals>
+
+
+    <!-- From service_floating_strings.xml -->
+
+    <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
+    <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>
+    <string name="floating_window_notification_content_text">Chạm để đóng</string>
+
+    <!-- From service_music_strings.xml -->
+
+    <string name="music_error_empty_queue">Could not find music</string>
+    <string name="music_player_error">Player error</string>
+
+
+    <!-- From share.xml -->
+    <string name="song_not_shareable">Không thể chia sẻ bài hát này</string>
+
+
+    <!-- From splash.xml -->
+
+    <string name="splash_player_controls">Điều khiển trình phát nhạc</string>
+    <string name="splash_player_tutorial_1">Chậm vào ảnh để phát/dừng lại</string>
+    <string name="splash_player_tutorial_2">Chạm vào cạnh ảnh hoặc vuốt để chuyển bài</string>
+
+    <string name="splash_storage_permission">Quyền truy cập bộ nhớ</string>
+    <string name="splash_storage_permission_disabled">Làm ơn cấp quyền truy cập bộ nhớ</string>
+
+
+
+    <!-- From strings_dialog.xml -->
+
+    <string name="popup_play">Phát</string>
+    <string name="popup_play_shuffle">Phát ngẫu nhiên</string>
+    <string name="popup_add_to_playlist">Thêm vào danh sách phát...</string>
+    <string name="popup_add_to_favorites">Thêm vào danh sách ưa thích</string>
+    <string name="popup_add_to_home_screen">Thêm vào màn hình chờ</string>
+    <string name="popup_play_next">Phát tiếp</string>
+    <string name="popup_play_later">Phát sau</string>
+    <string name="popup_edit_song_info">Sửa thông tin bài hát</string>
+    <string name="popup_edit_album_info">Sửa thông tin album</string>
+    <string name="popup_edit_artist_info">Sửa thông tin nghệ sĩ</string>
+    <string name="popup_view_album">Xem thông tin album</string>
+    <string name="popup_view_artist">Xem thông tin artist</string>
+    <string name="popup_share">Chia sẻ</string>
+    <string name="popup_set_as_ringtone">Đặt làm nhạc chuông</string>
+    <string name="popup_delete">Xóa</string>
+    <string name="popup_rename">Đổi tên</string>
+    <string name="popup_clear_playlist">Xóa danh sách phát</string>
+    <string name="popup_remove_duplicates">Xóa các tệp trùng lặp</string>
+
+    <string name="popup_equalizer">Equalizer</string>
+    <string name="popup_sleep_timer">Tự động dừng</string>
+    <string name="popup_settings" translatable="false">@string/settings</string>
+    <string name="popup_about" translatable="false">@string/about</string>
+
+    <string name="popup_negative_cancel">Hủy bỏ</string>
+    <string name="popup_negative_no">Không</string>
+    <string name="popup_negative_back">Quay lại</string>
+
+    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Lưu</string>
+    <string name="popup_positive_create">Tạo</string>
+    <string name="popup_positive_delete">Xóa</string>
+    <string name="popup_positive_remove">Bỏ</string>
+
+    <string name="popup_neutral_reset">Đặt lại</string>
+
+    <string name="popup_error_message">Có lỗi xảy ra</string>
+
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_permission">Quyền</string>
+    <string name="popup_request_permission_write_settings">
+        Vui lòng chấp nhận quyền để thay đổi nhạc chuông
+    </string>
+
+    <string name="popup_grid_size">Kích cỡ lưới</string>
+
+
+    <!-- From strings_dialog_add_to_favorites.xml -->
+
+    <string name="add_song_x_to_favorite"><![CDATA[Add <b>%1$s</b> to Favorites?]]></string>
+
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Favorites?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_favorites">%1$s added to Favorites</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="one">%1$d bài hát đã được thêm vào danh sách yêu thích</item>
+        <item quantity="other">%1$d bài hát đã được thêm vào danh sách yêu thích</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_add_to_playlist.xml -->
+
+    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
+
+    <string name="save_as_playlist">Lưu vào danh sách phát</string>
+    <string name="queue_saved_as_playlist">Các bài hát phát sau đã được thêm vào danh sách phát %s</string>
+
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
+    </plurals>
+
+    <string name="added_song_x_to_playlist_y">%1$s đã được thêm vào danh sách phát %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d bài hát đã được thêm vào danh sách phát %2$s</item>
+        <item quantity="other">%1$d bài hát đã được thêm vào danh sách phát %2$s</item>
+    </plurals>
+
+    <string name="popup_new_playlist">Danh sách phát mới</string>
+    <string name="popup_no_playlist">Chưa có danh sách phát nào...</string>
+
+    <string name="new_playlist_hint">Tên danh sách phát</string>
+
+    <string name="popup_playlist_name_not_valid">Tên danh sách phát không hợp lệ</string>
+    <string name="popup_playlist_name_already_exist">Danh sách phát đã tồn tại</string>
+
+
+    <!-- From strings_dialog_clear_playlist.xml -->
+
+    <string name="playlist_x_cleared">Danh sách phát %1$s đã bị xóa</string>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Remove all songs from playlist <b>%1$s</b>?]]></string>
+
+
+    <!-- From strings_dialog_delete.xml -->
+
+    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from device?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
+
+    <string name="playlist_x_deleted">Danh sách phát %1$s đã bị xóa</string>
+    <string name="song_x_deleted">Bài %1$s đã bị xóa</string>
+
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from device?]]></item>
+        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from device?]]></item>
+    </plurals>
+
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from device]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from device]]></item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_later.xml -->
+
+    <string name="add_song_x_to_play_later"><![CDATA[Add <b>%1$s</b> to play later?]]></string>
+
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to play later?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to play later?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_play_later">%1$s đã được thêm vào danh sách nghe sau</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="one">%1$d bài hát đã được thêm vào danh sách nghe sau</item>
+        <item quantity="other">%1$d bài hát đã được thêm vào danh sách nghe sau</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_next.xml -->
+
+<string name="add_song_x_to_play_next"><![CDATA[Play <b>%1$s</b> next?]]></string>
+
+<plurals name="add_xx_songs_to_play_next">
+    <item quantity="one"><![CDATA[Play <b>%1$d song</b> next?]]></item>
+    <item quantity="other"><![CDATA[Play <b>%1$d songs</b> next?]]></item>
+</plurals>
+
+<string name="song_x_added_to_play_next">%1$s đã được thêm vào danh sách nghe tiếp</string>
+<plurals name="xx_songs_added_to_play_next">
+    <item quantity="one">%1$d bài hát đã được thêm vào danh sách nghe tiếp</item>
+    <item quantity="other">%1$d bài hát đã được thêm vào danh sách nghe tiếp</item>
+</plurals>
+
+
+    <!-- From strings_dialog_rename.xml -->
+
+    <string name="playlist_x_renamed_to_y">Danh sách phát %1$s đã được đổi tên thành %2$s</string>
+
+    <string name="popup_positive_rename">Đổi tên</string>
+
+
+    <!-- From strings_dialog_set_ringtone.xml -->
+    
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> will be set as ringtone]]></string>
+
+    <string name="song_x_set_as_ringtone">%1$s đã được đặt làm nhạc chuông</string>
+    
+
+    <!-- From trial.xml -->
+
+    <string name="trial_title">Dùng thử</string>
+    <string name="trial_message">Người dùng sẽ được dùng mọi tính năng Pro trong một giờ đồng hồ đầu tiên sau khi ứng dụng được cài đặt</string>
+    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
+
+
+    <!-- From tutorial.xml -->
+
+    <string name="tutorial_sort_by_text">Chạm vào chữ để đổi cách sắp xếp</string>
+    <string name="tutorial_sort_by_arrow">Chạm vào mũi tên để sắp xếp theo thứ tự ngược lại</string>
+
+    <string name="tutorial_floating_window">Chạm để mở một cửa sổ thả nổi với lời và video trên YouTube</string>
+    <string name="tutorial_lyrics">Hiển thị lời bài hát đã lưu</string>
+    <string name="tutorial_add_lyrics">Thêm hoặc sửa lời bài hát</string>
+    <string name="tutorial_search_lyrics">Tìm lời bài hát ở trên mạng</string>
+    <string name="tutorial_adjust_sync">Chỉnh tốc độ chạy lời bài hát (chỉ áp dụng cho lời bài hát đã lưu)</string>
+
+
+</resources>

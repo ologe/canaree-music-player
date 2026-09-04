@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation project(":localisation")
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':intents')

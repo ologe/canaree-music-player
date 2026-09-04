@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="trial_title">Dùng thử</string>
-    <string name="trial_message">Người dùng sẽ được dùng mọi tính năng Pro trong một giờ đồng hồ đầu tiên sau khi ứng dụng được cài đặt</string>
-    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
-
-</resources>

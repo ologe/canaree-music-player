@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="playlist_chooser_header">प्लेलिस्ट चुने</string>
-    <string name="playlist_chooser_dialog_title">लॉन्चर में जोड़ें</string>
-    <string name="playlist_chooser_dialog_message">\'%s\' प्लेलिस्ट को लॉन्चर में जोड़ें?</string>
-
-</resources>

@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From about.xml -->
+    <string name="about">关于</string>
+    <string name="about_author">软件作者</string>
+    <string name="about_version">版本</string>
+    <string name="about_join_community">社区</string>
+    <string name="about_join_community_description">加入社区</string>
+    <string name="about_beta">获取测试版</string>
+    <string name="about_beta_description">抢先体验新功能</string>
+    <string name="about_third_sw">第三方应用</string>
+    <string name="about_third_sw_description">用于开发此软件的其他程序</string>
+    <string name="about_special_thanks_to">特别鸣谢</string>
+    <string name="about_special_thanks_to_description">点击查看</string>
+    <string name="about_privacy_policy">隐私协议</string>
+    <string name="about_privacy_policy_description">对你我来说都十分重要</string>
+    <string name="about_buy_pro">购买专业版</string>
+    <string name="about_buy_pro_description">购买以解锁全部功能</string>
+    <string name="about_buy_pro_description_trial">解锁全部共功能的试用版本</string>
+    <string name="about_icon_made_by_x_from_y">图标由%2%s网站的%1%s制作</string>
+
+    <!-- From app_preferences.xml -->
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+    <string name="settings">设置</string>
+    <string name="prefs_not_premium_action">购买</string>
+    <string name="premium_ad_key_title">显示广告来解锁高级功能</string>
+    <!--categories-->
+    <string name="prefs_category_library">曲库</string>
+    <string name="prefs_category_audio">音频</string>
+    <string name="prefs_category_ui">用户界面</string>
+    <string name="prefs_category_other">其它</string>
+    <!--quick action-->
+    <string name="prefs_quick_action_title">快捷功能</string>
+    <string name="prefs_quick_action_summary">更改唱片封面旁小图标的功能</string>
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">可见部分</string>
+    <string name="prefs_detail_sections_summary">在详细视图中设置可见部分</string>
+    <!--library categories-->
+    <string name="prefs_library_categories_title">曲库分类</string>
+    <string name="prefs_library_categories_summary">设置可见性与顺序</string>
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">播客分类</string>
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">黑名单</string>
+    <string name="prefs_blacklist_summary">在曲库中隐藏文件夹</string>
+    <string name="prefs_blacklist_description">点击显示或隐藏</string>
+    <string name="prefs_blacklist_error">不能屏蔽所有文件夹</string>
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">以树状图显示文件夹</string>
+    <string name="prefs_show_podcasts_title">显示播客</string>
+    <string name="prefs_show_podcasts_summary">显示播客选项卡</string>
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">均衡器</string>
+    <string name="prefs_used_equalizer_summary_on">使用内置均衡器</string>
+    <string name="prefs_used_equalizer_summary_off">使用系统均衡器（如果有）</string>
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">夜间模式</string>
+    <string name="prefs_lower_volume_on_night_summary">夜间降低最大音量</string>
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">淡出淡入</string>
+    <string name="prefs_cross_fade_summary">允许切换歌曲时淡出淡入</string>
+    <!--gapless-->
+    <string name="prefs_gapless_title">无间隔</string>
+    <string name="prefs_gapless_summary">无间隔播放</string>
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">图标形状</string>
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">以经典方式控制播放器</string>
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">自适应颜色</string>
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">显示新添加的专辑和艺术家</string>
+    <string name="prefs_show_new_albums_artists_summary">显示全部最近添加的专辑和艺术家</string>
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">显示最近播放</string>
+    <string name="prefs_show_recent_albums_artists_summary">显示所有最近播放过的专辑和艺术家</string>
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">自动下载图像</string>
+    <string name="prefs_auto_download_images_summary_mobile">总是</string>
+    <string name="prefs_auto_download_images_summary_wifi">使用Wi-Fi时</string>
+    <string name="prefs_auto_download_images_summary_never">从不</string>
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">自动创建文件夹、播放列表和流派的封面</string>
+    <!--appearance-->
+    <string name="prefs_appearance_title">“正在播放”界面外观</string>
+    <string name="prefs_appearance_default">默认</string>
+    <string name="prefs_appearance_flat">扁平化</string>
+    <string name="prefs_appearance_spotify">著名的绿色播放器</string>
+    <string name="prefs_appearance_fullscreen">全拼</string>
+    <string name="prefs_appearance_big_image">大图像</string>
+    <string name="prefs_appearance_clean">荧光</string>
+    <string name="prefs_appearance_mini">迷你</string>
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">黑暗模式</string>
+    <string name="prefs_dark_mode_follow_system">跟随省电模式</string>
+    <string name="prefs_dark_mode_light">明亮</string>
+    <string name="prefs_dark_mode_dark">黑暗</string>
+    <!--notch support-->
+    <string name="prefs_notch_support_title">刘海屏支持</string>
+    <string name="prefs_notch_support_summary">增加状态栏高度</string>
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">清除缓存</string>
+    <string name="prefs_delete_cached_images_summary">清除已缓存的图像</string>
+    <string name="prefs_delete_cached_images_success">缓存已清除</string>
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">重置新手教程</string>
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">登录last.fm</string>
+    <string name="prefs_last_fm_credentials_message">您的登录凭证将被加密</string>
+    <string name="prefs_last_fm_credentials_summary">为您的last.fm账号输入账号和密码</string>
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">锁屏显示</string>
+    <!--daynight-->
+    <string name="prefs_day_night_title">日夜模式</string>
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">强调色</string>
+    <string name="prefs_accent_color_summary">更改主题强调色</string>
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">沉浸模式</string>
+
+    <!-- From app_shortcuts.xml -->
+    <string name="app_shortcut_added_to_home_screen">添加快捷方式到主屏幕</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">您的桌面不支持添加快捷方式</string>
+    <string name="shortcut_playlist_chooser">新建播放列表</string>
+
+    <!-- From categories.xml -->
+    <string name="category_no_tab_visible">现在呢？</string>
+    <string-array name="tab_empty_state">
+        <item>无文件夹</item>
+        <item>无播放列表</item>
+        <item>无专辑</item>
+        <item>无艺术家</item>
+        <item>无流派</item>
+    </string-array>
+    <string-array name="tab_empty_podcast">
+        <item>无播放列表</item>
+        <item>无播客列表</item>
+        <item>无专辑</item>
+        <item>无艺术家</item>
+    </string-array>
+    <string name="category_sort_by_date">日期</string>
+    <string name="category_sort_by_ascending">正序</string>
+    <string name="category_sort_by_descending">倒序</string>
+
+    <!-- From category_tab.xml -->
+    <string name="tab_auto_playlists">自动播放列表</string>
+    <string name="tab_all_playlists">所有播放列表</string>
+    <string name="tab_all_albums">所有专辑</string>
+    <string name="tab_all_artists">所有艺术家</string>
+    <string name="tab_recent_played">最近播放</string>
+    <string name="tab_recent_added">最近添加</string>
+    <string-array name="tab_new_items">
+        <item>新专辑</item>
+        <item>新艺术家</item>
+    </string-array>
+
+    <!-- From common_strings.xml -->
+    <string name="common_library">曲库</string>
+    <string name="common_folders">文件夹</string>
+    <string name="common_playlists">播放列表</string>
+    <string name="common_tracks">歌曲</string>
+    <string name="common_albums">专辑</string>
+    <string name="common_artists">艺术家</string>
+    <string name="common_genres">流派</string>
+    <string name="common_podcasts">播客</string>
+    <string name="common_last_added">上次添加</string>
+    <string name="common_favorites">收藏</string>
+    <string name="common_history">播放历史</string>
+    <string name="common_all_tracks">全部歌曲</string>
+    <string name="common_placeholder_title">一个绝妙的标题</string>
+    <string name="common_placeholder_artist">一位牛逼的艺术家</string>
+    <string name="common_placeholder_album">一份棒棒的专辑</string>
+    <string name="common_empty_list">空</string>
+    <string name="network_timeout">请重试</string>
+    <string name="are_you_sure">你确定？</string>
+    <plurals name="common_plurals_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="common_plurals_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="common_plurals_song">
+        <item quantity="other">%d 歌曲</item>
+    </plurals>
+    <plurals name="common_plurals_album">
+        <item quantity="other">%d 专辑</item>
+    </plurals>
+    <plurals name="common_plurals_folder">
+        <item quantity="other">%d 文件夹</item>
+    </plurals>
+    <string name="common_folder">文件夹</string>
+    <string name="common_playlist">播放列表</string>
+    <string name="common_title">标题</string>
+    <string name="common_track">歌曲</string>
+    <string name="common_artist">艺术家</string>
+    <string name="common_album_artist">参演艺术家</string>
+    <string name="common_album">专辑</string>
+    <string name="common_genre">流派</string>
+    <string name="common_duration">日期</string>
+    <string name="common_recently_added">最近添加</string>
+    <string name="common_custom">自定义</string>
+    <string name="common_track_number">歌曲编号</string>
+    <string name="common_podcast">播客</string>
+    <string name="common_podcast_playlist">播客列表</string>
+    <string name="common_podcast_album">播客专辑</string>
+    <string name="common_podcast_artist">播客艺术家</string>
+    <string name="common_play">播放</string>
+    <string name="common_shuffle">随机播放全部</string>
+    <string name="common_search">搜索</string>
+    <string name="common_hide">隐藏</string>
+    <string name="common_shape_square">方形</string>
+    <string name="common_shape_rounded">圆角方形</string>
+    <string name="common_related_artists">相关艺术家</string>
+    <string name="common_most_played">最多播放</string>
+    <string name="common_no_tracks">空</string>
+    <string name="common_no_results">无结果</string>
+    <string name="common_visible">可见</string>
+    <string name="common_hidden">隐藏</string>
+    <string name="common_no_internet">请检查网络连接</string>
+    <string name="common_switch_on">打开</string>
+    <string name="common_switch_off">关闭</string>
+    <string name="common_filter">筛选</string>
+    <string name="common_browser_not_found">未找到浏览器</string>
+    <string name="common_added_to_play_next">添加到下一曲播放</string>
+    <string name="common_moved_to_play_next">移动到下一曲播放</string>
+    <string name="common_enabled">已启用</string>
+    <string name="common_disabled">已禁用</string>
+    <string name="common_sort_by">排序方式</string>
+
+    <!-- From credentials.xml -->
+    <string name="credentials_username">用户名</string>
+    <string name="credentials_password">密码</string>
+    <string name="credentials_button_positive">登录</string>
+
+    <!-- From detail.xml -->
+    <string-array name="detail_album_header">
+        <item>其他文件夹</item>
+        <item>其它播放列表</item>
+        <item>其它专辑</item>
+        <item>其它流派</item>
+        <item>其它播放列表</item>
+        <item>其它专辑</item>
+    </string-array>
+    <string name="detail_more_albums_by">来自 %s 的更多作品</string>
+    <plurals name="detail_xx_new_songs">
+        <item quantity="other">%d 新单曲</item>
+    </plurals>
+
+    <!-- From edit_song.xml -->
+    <string name="edit_info_year">年</string>
+    <string name="edit_info_disc">唱片 #</string>
+    <string name="edit_info_track">歌曲 #</string>
+    <string name="edit_info_auto_tag_no_results">无结果</string>
+    <string name="edit_info_disc_number_not_digits">唱片编号 # 必须是数字</string>
+    <string name="edit_info_track_number_not_digits">歌曲编号 # 必须是数字</string>
+    <string name="edit_song_fetching_info">正在匹配歌曲信息</string>
+    <string name="edit_song_info_not_found">未找到相关信息</string>
+    <string name="edit_song_image_not_found">未发现封面</string>
+    <string name="edit_track_update_success">歌曲信息已更新</string>
+    <string name="edit_album_update_success">专辑信息已更新</string>
+    <string name="edit_artist_update_success">艺术家信息已更新</string>
+    <string name="edit_album_update_start">开始更新专辑……</string>
+    <string name="edit_artist_update_start">开始更新艺术家……</string>
+    <string name="edit_song_invalid_title">标题不能为空</string>
+    <string name="edit_artist_invalid_title">艺术家名字不能为空</string>
+    <string name="edit_song_invalid_disc_number">无效唱片编号</string>
+    <string name="edit_song_invalid_track_number">无效歌曲编号</string>
+    <string name="edit_song_invalid_year">无效年份</string>
+    <string name="edit_song_cannot_read">无法更新歌曲（文件可能已损坏）</string>
+    <string name="edit_song_read_only">歌曲无法更新，文件只读</string>
+    <string name="edit_song_file_not_found">无法更新当前歌曲，文件不存在</string>
+    <string name="edit_song_error_can_not_read">无法读取文件</string>
+    <string name="edit_song_error_io">文件不存在</string>
+    <string name="edit_song_error_read_only">文件只读</string>
+    <string name="edit_song_error">出现一些错误导致无法更新此文件</string>
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="other">你的更改将应用到 %d 首歌</item>
+    </plurals>
+    <string-array name="edit_item_image_dialog">
+        <item>恢复默认</item>
+        <item>风格化封面</item>
+    </string-array>
+
+    <!-- From equalizer.xml -->
+    <string name="equalizer_not_found">均衡器不存在</string>
+
+    <!-- From folders.xml -->
+    <string name="folder_set_default_title">默认文件夹</string>
+    <string name="folder_set_default_message">设为默认文件夹</string>
+
+    <!-- From offline_lyrics_strings.xml -->
+    <string name="offline_lyrics_empty">无歌词</string>
+    <string name="offline_lyrics_edit_title">添加歌词</string>
+    <string name="offline_lyrics_edit_hint">在此粘贴歌词</string>
+    <string name="offline_lyrics_adjust_sync">调整歌词时间轴</string>
+    <string name="offline_lyrics_adjust_sync_hint">毫秒</string>
+    <string name="offline_lyrics_adjust_sync_error">您只能输入数字！</string>
+
+    <!-- From player_strings.xml -->
+    <string name="player_load_more_song">播放时预加载更多歌曲</string>
+
+    <!-- From playing_queue.xml -->
+    <string name="playing_queue">播放队列</string>
+
+    <!-- From playlist_chooser.xml -->
+    <string name="playlist_chooser_header">选择一个播放列表</string>
+    <string name="playlist_chooser_dialog_title">添加到桌面启动器</string>
+    <string name="playlist_chooser_dialog_message">确认添加播放列表“%s”到桌面启动器？</string>
+
+    <!-- From playlist_tracks_chooser.xml -->
+    <string name="playlist_tracks_chooser_no_tracks">为新播放列表添加歌曲</string>
+    <string name="playlist_tracks_chooser_show_only_selected">只显示已选择的歌曲</string>
+    <string name="playlist_tracks_chooser_show_all">显示全部</string>
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="other">已选择 %d 首歌</item>
+    </plurals>
+
+    <!-- From premium.xml -->
+    <string name="premium_already_premium">你已经是高级用户了</string>
+
+    <!-- From rate_app.xml -->
+    <string name="rate_app_title">评价此APP</string>
+    <string name="rate_app_message">如果您喜欢这个软件，请给个好评，么么哒</string>
+    <string name="rate_app_positive_button">评价</string>
+    <string name="rate_app_negative_button">不，谢谢</string>
+    <string name="rate_app_neutral_button">稍后再说</string>
+
+    <!-- From recently_added.xml -->
+    <string-array name="recently_added_header">
+        <item>最近被添加到文件夹 %s</item>
+        <item>最近被添加到播放列表 %s</item>
+        <item>无效</item>
+        <item>最近被添加到专辑 %s</item>
+        <item>嘴贱被添加到艺术家 %s</item>
+        <item>最近被添加到流派 %s</item>
+    </string-array>
+
+    <!-- From related_artists.xml -->
+    <string-array name="related_artists_header">
+        <item>将艺术家与文件夹 %s 关联</item>
+        <item>将艺术家与播放列表 %s 关联</item>
+        <item>无效</item>
+        <item>将艺术家与专辑 %s 关联</item>
+        <item>将艺术家与艺术家 %s 关联</item>
+        <item>将艺术家与流派 %s 关联</item>
+    </string-array>
+
+    <!-- From remove_duplicates.xml -->
+    <string name="remove_duplicates_message"><![CDATA[从播放列表 <b>%1$s</b>移除全部的重复歌曲?]]></string>
+    <string name="remove_duplicates_success">重复歌曲已从播放列表 %1$s移除</string>
+
+    <!-- From search.xml -->
+    <string name="search_recent_searches">搜索历史</string>
+    <string name="search_clear_recent_searches">清除搜索历史</string>
+    <string name="search_recent_empty_state">搜索你的库</string>
+    <plurals name="search_xx_results">
+        <item quantity="other">%1$s 个结果</item>
+    </plurals>
+
+    <!-- From service_floating_strings.xml -->
+    <string name="floating_window_notification_content_text">点击关闭</string>
+
+    <!-- From service_music_strings.xml -->
+    <string name="music_error_empty_queue">未找到音乐</string>
+    <string name="music_player_error">播放器错误</string>
+
+    <!-- From share.xml -->
+    <string name="song_not_shareable">无法分享这首歌</string>
+
+    <!-- From splash.xml -->
+    <string name="splash_player_controls">播放器控制</string>
+    <string name="splash_player_tutorial_1">点击封面图播放或暂停</string>
+    <string name="splash_player_tutorial_2">点击封面图边缘或左右滑动切换歌曲</string>
+    <string name="splash_storage_permission">存储权限</string>
+    <string name="splash_storage_permission_disabled">请授予存储权限以使用此应用</string>
+
+    <!-- From strings_dialog.xml -->
+    <string name="popup_play">播放</string>
+    <string name="popup_play_shuffle">随机播放</string>
+    <string name="popup_add_to_playlist">添加到播放列表……</string>
+    <string name="popup_add_to_favorites">添加到收藏</string>
+    <string name="popup_add_to_home_screen">添加到主屏幕</string>
+    <string name="popup_play_next">下一曲</string>
+    <string name="popup_play_later">稍后播放</string>
+    <string name="popup_edit_song_info">编辑歌曲</string>
+    <string name="popup_edit_album_info">编辑专辑</string>
+    <string name="popup_edit_artist_info">编辑艺术家</string>
+    <string name="popup_view_album">查看专辑</string>
+    <string name="popup_view_artist">查看艺术家</string>
+    <string name="popup_share">分享</string>
+    <string name="popup_set_as_ringtone">设置为铃声</string>
+    <string name="popup_delete">删除</string>
+    <string name="popup_rename">重命名</string>
+    <string name="popup_clear_playlist">清除播放列表</string>
+    <string name="popup_remove_duplicates">移除重复歌曲</string>
+    <string name="popup_equalizer">均衡器</string>
+    <string name="popup_sleep_timer">睡眠模式</string>
+    <string name="popup_negative_cancel">取消</string>
+    <string name="popup_negative_no">否</string>
+    <string name="popup_negative_back">返回</string>
+    <string name="popup_positive_ok">好的</string>
+    <string name="popup_positive_save">保存</string>
+    <string name="popup_positive_create">创建</string>
+    <string name="popup_positive_delete">删除</string>
+    <string name="popup_positive_remove">移除</string>
+    <string name="popup_neutral_reset">重设</string>
+    <string name="popup_error_message">出了些问题</string>
+    <string name="share_song_x"><![CDATA[分享 <b><font color=\"black\">%1$s</b></font>…]]></string>
+    <string name="popup_permission">许可权限</string>
+    <string name="popup_request_permission_write_settings">请许可以下权限以设置铃声</string>
+    <string name="popup_grid_size">网格尺寸</string>
+
+    <!-- From strings_dialog_add_to_favorites.xml -->
+    <string name="add_song_x_to_favorite"><![CDATA[添加 <b>%1$s</b> 到收藏?]]></string>
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="other"><![CDATA[添加 <b>%1$d 首歌曲</b> 到收藏?]]></item>
+    </plurals>
+    <string name="song_x_added_to_favorites">%1$s 已添加到收藏</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="other">%1$d 首歌已添加到收藏</item>
+    </plurals>
+
+    <!-- From strings_dialog_add_to_playlist.xml -->
+    <string name="add_song_x_to_playlist"><![CDATA[添加 <b>%1$s</b> 播放列表：]]></string>
+    <string name="save_as_playlist">另存为播放列表</string>
+    <string name="queue_saved_as_playlist">将播放队列储存为 %s</string>
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="other"><![CDATA[添加<b>%1$d 首歌</b>到播放列表：]]></item>
+    </plurals>
+    <string name="added_song_x_to_playlist_y">将 %1$s 添加到播放列表 %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="other">将 %1$d 首歌添加到播放列表 %2$s</item>
+    </plurals>
+    <string name="popup_new_playlist">新建播放列表</string>
+    <string name="popup_no_playlist">尚无播放列表……</string>
+    <string name="new_playlist_hint">播放列表名称</string>
+    <string name="popup_playlist_name_not_valid">名称无效</string>
+    <string name="popup_playlist_name_already_exist">同名播放列表已存在</string>
+
+    <!-- From strings_dialog_clear_playlist.xml -->
+    <string name="playlist_x_cleared">播放列表 %1$s 已被清空</string>
+    <string name="remove_songs_from_playlist_y"><![CDATA[从播放列表 <b>%1$s</b> 中移除所有歌曲？]]></string>
+
+    <!-- From strings_dialog_delete.xml -->
+    <string name="delete_song_y"><![CDATA[确定要从设备中删除 <b>%1$s</b> ？]]></string>
+    <string name="delete_playlist_y"><![CDATA[确定删除播放列表 <b>%1$s</b> ？]]></string>
+    <string name="playlist_x_deleted">播放列表 %1$s 已删除</string>
+    <string name="song_x_deleted">%1$s 已删除</string>
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="other"><![CDATA[从设备中删除 <b>%1$d 首歌</b> ？]]></item>
+    </plurals>
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="other"><![CDATA[已从设备中删除<b>%1$d 首歌</b>]]></item>
+    </plurals>
+
+    <!-- From strings_dialog_play_later.xml -->
+    <string name="add_song_x_to_play_later"><![CDATA[添加 <b>%1$s</b> 到稍后播放？]]></string>
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="other"><![CDATA[添加 <b>%1$d 首歌</b> 到稍后播放？]]></item>
+    </plurals>
+    <string name="song_x_added_to_play_later">%1$s 已添加到稍后播放</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="other">%1$d 首歌已添加到稍后播放</item>
+    </plurals>
+
+    <!-- From strings_dialog_play_next.xml -->
+    <string name="add_song_x_to_play_next"><![CDATA[<b>%1$s</b> 作为下一曲播放？]]></string>
+    <plurals name="add_xx_songs_to_play_next">
+        <item quantity="other"><![CDATA[接下来播放 <b>%1$d 首歌</b> ？]]></item>
+    </plurals>
+    <string name="song_x_added_to_play_next">%1$s 已添加到下一曲播放</string>
+    <plurals name="xx_songs_added_to_play_next">
+        <item quantity="other">%1$d 首歌已添加到下一曲播放</item>
+    </plurals>
+
+    <!-- From strings_dialog_rename.xml -->
+    <string name="playlist_x_renamed_to_y">播放列表 %1$s 已重命名为 %2$s</string>
+    <string name="popup_positive_rename">重命名</string>
+
+    <!-- From strings_dialog_set_ringtone.xml -->
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> 将被设置为铃声]]></string>
+    <string name="song_x_set_as_ringtone">设置 %1$s 为铃声</string>
+
+    <!-- From time_picker.xml -->
+    <!-- use dp instead of sp to avoid UI not fully shown
+   if users use big system font size-->
+    <string name="scroll_hms_picker_stop">停止</string>
+    <string name="sleep_timer_set">设置计时器</string>
+    <string name="sleep_timer_can_not_be_set">时间必须大于0秒</string>
+
+    <!-- From trial.xml -->
+    <string name="trial_title">减弱</string>
+    <string name="trial_message">全功能试用期限为安装后一小时内</string>
+
+    <!-- From tutorial.xml -->
+    <string name="tutorial_sort_by_text">点击文字以更改排列方式</string>
+    <string name="tutorial_sort_by_arrow">点击箭头反转排序</string>
+    <string name="tutorial_floating_window">打开带有歌词和YouTube的浮动窗口</string>
+    <string name="tutorial_lyrics">显示已保存的歌词</string>
+    <string name="tutorial_add_lyrics">添加或更新歌词</string>
+    <string name="tutorial_search_lyrics">在网络上搜索歌词</string>
+    <string name="tutorial_adjust_sync">调整歌词时间轴（仅针对滚动歌词）</string>
+
+</resources>

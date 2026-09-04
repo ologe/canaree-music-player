@@ -33,10 +33,44 @@
     <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
     <string name="prefs_auto_download_images_entry_value_never">never</string>
 
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
     <string-array name="prefs_detail_sections_entry_values_default">
         <item>@string/prefs_detail_section_entry_value_most_played</item>
         <item>@string/prefs_detail_section_entry_value_recently_added</item>
         <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
+        <item>@string/prefs_appearance_entry_value_big_image</item>
+        <item>@string/prefs_appearance_entry_value_clean</item>
+        <item>@string/prefs_appearance_entry_value_mini</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
     </string-array>
 
 </resources>

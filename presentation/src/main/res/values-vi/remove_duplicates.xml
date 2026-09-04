@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="remove_duplicates_title" translatable="false">@string/popup_remove_duplicates</string>
-    <string name="remove_duplicates_message"><![CDATA[Remove all duplicates from playlist <b>%1$s</b>?]]></string>
-    <string name="remove_duplicates_success">Các bài hát trùng lặp đã bị xoá khỏi danh sách phát %1$s</string>
-
-</resources>

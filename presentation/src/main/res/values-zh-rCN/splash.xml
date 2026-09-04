@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="splash_player_controls">播放器控制</string>
-    <string name="splash_player_tutorial_1">点击封面图播放或暂停</string>
-    <string name="splash_player_tutorial_2">点击封面图边缘或左右滑动切换歌曲</string>
-    <string name="splash_storage_permission">存储权限</string>
-    <string name="splash_storage_permission_disabled">请授予存储权限以使用此应用</string>
-</resources>

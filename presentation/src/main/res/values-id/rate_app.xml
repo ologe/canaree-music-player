@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="rate_app_title">Nilai app</string>
-    <string name="rate_app_message">Berikan nilai positif jika kamu mengapresiasi karya saya</string>
-    <string name="rate_app_positive_button">Nilai</string>
-    <string name="rate_app_negative_button">Tidak, terima kasih</string>
-    <string name="rate_app_neutral_button">Nanti</string>
-</resources>

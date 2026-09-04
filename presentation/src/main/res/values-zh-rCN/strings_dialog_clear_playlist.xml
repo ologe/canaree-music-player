@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="playlist_x_cleared">播放列表 %1$s 已被清空</string>
-    <string name="remove_songs_from_playlist_y"><![CDATA[从播放列表 <b>%1$s</b> 中移除所有歌曲？]]></string>
-</resources>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="share_song_x"><![CDATA[Bagikan <b><font color=\"black\">%1$s</b></font>...]]></string>
-    <string name="popup_permission">Perizinan</string>
-    <string name="popup_request_permission_write_settings">Silakan setujui perizinan berikut untuk mengganti nada dering</string>
-    <string name="popup_grid_size">Ukuran grid</string>
-</resources>

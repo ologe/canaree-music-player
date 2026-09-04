@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From about.xml -->
+
+    <string name="about">के बारे में</string>
+
+    <string name="about_author">रचियता</string>
+    <string name="about_version">संस्करण</string>
+
+    <string name="about_join_community">समुदाय</string>
+    <string name="about_join_community_description">समुदाय से जुड़ें</string>
+
+    <string name="about_beta">बीटा</string>
+    <string name="about_beta_description">एकदम नए फीचर इस्तेमाल करें सभी से पहले</string>
+
+    <string name="about_third_sw">अन्य व्यक्ति के सॉफ्टवेयर </string>
+    <string name="about_third_sw_description">सॉफ्टवेयर जिन्होंने डेवलपमेंट में सहायता की</string>
+
+    <string name="about_special_thanks_to">विशेष धन्यवाद</string>
+    <string name="about_special_thanks_to_description">देखने के लिए क्लिक करें</string>
+
+    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
+    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
+
+    <string name="about_privacy_policy">गोपनीयता नीति</string>
+    <string name="about_privacy_policy_description">हम दोनों के लिए मत्वपूर्ण</string>
+
+    <string name="about_buy_pro">पेशेवर संस्करण खरीदें</string>
+    <string name="about_buy_pro_description">सभी फीचर्स इस्तेमाल करने के लिए पेशेवर संस्करण खरीदें</string>
+    <string name="about_buy_pro_description_trial">परीक्षण संस्करण, सभी फीचर खुले हैं</string>
+
+    <string name="about_icon_made_by_x_from_y">आइकन %1$s ने बनाया %2$s से</string>
+
+
+    <!-- From app_preferences.xml -->
+
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+
+    <string name="premium_ad_key_title">प्रीमियम सुविधाओं को अनलॉक करने के लिए विज्ञापन दिखाएं</string>
+
+    <string name="settings">सेटिंग्स</string>
+
+    <string name="prefs_not_premium_action">खरीदें</string>
+
+    <!--categories-->
+    <string name="prefs_category_library">संग्रह</string>
+    <string name="prefs_category_audio">ध्वनि</string>
+    <string name="prefs_category_ui">उपयोगकर्ता सेटिंग्स</string>
+    <string name="prefs_category_other">अन्य</string>
+
+
+    <!--quick action-->
+    <string name="prefs_quick_action_title">जल्दी करें</string>
+    <string name="prefs_quick_action_summary">चित्रों के बाद वाले छोटे आइकन के कार्य को बदलें</string>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entries">
+        <item>@string/common_hide</item>
+        <item>@string/common_play</item>
+        <item>@string/common_shuffle</item>
+    </string-array>
+
+
+
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">प्रत्यक्ष कार्य</string>
+    <string name="prefs_detail_sections_summary">प्रत्यक्ष भाग विवरण खाका में बदलें</string>
+
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entries">
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
+    </string-array>
+
+
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">संग्रह वर्गीकरण</string>
+    <string name="prefs_library_categories_summary">संग्रह वर्गीकरण का दिखना और क्रम बदलें</string>
+
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">पॉडकास्ट वर्गीकरण</string>
+
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">काली सूची</string>
+    <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>
+    <string name="prefs_blacklist_description">देखने/छिपाने के लिए क्लिक करें </string>
+    <string name="prefs_blacklist_error">सभी फोल्डर काली सूची में नहीं डाल सकते</string>
+
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">फोल्डर वर्गीकरण दृश्य</string>
+    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
+
+    <string name="prefs_show_podcasts_title">पॉडकास्ट देखें</string>
+    <string name="prefs_show_podcasts_summary">संग्रह में पॉडकास्ट देखें</string>
+
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">तुल्यकारक</string>
+    <string name="prefs_used_equalizer_summary_on">एप तुल्यकारक इस्तेमाल करें</string>
+    <string name="prefs_used_equalizer_summary_off">सिस्टम तुल्यकारक इस्तेमाल करें (अगर उपलब्ध हो)</string>
+
+
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">मध्य रात्रि मोड</string>
+    <string name="prefs_lower_volume_on_night_summary">रात्रि में अधिकतम वॉल्यूम कम करता है</string>
+
+
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">क्रॉसफेड</string>
+    <string name="prefs_cross_fade_summary">गानों के बीच में क्रॉस फेड की अनुमति देता है</string>
+
+    <!--gapless-->
+    <string name="prefs_gapless_title">लगातार प्लेबैक</string>
+    <string name="prefs_gapless_summary">लगातार प्लेबैक की अनुमति देता है</string>
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">आइकन रूप</string>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entries">
+        <item>@string/common_shape_square</item>
+        <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_cut_corner</item>
+    </string-array>
+
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">आदर्श प्लेयर नियंत्रण</string>
+    <string name="prefs_player_controls_visibility_summary_on" translatable="false">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off" translatable="false">@string/common_hidden</string>
+
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">अनुकूल रंग</string>
+    <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">नए एल्बम और संगीतकार दिखाएँ</string>
+    <string name="prefs_show_new_albums_artists_summary">हाल ही में जोड़े गए सभी नए एल्बम और संगीतकार दिखाएँ</string>
+
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">सुने हुए गाने</string>
+    <string name="prefs_show_recent_albums_artists_summary">हाल ही में सुने गए सभी गाने दिखाएँ</string>
+
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">अपने आप चित्र डाउनलोड करें</string>
+    <string name="prefs_auto_download_images_summary_mobile">हमेशा</string>
+    <string name="prefs_auto_download_images_summary_wifi">केवल वाईफाई पर</string>
+    <string name="prefs_auto_download_images_summary_never">कभी नहीं</string>
+
+    <string-array name="prefs_auto_download_images_entry_values">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
+
+    <string-array name="prefs_auto_download_images_entries">
+        <item>@string/prefs_auto_download_images_summary_never</item>
+        <item>@string/prefs_auto_download_images_summary_wifi</item>
+        <item>@string/prefs_auto_download_images_summary_mobile</item>
+    </string-array>
+
+
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">खुद से फ़ोल्डर, प्लेलिस्ट और शैली बनायें</string>
+    <string name="prefs_auto_create_images_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_title">अभी सुन रहें स्क्रीन</string>
+    <string name="prefs_appearance_default">पूर्व निर्धारित</string>
+    <string name="prefs_appearance_flat">समतल</string>
+    <string name="prefs_appearance_spotify">मशहूर ग्रीन म्यूजिक प्लेयर</string>
+    <string name="prefs_appearance_fullscreen">पूर्ण प्रपट्ट</string>
+    <string name="prefs_appearance_big_image">बड़े चित्र</string>
+    <string name="prefs_appearance_clean">उज्जवल </string>
+    <string name="prefs_appearance_mini">छोटा</string>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
+        <item>@string/prefs_appearance_entry_value_big_image</item>
+        <item>@string/prefs_appearance_entry_value_clean</item>
+        <item>@string/prefs_appearance_entry_value_mini</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entries">
+        <item>@string/prefs_appearance_default</item>
+        <item>@string/prefs_appearance_flat</item>
+        <item>@string/prefs_appearance_spotify</item>
+        <item>@string/prefs_appearance_fullscreen</item>
+        <item>@string/prefs_appearance_big_image</item>
+        <item>@string/prefs_appearance_clean</item>
+        <item>@string/prefs_appearance_mini</item>
+    </string-array>
+
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">अन्धकारमय अंदाज़</string>
+    <string name="prefs_dark_mode_follow_system">बैटरी सेवर के द्वारा बदलें</string>
+    <string name="prefs_dark_mode_light">उज्जवल</string>
+    <string name="prefs_dark_mode_dark">अन्धकारमय</string>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entries">
+        <item>@string/prefs_dark_mode_follow_system</item>
+        <item>@string/prefs_dark_mode_light</item>
+        <item>@string/prefs_dark_mode_dark</item>
+    </string-array>
+
+    <!--notch support-->
+    <string name="prefs_notch_support_title">नौच समर्थन</string>
+    <string name="prefs_notch_support_summary">स्टेटस बार की लम्बाई बढ़ायें</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">कैश हटाएँ</string>
+    <string name="prefs_delete_cached_images_summary">सभी कैश चित्र हटाएँ</string>
+    <string name="prefs_delete_cached_images_success">कैश हटाया गया</string>
+
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">शिक्षण पूर्व निर्धारित स्थिति में लाएं</string>
+
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">Last.fm परिचय</string>
+    <string name="prefs_last_fm_credentials_message">परिचय कुट करके सुरक्षित किया जायेगा </string>
+    <string name="prefs_last_fm_credentials_summary">अपने Last.fm खाते का प्रयोक्ता नाम और पासवर्ड दाखिल करें</string>
+
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">लॉक स्क्रीन चित्रकला</string>
+    <string name="prefs_lockscreen_artwork_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on" translatable="false">@string/common_enabled</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_title">दिन-रात्रि अंदाज़</string>
+    <string name="prefs_day_night_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">लहजा रंग</string>
+    <string name="prefs_accent_color_summary">लहजा विषय रंग बदलें</string>
+
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">तन्मयता अंदाज़</string>
+    <string name="prefs_immersive_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off" translatable="false">@string/common_disabled</string>
+
+
+    <!-- From app_shortcuts.xml -->
+
+    <string name="app_shortcut_added_to_home_screen">Shortcut added to Home Screen</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">Your launcher does not support adding shortcuts</string>
+
+    <string name="shortcut_playlist_chooser">Add a playlist</string>
+    <string name="shortcut_play" translatable="false">@string/common_play</string>
+    <string name="shortcut_shuffle" translatable="false">@string/common_shuffle</string>
+    <string name="shortcut_search" translatable="false">@string/common_search</string>
+
+
+    <!-- From categories.xml -->
+
+    <string name="category_header" translatable="false">@string/common_library</string>
+
+    <string-array name="categories">
+        <item>@string/category_folders</item>
+        <item>@string/category_playlists</item>
+        <item>@string/category_songs</item>
+        <item>@string/category_albums</item>
+        <item>@string/category_artists</item>
+        <item>@string/category_genres</item>
+    </string-array>
+
+    <string name="category_folders" translatable="false">@string/common_folders</string>
+    <string name="category_playlists" translatable="false">@string/common_playlists</string>
+    <string name="category_songs" translatable="false">@string/common_tracks</string>
+    <string name="category_albums" translatable="false">@string/common_albums</string>
+    <string name="category_artists" translatable="false">@string/common_artists</string>
+    <string name="category_genres" translatable="false">@string/common_genres</string>
+    <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
+
+    <string name="category_no_tab_visible">और अब?</string>
+
+    <string-array name="tab_empty_state">
+        <item>कोई फोल्डर नहीं</item>
+        <item>कोई प्लेलिस्ट नहीं</item>
+        <item>@string/common_no_tracks</item>
+        <item>कोई एल्बम नहीं</item>
+        <item>कोई संगीतकार नहीं</item>
+        <item>कोई शैली नहीं</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>कोई प्लेलिस्ट नहींt</item>
+        <item>कोई पॉडकास्ट नहीं</item>
+        <item>कोई एल्बम नहीं</item>
+        <item>कोई संगीतकार नहीं</item>
+    </string-array>
+
+    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
+    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
+    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
+    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
+    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="category_sort_by_date">तिथि</string>
+    <string name="category_sort_by_ascending">बढ़ते क्रम में</string>
+    <string name="category_sort_by_descending">घटते क्रम में</string>
+
+
+
+    <!-- From category_tab.xml -->
+
+    <string name="tab_auto_playlists">स्वत: प्लेलिस्ट</string>
+    <string name="tab_all_playlists">सभी प्लेलिस्ट</string>
+    <string name="tab_all_albums">सभी एल्बम</string>
+    <string name="tab_all_artists">सभी संगीतकार</string>
+    <string name="tab_recent_played">हाल ही में सुने हुए</string>
+    <string name="tab_recent_added">हाल ही में जोड़े हुए</string>
+
+    <string-array name="tab_new_items">
+        <item>नए एल्बम</item>
+        <item>नए संगीतकार</item>
+    </string-array>
+
+    <string name="tab_podcast_duration" translatable="false">%d min</string>
+
+
+    <!-- From common_strings.xml -->
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">संग्रह</string>
+
+    <string name="common_folders">फोल्डर</string>
+    <string name="common_playlists">प्लेलिस्ट</string>
+    <string name="common_tracks">गाने</string>
+    <string name="common_albums">एल्बम</string>
+    <string name="common_artists">संगीतकार</string>
+    <string name="common_genres">शैली </string>
+    <string name="common_podcasts">पॉडकास्ट</string>
+
+    <string name="common_last_added">पहले जोड़ा हुआ</string>
+    <string name="common_favorites">पसंदीदा</string>
+    <string name="common_history">वृत्तांत</string>
+
+    <string name="common_all_tracks">सभी गाने</string>
+
+    <string name="common_placeholder_title">गजब का शीर्षक</string>
+    <string name="common_placeholder_artist">गजब का संगीतकार</string>
+    <string name="common_placeholder_album">गजब का एल्बम</string>
+
+    <string name="common_empty_list">खाली सूचि</string>
+
+    <string name="network_timeout">फिर कोशिश करें</string>
+
+    <string name="are_you_sure">आप निश्चित हैं?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d घंटा</item>
+        <item quantity="other">%d घंटे</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d मिनट</item>
+        <item quantity="other">%d मिनट</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d गाना</item>
+        <item quantity="other">%d गाने</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d एल्बम</item>
+        <item quantity="other">%d एल्बम</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d फोल्डर</item>
+        <item quantity="other">%d फोल्डर</item>
+    </plurals>
+
+    <string name="common_folder">फोल्डर</string>
+    <string name="common_playlist">प्लेलिस्ट</string>
+    <string name="common_title">शीर्षक</string>
+    <string name="common_track">गाना</string>
+    <string name="common_artist">संगीतकार</string>
+    <string name="common_album_artist">एल्बम संगीतकार</string>
+    <string name="common_album">एल्बम</string>
+    <string name="common_genre">शैली</string>
+    <string name="common_duration">अवधि</string>
+    <string name="common_recently_added">हाल ही जोड़े गए</string>
+    <string name="common_custom">रूचि अनुरूप</string>
+    <string name="common_track_number">गाना संख्या</string>
+    <string name="common_podcast">पोडकास्ट</string>
+    <string name="common_podcast_playlist">पॉडकास्ट प्लेलिस्ट</string>
+    <string name="common_podcast_album">पॉडकास्ट एल्बम</string>
+    <string name="common_podcast_artist">पॉडकास्ट संगीतकार</string>
+
+    <string name="common_play">सुनें</string>
+    <string name="common_shuffle">सभी फेंटे</string>
+    <string name="common_search">ढूढें</string>
+    <string name="common_hide">छिपायें</string>
+
+    <string name="common_shape_square">वर्ग</string>
+    <string name="common_shape_rounded">गोलाकार वर्ग</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Related artists</string>
+    <string name="common_most_played">Most played</string>
+
+    <string name="common_no_tracks">कोई गाना नहीं</string>
+    <string name="common_no_results">कोई परिणाम नहीं</string>
+
+    <string name="common_visible">प्रत्यक्ष</string>
+    <string name="common_hidden">छिपा हुआ</string>
+
+    <string name="common_no_internet">अपना इंटरनेट कनेक्शन जांचे</string>
+
+    <string name="common_switch_on">चालू</string>
+    <string name="common_switch_off">बंद</string>
+
+    <string name="common_filter">Filter..</string>
+
+    <string name="common_browser_not_found">ब्राउज़र नहीं मिला</string>
+
+    <string name="common_added_to_play_next">आगे बजाने के लिए जोड़ा गया</string>
+    <string name="common_moved_to_play_next">आगे बजाने के लिए भेजा गया</string>
+
+    <string name="common_enabled">सक्षम</string>
+    <string name="common_disabled">अक्षम</string>
+
+    <string name="common_sort_by">ऐसे क्रमबद्ध करें</string>
+
+
+    <!-- From detail.xml -->
+
+    <string name="detail_most_played" translatable="false">@string/common_most_played</string>
+    <string name="detail_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="detail_albums" translatable="false">@string/common_albums</string>
+    <string name="detail_tracks" translatable="false">@string/common_tracks</string>
+
+    <string-array name="detail_album_header">
+        <item>अन्य फोल्डर</item>
+        <item>अन्य प्लेलिस्ट</item>
+        <item/>
+        <item>अन्य एल्बम</item>
+        <item>@string/common_albums</item>
+        <item>अन्य शैली</item>
+        <item>अन्य प्लेलिस्ट</item>
+        <item/>
+        <item/>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">More by %s</string>
+    <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
+    <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
+
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d new track</item>
+        <item quantity="other">%d new tracks</item>
+    </plurals>
+
+    <string name="detail_sort_by" translatable="false">@string/common_sort_by</string>
+
+    <string name="sort_by_title" translatable="false">@string/common_title</string>
+    <string name="sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="sort_by_album" translatable="false">@string/common_album</string>
+    <string name="sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="sort_by_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="sort_by_custom" translatable="false">@string/common_custom</string>
+    <string name="sort_by_track" translatable="false">@string/common_track_number</string>
+
+
+    <!-- From edit_song.xml -->
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">साल</string>
+    <string name="edit_info_disc">डिस्क #</string>
+    <string name="edit_info_track">ट्रैक #</string>
+
+    <string name="edit_info_auto_tag_no_results">कोई परिणाम नहीं</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">डिस्क # सिर्फ संख्या हो सकता है</string>
+    <string name="edit_info_track_number_not_digits">ट्रैक # सिर्फ संख्या हो सकता है</string>
+
+    <string name="edit_song_fetching_info">Fetching song info</string>
+
+    <string name="edit_song_info_not_found">कोई जानकारी नहीं मिली</string>
+    <string name="edit_song_image_not_found">कोई चित्र नहीं मिला</string>
+
+    <string name="edit_track_update_success">ट्रैक जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_album_update_success">एल्बम जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_artist_update_success">संगीतकार जानकारी नवनीकरण पूर्ण</string>
+    <string name="edit_album_update_start">एल्बम जानकारी नवनीकरण शुरू..</string>
+    <string name="edit_artist_update_start">संगीतकार जानकारी नवनीकरण शुरू..</string>
+
+    <string name="edit_song_invalid_title">अमान्य : शीर्षक में कुछ नहीं लिखा</string>
+    <string name="edit_artist_invalid_title">अमान्य : संगीतकार में कुछ नहीं लिखा</string>
+    <string name="edit_song_invalid_disc_number">अमान्य डिस्क संख्या</string>
+    <string name="edit_song_invalid_track_number">अमान्य ट्रैक संख्या</string>
+    <string name="edit_song_invalid_year">अमान्य साल</string>
+    <string name="edit_song_cannot_read">ट्रैक का नवनीकरण नहीं हो सकता (फाइल ख़राब हो सकती है)</string>
+    <string name="edit_song_read_only">ट्रैक का नवनीकरण नहीं हो सकता, फाइल सिर्फ पढ़ी जा सकती है</string>
+    <string name="edit_song_file_not_found">ट्रैक का नवनीकरण नहीं हो सकता, फाइल नहीं मिली</string>
+
+    <string name="edit_song_error_can_not_read">फाइल पढ़ने में असमर्थ</string>
+    <string name="edit_song_error_io">फाइल नहीं मिली</string>
+    <string name="edit_song_error_read_only">फाइल सिर्फ पढ़ी जा सकती है</string>
+    <string name="edit_song_error">कुछ गलत हुआ, फाइल का नवनीकरण असफल</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">आपके परिवर्तनों को %d गाने में लागू किया जाएगा</item>
+        <item quantity="other">आपके परिवर्तनों को %d गानों में लागू किया जाएगा</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>पहले जैसा करें</item>
+        <item>चित्र को स्टाइल करें</item>
+    </string-array>
+
+
+    <!-- From equalizer.xml -->
+
+    <string name="equalizer_not_found">तुल्यकारक नहीं मिला</string>
+
+
+    <!-- From folders.xml -->
+
+    <string name="folder_set_default_title">पूर्व निर्धारित फोल्डर</string>
+    <string name="folder_set_default_message">निर्धारित फोल्डर बनायें</string>
+
+
+    <!-- From offline_lyrics_strings.xml -->
+
+    <string name="offline_lyrics_empty">गाने के बोल नहीं मिले</string>
+
+    <string name="offline_lyrics_edit_title">गाने के बोल जोड़े</string>
+    <string name="offline_lyrics_edit_hint">गाने के बोल यहां पेस्ट करें</string>
+    <string name="offline_lyrics_adjust_sync">समक्रमण सही करें</string>
+    <string name="offline_lyrics_adjust_sync_hint">मिलीसेकण्ड्स</string>
+    <string name="offline_lyrics_adjust_sync_error">सिर्फ संख्याएँ</string>
+
+
+    <!-- From player_strings.xml -->
+
+    <string name="player_load_more_song">más canciones se cargan mientras escuchas</string>
+
+
+    <!-- From playing_queue.xml -->
+
+    <string name="playing_queue">गीतमाला</string>
+
+
+    <!-- From playlist_chooser.xml -->
+
+    <string name="playlist_chooser_header">प्लेलिस्ट चुने</string>
+    <string name="playlist_chooser_dialog_title">लॉन्चर में जोड़ें</string>
+    <string name="playlist_chooser_dialog_message">\'%s\' प्लेलिस्ट को लॉन्चर में जोड़ें?</string>
+
+
+    <!-- From playlist_tracks_chooser.xml -->
+
+    <string name="playlist_tracks_chooser_no_tracks">अपनी नहीं प्लेलिस्ट के लिए गाने चुने</string>
+
+    <string name="playlist_tracks_chooser_show_only_selected">सिर्फ चुने हुए गाने दिखाएँ</string>
+    <string name="playlist_tracks_chooser_show_all">सभी दिखाएँ</string>
+
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="one">१ गाना चुना गया</item>
+        <item quantity="other">%d गाने चुने गए</item>
+    </plurals>
+
+
+    <!-- From premium.xml -->
+
+    <string name="premium_already_premium">आप पहले ही प्रीमियम पर हैं</string>
+
+
+    <!-- From rate_app.xml -->
+
+    <string name="rate_app_title">ऐप रेट करें</string>
+    <string name="rate_app_message">अगर आपको ऐप अच्छी लगी है तो कृपया सकरात्मक रेटिंग दें</string>
+    <string name="rate_app_positive_button">रेट</string>
+    <string name="rate_app_negative_button">नहीं धन्यवाद</string>
+    <string name="rate_app_neutral_button">बाद में</string>
+
+
+    <!-- From recently_added.xml -->
+
+    <string-array name="recently_added_header">
+        <item>%s फोल्डर में हाल में जोड़े गए</item>
+        <item>%s प्लेलिस्ट में हाल में जोड़े गए</item>
+        <item>अमान्य</item>
+        <item>%s एल्बम में हाल में जोड़े गए</item>
+        <item>%s संगीतकार में हाल में जोड़े गए</item>
+        <item>%s शैली में हाल में जोड़े गए</item>
+    </string-array>
+
+
+    <!-- From related_artists.xml -->
+
+    <string-array name="related_artists_header">
+        <item>%s फोल्डर से सम्बंदित संगीतकार</item>
+        <item>%s प्लेलिस्ट से सम्बंदित संगीतकार</item>
+        <item>अमान्य</item>
+        <item>%s एल्बम से सम्बंदित संगीतकार</item>
+        <item>%s संगीतकार से सम्बंदित संगीतकार</item>
+        <item>%s शैली से सम्बंदित संगीतकार</item>
+    </string-array>
+
+
+    <!-- From remove_duplicates.xml -->
+
+    <string name="remove_duplicates_title" translatable="false">@string/popup_remove_duplicates</string>
+    <string name="remove_duplicates_message"><![CDATA[Remove all duplicates from playlist <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">%1$s प्लेलिस्ट से प्रतिलिपियाँ हटाई गईं</string>
+
+
+    <!-- From search.xml -->
+
+
+    <string name="search_hint" translatable="false">@string/search_recent_empty_state</string>
+
+    <string name="search_songs" translatable="false">@string/common_tracks</string>
+    <string name="search_albums" translatable="false">@string/common_albums</string>
+    <string name="search_artists" translatable="false">@string/common_artists</string>
+    <string name="search_folders" translatable="false">@string/common_folders</string>
+    <string name="search_playlists" translatable="false">@string/common_playlists</string>
+    <string name="search_genres" translatable="false">@string/common_genres</string>
+
+    <string name="search_type_track" translatable="false">@string/common_track</string>
+    <string name="search_type_album" translatable="false">@string/common_album</string>
+    <string name="search_type_artist" translatable="false">@string/common_artist</string>
+    <string name="search_type_playlist" translatable="false">@string/common_playlist</string>
+    <string name="search_type_genre" translatable="false">@string/common_genre</string>
+    <string name="search_type_folder" translatable="false">@string/common_folder</string>
+    <string name="search_type_podcast" translatable="false">@string/common_podcast</string>
+    <string name="search_type_podcast_playlist" translatable="false">@string/common_podcast_playlist</string>
+    <string name="search_type_podcast_album" translatable="false">@string/common_podcast_album</string>
+    <string name="search_type_podcast_artist" translatable="false">@string/common_podcast_artist</string>
+
+    <string name="search_recent_searches">हाल की खोजें</string>
+    <string name="search_clear_recent_searches">हाल की खोजें हटाएँ</string>
+    <string name="search_recent_empty_state">संग्रह में खोजें..</string>
+
+    <string name="search_no_results" translatable="false">@string/common_no_results</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s परिणाम</item>
+        <item quantity="other">%1$s परिणाम</item>
+    </plurals>
+
+
+    <!-- From service_floating_strings.xml -->
+
+    <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
+    <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>
+    <string name="floating_window_notification_content_text">बंद करने के लिए टैप करें</string>
+
+    <!-- From service_music_strings.xml -->
+
+    <string name="music_channel_id_notification" translatable="false">Media playback</string>
+    <string name="music_channel_id_notification_description" translatable="false">Media playback controls</string>
+
+    <string name="music_error_empty_queue">संगीत ढूढ़ने में असमर्थ</string>
+    <string name="music_player_error">प्लेयर में त्रुटि</string>
+
+
+    <!-- From share.xml -->
+    <string name="song_not_shareable">यह गाना शेयर नहीं हो पाया</string>
+
+
+    <!-- From splash.xml -->
+
+    <string name="splash_player_controls">प्लेयर कंट्रोल्स</string>
+    <string name="splash_player_tutorial_1">चालू बंद करने के लिए चित्र पर क्लिक करें</string>
+    <string name="splash_player_tutorial_2">आगे बढ़ने के लिए चित्र के किनारे पर क्लिक करें</string>
+
+    <string name="splash_storage_permission">भंडारण अनुमति</string>
+    <string name="splash_storage_permission_disabled">कृपया ऐप इस्तेमाल करने के लिए भंडारण अनुमति प्रदान करें</string>
+
+
+
+    <!-- From strings_dialog.xml -->
+
+    <string name="popup_play">बजायें</string>
+    <string name="popup_play_shuffle">फेंट कर बजायें</string>
+    <string name="popup_add_to_playlist">प्लेलिस्ट में जोड़ें..</string>
+    <string name="popup_add_to_favorites">पसंदीदा  में जोड़ें</string>
+    <string name="popup_add_to_home_screen">होम स्क्रीन  में जोड़ें</string>
+    <string name="popup_play_next">अगला बजायें</string>
+    <string name="popup_play_later">बाद  बजायें</string>
+    <string name="popup_edit_song_info">गाना संपादित करें</string>
+    <string name="popup_edit_album_info">एल्बम संपादित करें</string>
+    <string name="popup_edit_artist_info">संगीतकार संपादित करें</string>
+    <string name="popup_view_album">एल्बम देखें</string>
+    <string name="popup_view_artist">संगीतकार देखें</string>
+    <string name="popup_share">दूसरों को बताएँ</string>
+    <string name="popup_set_as_ringtone">रिंगटोन बनायें</string>
+    <string name="popup_delete">हटाएँ</string>
+    <string name="popup_rename">नाम बदलें</string>
+    <string name="popup_clear_playlist">प्लेलिस्ट साफ करे</string>
+    <string name="popup_remove_duplicates">प्रतिलिपि हटाएँ</string>
+
+    <string name="popup_equalizer">तुल्यकारक</string>
+    <string name="popup_sleep_timer">निंद्रा घड़ी</string>
+    <string name="popup_settings" translatable="false">@string/settings</string>
+    <string name="popup_about" translatable="false">@string/about</string>
+
+    <string name="popup_negative_cancel">रद्द करें</string>
+    <string name="popup_negative_no">नहीं</string>
+    <string name="popup_negative_back">पीछे</string>
+
+    <string name="popup_positive_ok">ओके</string>
+    <string name="popup_positive_save">सुरक्षित</string>
+    <string name="popup_positive_create">बनायें</string>
+    <string name="popup_positive_delete">हटाएँ</string>
+    <string name="popup_positive_remove">हटाएँ</string>
+
+    <string name="popup_neutral_reset">नई स्थिति में लाएं</string>
+
+    <string name="popup_error_message">कुछ गलत हो गया</string>
+
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_permission">अनुमति</string>
+    <string name="popup_request_permission_write_settings">
+        कृपया रिंगटोन बदलने के लिए पहले निम्न अनुमति प्रदान करें
+    </string>
+
+    <string name="popup_grid_size">ग्रिड विस्तार</string>
+
+
+    <!-- From strings_dialog_add_to_favorites.xml -->
+
+    <string name="add_song_x_to_favorite"><![CDATA[Add <b>%1$s</b> to Favorites?]]></string>
+
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Favorites?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_favorites">%1$s पसंदीदा में जोड़ा गया</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="one">%1$d गाना पसन्दीदा में जोड़ा गया</item>
+        <item quantity="other">%1$d गाने पसन्दीदा में जोड़े गए</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_add_to_playlist.xml -->
+
+    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
+
+    <string name="save_as_playlist">प्लेलिस्ट के रूप में सेव करें</string>
+    <string name="queue_saved_as_playlist">गीतमाला %s प्लेलिस्ट के रूप में सेव किया गया</string>
+
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
+    </plurals>
+
+    <string name="added_song_x_to_playlist_y">%1$s गाना %2$s प्लेलिस्ट में जोड़ा गया</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d गाना %2$s प्लेलिस्ट में जोड़ा गया</item>
+        <item quantity="other">%1$d गाने %2$s प्लेलिस्ट में जोड़े गए</item>
+    </plurals>
+
+    <string name="popup_new_playlist">नहीं प्लेलिस्ट</string>
+    <string name="popup_no_playlist">फ़िलहाल कोई प्लेलिस्ट नहीं...</string>
+
+    <string name="new_playlist_hint">प्लेलिस्ट नाम</string>
+
+    <string name="popup_playlist_name_not_valid">प्लेलिस्ट नाम मान्य नहीं</string>
+    <string name="popup_playlist_name_already_exist">प्लेलिस्ट पहले से मौजूद</string>
+
+
+    <!-- From strings_dialog_clear_playlist.xml -->
+
+    <string name="playlist_x_cleared">%1$s प्लेलिस्ट साफ</string>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Remove all songs from playlist <b>%1$s</b>?]]></string>
+
+
+    <!-- From strings_dialog_delete.xml -->
+
+    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from device?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
+
+    <string name="playlist_x_deleted">प्लेलिस्ट %1$s हटाई गई</string>
+    <string name="song_x_deleted">%1$s हटाया गया</string>
+
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from device?]]></item>
+        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from device?]]></item>
+    </plurals>
+
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from device]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from device]]></item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_later.xml -->
+
+    <string name="add_song_x_to_play_later"><![CDATA[Add <b>%1$s</b> to play later?]]></string>
+
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to play later?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to play later?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_play_later">%1$s बाद में बजने के लिए जोड़ा गए</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="one">%1$d गाना बाद में बजने के लिए जोड़ा गए</item>
+        <item quantity="other">%1$d गाने बाद में बजने के लिए जोड़े गए</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_next.xml -->
+
+<string name="add_song_x_to_play_next"><![CDATA[Play <b>%1$s</b> next?]]></string>
+
+<plurals name="add_xx_songs_to_play_next">
+    <item quantity="one"><![CDATA[Play <b>%1$d song</b> next?]]></item>
+    <item quantity="other"><![CDATA[Play <b>%1$d songs</b> next?]]></item>
+</plurals>
+
+<string name="song_x_added_to_play_next">%1$s आगे बजने के लिए जोड़ा गया</string>
+<plurals name="xx_songs_added_to_play_next">
+    <item quantity="one">आगे बजाने के लिए %1$d गाना जोड़ा गए</item>
+    <item quantity="other">आगे बजाने के लिए %1$d गानें जोड़े गए</item>
+</plurals>
+
+
+    <!-- From strings_dialog_rename.xml -->
+
+    <string name="playlist_x_renamed_to_y">प्लेलिस्ट %1$s का नाम बदल कर %2$s किया गया</string>
+
+    <string name="popup_positive_rename">नाम बदलें</string>
+
+
+    <!-- From strings_dialog_set_ringtone.xml -->
+
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> will be set as ringtone]]></string>
+
+    <string name="song_x_set_as_ringtone">%1$s को रिंगटोन बनायें</string>
+
+
+    <!-- From trial.xml -->
+
+    <string name="trial_title">परिक्षण</string>
+    <string name="trial_message">सभी विशेष गुण इनस्टॉल करने के उपरांत पहले घंटे तक इस्तेमाल के लिए उपलब्ध हैं</string>
+    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
+
+
+    <!-- From tutorial.xml -->
+
+    <string name="tutorial_sort_by_text">Tap the text to change the sort type</string>
+    <string name="tutorial_sort_by_arrow">Tap the arrow to reverse the sort</string>
+
+    <string name="tutorial_floating_window">Click to open a floating window with lyrics and youtube video</string>
+    <string name="tutorial_lyrics">सुरक्षित गाने के बोल देखें</string>
+    <string name="tutorial_add_lyrics">गाने के बोल जोड़ें या हटाएँ</string>
+    <string name="tutorial_search_lyrics">गाने के बोल इंटरनेट पर ढूंढें</string>
+    <string name="tutorial_adjust_sync">Adjust synchronization (only for synced lyrics)</string>
+
+
+</resources>

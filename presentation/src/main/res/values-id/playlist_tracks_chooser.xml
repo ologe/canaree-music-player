@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="playlist_tracks_chooser_no_tracks">Pilih trek untuk daftar putar baru anda</string>
-    <string name="playlist_tracks_chooser_show_only_selected">Hanya tampilkan trek yg dipilih</string>
-    <string name="playlist_tracks_chooser_show_all">Tampilkan semua</string>
-    <plurals name="playlist_tracks_chooser_count">
-        <item quantity="other">%d trek dipilih</item>
-    </plurals>
-</resources>

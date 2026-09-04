@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="playlist_tracks_chooser_no_tracks">为新播放列表添加歌曲</string>
-    <string name="playlist_tracks_chooser_show_only_selected">只显示已选择的歌曲</string>
-    <string name="playlist_tracks_chooser_show_all">显示全部</string>
-    <plurals name="playlist_tracks_chooser_count">
-        <item quantity="other">已选择 %d 首歌</item>
-    </plurals>
-</resources>

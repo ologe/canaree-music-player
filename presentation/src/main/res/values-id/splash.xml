@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="splash_player_controls">Pengatur pemutar</string>
-    <string name="splash_player_tutorial_1">Klik gambar untuk main/jeda</string>
-    <string name="splash_player_tutorial_2">Klik ujung gambar atau geser untuk lewat</string>
-    <string name="splash_storage_permission">Izin penyimpanan</string>
-    <string name="splash_storage_permission_disabled">Tolong berikan izinkan untuk menggunakan app</string>
-</resources>

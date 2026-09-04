@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="playlist_x_renamed_to_y">Nome da lista de reprodução %1$s mudado para %2$s</string>
-    <string name="popup_positive_rename">Mudar o nome</string>
-
-</resources>

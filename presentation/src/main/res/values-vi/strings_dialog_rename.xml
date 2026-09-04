@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="playlist_x_renamed_to_y">Danh sách phát %1$s đã được đổi tên thành %2$s</string>
-
-    <string name="popup_positive_rename">Đổi tên</string>
-
-</resources>

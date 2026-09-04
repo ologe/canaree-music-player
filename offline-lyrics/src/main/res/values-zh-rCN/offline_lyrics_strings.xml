@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="offline_lyrics_empty">无歌词</string>
-    <string name="offline_lyrics_edit_title">添加歌词</string>
-    <string name="offline_lyrics_edit_hint">在此粘贴歌词</string>
-    <string name="offline_lyrics_adjust_sync">调整歌词时间轴</string>
-    <string name="offline_lyrics_adjust_sync_hint">毫秒</string>
-    <string name="offline_lyrics_adjust_sync_error">您只能输入数字！</string>
-</resources>

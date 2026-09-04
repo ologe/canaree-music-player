@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="folder_set_default_title">Carpeta por defecto</string>
-    <string name="folder_set_default_message">Establecer como carpeta predeterminada</string>
-
-</resources>

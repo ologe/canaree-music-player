@@ -12,6 +12,7 @@ android {
 }
 
 dependencies {
+    implementation project(":localisation")
     implementation project(':prefs-keys')
 
     implementation libs.google.material

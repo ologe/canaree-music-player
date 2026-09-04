@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="folder_set_default_title">默认文件夹</string>
-    <string name="folder_set_default_message">设为默认文件夹</string>
-</resources>

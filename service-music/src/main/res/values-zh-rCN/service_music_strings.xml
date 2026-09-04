@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="music_error_empty_queue">未找到音乐</string>
-    <string name="music_player_error">播放器错误</string>
-</resources>

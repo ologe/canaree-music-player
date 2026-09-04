@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From about.xml -->
+
+    <string name="about">Sobre</string>
+    <string name="about_author">Autor</string>
+    <string name="about_version">Versão</string>
+    <string name="about_join_community">Comunidade</string>
+    <string name="about_join_community_description">Junta-te à comunidade</string>
+    <string name="about_beta">Beta</string>
+    <string name="about_beta_description">Experimentar as mais recentes funcionalidades antes dos outros</string>
+    <string name="about_third_sw">Software de Terceiros</string>
+    <string name="about_third_sw_description">Software que ajudou o desenvolvimento</string>
+
+    <!-- Fuzzy -->
+    <string name="about_special_thanks_to">Agradecimentos a</string>
+    <string name="about_special_thanks_to_description">Clicar para ver</string>
+    <string name="about_privacy_policy">Política de Privacidade</string>
+
+    <!-- Fuzzy -->
+    <string name="about_privacy_policy_description">Importante para os dois</string>
+    <string name="about_buy_pro">Comprar a versão Pro</string>
+    <string name="about_buy_pro_description">Comprar a versão Pro para desbloquear todas as funcionalidades</string>
+    <string name="about_buy_pro_description_trial">Versão de teste, todas as funcionalidades estão desbloqueadas</string>
+
+    <!-- Fuzzy -->
+    <string name="about_icon_made_by_x_from_y">Ícone feito por %1$s de %2$s</string>
+
+
+    <!-- From app_preferences.xml -->
+
+    <string name="settings">Configurações</string>
+    <string name="prefs_not_premium_action">Comprar</string>
+
+    <string name="premium_ad_key_title">Mostrar anúncios para desbloquear recursos premium</string>
+
+    <!-- categories -->
+    <string name="prefs_category_library">Biblioteca</string>
+    <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_ui">Interface de usuário</string>
+    <string name="prefs_category_other">Outro</string>
+
+    <!-- quick action -->
+    <string name="prefs_quick_action_title">Ação rápida</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_quick_action_summary">Mudar a ação do pequeno ícone próximo das imagens</string>
+
+    <!-- detail visible sections -->
+    <string name="prefs_detail_sections_title">Secções visíveis</string>
+    <string name="prefs_detail_sections_summary">Configurar as secções visíveis na vista detalhada</string>
+
+    <!-- library categories -->
+    <!-- Fuzzy -->
+    <string name="prefs_library_categories_title">Categorias da biblioteca</string>
+
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">Categorias de podcast</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_library_categories_summary">Configurar a visibilidade e a ordem</string>
+
+    <!-- blacklist -->
+    <string name="prefs_blacklist_title">Lista negra</string>
+    <string name="prefs_blacklist_summary">Esconder pastas da biblioteca</string>
+    <string name="prefs_blacklist_description">Clicar para mostrar/esconder</string>
+    <string name="prefs_blacklist_error">Não é possível colocar todas as pastas na lista negra</string>
+
+    <!-- folder tree -->
+    <string name="prefs_folder_tree_view_title">Visualização de hierarquia de pastas</string>
+
+    <!-- used equalizer -->
+    <string name="prefs_used_equalizer_title">Equalizador</string>
+    <string name="prefs_used_equalizer_summary_on">Usar o equalizador da aplicação</string>
+    <string name="prefs_used_equalizer_summary_off">Usar o equalizador do sistema (caso exista)</string>
+
+    <!-- midnight mode -->
+    <string name="prefs_lower_volume_on_night_title">Modo Meia-Noite</string>
+    <string name="prefs_lower_volume_on_night_summary">Baixa o volume máximo à noite</string>
+
+    <!-- crossfade -->
+    <string name="prefs_cross_fade_title">Crossfade</string>
+    <string name="prefs_cross_fade_summary">Permite crossfade entre músicas</string>
+
+    <!-- gapless -->
+    <string name="prefs_gapless_title">Reprodução sem intervalo</string>
+    <string name="prefs_gapless_summary">Permite reprodução sem intervalo</string>
+
+    <!-- icon shape -->
+    <string name="prefs_icon_shape_title">Forma do ícone</string>
+
+    <!-- show player controls -->
+    <string name="prefs_player_controls_visibility_title">Controlos de reprodução clássicos</string>
+
+    <!-- auto download images -->
+    <string name="prefs_auto_download_images_title">Fazer download de imagens automaticamente</string>
+    <string name="prefs_auto_download_images_summary_mobile">Sempre</string>
+    <string name="prefs_auto_download_images_summary_wifi">Apenas em Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_never">Nunca</string>
+    <string name="prefs_auto_download_images_entry_value_always">sempre</string>
+    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
+    <string name="prefs_auto_download_images_entry_value_never">nunca</string>
+
+    <!-- auto create images -->
+    <string name="prefs_auto_create_images_title">Criar automaticamente imagens de pasta, lista de reprodução e género</string>
+
+    <!-- appearance -->
+    <string name="prefs_appearance_title">Aparência do ecrã de reprodução</string>
+    <string name="prefs_appearance_default">Padrão</string>
+    <string name="prefs_appearance_flat">Plano</string>
+    <string name="prefs_appearance_spotify">Famoso reprodutor de música verde</string>
+    <string name="prefs_appearance_fullscreen">Tela cheia</string>
+    <string name="prefs_appearance_big_image">Imagem grande</string>
+
+    <!-- dark mode -->
+    <string name="prefs_dark_mode_title">Modo escuro</string>
+    <string name="prefs_dark_mode_light">Claro</string>
+    <string name="prefs_dark_mode_dark">Escuro</string>
+
+    <!-- notch support -->
+    <!-- Fuzzy -->
+    <string name="prefs_notch_support_title">Suporte de entalhe</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_notch_support_summary">Aumentar a altura da barra de status</string>
+
+    <!-- delete cached images -->
+    <string name="prefs_delete_cached_images_title">Apagar o cache</string>
+    <string name="prefs_delete_cached_images_summary">Apagar todas as imagens no cache</string>
+    <string name="prefs_delete_cached_images_success">Cache apagado</string>
+
+
+    <!-- From app_shortcuts.xml -->
+
+    <string name="app_shortcut_added_to_home_screen">Atalho adicionado à tela inicial</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">O teu launcher não permite adicionar atalhos</string>
+    <string name="shortcut_playlist_chooser">Adicionar uma lista de reprodução</string>
+
+
+    <!-- From categories.xml -->
+
+
+    <string name="category_header">Biblioteca</string>
+    <string name="category_no_tab_visible">E agora?</string>
+
+    <string-array name="tab_empty_state">
+        <item>Sem pasta</item>
+        <item>Sem listas de reprodução</item>
+        <item>@string/common_no_tracks</item>
+        <item>Sem álbum</item>
+        <item>Sem artista</item>
+        <item>Sem gênero</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>Sem listas de reprodução</item>
+        <item>Sem podcast</item>
+        <item>Sem álbum</item>
+        <item>Sem artista</item>
+    </string-array>
+
+    <string name="category_sort_by_title">Título</string>
+    <string name="category_sort_by_artist">Artista</string>
+    <string name="category_sort_by_album">Álbum</string>
+    <string name="category_sort_by_duration">Duração</string>
+    <string name="category_sort_by_date">Data</string>
+    <string name="category_sort_by_ascending">Ascendente</string>
+    <string name="category_sort_by_descending">Descendente</string>
+
+
+    <!-- From category_tab.xml -->
+
+    <string name="tab_auto_playlists">Listas de reprodução automáticas</string>
+    <string name="tab_all_playlists">Todas as listas de reprodução</string>
+    <string name="tab_all_albums">Todos os álbuns</string>
+    <string name="tab_all_artists">Todos os artistas</string>
+    <string name="tab_recent_played">Ouviu recentemente</string>
+    <string name="tab_recent_added">Adicionado recentemente</string>
+
+    <string-array name="tab_new_items">
+        <item>Novos álbuns</item>
+        <item>Novos artistas</item>
+    </string-array>
+
+
+    <!-- From common_strings.xml -->
+    <string name="common_library">Library</string>
+
+    <string name="network_timeout">Por favor tente novamente</string>
+
+    <string name="common_folders">Pastas</string>
+    <string name="common_playlists">Listas de reprodução</string>
+    <string name="common_tracks">Faixas</string>
+    <string name="common_albums">Álbuns</string>
+    <string name="common_artists">Artistas</string>
+    <string name="common_genres">Géneros</string>
+    <string name="common_podcasts">Podcasts</string>
+    <string name="common_last_added">Adicionados recentemente</string>
+    <string name="common_favorites">Favoritos</string>
+    <string name="common_history">Recentes</string>
+    <string name="common_all_tracks">Todas as faixas</string>
+    <string name="common_placeholder_title">Um título incrível</string>
+    <string name="common_placeholder_artist">Um artista incrível</string>
+    <string name="common_placeholder_album">Um álbum incrível</string>
+    <string name="common_empty_list">Lista vazia</string>
+    <string name="are_you_sure">Tens a certeza?</string>
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
+    <plurals name="common_plurals_song">
+        <item quantity="one">"%d faixa"</item>
+        <item quantity="other">"%d faixas"</item>
+    </plurals>
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d álbum</item>
+        <item quantity="other">%d álbuns</item>
+    </plurals>
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d pasta</item>
+        <item quantity="other">%d pastas</item>
+    </plurals>
+    <string name="common_folder">Pasta</string>
+    <string name="common_playlist">Lista de reprodução</string>
+    <string name="common_title">Título</string>
+    <string name="common_track">Faixa</string>
+    <string name="common_artist">Artista</string>
+    <string name="common_album_artist">Álbum do artista</string>
+    <string name="common_album">Álbum</string>
+    <string name="common_genre">Género</string>
+
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Lista de reprodução de podcast</string>
+    <string name="common_podcast_album">Álbum de podcast</string>
+    <string name="common_podcast_artist">Artista de podcast</string>
+
+    <string name="common_duration">Duração</string>
+    <string name="common_recently_added">Adicionado recentemente</string>
+    <string name="common_custom">Personalizado</string>
+    <string name="common_track_number">Número da faixa</string>
+    <string name="common_play">Play</string>
+    <string name="common_shuffle">Baralhar tudo</string>
+    <string name="common_search">Procurar</string>
+    <string name="common_hide">Esconder</string>
+    <string name="common_shape_square">Quadrado</string>
+    <string name="common_shape_rounded">Quadrado arredondado</string>
+    <string name="common_related_artists">Artistas relacionados</string>
+    <string name="common_most_played">Mais ouvidos</string>
+    <string name="common_no_tracks">Sem faixas</string>
+    <string name="common_no_results">Sem resultados</string>
+    <string name="common_visible">Visível</string>
+    <string name="common_hidden">Escondido</string>
+    <string name="common_no_internet">Verifica a ligação à internet</string>
+    <string name="common_switch_on">Ligado</string>
+    <string name="common_switch_off">Desligado</string>
+    <string name="common_filter">Filtrar..</string>
+    <string name="common_browser_not_found">Browser não encontrado</string>
+
+    <string name="common_enabled">Ativado</string>
+    <string name="common_disabled">Desativado</string>
+
+    <string name="common_added_to_play_next">Added to play next</string>
+    <string name="common_moved_to_play_next">Moved to play next</string>
+
+    <string name="common_sort_by">Ordenar por</string>
+
+
+    <!-- From credentials.xml -->
+<!--Generated by crowdin.com-->
+  <string name="credentials_username">Nome de utilizador</string>
+  <string name="credentials_password">Palavra-passe</string>
+  <string name="credentials_button_positive">Autenticar</string>
+
+    <!-- From detail.xml -->
+
+    <string-array name="detail_album_header">
+        <item>Outras pastas</item>
+        <item>Outras listas de reprodução</item>
+        <item/>
+        <item>Outros álbuns</item>
+        <item>@string/common_albums</item>
+        <item>Outros gêneros</item>
+        <item>Outras listas de reprodução</item>
+        <item/>
+        <item>Outros álbuns</item>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <!-- Fuzzy -->
+    <string name="detail_more_albums_by">Mais por %s</string>
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d nova faixa</item>
+        <item quantity="other">%d novas faixas</item>
+    </plurals>
+
+
+    <!-- From edit_song.xml -->
+
+    <string name="edit_info_year">Ano</string>
+    <string name="edit_info_disc">Disco #</string>
+    <string name="edit_info_track">Faixa #</string>
+    <string name="edit_info_auto_tag_no_results">Nenhum resultado encontrado</string>
+    <string name="edit_info_disc_number_not_digits">Disco # deve ser apenas digitos</string>
+    <string name="edit_info_track_number_not_digits">Faixa # deve ser apenas digitos</string>
+
+    <!-- Fuzzy -->
+    <string name="edit_song_fetching_info">A pesquisar informação da música</string>
+    <string name="edit_song_info_not_found">Informação não encontrada</string>
+    <string name="edit_song_image_not_found">Imagem não encontrada</string>
+    <string name="edit_track_update_success">Informação da faixa atualizada</string>
+    <string name="edit_album_update_success">Informação do álbum atualizada</string>
+    <string name="edit_artist_update_success">Informação do artista atualizada</string>
+    <string name="edit_song_invalid_title">O título não pode estar vazio</string>
+    <string name="edit_artist_invalid_title">O nome do artista não pode estar vazio</string>
+    <string name="edit_song_invalid_disc_number">Número do disco inválido</string>
+    <string name="edit_song_invalid_track_number">Número da faixa inválido</string>
+    <string name="edit_song_invalid_year">Ano inválido</string>
+    <string name="edit_song_cannot_read">Não é possível atualizar a faixa</string>
+    <string name="edit_song_read_only">Não é possível atualizar faixa, o ficheiro é apenas de leitura</string>
+    <string name="edit_song_file_not_found">Não é possível atualizar a faixa, o ficheiro não foi encontrado</string>
+    <string name="edit_song_error_can_not_read">Não é possível ler o ficheiro</string>
+    <string name="edit_song_error_io">Ficheiro não encontrado</string>
+    <string name="edit_song_error_read_only">Ficheiro é apenas de leitura</string>
+    <string name="edit_song_error">Alguma coisa correu mal, não é possível atualizar o ficheiro</string>
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">As tuas mudanças foram aplicadas a %d música</item>
+        <item quantity="other">As tuas mudanças foram aplicadas a %d músicas</item>
+    </plurals>
+
+
+    <string name="edit_album_update_start">Começou a atualizar o álbum..</string>
+    <string name="edit_artist_update_start">Começou a atualizar o artista..</string>
+
+
+    <!-- From equalizer.xml -->
+
+    <string name="equalizer_not_found">Equalizador não encontrado</string>
+
+
+    <!-- From folders.xml -->
+
+    <string name="folder_set_default_title">Pasta padrão</string>
+    <string name="folder_set_default_message">Definir como pasta padrão</string>
+
+
+    <!-- From offline_lyrics_strings.xml -->
+
+    <string name="offline_lyrics_empty">Sem letra</string>
+    <string name="offline_lyrics_edit_title">Adicionar letra</string>
+    <string name="offline_lyrics_edit_hint">Cola aqui a letra</string>
+
+    <string name="offline_lyrics_adjust_sync">Ajustar sincronização</string>
+    <string name="offline_lyrics_adjust_sync_hint">Milissegundos</string>
+    <string name="offline_lyrics_adjust_sync_error">Deve ser um número</string>
+
+
+    <!-- From player_strings.xml -->
+
+    <string name="player_load_more_song">mais músicas carregam enquanto ouves</string>
+
+
+
+    <!-- From playing_queue.xml -->
+
+    <string name="playing_queue">Fila</string>
+
+
+    <!-- From playlist_chooser.xml -->
+
+    <string name="playlist_chooser_header">Escolhe uma lista de reprodução</string>
+    <string name="playlist_chooser_dialog_title">Adicionar ao launcher</string>
+    <string name="playlist_chooser_dialog_message">Adicionar lista de reprodução \'%s\' ao lancher?</string>
+
+
+    <!-- From playlist_tracks_chooser.xml -->
+
+    <string name="playlist_tracks_chooser_no_tracks">Escolhe faixas para a nova lista de reprodução</string>
+    <string name="playlist_tracks_chooser_show_only_selected">Apenas mostrar novas faixas</string>
+    <string name="playlist_tracks_chooser_show_all">Mostrar tudo</string>
+
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="one">%d faixa selecionada</item>
+        <item quantity="other">%d faixas selecionadas</item>
+    </plurals>
+
+
+    <!-- From premium.xml -->
+
+    <string name="premium_already_premium">Já és premium</string>
+
+
+
+    <!-- From rate_app.xml -->
+
+    <string name="rate_app_title">Avaliar a app</string>
+    <string name="rate_app_message">Deixa uma crítica positiva se aprecias o meu trabalho</string>
+    <string name="rate_app_positive_button">Avaliar</string>
+    <string name="rate_app_negative_button">Não, obrigado</string>
+    <string name="rate_app_neutral_button">Lembra-me depois</string>
+
+
+    <!-- From recently_added.xml -->
+
+    <string-array name="recently_added_header">
+        <item>Adicionado recentemente à pasta %s</item>
+        <item>Adicionado recentemente à lista de reprodução %s</item>
+        <item>Invalid</item>
+        <item>Adicionado recentemente ao álbum %s</item>
+        <item>Adicionado recentemente ao artista %s</item>
+        <item>adicionado recentemente ao gênero %s</item>
+    </string-array>
+
+
+    <!-- From related_artists.xml -->
+
+    <string-array name="related_artists_header">
+        <item>Artistas relacionados com a pasta %s</item>
+        <item>Artistas relacionados com a lista de reprodução %s</item>
+        <item>Invalid</item>
+        <item>Artistas relacionados ao álbum %s</item>
+        <item>Artistas relacionados com o artista %s</item>
+        <item>Artistas relacionados com gênero %s</item>
+    </string-array>
+
+
+    <!-- From remove_duplicates.xml -->
+
+    <string name="remove_duplicates_message"><![CDATA[Remover todos os duplicados da lista de reprodução <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Duplicados removidos da lista de reprodução %1$s</string>
+
+
+    <!-- From search.xml -->
+
+    <string name="search_recent_searches">Pesquisas recentes</string>
+    <string name="search_clear_recent_searches">Limpar pesquisas recentes</string>
+    <string name="search_recent_empty_state">Procurar na biblioteca..</string>
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s resultado</item>
+        <item quantity="other">%1$s resultados</item>
+    </plurals>
+
+
+    <!-- From service_floating_strings.xml -->
+
+    <string name="floating_window_notification_content_text">Pressione para fechar</string>
+
+
+    <!-- From service_music_strings.xml -->
+
+    <string name="music_error_empty_queue">Não foi possível encontrar música</string>
+    <string name="music_player_error">Erro de reprodução</string>
+
+
+    <!-- From share.xml -->
+
+    <string name="song_not_shareable">Não foi possível compartilhar esta música</string>
+
+
+
+    <!-- From splash.xml -->
+
+    <string name="splash_player_controls">Controlos de reprodução</string>
+    <string name="splash_player_tutorial_1">Clica nas imagens para reproduzir/pausar</string>
+    <string name="splash_player_tutorial_2">Clica nas bordas das imagens ou desliza para saltar</string>
+    <string name="splash_storage_permission">Permissão de armazenamento</string>
+    <string name="splash_storage_permission_disabled">Por favor aceita a permissão de armazenamento para usar a app</string>
+
+
+    <!-- From strings_dialog.xml -->
+
+    <string name="popup_play">Reproduzir</string>
+    <string name="popup_play_shuffle">Reproduzir aleatoriamente</string>
+    <string name="popup_add_to_playlist">Adicionar à lista de reprodução</string>
+    <string name="popup_add_to_favorites">Adicionar aos favoritos</string>
+    <string name="popup_add_to_home_screen">Adicionar à tela incial</string>
+    <string name="popup_play_next">Reproduzir próximo</string>
+    <string name="popup_play_later">Reproduzir depois</string>
+    <string name="popup_edit_song_info">Editar música</string>
+    <string name="popup_edit_album_info">Editar álbum</string>
+    <string name="popup_edit_artist_info">Editar artista</string>
+    <string name="popup_view_album">Ver álbum</string>
+    <string name="popup_view_artist">Ver artista</string>
+    <string name="popup_share">Partilhar</string>
+    <string name="popup_set_as_ringtone">Definir como toque</string>
+    <string name="popup_delete">Apagar</string>
+    <string name="popup_rename">Mudar o nome</string>
+    <string name="popup_clear_playlist">Limpar lista de reprodução</string>
+    <string name="popup_remove_duplicates">Remover duplicados</string>
+    <string name="popup_equalizer">Equalizador</string>
+    <string name="popup_sleep_timer">Temporizador</string>
+    <string name="popup_negative_cancel">Cancelar</string>
+    <string name="popup_negative_no">Não</string>
+    <string name="popup_negative_back">Para trás</string>
+    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Guardar</string>
+    <string name="popup_positive_create">Criar</string>
+    <string name="popup_positive_delete">Apagar</string>
+    <string name="popup_positive_remove">Remover</string>
+    <string name="popup_neutral_reset">Reset</string>
+    <string name="popup_error_message">Alguma coisa correu mal</string>
+    <string name="share_song_x"><![CDATA[Partilhar <b><font color="black">%1$s</b></font>…]]></string>
+    <string name="popup_permission">Permissão</string>
+    <string name="popup_request_permission_write_settings">Por favor aceita a permissão para mudar o toque</string>
+
+    <string name="popup_grid_size">Tamanho da grade</string>
+
+
+    <!-- From strings_dialog_add_to_favorites.xml -->
+
+    <string name="add_song_x_to_favorite"><![CDATA[Adicionar <b>%1$s</b> aos Favoritos?]]></string>
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Adicionar <b>%1$d música</b> aos Favoritos?]]></item>
+        <item quantity="other"><![CDATA[Adicionar <b>%1$d músicas</b> aos Favoritos?]]></item>
+    </plurals>
+    <string name="song_x_added_to_favorites">%1$s adicionado aos Favoriteos</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="one">%1$d música adicionada aos Favoritos</item>
+        <item quantity="other">%1$d músicas adicionadas aos Favoritos</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_add_to_playlist.xml -->
+
+    <string name="add_song_x_to_playlist"><![CDATA[Adicionar <b>%1$s</b> à lista de reprodução:]]></string>
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Adicionar <b>%1$d música</b> à lista de reprodução:]]></item>
+        <item quantity="other"><![CDATA[Adicionar <b>%1$d músicas</b> à lista de reprodução:]]></item>
+    </plurals>
+    <string name="added_song_x_to_playlist_y">%1$s adicionada à lista de reprodução %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d música adicionada à lista de reprodução %2$s</item>
+        <item quantity="other">%1$d músicas adicionadas à lista de reprodução %2$s</item>
+    </plurals>
+    <string name="popup_new_playlist">Nova lista de reprodução</string>
+    <string name="popup_no_playlist">Ainda não tens listas de reprodução</string>
+    <string name="new_playlist_hint">Nome da lista de reprodução</string>
+    <string name="popup_playlist_name_not_valid">Nome da lista de reprodução não é válido</string>
+    <string name="popup_playlist_name_already_exist">A lista de reprodução já existe</string>
+
+
+    <!-- From strings_dialog_clear_playlist.xml -->
+
+    <string name="playlist_x_cleared">Lista de reprodução %1$s limpa</string>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Remover todas as músicas da lista de reprodução <b>%1$s</b>?]]></string>
+
+
+    <!-- From strings_dialog_delete.xml -->
+
+    <string name="delete_song_y"><![CDATA[Apagar <b>%1$s</b> do dispositivo?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Apagar lista de reprodução <b>%1$s</b>?]]></string>
+    <string name="playlist_x_deleted">Lista de reprodução %1$s apagada</string>
+    <string name="song_x_deleted">%1$s apagado</string>
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Apagar <b>%1$d música</b> do dispositivo?]]></item>
+        <item quantity="other"><![CDATA[Apagar <b>%1$d músicas</b> do dispositivo?]]></item>
+    </plurals>
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d música</b> apagada do dispositivo]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d músicas</b> apagadas do dispositivo]]></item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_later.xml -->
+
+    <string name="add_song_x_to_play_later"><![CDATA[Adicionar <b>%1$s</b> para reproduzir depois?]]></string>
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="one"><![CDATA[Adicionar<b>%1$d música</b> para reproduzir depois?]]></item>
+        <item quantity="other"><![CDATA[Adicionar<b>%1$d músicas</b> para reproduzir depois?]]></item>
+    </plurals>
+    <string name="song_x_added_to_play_later">%1$s adicionada para reproduzir depois</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="one">%1$d adicionada para reproduzir depois</item>
+        <item quantity="other">%1$d adicionadas para reproduzir depois</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_next.xml -->
+
+    <string name="add_song_x_to_play_next"><![CDATA[Reproduzir<b>%1$s</b> a seguir?]]></string>
+    <plurals name="add_xx_songs_to_play_next">
+        <item quantity="one"><![CDATA[Reproduzir<b>%1$d música</b> a seguir?]]></item>
+        <item quantity="other"><![CDATA[Reproduzir<b>%1$d músicas</b> a seguir?]]></item>
+    </plurals>
+    <string name="song_x_added_to_play_next">%1$s adicionada para reproduzir a seguir</string>
+    <plurals name="xx_songs_added_to_play_next">
+        <item quantity="one">%1$d música adicionada para reproduzir depois</item>
+        <item quantity="other">%1$d músicas adicionadas para reproduzir depois</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_rename.xml -->
+
+    <string name="playlist_x_renamed_to_y">Nome da lista de reprodução %1$s mudado para %2$s</string>
+    <string name="popup_positive_rename">Mudar o nome</string>
+
+
+    <!-- From strings_dialog_set_ringtone.xml -->
+
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> será definido como toque]]></string>
+    <string name="song_x_set_as_ringtone">%1$s definido como toque</string>
+
+
+    <!-- From trial.xml -->
+
+    <string name="trial_title">Versão de teste</string>
+    <string name="trial_message">Todas as funcionalidades premium são desbloqueadas na primeira hora depois de instalar</string>
+
+
+    <!-- From tutorial.xml -->
+
+    <string name="tutorial_sort_by_text">Clica no texto para mudar o tipo de ordem</string>
+    <string name="tutorial_sort_by_arrow">Clica na seta para inverter a ordem</string>
+    <string name="tutorial_floating_window">Clica para abrir uma janela flutuante com a letra e o vídeo do youtube</string>
+    <string name="tutorial_lyrics">Mostrar letra guardada</string>
+    <string name="tutorial_add_lyrics">Adicionar ou mudar letra</string>
+    <string name="tutorial_search_lyrics">Procurar letra na internet</string>
+
+
+</resources>

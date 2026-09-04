@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="playlist_chooser_header">选择一个播放列表</string>
-    <string name="playlist_chooser_dialog_title">添加到桌面启动器</string>
-    <string name="playlist_chooser_dialog_message">确认添加播放列表“%s”到桌面启动器？</string>
-</resources>

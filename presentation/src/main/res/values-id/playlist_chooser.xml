@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="playlist_chooser_header">Pilih daftar putar</string>
-    <string name="playlist_chooser_dialog_title">Tambah ke beranda</string>
-    <string name="playlist_chooser_dialog_message">Tambah daftar putar \'%s\' ke beranda?</string>
-</resources>

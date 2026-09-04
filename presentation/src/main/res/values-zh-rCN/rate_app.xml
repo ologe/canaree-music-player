@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="rate_app_title">评价此APP</string>
-    <string name="rate_app_message">如果您喜欢这个软件，请给个好评，么么哒</string>
-    <string name="rate_app_positive_button">评价</string>
-    <string name="rate_app_negative_button">不，谢谢</string>
-    <string name="rate_app_neutral_button">稍后再说</string>
-</resources>

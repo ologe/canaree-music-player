@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="music_error_empty_queue">Não foi possível encontrar música</string>
-    <string name="music_player_error">Erro de reprodução</string>
-
-</resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="playlist_chooser_header">Επιλογή μιας λίστα αναπαραγωγής</string>
-    <string name="playlist_chooser_dialog_title">Προσθήκη στον launcher</string>
-    <string name="playlist_chooser_dialog_message">Προσθήκη λίστα αναπαραγωγής \'%s\' στον launcher?</string>
-
-</resources>

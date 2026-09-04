@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From about.xml -->
+
+    <string name="about">Περί</string>
+
+    <string name="about_author">Δημιουργός</string>
+    <string name="about_version">Έκδοση</string>
+
+    <string name="about_join_community">Κοινότητα</string>
+    <string name="about_join_community_description">Μπές στην κοινότητα</string>
+
+    <string name="about_beta">Beta</string>
+    <string name="about_beta_description">Δοκίμασε τα καινούργια χαρακτηριστικά πριν απο όλους</string>
+
+    <string name="about_third_sw">Τρίτοι φορείς ανάπτυξης λογισμικού</string>
+    <string name="about_third_sw_description">Λογισμικό που βόηθησε στην ανάπτυξη</string>
+
+    <string name="about_special_thanks_to">Μεγάλο ευχαριστώ στους</string>
+    <string name="about_special_thanks_to_description">Πάτα να δείς</string>
+
+    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
+    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
+
+    <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
+    <string name="about_privacy_policy_description">Σημαντικό και για τους δυό μας</string>
+
+    <string name="about_buy_pro">Αγόρασε την Pro έκδοση</string>
+    <string name="about_buy_pro_description">Αγόρασε την Pro έκδοση για να ξεκλειδώσεις όλα τα χαρακτηριστικά</string>
+    <string name="about_buy_pro_description_trial">Δοκιμαστική έκδοση, ολα τα χαρατηριστικά είναι ξεκλείδωτα</string>
+
+    <string name="about_icon_made_by_x_from_y">Σχεδιαστής εικονιδίου %1$s από %2$s</string>
+
+
+    <!-- From app_preferences.xml -->
+
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+
+    <string name="settings">Ρυθμίσεις</string>
+
+    <string name="prefs_not_premium_action">Αγορά</string>
+
+    <string name="premium_ad_key_title">Εμφάνιση διαφημίσεων για ξεκλείδωμα χαρακτηριστικών υψηλής ποιότητας</string>
+
+    <!--categories-->
+    <string name="prefs_category_library">Βιβλιοθήκη</string>
+    <string name="prefs_category_audio">Ήχος</string>
+    <string name="prefs_category_ui">Περιβάλλον Εργασίας</string>
+    <string name="prefs_category_other">Άλλα</string>
+
+
+    <!--quick action-->
+    <string name="prefs_quick_action_title">Γρήγορη δράση</string>
+    <string name="prefs_quick_action_summary">Άλλαξε την δράση του μικρού εικονιδίου δίπλα στις εικόνες</string>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entries">
+        <item>@string/common_hide</item>
+        <item>@string/common_play</item>
+        <item>@string/common_shuffle</item>
+    </string-array>
+
+
+
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">Όρατα τμήματα</string>
+    <string name="prefs_detail_sections_summary">Τροποποίησε τα ορατά τμήματα στην προβολή λεπτομέρειας</string>
+
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entries">
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
+    </string-array>
+
+
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">Κατηγορίες βιβλιοθήκης</string>
+    <string name="prefs_library_categories_summary">Τροποποίησε την ορατότητα και την σειρά</string>
+
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">Κατηγορίες Podcast</string>
+
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">Μαύρη Λίστα</string>
+    <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>
+    <string name="prefs_blacklist_description">Πάτα για να εμφανίσεις/κρύψεις</string>
+    <string name="prefs_blacklist_error">Δεν μπορεί να γίνει η προσθήκη όλων των φακέλων στην μαύρη λίστα</string>
+
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">Προβολή φακέλων σε ιεραρχεία</string>
+    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
+
+    <string name="prefs_show_podcasts_title">Εμφάνιση Podcasts</string>
+    <string name="prefs_show_podcasts_summary">Εμφάνιση Podcasts κατηγορία στην βιοβλιοθήκη</string>
+
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">Εξισωτής</string>
+    <string name="prefs_used_equalizer_summary_on">Χρησιμοποίησε εξισωτή εφαρμογής</string>
+    <string name="prefs_used_equalizer_summary_off">Χρησιμοποίησε τον εξισωτή του συστήματος (εάν υπάρχει)</string>
+
+
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">Μεσάνυχτα</string>
+    <string name="prefs_lower_volume_on_night_summary">Χαμηλώνει την μέγιστη ένταση το βράδυ</string>
+
+
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">Ομαλή μετάβαση</string>
+    <string name="prefs_cross_fade_summary">Επιτρέπει την ομαλή μετάβαση μεταξύ των τραγουδιών</string>
+
+    <!--gapless-->
+    <string name="prefs_gapless_title">Χωρίς κενά</string>
+    <string name="prefs_gapless_summary">Επιτρέπει την αναπαραγωγή χωρίς κενά</string>
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">Σχήμα εικονιδίου</string>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entries">
+        <item>@string/common_shape_square</item>
+        <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_cut_corner</item>
+    </string-array>
+
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">Πλήκτρα κλασσικού προγράμματος αναπαραγωγής</string>
+    <string name="prefs_player_controls_visibility_summary_on" translatable="false">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off" translatable="false">@string/common_hidden</string>
+
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">Προσαρμοστικά χρώματα</string>
+    <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">Εμφάνιση νέων άλμπουμ και καλλιτεχνών</string>
+    <string name="prefs_show_new_albums_artists_summary">Εμφάνιση νέων άλμπουμ και καλλιτεχνών που προστέθηκαν πρόσφατα</string>
+
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">Εμφάνιση πρόσφατων αναπαραγωγών</string>
+    <string name="prefs_show_recent_albums_artists_summary">Εμφάνιση όλων των άλμπουμ και των καλλιτεχνών που έχουν αναπαραχθεί πρόσφατα</string>
+
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">Αυτόματη λήψη φωτογραφιών</string>
+    <string name="prefs_auto_download_images_summary_mobile">Πάντα</string>
+    <string name="prefs_auto_download_images_summary_wifi">Μόνο με WiFi</string>
+    <string name="prefs_auto_download_images_summary_never">Ποτέ</string>
+
+    <string-array name="prefs_auto_download_images_entry_values">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
+
+    <string-array name="prefs_auto_download_images_entries">
+        <item>@string/prefs_auto_download_images_summary_never</item>
+        <item>@string/prefs_auto_download_images_summary_wifi</item>
+        <item>@string/prefs_auto_download_images_summary_mobile</item>
+    </string-array>
+
+
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">Αυτόματη δημιουργία φακέλου, λίστα αναπαραγωγής και είδος φωτογραφιών</string>
+    <string name="prefs_auto_create_images_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_title">Παίζει τώρα εμφάνιση </string>
+    <string name="prefs_appearance_default">Προκαθορισμένο</string>
+    <string name="prefs_appearance_flat">Επίπεδο</string>
+    <string name="prefs_appearance_spotify">Διάσημο πράσινο music player</string>
+    <string name="prefs_appearance_fullscreen">Πλήρης Οθόνη</string>
+    <string name="prefs_appearance_big_image">Μεγάλη Εικόνα</string>
+    <string name="prefs_appearance_clean">Λάμψη</string>
+    <string name="prefs_appearance_mini">Mini</string>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
+        <item>@string/prefs_appearance_entry_value_big_image</item>
+        <item>@string/prefs_appearance_entry_value_clean</item>
+        <item>@string/prefs_appearance_entry_value_mini</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entries">
+        <item>@string/prefs_appearance_default</item>
+        <item>@string/prefs_appearance_flat</item>
+        <item>@string/prefs_appearance_spotify</item>
+        <item>@string/prefs_appearance_fullscreen</item>
+        <item>@string/prefs_appearance_big_image</item>
+        <item>@string/prefs_appearance_clean</item>
+        <item>@string/prefs_appearance_mini</item>
+    </string-array>
+
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">Σκοτεινή λειτουργία</string>
+    <string name="prefs_dark_mode_follow_system">Προκαθορισμένο απο την Εξοικονόμηση Μπαταρίας</string>
+    <string name="prefs_dark_mode_light">Φωτεινό</string>
+    <string name="prefs_dark_mode_dark">Σκοτεινό</string>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entries">
+        <item>@string/prefs_dark_mode_follow_system</item>
+        <item>@string/prefs_dark_mode_light</item>
+        <item>@string/prefs_dark_mode_dark</item>
+    </string-array>
+
+    <!--notch support-->
+    <string name="prefs_notch_support_title">Υποστήριξη Notch</string>
+    <string name="prefs_notch_support_summary">Αύξηση ύψους της μπάρας κατάστασης</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">Διαγραφή κρυφής μνήμης</string>
+    <string name="prefs_delete_cached_images_summary">Διαγραφή όλων των φωτογραφιών κρυφής μνήμης</string>
+    <string name="prefs_delete_cached_images_success">Η κρυφή μνήμη διαγράφθηκε</string>
+
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">Επαναφορά tutorial</string>
+
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">Last.fm στοιχεία</string>
+    <string name="prefs_last_fm_credentials_message">Τα στοιχεία θα κρυπτογραφηθούν</string>
+    <string name="prefs_last_fm_credentials_summary">Βάλε όνομα και κωδικό για το Last.fm λογαριασμό σου</string>
+
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">Εμφάνιση οθόνη κλειδώματος</string>
+    <string name="prefs_lockscreen_artwork_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on" translatable="false">@string/common_enabled</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_title">Επιλογή Μέρα-Νύχτα</string>
+    <string name="prefs_day_night_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">Χρώμα έμφασης</string>
+    <string name="prefs_accent_color_summary">Αλλαγή χρώμα έμφασης</string>
+
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">Επιβλιτική επιλογή</string>
+    <string name="prefs_immersive_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off" translatable="false">@string/common_disabled</string>
+
+
+    <!-- From app_shortcuts.xml -->
+
+    <string name="app_shortcut_added_to_home_screen">Η συντόμευση προσθέθηκε στην κύρια οθόνης σας</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">Ο launcher σας δεν υποστηρίζει την προσθήκη συντομεύσεων στην κύρια οθόνη σας</string>
+
+    <string name="shortcut_playlist_chooser">Πρόσθεσε μια λίστα αναπαραγωγής</string>
+    <string name="shortcut_play" translatable="false">@string/common_play</string>
+    <string name="shortcut_shuffle" translatable="false">@string/common_shuffle</string>
+    <string name="shortcut_search" translatable="false">@string/common_search</string>
+
+
+    <!-- From categories.xml -->
+
+    <string name="category_header" translatable="false">@string/common_library</string>
+
+    <string-array name="categories">
+        <item>@string/category_folders</item>
+        <item>@string/category_playlists</item>
+        <item>@string/category_songs</item>
+        <item>@string/category_albums</item>
+        <item>@string/category_artists</item>
+        <item>@string/category_genres</item>
+    </string-array>
+
+    <string name="category_folders" translatable="false">@string/common_folders</string>
+    <string name="category_playlists" translatable="false">@string/common_playlists</string>
+    <string name="category_songs" translatable="false">@string/common_tracks</string>
+    <string name="category_albums" translatable="false">@string/common_albums</string>
+    <string name="category_artists" translatable="false">@string/common_artists</string>
+    <string name="category_genres" translatable="false">@string/common_genres</string>
+    <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
+
+    <string name="category_no_tab_visible">Και τώρα;</string>
+
+    <string-array name="tab_empty_state">
+        <item>Δεν υπάρχουν φάκελοι</item>
+        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
+        <item>@string/common_no_tracks</item>
+        <item>Δεν υπάρχει άλμπουμ</item>
+        <item>Δεν υπάρχει καλλιτέχνης </item>
+        <item>Δεν υπάρχει είδος</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
+        <item>Δεν υπάρχει Podcast</item>
+        <item>Δεν υπάρχει άλμπουμ</item>
+        <item>Δεν υπάρχει καλλιτέχνης</item>
+    </string-array>
+
+    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
+    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
+    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
+    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
+    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="category_sort_by_date">Ημερομηνία</string>
+    <string name="category_sort_by_ascending">Αύξουσα</string>
+    <string name="category_sort_by_descending">Φθίνων</string>
+
+
+
+    <!-- From category_tab.xml -->
+
+    <string name="tab_auto_playlists">Αυτόματες λίστες αναπαραγωγής</string>
+    <string name="tab_all_playlists">Όλες οι λίστες αναπαραγωγής</string>
+    <string name="tab_all_albums">Όλα τα άλμπουμ</string>
+    <string name="tab_all_artists">Όλοι οι καλλιτέχνες</string>
+    <string name="tab_recent_played">Πρόσφατες αναπαραγωγές</string>
+    <string name="tab_recent_added">Τελευταίες προσθήκες</string>
+
+    <string-array name="tab_new_items">
+        <item>Νέο άλμπουμ</item>
+        <item>Νέος καλλιτέχνης</item>
+    </string-array>
+
+    <string name="tab_podcast_duration" translatable="false">%d min</string>
+
+
+    <!-- From common_strings.xml -->
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">Βιβλιοθήκη</string>
+
+    <string name="common_folders">Φάκελοι</string>
+    <string name="common_playlists">Λίστα αναπαραγωγής</string>
+    <string name="common_tracks">Τραγούδια</string>
+    <string name="common_albums">Δίσκοι</string>
+    <string name="common_artists">Καλλιτέχνες</string>
+    <string name="common_genres">Είδη</string>
+    <string name="common_podcasts">Podcasts</string>
+
+    <string name="common_last_added">Προστέθηκε τελευταίο</string>
+    <string name="common_favorites">Αγαπημένα</string>
+    <string name="common_history">Ιστορικό</string>
+
+    <string name="common_all_tracks">Ολα τα τραγούδια</string>
+
+    <string name="common_placeholder_title">Ένα τέλειο τίτλο</string>
+    <string name="common_placeholder_artist">Έναν τέλειο καλλιτέχνη</string>
+    <string name="common_placeholder_album">Ένα τέλειο δίσκο</string>
+
+    <string name="common_empty_list">Άδεια λίστα</string>
+
+    <string name="network_timeout">Παρακαλώ ξαναπροσπαθήστε</string>
+
+    <string name="are_you_sure">Είστε σίγουρος?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d ώρα</item>
+        <item quantity="other">%d ώρες</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d λεπτό</item>
+        <item quantity="other">%d λεπτά</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d τραγούδι</item>
+        <item quantity="other">%d τραγούδια</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d δίσκος</item>
+        <item quantity="other">%d δίσκοι</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d φάκελος</item>
+        <item quantity="other">%d φάκελοι</item>
+    </plurals>
+
+    <string name="common_folder">Φάκελος</string>
+    <string name="common_playlist">Λίστα αναπαραγωγής</string>
+    <string name="common_title">Τίτλος</string>
+    <string name="common_track">Τραγούδι</string>
+    <string name="common_artist">Καλλιτέχνης</string>
+    <string name="common_album_artist">Δίσκος καλλιτέχνη</string>
+    <string name="common_album">Δίσκος</string>
+    <string name="common_genre">Είδος</string>
+    <string name="common_duration">Διάρκεια</string>
+    <string name="common_recently_added">Προστέθηκε πρόσφατα</string>
+    <string name="common_custom">Προσαρμοσμένο</string>
+    <string name="common_track_number">Αριθμός τραγουδιού</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Λίστα αναπαραγωγής Podcast</string>
+    <string name="common_podcast_album">Δίσκοι Podcast</string>
+    <string name="common_podcast_artist">Καλλιτέχνες Podcast</string>
+
+    <string name="common_play">Έναρξη</string>
+    <string name="common_shuffle">Τυχαία αναπαραγωγή όλων</string>
+    <string name="common_search">Αναζήτηση</string>
+    <string name="common_hide">κρύψιμο</string>
+
+    <string name="common_shape_square">Τετράγωνο</string>
+    <string name="common_shape_rounded">Κυκλικό τετράγωνο</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Σχετικοί καλλιτέχνες</string>
+    <string name="common_most_played">Περισσότερες αναπαραγωγές</string>
+
+    <string name="common_no_tracks">Δεν υπάρχουν τραγούδια</string>
+    <string name="common_no_results">Δεν υπάρχουν αποτελέσματα</string>
+
+    <string name="common_visible">Ορατό</string>
+    <string name="common_hidden">Κρυμμένο</string>
+
+    <string name="common_no_internet">Ελέγξτε την σύνδεση σας στο διαδίκτυο</string>
+
+    <string name="common_switch_on">ανοιχτό</string>
+    <string name="common_switch_off">κλειστό</string>
+
+    <string name="common_filter">Φίλτρο. .</string>
+
+    <string name="common_browser_not_found">Δεν βρέθηκε πρόγραμμα περιήγησης</string>
+
+    <string name="common_added_to_play_next">Προστέθηκε για αναπαραγωγή μετα αυτο το τραγούδι</string>
+    <string name="common_moved_to_play_next">Μετακινήθηκε για αναπαραγωγή μετα αυτο το τραγούδι</string>
+
+    <string name="common_enabled">Ενεργοποίηση</string>
+    <string name="common_disabled">Απενεργοποίηση</string>
+
+    <string name="common_sort_by">Ταξινόμηση κατα</string>
+
+
+    <!-- From detail.xml -->
+
+    <string name="detail_most_played" translatable="false">@string/common_most_played</string>
+    <string name="detail_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="detail_albums" translatable="false">@string/common_albums</string>
+    <string name="detail_tracks" translatable="false">@string/common_tracks</string>
+
+    <string-array name="detail_album_header">
+        <item>Άλλοι φάκελοι</item>
+        <item>Άλλες λίστες αναπαραγωγής</item>
+        <item/>
+        <item>Άλλα άλμπουμ</item>
+        <item>@string/common_albums</item>
+        <item>Άλλα είδη</item>
+        <item>Άλλες λίστες αναπαραγωγής</item>
+        <item/>
+        <item>Άλλα άλμπουμ</item>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">Περισσότερα απο %s</string>
+    <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
+    <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
+
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d νέα κομμάτια</item>
+        <item quantity="other">%d νέα κομμάτια</item>
+    </plurals>
+
+    <string name="detail_sort_by" translatable="false">@string/common_sort_by</string>
+
+    <string name="sort_by_title" translatable="false">@string/common_title</string>
+    <string name="sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="sort_by_album" translatable="false">@string/common_album</string>
+    <string name="sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="sort_by_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="sort_by_custom" translatable="false">@string/common_custom</string>
+    <string name="sort_by_track" translatable="false">@string/common_track_number</string>
+
+
+    <!-- From edit_song.xml -->
+
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist" translatable="false">@string/category_sort_by_album_artist</string>
+    <string name="edit_info_album" translatable="false">@string/common_album</string>
+    <string name="edit_info_genre" translatable="false">@string/common_genre</string>
+    <string name="edit_info_year">Χρόνος</string>
+    <string name="edit_info_disc">Δίσκος #</string>
+    <string name="edit_info_track">Κομμάτι #</string>
+
+    <string name="edit_info_auto_tag_no_results">Δεν βρέθηκαν αποτελέσματα</string>
+    <string name="edit_info_error" translatable="false">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Δίσκος # πρέπει να είναι μόνο ψηφία</string>
+    <string name="edit_info_track_number_not_digits">Κομμάτι # πρέπει να είναι μόνο ψηφία</string>
+
+    <string name="edit_song_fetching_info">Βρίσκω πληροφορίες για το τραγούδι</string>
+
+    <string name="edit_song_info_not_found">Δεν βρέθηκαν πληροφορίες</string>
+    <string name="edit_song_image_not_found">Δεν βρέθηκε φωτογραφία</string>
+
+    <string name="edit_track_update_success">Ενημερώθηκαν οι πληροφρίες του κομματιού</string>
+    <string name="edit_album_update_success">Ενημερώθηκαν οι πληροφορίες του άλμπουμ</string>
+    <string name="edit_artist_update_success">Ενημερώθηκαν οι πληροφορίες του καλλιτέχνη</string>
+    <string name="edit_album_update_start">Έναρξη ενημέρωσης άλμπουμπ..</string>
+    <string name="edit_artist_update_start">Έναρξη ενημέρωσης καλλιτέχνη..</string>
+
+    <string name="edit_song_invalid_title">Ο τίτλος δεν γίνεται να είναι κενός</string>
+    <string name="edit_artist_invalid_title">Το όνομα του καλλιτέχνη δεν γίνεται να είναι κενό</string>
+    <string name="edit_song_invalid_disc_number">Μη έγκυρο νούμερο δίσκου</string>
+    <string name="edit_song_invalid_track_number">Μη έγκυρο νούμερο κομματιού</string>
+    <string name="edit_song_invalid_year">Μη έγκυρος χρόνος</string>
+    <string name="edit_song_cannot_read">Δεν γίνεται ενημέρωση κομματιού (το αρχείο μπορεί να είναι κατεστραμμένο)</string>
+    <string name="edit_song_read_only">Δεν γίνεται ενημέρωση κομματιού, το αρχείο ειναι μόνο για ανάγνωση</string>
+    <string name="edit_song_file_not_found">Δεν γίνεται ενημέρωση κομματιού, δεν βρέθηκε το αρχείο</string>
+
+    <string name="edit_song_error_can_not_read">Δεν γίνεται ανάγνωση απο το αρχείο</string>
+    <string name="edit_song_error_io">Δεν βρέθηκε το αρχείο</string>
+    <string name="edit_song_error_read_only">Το αρχείο είναι μόνο για ανάγνωση</string>
+    <string name="edit_song_error">Κάτι πήγε στραβά, δεν γίνεται ενημέρωση του αρχείου</string>
+
+    <plurals name="edit_item_xx_tracks_will_be_updated">
+        <item quantity="one">Οι αλλαγές σας θα εφαρμοστούν στο %d τραγούδι</item>
+        <item quantity="other">Οι αλλαγές σας θα εφαρμοστούν στα %d τραγούδια</item>
+    </plurals>
+
+
+
+
+    <string-array name="edit_item_image_dialog">
+        <item>Επαναφορά προεπιλεγμένου</item>
+        <item>Εξατομίκευση φωτογραφίας</item>
+    </string-array>
+
+
+    <!-- From equalizer.xml -->
+
+    <string name="equalizer_not_found">Δεν βρέθηκε εξισωτής</string>
+
+
+    <!-- From folders.xml -->
+
+    <string name="folder_set_default_title">Προεπιλεγμένος φάκελος</string>
+    <string name="folder_set_default_message">Εφαρμογή ώς προεπιλεγμένου φακέλου</string>
+
+
+    <!-- From offline_lyrics_strings.xml -->
+
+    <string name="offline_lyrics_empty">Δεν υπάρχουν στίχοι</string>
+
+    <string name="offline_lyrics_edit_title">Προσθήκη στίχων</string>
+    <string name="offline_lyrics_edit_hint">Κάντε επικόλληση των στίχων εδώ</string>
+    <string name="offline_lyrics_adjust_sync">Συγχρονισμός</string>
+    <string name="offline_lyrics_adjust_sync_hint">Milliseconds</string>
+    <string name="offline_lyrics_adjust_sync_error">Μόνο ψηφία</string>
+
+
+    <!-- From player_strings.xml -->
+
+    <string name="player_load_more_song">más canciones se cargan mientras escuchas</string>
+
+
+    <!-- From playing_queue.xml -->
+
+    <string name="playing_queue">Ουρά</string>
+
+
+    <!-- From playlist_chooser.xml -->
+
+    <string name="playlist_chooser_header">Επιλογή μιας λίστα αναπαραγωγής</string>
+    <string name="playlist_chooser_dialog_title">Προσθήκη στον launcher</string>
+    <string name="playlist_chooser_dialog_message">Προσθήκη λίστα αναπαραγωγής \'%s\' στον launcher?</string>
+
+
+    <!-- From playlist_tracks_chooser.xml -->
+
+    <string name="playlist_tracks_chooser_no_tracks">Επιλογή κομματιών για την καινούργια λίστα αναπαραγωγής</string>
+
+    <string name="playlist_tracks_chooser_show_only_selected">Εμφάνιση μόνο επιλεγμένων κομματιών</string>
+    <string name="playlist_tracks_chooser_show_all">Εμφάνιση όλων</string>
+
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="one">1 επιλεγμένο κομμάτι</item>
+        <item quantity="other">%d επιλεγμένα κομμάτια</item>
+    </plurals>
+
+
+    <!-- From premium.xml -->
+
+    <string name="premium_already_premium">Είστε ήδη premium</string>
+
+
+    <!-- From rate_app.xml -->
+
+    <string name="rate_app_title">Βαθμολόγηση Εφαρμογής</string>
+    <string name="rate_app_message">Άσε μια θετική βαθμολογία αν σου αρέσει η δουλειά μου </string>
+    <string name="rate_app_positive_button">Βαθμολογία</string>
+    <string name="rate_app_negative_button">Όχι, ευχαριστώ</string>
+    <string name="rate_app_neutral_button">Αργότερα</string>
+
+
+    <!-- From recently_added.xml -->
+
+    <string-array name="recently_added_header">
+        <item>Τελευταίες προσθήκες στον φάκελο %s</item>
+        <item>Τελευταίες προσθήκες στην λίστα αναπαραγωγής %s</item>
+        <item>Μη έγκυρο</item>
+        <item>Τελευταίες προσθήκες στο άλμπουμ %s</item>
+        <item>Τελευταίες προσθήκες στον καλλιτέχνη %s</item>
+        <item>Τελευταίες προσθήκες στο είδος %s</item>
+    </string-array>
+
+
+    <!-- From related_artists.xml -->
+
+    <string-array name="related_artists_header">
+        <item>Σχετικοί καλλιτέχνες με τον φάκελο %s</item>
+        <item>Σχετικοί καλλιτέχενς με την λίστα αναπαραγωγής %s</item>
+        <item>Μη έγκυρο</item>
+        <item>Σχετικοί καλλιτέχενς με το άλμπουμ %s</item>
+        <item>Σχετικοί καλλιτέχνες με τον καλλιτέχνη %s</item>
+        <item>Σχετικοί καλλιτέχνες με το είδος %s</item>
+    </string-array>
+
+
+    <!-- From remove_duplicates.xml -->
+
+    <string name="remove_duplicates_title" translatable="false">@string/popup_remove_duplicates</string>
+    <string name="remove_duplicates_message"><![CDATA[Remove all duplicates from playlist <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Τα διπλά αφαιρέθηκαν απο την λίστα αναπαραγωγής %1$s</string>
+
+
+    <!-- From search.xml -->
+
+
+    <string name="search_hint" translatable="false">@string/search_recent_empty_state</string>
+
+    <string name="search_songs" translatable="false">@string/common_tracks</string>
+    <string name="search_albums" translatable="false">@string/common_albums</string>
+    <string name="search_artists" translatable="false">@string/common_artists</string>
+    <string name="search_folders" translatable="false">@string/common_folders</string>
+    <string name="search_playlists" translatable="false">@string/common_playlists</string>
+    <string name="search_genres" translatable="false">@string/common_genres</string>
+
+    <string name="search_type_track" translatable="false">@string/common_track</string>
+    <string name="search_type_album" translatable="false">@string/common_album</string>
+    <string name="search_type_artist" translatable="false">@string/common_artist</string>
+    <string name="search_type_playlist" translatable="false">@string/common_playlist</string>
+    <string name="search_type_genre" translatable="false">@string/common_genre</string>
+    <string name="search_type_folder" translatable="false">@string/common_folder</string>
+    <string name="search_type_podcast" translatable="false">@string/common_podcast</string>
+    <string name="search_type_podcast_playlist" translatable="false">@string/common_podcast_playlist</string>
+    <string name="search_type_podcast_album" translatable="false">@string/common_podcast_album</string>
+    <string name="search_type_podcast_artist" translatable="false">@string/common_podcast_artist</string>
+
+    <string name="search_recent_searches">Προσφατές αναζητήσεις</string>
+    <string name="search_clear_recent_searches">Καθαρισμός πρόσφατων αναζητήσεων</string>
+    <string name="search_recent_empty_state">Αναζήτηση στην βιβλιοθήκη..</string>
+
+    <string name="search_no_results" translatable="false">@string/common_no_results</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s αποτέλεσμα</item>
+        <item quantity="other">%1$s αποτελέσματα</item>
+    </plurals>
+
+
+    <!-- From service_floating_strings.xml -->
+
+    <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
+    <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>
+    <string name="floating_window_notification_content_text">Πατήστε για κλείσιμο</string>
+
+    <!-- From service_music_strings.xml -->
+
+    <string name="music_channel_id_notification" translatable="false">Media playback</string>
+    <string name="music_channel_id_notification_description" translatable="false">Media playback controls</string>
+
+    <string name="music_error_empty_queue">Δεν βρέθηκε μουσική</string>
+    <string name="music_player_error">Σφάλμα αναπαραγωγής</string>
+
+
+    <!-- From share.xml -->
+    <string name="song_not_shareable">Δεν γίνεται η κοινοποίηση αυτου του τραγουδιού</string>
+
+
+    <!-- From splash.xml -->
+
+    <string name="splash_player_controls">Ρυθμίσεις player</string>
+    <string name="splash_player_tutorial_1">Πάτα την εικόνα για παίξε/παύση</string>
+    <string name="splash_player_tutorial_2">Πάτα στις άκρες της φωτογραφίας ή σύρε για παράλειψη </string>
+
+    <string name="splash_storage_permission">Άδεια αποθηκευτικού χώρου</string>
+    <string name="splash_storage_permission_disabled">Παρακαλώ δώστε άδεια αποθηκευτικού χώρου για να χρησιμοποιήσετε την εφαρμογή</string>
+
+
+
+    <!-- From strings_dialog.xml -->
+
+    <string name="popup_play">Αναπαραγωγή</string>
+    <string name="popup_play_shuffle">Μεικτή αναπαραγωγή</string>
+    <string name="popup_add_to_playlist">Προσθήκη στην λίστα αναπαραγωγής..</string>
+    <string name="popup_add_to_favorites">Προσθήκη στα αγαπημένα</string>
+    <string name="popup_add_to_home_screen">Προσθήκη στην αρχική οθόνη</string>
+    <string name="popup_play_next">Αναπαραγωγή επόμενου</string>
+    <string name="popup_play_later">Αναπαραγωγή αργότερα</string>
+    <string name="popup_edit_song_info">Επεξεργασία τραγουδιού</string>
+    <string name="popup_edit_album_info">Επεξεργασία άλμπουμ</string>
+    <string name="popup_edit_artist_info">Επεξεργασία καλλιτέχνη</string>
+    <string name="popup_view_album">Εμφάνιση άλμπουμ</string>
+    <string name="popup_view_artist">Εμφάνιση καλλιτέχνη</string>
+    <string name="popup_share">Κοινοποιήση</string>
+    <string name="popup_set_as_ringtone">Εφαρμογή ώς ήχου κλήσης</string>
+    <string name="popup_delete">Διαγραφή</string>
+    <string name="popup_rename">Μετονομασία</string>
+    <string name="popup_clear_playlist">Εκκαθάριση λίστα αναπαραγωγής </string>
+    <string name="popup_remove_duplicates">Διαγραφή διπλών</string>
+
+    <string name="popup_equalizer">Εξισωτής</string>
+    <string name="popup_sleep_timer">Χρονοδιακόπτης ύπνου</string>
+    <string name="popup_settings" translatable="false">@string/settings</string>
+    <string name="popup_about" translatable="false">@string/about</string>
+
+    <string name="popup_negative_cancel">Ακύρωση</string>
+    <string name="popup_negative_no">Όχι</string>
+    <string name="popup_negative_back">Πίσω</string>
+
+    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Αποθήκευση</string>
+    <string name="popup_positive_create">Δημιουργία</string>
+    <string name="popup_positive_delete">Διαγραφή</string>
+    <string name="popup_positive_remove">Κατάργηση</string>
+
+    <string name="popup_neutral_reset">Επαναφορά</string>
+
+    <string name="popup_error_message">Κάτι πήγε στραβά</string>
+
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_permission">Permission</string>
+    <string name="popup_request_permission_write_settings">
+        Παρακαλώ αποδέξου την άδεια για να πραγματοποιηθεί η αλλαγή ήχου κλήσης
+    </string>
+
+    <string name="popup_grid_size">Grid size</string>
+
+
+    <!-- From strings_dialog_add_to_favorites.xml -->
+
+    <string name="add_song_x_to_favorite"><![CDATA[Add <b>%1$s</b> to Favorites?]]></string>
+
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Favorites?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_favorites">%1$s προστέθηκε στα Αγαπημένα</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="one">%1$d τραγούδι προστέθηκε στα Αγαπημένα</item>
+        <item quantity="other">%1$d τραγούδια προστέθηκαν στα Αγαπημένα</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_add_to_playlist.xml -->
+
+    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
+
+    <string name="save_as_playlist">Αποθήκευση ώς λίστα αναπαραγωγής</string>
+    <string name="queue_saved_as_playlist">Αναπαραγωγή ουράς όπως είναι αποθηκευμένη στην λίστα %s</string>
+
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
+    </plurals>
+
+    <string name="added_song_x_to_playlist_y">%1$s προστέθηκε στην λίστα αναπαραγωγής %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d τραγούδι προστέθηκε στην λίστα αναπαραγωγής %2$s</item>
+        <item quantity="other">%1$d τραγούδια προστέθηκαν στην λίστα αναπαραγωγής %2$s</item>
+    </plurals>
+
+    <string name="popup_new_playlist">Καινούργια λίστα αναπαραγωγής</string>
+    <string name="popup_no_playlist">Δεν υπάρχουν λίστες αναπαραγωγής ακόμη..</string>
+
+    <string name="new_playlist_hint">Όνομα λίστα αναπαραγωγής</string>
+
+    <string name="popup_playlist_name_not_valid">Μη έγκυρο όνομα λίστας αναπαραγωγής </string>
+    <string name="popup_playlist_name_already_exist">Η λίστα αναπαραγωγής ήδη υπάρχει</string>
+
+
+    <!-- From strings_dialog_clear_playlist.xml -->
+
+    <string name="playlist_x_cleared">Λίστα αναπαραγωγής %1$s καθαρίστηκε</string>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Remove all songs from playlist <b>%1$s</b>?]]></string>
+
+
+    <!-- From strings_dialog_delete.xml -->
+
+    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from device?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
+
+    <string name="playlist_x_deleted">Λίστα αναπαραγωγής %1$s διαγράφθηκε</string>
+    <string name="song_x_deleted">%1$s διαγράφθηκε</string>
+
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from device?]]></item>
+        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from device?]]></item>
+    </plurals>
+
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from device]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from device]]></item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_later.xml -->
+
+    <string name="add_song_x_to_play_later"><![CDATA[Add <b>%1$s</b> to play later?]]></string>
+
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to play later?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to play later?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_play_later">%1$s προστέθηκε για αναπαραγωγή αργότερα</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="one">%1$d τραγούδι προστέθηκε για αναπαραγωγή αργότερα</item>
+        <item quantity="other">%1$d τραγούδια προστέθηκαν για αναπαραγωγή αργότερα</item>
+    </plurals>
+
+
+    <!-- From strings_dialog_play_next.xml -->
+
+<string name="add_song_x_to_play_next"><![CDATA[Play <b>%1$s</b> next?]]></string>
+
+<plurals name="add_xx_songs_to_play_next">
+    <item quantity="one"><![CDATA[Play <b>%1$d song</b> next?]]></item>
+    <item quantity="other"><![CDATA[Play <b>%1$d songs</b> next?]]></item>
+</plurals>
+
+<string name="song_x_added_to_play_next">%1$s προστέθηκε για αναπαραγωγή αργότερα</string>
+<plurals name="xx_songs_added_to_play_next">
+    <item quantity="one">%1$d τραγούδι προστέθηκε για αναπαραγωγή αργότερα</item>
+    <item quantity="other">%1$d τραγούδια προστέθηκαν για αναπαραγωγή αργότερα</item>
+</plurals>
+
+
+    <!-- From strings_dialog_rename.xml -->
+
+    <string name="playlist_x_renamed_to_y">Λίστα αναπαραγωγής %1$s μετονομάστηκε σε %2$s</string>
+
+    <string name="popup_positive_rename">Μετονομασία</string>
+
+
+    <!-- From strings_dialog_set_ringtone.xml -->
+
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> will be set as ringtone]]></string>
+
+    <string name="song_x_set_as_ringtone">%1$s εφαρμογή ώς ήχου κλήσης</string>
+
+
+    <!-- From trial.xml -->
+
+    <string name="trial_title">Δοκιμή</string>
+    <string name="trial_message">Όλα τα premium χαρακτηριστικά ξεκλειδώνονται για μια ώρα μετα την εγκατάσταση</string>
+    <string name="trial_positive_button" translatable="false">@string/popup_positive_ok</string>
+
+
+    <!-- From tutorial.xml -->
+
+    <string name="tutorial_sort_by_text">Πάτα το κείμενο για να αλλάξεις την σειρά</string>
+    <string name="tutorial_sort_by_arrow">Πάτα το βέλος για να αντιστρέψεις την σειρά</string>
+
+    <string name="tutorial_floating_window">Πάτα για να ανοίξεις ενα αιωρούμενο παράθυρο με τους στίχους και το YouTube βίντεο</string>
+    <string name="tutorial_lyrics">Εμφάνιση αποθηκευμένων στίχων</string>
+    <string name="tutorial_add_lyrics">Πρόσθεσε ή ενημέρωσε τους στίχους σου</string>
+    <string name="tutorial_search_lyrics">Ψάξε τους στίχους σου στο διαδίκτυο</string>
+    <string name="tutorial_adjust_sync">Ρύθμισε τον συγχρονισμό (μόνο για συγχρονισμένους στίχους)</string>
+
+
+</resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="common_last_added">Naposledy přidáno</string>
-    <string name="common_favorites">Oblíbený</string>
-    <string name="common_history">Historie</string>
-
-</resources>
